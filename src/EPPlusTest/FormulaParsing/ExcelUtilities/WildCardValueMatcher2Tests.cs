@@ -51,10 +51,19 @@ namespace EPPlusTest.ExcelUtilities
         [TestMethod]
         public void IsMatchShouldReturn0WhenSingleCharWildCardMatches()
         {
-            var string1 = "a?c?";
-            var string2 = "abcd";
-            var result = _matcher.IsMatch(string1, string2);
+            var pattern = "a?c?";
+            var candidate = "abcd";
+            var result = _matcher.IsMatch(pattern, candidate);
             Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleCandidateShorterThanPattern()
+        {
+            var pattern = "*~*";
+            var candidate = "#";
+            var result = _matcher.IsMatch(pattern, candidate);
+            Assert.AreNotEqual(0, result);
         }
 
         [TestMethod]
@@ -66,7 +75,7 @@ namespace EPPlusTest.ExcelUtilities
             Assert.AreEqual(0, result);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void ShouldHandleMultiCharMatch_Match2()
         {
             // TODO: make this work...
@@ -134,6 +143,14 @@ namespace EPPlusTest.ExcelUtilities
             var result2 = _matcher.IsMatch("a~*c*", string2);
 
             Assert.AreEqual(-1, result2);
+        }
+
+        [TestMethod]
+        public void ShouldHandleTildeAndAsterisk3()
+        {
+            var string1 = "a*";
+            var result1 = _matcher.IsMatch("*~*", string1);
+            Assert.AreEqual(0, result1);
         }
 
         [TestMethod]

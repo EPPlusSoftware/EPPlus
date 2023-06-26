@@ -51,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             do
             {
                 var sv = pattern[svIx];
-                if(sv == '*' && svIx == pattern.Length - 1)
+                if(!escapeNextWildCard && sv == '*' && svIx == pattern.Length - 1)
                 {
                     // if the last char of the searched value
                     // is an asterix and we have made it to
@@ -72,20 +72,50 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 }
                 if (sv == '*' && !escapeNextWildCard)
                 {
-                    var svPart = new StringBuilder();
-                    var svC = pattern[++svIx];
-                    while ((svC != '*' && svC != '?') && svIx < pattern.Length)
+                    // if multiple *'s just ignore them
+                    if(svIx < pattern.Length - 1)
                     {
+                        var tmpIx = svIx + 1;
+                        while (tmpIx < pattern.Length && pattern[tmpIx] == '*')
+                        {
+                            tmpIx++;
+                        }
+                        svIx = tmpIx;
+                    }
+                    var cont = false;
+                    var svPart = new StringBuilder();
+                    var svC = pattern[svIx];
+                    do
+                    {
+                        if(svC == '~')
+                        {
+                            if(svIx < pattern.Length -1)
+                            {
+                                var escCand = pattern.Substring(svIx, 2);
+                                if(escCand == "~*" || escCand == "~?")
+                                {
+                                    escapeNextWildCard = true;
+                                    svIx++;
+                                    svC = pattern[svIx];
+                                    cIx = cand.IndexOf(svC);
+                                    //cont = true;
+                                    //continue;
+                                }
+                            }
+                        }
                         svPart.Append(svC);
                         svIx++;
-                        if(svIx < pattern.Length )
+                        if (svIx < pattern.Length)
                             svC = pattern[svIx];
                     }
+                    while ((svC != '*' && svC != '?' && svC != '~') && svIx < pattern.Length);
+                    if (cont) continue;
                     var part = svPart.ToString();
                     if (cand.EndsWith(part) && svIx == pattern.Length) return true;
-                    cIx = cand.LastIndexOf(part);
+                    cIx = cand.IndexOf(part);
                     if (cIx < 0) return false;
                     cIx += part.Length;
+                    
                 }
                 else if(svIx < pattern.Length -1 && sv == '~')
                 {
