@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var imagPart = (Math.Sin(imag)*Math.Exp(real));
             var sign = imagPart < 0 ? "-" : "+";
             var result = string.Format("{0:F12}{1}{2:F12}{3}",realPart, sign, Math.Abs(imagPart), imaginarySuffix);
-            return CreateResult(result, DataType.Decimal);
+            return CreateResult(result, DataType.String);
         }
     }
 }
