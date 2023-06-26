@@ -592,7 +592,15 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else
                     {
-                        newName = added.Names.AddName(name.Name, added.Workbook.Worksheets[name.WorkSheetName].Cells[name.LocalAddress]);
+                        var wsRef = added.Workbook.Worksheets[name.WorkSheetName];
+                        if (wsRef == null)
+                        {
+                            newName = added.Names.AddFormula(name.Name, "#REF!");
+                        }
+                        else
+                        {
+                            newName = added.Names.AddName(name.Name, added.Workbook.Worksheets[name.WorkSheetName].Cells[name.LocalAddress]);
+                        }
                     }
                 }
                 else if (!string.IsNullOrEmpty(name.NameFormula))
