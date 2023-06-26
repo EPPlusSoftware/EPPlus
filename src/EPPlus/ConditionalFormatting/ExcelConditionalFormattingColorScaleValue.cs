@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -20,6 +22,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             int priority)
         {
             Type = (eExcelConditionalFormattingValueObjectType)type;
+            _colorSettings = new ExcelDxfColor(null, eStyleClass.Fill, SetColor);
             Color = color;
             Value = value;
             Formula = formula;
@@ -39,13 +42,42 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public eExcelConditionalFormattingValueObjectType Type{ get; set; }
 
+        ExcelDxfColor _colorSettings;
+        Color _color;
+
+        /// <summary>
+        /// Used to set color or theme color, index, auto and tint
+        /// </summary>
+        public ExcelDxfColor ColorSettings
+        {
+            get 
+            { 
+                return _colorSettings;
+            }
+        }
+
+        internal void SetColor(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+        {
+            if (styleProperty == eStyleProperty.Color)
+            {
+               _color = (Color)value;
+            }
+        }
+
         /// <summary>
         /// The color to be used
         /// </summary>
         public Color Color
         {
-            get;
-            set;
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                ColorSettings.SetColor(value);
+            }
         }
 
         Double _value = double.NaN;

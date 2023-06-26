@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
@@ -1274,21 +1275,42 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                 for (int j = 0; j < values.Count; j++)
                                 {
-                                    //TODO: Handle auto, indexed, theme and tint here.
-                                    cache.Append($"<{prefix}color rgb=\"{values[j].Color.ToColorString()}\"/>");
+                                    cache.Append($"<{prefix}color");
+
+                                    if (values[j].ColorSettings.Theme != null)
+                                    {
+                                        cache.Append($" theme=\"{(int)values[j].ColorSettings.Theme}\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Color != null)
+                                    {
+                                        cache.Append($" rgb=\"{values[j].Color.ToColorString()}\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Auto != null && values[j].ColorSettings.Auto != false)
+                                    {
+                                        cache.Append($" auto=\"1\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Index != null)
+                                    {
+                                        cache.Append($" index=\"{values[j].ColorSettings.Index}\"");
+                                    }
+
+                                    cache.Append($"/>");
                                 }
 
                                 cache.Append($"</{prefix}colorScale>");
                             }
 
-                            if (!string.IsNullOrEmpty(format.Formula))
+                            if (!string.IsNullOrEmpty(format._formula))
                             {
-                                cache.Append($"<xm:f>{format.Formula}</xm:f>");
+                                cache.Append($"<xm:f>{format._formula}</xm:f>");
                             }
 
-                            if (!string.IsNullOrEmpty(format.Formula2))
+                            if (!string.IsNullOrEmpty(format._formula2))
                             {
-                                cache.Append($"<xm:f>{format.Formula2}</xm:f>");
+                                cache.Append($"<xm:f>{format._formula2}</xm:f>");
                             }
 
                             if (format.Style.HasValue)
@@ -1602,13 +1624,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     cache.Append(UpdateConditionalFormattingAttributes(conditionalFormat));
                     cache.Append($">");
 
-
-                    if (string.IsNullOrEmpty(conditionalFormat.Formula) == false)
+                    if (string.IsNullOrEmpty(conditionalFormat._formula) == false)
                     {
-                        cache.Append("<formula>" + conditionalFormat.Formula + "</formula>");
-                        if (string.IsNullOrEmpty(conditionalFormat.Formula2) == false)
+                        cache.Append("<formula>" + conditionalFormat._formula + "</formula>");
+                        if (string.IsNullOrEmpty(conditionalFormat._formula2) == false)
                         {
-                            cache.Append("<formula>" + conditionalFormat.Formula2 + "</formula>");
+                            cache.Append("<formula>" + conditionalFormat._formula2 + "</formula>");
                         }
                     }
 

@@ -136,6 +136,12 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {
                     return true;
                 }
+
+                if(ExcelAddressBase.RefersToOtherWorksheet(Formula, _ws.Name) || ExcelAddressBase.RefersToOtherWorksheet(Formula2, _ws.Name))
+                {
+                    return true;
+                }
+
                 return _isExtLst;
             }
         }
@@ -189,12 +195,12 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (xr.LocalName == "formula" || xr.LocalName == "f")
             {
-                Formula = xr.ReadString();
+                _formula = xr.ReadString();
                 xr.Read();
 
                 if (xr.LocalName == "formula" || xr.LocalName == "f")
                 {
-                    Formula2 = xr.ReadString();
+                    _formula2 = xr.ReadString();
                     xr.Read();
                 }
             }
@@ -456,8 +462,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             _ws = original._ws;
             Rank = original.Rank;
-            Formula = original.Formula;
-            Formula2 = original.Formula2;
+            _formula = original.Formula;
+            _formula2 = original.Formula2;
             Operator = original.Operator;
             Type = original.Type;
             PivotTable = original.PivotTable;
@@ -572,21 +578,17 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         internal protected eExcelConditionalFormattingOperatorType? Operator { get; set; } = null;
 
-        string _formula;
-        string _formula2;
+        internal string _formula;
+        internal string _formula2;
 
         /// <summary>
         /// Formula
         /// </summary>
-        public string Formula 
+        public virtual string Formula 
         { 
             get { return _formula; } 
             set
             {
-                if (ExcelAddressBase.RefersToOtherWorksheet(value, _ws.Name)) 
-                {
-                    _isExtLst = true;
-                }
                 _formula = ConvertUtil.ExcelEscapeAndEncodeString(value); 
             } 
         }
@@ -596,15 +598,11 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Note, no longer Requires Formula to be set before it.
         /// But will still throw error if both formulas not filled at save time.
         /// </summary>
-        public string Formula2
+        public virtual string Formula2
         {
             get { return _formula2; }
             set 
             {
-                if (ExcelAddressBase.RefersToOtherWorksheet(value, _ws.Name))
-                {
-                    _isExtLst = true;
-                }
                 _formula2 = ConvertUtil.ExcelEscapeAndEncodeString(value);
             }
         }

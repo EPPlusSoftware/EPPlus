@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Style.Dxf;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -263,6 +264,13 @@ namespace OfficeOpenXml.ConditionalFormatting
       internal static readonly Color CfvoMiddleValue = Color.FromArgb(0xFF,0xFF,0xEB,0x84);
       internal static readonly Color CfvoHighValue = Color.FromArgb(0xFF,0x63,0xBE,0x7B);
     }
-    #endregion Colors
-  }
+
+        internal class DxfColor
+        {
+            //internal static readonly ExcelDxfColor CfvoLowValue = new ExcelDxfColor(null,null) Color.FromArgb(0xFF, 0xF8, 0x69, 0x6B);
+            //internal static readonly Color CfvoMiddleValue = Color.FromArgb(0xFF, 0xFF, 0xEB, 0x84);
+            //internal static readonly Color CfvoHighValue = Color.FromArgb(0xFF, 0x63, 0xBE, 0x7B);
+        }
+        #endregion Colors
+    }
 }

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -106,6 +108,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             Type = eExcelConditionalFormattingRuleType.ThreeColorScale;
             string test = xr.GetAttribute("rgb");
+
             LowValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(test);
 
             xr.Read();

@@ -30,10 +30,9 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     /// </summary>
     string Text { get; set; }
     /// <summary>
-    /// The format may look strange when getting it after setting.
-    /// For ease of use the setter will handle it for you.
+    /// 
     /// </summary>
-    string FormulaReference { get; set; }
+    string Formula { get; set; }
     #endregion Public Properties
-  }
+    }
 }

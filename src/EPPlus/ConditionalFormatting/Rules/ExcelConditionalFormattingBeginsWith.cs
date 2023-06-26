@@ -74,18 +74,25 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        public string FormulaReference
+
+        //get Returns Formula2 and set sets both Formula and Formula2
+        //Property name is Formula for Interface ease of use.
+        //It is recommended to use the interface over cast when possible.
+        public override string Formula
         {
             get
             {
+                //We use Formula2 to store user input.
+                //This because Formula has to be in a specific format for this class.
                 return Formula2;
             }
             set
-            {
+            { 
                 _text = null;
                 Formula2 = value;
 
-                Formula = string.Format(
+                //Set Formula to the required format with the Formula2 user input.
+                base.Formula = string.Format(
                     "LEFT({0},LEN({1}))={1}",
                     Address.Start.Address,
                     value);
@@ -99,7 +106,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 _text = value;
                 Formula2 = null;
 
-                Formula = string.Format(
+                base.Formula = string.Format(
                   "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
                   Address.Start.Address,
                   value.Replace("\"", "\"\""));
@@ -110,17 +117,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_text != null)
             {
-                Formula = string.Format(
+                base.Formula = string.Format(
                     "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
                     Address.Start.Address,
                     _text);
             }
             else if(Formula2 != null)
             {
-                Formula = string.Format(
-                    "LEFT({0},LEN({1}))={1}",
-                    Address.Start.Address,
-                    Formula2);
+                Formula = Formula2;
             }
         }
 

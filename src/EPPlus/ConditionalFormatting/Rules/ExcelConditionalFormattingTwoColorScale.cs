@@ -7,6 +7,8 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -26,7 +28,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             ws)
         {
             LowValue = new ExcelConditionalFormattingColorScaleValue(
-                eExcelConditionalFormattingValueObjectType.Min, 
+                eExcelConditionalFormattingValueObjectType.Min,
                 ExcelConditionalFormattingConstants.Colors.CfvoLowValue, 
                 priority);
 
@@ -129,16 +131,19 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal virtual void ReadColors(XmlReader xr)
         {
             Type = eExcelConditionalFormattingRuleType.TwoColorScale;
-            LowValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+            LowValue.Color = (ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb")));
 
             xr.Read();
 
-            HighValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+            HighValue.Color = (ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb")));
 
             xr.Read();
             xr.Read();
         }
 
+        /// <summary>
+        /// Low Value for Two Color Scale Object Value
+        /// </summary>
         public ExcelConditionalFormattingColorScaleValue LowValue
         {
             get;

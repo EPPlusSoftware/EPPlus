@@ -2240,22 +2240,22 @@ namespace EPPlusTest.ConditionalFormatting
                 var formattingNot = sheet.ConditionalFormatting.AddNotContainsText(new ExcelAddress("A1"));
                 formattingNot.Text = text;
                 var extFormattingNot = sheet.ConditionalFormatting.AddNotContainsText(new ExcelAddress("B1:B5"));
-                extFormattingNot.FormulaReference = formula;
+                extFormattingNot.Formula = formula;
 
                 var formattingContains = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("A1"));
                 formattingContains.Text = text;
                 var extFormattingContains = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("B1:B5"));
-                extFormattingContains.FormulaReference = formula;
+                extFormattingContains.Formula = formula;
 
                 var formattingEnds = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("A1"));
                 formattingEnds.Text = text;
                 var extFormattingEnds = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("B1:B5"));
-                extFormattingEnds.FormulaReference = formula;
+                extFormattingEnds.Formula = formula;
 
                 var formattingBegins = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
                 formattingBegins.Text = text;
                 var extFormattingBegins = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("B1:B5"));
-                extFormattingBegins.FormulaReference = formula;
+                extFormattingBegins.Formula = formula;
 
                 SaveAndCleanup(pck);
 
@@ -2269,25 +2269,25 @@ namespace EPPlusTest.ConditionalFormatting
                 var extTestNot = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 4];
 
                 Assert.AreEqual(text, textTestNot.As.NotContainsText.Text);
-                Assert.AreEqual(formula, extTestNot.As.NotContainsText.FormulaReference);
+                Assert.AreEqual(formula, extTestNot.As.NotContainsText.Formula);
 
                 var textTestContains = readPck.Workbook.Worksheets[0].ConditionalFormatting[1];
                 var extTestContains = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 3];
 
                 Assert.AreEqual(text, textTestContains.As.ContainsText.Text);
-                Assert.AreEqual(formula, extTestContains.As.ContainsText.FormulaReference);
+                Assert.AreEqual(formula, extTestContains.As.ContainsText.Formula);
 
                 var textTestEnds = readPck.Workbook.Worksheets[0].ConditionalFormatting[2];
                 var extTestEnds = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 2];
 
                 Assert.AreEqual(text, textTestEnds.As.EndsWith.Text);
-                Assert.AreEqual(formula, extTestEnds.As.EndsWith.FormulaReference);
+                Assert.AreEqual(formula, extTestEnds.As.EndsWith.Formula);
 
                 var textTestBegins = readPck.Workbook.Worksheets[0].ConditionalFormatting[3];
                 var extTestBegins = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 1];
 
                 Assert.AreEqual(text, textTestBegins.As.BeginsWith.Text);
-                Assert.AreEqual(formula, extTestBegins.As.BeginsWith.FormulaReference);
+                Assert.AreEqual(formula, extTestBegins.As.BeginsWith.Formula);
             }
         }
 
@@ -2309,7 +2309,7 @@ namespace EPPlusTest.ConditionalFormatting
                 cf.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 cf.Style.Fill.BackgroundColor.Color = Color.Aquamarine;
 
-                cf.FormulaReference = "A1";
+                cf.Formula = "A1";
 
                 cf.Priority = 5;
 
@@ -2332,7 +2332,7 @@ namespace EPPlusTest.ConditionalFormatting
 
                 text.Text = "\"A1\"";
 
-                text.FormulaReference = "A5";
+                text.Formula = "A5";
 
                 text.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 text.Style.Fill.BackgroundColor.Color = Color.DarkRed;
