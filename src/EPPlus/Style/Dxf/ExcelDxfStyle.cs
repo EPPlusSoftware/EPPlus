@@ -62,7 +62,8 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 Font = (ExcelDxfFont)Font.Clone(),
                 Fill = (ExcelDxfFill)Fill.Clone(),
-                Border = (ExcelDxfBorderBase)Border.Clone(),
+                Border = (
+                ExcelDxfBorderBase)Border.Clone(),
                 NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),
             };
 

@@ -51,7 +51,7 @@ namespace EPPlusTest.FormulaParsing
             {
                 string logFile = path + new FileInfo(xlFile).Name + ".log";
                 VerifyCalculationInPackage(xlFile, logFile);
-            }
+            }            
         }
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {
@@ -61,6 +61,7 @@ namespace EPPlusTest.FormulaParsing
             {
                 File.Delete(logFile);   
             }
+
             var logWriter = new StreamWriter(File.OpenWrite(logFile));
             logWriter.WriteLine($"File {xlFile} starting");
             using(var p = new ExcelPackage(xlFile))
@@ -77,7 +78,7 @@ namespace EPPlusTest.FormulaParsing
                         values.Add(id, ws.GetValue(cse.Row,cse.Column));
                     }
                     foreach(var name in ws.Names)
-                    {
+                    {                        
                         var id = ExcelCellBase.GetCellId(ws.IndexInList, name.Index, 0);
                         values.Add(id, name.Value);
                     }
@@ -96,6 +97,8 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Calculate(x => x.CacheExpressions = true);
+                    //p.Workbook.Worksheets["Summary"].Cells["G234"].Calculate(x => x.CacheExpressions = true);
                     //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
 
                     //p.Workbook.Worksheets["LeverancierOpties"].Cells["B3"].Calculate(x => x.CacheExpressions = true);
@@ -146,20 +149,20 @@ namespace EPPlusTest.FormulaParsing
                         }
                     }
 
-                    if ((v==null && value.Value!=null) || !(v!=null && v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
-                    {
-                    //Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");
+                    //if ((v==null && value.Value!=null) || !(v!=null && v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
+                    //{
+                    ////Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");
                     var diff = ConvertUtil.GetValueDouble(v) - ConvertUtil.GetValueDouble(value.Value);
-                    if(col==0)
-                    {
-                        logWriter.WriteLine($"{ws?.Name}\t{row}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
-                    }
-                    else
-                    {
-                        logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
-                    }
+                    //if(col==0)
+                    //{
+                    //    logWriter.WriteLine($"{ws?.Name}\t{row}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
+                    //}
+                    //else
+                    //{
+                    //    logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
+                    //}
                     logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value}\t{v}\t{diff}");
-                    }
+                    //}
                 }
                 logWriter.WriteLine($"File end processing {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");
                 logWriter.Close();

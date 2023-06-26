@@ -355,5 +355,24 @@ namespace OfficeOpenXml.Metadata
             FutureMetadata.Add(FUTURE_METADATA_RICHDATA_NAME, fm);
             return fm;
         }
+
+        internal bool IsDynamicArray(int cmIx)
+        {
+            var cm = CellMetadata[cmIx];            
+            var t = MetadataTypes[cm.Records[0].RecordTypeIndex-1];
+            if(t.Name == "XLDAPR")
+            {
+                if (FutureMetadata.TryGetValue("XLDAPR", out ExcelFutureMetadata fmd))
+                {
+                    var fmdt = fmd.Types[cm.Records[0].ValueTypeIndex];
+                    if (fmdt.Type==FutureMetadataType.DynamicArray)
+                    {
+                        return fmdt.AsDynamicArray.IsDynamicArray;
+                    }
+                }
+            }
+            return false;
+        }
+
     }
 }
