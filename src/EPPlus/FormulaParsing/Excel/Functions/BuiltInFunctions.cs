@@ -411,8 +411,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imabs"] = new ImAbs();
             Functions["imexp"] = new ImExp();
             Functions["imsum"] = new ImSum();
-
+            Functions["imreal"] = new ImReal();
             Functions["imsqrt"] = new ImSqrt();
+
         }
     }
 }
