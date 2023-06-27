@@ -992,5 +992,51 @@ namespace EPPlusTest.DataValidation
                 SaveAndCleanup(pck);
             }
         }
+
+
+        [TestMethod]
+        public void AddressContainingOwnSheetName_ShouldNotThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("ProblemMetaSheet");
+                // add validation rules to ProblemMeta sheet
+                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("ProblemMetaSheet");
+                if (metaSheet != null)
+                {
+                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("ProblemMetaSheet!$C$2");
+                    defaultValidation.Operator = ExcelDataValidationOperator.equal;
+                }
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
+                Assert.AreEqual("$C$2", address);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddressContainingOtherSheetName_ShouldThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("ProblemMetaSheet");
+                // add validation rules to ProblemMeta sheet
+                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("ProblemMetaSheet");
+                if (metaSheet != null)
+                {
+                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("roblemMetaSheet!$C$2");
+                    defaultValidation.Operator = ExcelDataValidationOperator.equal;
+                }
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+            }
+
+        }
     }
 }
