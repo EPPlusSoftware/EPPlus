@@ -128,5 +128,25 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(0, spillError.SpillRowOffset);
             Assert.AreEqual(1, spillError.SpillColOffset);
         }
+        [TestMethod]
+        public void DynamicArrayReadFromWorkbook()
+        {
+            using (var p = OpenTemplatePackage("ArrayFormulas.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["B6"].Value = 3;
+                p.Workbook.Calculate();
+                Assert.AreEqual(4D, ws.Cells["D1"].Value);
+                Assert.AreEqual(5D, ws.Cells["D2"].Value);
+                Assert.IsNull(ws.Cells["D3"].Value);
+
+                Assert.AreEqual(4D, ws.Cells["F1"].Value);
+                Assert.AreEqual(5D, ws.Cells["F2"].Value);
+                Assert.IsNull(ws.Cells["F3"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

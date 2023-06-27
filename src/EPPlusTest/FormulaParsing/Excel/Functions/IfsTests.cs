@@ -29,10 +29,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Formula = "IFS(1>2)";
-                //sheet.Calculate();
-                //Assert.AreEqual(ExcelErrorValue.Parse("#VALUE!"), sheet.Cells["A1"].Value);
-                package.SaveAs($"c:\\temp\\ifs.xlsx");
+                sheet.Cells["A1"].Formula = "IFS(1>2,)";
+                sheet.Calculate();
+                Assert.AreEqual(ExcelErrorValue.Parse("#N/A"), sheet.Cells["A1"].Value);
             }
         }
 
@@ -92,7 +91,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Formula = "IFS(0,1,1,1/0)";
                 sheet.Calculate();
-                package.SaveAs("C:\\temp\\t.xlsx");
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Div0), sheet.Cells["A1"].Value);
             }
         }
