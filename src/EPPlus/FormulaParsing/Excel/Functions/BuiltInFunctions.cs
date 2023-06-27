@@ -413,7 +413,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsum"] = new ImSum();
             Functions["imreal"] = new ImReal();
             Functions["imsqrt"] = new ImSqrt();
-
+            Functions["imaginary"] = new Imaginary();
         }
     }
 }
