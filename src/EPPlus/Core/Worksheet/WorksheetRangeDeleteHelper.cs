@@ -323,8 +323,12 @@ namespace OfficeOpenXml.Core.Worksheet
                         sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
                         if (sf.StartRow >= rowFrom)
                         {
-                            var r = Math.Max(rowFrom, sf.StartRow - rows);
-                            sf.StartRow = r;
+                            sf.StartRow = Math.Max(rowFrom, sf.StartRow - rows);
+                            sf.EndRow = Math.Max(rowFrom, sf.EndRow - rows);
+                        }
+                        else if (sf.EndRow >= rowFrom)
+                        {
+                            sf.EndRow = Math.Max(rowFrom, sf.EndRow - rows);
                         }
                     }
                 }

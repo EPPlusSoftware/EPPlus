@@ -18,6 +18,7 @@ using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -696,7 +697,16 @@ namespace OfficeOpenXml.Core.Worksheet
                             if ((shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
                             {
                                 var rows = range.Rows;
-                                if (f.StartRow >= rowFrom) f.StartRow += rows;
+                                if (f.StartRow >= rowFrom)
+                                {
+                                    f.StartRow += rows;
+                                    f.EndRow += rows;
+                                }
+                                else if(f.EndRow >= rowFrom)
+                                {
+                                    f.EndRow += rows;
+                                }
+
                                 if (a._fromRow >= rowFrom)
                                 {
                                     a._fromRow += rows;
@@ -710,7 +720,17 @@ namespace OfficeOpenXml.Core.Worksheet
                             else
                             {
                                 var cols = range.Columns;
-                                if (f.StartCol >= columnFrom) f.StartCol += cols;
+
+                                if (f.StartCol >= columnFrom)
+                                {
+                                    f.StartCol += cols;
+                                    f.EndCol += cols;
+                                }
+                                else if (f.EndCol >= columnFrom)
+                                {
+                                    f.EndCol += cols;
+                                }
+
                                 if (a._fromCol >= columnFrom)
                                 {
                                     a._fromCol += cols;
