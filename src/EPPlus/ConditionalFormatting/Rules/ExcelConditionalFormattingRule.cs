@@ -493,7 +493,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="worksheet"></param>
         internal ExcelConditionalFormattingRule(eExcelConditionalFormattingRuleType type, ExcelAddress address, int priority, ExcelWorksheet worksheet)
         {
-            //FormulaParsing.Utilities.Require.That(address).IsNotNull();
             FormulaParsing.Utilities.Require.That(worksheet).IsNotNull();
 
             _ws = worksheet;
@@ -589,7 +588,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             get { return _formula; } 
             set
             {
-                _formula = ConvertUtil.ExcelEscapeAndEncodeString(value); 
+                _formula = value; 
             } 
         }
 
@@ -603,7 +602,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             get { return _formula2; }
             set 
             {
-                _formula2 = ConvertUtil.ExcelEscapeAndEncodeString(value);
+                _formula2 = value;
             }
         }
         private ExcelConditionalFormattingAsType _as = null;

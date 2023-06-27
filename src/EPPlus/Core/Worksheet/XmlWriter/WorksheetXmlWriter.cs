@@ -1100,7 +1100,15 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (dataBar.LowValue.HasValueOrFormula)
                             {
                                 cache.Append(">");
-                                cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
+                                //ConvertUtil.ExcelEscapeAndEncodeString(
+                                if(!string.IsNullOrEmpty(dataBar.LowValue.Formula))
+                                {
+                                    cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(dataBar.LowValue.Formula)}</xm:f>");
+                                }
+                                else
+                                {
+                                    cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
+                                }
                                 cache.Append($"</x14:cfvo>");
                             }
                             else
@@ -1113,7 +1121,15 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (dataBar.HighValue.HasValueOrFormula)
                             {
                                 cache.Append(">");
-                                cache.Append($"<xm:f>{dataBar.HighValue.Value}</xm:f>");
+                                //ConvertUtil.ExcelEscapeAndEncodeString(
+                                if (!string.IsNullOrEmpty(dataBar.HighValue.Formula))
+                                {
+                                    cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(dataBar.HighValue.Formula)}</xm:f>");
+                                }
+                                else
+                                {
+                                    cache.Append($"<xm:f>{dataBar.HighValue.Value}</xm:f>");
+                                }
                                 cache.Append($"</x14:cfvo>");
                             }
                             else
@@ -1257,7 +1273,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                             break;
                                         case eExcelConditionalFormattingValueObjectType.Formula:
                                             cache.Append(">");
-                                            cache.Append($"<xm:f>{values[j].Formula}</xm:f>");
+                                            cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(values[j].Formula)}</xm:f>");
                                             cache.Append($"</{prefix}cfvo>");
                                             break;
                                         case eExcelConditionalFormattingValueObjectType.Percent:
@@ -1305,12 +1321,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if (!string.IsNullOrEmpty(format._formula))
                             {
-                                cache.Append($"<xm:f>{format._formula}</xm:f>");
+                                cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(format._formula)}</xm:f>");
                             }
 
                             if (!string.IsNullOrEmpty(format._formula2))
                             {
-                                cache.Append($"<xm:f>{format._formula2}</xm:f>");
+                                cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(format._formula2)}</xm:f>");
                             }
 
                             if (format.Style.HasValue)
@@ -1626,10 +1642,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if (string.IsNullOrEmpty(conditionalFormat._formula) == false)
                     {
-                        cache.Append("<formula>" + conditionalFormat._formula + "</formula>");
+                        cache.Append("<formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula) + "</formula>");
                         if (string.IsNullOrEmpty(conditionalFormat._formula2) == false)
                         {
-                            cache.Append("<formula>" + conditionalFormat._formula2 + "</formula>");
+                            cache.Append("<formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula2) + "</formula>");
                         }
                     }
 

@@ -2344,6 +2344,31 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
+        [TestMethod]
+        public void CF_FormulaEscapeAndEncode_WriteRead()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
 
+                var expression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("A1"));
+
+                expression.Formula = "\"&%/Stuffåäö}=``#£\"<>\"An Example\"";
+
+                var stream = new MemoryStream();
+
+                var test = pck.Workbook.Worksheets[0].ConditionalFormatting[0].As.Expression.Formula;
+
+                pck.SaveAs(stream);
+
+                var test2 = pck.Workbook.Worksheets[0].ConditionalFormatting[0].As.Expression.Formula;
+
+
+                var readPackage = new ExcelPackage(stream);
+
+                var cf = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
+                Assert.AreEqual("\"&%/Stuffåäö}=``#£\"<>\"An Example\"", cf.As.Expression.Formula);
+            }
+        }
     }
 }
