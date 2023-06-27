@@ -697,15 +697,15 @@ namespace OfficeOpenXml.Core.Worksheet
                             if ((shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
                             {
                                 var rows = range.Rows;
-                                if (f.StartRow >= rowFrom)
-                                {
-                                    f.StartRow += rows;
-                                    f.EndRow += rows;
-                                }
-                                else if(f.EndRow >= rowFrom)
-                                {
-                                    f.EndRow += rows;
-                                }
+                                //if (f.StartRow >= rowFrom)
+                                //{
+                                //    f.StartRow += rows;
+                                //    f.EndRow += rows;
+                                //}
+                                //else if(f.EndRow >= rowFrom)
+                                //{
+                                //    f.EndRow += rows;
+                                //}
 
                                 if (a._fromRow >= rowFrom)
                                 {
@@ -721,15 +721,15 @@ namespace OfficeOpenXml.Core.Worksheet
                             {
                                 var cols = range.Columns;
 
-                                if (f.StartCol >= columnFrom)
-                                {
-                                    f.StartCol += cols;
-                                    f.EndCol += cols;
-                                }
-                                else if (f.EndCol >= columnFrom)
-                                {
-                                    f.EndCol += cols;
-                                }
+                                //if (f.StartCol >= columnFrom)
+                                //{
+                                //    f.StartCol += cols;
+                                //    f.EndCol += cols;
+                                //}
+                                //else if (f.EndCol >= columnFrom)
+                                //{
+                                //    f.EndCol += cols;
+                                //}
 
                                 if (a._fromCol >= columnFrom)
                                 {

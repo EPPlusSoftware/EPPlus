@@ -321,15 +321,6 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         sf.Address = a.Address;
                         sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
-                        if (sf.StartRow >= rowFrom)
-                        {
-                            sf.StartRow = Math.Max(rowFrom, sf.StartRow - rows);
-                            sf.EndRow = Math.Max(rowFrom, sf.EndRow - rows);
-                        }
-                        else if (sf.EndRow >= rowFrom)
-                        {
-                            sf.EndRow = Math.Max(rowFrom, sf.EndRow - rows);
-                        }
                     }
                 }
                 else if (sf.Formula.Contains(workSheetName))
@@ -371,12 +362,6 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         sf.Address = a.Address;
                         sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
-
-                        if (sf.StartCol > columnFrom)
-                        {
-                            var c = Math.Max(columnFrom, sf.StartCol - columns);
-                            sf.StartCol -= c;
-                        }
                     }
                 }
                 else if (sf.Formula.Contains(workSheetName))
