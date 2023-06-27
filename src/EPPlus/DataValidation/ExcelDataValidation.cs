@@ -237,16 +237,7 @@ namespace OfficeOpenXml.DataValidation
                 throw new FormatException("Multiple addresses may not be commaseparated, use space instead");
             }
 
-            var addressAndSheet = address.Split('!');
-
-            if(addressAndSheet.Length > 1) 
-            {
-                address = addressAndSheet[0] + "!" + ConvertUtil._invariantTextInfo.ToUpper(addressAndSheet[1]);
-            }
-            else
-            {
-                address = ConvertUtil._invariantTextInfo.ToUpper(address);
-            }
+            address = ConvertUtil._invariantTextInfo.ToUpper(new ExcelAddress(address).LocalAddress);
 
             if (IsEntireColumn(address))
             {
