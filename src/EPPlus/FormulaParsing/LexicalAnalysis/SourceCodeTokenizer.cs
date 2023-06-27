@@ -158,11 +158,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 { 
                     if(bracketCount == 0 && isInString==0 && IsWhiteSpace(c))
                     {
+                        HandleToken(l, c, current, ref flags);
                         short wsCnt = 1;
                         int wsIx = ix + 1;
                         while (wsIx < input.Length && IsWhiteSpace(input[wsIx++]))
                         {
                             wsCnt++;
+
                         }
                         if ((flags & statFlags.isNegator) != statFlags.isNegator)
                         {

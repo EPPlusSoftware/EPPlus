@@ -40,9 +40,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 }
                 else
                 {
-                    real = double.NaN;
-                    imag = double.NaN;
-                    imaginarySuffix = string.Empty;
+                    if (formula.EndsWith("i") || formula.EndsWith("j"))
+                    {
+                        real = 0;
+                        GetImagString(formula, out imag, out imaginarySuffix);
+                    }
+                    else if(ConvertUtil.TryParseNumericString(formula, out real) == true)
+                    {
+                        imag = 0;
+                        imaginarySuffix = string.Empty;
+                    }
+                    else
+                    {
+                        real = double.NaN;
+                        imag = double.NaN;
+                        imaginarySuffix = string.Empty;
+                    }
                 }
             }
             else
@@ -62,6 +75,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 real = double.NaN;
             }
 
+            imagString = GetImagString(imagString, out imag, out imaginarySuffix);
+        }
+
+        private static string GetImagString(string imagString, out double imag, out string imaginarySuffix)
+        {
             if (imagString.EndsWith("i") ||
                 imagString.EndsWith("j"))
             {
@@ -72,23 +90,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 }
                 if (ConvertUtil.TryParseNumericString(imagString.Substring(0, imagString.Length - 1), out imag) == false)
                 {
-                    
+
                     if (imagString.Length > 1 && (imagString.Substring(1).Equals("i") || imagString.Substring(1).Equals("j")))
                     {
-                        if (imagString.Substring(0,1).Equals("-"))
+                        if (imagString.Substring(0, 1).Equals("-"))
                         {
                             imag = -1;
                         }
                         else
                         {
                             imag = 1;
-                        }    
+                        }
+                    }
+                    else if (imagString.Equals("i")||imagString.Equals("j")) {
+
+                        imag = 1;
                     }
                     else
                     {
                         imag = double.NaN;
                     }
-
                 }
                 imaginarySuffix = imagString.Substring(imagString.Length - 1);
             }
@@ -97,6 +118,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 imag = double.NaN;
                 imaginarySuffix = string.Empty;
             }
+
+            return imagString;
         }
     }
 }

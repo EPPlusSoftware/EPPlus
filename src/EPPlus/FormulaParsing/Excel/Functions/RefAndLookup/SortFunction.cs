@@ -56,7 +56,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 byCol = ArgToBool(arguments, 3);
             }
-            // validate
+
+            //Validate
             var maxIndex = byCol ? range.Size.NumberOfCols : range.Size.NumberOfRows;
             if (sortIndex < 1 || sortIndex > maxIndex) return CreateResult(eErrorType.Value);
             if (sortOrder != -1 && sortOrder != 1) return CreateResult(eErrorType.Value);

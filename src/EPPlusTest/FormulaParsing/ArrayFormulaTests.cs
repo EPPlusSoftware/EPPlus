@@ -94,6 +94,21 @@ namespace EPPlusTest.FormulaParsing
                 ws.Calculate();
             }
         }
+        [TestMethod]
+        public void ArrayFormula_Sort()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:A2"].Formula = "\"\"";
+                ws.Cells["B1"].Formula = "Sort(A1:A2)";
+                ws.Calculate();
 
+                Assert.AreEqual("", ws.Cells["A1"].Value);
+                Assert.AreEqual("", ws.Cells["A2"].Value);
+                Assert.AreEqual("", ws.Cells["B1"].Value);
+                Assert.AreEqual("", ws.Cells["B2"].Value);
+            }
+        }
     }
 }

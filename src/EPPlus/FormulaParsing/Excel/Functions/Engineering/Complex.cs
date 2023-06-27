@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var real = ArgToDecimal(arguments, 0);
             var img = ArgToDecimal(arguments, 1);
             var suffix = "i";
-            if(arguments.Count() > 2)
+            if(arguments.Count > 2)
             {
                 suffix = ArgToString(arguments, 2);
                 if (suffix != "i" && suffix != "j") return CompileResult.GetErrorResult(eErrorType.Value);
