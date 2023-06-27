@@ -408,6 +408,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["complex"] = new Complex();
             Functions["imabs"] = new ImAbs();
             Functions["imexp"] = new ImExp();
+            Functions["imsum"] = new ImSum();
         }
     }
 }
