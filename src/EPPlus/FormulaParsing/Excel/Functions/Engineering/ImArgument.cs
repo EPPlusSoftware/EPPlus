@@ -33,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             }
             var argument = Math.Atan(imag / real);
             var result = System.Math.Round(argument, 9);
-                return CreateResult(result.ToString(), DataType.String);
+                return CreateResult(result, DataType.Decimal);
             }
         }
     }

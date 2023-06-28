@@ -27,7 +27,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMARGUMENT(\"3+4i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("0.927295218", result);
+                Assert.AreEqual(0.927295218, result);
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }
@@ -45,7 +45,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMARGUMENT(\"3000+400i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("0.132551532", result);
+                Assert.AreEqual(0.132551532, result);
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }
@@ -63,7 +63,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMARGUMENT(\"i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("1.570796327", result);
+                Assert.AreEqual(1.570796327, result);
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }
@@ -81,7 +81,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMARGUMENT(\"1+i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("0.785398163", result);
+                Assert.AreEqual(0.785398163, result);
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }
@@ -99,7 +99,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMARGUMENT(\"10000000000+1000000000000i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("1.56079666", result);
+                Assert.AreEqual(1.56079666, result);
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }
