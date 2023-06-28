@@ -21,12 +21,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
     internal class ImSub : ImFunctionBase
     {
+        public override int ArgumentMinLength => 2;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var argumentStrings = arguments[0].Value.ToString().Split(',');
+            var arg1 = ArgToString(arguments, 0);
+            var arg2 = ArgToString(arguments, 1);
 
-            GetComplexNumbers(argumentStrings[0], out double real, out double imag, out string imaginarySuffix);
-            GetComplexNumbers(argumentStrings[1], out double real2, out double imag2, out string imaginarySuffix2);
+            GetComplexNumbers(arg1, out double real, out double imag, out string imaginarySuffix);
+            GetComplexNumbers(arg2, out double real2, out double imag2, out string imaginarySuffix2);
 
             var realPart = (real - real2);
             var imagPart = (imag - imag2);
