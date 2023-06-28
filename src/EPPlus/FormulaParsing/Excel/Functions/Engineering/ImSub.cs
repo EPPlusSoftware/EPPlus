@@ -34,37 +34,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var realPart = (real - real2);
             var imagPart = (imag - imag2);
             var sign = (imagPart < 0) ? "-" : "+";
-            var result = string.Format("{0}{1}{2}{3}", realPart, sign, Math.Abs(imagPart), imaginarySuffix);
-            var imSuffix = imaginarySuffix;
-
-            if (!string.IsNullOrEmpty(imaginarySuffix) && !string.IsNullOrEmpty(imaginarySuffix2) && imaginarySuffix != imaginarySuffix2)
+           
+            var usedPrefixes = GetUniquePrefixes(imaginarySuffix, imaginarySuffix2);
+            var imSuffix = string.Empty;
+            if (usedPrefixes.Count > 1)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            if (string.IsNullOrEmpty(imSuffix))
+            else if(usedPrefixes.Count == 1)
             {
-                imSuffix = imaginarySuffix2;
+                imSuffix = usedPrefixes[0];
             }
-            if (imagPart == 1 || imagPart == -1)
-            {
-             
-                result = string.Format("{0}{1}{2}", realPart, sign, imSuffix);
-                return CreateResult(result, DataType.String);
-            }
-            else if (imagPart == 0)
-            {
-                result = string.Format("{0}", realPart);
-                return CreateResult(result, DataType.String);
-            }
-            else if (realPart == 0)
-            {
-                result = string.Format("{0}{1}", imagPart, imSuffix);
-                return CreateResult(result, DataType.String);
-            }
-            else
-            {
-                return CreateResult(result, DataType.String);
-            }
+            var result = CreateImaginaryString(realPart, imagPart, sign, imSuffix);
+            return CreateResult(result, DataType.String);
         }
     }
 }
