@@ -67,6 +67,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             var iDate = FinancialDayFactory.Create(_issueDate, _basis);
             var daysDefinition = FinancialDaysFactory.Create(_basis);
 
+            // Many of the following variable names are taken from the formula in the Excel documentation for ODDFPRICE.
+            // See https://support.microsoft.com/en-gb/office/oddfprice-function-d7d664a8-34df-4233-8d2b-922bcf6a69e1
+
             var A = daysDefinition.GetDaysBetweenDates(iDate, sDate);
             var DSC = daysDefinition.GetDaysBetweenDates(sDate, fcDate);
 
