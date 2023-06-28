@@ -354,6 +354,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["pv"] = new Pv();
             Functions["fv"] = new Fv();
             Functions["npv"] = new Npv();
+            Functions["oddfprice"] = new Oddfprice();
+            Functions["oddfyield"] = new Oddfyield();
             Functions["rate"] = new Rate();
             Functions["nper"] = new Nper();
             Functions["nominal"] = new Nominal();
