@@ -33,22 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             }
             var realPart = (Math.Sin(real*2)/(Math.Cos(real*2)+Math.Cosh(imag*2)));
             var imagPart = (Math.Sinh(imag * 2) / (Math.Cos(real * 2) + Math.Cosh(imag * 2)));
-
             var sign = (imagPart < 0) ? "-" : "+";
-            //realPart = RoundingHelper.RoundToSignificantFig(realPart, 15);
-            //imagPart = RoundingHelper.RoundToSignificantFig(imagPart, 15);
-
-           // var result = string.Format("{0:G15}{1}{2}{3}",realPart, sign, imagPart, imaginarySuffix);
-            //if (realPart == 0)
-            //{
-            //    result = string.Format("{0:G15}{1}", imagPart, imaginarySuffix);
-            //    return CreateResult(result, DataType.String);
-            //}
-            //else
-            //{
-            //    return CreateResult(result, DataType.String);
-
-            //}
             var result = CreateImaginaryString(realPart, imagPart, sign, imaginarySuffix);
             return CreateResult(result, DataType.String);
         }
