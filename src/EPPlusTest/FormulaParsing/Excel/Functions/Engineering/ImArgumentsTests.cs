@@ -85,5 +85,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }
+
+        [TestMethod]
+        public void ImArgumentShouldReturnHighValue2()
+        {
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+            using (var package = new ExcelPackage())
+
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Formula = "IMARGUMENT(\"10000000000+1000000000000i\")";
+                sheet.Calculate();
+                var result = sheet.Cells["A1"].Value;
+                Assert.AreEqual("1.56079666", result);
+            }
+            Thread.CurrentThread.CurrentCulture = ci;
+        }
     }
 }
