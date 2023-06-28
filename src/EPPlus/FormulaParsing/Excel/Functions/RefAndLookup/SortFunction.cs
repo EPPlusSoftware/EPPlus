@@ -44,12 +44,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var sortIndex = 1;
             if(arguments.Count > 1)
             {
-                sortIndex = ArgToInt(arguments, 1);
+                sortIndex = ArgToInt(arguments, 1, 1);
             }
             var sortOrder = 1;
             if(arguments.Count > 2)
             {
-                sortOrder = ArgToInt(arguments, 2);
+                sortOrder = ArgToInt(arguments, 2, 1);
             }
             var byCol = false;
             if(arguments.Count > 3)
