@@ -235,7 +235,7 @@ namespace OfficeOpenXml.Sorting
                     if (startAddr._fromRow > row)
                     {
                         f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        f.StartRow = row;
+                        //f.StartRow = row;
                         f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow, startAddr._toCol);
                     }
                     else if (startAddr._toRow < row)
