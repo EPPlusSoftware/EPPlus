@@ -23,10 +23,10 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             //_tokenizer = SourceCodeTokenizer.Default;
             _tokenizer = SourceCodeTokenizer.Default;
-            _iterations = 1000;
+            _iterations = 1000000;
         }
 
-        [TestMethod]
+        [TestMethod]    
         public void TokenizePerformance()
         {
             using (var p = new ExcelPackage())

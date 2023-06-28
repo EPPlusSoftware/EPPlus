@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing
                         ws.SetValueInner(row, col, ErrorValues.NAError);
                     }
                     var id = ExcelCellBase.GetCellId(wsIx, row, col);
-                    depChain.processedCells.Add(id);
+                    depChain.processedCells.Add(id);    
                 }
             }
 
@@ -185,7 +185,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                SetDynamicFormulaIndex(ws, sf.StartRow, sf.StartCol + 1, sf.StartCol, sf.EndCol, f._arrayIndex);
+                SetDynamicFormulaIndex(ws, sf.StartRow, sf.StartCol + 1, sf.EndRow, sf.EndCol, f._arrayIndex);
             }
         }
 

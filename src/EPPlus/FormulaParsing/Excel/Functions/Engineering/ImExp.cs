@@ -8,41 +8,36 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/25/2020         EPPlus Software AB       Implemented function
+  21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    [FunctionMetadata(
-        Category = ExcelFunctionCategory.Engineering,
-        EPPlusVersion = "5.5",
-        Description = "Converts user-supplied real and imaginary coefficients into a complex number")]
-    internal class Complex : ExcelFunction
+    internal class ImExp : ImFunctionBase
     {
-        public override int ArgumentMinLength => 2;
+
+       
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var real = ArgToDecimal(arguments, 0);
-            var img = ArgToDecimal(arguments, 1);
-            var suffix = "i";
-            if(arguments.Count > 2)
+            GetComplexNumbers(arguments[0].Value, out double real, out double imag, out string imaginarySuffix);
+            if (double.IsNaN(real) || double.IsNaN(imag))
             {
-                suffix = ArgToString(arguments, 2);
-                if (suffix != "i" && suffix != "j") return CompileResult.GetErrorResult(eErrorType.Value);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
-            var result = real.ToString();
-            if(img > 0)
-            {
-                result += "+";
-            }
-            result += img.ToString() + suffix;
+            var realPart = (Math.Cos(imag)*Math.Exp(real));
+            realPart = RoundingHelper.RoundToSignificantFig(realPart, 15);
+            var imagPart = (Math.Sin(imag)*Math.Exp(real));
+            imagPart = RoundingHelper.RoundToSignificantFig(imagPart, 15);
+            var sign = (imagPart < 0) ? "-" : "+";
+            var result = string.Format("{0:F12}{1}{2:F12}{3}",realPart, sign, Math.Abs(imagPart), imaginarySuffix);
             return CreateResult(result, DataType.String);
         }
     }
 }
+  

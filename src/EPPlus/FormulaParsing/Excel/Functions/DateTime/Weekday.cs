@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
@@ -32,9 +33,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            if (arguments[0].DataType == DataType.String && ConvertUtil.TryParseNumericString(arguments[0].ToString(), out _)==false)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
             var serialNumber = ArgToDecimal(arguments, 0);
+            if (IsValidSerialNumber(serialNumber) == false) return CompileResult.GetErrorResult(eErrorType.Num);
             var returnType = arguments.Count > 1 ? ArgToInt(arguments, 1) : 1;
             return CreateResult(CalculateDayOfWeek(System.DateTime.FromOADate(serialNumber), returnType), DataType.Integer);
+        }
+
+        private bool IsValidSerialNumber(double serialNumber)
+        {
+            return serialNumber >= -657435.0 && serialNumber < 2958465.99999999;
         }
 
         private static List<int> _oneBasedStartOnSunday = new List<int> { 1, 2, 3, 4, 5, 6, 7 };

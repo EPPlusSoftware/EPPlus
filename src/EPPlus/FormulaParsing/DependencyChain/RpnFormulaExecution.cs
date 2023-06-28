@@ -510,6 +510,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
                                     if (dirtyRange != null && dirtyRange.Length > 0)
                                     {
+
                                         RecalculateDirtyCells(dirtyRange, depChain, rd);
                                     }
                                 }

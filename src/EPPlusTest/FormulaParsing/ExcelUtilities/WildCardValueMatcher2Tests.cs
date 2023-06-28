@@ -33,6 +33,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System.Diagnostics;
+using Microsoft.VisualBasic;
 
 namespace EPPlusTest.ExcelUtilities
 {
@@ -50,10 +51,65 @@ namespace EPPlusTest.ExcelUtilities
         [TestMethod]
         public void IsMatchShouldReturn0WhenSingleCharWildCardMatches()
         {
-            var string1 = "a?c?";
-            var string2 = "abcd";
+            var pattern = "a?c?";
+            var candidate = "abcd";
+            var result = _matcher.IsMatch(pattern, candidate);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleCandidateShorterThanPattern()
+        {
+            var pattern = "*~*";
+            var candidate = "#";
+            var result = _matcher.IsMatch(pattern, candidate);
+            Assert.AreNotEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_Match1()
+        {
+            var string1 = "a*c";
+            var string2 = "a123c654564abc";
             var result = _matcher.IsMatch(string1, string2);
             Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_Match2()
+        {
+            // TODO: make this work...
+            var string1 = "*c?a*";
+            var string2 = "ac2ac654564abc";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_Match3()
+        {
+            var string1 = "a*ca*cade?";
+            var string2 = "abcabcadef";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_NoMatch1()
+        {
+            var string1 = "a*c";
+            var string2 = "a123c654564abd";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreNotEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_NoMatch2()
+        {
+            var string1 = "a*ca*cade?";
+            var string2 = "abcadddcade";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreNotEqual(0, result);
         }
 
         [TestMethod]
@@ -90,6 +146,14 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
+        public void ShouldHandleTildeAndAsterisk3()
+        {
+            var string1 = "a*";
+            var result1 = _matcher.IsMatch("*~*", string1);
+            Assert.AreEqual(0, result1);
+        }
+
+        [TestMethod]
         public void ShouldHandleTildeAndQuestionMark1()
         {
             var string1 = "a?c";
@@ -114,36 +178,19 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
-        public void PerformanceTest()
+        public void ShouldHandleNull()
         {
-            var vm = new WildCardValueMatcher();
-            var sw = new Stopwatch();
-            sw.Start();
-            for(var x = 0; x < 1000000; x++)
-            {
-                var s = "abBCde*12321";
-                if (x % 2 == 0)
-                {
-                    s = new Guid().ToString();
-                }
-                var isMatch = vm.IsMatch("a*BC??d~*12321", s);
-            }
-            sw.Stop();
-            var ms1 = sw.ElapsedMilliseconds;
-            sw.Reset();
-            var vm2 = new WildCardValueMatcher2();
-            sw.Start();
-            for (var x = 0; x < 1000000; x++)
-            {
-                var s = "abBCde*12321";
-                if (x% 2 == 0)
-                {
-                    s = new Guid().ToString();
-                }
-                var isMatch = vm2.IsMatch("a*BC??d~*12321", s);
-            }
-            sw.Stop();
-            var ms2 = sw.ElapsedMilliseconds;
+            string string2 = default;
+            var result2 = _matcher.IsMatch("a~?c?e", string2);
+            Assert.AreNotEqual(0, result2);
+        }
+
+        [TestMethod]
+        public void ShouldHandleEmptyString()
+        {
+            var string2 = string.Empty;
+            var result2 = _matcher.IsMatch("a~?c?e", string2);
+            Assert.AreNotEqual(0, result2);
         }
     }
 }
