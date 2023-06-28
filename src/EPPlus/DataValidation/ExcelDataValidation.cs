@@ -242,13 +242,11 @@ namespace OfficeOpenXml.DataValidation
 
             if (!string.IsNullOrEmpty(tempAddress.WorkSheetName)) 
             {
-                wsName = ExcelCellBase.GetQuotedWorksheetName(tempAddress.WorkSheetName) + "!";
+                wsName = tempAddress.WorkSheetName + "!";
+                address = address.Replace(wsName, "");
             }
 
-            if(tempAddress.Addresses.Count < 1)
-            {
-                address = wsName + ConvertUtil._invariantTextInfo.ToUpper(tempAddress.LocalAddress);
-            }
+            address = ConvertUtil._invariantTextInfo.ToUpper(address);
 
             if (IsEntireColumn(address))
             {

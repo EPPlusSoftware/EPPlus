@@ -1019,24 +1019,69 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void AddressContainingOtherSheetName_ShouldThrow()
+        public void MultipleAddressContainingOwnSheetName_ShouldNotThrow()
         {
             using (var package = new ExcelPackage())
             {
-                package.Workbook.Worksheets.Add("ProblemMetaSheet");
+                package.Workbook.Worksheets.Add("TestSheet");
+                package.Workbook.Worksheets.Add("ExtTestSheet");
+
                 // add validation rules to ProblemMeta sheet
-                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("ProblemMetaSheet");
+                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("TestSheet");
+                ExcelWorksheet extTest = package.Workbook.Worksheets.GetByName("ExtTestSheet");
+
                 if (metaSheet != null)
                 {
-                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("roblemMetaSheet!$C$2");
+                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("TestSheet!$C$2 TestSheet!$Z$2");
                     defaultValidation.Operator = ExcelDataValidationOperator.equal;
+
+                    defaultValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
+
                 }
 
                 Stream stream = new MemoryStream();
                 package.SaveAs(stream);
-            }
 
+                var readPck = new ExcelPackage(stream);
+
+                var validation = readPck.Workbook.Worksheets[0].DataValidations[0];
+                var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
+                Assert.AreEqual("$C$2,$Z$2", address);
+                Assert.AreEqual("ExtTestSheet!$C$5", validation.As.IntegerValidation.Formula.ExcelFormula);
+            }
+        }
+
+        [TestMethod]
+        public void MultipleAddressContainingOtherSheetName_ShouldThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("TestSheet");
+                package.Workbook.Worksheets.Add("ExtTestSheet");
+
+                // add validation rules to ProblemMeta sheet
+                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("TestSheet");
+                ExcelWorksheet extTest = package.Workbook.Worksheets.GetByName("ExtTestSheet");
+
+                if (metaSheet != null)
+                {
+                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("ExtTestSheet!$C$2 ExtTestSheet!$Z$2");
+                    defaultValidation.Operator = ExcelDataValidationOperator.equal;
+
+                    defaultValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
+
+                }
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var validation = readPck.Workbook.Worksheets[0].DataValidations[0];
+                var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
+                Assert.AreEqual("$C$2,$Z$2", address);
+                Assert.AreEqual("ExtTestSheet!$C$5", validation.As.IntegerValidation.Formula.ExcelFormula);
+            }
         }
     }
 }
