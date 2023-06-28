@@ -48,6 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             var pattern = searchedValue.ToUpperInvariant();
             var cand = candidate.ToUpperInvariant();
             bool escapeNextWildCard = false;
+            bool escapeNextTilde = false;
             do
             {
                 var sv = pattern[svIx];
@@ -60,6 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 }
                 else if (
                     sv == '~' 
+                    && !escapeNextTilde
                     && svIx < pattern.Length - 1 
                     && (pattern[svIx + 1] == '*' || pattern[svIx + 1] == '?')
                     )
@@ -117,7 +119,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     cIx += part.Length;
                     
                 }
-                else if(svIx < pattern.Length -1 && sv == '~')
+                else if(!escapeNextTilde && svIx < pattern.Length -1 && sv == '~')
                 {
                     var next = pattern[svIx + 1];
                     if(next == '*' || next == '?')
@@ -125,7 +127,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         escapeNextWildCard= true;
                         svIx++;
                     }
-                    else if (cand[cIx] != '~')
+                    else if(next == '~')
+                    {
+                        escapeNextTilde = true;
+                        svIx++;
+                    }
+                    else
                     { 
                         return false;
                     }
@@ -141,6 +148,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     cIx++;
                     svIx++;
                     escapeNextWildCard = false;
+                    escapeNextTilde = false;
                 }
                 else
                 {
