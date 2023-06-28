@@ -639,19 +639,15 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             if (_ws.DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
             {
-                var wsNameAddress = _ws.DataValidations[i].Address.Address.Split('!');
 
-                if (wsNameAddress.Length > 1)
+                if (_ws.DataValidations[i].Address.WorkSheetName != null && _ws.DataValidations[i].Address.WorkSheetName != _ws.Name)
                 {
-                    if (wsNameAddress[0] != _ws.Name)
-                    {
-                        throw new InvalidOperationException(
-                            $"Cannot write to address {_ws.DataValidations[i].Address.Address}. As it does not exist on worksheet {_ws.Name}. " +
-                            $"Try {_ws.Name}!{wsNameAddress[1]} instead or add the dataValidation to {wsNameAddress[0]}");
-                    }
+                    throw new InvalidOperationException(
+                        $"Cannot write to address {_ws.DataValidations[i].Address.Address}. As it does not exist on worksheet {_ws.Name}. " +
+                        $"Try {_ws.Name}!{_ws.DataValidations[i].Address.LocalAddress} instead or add the dataValidation to {_ws.DataValidations[i].Address.WorkSheetName}");
                 }
 
-               cache.Append($"sqref=\"{_ws.DataValidations[i].Address.LocalAddress.ToString().Replace(",", " ")}\" ");
+               cache.Append($"sqref=\"{_ws.DataValidations[i].Address.LocalAddress.Replace(",", " ")}\" ");
 
             }
 
