@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 return CreateResult(realPart.ToString(), DataType.String);
             }
             var sign = (imagPart < 0) ? "-" : "+";
-            var result = string.Format("{0}{1}{2}{3}", realPart, sign, Math.Abs(imagPart), imSuffix);
+            var result = CreateImaginaryString(realPart, imagPart, sign, imSuffix);
             return CreateResult(result, DataType.String);
         }
     }
