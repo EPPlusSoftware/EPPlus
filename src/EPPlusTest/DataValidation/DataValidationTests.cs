@@ -999,13 +999,13 @@ namespace EPPlusTest.DataValidation
         {
             using (var package = new ExcelPackage())
             {
-                package.Workbook.Worksheets.Add("ProblemMetaSheet");
+                package.Workbook.Worksheets.Add("ExSheet");
                 // add validation rules to ProblemMeta sheet
-                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("ProblemMetaSheet");
-                if (metaSheet != null)
+                ExcelWorksheet exSheet = package.Workbook.Worksheets.GetByName("ExSheet");
+                if (exSheet != null)
                 {
-                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("ProblemMetaSheet!$C$2");
-                    defaultValidation.Operator = ExcelDataValidationOperator.equal;
+                    var intValidation = exSheet.DataValidations.AddIntegerValidation("ExSheet!$C$2");
+                    intValidation.Operator = ExcelDataValidationOperator.equal;
                 }
 
                 Stream stream = new MemoryStream();
@@ -1027,16 +1027,15 @@ namespace EPPlusTest.DataValidation
                 package.Workbook.Worksheets.Add("ExtTestSheet");
 
                 // add validation rules to ProblemMeta sheet
-                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("TestSheet");
+                ExcelWorksheet testSheet = package.Workbook.Worksheets.GetByName("TestSheet");
                 ExcelWorksheet extTest = package.Workbook.Worksheets.GetByName("ExtTestSheet");
 
-                if (metaSheet != null)
+                if (testSheet != null)
                 {
-                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("TestSheet!$C$2 TestSheet!$Z$2");
-                    defaultValidation.Operator = ExcelDataValidationOperator.equal;
+                    var intValidation = testSheet.DataValidations.AddIntegerValidation("TestSheet!$C$2 TestSheet!$Z$2");
+                    intValidation.Operator = ExcelDataValidationOperator.equal;
 
-                    defaultValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
-
+                    intValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
                 }
 
                 Stream stream = new MemoryStream();
@@ -1052,7 +1051,7 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
-        public void MultipleAddressContainingOtherSheetName_ShouldThrow()
+        public void MultipleAddressContainingOtherSheetName_ShouldNotThrow()
         {
             using (var package = new ExcelPackage())
             {
@@ -1060,12 +1059,13 @@ namespace EPPlusTest.DataValidation
                 package.Workbook.Worksheets.Add("ExtTestSheet");
 
                 // add validation rules to ProblemMeta sheet
-                ExcelWorksheet metaSheet = package.Workbook.Worksheets.GetByName("TestSheet");
+                ExcelWorksheet testSheet = package.Workbook.Worksheets.GetByName("TestSheet");
                 ExcelWorksheet extTest = package.Workbook.Worksheets.GetByName("ExtTestSheet");
 
-                if (metaSheet != null)
+                if (testSheet != null)
                 {
-                    var defaultValidation = metaSheet.DataValidations.AddIntegerValidation("ExtTestSheet!$C$2 ExtTestSheet!$Z$2");
+                    //We ignore the worksheet name and only apply the addresses
+                    var defaultValidation = testSheet.DataValidations.AddIntegerValidation("ExtTestSheet!$C$2 ExtTestSheet!$Z$2");
                     defaultValidation.Operator = ExcelDataValidationOperator.equal;
 
                     defaultValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
