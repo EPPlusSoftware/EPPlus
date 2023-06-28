@@ -13,6 +13,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +25,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var argumentStrings = arguments[0].Value.ToString().Split(',');
             var realPart = 0d;
             var imagPart = 0d;
             var imSuffix = string.Empty;
 
-            foreach (var argument in argumentStrings )
+            foreach (var arg in arguments)
             {
-                GetComplexNumbers(argument, out double real, out double imag, out string imaginarySuffix);
+                GetComplexNumbers(arg.Value.ToString(), out double real, out double imag, out string imaginarySuffix);
                 if (double.IsNaN(real) || double.IsNaN(imag))
                 {
                     return CompileResult.GetErrorResult(eErrorType.Num);
