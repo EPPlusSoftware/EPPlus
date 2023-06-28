@@ -510,6 +510,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
                                     if (dirtyRange != null && dirtyRange.Length > 0)
                                     {
+
                                         RecalculateDirtyCells(dirtyRange, depChain, rd);
                                     }
                                 }
@@ -873,7 +874,13 @@ namespace OfficeOpenXml.FormulaParsing
                     ))
                 {
                     fexp._argPos++;
-                    f._expressionStack.Push(Expression.Empty);  //This expression is not used.
+                    //If the argument is empty and it's the last argument it's added in the exec function (first in the GetFunctionArguments method) instead.
+                    if (!(f._tokenIndex + 1 < f._tokens.Count && 
+                       f._tokens[f._tokenIndex].TokenType == TokenType.Comma && 
+                       f._tokens[f._tokenIndex + 1].TokenType == TokenType.Function))
+                    {
+                        f._expressionStack.Push(Expression.Empty);  //This expression is not used.
+                    }
                     fe = fexp._function.GetParameterInfo(fexp._argPos);
                 }
                 if(fexp._argPos < fexp._arguments.Count)
