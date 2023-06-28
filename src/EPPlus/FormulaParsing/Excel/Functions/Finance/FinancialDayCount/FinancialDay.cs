@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
     internal abstract class FinancialDay
     {
 
-        public FinancialDay(System.DateTime date)
+        public FinancialDay(DateTime date)
         {
             Year = Convert.ToInt16(date.Year);
             Month = Convert.ToInt16(date.Month);
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
         {
             get
             {
-                return Month == 2 && Day == System.DateTime.DaysInMonth(Year, Month);
+                return Month == 2 && Day == DateTime.DaysInMonth(Year, Month);
             }
         }
 
@@ -56,19 +56,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
         {
             get
             {
-                return Day == System.DateTime.DaysInMonth(Year, Month);
+                return Day == DateTime.DaysInMonth(Year, Month);
             }
         }
 
-        public System.DateTime ToDateTime()
+        public DateTime ToDateTime()
         {
-            return new System.DateTime(Year, Month, Day);
+            return new DateTime(Year, Month, Day);
         }
 
         public FinancialDay SubtractYears(int years)
         {
             var day = Day;
-            if (IsLastDayOfFebruary && System.DateTime.IsLeapYear(Year) && !System.DateTime.IsLeapYear(Year + years))
+            if (IsLastDayOfFebruary && DateTime.IsLeapYear(Year) && !DateTime.IsLeapYear(Year + years))
             {
                 day -= 1;
             }
@@ -120,13 +120,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             {
                 month = (short)(Month - Convert.ToInt16(months));
             }
-            if (IsLastDayOfFebruary && System.DateTime.IsLeapYear(Year) && !System.DateTime.IsLeapYear(year))
+            if (IsLastDayOfFebruary && DateTime.IsLeapYear(Year) && !DateTime.IsLeapYear(year))
             {
                 actualDay -= 1;
             }
-            else if (System.DateTime.DaysInMonth(year, month) < actualDay)
+            else if (DateTime.DaysInMonth(year, month) < actualDay)
             {
-                actualDay = (short)System.DateTime.DaysInMonth(year, month);
+                actualDay = (short)DateTime.DaysInMonth(year, month);
             }
             return Factory(year, month, actualDay);
         }

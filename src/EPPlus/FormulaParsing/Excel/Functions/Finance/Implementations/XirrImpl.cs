@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
     public static class XirrImpl
     {
 
-        public static FinanceCalcResult<double> GetXirr(IEnumerable<double> aValues, IEnumerable<System.DateTime> aDates, double rGuessRate = 0.1)
+        public static FinanceCalcResult<double> GetXirr(IEnumerable<double> aValues, IEnumerable<DateTime> aDates, double rGuessRate = 0.1)
         {
             if (aValues.Count() != aDates.Count()) return new FinanceCalcResult<double>(eErrorType.Value);
 
@@ -69,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             return new FinanceCalcResult<double>(fResultRate);
         }
 
-        static double lcl_sca_XirrResult_Deriv1(IEnumerable<double> rValues, IEnumerable<System.DateTime> rDates, double fRate)
+        static double lcl_sca_XirrResult_Deriv1(IEnumerable<double> rValues, IEnumerable<DateTime> rDates, double fRate)
         {
             /*  V_0 ... V_n = input values.
                 D_0 ... D_n = input dates.
@@ -97,7 +97,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             return fResult;
         }
 
-        static double lcl_sca_XirrResult(IEnumerable<double> rValues, IEnumerable<System.DateTime> rDates, double fRate)
+        static double lcl_sca_XirrResult(IEnumerable<double> rValues, IEnumerable<DateTime> rDates, double fRate)
         {
             /*  V_0 ... V_n = input values.
                 D_0 ... D_n = input dates.

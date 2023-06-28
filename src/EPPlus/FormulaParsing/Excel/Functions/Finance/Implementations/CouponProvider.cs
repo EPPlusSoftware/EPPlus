@@ -7,37 +7,37 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     internal class CouponProvider : ICouponProvider
     {
-        public double GetCoupdaybs(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis)
+        public double GetCoupdaybs(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
         {
             var func = new CoupdaybsImpl(FinancialDayFactory.Create(settlement, basis), FinancialDayFactory.Create(maturity, basis), frequency, basis);
             return func.Coupdaybs().Result;
         }
 
-        public double GetCoupdays(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis)
+        public double GetCoupdays(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
         {
             var func = new CoupdaysImpl(FinancialDayFactory.Create(settlement, basis), FinancialDayFactory.Create(maturity, basis), frequency, basis);
             return func.GetCoupdays().Result;
         }
 
-        public double GetCoupdaysnc(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis)
+        public double GetCoupdaysnc(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
         {
             var func = new CoupdaysncImpl(FinancialDayFactory.Create(settlement, basis), FinancialDayFactory.Create(maturity, basis), frequency, basis);
             return func.Coupdaysnc().Result;
         }
 
-        public double GetCoupnum(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis)
+        public double GetCoupnum(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
         {
             var func = new CoupnumImpl(FinancialDayFactory.Create(settlement, basis), FinancialDayFactory.Create(maturity, basis), frequency, basis);
             return func.GetCoupnum().Result;
         }
 
-        public System.DateTime GetCouppcd(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis)
+        public DateTime GetCouppcd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
         {
             var func = new CouppcdImpl(FinancialDayFactory.Create(settlement, basis), FinancialDayFactory.Create(maturity, basis), frequency, basis);
             return func.GetCouppcd().Result;
         }
 
-        public System.DateTime GetCoupsncd(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis)
+        public DateTime GetCoupsncd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
         {
             var func = new CoupncdImpl(FinancialDayFactory.Create(settlement, basis), FinancialDayFactory.Create(maturity, basis), frequency, basis);
             return func.GetCoupncd().Result;
