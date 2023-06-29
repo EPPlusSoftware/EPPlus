@@ -132,18 +132,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         /// <returns>A string that represents an imaginary number.</returns>
         protected string CreateImaginaryString(double realPart, double imagPart, string sign, string imSuffix)
         {
-            var result = string.Format("{0}{1}{2}{3}", realPart, sign, Math.Abs(imagPart), imSuffix);
+            var result = string.Format("{0:G15}{1}{2:G15}{3}", realPart, sign, Math.Abs(imagPart), imSuffix);
             if (imagPart == 1 || imagPart == -1)
             {
-                result = string.Format("{0}{1}{2}", realPart, sign, imSuffix);
+                result = string.Format("{0:G15}{1}{2}", realPart, sign, imSuffix);
             }
             else if (imagPart == 0)
             {
-                result = string.Format("{0}", realPart);
+                result = string.Format("{0:G15}", realPart);
             }
             else if (realPart == 0)
             {
-                result = string.Format("{0}{1}", imagPart, imSuffix);
+                result = string.Format("{0:G15}{1}", imagPart, imSuffix);
             }
             return result;
         }
