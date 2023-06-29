@@ -972,7 +972,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                        throw (new InvalidOperationException(string.Format("Error saving file {0}", File.FullName), ex));
+                    throw (new InvalidOperationException(string.Format("Error saving file {0}", File.FullName), ex));
                 }
             }
         }
