@@ -417,7 +417,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsqrt"] = new ImSqrt();
             Functions["imaginary"] = new Imaginary();
 
+            Functions["imsub"] = new ImSub();
+            Functions["imtan"] = new ImTan();
+
+
             Functions["imargument"] = new ImArgument();
+
         }
     }
 }
