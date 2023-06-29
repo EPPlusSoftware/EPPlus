@@ -1,66 +1,58 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
 {
     [TestClass]
-    public class ImSumTest
+    public class ImRealTest
     {
         [TestMethod]
-        public void ImSumShouldReturnCorrectResult()
+        public void ImRealShouldReturnCorrectResult()
         {
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"3+5i\", \"2+4i\")";
+                sheet.Cells["A1"].Formula = "IMREAL(\"3+5i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("5+9i", result);
+                Assert.AreEqual(3d, result);
             }
         }
 
         [TestMethod]
-        public void ImSumShouldReturnCorrectResult2()
+        public void ImRealShouldReturnCorrectDataType()
         {
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"3+5i\", \"2+4i\", \"5+7i\")";
+                sheet.Cells["A1"].Formula = "IMREAL(\"3+5i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("10+16i", result);
+                Assert.IsInstanceOfType(result, typeof(double));
             }
         }
 
         [TestMethod]
-        public void ImSumShouldReturnCorrectResult3()
+        public void ImRealShouldReturnWhenRealIsDecimalNumber()
         {
+            var cc = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"5+6i\", \"i\", \"3\")";
+                sheet.Cells["A1"].Formula = "IMREAL(\"3.5+5i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("8+7i", result);
+                Assert.AreEqual(3.5d, result);
             }
-        }
-
-        [TestMethod]
-        public void ImSumShouldReturnCorrectResult4()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"5+6i\", \"4+8j\")";
-                sheet.Calculate();
-                var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), result);
-            }
+            Thread.CurrentThread.CurrentCulture = cc;
         }
     }
 }

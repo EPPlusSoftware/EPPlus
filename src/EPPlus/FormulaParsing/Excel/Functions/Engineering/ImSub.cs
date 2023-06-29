@@ -10,8 +10,6 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
 using System;
@@ -21,38 +19,32 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class ImSum : ImFunctionBase
+    internal class ImSub : ImFunctionBase
     {
+        public override int ArgumentMinLength => 2;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var realPart = 0d;
-            var imagPart = 0d;
-            var imSuffix = string.Empty;
+            var arg1 = ArgToString(arguments, 0);
+            var arg2 = ArgToString(arguments, 1);
 
-            foreach (var arg in arguments)
-            {
-                GetComplexNumbers(arg.Value.ToString(), out double real, out double imag, out string imaginarySuffix);
-                if (double.IsNaN(real) || double.IsNaN(imag))
-                {
-                    return CompileResult.GetErrorResult(eErrorType.Num);
-                }
-                if (!string.IsNullOrEmpty(imaginarySuffix))
-                {
-                    if (!string.IsNullOrEmpty(imSuffix) && imSuffix != imaginarySuffix)
-                    {
-                        return CompileResult.GetErrorResult(eErrorType.Value);
-                    }
-                    imSuffix = imaginarySuffix;
-                }
-                realPart += real;
-                imagPart += imag;
-            }
+            GetComplexNumbers(arg1, out double real, out double imag, out string imaginarySuffix);
+            GetComplexNumbers(arg2, out double real2, out double imag2, out string imaginarySuffix2);
 
-            if (imagPart == 0)
-            {
-                return CreateResult(realPart.ToString(), DataType.String);
-            }
+            var realPart = (real - real2);
+            var imagPart = (imag - imag2);
             var sign = (imagPart < 0) ? "-" : "+";
+           
+            var usedPrefixes = GetUniquePrefixes(imaginarySuffix, imaginarySuffix2);
+            var imSuffix = string.Empty;
+            if (usedPrefixes.Count > 1)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            else if(usedPrefixes.Count == 1)
+            {
+                imSuffix = usedPrefixes[0];
+            }
             var result = CreateImaginaryString(realPart, imagPart, sign, imSuffix);
             return CreateResult(result, DataType.String);
         }

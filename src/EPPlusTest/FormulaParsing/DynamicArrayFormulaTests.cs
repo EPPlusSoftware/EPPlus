@@ -134,8 +134,14 @@ namespace EPPlusTest.FormulaParsing
             using (var p = OpenTemplatePackage("ArrayFormulas.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
+                ws.Cells.ClearFormulaValues();
                 ws.Cells["B6"].Value = 3;
                 p.Workbook.Calculate();
+
+                Assert.AreEqual(5D, ws.Cells["B1"].Value);
+                Assert.AreEqual(5D, ws.Cells["C5"].Value);
+
+                Assert.AreEqual(4D, ws.Cells["D1"].Value);
                 Assert.AreEqual(4D, ws.Cells["D1"].Value);
                 Assert.AreEqual(5D, ws.Cells["D2"].Value);
                 Assert.IsNull(ws.Cells["D3"].Value);
@@ -145,6 +151,27 @@ namespace EPPlusTest.FormulaParsing
                 Assert.IsNull(ws.Cells["F3"].Value);
 
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void DynamicArrayReadFromWorkbook_DeleteFullFormula()
+        {
+            using (var p = OpenTemplatePackage("ArrayFormulas.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Workbook.Worksheets[0].Cells["B1:B5"].Delete(eShiftTypeDelete.Left);
+                SaveWorkbook("ArrayFormulas_Deleted.xlsx",p);
+            }
+        }
+        [TestMethod]
+        public void DynamicArrayReadFromWorkbook_InsertInsideFormula()
+        {
+            using (var p = OpenTemplatePackage("ArrayFormulas.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Workbook.Worksheets[0].InsertColumn(2, 1);
+                ws.Calculate();
+                SaveWorkbook("ArrayFormulas_Deleted.xlsx", p);
             }
         }
 
