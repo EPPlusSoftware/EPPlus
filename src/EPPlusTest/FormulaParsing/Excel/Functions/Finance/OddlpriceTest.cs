@@ -11,10 +11,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
 {
 
     [TestClass]
-    public class OddlyieldTest
+    public class OddlpriceTest
     {
         [TestMethod]
-        public void OddlyieldShouldReturnCorrectResult()
+        public void OddlpricedShouldReturnCorrectResult()
         {
             using (var package = new ExcelPackage())
             {
@@ -22,16 +22,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2022, 2, 15);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,34,100,1,0)";
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,5%,6%,100,2,0)";
                 sheet.Calculate();
-                var result = System.Math.Round((double)sheet.Cells["A1"].Value, 8);
-                Assert.AreEqual(0.67023199, result);
+                var result = System.Math.Round((double)sheet.Cells["A1"].Value, 7);
+                Assert.AreEqual(97.2372409, result);
 
             }
         }
 
         [TestMethod]
-        public void OddlyieldIncorrectFrequency()
+        public void OddlpriceIncorrectFrequency()
         {
             using (var package = new ExcelPackage())
             {
@@ -39,7 +39,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2022, 2, 15);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,34,100,7,0)";
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,1%,5%,100,7,0)";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
@@ -47,7 +47,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
         }
 
         [TestMethod]
-        public void OddlyieldIncorrectRate()
+        public void OddlpriceIncorrectRate()
         {
             using (var package = new ExcelPackage())
             {
@@ -55,7 +55,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2022, 2, 15);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,-1%,34,100,2,0)";
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,-1%,5%,100,2,0)";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
@@ -63,15 +63,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
         }
 
         [TestMethod]
-        public void OddlyieldIncorrectPrice()
+        public void OddlpriceIncorrectPrice()
         {
             using (var package = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("Test with incorrect price: ");
+                var sheet = package.Workbook.Worksheets.Add("Test with incorrect yield: ");
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2022, 2, 15);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,-34,100,2,0)";
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,1%,-1%,100,2,0)";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
@@ -80,7 +80,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
 
         [TestMethod]
 
-        public void OddlyieldIncorrectBasis()
+        public void OddlpriceIncorrectBasis()
         {
             using (var package = new ExcelPackage())
             {
@@ -88,7 +88,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2022, 2, 15);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,34,100,2,6)";
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,1%,5%,100,2,6)";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
@@ -97,7 +97,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
 
         [TestMethod]
 
-        public void OddlyieldNotGivingBasis()
+        public void OddlpricedNotGivingBasis()
         {
             using (var package = new ExcelPackage())
             {
@@ -105,24 +105,24 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2022, 2, 15);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,34,100,1)";
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,1%,60%,100,1)";
                 sheet.Calculate();
                 var result = System.Math.Round((double)sheet.Cells["A1"].Value, 8);
-                Assert.AreEqual(0.67023199, result);
+                Assert.AreEqual(36.58083317, result);
             }
         }
 
         [TestMethod]
 
-        public void OddlyieldIncorrectDates()
+        public void OddlpriceIncorrectDates()
         {
             using (var package = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("Test with incorrect dates: ");
+                var sheet = package.Workbook.Worksheets.Add("Test with incorrect basis: ");
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2019, 2, 13);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,34,100,2,0)";
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,1%,5%,100,2,0)";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
@@ -131,21 +131,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
         }
 
         [TestMethod]
-
-        public void OddlyieldExample()
+        public void OddlpriceExample()
         {
             using (var package = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("Test with random example: ");
-                sheet.Cells["A1"].Value = new System.DateTime(2018, 2, 05);
-                sheet.Cells["A2"].Value = new System.DateTime(2018, 06, 15);
-                sheet.Cells["A3"].Value = new System.DateTime(2017, 10, 15);
-                sheet.Cells["A4"].Formula = "ODDLYIELD(A1,A2,A3,5%,99.5,100,2,0)";
+                var sheet = package.Workbook.Worksheets.Add("Test with random inputs: ");
+                sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
+                sheet.Cells["B2"].Value = new System.DateTime(2029, 2, 22);
+                sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
+                sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,19%,529%,1678,4,4)";
                 sheet.Calculate();
-                var result = System.Math.Round((double)sheet.Cells["A4"].Value, 9);
-                Assert.AreEqual(0.063196633, result);
+                var result = System.Math.Round((double)sheet.Cells["A1"].Value, 8);
+                Assert.AreEqual(29.32151618, result);
             }
         }
 
     }
+
 }
+
+
