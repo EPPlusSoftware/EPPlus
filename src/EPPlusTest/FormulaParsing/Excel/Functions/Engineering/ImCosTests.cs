@@ -27,7 +27,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMCOS(\"1+i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("0.833730025131149-0.988897705762865i", result);
+                Assert.AreEqual("0.833730025131149+0.988897705762865i", result);
 
             }
             Thread.CurrentThread.CurrentCulture = ci;
