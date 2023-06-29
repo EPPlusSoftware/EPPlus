@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var result = real;
-            return CreateResult(result.ToString(), DataType.String);
+            return CreateResult(result, DataType.Decimal);
         }
     }
 }
