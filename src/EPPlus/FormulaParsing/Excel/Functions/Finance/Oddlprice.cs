@@ -58,9 +58,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
                 return CreateResult(eErrorType.Num);
             }
 
-            if (!((maturityDate > settlementDate)
-                || (maturityDate > lastInterestDate)
-                || (settlementDate > lastInterestDate)))
+            //if (!((maturityDate > settlementDate)
+            //    || (maturityDate > lastInterestDate)
+            //    || (settlementDate > lastInterestDate)))
+            //{
+            //    return CreateResult(eErrorType.Num);
+            //}
+
+            if (maturityDate <= settlementDate || settlementDate <= lastInterestDate)
             {
                 return CreateResult(eErrorType.Num);
             }
