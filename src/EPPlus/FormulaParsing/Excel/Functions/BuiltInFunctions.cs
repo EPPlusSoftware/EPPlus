@@ -422,11 +422,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
 
             Functions["imargument"] = new ImArgument();
-<<<<<<< HEAD
-            Functions["imcos"] = new ImCos();
-=======
 
->>>>>>> develop7
+            Functions["imcos"] = new ImCos();
+
+
         }
     }
 }
