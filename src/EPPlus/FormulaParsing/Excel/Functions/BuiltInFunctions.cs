@@ -418,6 +418,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imaginary"] = new Imaginary();
 
             Functions["imargument"] = new ImArgument();
+            Functions["imcos"] = new ImCos();
         }
     }
 }
