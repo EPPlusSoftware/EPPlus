@@ -1280,7 +1280,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                         case eExcelConditionalFormattingValueObjectType.Percentile:
                                         case eExcelConditionalFormattingValueObjectType.Num:
                                             cache.Append(">");
-                                            cache.Append($"<xm:f>{values[j].Value}</xm:f>");
+                                            if (!string.IsNullOrEmpty(values[j].Formula))
+                                            {
+                                                cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(values[j].Formula)}</xm:f>");
+                                            }
+                                            else
+                                            {
+                                                cache.Append($"<xm:f>{values[j].Value}</xm:f>");
+                                            }
                                             cache.Append($"</{prefix}cfvo>");
                                             break;
                                         default:

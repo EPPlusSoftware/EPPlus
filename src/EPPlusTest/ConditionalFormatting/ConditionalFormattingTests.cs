@@ -2370,5 +2370,113 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual("\"&%/Stuffåäö}=``#£\"<>\"An Example\"", cf.As.Expression.Formula);
             }
         }
+
+        [TestMethod]
+        public void CF_Databar_Formula()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("databars");
+
+                var databar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A10"), Color.BlueViolet);
+
+                databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
+                databar.LowValue.Formula = "10";
+
+                databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
+                databar.HighValue.Formula = "20";
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var readPackage = new ExcelPackage(stream);
+
+                var readBar = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
+                Assert.AreEqual(readBar.As.DataBar.LowValue.Formula, "10");
+                Assert.AreEqual(readBar.As.DataBar.HighValue.Formula, "20");
+            }
+        }
+
+        //Features to add:
+        //Databar takes a formula on each value except percentile in excel
+        //It should support addresses. We currently don't. You could always read the value in from a cell but arguably you should be able to reference it as well
+        //Same with colourScale
+
+        //[TestMethod]
+        //public void CF_Databar_Types()
+        //{
+        //    using (var pck = new ExcelPackage())
+        //    {
+        //        var sheet = pck.Workbook.Worksheets.Add("databars");
+
+        //        var databar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A10"), Color.BlueViolet);
+
+        //        databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.Num;
+        //        databar.LowValue.Value = "10";
+
+        //        databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
+        //        databar.HighValue.Formula = "20";
+
+        //        var stream = new MemoryStream();
+        //        pck.SaveAs(stream);
+
+        //        var readPackage = new ExcelPackage(stream);
+
+        //        var readBar = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
+        //        Assert.AreEqual(readBar.As.DataBar.LowValue.Formula, "10");
+        //        Assert.AreEqual(readBar.As.DataBar.HighValue.Formula, "20");
+        //    }
+        //}
+
+        [TestMethod]
+        public void CF_ColourScale()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("colourScale");
+                var extSheet = pck.Workbook.Worksheets.Add("extSheet");
+
+                var colorScale = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("A1:A20"));
+
+                for(int i = 1; i < 21; i++)
+                {
+                    sheet.Cells[i, 1].Value = i;
+                }
+
+                colorScale.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+                colorScale.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+                colorScale.MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Num;
+
+                colorScale.MiddleValue.Formula = "$B$2";
+
+                colorScale.LowValue.Formula = "IF($B$5 < extSheet!A1, 5, 10)";
+
+                colorScale.HighValue.Formula = "B6";
+
+                pck.SaveAs("C:\\epplusTest\\Testoutput\\colourScaleTest.xlsx");
+            }
+        }
+
+
+        //[TestMethod]
+        //public void CF_Between_Formula()
+        //{
+        //    using (var pck = new ExcelPackage())
+        //    {
+        //        var sheet = pck.Workbook.Worksheets.Add("colourScale");
+
+        //        var between = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
+
+        //        between.Formula = "B1";
+        //        between.Formula2 = "B2";
+
+        //        var lessThanOrEqualTo = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
+
+
+        //        pck.SaveAs("C:\\epplusTest\\Testoutput\\betweenTest.xlsx");
+        //        //colorScale.LowValue.Value = 
+
+        //    }
+        //}
     }
 }

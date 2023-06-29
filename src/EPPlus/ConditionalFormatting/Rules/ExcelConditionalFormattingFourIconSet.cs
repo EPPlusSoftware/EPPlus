@@ -82,6 +82,11 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
                     return true;
                 }
 
+                if (ExcelAddressBase.RefersToOtherWorksheet(Icon4.Formula, _ws.Name))
+                {
+                    return true;
+                }
+
                 return base.IsExtLst;
             }
         }

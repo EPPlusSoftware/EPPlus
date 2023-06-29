@@ -25,7 +25,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             _colorSettings = new ExcelDxfColor(null, eStyleClass.Fill, SetColor);
             Color = color;
             Value = value;
-            Formula = formula;
+            if(Type != eExcelConditionalFormattingValueObjectType.Percentile)
+            {
+                Formula = formula;
+            }
             _priority = priority;
         }
 
@@ -98,6 +101,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     || (Type == eExcelConditionalFormattingValueObjectType.Percent)
                     || (Type == eExcelConditionalFormattingValueObjectType.Percentile))
                 {
+                    _formula = null;
                     _value = value;
                 }
             }
@@ -106,14 +110,17 @@ namespace OfficeOpenXml.ConditionalFormatting
         string _formula;
 
         /// <summary>
-        /// The Formula of the Object Value (uses the same attribute as the Value)
+        /// <para> The Formula of the Object Value </para>
+        /// Keep in mind that Addresses in this property should be Absolute not relative  
+        /// <para> Yes: $A$1 </para> 
+        /// <para> No: A1 </para>
         /// </summary>
         public string Formula
         {
             get
             {
                 // Return empty if the Object Value type is not Formula
-                if (Type != eExcelConditionalFormattingValueObjectType.Formula)
+                if (Type == eExcelConditionalFormattingValueObjectType.Percentile)
                 {
                     return string.Empty;
                 }
@@ -124,9 +131,14 @@ namespace OfficeOpenXml.ConditionalFormatting
             set
             {
                 // Only store the formula if the Object Value type is Formula
-                if (Type == eExcelConditionalFormattingValueObjectType.Formula)
+                if (Type != eExcelConditionalFormattingValueObjectType.Percentile)
                 {
-                   _formula = value;
+                    Value = double.NaN;
+                    _formula = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Cannot store formula in a percentile type");
                 }
             }
         }

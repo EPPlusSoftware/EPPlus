@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
@@ -117,10 +118,25 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if (ExcelAddressBase.RefersToOtherWorksheet(LowValue.Formula, _ws.Name) || 
-                    ExcelAddressBase.RefersToOtherWorksheet(HighValue.Formula, _ws.Name))
+                if(LowValue.Formula != null)
                 {
-                    return true;
+                    var tokens = SourceCodeTokenizer.Default.Tokenize(LowValue.Formula);
+
+                    if(tokens.Any(x => x.TokenType == TokenType.CellAddress) == true)
+                    {
+                        return true;
+                    }
+                }
+
+
+                if (HighValue.Formula != null)
+                {
+                    var tokens = SourceCodeTokenizer.Default.Tokenize(HighValue.Formula);
+
+                    if (tokens.Any(x => x.TokenType == TokenType.CellAddress) == true)
+                    {
+                        return true;
+                    }
                 }
 
                 return base.IsExtLst;

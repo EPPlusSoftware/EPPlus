@@ -10,6 +10,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -231,6 +232,21 @@ namespace OfficeOpenXml.ConditionalFormatting
                 if (GetIconSetString() == "3Stars" ||
                     GetIconSetString() == "3Triangles" ||
                     GetIconSetString() == "5Boxes")
+                {
+                    return true;
+                }
+
+                if(ExcelAddressBase.RefersToOtherWorksheet(Icon1.Formula, _ws.Name))
+                {
+                    return true;
+                }
+
+                if (ExcelAddressBase.RefersToOtherWorksheet(Icon2.Formula, _ws.Name))
+                {
+                    return true;
+                }
+
+                if (ExcelAddressBase.RefersToOtherWorksheet(Icon3.Formula, _ws.Name))
                 {
                     return true;
                 }

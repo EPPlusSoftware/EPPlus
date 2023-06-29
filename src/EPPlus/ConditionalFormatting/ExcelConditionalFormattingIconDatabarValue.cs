@@ -8,6 +8,7 @@ using OfficeOpenXml.Utils;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Security;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -173,6 +174,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     || Type == eExcelConditionalFormattingValueObjectType.Percent
                     || Type == eExcelConditionalFormattingValueObjectType.Percentile)
                 {
+                    _formula = null;
                     _value = value;
                 }
                 else
@@ -183,17 +185,20 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        string _formula = "";
+        string _formula = null;
 
         /// <summary>
-        /// The Formula of the Object Value (uses the same attribute as the Value)
+        /// <para> The Formula of the Object Value </para>
+        /// Keep in mind that Addresses in this property should be Absolute not relative  
+        /// <para> Yes: $A$1 </para> 
+        /// <para> No: A1 </para>
         /// </summary>
         public string Formula
         {
             get
             {
                 // Return empty if the Object Value type is not Formula
-                if (Type != eExcelConditionalFormattingValueObjectType.Formula)
+                if (Type == eExcelConditionalFormattingValueObjectType.Percentile)
                 {
                     return string.Empty;
                 }
@@ -204,13 +209,14 @@ namespace OfficeOpenXml.ConditionalFormatting
             set
             {
                 // Only store the formula if the Object Value type is Formula
-                if (Type == eExcelConditionalFormattingValueObjectType.Formula)
+                if (Type != eExcelConditionalFormattingValueObjectType.Percentile)
                 {
+                    Value = double.NaN;
                     _formula = value;
                 }
                 else
                 {
-                    throw new InvalidOperationException("Cannot store formula in a non-formula type");
+                    throw new InvalidOperationException("Cannot store formula in a percentile type");
                 }
             }
         }
