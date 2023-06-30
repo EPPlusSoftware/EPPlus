@@ -31,6 +31,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear);
         }
 
+        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate, bool returnZeroIfNegative)
+        {
+            return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear, returnZeroIfNegative);
+        }
+
         protected override double GetDaysBetweenDates(FinancialDay start, FinancialDay end, int basis)
         {
             return end.ToDateTime().Subtract(start.ToDateTime()).TotalDays;

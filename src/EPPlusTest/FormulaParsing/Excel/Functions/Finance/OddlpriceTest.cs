@@ -137,7 +137,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
             {
                 var sheet = package.Workbook.Worksheets.Add("Test with random inputs: ");
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
-                sheet.Cells["B2"].Value = new System.DateTime(2029, 2, 22);
+                sheet.Cells["B2"].Value = new System.DateTime(2029, 2, 14);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
                 sheet.Cells["A1"].Formula = "ODDLPRICE(B1,B2,B3,19%,529%,1678,4,4)";
                 sheet.Calculate();
