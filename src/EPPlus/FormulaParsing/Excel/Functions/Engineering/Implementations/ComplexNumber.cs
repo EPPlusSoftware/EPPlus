@@ -21,12 +21,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementatio
         public ComplexNumber GetProduct(ComplexNumber other)
         {
             // (ac - bd) + (ad + bc)
-            var real1 = this.Real * other.Real;
-            var real2 = this.Imaginary * other.Imaginary;
-            var imag1 = this.Real * other.Imaginary;
-            var imag2 = this.Imaginary * other.Real;
+            var ac = this.Real * other.Real;
+            var bd = this.Imaginary * other.Imaginary;
+            var ad = this.Real * other.Imaginary;
+            var bc = this.Imaginary * other.Real;
 
-            var result = new ComplexNumber(real1 - real2, imag1 + imag2, ImagSuffix);
+            var result = new ComplexNumber(ac - bd, ad + bc, ImagSuffix);
             return result;
         }
     }
