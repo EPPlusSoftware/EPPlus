@@ -17,9 +17,14 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Drawing.Style.Fill;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Engineering,
+        EPPlusVersion = "7.0",
+        Description = "Returns the argument Theta(theta), an angle expressed in radians.")]
     internal class ImArgument : ImFunctionBase
     {
 

@@ -83,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 case TypeCode.Boolean:
                     return DataType.Boolean;
                 case TypeCode.DateTime:
-                    obj = ((System.DateTime)obj).ToOADate();
+                    obj = ((DateTime)obj).ToOADate();
                     return DataType.Date;
                 default:
                     if (t.Equals(typeof(ExcelErrorValue)))
