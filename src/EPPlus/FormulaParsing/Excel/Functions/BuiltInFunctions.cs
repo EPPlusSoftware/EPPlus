@@ -423,6 +423,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
 
             Functions["imargument"] = new ImArgument();
+            Functions["imcosh"] = new ImCosh();
 
         }
     }
