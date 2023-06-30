@@ -16,16 +16,15 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Engineering,
-        EPPlusVersion = "7.0",
-        Description = "Returns the argument Theta(theta), an angle expressed in radians.")]
-    internal class ImArgument : ImFunctionBase
+     Category = ExcelFunctionCategory.Engineering,
+     EPPlusVersion = "7.0",
+     Description = "Returns the cosine of a complex number in x + yi or x + yj text format.")]
+    internal class ImCos : ImFunctionBase
     {
 
 
@@ -36,10 +35,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
-            var argument = Math.Atan(imag / real);
-            var result = System.Math.Round(argument, 9);
-                return CreateResult(result, DataType.Decimal);
+            var realPart = (Math.Cos(real) * Math.Cosh(imag));
+            var imagPart = -(Math.Sin(real) * Math.Sinh(imag));
+            var sign = (imagPart < 0) ? "-" : "+";
+            if (sign == "-")
+            {
+                imagPart = (Math.Sin(real) * Math.Sinh(imag));
+                sign = "+";
             }
+            var result = CreateImaginaryString(realPart, imagPart, sign, imaginarySuffix);
+            return CreateResult(result, DataType.String);
         }
     }
-
+}

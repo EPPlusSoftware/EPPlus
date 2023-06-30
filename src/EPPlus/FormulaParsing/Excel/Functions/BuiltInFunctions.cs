@@ -424,6 +424,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             Functions["imargument"] = new ImArgument();
 
+            Functions["imcos"] = new ImCos();
+
+
         }
     }
 }
