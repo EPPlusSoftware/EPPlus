@@ -5043,5 +5043,42 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void i923()
+        {
+            using (ExcelPackage package = OpenPackage("cf_i923.xlsx", true))
+            {
+                // add a new worksheet to the empty workbook
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Conditional Formatting");
+
+                // Create 4 columns of samples data
+                for (int col = 1; col < 10; col++)
+                {
+                    // Add the headers
+                    worksheet.Cells[1, col].Value = "Sample " + col;
+
+                    for (int row = 2; row < 21; row++)
+                    {
+                        // Add some items...
+                        worksheet.Cells[row, col].Value = "Me";
+                    }
+                }
+
+                var range = worksheet.Cells["C:Z"];
+
+                // -------------------------------------------------------------------
+                // Create a ContainsText rule
+                // -------------------------------------------------------------------
+                var cfRule28 = range.ConditionalFormatting.AddContainsText();
+                cfRule28.Text = "Me";
+                cfRule28.Style.Fill.BackgroundColor.Color = Color.FromArgb(198, 239, 206);
+
+                worksheet.DeleteColumn(1); // <--- THIS LINE CAUSES THE BUG
+
+                // save our new workbook and we are done!
+                package.Save();
+            }
+        }
     }
 }
