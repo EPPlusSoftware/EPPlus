@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
     internal class FinancialDay_Actual_Actual : FinancialDay
     {
-        public FinancialDay_Actual_Actual(System.DateTime date) : base(date)
+        public FinancialDay_Actual_Actual(DateTime date) : base(date)
         {
         }
 

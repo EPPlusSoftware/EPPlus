@@ -47,15 +47,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             return CreateResult(result, DataType.Decimal);
         }
 
-        private IEnumerable<System.DateTime> GetDates(FunctionArgument arg, ParsingContext context)
+        private IEnumerable<DateTime> GetDates(FunctionArgument arg, ParsingContext context)
         {
-            var dates = new List<System.DateTime>();
+            var dates = new List<DateTime>();
             if(arg.Value is IEnumerable<FunctionArgument>)
             {
                 var args = ((IEnumerable<FunctionArgument>)arg.Value).Select(x => (int)x.Value);
                 foreach(var num in args)
                 {
-                    dates.Add(System.DateTime.FromOADate(num));
+                    dates.Add(DateTime.FromOADate(num));
                 }
             }
             else if (arg.Value is IRangeInfo)
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
                 foreach (var c in (IRangeInfo)arg.Value)
                 {
                     var num = Convert.ToInt32(c.ValueDouble);
-                    dates.Add(System.DateTime.FromOADate(num));
+                    dates.Add(DateTime.FromOADate(num));
                 }
             }
             return dates;

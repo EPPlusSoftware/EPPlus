@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
     internal class FinancialDays_Actual_365 : FinancialDaysBase, IFinanicalDays
     {
 
-        public double GetDaysBetweenDates(System.DateTime startDate, System.DateTime endDate)
+        public double GetDaysBetweenDates(DateTime startDate, DateTime endDate)
         {
             var start = FinancialDayFactory.Create(startDate, DayCountBasis.Actual_365);
             var end = FinancialDayFactory.Create(endDate, DayCountBasis.Actual_365);

@@ -32,8 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var settlementNum = ArgToDecimal(arguments, 0);
             var maturityNum = ArgToDecimal(arguments, 1);
-            var settlement = System.DateTime.FromOADate(settlementNum);
-            var maturity = System.DateTime.FromOADate(maturityNum);
+            var settlement = DateTime.FromOADate(settlementNum);
+            var maturity = DateTime.FromOADate(maturityNum);
             var coupon = ArgToDecimal(arguments, 2);
             var yield = ArgToDecimal(arguments, 3);
             if(coupon < 0 || yield < 0)

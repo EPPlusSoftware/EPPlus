@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             {
                 DataType = DataType.Integer;
             }
-            else if(result is System.DateTime)
+            else if(result is DateTime)
             {
                 DataType = DataType.Date;
             }

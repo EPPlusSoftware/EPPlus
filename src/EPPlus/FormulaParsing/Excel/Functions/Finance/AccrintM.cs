@@ -30,8 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             // collect input
-            var issueDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
-            var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
+            var issueDate = DateTime.FromOADate(ArgToInt(arguments, 0));
+            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 1));
             var rate = ArgToDecimal(arguments, 2);
             var par = ArgToDecimal(arguments, 3);
             var basis = 0;

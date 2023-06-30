@@ -13,13 +13,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SDateTime = System.DateTime;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
     internal interface IFinanicalDays
     {
-        double GetDaysBetweenDates(SDateTime startDate, SDateTime endDate);
+        double GetDaysBetweenDates(DateTime startDate, DateTime endDate);
 
         double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate);
 

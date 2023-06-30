@@ -406,7 +406,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         {
             // workitem 7074 & workitem 7170
             if (packedDateTime == 0xFFFF || packedDateTime == 0)
-                return new System.DateTime(1995, 1, 1, 0, 0, 0, 0);  // return a fixed date when none is supplied.
+                return new DateTime(1995, 1, 1, 0, 0, 0, 0);  // return a fixed date when none is supplied.
 
             Int16 packedTime = unchecked((Int16)(packedDateTime & 0x0000ffff));
             Int16 packedDate = unchecked((Int16)((packedDateTime & 0xffff0000) >> 16));
@@ -426,11 +426,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             if (minute >= 60) { hour++; minute = 0; }
             if (hour >= 24) { day++; hour = 0; }
 
-            DateTime d = System.DateTime.Now;
+            DateTime d = DateTime.Now;
             bool success= false;
             try
             {
-                d = new System.DateTime(year, month, day, hour, minute, second, 0);
+                d = new DateTime(year, month, day, hour, minute, second, 0);
                 success= true;
             }
             catch (System.ArgumentOutOfRangeException)
@@ -439,14 +439,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 {
                     try
                     {
-                        d = new System.DateTime(1980, 1, 1, hour, minute, second, 0);
+                        d = new DateTime(1980, 1, 1, hour, minute, second, 0);
                 success= true;
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
                         try
                         {
-                            d = new System.DateTime(1980, 1, 1, 0, 0, 0, 0);
+                            d = new DateTime(1980, 1, 1, 0, 0, 0, 0);
                 success= true;
                         }
                         catch (System.ArgumentOutOfRangeException) { }
@@ -470,7 +470,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                         while (minute > 59) minute--;
                         while (second < 0) second++;
                         while (second > 59) second--;
-                        d = new System.DateTime(year, month, day, hour, minute, second, 0);
+                        d = new DateTime(year, month, day, hour, minute, second, 0);
                         success= true;
                     }
                     catch (System.ArgumentOutOfRangeException) { }

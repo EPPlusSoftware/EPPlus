@@ -2756,9 +2756,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         private bool _IsText; // workitem 7801
         private ZipEntryTimestamp _timestamp;
 
-        private static System.DateTime _unixEpoch = new System.DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        private static System.DateTime _win32Epoch = System.DateTime.FromFileTimeUtc(0L);
-        private static System.DateTime _zeroHour = new System.DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static DateTime _unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static DateTime _win32Epoch = DateTime.FromFileTimeUtc(0L);
+        private static DateTime _zeroHour = new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         private WriteDelegate _WriteDelegate;
         private OpenDelegate _OpenDelegate;

@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
         private readonly IYearFracProvider _yearFracProvider;
         private readonly ICouponProvider _couponProvider;
 
-        public double GetDuration(System.DateTime settlement, System.DateTime maturity, double coupon, double yield, int nFreq, DayCountBasis nBase)
+        public double GetDuration(DateTime settlement, DateTime maturity, double coupon, double yield, int nFreq, DayCountBasis nBase)
         {
             double fYearfrac = _yearFracProvider.GetYearFrac(settlement, maturity, nBase);
             double fNumOfCoups = _couponProvider.GetCoupnum(settlement, maturity, nFreq, nBase);

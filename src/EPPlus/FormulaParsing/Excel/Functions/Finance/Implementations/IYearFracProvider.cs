@@ -16,6 +16,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     public interface IYearFracProvider
     {
-        double GetYearFrac(System.DateTime date1, System.DateTime date2, DayCountBasis basis);
+        double GetYearFrac(DateTime date1, DateTime date2, DayCountBasis basis);
     }
 }

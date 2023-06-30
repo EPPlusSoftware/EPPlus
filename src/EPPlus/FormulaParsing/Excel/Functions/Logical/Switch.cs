@@ -82,9 +82,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         private double GetNumericValue(object obj)
         {
-            if(obj is System.DateTime)
+            if(obj is DateTime)
             {
-                return ((System.DateTime)obj).ToOADate();
+                return ((DateTime)obj).ToOADate();
             }
             if(obj is TimeSpan)
             {
