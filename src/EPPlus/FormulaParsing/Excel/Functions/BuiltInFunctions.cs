@@ -18,7 +18,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
@@ -26,7 +26,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -381,6 +380,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["tbilleq"] = new Tbilleq();
             Functions["tbillprice"] = new TbillPrice();
             Functions["tbillyield"] = new TbillYield();
+            Functions["oddlyield"] = new Oddlyield();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
@@ -413,12 +413,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imabs"] = new ImAbs();
             Functions["imexp"] = new ImExp();
             Functions["imsum"] = new ImSum();
-
+            Functions["imreal"] = new ImReal();
             Functions["imsqrt"] = new ImSqrt();
             Functions["imaginary"] = new Imaginary();
 
+            Functions["imsub"] = new ImSub();
+            Functions["imtan"] = new ImTan();
+
+
             Functions["imargument"] = new ImArgument();
             Functions["imsub"] = new ImSub();
+            Functions["improduct"] = new ImProduct();
+
+            Functions["imcos"] = new ImCos();
+
+
         }
     }
 }

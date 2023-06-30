@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
     internal class FinancialDay_European_30_360 : FinancialDay
     {
-        public FinancialDay_European_30_360(System.DateTime date) : base(date)
+        public FinancialDay_European_30_360(DateTime date) : base(date)
         {
         }
 

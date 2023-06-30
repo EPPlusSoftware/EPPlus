@@ -21,6 +21,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+       Category = ExcelFunctionCategory.Engineering,
+       EPPlusVersion = "7.0",
+       Description = "Returns the sum of two or more complex numbers in x + yi or x + yj text format.")]
     internal class ImSum : ImFunctionBase
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
@@ -49,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var imagPart = 0d;
             var imSuffix = string.Empty;
 
-            foreach (var argument in args)
+            foreach (var argument in args )
             {
                 GetComplexNumbers(argument, out double real, out double imag, out string imaginarySuffix);
                 if (double.IsNaN(real) || double.IsNaN(imag))

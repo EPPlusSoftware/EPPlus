@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
     internal static class FinancialDayFactory
     {
-        internal static FinancialDay Create(System.DateTime date, DayCountBasis basis)
+        internal static FinancialDay Create(DateTime date, DayCountBasis basis)
         {
             switch (basis)
             {
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             }
         }
 
-        internal static FinancialPeriod CreatePeriod(System.DateTime start, System.DateTime end, DayCountBasis basis)
+        internal static FinancialPeriod CreatePeriod(DateTime start, DateTime end, DayCountBasis basis)
         {
             var s = Create(start, basis);
             var e = Create(end, basis);
