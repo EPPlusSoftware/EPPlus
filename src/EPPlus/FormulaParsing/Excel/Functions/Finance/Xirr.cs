@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(0) }, context).Select(x => (double)x);
-            var dates = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(1) }, context).Select(x => System.DateTime.FromOADate(x));
+            var dates = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(1) }, context).Select(x => DateTime.FromOADate(x));
             var guess = 0.1;
             if(arguments.Count > 2)
             {
