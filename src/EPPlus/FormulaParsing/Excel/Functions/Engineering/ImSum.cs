@@ -38,13 +38,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                     }
                 }
             }
+            else
+            {
+                foreach (var arg in arguments)
+                {
+                    args.Add(arg.Value.ToString());
+                }
+            }
             var realPart = 0d;
             var imagPart = 0d;
             var imSuffix = string.Empty;
 
             foreach (var argument in args)
             {
-                GetComplexNumbers(args, out double real, out double imag, out string imaginarySuffix);
+                GetComplexNumbers(argument, out double real, out double imag, out string imaginarySuffix);
                 if (double.IsNaN(real) || double.IsNaN(imag))
                 {
                     return CompileResult.GetErrorResult(eErrorType.Num);
