@@ -103,7 +103,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMCOSH(\"170+58000i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("3.3690976136249E+73-2.8221472985184E+72i", result); //Small diffrence in the result compared to Excel beacause .NET uses more decimals.
+#if Core
+                Assert.AreEqual("3.3690976136249E+73-2.8221472985184E+72i", result); //Small diffrence in the result compared to Excel beacause .NET Core uses more decimals.
+#else
+                Assert.AreEqual("3.3690976136249E+73-2.82214729851839E+72i", result); //Small diffrence in the result compared to Excel beacause .NET Framework uses more decimals.
+#endif
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }

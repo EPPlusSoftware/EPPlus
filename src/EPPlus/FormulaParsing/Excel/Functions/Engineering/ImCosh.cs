@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Drawing.Style.Fill;
+using System.Threading;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
@@ -31,6 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
+            var cc = Thread.CurrentThread.CurrentCulture.Name;
             var realPart = Math.Cosh(real)*Math.Cos(imag);
             var imagPart= (Math.Sinh(real)*Math.Sin(imag));
             var sign = (imagPart < 0) ? "-" : "+";
