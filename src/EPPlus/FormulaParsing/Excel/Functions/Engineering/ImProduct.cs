@@ -11,11 +11,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            var args = new List <string> ();
+            if (arguments[0].IsExcelRange)
+            {
+                var range = arguments[0].ValueAsRangeInfo;
+                foreach (var cell in range)
+                {
+                    var cellValue = cell.Value;
+                    if (cellValue != null)
+                    {
+                        args.Add(cellValue.ToString());
+                    }
+                }
+            }
+            else
+            {
+                foreach (var arg in arguments)
+                {
+                    args.Add(arg.Value.ToString());
+                }
+            }
             var imSuffix = string.Empty;
             ComplexNumber complexResult = default;
-            foreach (var argument in arguments) 
+            foreach (var argument in args) 
             {
-                GetComplexNumbers(argument.Value.ToString(), out double real, out double imag, out string imaginarySuffix);
+                GetComplexNumbers(argument, out double real, out double imag, out string imaginarySuffix);
                 if (double.IsNaN(real) || double.IsNaN(imag))
                 {
                     return CompileResult.GetErrorResult(eErrorType.Num);
