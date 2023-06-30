@@ -25,10 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Category = ExcelFunctionCategory.Financial,
         EPPlusVersion = "5.2",
         Description = "Returns the next coupon date after the settlement date")]
-    internal class Coupncd : CoupFunctionBase<System.DateTime>
+    internal class Coupncd : CoupFunctionBase<DateTime>
     {
         public override int ArgumentMinLength => 3;
-        protected override FinanceCalcResult<System.DateTime> ExecuteFunction(FinancialDay settlementDate, FinancialDay maturityDate, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
+        protected override FinanceCalcResult<DateTime> ExecuteFunction(FinancialDay settlementDate, FinancialDay maturityDate, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
         {
             var impl = new CoupncdImpl(settlementDate, maturityDate, frequency, basis);
             return impl.GetCoupncd();

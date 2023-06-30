@@ -30,11 +30,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 5;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
+            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 0));
+            var maturityDate = DateTime.FromOADate(ArgToInt(arguments, 1));
             if (settlementDate >= maturityDate) return CreateResult(eErrorType.Num);
 
-            var issueDate = System.DateTime.FromOADate(ArgToInt(arguments, 2));
+            var issueDate = DateTime.FromOADate(ArgToInt(arguments, 2));
             
             var rate = ArgToDecimal(arguments, 3);
             if (rate < 0) return CompileResult.GetErrorResult(eErrorType.Num);
