@@ -130,8 +130,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         /// <param name="sign">The sign used in the number</param>
         /// <param name="imSuffix">Suffix (i or j)</param>
         /// <returns>A string that represents an imaginary number.</returns>
-        protected string CreateImaginaryString(double realPart, double imagPart, string sign, string imSuffix)
+        protected object CreateImaginaryString(double realPart, double imagPart, string sign, string imSuffix)
         {
+            if (double.IsInfinity(realPart)|| double.IsNegativeInfinity(realPart)|| double.IsInfinity(imagPart) || double.IsNegativeInfinity(imagPart))
+            {
+                return ErrorValues.NumError;
+            }
             var result = string.Format("{0:G15}{1}{2:G15}{3}", realPart, sign, Math.Abs(imagPart), imSuffix);
             if (imagPart == 1 || imagPart == -1)
             {
