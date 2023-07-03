@@ -427,6 +427,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["improduct"] = new ImProduct();
 
             Functions["imcos"] = new ImCos();
+            Functions["imcsc"] = new ImCsc();
 
 
         }
