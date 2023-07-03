@@ -51,7 +51,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml;
 
 namespace EPPlusTest
 {
@@ -5043,41 +5045,41 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-
         [TestMethod]
         public void i923()
         {
             using (ExcelPackage package = OpenPackage("cf_i923.xlsx", true))
             {
-                // add a new worksheet to the empty workbook
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Conditional Formatting");
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Cf_Sheet");
 
-                // Create 4 columns of samples data
                 for (int col = 1; col < 10; col++)
                 {
-                    // Add the headers
-                    worksheet.Cells[1, col].Value = "Sample " + col;
+                    worksheet.Cells[1, col].Value = "Test " + col;
 
                     for (int row = 2; row < 21; row++)
                     {
-                        // Add some items...
-                        worksheet.Cells[row, col].Value = "Me";
+                        worksheet.Cells[row, col].Value = "ValueItem";
                     }
                 }
 
                 var range = worksheet.Cells["C:Z"];
 
-                // -------------------------------------------------------------------
-                // Create a ContainsText rule
-                // -------------------------------------------------------------------
-                var cfRule28 = range.ConditionalFormatting.AddContainsText();
-                cfRule28.Text = "Me";
-                cfRule28.Style.Fill.BackgroundColor.Color = Color.FromArgb(198, 239, 206);
+                var cfRule = range.ConditionalFormatting.AddContainsText();
+                cfRule.Text = "ValueItem";
+                cfRule.Style.Fill.BackgroundColor.Color = Color.FromArgb(198, 239, 206);
 
-                worksheet.DeleteColumn(1); // <--- THIS LINE CAUSES THE BUG
+                worksheet.DeleteColumn(1);
 
-                // save our new workbook and we are done!
                 package.Save();
+            }
+        }
+
+        [TestMethod]
+        public void s485()
+        {
+            using (var package = OpenTemplatePackage("s485.xlsx"))
+            {
+                SaveAndCleanup(package);
             }
         }
     }
