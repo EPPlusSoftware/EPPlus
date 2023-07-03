@@ -355,6 +355,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["npv"] = new Npv();
             Functions["oddfprice"] = new Oddfprice();
             Functions["oddfyield"] = new Oddfyield();
+            Functions["oddlyield"] = new Oddlyield();
+            Functions["oddlprice"] = new Oddlprice();
             Functions["rate"] = new Rate();
             Functions["nper"] = new Nper();
             Functions["nominal"] = new Nominal();
@@ -380,7 +382,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["tbilleq"] = new Tbilleq();
             Functions["tbillprice"] = new TbillPrice();
             Functions["tbillyield"] = new TbillYield();
-            Functions["oddlyield"] = new Oddlyield();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
@@ -422,6 +423,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
 
             Functions["imargument"] = new ImArgument();
+            Functions["imsub"] = new ImSub();
             Functions["improduct"] = new ImProduct();
 
             Functions["imcos"] = new ImCos();

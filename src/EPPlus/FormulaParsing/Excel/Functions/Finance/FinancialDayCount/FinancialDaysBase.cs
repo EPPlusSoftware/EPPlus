@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -197,9 +198,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             return nPeriods;
         }
 
+        protected virtual double GetDaysBetweenDates(FinancialDay start, FinancialDay end, int basis, bool returnZeroIfNegative)
+        {
+            var result = (basis * (end.Year - start.Year) + 30 * (end.Month - start.Month) + ((end.Day > 30 ? 30 : end.Day) - (start.Day > 30 ? 30 : start.Day)));
+            if (returnZeroIfNegative && result < 0 )
+            {
+                return 0d;
+            }
+            else
+            {
+                return result;
+            }
+        }
+
         protected virtual double GetDaysBetweenDates(FinancialDay start, FinancialDay end, int basis)
         {
-            return (basis * (end.Year - start.Year) + 30 * (end.Month - start.Month) + ((end.Day > 30 ? 30 : end.Day) - (start.Day > 30 ? 30 : start.Day)));
+            return GetDaysBetweenDates(start, end, basis, false);
         }
 
         protected double ActualDaysInLeapYear(FinancialDay start, FinancialDay end)

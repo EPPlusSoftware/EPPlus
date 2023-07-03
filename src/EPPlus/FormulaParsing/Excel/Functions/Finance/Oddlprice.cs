@@ -1,15 +1,15 @@
 ﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
+ Required Notice: Copyright (C) EPPlus Software AB. 
+ This software is licensed under PolyForm Noncommercial License 1.0.0 
+ and may only be used for noncommercial purposes 
+ https://polyformproject.org/licenses/noncommercial/1.0.0/
 
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *************************************************************************************************/
+ A commercial license to use this software can be purchased at https://epplussoftware.com
+*************************************************************************************************
+ Date               Author                       Change
+*************************************************************************************************
+ 01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+*************************************************************************************************/
 
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Category = ExcelFunctionCategory.Financial,
         EPPlusVersion = "7",
         Description = "Returns yield of a security that has an irregular (odd) last period.")]
-    internal class Oddlyield : ExcelFunction
+    internal class Oddlprice : ExcelFunction
     {
         public override int ArgumentMinLength => 7;
 
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var lastInterestDate = System.DateTime.FromOADate(ArgToInt(arguments, 2));
             var rate = ArgToDecimal(arguments, 3);
-            var price = ArgToDecimal(arguments, 4);
+            var yield = ArgToDecimal(arguments, 4);
             var redemption = ArgToDecimal(arguments, 5);
             var frequency = ArgToInt(arguments, 6);
             var b = 0;
@@ -53,12 +53,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var basis = (DayCountBasis)b;
 
 
-            if (rate < 0 || price <= 0)
+            if (rate < 0 || yield < 0)
             {
                 return CreateResult(eErrorType.Num);
             }
 
             if (!((maturityDate > settlementDate)
+                && (maturityDate > lastInterestDate)
                 && (settlementDate > lastInterestDate)))
             {
                 return CreateResult(eErrorType.Num);
@@ -124,10 +125,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
                 {
                     Ai = daysDefinition.GetDaysBetweenDates(earlyCouponDate, sDate, true);
 
-                    if (Ai < 0)
-                    {
-                        Ai = 0d;
-                    }
                 }
                 else
                 {
@@ -162,18 +159,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 
             }
 
-            //t1, t2, t3, t4 represents different terms for the function that calculates the yield.
-            //See https://support.microsoft.com/en-us/office/oddlyield-function-c873d088-cf40-435f-8d41-c8232fee9238
-
             var t1 = redemption + dcDivNl * 100 * rate / frequency;
-            var t2 = price + aDivNl * 100 * rate / frequency;
-            var t3 = price + aDivNl * 100 * rate / frequency;
-            var t4 = frequency / DSCDivNl;
+            var t2 = DSCDivNl * yield / frequency + 1;
+            var t3 = aDivNl * 100 * rate / frequency;
 
-            var oddlyield = (t1 - t2) / t3 * t4;
-            return CreateResult(oddlyield, DataType.Decimal);
+            var oddlprice = t1 / t2 - t3;
+
+            return CreateResult(oddlprice, DataType.Decimal);
+
 
         }
-
     }
 }

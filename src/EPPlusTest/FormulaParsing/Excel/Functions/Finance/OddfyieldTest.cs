@@ -109,7 +109,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
                 sheet.Cells["B2"].Value = new System.DateTime(2022, 02, 15);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 01);
                 sheet.Cells["B4"].Value = new System.DateTime(2019, 02, 15);
-                sheet.Cells["A1"].Formula = "ODDFYIELD(B1,B2,B3,B4,-5%,120,100,4,8)";
+                sheet.Cells["A1"].Formula = "ODDFYIELD(B1,B2,B3,B4,-5%,120,100,4,0)";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);

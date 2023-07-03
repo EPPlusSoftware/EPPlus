@@ -22,6 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 
         double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate);
 
+        double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate, bool returnZeroIfNegative);
+
         IEnumerable<FinancialPeriod> GetCouponPeriodsBackwards(FinancialDay settlement, FinancialDay date, int frequency);
 
         IEnumerable<FinancialPeriod> GetCalendarYearPeriodsBackwards(FinancialDay settlement, FinancialDay date, int frequency);
