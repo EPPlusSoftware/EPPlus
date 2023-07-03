@@ -57,6 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 return new FinanceCalcResult<double>(eErrorType.Num);
             }
 
+
             if (_redemption <= 0)
             {
                 return new FinanceCalcResult<double>(eErrorType.Num);
@@ -70,6 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             // Many of the following variable names are taken from the formula in the Excel documentation for ODDFPRICE.
             // See https://support.microsoft.com/en-gb/office/oddfprice-function-d7d664a8-34df-4233-8d2b-922bcf6a69e1
+
 
             var A = daysDefinition.GetDaysBetweenDates(iDate, sDate, true);
             var DSC = daysDefinition.GetDaysBetweenDates(sDate, fcDate, true);
@@ -143,7 +145,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                     {
                         DSC = 0d;
                     }
-
                 }
                 else
                 {
@@ -151,12 +152,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                     var coupPcdResult = coupPcdFunc.GetCouppcd();
                     var previousCoupDate = coupPcdResult.Result;
                     var pcDate = FinancialDayFactory.Create(previousCoupDate, _basis);
-                    A = daysDefinition.GetDaysBetweenDates(pcDate, sDate);
-
-                    if (A < 0)
-                    {
-                        A = 0d;
-                    }
+                    A = daysDefinition.GetDaysBetweenDates(pcDate, sDate, true);
                     DSC = E - A;
                 }
 
@@ -180,9 +176,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                     var earlyCouponDate = lateCouponDate.SubtractMonths(numOfMonths, lateCouponDate.Day);
                     if (_basis == DayCountBasis.Actual_Actual)
                     {
-
                         NL = daysDefinition.GetDaysBetweenDates(earlyCouponDate, lateCouponDate, true);
-
                     }
                     else
                     {
@@ -196,7 +190,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                     else
                     {
                         DCi = daysDefinition.GetDaysBetweenDates(iDate, lateCouponDate, true);
-
                     }
 
                     if (iDate > earlyCouponDate)

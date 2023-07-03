@@ -62,6 +62,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 
             var daysDefinition = FinancialDaysFactory.Create(basis);
 
+            //Excel uses Newton-Raphson method to calculate ODDFYIELD.
+            //It uses ODDFPRICE by tweaking the yield parameter to get ODDFPRICE to match the price argument. See implementation below
+
             var sDate = FinancialDayFactory.Create(settlementDate, basis);
             var mDate = FinancialDayFactory.Create(maturityDate, basis);
 
