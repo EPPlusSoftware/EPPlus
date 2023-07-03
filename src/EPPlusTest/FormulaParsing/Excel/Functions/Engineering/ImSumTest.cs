@@ -62,5 +62,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), result);
             }
         }
+
+        [TestMethod]
+        public void ImProductShouldReturnCorrectResult_WithRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = "3+4i";
+                sheet.Cells["A2"].Value = "2+8i";
+                sheet.Cells["A3"].Value = "7+3i";
+                sheet.Cells["A4"].Formula = "IMSUM(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.AreEqual("12+15i", result);
+            }
+        }
     }
 }

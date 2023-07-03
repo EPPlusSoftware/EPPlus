@@ -355,6 +355,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["npv"] = new Npv();
             Functions["oddfprice"] = new Oddfprice();
             Functions["oddfyield"] = new Oddfyield();
+            Functions["oddlyield"] = new Oddlyield();
+            Functions["oddlprice"] = new Oddlprice();
             Functions["rate"] = new Rate();
             Functions["nper"] = new Nper();
             Functions["nominal"] = new Nominal();
@@ -421,6 +423,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
 
             Functions["imargument"] = new ImArgument();
+            Functions["imsub"] = new ImSub();
             Functions["imcosh"] = new ImCosh();
             Functions["improduct"] = new ImProduct();
 
