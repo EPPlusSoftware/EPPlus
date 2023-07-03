@@ -157,32 +157,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             return Factory(year, month, actualDay);
         }
 
-        public FinancialDay AddMonths(int months, short day)
-        {
-            var year = Year;
-            var actualDay = day;
-            var month = Month;
-            
-            if (Month + months > 12)
-            {
-                year += 1;
-                month = Convert.ToInt16(months - (12 - month));
-            }
-            else
-            {
-                month = (short)(Month + Convert.ToInt16(months));
-            }
-            if (IsLastDayOfFebruary && System.DateTime.IsLeapYear(Year) && !System.DateTime.IsLeapYear(year))
-            {
-                actualDay -= 1;
-            }
-            else if (System.DateTime.DaysInMonth(year, month) < actualDay)
-            {
-                actualDay = (short)System.DateTime.DaysInMonth(year, month);
-            }
-            return Factory(year, month, actualDay);
-        }
-
         protected abstract FinancialDay Factory(short year, short month, short day);
 
         internal DayCountBasis GetBasis()
