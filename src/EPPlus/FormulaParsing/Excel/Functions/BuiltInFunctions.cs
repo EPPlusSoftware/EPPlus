@@ -424,11 +424,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             Functions["imargument"] = new ImArgument();
             Functions["imsub"] = new ImSub();
+            Functions["imcosh"] = new ImCosh();
             Functions["improduct"] = new ImProduct();
 
             Functions["imcos"] = new ImCos();
-
-
         }
     }
 }
