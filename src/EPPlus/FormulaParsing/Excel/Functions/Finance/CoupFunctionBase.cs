@@ -24,8 +24,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
+            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 0));
+            var maturityDate = DateTime.FromOADate(ArgToInt(arguments, 1));
             var frequency = ArgToInt(arguments, 2);
             var basis = 0;
             if (arguments.Count >= 4)
@@ -40,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             
             var result = ExecuteFunction(FinancialDayFactory.Create(settlementDate, (DayCountBasis)basis), FinancialDayFactory.Create(maturityDate, (DayCountBasis)basis), frequency, (DayCountBasis)basis);
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
-            if (typeof(T) == typeof(System.DateTime))
+            if (typeof(T) == typeof(DateTime))
             {
                 return CreateResult(Convert.ToDateTime(result.Result).ToOADate(), DataType.Date);
             }

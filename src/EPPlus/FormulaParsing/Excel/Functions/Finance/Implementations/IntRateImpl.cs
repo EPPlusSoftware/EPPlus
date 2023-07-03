@@ -8,7 +8,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     internal class IntRateImpl
     {
-        internal static FinanceCalcResult<double> Intrate(System.DateTime settlement, System.DateTime maturity, double investment, double redemption, DayCountBasis basis = DayCountBasis.US_30_360)
+        internal static FinanceCalcResult<double> Intrate(DateTime settlement, DateTime maturity, double investment, double redemption, DayCountBasis basis = DayCountBasis.US_30_360)
         {
             if (investment <= 0 || redemption <= 0) return new FinanceCalcResult<double>(eErrorType.Num);
             if (maturity <= settlement) return new FinanceCalcResult<double>(eErrorType.Num);

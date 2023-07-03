@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             return System.Math.Abs(x - y) < 0.000000001;
         }
 
-        public double GetYield(System.DateTime settlement, System.DateTime maturity, double rate, double pr, double redemption, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
+        public double GetYield(DateTime settlement, DateTime maturity, double rate, double pr, double redemption, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
         {
             
             var A = _couponProvider.GetCoupdaybs(settlement, maturity, frequency, basis);

@@ -13,6 +13,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,16 +21,39 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+       Category = ExcelFunctionCategory.Engineering,
+       EPPlusVersion = "7.0",
+       Description = "Returns the sum of two or more complex numbers in x + yi or x + yj text format.")]
     internal class ImSum : ImFunctionBase
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var argumentStrings = arguments[0].Value.ToString().Split(',');
+            var args = new List<string>();
+            if (arguments[0].IsExcelRange)
+            {
+                var range = arguments[0].ValueAsRangeInfo;
+                foreach(var cell in range)
+                {
+                    var cellValue = cell.Value;
+                    if (cellValue != null)
+                    {
+                        args.Add(cellValue.ToString());
+                    }
+                }
+            }
+            else
+            {
+                foreach (var arg in arguments)
+                {
+                    args.Add(arg.Value.ToString());
+                }
+            }
             var realPart = 0d;
             var imagPart = 0d;
             var imSuffix = string.Empty;
 
-            foreach (var argument in argumentStrings )
+            foreach (var argument in args )
             {
                 GetComplexNumbers(argument, out double real, out double imag, out string imaginarySuffix);
                 if (double.IsNaN(real) || double.IsNaN(imag))
@@ -53,7 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 return CreateResult(realPart.ToString(), DataType.String);
             }
             var sign = (imagPart < 0) ? "-" : "+";
-            var result = string.Format("{0}{1}{2}{3}", realPart, sign, Math.Abs(imagPart), imSuffix);
+            var result = CreateImaginaryString(realPart, imagPart, sign, imSuffix);
             return CreateResult(result, DataType.String);
         }
     }

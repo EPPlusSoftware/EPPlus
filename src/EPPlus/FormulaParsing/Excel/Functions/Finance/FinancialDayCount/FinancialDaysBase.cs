@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,9 +74,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             return periods;
         }
 
-        private FinancialPeriod CreateCalendarPeriod(System.DateTime startDate, int frequency, DayCountBasis basis, bool createFuturePeriod)
+        private FinancialPeriod CreateCalendarPeriod(DateTime startDate, int frequency, DayCountBasis basis, bool createFuturePeriod)
         {
-            var d1 = System.DateTime.MinValue;
+            var d1 = DateTime.MinValue;
             var factor = createFuturePeriod ? 1 : -1;
             switch(frequency)
             {
@@ -103,39 +104,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 
         private FinancialPeriod GetSettlementCalendarYearPeriod(FinancialDay date, int frequency)
         {
-            System.DateTime startDate = default(System.DateTime);
+            DateTime startDate = default(DateTime);
             if (frequency == 1)
             {
-                startDate = new System.DateTime(date.Year, 1, 1);
+                startDate = new DateTime(date.Year, 1, 1);
             }
             else if(frequency == 2)
             {
                 if(date.Month < 7)
                 {
-                    startDate = new System.DateTime(date.Year, 1, 1);
+                    startDate = new DateTime(date.Year, 1, 1);
                 }
                 else
                 {
-                    startDate = new System.DateTime(date.Year, 7, 1);
+                    startDate = new DateTime(date.Year, 7, 1);
                 }
             }
             else if(frequency == 4)
             {
                 if (date.Month > 9)
                 {
-                    startDate = new System.DateTime(date.Year, 10, 1);
+                    startDate = new DateTime(date.Year, 10, 1);
                 }
                 else if(date.Month > 6)
                 {
-                    startDate = new System.DateTime(date.Year, 7, 1);
+                    startDate = new DateTime(date.Year, 7, 1);
                 }
                 else if(date.Month > 3)
                 {
-                    startDate = new System.DateTime(date.Year, 4, 1);
+                    startDate = new DateTime(date.Year, 4, 1);
                 }
                 else
                 {
-                    startDate = new System.DateTime(date.Year, 1, 1);
+                    startDate = new DateTime(date.Year, 1, 1);
                 }
             }
             else
@@ -197,9 +198,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             return nPeriods;
         }
 
+        protected virtual double GetDaysBetweenDates(FinancialDay start, FinancialDay end, int basis, bool returnZeroIfNegative)
+        {
+            var result = (basis * (end.Year - start.Year) + 30 * (end.Month - start.Month) + ((end.Day > 30 ? 30 : end.Day) - (start.Day > 30 ? 30 : start.Day)));
+            if (returnZeroIfNegative && result < 0 )
+            {
+                return 0d;
+            }
+            else
+            {
+                return result;
+            }
+        }
+
         protected virtual double GetDaysBetweenDates(FinancialDay start, FinancialDay end, int basis)
         {
-            return (basis * (end.Year - start.Year) + 30 * (end.Month - start.Month) + ((end.Day > 30 ? 30 : end.Day) - (start.Day > 30 ? 30 : start.Day)));
+            return GetDaysBetweenDates(start, end, basis, false);
         }
 
         protected double ActualDaysInLeapYear(FinancialDay start, FinancialDay end)
@@ -207,15 +221,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             var daysInLeapYear = 0d;
             for(var year = start.Year; year <= end.Year; year++)
             {
-                if (System.DateTime.IsLeapYear(year))
+                if (DateTime.IsLeapYear(year))
                 {
                     if(year == start.Year)
                     {
-                        daysInLeapYear += new System.DateTime(year + 1, 1, 1).Subtract(start.ToDateTime()).TotalDays;
+                        daysInLeapYear += new DateTime(year + 1, 1, 1).Subtract(start.ToDateTime()).TotalDays;
                     }
                     else if(year == end.Year)
                     {
-                        daysInLeapYear += end.ToDateTime().Subtract(new System.DateTime(year, 1, 1)).TotalDays;
+                        daysInLeapYear += end.ToDateTime().Subtract(new DateTime(year, 1, 1)).TotalDays;
                     }
                     else
                     {

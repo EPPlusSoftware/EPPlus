@@ -121,5 +121,43 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 
             return imagString;
         }
+
+        /// <summary>
+        /// Creates a string that represents an imaginary number.
+        /// </summary>
+        /// <param name="realPart">The real part of the number</param>
+        /// <param name="imagPart">The imaginary part of the number</param>
+        /// <param name="sign">The sign used in the number</param>
+        /// <param name="imSuffix">Suffix (i or j)</param>
+        /// <returns>A string that represents an imaginary number.</returns>
+        protected object CreateImaginaryString(double realPart, double imagPart, string sign, string imSuffix)
+        {
+            if (double.IsInfinity(realPart)|| double.IsNegativeInfinity(realPart)|| double.IsInfinity(imagPart) || double.IsNegativeInfinity(imagPart))
+            {
+                return ErrorValues.NumError;
+            }
+            var result = string.Format("{0:G15}{1}{2:G15}{3}", realPart, sign, Math.Abs(imagPart), imSuffix);
+            if (imagPart == 1 || imagPart == -1)
+            {
+                result = string.Format("{0:G15}{1}{2}", realPart, sign, imSuffix);
+            }
+            else if (imagPart == 0)
+            {
+                result = string.Format("{0:G15}", realPart);
+            }
+            else if (realPart == 0)
+            {
+                result = string.Format("{0:G15}{1}", imagPart, imSuffix);
+            }
+            return result;
+        }
+
+        protected List<string> GetUniquePrefixes(params string[] prefixes)
+        {
+            return prefixes
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Distinct()
+                .ToList();
+        }
     }
 }

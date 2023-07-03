@@ -65,7 +65,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             //Excel uses Newton-Raphson method to calculate ODDFYIELD.
             //It uses ODDFPRICE by tweaking the yield parameter to get ODDFPRICE to match the price argument. See implementation below
 
-            var daysTilMaturity = daysDefinition.GetDaysBetweenDates(settlementDate, maturityDate);
+            var sDate = FinancialDayFactory.Create(settlementDate, basis);
+            var mDate = FinancialDayFactory.Create(maturityDate, basis);
+
+            //Excel uses Newton-Raphson method to calculate ODDFYIELD.
+            //It uses ODDFPRICE by tweaking the yield parameter to get ODDFPRICE to match the price argument. See implementation below
+
+            var daysTilMaturity = daysDefinition.GetDaysBetweenDates(sDate, mDate);
             var epsilon = 0.00000001d;
             var numerator = rate * daysTilMaturity * 100 - (price - 100);
             var denominator = (price - 100) / 4 + daysTilMaturity * (price - 100) / 2 + daysTilMaturity * 100;

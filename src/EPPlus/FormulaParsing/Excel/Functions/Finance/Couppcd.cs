@@ -25,10 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Category = ExcelFunctionCategory.Financial,
         EPPlusVersion = "5.2",
         Description = "Returns the previous coupon date, before the settlement date")]
-    internal class Couppcd : CoupFunctionBase<System.DateTime>
+    internal class Couppcd : CoupFunctionBase<DateTime>
     {
         public override int ArgumentMinLength => 3;
-        protected override FinanceCalcResult<System.DateTime> ExecuteFunction(FinancialDay settlementDate, FinancialDay maturityDate, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
+        protected override FinanceCalcResult<DateTime> ExecuteFunction(FinancialDay settlementDate, FinancialDay maturityDate, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
         {
             var impl = new CouppcdImpl(settlementDate, maturityDate, frequency, basis);
             return impl.GetCouppcd();

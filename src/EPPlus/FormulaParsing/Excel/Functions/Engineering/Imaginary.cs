@@ -17,9 +17,14 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Drawing.Style.Fill;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+     Category = ExcelFunctionCategory.Engineering,
+     EPPlusVersion = "7.0",
+     Description = "Returns the imaginary coefficient of a complex number in x + yi or x + yj text format.")]
     internal class Imaginary : ImFunctionBase
     {
 

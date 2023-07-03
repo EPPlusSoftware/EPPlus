@@ -17,7 +17,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"3+5i, 2+4i\")";
+                sheet.Cells["A1"].Formula = "IMSUM(\"3+5i\", \"2+4i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual("5+9i", result);
@@ -30,7 +30,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"3+5i, 2+4i, 5+7i\")";
+                sheet.Cells["A1"].Formula = "IMSUM(\"3+5i\", \"2+4i\", \"5+7i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual("10+16i", result);
@@ -43,7 +43,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"5+6i, i, 3\")";
+                sheet.Cells["A1"].Formula = "IMSUM(\"5+6i\", \"i\", \"3\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual("8+7i", result);
@@ -56,10 +56,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMSUM(\"5+6i, 4+8j\")";
+                sheet.Cells["A1"].Formula = "IMSUM(\"5+6i\", \"4+8j\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), result);
+            }
+        }
+
+        [TestMethod]
+        public void ImProductShouldReturnCorrectResult_WithRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = "3+4i";
+                sheet.Cells["A2"].Value = "2+8i";
+                sheet.Cells["A3"].Value = "7+3i";
+                sheet.Cells["A4"].Formula = "IMSUM(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.AreEqual("12+15i", result);
             }
         }
     }
