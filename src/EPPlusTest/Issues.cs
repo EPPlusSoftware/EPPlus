@@ -5058,17 +5058,19 @@ namespace EPPlusTest
 
                     for (int row = 2; row < 21; row++)
                     {
-                        worksheet.Cells[row, col].Value = "ValueItem";
+                        worksheet.Cells[row, col].Value = "Value";
                     }
                 }
 
                 var range = worksheet.Cells["C:Z"];
 
                 var cfRule = range.ConditionalFormatting.AddContainsText();
-                cfRule.Text = "ValueItem";
+                cfRule.Text = "Value";
                 cfRule.Style.Fill.BackgroundColor.Color = Color.FromArgb(198, 239, 206);
 
                 worksheet.DeleteColumn(1);
+
+                Assert.AreEqual("NOT(ISERROR(SEARCH(\"Value\",B1)))", ((ExcelConditionalFormattingRule)cfRule).Formula);
 
                 package.Save();
             }
