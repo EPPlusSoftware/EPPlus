@@ -429,6 +429,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             Functions["imcos"] = new ImCos();
             Functions["imcsc"] = new ImCsc();
+            Functions["imcsch"] = new ImCsch();
         }
     }
 }
