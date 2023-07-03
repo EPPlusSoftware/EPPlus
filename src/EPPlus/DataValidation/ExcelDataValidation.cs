@@ -242,6 +242,11 @@ namespace OfficeOpenXml.DataValidation
 
             if (!string.IsNullOrEmpty(tempAddress.WorkSheetName)) 
             {
+                //var tokens = SourceCodeTokenizer.Default.Tokenize(tempAddress.Address, wsName);
+                //address = address.Substring(address.LastIndexOf('!') + 1);
+
+                address = address.Replace("'", "");
+
                 wsName = tempAddress.WorkSheetName + "!";
                 address = address.Replace(wsName, "");
             }
