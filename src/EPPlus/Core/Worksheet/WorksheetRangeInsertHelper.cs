@@ -255,7 +255,6 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         dv.SetAddress(newAddress.Address);
                     }
-                    
                 }
             }
             foreach (var dv in delDV)
