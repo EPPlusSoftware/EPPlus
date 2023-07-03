@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             Seed = Seed > 50 ? 0 : Seed + 5;
-            var val = new Random(System.DateTime.Now.Millisecond + Seed).NextDouble();
+            var val = new Random(DateTime.Now.Millisecond + Seed).NextDouble();
             return CreateResult(val, DataType.Decimal);
         }
         public override bool IsVolatile

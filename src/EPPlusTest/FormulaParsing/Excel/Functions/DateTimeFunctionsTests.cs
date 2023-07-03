@@ -34,7 +34,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;

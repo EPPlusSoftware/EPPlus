@@ -106,7 +106,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     return number;
                 }
-                else if (IsString(obj, false) && ConvertUtil.TryParseDateString(obj.ToString(), out System.DateTime date))
+                else if (IsString(obj, false) && ConvertUtil.TryParseDateString(obj.ToString(), out DateTime date))
                 {
                     return date.ToOADate();
                 }
