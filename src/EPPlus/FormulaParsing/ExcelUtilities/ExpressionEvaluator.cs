@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
     {
         private readonly WildCardValueMatcher2 _wildCardValueMatcher;
         private readonly ParsingContext _parsingContext;
-        private readonly TimeStringParser _timeStringParser = new TimeStringParser();
+        private readonly TimeStringParserV2 _timeStringParser = new TimeStringParserV2();
 
         public ExpressionEvaluator(ParsingContext ctx)
             : this(new WildCardValueMatcher2(), ctx)
@@ -202,10 +202,11 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             else
             {
                 var timeVal = _timeStringParser.Parse(right);
-                if(timeVal == double.NaN)
+                if(double.IsNaN(timeVal))
                 {
                     return false;
                 }
+                result = timeVal;
                 return true;
             }
         }
