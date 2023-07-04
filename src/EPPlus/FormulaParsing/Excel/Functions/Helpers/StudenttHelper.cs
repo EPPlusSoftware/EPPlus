@@ -7,28 +7,41 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal class StudenttHelper
     {
-        public static double PDF(double x, double degreesOfFreedom)
+        public static double ProbabilityDensityFunction(double x, double degreesOfFreedom)
         {
-            var term1 = GammaHelper.gamma((degreesOfFreedom + 1) / 2);
-            var term2 = System.Math.Sqrt(degreesOfFreedom * System.Math.PI) * GammaHelper.gamma(degreesOfFreedom / 2);
-            var term3 = System.Math.Pow(1 + System.Math.Pow(x, 2) / degreesOfFreedom, -1 * (degreesOfFreedom + 1) / 2);
 
-            var probabilityDensityFunction = term1 / term2 * term3;
+            //PDF when the initial formula has the argument cumulative = false.
+
+            var numeratorPDF = System.Math.Pow(degreesOfFreedom / (degreesOfFreedom + System.Math.Pow(x, 2)), (degreesOfFreedom + 1) / 2);
+            var denominatorPDF = System.Math.Sqrt(degreesOfFreedom) * BetaHelper.Beta(degreesOfFreedom / 2, 0.5d);
+
+            var probabilityDensityFunction = numeratorPDF / denominatorPDF;
             return probabilityDensityFunction;
         }
 
-        public static double CDF(double x, double degreesOfFreedom)
+        public static double CumulativeDistributionFuncion(double x, double degreesOfFreedom)
         {
-            //Cumulative dist function is cumulative pdf
 
-            var cumulativeDistributionFunction = 0d;
+            //Using regularized incomplete beta function to find the cumulative distribution function when initial formula has the argument cumulative = true.
 
-            for (var i = 0; i <= System.Math.Floor(x);  i++)
+            var cdf = 0d;
+
+            if (x <= 0)
             {
-                cumulativeDistributionFunction += PDF(i / 1000, degreesOfFreedom);
+                var arg1 = degreesOfFreedom / (System.Math.Pow(x, 2) + degreesOfFreedom);
+                var arg2 = degreesOfFreedom / 2;
+                var arg3 = 0.5d;
+                cdf = 0.5d * BetaHelper.IBeta(arg1, arg2, arg3);
+            }
+            else
+            {
+                var arg1 = System.Math.Pow(x, 2) / (System.Math.Pow(x, 2) + degreesOfFreedom);
+                var arg2 = 0.5d;
+                var arg3 = degreesOfFreedom / 2;
+                cdf = 0.5d * (BetaHelper.IBeta(arg1, arg2, arg3) + 1);
             }
 
-            return cumulativeDistributionFunction;
+            return cdf;
         }
     }
 }

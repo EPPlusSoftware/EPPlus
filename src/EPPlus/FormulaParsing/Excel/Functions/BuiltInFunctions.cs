@@ -235,6 +235,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["expondist"] = new Expondist();
             Functions["expon.dist"] = new ExponDotDist();
             Functions["steyx"] = new Steyx();
+            Functions["t.dist"] = new TDist();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();

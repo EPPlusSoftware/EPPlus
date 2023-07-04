@@ -18,17 +18,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var degreesOfFreedom = ArgToDecimal(arguments, 1);
             var cumulative = ArgToBool(arguments, 2);
 
+            //Based on out tests, degrees of freedom is rounded down to the nearest integer when input is a decimal.
+            degreesOfFreedom = System.Math.Floor(degreesOfFreedom);
+
+            if (degreesOfFreedom < 1)
+            {
+                return CreateResult(eErrorType.Div0);
+            }
+
             if (cumulative)
             {
-                var result = StudenttHelper.CDF(x, degreesOfFreedom);
+                var result = StudenttHelper.CumulativeDistributionFuncion(x, degreesOfFreedom);
                 return CreateResult(result, DataType.Decimal);
             }
             else
             {
-                var result = StudenttHelper.PDF(x, degreesOfFreedom);
+                var result = StudenttHelper.ProbabilityDensityFunction(x, degreesOfFreedom);
                 return CreateResult(result, DataType.Decimal);
             }
 
         }
+
     }
 }
