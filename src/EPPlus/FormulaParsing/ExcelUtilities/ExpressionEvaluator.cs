@@ -199,18 +199,15 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 result = val;
                 return true;
             }
-            else if(IsTimeString(right))
+            else
             {
-                result = _timeStringParser.Parse(right);
+                var timeVal = _timeStringParser.Parse(right);
+                if(timeVal == double.NaN)
+                {
+                    return false;
+                }
                 return true;
             }
-            return false;
-        }
-
-        private bool IsTimeString(string str)
-        {
-            if (string.IsNullOrEmpty(str) || str.Length < 5) return false;
-            return _timeStringParser.CanParse(str);
         }
     }
 }
