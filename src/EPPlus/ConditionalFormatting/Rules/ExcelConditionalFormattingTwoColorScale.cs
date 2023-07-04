@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
@@ -79,25 +79,25 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (!string.IsNullOrEmpty(lowVal))
             {
-                if (low == eExcelConditionalFormattingValueObjectType.Formula)
-                {
-                    LowValue.Formula = lowVal;
-                }
-                else
+                if(double.TryParse(lowVal, out Double res))
                 {
                     LowValue.Value = double.Parse(lowVal, CultureInfo.InvariantCulture);
                 }
+                else
+                {
+                    LowValue.Formula = lowVal;
+                }
             }
 
-            if (!string.IsNullOrEmpty(highVal)) 
+            if (!string.IsNullOrEmpty(highVal))
             {
-                if (high == eExcelConditionalFormattingValueObjectType.Formula)
+                if (double.TryParse(highVal, out Double res))
                 {
-                    HighValue.Formula = highVal;
+                    HighValue.Value = double.Parse(highVal, CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    HighValue.Value = double.Parse(highVal, CultureInfo.InvariantCulture);
+                    HighValue.Formula = highVal;
                 }
             }
         }
@@ -118,25 +118,10 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if(LowValue.Formula != null)
+                if (ExcelAddressBase.RefersToOtherWorksheet(LowValue.Formula, _ws.Name) || 
+                    ExcelAddressBase.RefersToOtherWorksheet(HighValue.Formula, _ws.Name))
                 {
-                    var tokens = SourceCodeTokenizer.Default.Tokenize(LowValue.Formula);
-
-                    if(tokens.Any(x => x.TokenType == TokenType.CellAddress) == true)
-                    {
-                        return true;
-                    }
-                }
-
-
-                if (HighValue.Formula != null)
-                {
-                    var tokens = SourceCodeTokenizer.Default.Tokenize(HighValue.Formula);
-
-                    if (tokens.Any(x => x.TokenType == TokenType.CellAddress) == true)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
 
                 return base.IsExtLst;
@@ -147,23 +132,58 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal virtual void ReadColors(XmlReader xr)
         {
             Type = eExcelConditionalFormattingRuleType.TwoColorScale;
-            LowValue.Color = (ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb")));
+
+            ReadColorAndColorSettings(xr, ref _lowValue);
 
             xr.Read();
 
-            HighValue.Color = (ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb")));
+            ReadColorAndColorSettings(xr, ref _highValue);
 
             xr.Read();
             xr.Read();
         }
+
+        protected void ReadColorAndColorSettings(XmlReader xr, ref ExcelConditionalFormattingColorScaleValue colSettings)
+        {
+            if (!string.IsNullOrEmpty(xr.GetAttribute("auto")))
+            {
+                colSettings.ColorSettings.Auto = xr.GetAttribute("auto") == "1" ? true : false;
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("theme")))
+            {
+                colSettings.ColorSettings.Theme = (eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("index")))
+            {
+                colSettings.ColorSettings.Index = int.Parse(xr.GetAttribute("index"));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("rgb")))
+            {
+                colSettings.ColorSettings.Color = (ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb")));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
+            {
+                colSettings.ColorSettings.Tint = double.Parse(xr.GetAttribute("tint"));
+            }
+
+            //return value;
+        }
+
+        protected ExcelConditionalFormattingColorScaleValue _lowValue;
+        protected ExcelConditionalFormattingColorScaleValue _highValue;
+
 
         /// <summary>
         /// Low Value for Two Color Scale Object Value
         /// </summary>
         public ExcelConditionalFormattingColorScaleValue LowValue
         {
-            get;
-            set;
+            get { return _lowValue; }
+            set { _lowValue = value; }
         }
 
         /// <summary>
@@ -171,8 +191,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public ExcelConditionalFormattingColorScaleValue HighValue
         {
-            get;
-            set;
+            get { return _highValue; }
+            set { _highValue = value; }
         }
     }
 }

@@ -2453,30 +2453,66 @@ namespace EPPlusTest.ConditionalFormatting
 
                 colorScale.HighValue.Formula = "B6";
 
-                pck.SaveAs("C:\\epplusTest\\Testoutput\\colourScaleTest.xlsx");
+                //colorScale.LowValue.Color = Color.AliceBlue;
+                colorScale.LowValue.ColorSettings.SetColor(eThemeSchemeColor.Accent3);
+                colorScale.LowValue.ColorSettings.Tint = 0.5f;
+
+                colorScale.MiddleValue.ColorSettings.Index = 4;
+                colorScale.MiddleValue.ColorSettings.Tint = 1.0f;
+
+                colorScale.HighValue.ColorSettings.Auto = true;
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                //pck.SaveAs("C:\\epplusTest\\Testoutput\\ThemeTest.xlsx");
+
+                var readPackage = new ExcelPackage(stream);
+                
+                var scale = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
+
+                var threeCol = scale.As.ThreeColorScale;
+
+                Assert.AreEqual(scale.As.ThreeColorScale.MiddleValue.Formula, "$B$2");
+                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.Formula, "IF($B$5 < extSheet!A1, 5, 10)");
+                Assert.AreEqual(scale.As.ThreeColorScale.HighValue.Formula, "B6");
+
+                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Theme, eThemeSchemeColor.Accent3);
+                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Tint, 0.5f);
+
+                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Index, 4);
+                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Tint, 1.0f);
+
+                Assert.AreEqual(threeCol.HighValue.ColorSettings.Auto, true);
             }
         }
 
 
-        //[TestMethod]
-        //public void CF_Between_Formula()
-        //{
-        //    using (var pck = new ExcelPackage())
-        //    {
-        //        var sheet = pck.Workbook.Worksheets.Add("colourScale");
+        [TestMethod]
+        public void CF_Between_Formula()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("colourScale");
 
-        //        var between = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
+                var between = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
 
-        //        between.Formula = "B1";
-        //        between.Formula2 = "B2";
+                between.Formula = "B1";
+                between.Formula2 = "B2";
 
-        //        var lessThanOrEqualTo = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
+                var lessThanOrEqualTo = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
 
+                pck.SaveAs("C:\\epplusTest\\Testoutput\\betweenTest.xlsx");
+                //colorScale.LowValue.Value = 
 
-        //        pck.SaveAs("C:\\epplusTest\\Testoutput\\betweenTest.xlsx");
-        //        //colorScale.LowValue.Value = 
+                var readPck = new ExcelPackage("C:\\epplusTest\\Testoutput\\betweenTest.xlsx");
 
-        //    }
-        //}
+                var readSheet = readPck.Workbook.Worksheets[0];
+                var readBetween = readSheet.ConditionalFormatting[0];
+
+                Assert.AreEqual("B1", readBetween.As.Between.Formula);
+                Assert.AreEqual("B2", readBetween.As.Between.Formula2);
+            }
+        }
     }
 }

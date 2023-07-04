@@ -57,13 +57,24 @@ namespace OfficeOpenXml.ConditionalFormatting
             { 
                 return _colorSettings;
             }
+            internal set 
+            { 
+                _colorSettings = value;
+            }
         }
 
         internal void SetColor(eStyleClass styleClass, eStyleProperty styleProperty, object value)
         {
             if (styleProperty == eStyleProperty.Color)
             {
-               _color = (Color)value;
+                if(value != null)
+                {
+                    _color = (Color)value;
+                }
+                else
+                {
+                    _color = Color.Empty;
+                }
             }
         }
 
@@ -133,7 +144,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 // Only store the formula if the Object Value type is Formula
                 if (Type != eExcelConditionalFormattingValueObjectType.Percentile)
                 {
-                    Value = double.NaN;
+                    _value = double.NaN;
                     _formula = value;
                 }
                 else

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.RichData.Types;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
@@ -16,9 +18,6 @@ namespace OfficeOpenXml.ConditionalFormatting
     public class ExcelConditionalFormattingThreeColorScale : ExcelConditionalFormattingTwoColorScale,
     IExcelConditionalFormattingThreeColorScale
     {
-
-        private Color tempColor;
-
         internal ExcelConditionalFormattingThreeColorScale(ExcelAddress address, int priority, ExcelWorksheet ws)
             : base(address, priority, ws)
         {
@@ -54,26 +53,27 @@ namespace OfficeOpenXml.ConditionalFormatting
             highVal, 
             xr)
         {
-            MiddleValue = new ExcelConditionalFormattingColorScaleValue(
-            middle,
-            ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
-            Priority);
-
-            MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Percentile;
+            if(MiddleValue == null)
+            {
+                MiddleValue = new ExcelConditionalFormattingColorScaleValue(
+                middle,
+                ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
+                Priority);
+            }
 
             if (!string.IsNullOrEmpty(middleVal))
             {
-                if (middle == eExcelConditionalFormattingValueObjectType.Formula)
-                {
-                    MiddleValue.Formula = middleVal;
-                }
-                else
+                MiddleValue.Type = (eExcelConditionalFormattingValueObjectType)middle;
+
+                if (double.TryParse(middleVal, out Double res))
                 {
                     MiddleValue.Value = double.Parse(middleVal, CultureInfo.InvariantCulture);
                 }
+                else
+                {
+                    MiddleValue.Formula = middleVal;
+                }
             }
-
-            MiddleValue.Color = tempColor;
         }
 
         internal ExcelConditionalFormattingThreeColorScale(ExcelConditionalFormattingThreeColorScale copy) : base(copy)
@@ -108,26 +108,35 @@ namespace OfficeOpenXml.ConditionalFormatting
             //we don't call base as the order of nodes are different. Second node is middle.
 
             Type = eExcelConditionalFormattingRuleType.ThreeColorScale;
-            string test = xr.GetAttribute("rgb");
 
-            LowValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(test);
-
-            xr.Read();
-
-            tempColor = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+            ReadColorAndColorSettings(xr, ref _lowValue);
 
             xr.Read();
 
-            HighValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+            MiddleValue = new ExcelConditionalFormattingColorScaleValue(
+               eExcelConditionalFormattingValueObjectType.Percentile,
+               ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
+               Priority);
+
+            ReadColorAndColorSettings(xr, ref _middleValue);
+
+            xr.Read();
+
+            ReadColorAndColorSettings(xr, ref _highValue);
 
             xr.Read();
             xr.Read();
         }
 
+        ExcelConditionalFormattingColorScaleValue _middleValue;
+
+        /// <summary>
+        /// The middle value.
+        /// </summary>
         public ExcelConditionalFormattingColorScaleValue MiddleValue
         {
-            get;
-            set;
+            get { return _middleValue; }
+            set { _middleValue = value; }
         }
     }
 }

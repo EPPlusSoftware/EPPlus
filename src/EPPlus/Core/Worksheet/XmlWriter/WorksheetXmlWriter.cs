@@ -1305,7 +1305,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                         cache.Append($" theme=\"{(int)values[j].ColorSettings.Theme}\"");
                                     }
 
-                                    if (values[j].ColorSettings.Color != null)
+                                    if (values[j].ColorSettings.Color != null && values[j].ColorSettings.Color != Color.Empty)
                                     {
                                         cache.Append($" rgb=\"{values[j].Color.ToColorString()}\"");
                                     }
@@ -1318,6 +1318,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     if (values[j].ColorSettings.Index != null)
                                     {
                                         cache.Append($" index=\"{values[j].ColorSettings.Index}\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Tint != null)
+                                    {
+                                        cache.Append($" tint=\"{values[j].ColorSettings.Tint}\"");
                                     }
 
                                     cache.Append($"/>");

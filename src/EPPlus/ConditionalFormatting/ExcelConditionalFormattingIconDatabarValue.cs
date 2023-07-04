@@ -211,7 +211,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 // Only store the formula if the Object Value type is Formula
                 if (Type != eExcelConditionalFormattingValueObjectType.Percentile)
                 {
-                    Value = double.NaN;
+                    _value = double.NaN;
                     _formula = value;
                 }
                 else
