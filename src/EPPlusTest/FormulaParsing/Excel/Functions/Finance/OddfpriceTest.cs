@@ -170,7 +170,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
         }
 
         [TestMethod]
-
         public void OddfpriceExample()
         {
             using (var package = new ExcelPackage())
