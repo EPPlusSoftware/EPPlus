@@ -12,7 +12,10 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -20,14 +23,16 @@ namespace OfficeOpenXml.Core.Worksheet
     {
         internal static void AdjustDvAndCfFormulasRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
-            foreach (var dv in ws.DataValidations)
+            for (int i = 0; i < ws.DataValidations.Count; i++)
             {
-                if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
+                var type = ws.DataValidations.GetFormulas(ws.DataValidations[i], out IExcelDataValidationFormula Formula, out IExcelDataValidationFormula Formula2);
+
+                if (Formula != null)
                 {
-                    dvFormula.Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula.Formula.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
-                    if (dv is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula2)
+                    Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(Formula.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                    if (Formula2 != null)
                     {
-                        dvFormula2.Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula2.Formula2.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                        Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(Formula2.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
                     }
                 }
             }
@@ -44,64 +49,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        //internal static void AdjustDvAndCfFormulasDelete(ExcelRangeBase range, ExcelAddressBase affectedRange, eShiftTypeDelete shift)
-        //{
-        //    var ws=range.Worksheet;
-        //    foreach (var dv in ws.DataValidations)
-        //    {
-        //        if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
-        //        {
-        //            dvFormula.Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula.Formula.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
-        //            if (dv is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula2)
-        //            {
-        //                dvFormula2.Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula2.Formula2.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
-        //            }
-        //        }
-        //    }
-
-        //    foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
-        //    {
-        //        if (!string.IsNullOrEmpty(cf.Formula))
-        //        {
-        //            cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, range, affectedRange, shift, ws.Name, ws.Name);
-        //        }
-        //        if (!string.IsNullOrEmpty(cf.Formula2))
-        //        {
-        //            cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, range, affectedRange, shift, ws.Name, ws.Name);
-        //        }
-        //    }
-        //}
-        //internal static void AdjustDvAndCfFormulasInsert(ExcelRangeBase range, ExcelAddressBase affectedRange, eShiftTypeInsert shift)
-        //{
-        //    var ws = range.Worksheet;
-        //    foreach (var dv in ws.DataValidations)
-        //    {
-        //        if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
-        //        {
-        //            dvFormula.Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula.Formula.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
-        //            if (dv is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula2)
-        //            {
-        //                dvFormula2.Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula2.Formula2.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
-        //            }
-        //        }
-        //    }
-
-        //    foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
-        //    {
-        //        if (!string.IsNullOrEmpty(cf.Formula))
-        //        {
-        //            cf.Formula = UpdateFirstCellInFormula(cf.Formula, range, affectedRange, shift);
-        //        }
-        //        if (!string.IsNullOrEmpty(cf.Formula2))
-        //        {
-        //            cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, range, affectedRange, shift, ws.Name, ws.Name);
-        //        }
-        //    }
-        //}
 
         internal static void AdjustDvAndCfFormulasColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
-            foreach (var dv in ws.DataValidations)
+            foreach (ExcelDataValidation dv in ws.DataValidations)
             {
                 if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
                 {
