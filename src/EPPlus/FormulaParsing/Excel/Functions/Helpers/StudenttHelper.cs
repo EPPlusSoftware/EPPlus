@@ -15,11 +15,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var numeratorPDF = System.Math.Pow(degreesOfFreedom / (degreesOfFreedom + System.Math.Pow(x, 2)), (degreesOfFreedom + 1) / 2);
             var denominatorPDF = System.Math.Sqrt(degreesOfFreedom) * BetaHelper.Beta(degreesOfFreedom / 2, 0.5d);
 
-            var probabilityDensityFunction = numeratorPDF / denominatorPDF;
-            return probabilityDensityFunction;
+            var pdf = numeratorPDF / denominatorPDF;
+            return pdf;
         }
 
-        public static double CumulativeDistributionFuncion(double x, double degreesOfFreedom)
+        public static double CumulativeDistributionFunction(double x, double degreesOfFreedom)
         {
 
             //Using regularized incomplete beta function to find the cumulative distribution function when initial formula has the argument cumulative = true.
