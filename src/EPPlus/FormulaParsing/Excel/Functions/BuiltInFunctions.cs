@@ -433,6 +433,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imcsc"] = new ImCsc();
             Functions["imsin"] = new ImSin();
             Functions["imcsch"] = new ImCsch();
+            Functions["imcot"] = new ImCot();
         }
     }
 }
