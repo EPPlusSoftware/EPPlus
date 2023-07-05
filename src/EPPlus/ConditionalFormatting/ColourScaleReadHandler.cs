@@ -23,13 +23,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             var lowType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>();
             string lowVal = xr.GetAttribute("val");
 
-            lowVal = ReadExtFormulaOrValue(xr, lowVal, lowType);
+            if(address == null)
+            {
+                lowVal = ReadExtFormulaOrValue(xr, lowVal, lowType);
+            }
 
             xr.Read();
             var middleOrHigh = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>();
             string middleOrHighVal = xr.GetAttribute("val");
 
-            middleOrHighVal = ReadExtFormulaOrValue(xr, middleOrHighVal, middleOrHigh);
+            if (address == null)
+            {
+                middleOrHighVal = ReadExtFormulaOrValue(xr, middleOrHighVal, middleOrHigh);
+            }
 
             xr.Read();
 
@@ -51,7 +57,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             var highType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>();
             string highVal = xr.GetAttribute("val");
 
-            highVal = ReadExtFormulaOrValue(xr, highVal, highType);
+            if (address == null)
+            {
+                highVal = ReadExtFormulaOrValue(xr, highVal, highType);
+            }
 
             xr.Read();
 

@@ -1666,44 +1666,68 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     {
                         cache.Append("<colorScale>");
 
-                        var low = ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).LowValue;
-                        var high = ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).HighValue;
-
-                        cache.Append($"<cfvo type=\"{low.Type.ToString().UnCapitalizeFirstLetter()}\" ");
-
-                        if (!double.IsNaN(low.Value))
+                        var colorScaleValues = new List<ExcelConditionalFormattingColorScaleValue>()
                         {
-                            cache.Append($"val=\"{low.Value}\"");
-                        }
-                        cache.Append("/>");
+                            ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).LowValue,
+                            ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).HighValue
+                        };
 
+                        ExcelConditionalFormattingColorScaleValue middle = null;
                         if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
                         {
-                            var middleValue = conditionalFormat.As.ThreeColorScale.MiddleValue;
-                            cache.Append($"<cfvo type=\"{middleValue.Type.ToString().UnCapitalizeFirstLetter()}\" ");
-                            if (!double.IsNaN(middleValue.Value))
+                            colorScaleValues.Insert(1, conditionalFormat.As.ThreeColorScale.MiddleValue);
+                        }
+
+                        for(int j = 0; j < colorScaleValues.Count; j++)
+                        {
+                            var cSValue = colorScaleValues[j];
+
+                            cache.Append($"<cfvo type=\"{cSValue.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+
+                            if (!double.IsNaN(cSValue.Value))
                             {
-                                cache.Append($"val=\"{middleValue.Value}\"");
+                                cache.Append($"val=\"{cSValue.Value}\"");
+                            }
+                            else if (!string.IsNullOrEmpty(cSValue.Formula))
+                            {
+                                cache.Append($"val=\"{cSValue.Formula}\"");
                             }
                             cache.Append("/>");
                         }
 
-                        cache.Append($"<cfvo type=\"{high.Type.ToString().UnCapitalizeFirstLetter()}\" ");
-                        if (!double.IsNaN(high.Value))
+                        for (int j = 0; j < colorScaleValues.Count; j++)
                         {
-                            cache.Append($"val=\"{high.Value}\"");
+                            var cSValue = colorScaleValues[j];
+
+                            cache.Append($"<{prefix}color");
+
+                            if (cSValue.ColorSettings.Theme != null)
+                            {
+                                cache.Append($" theme=\"{(int)cSValue.ColorSettings.Theme}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Color != null && cSValue.ColorSettings.Color != Color.Empty)
+                            {
+                                cache.Append($" rgb=\"{cSValue.Color.ToColorString()}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)
+                            {
+                                cache.Append($" auto=\"1\"");
+                            }
+
+                            if (cSValue.ColorSettings.Index != null)
+                            {
+                                cache.Append($" index=\"{cSValue.ColorSettings.Index}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Tint != null)
+                            {
+                                cache.Append($" tint=\"{cSValue.ColorSettings.Tint}\"");
+                            }
+
+                            cache.Append($"/>");
                         }
-                        cache.Append("/>");
-
-                        cache.Append($"<color rgb=\"{low.Color.ToColorString()}\"/>");
-
-                        if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
-                        {
-                            var middleValue = conditionalFormat.As.ThreeColorScale.MiddleValue;
-                            cache.Append($"<color rgb=\"{middleValue.Color.ToColorString()}\"/>");
-                        }
-
-                        cache.Append($"<color rgb=\"{high.Color.ToColorString()}\"/>");
 
                         cache.Append("</colorScale>");
                     }
