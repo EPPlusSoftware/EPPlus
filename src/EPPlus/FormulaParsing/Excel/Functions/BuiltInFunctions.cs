@@ -235,6 +235,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["expondist"] = new Expondist();
             Functions["expon.dist"] = new ExponDotDist();
             Functions["steyx"] = new Steyx();
+            Functions["t.dist"] = new TDist();
+            Functions["t.dist.2t"] = new TDist2t();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -429,6 +431,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             Functions["imcos"] = new ImCos();
             Functions["imcsc"] = new ImCsc();
+            Functions["imsin"] = new ImSin();
+            Functions["imcsch"] = new ImCsch();
             Functions["imcot"] = new ImCot();
         }
     }
