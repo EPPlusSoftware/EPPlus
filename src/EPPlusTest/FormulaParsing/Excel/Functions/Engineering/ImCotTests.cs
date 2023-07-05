@@ -180,8 +180,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMCOT(\"12213123+3i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-                Assert.AreEqual("-0.00479142196748279-1.00128485557364i", result);
-
+#if Core
+                Assert.AreEqual("-0.00479142196748279-1.00128485557364i", result); 
+#else
+                Assert.AreEqual("-0.00479142196748275-1.00128485557364i", result);   //Small difference in the result compared to .NET Core beacause .NET Framework uses more decimals.
+#endif
             }
             Thread.CurrentThread.CurrentCulture = ci;
         }
