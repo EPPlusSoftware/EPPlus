@@ -5,6 +5,9 @@ using OfficeOpenXml.Utils;
 using System.Globalization;
 using System;
 using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Style;
+using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -24,12 +27,40 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             Uid = NewId();
 
-            //Excel default blue?
-            Color = Color.FromArgb(int.Parse("FF638EC6", NumberStyles.HexNumber));
+            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, null);
+            BorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
+            NegativeFillColor = new ExcelDxfColor(null, eStyleClass.Fill, ValueWasSet);
+            NegativeBorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
+            AxisColor = new ExcelDxfColor(null, eStyleClass.Border, null);
 
-            var colVal = int.Parse("FFFF0000", NumberStyles.HexNumber);
-            NegativeFillColor = Color.FromArgb(colVal);
-            AxisColor = Color.FromArgb(colVal);
+            Style.Fill.Style = eDxfFillStyle.GradientFill;
+
+            //Excel default blue?
+            FillColor.Color = Color.FromArgb(int.Parse("FF638EC6", NumberStyles.HexNumber));
+
+            //var colVal = int.Parse("FFFF0000", NumberStyles.HexNumber);
+            //NegativeFillColor.Color = Color.FromArgb(colVal);
+            //NegativeBorderColor.Color = Color.FromArgb(colVal);
+
+            //AxisColor.Color = Color.FromArgb(colVal);
+
+        }
+
+        internal void ValueWasSet(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+        {
+            if(styleClass == eStyleClass.Border)
+            {
+                Border = true;
+                if(NegativeBorderColor.HasValue)
+                {
+                    NegativeBarBorderColorSameAsPositive = false;
+                }
+            }
+
+            if(styleClass == eStyleClass.Fill)
+            {
+                NegativeBarColorSameAsPositive = false;
+            }
         }
 
         internal ExcelConditionalFormattingDataBar(
@@ -55,6 +86,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
 
             xr.Read();
+
             var colVal = int.Parse(xr.GetAttribute("rgb"),NumberStyles.HexNumber);
             Color = Color.FromArgb(colVal);
             //Correct the alpha
@@ -97,7 +129,19 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Show value
         /// </summary>
-        public bool ShowValue { get; set; }
+        public bool ShowValue { get; set; } = true;
+
+        public bool Gradient { get; set; } = true;
+
+        public bool Border { get; set; } = false;
+
+        public bool NegativeBarColorSameAsPositive { get; set; } = true;
+
+        public bool NegativeBarBorderColorSameAsPositive { get; set; } = true;
+
+
+        public eExcelDatabarAxisPosition AxisPosition { get; set; }
+
         /// <summary>
         /// Databar Low Value
         /// </summary>
@@ -108,14 +152,31 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public ExcelConditionalFormattingIconDataBarValue HighValue { get; internal set; }
         /// <summary>
-        /// The color of the databar
+        /// Shorthand for the Fillcolor.Color property as it is the most commonly used
         /// </summary>
-        public Color Color { get; set; }
+        public Color Color 
+        { 
+            get 
+            {
+                if(FillColor.Color != null)
+                {
+                    return (Color)FillColor.Color;
+                }
+                else
+                {
+                    return Color.Empty;
+                }
+            } 
+            set
+            {
+                FillColor.Color = value;
+            }
+        }
 
-        public Color FillColor { get; set; }
-        public Color BorderColor { get; set; }
-        public Color NegativeFillColor { get; set; }
-        public Color NegativeBorderColor { get; set; }
-        public Color AxisColor { get; set; }
+        public ExcelDxfColor FillColor { get; set; }
+        public ExcelDxfColor BorderColor { get; set; }
+        public ExcelDxfColor NegativeFillColor { get; set; }
+        public ExcelDxfColor NegativeBorderColor { get; set; }
+        public ExcelDxfColor AxisColor { get; set; }
     }
 }

@@ -2514,7 +2514,6 @@ namespace EPPlusTest.ConditionalFormatting
 
                 colorScale.HighValue.Formula = "B6";
 
-                //colorScale.LowValue.Color = Color.AliceBlue;
                 colorScale.LowValue.ColorSettings.SetColor(eThemeSchemeColor.Accent3);
                 colorScale.LowValue.ColorSettings.Tint = 0.5f;
 
@@ -2548,8 +2547,6 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-
-
         [TestMethod]
         public void CF_Between_Formula()
         {
@@ -2572,8 +2569,50 @@ namespace EPPlusTest.ConditionalFormatting
                 var readSheet = readPck.Workbook.Worksheets[0];
                 var readBetween = readSheet.ConditionalFormatting[0];
 
+
+
                 Assert.AreEqual("B1", readBetween.As.Between.Formula);
                 Assert.AreEqual("B2", readBetween.As.Between.Formula2);
+            }
+        }
+
+        [TestMethod]
+        public void CF_DataBar_ColorSettings_WriteRead()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("databar");
+
+                var bar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A12"), Color.Red);
+
+                for(int i = 1; i < 11; i++)
+                {
+                    sheet.Cells[i,1].Value = i-6;
+                }
+
+                bar.LowValue.Formula = "B5";
+
+                bar.HighValue.Formula = "Z34";
+
+                bar.FillColor.Color = Color.Aqua;
+
+                bar.BorderColor.Clear();
+                bar.BorderColor.Theme = eThemeSchemeColor.Accent4;
+
+                bar.NegativeFillColor.Color = Color.Red;
+
+                bar.NegativeBorderColor.Auto = true;
+
+                bar.AxisColor.Color = Color.MediumPurple;
+
+                pck.SaveAs("C:\\epplusTest\\Testoutput\\DatabarColorTests.xlsx");
+
+                var readPck = new ExcelPackage("C:\\epplusTest\\Testoutput\\DatabarColorTests.xlsx");
+
+                var sheet2 = readPck.Workbook.Worksheets[0];
+
+                var cf = sheet2.ConditionalFormatting[0];
+                //
             }
         }
     }

@@ -26,6 +26,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -1093,7 +1094,41 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             cache.Append($"<{prefix}cfRule type=\"{format.Type.ToString().UnCapitalizeFirstLetter()}\" id=\"{uid}\">");
 
                             cache.Append($"<{prefix}dataBar minLength=\"{dataBar.LowValue.minLength}\" ");
-                            cache.Append($"maxLength=\"{dataBar.HighValue.maxLength}\">");
+                            cache.Append($"maxLength=\"{dataBar.HighValue.maxLength}\"");
+
+                            if(dataBar.ShowValue == false)
+                            {
+                                cache.Append($" showValue=\"0\"");
+                            }
+
+                            if (dataBar.Border)
+                            {
+                                cache.Append($" border=\"1\"");
+                            }
+
+                            if (dataBar.Gradient == false)
+                            {
+                                cache.Append($" gradient=\"0\"");
+                            }
+
+                            //TODO: Add direction
+
+                            if(dataBar.NegativeBarColorSameAsPositive)
+                            {
+                                cache.Append($" negativeBarColorSameAsPositive=\"1\"");
+                            }
+
+                            if (!dataBar.NegativeBarBorderColorSameAsPositive)
+                            {
+                                cache.Append($" negativeBarBorderColorSameAsPositive=\"0\"");
+                            }
+
+                            if(dataBar.AxisPosition != eExcelDatabarAxisPosition.Automatic)
+                            {
+                                cache.Append($" axisPostition=\"{dataBar.AxisPosition.ToEnumString()}\"");
+                            }
+
+                            cache.Append(">");
 
                             cache.Append($"<{prefix}cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"");
 
@@ -1137,8 +1172,28 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 cache.Append("/>");
                             }
 
-                            cache.Append($"<{prefix}negativeFillColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
-                            cache.Append($"<{prefix}axisColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
+                            if(dataBar.BorderColor != null)
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.BorderColor, "borderColor");
+                            }
+
+                            if(dataBar.NegativeFillColor != null) 
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.NegativeFillColor, "negativeFillColor");
+                            }
+
+                            if (dataBar.NegativeBorderColor != null)
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.NegativeBorderColor, "negativeBorderColor");
+                            }
+
+                            if (dataBar.AxisColor != null)
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.AxisColor, "axisColor");
+                            }
+
+                            //cache.Append($"<{prefix}negativeFillColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
+                            //cache.Append($"<{prefix}axisColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
 
                             cache.Append($"</{prefix}dataBar>");
                         }
@@ -1742,7 +1797,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             cache.Append($"<cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
                             cache.Append($"<cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
 
-                            cache.Append($"<color rgb=\"{dataBar.Color.ToColorString()}\"/>");
+                            WriteDxfColor(prefix, cache, dataBar.FillColor);
+                            //cache.Append($"<color rgb=\"{dataBar.Color.ToColorString()}\"/>");
 
                             cache.Append($"</dataBar>");
 
@@ -1822,6 +1878,38 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             }
 
             return cache.ToString();
+        }
+
+        void WriteDxfColor(string prefix, StringBuilder cache, ExcelDxfColor col, string nodeName = "color")
+        {
+            cache.Append($"<{prefix}{nodeName}");
+
+            if (col.Theme != null)
+            {
+                cache.Append($" theme=\"{(int)col.Theme}\"");
+            }
+
+            if (col.Color != null && col.Color != Color.Empty)
+            {
+                cache.Append($" rgb=\"{((Color)col.Color).ToColorString()}\"");
+            }
+
+            if (col.Auto != null && col.Auto != false)
+            {
+                cache.Append($" auto=\"1\"");
+            }
+
+            if (col.Index != null)
+            {
+                cache.Append($" index=\"{col.Index}\"");
+            }
+
+            if (col.Tint != null)
+            {
+                cache.Append($" tint=\"{col.Tint}\"");
+            }
+
+            cache.Append($"/>");
         }
     }
 }

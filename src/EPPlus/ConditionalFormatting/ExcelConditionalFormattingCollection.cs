@@ -114,31 +114,31 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             if (xr.LocalName == "fillColor")
                             {
-                                dataBar.FillColor = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
+                                dataBar.FillColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
                                 xr.Read();
                             }
 
                             if (xr.LocalName == "borderColor")
                             {
-                                dataBar.BorderColor = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
+                                dataBar.BorderColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
                                 xr.Read();
                             }
 
                             if (xr.LocalName == "negativeFillColor")
                             {
-                                dataBar.NegativeFillColor = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
+                                dataBar.NegativeFillColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
                                 xr.Read();
                             }
 
                             if (xr.LocalName == "negativeBorderColor")
                             {
-                                dataBar.NegativeBorderColor = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
+                                dataBar.NegativeBorderColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
                                 xr.Read();
                             }
 
                             if (xr.LocalName == "axisColor")
                             {
-                                dataBar.AxisColor = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
+                                dataBar.AxisColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
                                 xr.Read();
                             }
 

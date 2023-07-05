@@ -1069,4 +1069,23 @@ namespace OfficeOpenXml.ConditionalFormatting
         NoIcon = 0x120
     }
 
+    /// <summary>
+    /// The position of the axis between positive and negative numbers on databar
+    /// </summary>
+    public enum eExcelDatabarAxisPosition
+    {
+        /// <summary>
+        /// (Display at a variable position based on negative values.)
+        /// This is the default.
+        /// </summary>
+        Automatic,
+        /// <summary>
+        /// Always put the axis at the cell midpoint.
+        /// </summary>
+        Middle,
+        /// <summary>
+        /// Show negative values bars in the same direction as positive.
+        /// </summary>
+        None
+    }
 }
