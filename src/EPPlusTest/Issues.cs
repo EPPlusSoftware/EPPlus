@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -51,9 +52,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Xml;
 
 namespace EPPlusTest
 {
@@ -5094,10 +5093,35 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s485()
+        public void s486()
         {
-            using (var package = OpenTemplatePackage("s485.xlsx"))
+            using (var package = OpenTemplatePackage("s486.xlsx"))
             {
+                var ws = package.Workbook.Worksheets[1];
+
+                ws.Cells["A2"].Value = "sampleuser";
+                ws.Cells["B2"].Value = "123456";
+                ws.Cells["C2"].Value = "Sample";
+                ws.Cells["D2"].Value = "User";
+                ws.Cells["E2"].Value = "Sample User";
+                ws.Cells["F2"].Value = "40798";
+                ws.Cells["G2"].Value = "AGI_IG3004-1";
+                ws.Cells["H2"].Value = "Navigating The River";
+                ws.Cells["I2"].Value = "eLearning";
+                ws.Cells["J2"].Value = "Onboarding";
+                ws.Cells["K2"].Value = 0.01388889;
+                ws.Cells["L2"].Value = 1;
+                ws.Cells["M2"].Value = 270864;
+                ws.Cells["N2"].Value = "Administrative";
+                ws.Cells["O2"].Value = 43641;
+                ws.Cells["P2"].Value = 43648;
+                ws.Cells["Q2"].Value = 42039;
+                ws.Cells["R2"].Value = "Manually Completed";
+                ws.Cells["T2"].Value = "Yes";
+                ws.Cells["U2"].Value = "No";
+                var pt = package.Workbook.Worksheets[0].PivotTables[0];
+                pt.CacheDefinition.Refresh();
+
                 SaveAndCleanup(package);
             }
         }

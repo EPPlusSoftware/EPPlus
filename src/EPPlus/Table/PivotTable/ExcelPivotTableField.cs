@@ -979,6 +979,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     item.GetXmlString(sb);
                 }
+
                 if (MultipleItemSelectionAllowed && IsPageField) PageFieldSettings.SelectedItem = -1;
                 var node = (XmlElement)CreateNode("d:items");       //Creates or return the existing node
                 node.InnerXml = sb.ToString();
