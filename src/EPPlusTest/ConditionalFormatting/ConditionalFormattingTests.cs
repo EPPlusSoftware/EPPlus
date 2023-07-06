@@ -833,6 +833,19 @@ namespace EPPlusTest.ConditionalFormatting
                 });
         }
 
+        [TestMethod]
+        public void EndsWith_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddEndsWith(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.EndsWith);
+        }
 
         [TestMethod]
         public void Expression_ReadWrite()
@@ -844,6 +857,21 @@ namespace EPPlusTest.ConditionalFormatting
                 {
                     return (ExcelConditionalFormattingRule)sheet.ConditionalFormatting.AddExpression(address);
                 });
+        }
+
+
+        [TestMethod]
+        public void Expression_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddExpression(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.Expression);
         }
 
 
@@ -860,6 +888,20 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        public void GreaterThanOrEqual_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddGreaterThanOrEqual(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.GreaterThanOrEqual);
+        }
+
+        [TestMethod]
         public void LessThanOrEqual_ReadWrite()
         {
             var type = eExcelConditionalFormattingRuleType.LessThanOrEqual;
@@ -869,6 +911,20 @@ namespace EPPlusTest.ConditionalFormatting
                 {
                     return (ExcelConditionalFormattingRule)sheet.ConditionalFormatting.AddLessThanOrEqual(address);
                 });
+        }
+
+        [TestMethod]
+        public void LessThanOrEqual_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddLessThanOrEqual(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.LessThanOrEqual);
         }
 
         [TestMethod]
@@ -900,6 +956,20 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        public void NotBetween_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddNotBetween(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.NotBetween);
+        }
+
+        [TestMethod]
         public void ContainsErrors_ReadWrite()
         {
             var type = eExcelConditionalFormattingRuleType.ContainsErrors;
@@ -925,6 +995,21 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        public void Equal_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddEqual(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.Equal);
+        }
+
+
+        [TestMethod]
         public void NotEqual_ReadWrite()
         {
             var type = eExcelConditionalFormattingRuleType.NotEqual;
@@ -934,6 +1019,20 @@ namespace EPPlusTest.ConditionalFormatting
                 {
                     return (ExcelConditionalFormattingRule)sheet.ConditionalFormatting.AddNotEqual(address);
                 });
+        }
+
+        [TestMethod]
+        public void NotEqual_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddNotEqual(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.NotEqual);
         }
 
         [TestMethod]
