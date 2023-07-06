@@ -19,18 +19,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
     internal class FinancialDaysEuropean_30_360 : FinancialDaysBase, IFinanicalDays
     {
 
-        public double GetDaysBetweenDates(System.DateTime startDate, System.DateTime endDate)
+        public double GetDaysBetweenDates(DateTime startDate, DateTime endDate)
         {
             var start = FinancialDayFactory.Create(startDate, DayCountBasis.Actual_Actual);
             var end = FinancialDayFactory.Create(endDate, DayCountBasis.Actual_Actual);
             return GetDaysBetweenDates(start, end, (int)DaysPerYear);
         }
 
-        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate)
+        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate, bool returnZeroIfNegative)
         {
             if (startDate.Day == 31) startDate.Day = 30;
             if (endDate.Day == 31) endDate.Day = 30;
-            return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear);
+            return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear, returnZeroIfNegative);
+        }
+
+        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate)
+        {
+            return GetDaysBetweenDates(startDate, endDate, false);
         }
 
         public double GetCoupdays(FinancialDay start, FinancialDay end, int frequency)

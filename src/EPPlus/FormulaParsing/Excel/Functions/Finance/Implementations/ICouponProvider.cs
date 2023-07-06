@@ -16,16 +16,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     public interface ICouponProvider
     {
-        double GetCoupdaybs(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis);
+        double GetCoupdaybs(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
 
-        double GetCoupdays(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis);
+        double GetCoupdays(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
 
-        double GetCoupdaysnc(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis);
+        double GetCoupdaysnc(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
 
-        System.DateTime GetCoupsncd(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis);
+        DateTime GetCoupsncd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
 
-        double GetCoupnum(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis);
+        double GetCoupnum(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
 
-        System.DateTime GetCouppcd(System.DateTime settlement, System.DateTime maturity, int frequency, DayCountBasis basis);
+        DateTime GetCouppcd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
     }
 }

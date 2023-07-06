@@ -238,9 +238,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="index"></param>
+        /// <param name="emptyValue">Value returned if datatype is empty</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IList<FunctionArgument> arguments, int index)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index, int emptyValue=0)
         {
             var arg = arguments[index];
             switch (arg.DataType)
@@ -248,7 +249,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 case DataType.ExcelError:
                     throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
                 case DataType.Empty:
-                    return 0;
+                    return emptyValue;
                 default:
                     var val = arg.ValueFirst;
                     return (int)_argumentParsers.GetParser(DataType.Integer).Parse(val);
@@ -472,7 +473,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected bool IsNumeric(object val)
         {
             if (val == null) return false;
-            return (TypeCompat.IsPrimitive(val) || val is double || val is decimal || val is System.DateTime || val is TimeSpan);
+            return (TypeCompat.IsPrimitive(val) || val is double || val is decimal || val is DateTime || val is TimeSpan);
         }
 
         protected bool IsBool(object val)

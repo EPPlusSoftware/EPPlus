@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
     {
         private readonly WildCardValueMatcher2 _wildCardValueMatcher;
         private readonly ParsingContext _parsingContext;
-        private readonly TimeStringParser _timeStringParser = new TimeStringParser();
+        private readonly TimeStringParserV2 _timeStringParser = new TimeStringParserV2();
 
         public ExpressionEvaluator(ParsingContext ctx)
             : this(new WildCardValueMatcher2(), ctx)
@@ -199,18 +199,16 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 result = val;
                 return true;
             }
-            else if(IsTimeString(right))
+            else
             {
-                result = _timeStringParser.Parse(right);
+                var timeVal = _timeStringParser.Parse(right);
+                if(double.IsNaN(timeVal))
+                {
+                    return false;
+                }
+                result = timeVal;
                 return true;
             }
-            return false;
-        }
-
-        private bool IsTimeString(string str)
-        {
-            if (string.IsNullOrEmpty(str) || str.Length < 5) return false;
-            return _timeStringParser.CanParse(str);
         }
     }
 }

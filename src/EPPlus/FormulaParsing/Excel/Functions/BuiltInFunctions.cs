@@ -18,7 +18,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
@@ -26,7 +26,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -236,6 +235,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["expondist"] = new Expondist();
             Functions["expon.dist"] = new ExponDotDist();
             Functions["steyx"] = new Steyx();
+            Functions["t.dist"] = new TDist();
+            Functions["t.dist.2t"] = new TDist2t();
+            Functions["t.dist.rt"] = new TDistRt();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -354,6 +356,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["pv"] = new Pv();
             Functions["fv"] = new Fv();
             Functions["npv"] = new Npv();
+            Functions["oddfprice"] = new Oddfprice();
+            Functions["oddfyield"] = new Oddfyield();
+            Functions["oddlyield"] = new Oddlyield();
+            Functions["oddlprice"] = new Oddlprice();
             Functions["rate"] = new Rate();
             Functions["nper"] = new Nper();
             Functions["nominal"] = new Nominal();
@@ -408,6 +414,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["besselk"] = new BesselK();
             Functions["bessely"] = new BesselY();
             Functions["complex"] = new Complex();
+            Functions["imabs"] = new ImAbs();
+            Functions["imexp"] = new ImExp();
+            Functions["imsum"] = new ImSum();
+            Functions["imreal"] = new ImReal();
+            Functions["imsqrt"] = new ImSqrt();
+            Functions["imaginary"] = new Imaginary();
+
+            Functions["imsub"] = new ImSub();
+            Functions["imtan"] = new ImTan();
+
+
+            Functions["imargument"] = new ImArgument();
+            Functions["imsub"] = new ImSub();
+            Functions["imcosh"] = new ImCosh();
+            Functions["improduct"] = new ImProduct();
+
+            Functions["imcos"] = new ImCos();
+            Functions["imcsc"] = new ImCsc();
+            Functions["imsin"] = new ImSin();
+            Functions["imcsch"] = new ImCsch();
+            Functions["imcot"] = new ImCot();
         }
     }
 }

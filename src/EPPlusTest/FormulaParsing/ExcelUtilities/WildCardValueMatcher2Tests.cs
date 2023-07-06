@@ -51,10 +51,19 @@ namespace EPPlusTest.ExcelUtilities
         [TestMethod]
         public void IsMatchShouldReturn0WhenSingleCharWildCardMatches()
         {
-            var string1 = "a?c?";
-            var string2 = "abcd";
-            var result = _matcher.IsMatch(string1, string2);
+            var pattern = "a?c?";
+            var candidate = "abcd";
+            var result = _matcher.IsMatch(pattern, candidate);
             Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleCandidateShorterThanPattern()
+        {
+            var pattern = "*~*";
+            var candidate = "#";
+            var result = _matcher.IsMatch(pattern, candidate);
+            Assert.AreNotEqual(0, result);
         }
 
         [TestMethod]
@@ -66,7 +75,7 @@ namespace EPPlusTest.ExcelUtilities
             Assert.AreEqual(0, result);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void ShouldHandleMultiCharMatch_Match2()
         {
             // TODO: make this work...
@@ -137,6 +146,22 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
+        public void ShouldHandleTildeAndAsterisk3()
+        {
+            var string1 = "a*";
+            var result1 = _matcher.IsMatch("*~*", string1);
+            Assert.AreEqual(0, result1);
+        }
+
+        [TestMethod]
+        public void ShouldHandleTildeAndAsterisk4()
+        {
+            var string1 = "*a";
+            var result1 = _matcher.IsMatch("~*a", string1);
+            Assert.AreEqual(0, result1);
+        }
+
+        [TestMethod]
         public void ShouldHandleTildeAndQuestionMark1()
         {
             var string1 = "a?c";
@@ -161,6 +186,49 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
+        public void ShouldHandleTildeAndQuestionMark3()
+        {
+            var string1 = "?c";
+            var result1 = _matcher.IsMatch("~?c", string1);
+            Assert.AreEqual(0, result1);
+        }
+
+        [TestMethod]
+        public void ShouldHandleTilde1()
+        {
+            var string1 = "~";
+            var result1 = _matcher.IsMatch("~", string1);
+            Assert.AreEqual(0, result1);
+        }
+
+        [TestMethod]
+        public void ShouldHandleTilde2()
+        {
+            var string1 = "a~b";
+            var result1 = _matcher.IsMatch("a~b", string1);
+            Assert.AreEqual(0, result1);
+        }
+
+        [TestMethod]
+        public void ShouldHandleTilde3()
+        {
+            var string1 = "a~b";
+            var result1 = _matcher.IsMatch("a~~?", string1);
+            Assert.AreEqual(0, result1);
+        }
+
+        [TestMethod]
+        public void ShouldHandleTilde4()
+        {
+            var string1 = "a~?";
+            var result1 = _matcher.IsMatch("a~~~?", string1);
+            Assert.AreEqual(0, result1);
+            var string2 = "a~b";
+            var result2 = _matcher.IsMatch("a~~~?", string2);
+            Assert.AreNotEqual(0, result2);
+        }
+
+        [TestMethod]
         public void ShouldHandleNull()
         {
             string string2 = default;
@@ -174,6 +242,22 @@ namespace EPPlusTest.ExcelUtilities
             var string2 = string.Empty;
             var result2 = _matcher.IsMatch("a~?c?e", string2);
             Assert.AreNotEqual(0, result2);
+        }
+
+        [TestMethod]
+        public void ShouldHandleWhitespace1()
+        {
+            var string2 = " ";
+            var result2 = _matcher.IsMatch("a~?c?e", string2);
+            Assert.AreNotEqual(0, result2);
+        }
+
+        [TestMethod]
+        public void ShouldHandleWhitespace2()
+        {
+            var string2 = " ";
+            var result2 = _matcher.IsMatch(" ", string2);
+            Assert.AreEqual(0, result2);
         }
     }
 }
