@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             while (uBound - lBound > epsilon)
             {
                 var intersect = (lBound + uBound) / 2d;
-                var cdf = CumulativeDistributionFuncion(intersect, degreesOfFreedom);
+                var cdf = CumulativeDistributionFunction(intersect, degreesOfFreedom);
 
                 var diff = Math.Abs(cdf - probability);
                 if (Math.Abs(cdf - probability) < epsilon)
