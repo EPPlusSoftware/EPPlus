@@ -1754,7 +1754,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         {
                             var cSValue = colorScaleValues[j];
 
-                            cache.Append($"<{prefix}color");
+                            cache.Append($"<color");
 
                             if (cSValue.ColorSettings.Theme != null)
                             {

@@ -27,11 +27,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             Uid = NewId();
 
-            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, null);
-            BorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
-            NegativeFillColor = new ExcelDxfColor(null, eStyleClass.Fill, ValueWasSet);
-            NegativeBorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
-            AxisColor = new ExcelDxfColor(null, eStyleClass.Border, null);
+            InitalizeDxfColours();
 
             Style.Fill.Style = eDxfFillStyle.GradientFill;
 
@@ -44,6 +40,15 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             //AxisColor.Color = Color.FromArgb(colVal);
 
+        }
+
+        private void InitalizeDxfColours()
+        {
+            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, null);
+            BorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
+            NegativeFillColor = new ExcelDxfColor(null, eStyleClass.Fill, ValueWasSet);
+            NegativeBorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
+            AxisColor = new ExcelDxfColor(null, eStyleClass.Border, null);
         }
 
         internal void ValueWasSet(eStyleClass styleClass, eStyleProperty styleProperty, object value)
@@ -87,6 +92,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             xr.Read();
 
+            InitalizeDxfColours();
+
             var colVal = int.Parse(xr.GetAttribute("rgb"),NumberStyles.HexNumber);
             Color = Color.FromArgb(colVal);
             //Correct the alpha
@@ -111,9 +118,18 @@ namespace OfficeOpenXml.ConditionalFormatting
             Uid = copy.Uid;
             LowValue = copy.LowValue;
             HighValue = copy.HighValue;
-            Color = copy.Color;
+            FillColor = copy.FillColor;
+            BorderColor = copy.BorderColor;
+            NegativeBorderColor = copy.NegativeBorderColor;
             NegativeFillColor = copy.NegativeFillColor;
             AxisColor = copy.AxisColor;
+
+            Border = copy.Border;
+            ShowValue = copy.ShowValue;
+            Gradient = copy.Gradient;
+            NegativeBarBorderColorSameAsPositive = copy.NegativeBarBorderColorSameAsPositive;
+            NegativeBarColorSameAsPositive = copy.NegativeBarColorSameAsPositive;
+            AxisPosition = copy.AxisPosition;
         }
 
         internal static string NewId()

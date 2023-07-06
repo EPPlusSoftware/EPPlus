@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.ConditionalFormatting.Contracts;
-
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -10,6 +11,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -114,32 +116,27 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             if (xr.LocalName == "fillColor")
                             {
-                                dataBar.FillColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
-                                xr.Read();
+                                ReadCT_Color(xr, dataBar.FillColor);
                             }
 
                             if (xr.LocalName == "borderColor")
                             {
-                                dataBar.BorderColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
-                                xr.Read();
+                                ReadCT_Color(xr, dataBar.BorderColor);
                             }
 
                             if (xr.LocalName == "negativeFillColor")
                             {
-                                dataBar.NegativeFillColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
-                                xr.Read();
+                                ReadCT_Color(xr, dataBar.NegativeFillColor);
                             }
 
                             if (xr.LocalName == "negativeBorderColor")
                             {
-                                dataBar.NegativeBorderColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
-                                xr.Read();
+                                ReadCT_Color(xr, dataBar.NegativeBorderColor);
                             }
 
                             if (xr.LocalName == "axisColor")
                             {
-                                dataBar.AxisColor.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
-                                xr.Read();
+                                ReadCT_Color(xr, dataBar.AxisColor);
                             }
 
                             // /DataBar-> /cfRule -> xm:sqref -> textValue
@@ -349,6 +346,37 @@ namespace OfficeOpenXml.ConditionalFormatting
                     }
                 }
             }
+        }
+
+        void ReadCT_Color(XmlReader xr, ExcelDxfColor color)
+        {
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("theme")))
+            {
+                color.Theme = (eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("rgb")))
+            {
+                color.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("auto")))
+            {
+                color.Auto = xr.GetAttribute("auto") == "1" ? true : false;
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("index")))
+            {
+                color.Index = int.Parse(xr.GetAttribute("index"));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
+            {
+                color.Tint = double.Parse(xr.GetAttribute("tint"));
+            }
+
+            xr.Read();
         }
 
         ExcelConditionalFormattingIconDataBarValue[] CreateBaseIconArr(eExcelConditionalFormattingRuleType type)

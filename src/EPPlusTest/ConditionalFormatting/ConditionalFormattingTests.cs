@@ -80,6 +80,12 @@ namespace EPPlusTest.ConditionalFormatting
             var year = $"{DateTime.Now.Year}";
             string date = $"{DateTime.Now.Year}-{DateTime.Now.Month}-";
 
+            int startOffset = (int)DateTime.Now.DayOfWeek;
+
+            var lastWeekDate = DateTime.Now.AddDays(-7 - startOffset);
+
+            string lastWeek = $"{lastWeekDate.Year}-{lastWeekDate.Month}-";
+
             string lastMonth = $"{year}-{DateTime.Now.AddMonths(-1).Month}-";
             string thisMonth = $"{year}-{DateTime.Now.Month}-";
             string nextMonth = $"{year}-{DateTime.Now.AddMonths(+1).Month}-";
@@ -91,26 +97,33 @@ namespace EPPlusTest.ConditionalFormatting
                 wks.Cells[i, 4].Value = i % 2;
                 wks.Cells[i, 6].Value = numbers[i];
 
-                wks.Cells[i, 8].Value = date + $"{i + 10}";
-                wks.Cells[i + 7, 8].Value = date + $"{i + 10 + 7}";
+                wks.Cells[i, 8].Value = lastWeekDate.AddDays(i - 1).ToShortDateString();
+                wks.Cells[i + 7, 8].Value = lastWeekDate.AddDays(i + 7 - 1).ToShortDateString();
+                wks.Cells[i + 14, 8].Value = lastWeekDate.AddDays(i + 14 - 1).ToShortDateString();
 
-                wks.Cells[i, 9].Value = date + $"{i + 10}";
-                wks.Cells[i + 7, 9].Value = date + $"{i + 10 + 7}";
+                wks.Cells[i, 9].Value = lastWeekDate.AddDays(i - 1).ToShortDateString();
+                wks.Cells[i + 7, 9].Value = lastWeekDate.AddDays(i + 7 - 1).ToShortDateString();
+                wks.Cells[i + 14, 9].Value = lastWeekDate.AddDays(i + 14 - 1).ToShortDateString();
 
-                wks.Cells[i, 10].Value = date + $"{i + 10}";
-                wks.Cells[i + 7, 10].Value = date + $"{i + 10 + 7}";
+                wks.Cells[i, 10].Value = lastWeekDate.AddDays(i - 1).ToShortDateString();
+                wks.Cells[i + 7, 10].Value = lastWeekDate.AddDays(i + 7 - 1).ToShortDateString();
+                wks.Cells[i + 14, 10].Value = lastWeekDate.AddDays(i + 14 - 1).ToShortDateString();
 
-                wks.Cells[i, 11].Value = date + $"{i + 10}";
-                wks.Cells[i + 7, 11].Value = date + $"{i + 10 + 7}";
+                wks.Cells[i, 11].Value = lastWeekDate.AddDays(i - 1).ToShortDateString();
+                wks.Cells[i + 7, 11].Value = lastWeekDate.AddDays(i + 7 - 1).ToShortDateString();
+                wks.Cells[i + 14, 11].Value = lastWeekDate.AddDays(i + 14 - 1).ToShortDateString();
 
-                wks.Cells[i, 12].Value = date + $"{i + 10}";
-                wks.Cells[i + 7, 12].Value = date + $"{i + 10 + 7}";
+                wks.Cells[i, 12].Value = lastWeekDate.AddDays(i - 1).ToShortDateString();
+                wks.Cells[i + 7, 12].Value = lastWeekDate.AddDays(i + 7 - 1).ToShortDateString();
+                wks.Cells[i + 14, 12].Value = lastWeekDate.AddDays(i + 14 - 1).ToShortDateString();
 
-                wks.Cells[i, 13].Value = date + $"{i + 10}";
-                wks.Cells[i + 7, 13].Value = date + $"{i + 10 + 7}";
+                wks.Cells[i, 13].Value = lastWeekDate.AddDays(i - 1).ToShortDateString();
+                wks.Cells[i + 7, 13].Value = lastWeekDate.AddDays(i + 7 - 1).ToShortDateString();
+                wks.Cells[i + 14, 13].Value = lastWeekDate.AddDays(i + 14 - 1).ToShortDateString();
 
-                wks.Cells[i, 14].Value = date + $"{i + 10}";
-                wks.Cells[i + 7, 14].Value = date + $"{i + 10 + 7}";
+                wks.Cells[i, 14].Value = lastWeekDate.AddDays(i - 1).ToShortDateString();
+                wks.Cells[i + 7, 14].Value = lastWeekDate.AddDays(i + 7 - 1).ToShortDateString();
+                wks.Cells[i + 14, 14].Value = lastWeekDate.AddDays(i + 14 - 1).ToShortDateString();
 
                 wks.Cells[i, 15].Value = lastMonth + $"{i + 10}";
                 wks.Cells[i + 7, 15].Value = thisMonth + $"{i + 10}";
@@ -299,12 +312,34 @@ namespace EPPlusTest.ConditionalFormatting
                 var ws = p.Workbook.Worksheets.Add("Equal");
                 var cf = ws.Cells["A1"].ConditionalFormatting.AddEqual();
                 cf.Formula = "1";
+
                 p.Save();
                 using (var p2 = new ExcelPackage(p.Stream))
                 {
                     ws = p2.Workbook.Worksheets[0];
                     cf = ws.ConditionalFormatting[0].As.Equal;
                     Assert.AreEqual("1", cf.Formula);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WriteReadEqualExt()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Equal");
+                var ws2 = p.Workbook.Worksheets.Add("EqualExt");
+
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddEqual();
+                cf.Formula = "EqualExt!A1";
+
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.Equal;
+                    Assert.AreEqual("EqualExt!A1", cf.Formula);
                 }
             }
         }
@@ -773,6 +808,20 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        public void BeginsWith_ReadWriteExt()
+        {
+            var package = new ExcelPackage();
+            var sheet1 = package.Workbook.Worksheets.Add("local");
+            var sheet2 = package.Workbook.Worksheets.Add("ext");
+
+            var cf = sheet1.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
+
+            cf.Formula = "ext!A1";
+
+            TestReadWrite(package, (ExcelConditionalFormattingRule)cf, eExcelConditionalFormattingRuleType.BeginsWith);
+        }
+
+        [TestMethod]
         public void EndsWith_ReadWrite()
         {
             var type = eExcelConditionalFormattingRuleType.EndsWith;
@@ -1096,7 +1145,7 @@ namespace EPPlusTest.ConditionalFormatting
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("Last7Days");
 
-            var sevenDays = sheet.ConditionalFormatting.AddLast7Days(new ExcelAddress(1, 8, 10, 8));
+            var sevenDays = sheet.ConditionalFormatting.AddLast7Days(new ExcelAddress(1, 8, 30, 8));
 
             sevenDays.Style.Fill.BackgroundColor.Color = Color.Red;
             sevenDays.Style.Font.Color.Color = Color.Yellow;
@@ -1115,7 +1164,7 @@ namespace EPPlusTest.ConditionalFormatting
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("Yesterday");
 
-            var yesterdayFormatting = sheet.ConditionalFormatting.AddYesterday(new ExcelAddress(1, 9, 10, 9));
+            var yesterdayFormatting = sheet.ConditionalFormatting.AddYesterday(new ExcelAddress(1, 9, 30, 9));
 
             yesterdayFormatting.Style.Fill.BackgroundColor.Color = Color.Gray;
             yesterdayFormatting.Style.Font.Color.Color = Color.Red;
@@ -1134,7 +1183,7 @@ namespace EPPlusTest.ConditionalFormatting
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("Today");
 
-            var todayFormatting = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 10, 10, 10));
+            var todayFormatting = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 10, 30, 10));
 
             todayFormatting.Style.Fill.BackgroundColor.Color = Color.Yellow;
             todayFormatting.Style.Font.Color.Color = Color.Green;
@@ -1154,7 +1203,7 @@ namespace EPPlusTest.ConditionalFormatting
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("Tomorrow");
 
-            var tomorrow = sheet.ConditionalFormatting.AddTomorrow(new ExcelAddress(1, 11, 10, 11));
+            var tomorrow = sheet.ConditionalFormatting.AddTomorrow(new ExcelAddress(1, 11, 30, 11));
 
             tomorrow.Style.Fill.BackgroundColor.Color = Color.Green;
             tomorrow.Style.Font.Color.Color = Color.Orange;
@@ -1740,7 +1789,7 @@ namespace EPPlusTest.ConditionalFormatting
             {
                 var wks = pck.Workbook.Worksheets.Add("FormattingTest");
 
-                var dateFormatting = wks.ConditionalFormatting.AddLast7Days(new ExcelAddress(1, 12, 10, 12));
+                var dateFormatting = wks.ConditionalFormatting.AddLast7Days(new ExcelAddress(1, 12, 30, 12));
 
                 MemoryStream stream = new MemoryStream();
                 pck.SaveAs(stream);
@@ -2465,8 +2514,6 @@ namespace EPPlusTest.ConditionalFormatting
                 var stream = new MemoryStream();
                 pck.SaveAs(stream);
 
-                //pck.SaveAs("C:\\epplusTest\\Testoutput\\ThemeTest.xlsx");
-
                 var readPackage = new ExcelPackage(stream);
                 
                 var scale = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
@@ -2484,8 +2531,6 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Tint, 1.0f);
 
                 Assert.AreEqual(threeCol.HighValue.ColorSettings.Auto, true);
-
-                //readPackage.SaveAs("C:\\epplusTest\\Testoutput\\ColourScaleColorSettingsTest.xlsx");
             }
         }
 
@@ -2525,8 +2570,6 @@ namespace EPPlusTest.ConditionalFormatting
                 var stream = new MemoryStream();
                 pck.SaveAs(stream);
 
-                pck.SaveAs("C:\\epplusTest\\Testoutput\\ThemeTest.xlsx");
-
                 var readPackage = new ExcelPackage(stream);
 
                 var scale = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
@@ -2561,10 +2604,12 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var lessThanOrEqualTo = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
 
-                pck.SaveAs("C:\\epplusTest\\Testoutput\\betweenTest.xlsx");
+
+                MemoryStream stream = new MemoryStream();
+                pck.SaveAs(stream);
                 //colorScale.LowValue.Value = 
 
-                var readPck = new ExcelPackage("C:\\epplusTest\\Testoutput\\betweenTest.xlsx");
+                var readPck = new ExcelPackage(stream);
 
                 var readSheet = readPck.Workbook.Worksheets[0];
                 var readBetween = readSheet.ConditionalFormatting[0];
@@ -2598,21 +2643,33 @@ namespace EPPlusTest.ConditionalFormatting
 
                 bar.BorderColor.Clear();
                 bar.BorderColor.Theme = eThemeSchemeColor.Accent4;
+                bar.BorderColor.Tint = 0.5f;
 
                 bar.NegativeFillColor.Color = Color.Red;
 
                 bar.NegativeBorderColor.Auto = true;
+                bar.NegativeBorderColor.Tint = 0.5f;
 
-                bar.AxisColor.Color = Color.MediumPurple;
+                bar.AxisColor.Index = 2;
 
-                pck.SaveAs("C:\\epplusTest\\Testoutput\\DatabarColorTests.xlsx");
+                MemoryStream stream = new MemoryStream();
 
-                var readPck = new ExcelPackage("C:\\epplusTest\\Testoutput\\DatabarColorTests.xlsx");
+                pck.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
 
                 var sheet2 = readPck.Workbook.Worksheets[0];
 
                 var cf = sheet2.ConditionalFormatting[0];
-                //
+
+                var bar2 = cf.As.DataBar;
+
+                Assert.AreEqual(Color.FromArgb(255, Color.Aqua), bar2.FillColor.Color);
+                Assert.AreEqual(eThemeSchemeColor.Accent4, bar2.BorderColor.Theme);
+                Assert.AreEqual(0.5, bar2.BorderColor.Tint);
+                Assert.AreEqual(Color.FromArgb(0, Color.Red), bar2.NegativeFillColor.Color);
+                Assert.AreEqual(true, bar2.NegativeBorderColor.Auto);
+                Assert.AreEqual(2, bar2.AxisColor.Index);
             }
         }
     }
