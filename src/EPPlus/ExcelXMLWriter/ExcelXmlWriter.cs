@@ -639,7 +639,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             if (_ws.DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
             {
-                cache.Append($"sqref=\"{_ws.DataValidations[i].Address.ToString().Replace(",", " ")}\" ");
+               cache.Append($"sqref=\"{_ws.DataValidations[i].Address.Address.Replace(",", " ")}\" ");
             }
 
             cache.Append($"xr:uid=\"{_ws.DataValidations[i].Uid}\"");

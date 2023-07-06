@@ -559,18 +559,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    if (cf.Address.Address != newAddress.Address)
-                    {
-                        if (cf.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
-                        {
-                            var cfr = ((ExcelConditionalFormattingRule)cf);
-                            cfr.Formula = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula, cf.Address, newAddress);
-                            cfr.Formula2 = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula2, cf.Address, newAddress);
-                        }
-
-                        ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
-                    }
-
+                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
                 }
             }
             deletedCF.ForEach(cf => ws.ConditionalFormatting.Remove(cf));
@@ -589,13 +578,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
-                    {
-                        if (dv.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
-                        {
-                            dvFormula.Formula.ExcelFormula = WorksheetRangeHelper.AdjustStartCellForFormula(dvFormula.Formula.ExcelFormula, dv.Address, newAddress);
-                        }
-                    }
                     dv.SetAddress(newAddress.Address);
                 }
             }
