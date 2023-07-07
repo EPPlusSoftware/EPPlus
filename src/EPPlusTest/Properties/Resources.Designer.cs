@@ -247,6 +247,18 @@ namespace EPPlusTest.Properties {
                 return File.ReadAllBytes(path + "\\Resources\\car-silhouette-color-low-poly.svg");
             }
         }
+        internal static byte[] TestDoc_SharedFormula_xlsx
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\TestDoc_SharedFormula.xlsx");
+            }
+        }
         internal static byte[] Svg2ByteArray
         {
             get
