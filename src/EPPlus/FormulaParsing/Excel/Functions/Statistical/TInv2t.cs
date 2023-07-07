@@ -25,8 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "7.0",
-    Description = "Returns left tailed inverse of Students T-distribution")]
-    internal class TInv : ExcelFunction
+    Description = "Returns two tailed inverse of Students T-distribution")]
+    internal class TInv2t : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
 
@@ -38,17 +38,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
             degreesOfFreedom = System.Math.Floor(degreesOfFreedom);
 
-            if (probability <= 0 || probability > 1)
+            if (probability <= 0 || probability > 1 || degreesOfFreedom < 1)
             {
                 return CreateResult(eErrorType.Num);
             }
 
-            if (degreesOfFreedom < 1)
-            {
-                return CreateResult(eErrorType.Num);
-            }
-
-            return CreateResult(StudenttHelper.InverseTFunc(probability, degreesOfFreedom), DataType.Decimal);
+            return CreateResult(Math.Abs(StudenttHelper.InverseTFunc(probability / 2d, degreesOfFreedom)), DataType.Decimal);
         }
     }
 }
