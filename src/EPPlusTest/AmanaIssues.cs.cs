@@ -31,9 +31,11 @@ namespace EPPlusTest
             using (MemoryStream excelStream = new MemoryStream())
 
             {
+
                 excelStream.Write(excelTestFile, 0, excelTestFile.Length);
 
                 using (ExcelPackage exlPackage = new ExcelPackage(excelStream))
+
 
                 {
                     exlPackage.Workbook.Calculate();
