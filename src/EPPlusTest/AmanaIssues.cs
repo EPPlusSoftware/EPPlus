@@ -8,11 +8,7 @@ namespace EPPlusTest
     [TestClass]
     public class AmanaIssues : TestBase
     {
-        /// <summary>
-        /// Issue: If a cell is rich text and gets referenced by another cell
-        /// by formula the Cell gets the Xml-Node as Value.
-        /// </summary>
-        [TestMethod]
+        [TestMethod, Description("Issue: If a cell is rich text and gets referenced by another cell by formula the Cell gets the Xml-Node as Value")]
         public void IssueTableWithXmlTags()
         {
             //Arrange
