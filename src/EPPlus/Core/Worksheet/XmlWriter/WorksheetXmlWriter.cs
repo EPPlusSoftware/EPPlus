@@ -12,21 +12,28 @@
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.ExcelXMLWriter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -77,6 +84,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 UpdateMergedCells(sw, prefix);
             }
 
+            FindNodePositionAndClearIt(sw, xml, "conditionalFormatting", ref startOfNode, ref endOfNode);
+            sw.Write(UpdateConditionalFormattings(prefix));
+
             if (_ws.GetNode("d:dataValidations") != null)
             {
                 FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
@@ -95,15 +105,21 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             FindNodePositionAndClearIt(sw, xml, "colBreaks", ref startOfNode, ref endOfNode);
             UpdateColBreaks(sw, prefix);
 
+            ExtLstHelper extLst = new ExtLstHelper(xml);
+
+            FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+
             //Careful. Ensure that we only do appropriate extLst things when there are objects to operate on.
             //Creating an empty DataValidations Node in ExtLst for example generates a corrupt excelfile that passes validation tool checks.
-            if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.GetExtLstCount() != 0)
+            if (_ws.DataValidations.GetExtLstCount() != 0)
             {
-                ExtLstHelper extLst = new ExtLstHelper(xml);
-                FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-
                 extLst.InsertExt(ExtLstUris.DataValidationsUri, UpdateExtLstDataValidations(prefix), "");
+            }
 
+            extLst.InsertExt(ExtLstUris.ConditionalFormattingUri, UpdateExtLstConditionalFormatting(), "");
+
+            if (extLst.extCount != 0)
+            {
                 sw.Write(extLst.GetWholeExtLst());
             }
 
@@ -958,6 +974,942 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             cache.Append("</ext>");
 
             return cache.ToString();
+        }
+
+        private string UpdateConditionalFormattingAttributes(
+           ExcelConditionalFormattingRule conditionalFormat)
+        {
+            StringBuilder cache = new StringBuilder();
+
+            if (conditionalFormat.DxfId != -1)
+            {
+                cache.Append($"dxfId=\"{conditionalFormat.DxfId}\" ");
+            }
+
+            cache.Append($"priority=\"{conditionalFormat.Priority}\" ");
+
+            if (conditionalFormat.StopIfTrue)
+            {
+                cache.Append($"stopIfTrue=\"1\" ");
+            }
+
+            if (conditionalFormat.AboveAverage == false)
+            {
+                cache.Append($"aboveAverage=\"0\" ");
+            }
+
+            if ((bool)conditionalFormat.Percent)
+            {
+                cache.Append($"percent=\"1\" ");
+            }
+
+            if ((bool)conditionalFormat.Bottom)
+            {
+                cache.Append($"bottom=\"1\" ");
+            }
+
+            if (conditionalFormat.Operator != null)
+            {
+                cache.Append($"operator=\"{conditionalFormat.Operator.ToEnumString()}\" ");
+            }
+
+            if (string.IsNullOrEmpty(conditionalFormat._text) == false)
+            {
+                cache.Append($"text=\"{conditionalFormat._text.EncodeXMLAttribute()}\" ");
+            }
+
+            if (conditionalFormat.TimePeriod != null)
+            {
+                cache.Append($"timePeriod=\"{conditionalFormat.TimePeriod.ToEnumString()}\" ");
+            }
+
+            if (conditionalFormat._rank != 0)
+            {
+                cache.Append($"rank=\"{conditionalFormat.Rank}\" ");
+            }
+
+            if (conditionalFormat.StdDev != 0)
+            {
+                cache.Append($"stdDev=\"{conditionalFormat.StdDev}\" ");
+            }
+
+            if ((bool)conditionalFormat.EqualAverage)
+            {
+                cache.Append("equalAverage=\"1\" ");
+            }
+
+            return cache.ToString();
+        }
+
+        private string UpdateExtLstConditionalFormatting()
+        {
+            var cache = new StringBuilder();
+
+            var addressDict = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
+
+            //Find each extLst cfRule for given address
+            foreach (var format in _ws.ConditionalFormatting)
+            {
+                if (format is ExcelConditionalFormattingRule cf)
+                {
+                    if (cf.IsExtLst)
+                    {
+                        if(addressDict.ContainsKey(cf.Address.Address))
+                        {
+                            addressDict[cf.Address.Address].Add(cf);
+                        }
+                        else
+                        {
+                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                        }
+                    }
+                }
+            }
+
+            if (addressDict.Count > 0)
+            {
+                string prefix = "x14:";
+                cache.Append($"<ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ConditionalFormattingUri}\">");
+
+                cache.Append($"<{prefix}conditionalFormattings>");
+
+                foreach (var ruleList in addressDict)
+                {
+                    for (int i = 0; i < ruleList.Value.Count; i++)
+                    {
+                        var format = ruleList.Value[i];
+
+                        if (i == 0)
+                        {
+                            cache.Append($"<{prefix}conditionalFormatting xmlns:xm=\"{ExcelPackage.schemaMainXm}\">");
+                        }
+
+                        string uid;
+
+                        if (format.Type == eExcelConditionalFormattingRuleType.DataBar)
+                        {
+                            var dataBar = (ExcelConditionalFormattingDataBar)format;
+                            uid = dataBar.Uid.ToString();
+
+                            cache.Append($"<{prefix}cfRule type=\"{format.Type.ToString().UnCapitalizeFirstLetter()}\" id=\"{uid}\">");
+
+                            cache.Append($"<{prefix}dataBar minLength=\"{dataBar.LowValue.minLength}\" ");
+                            cache.Append($"maxLength=\"{dataBar.HighValue.maxLength}\"");
+
+                            if(dataBar.ShowValue == false)
+                            {
+                                cache.Append($" showValue=\"0\"");
+                            }
+
+                            if (dataBar.Border)
+                            {
+                                cache.Append($" border=\"1\"");
+                            }
+
+                            if (dataBar.Gradient == false)
+                            {
+                                cache.Append($" gradient=\"0\"");
+                            }
+
+                            //TODO: Add direction
+
+                            if(dataBar.NegativeBarColorSameAsPositive)
+                            {
+                                cache.Append($" negativeBarColorSameAsPositive=\"1\"");
+                            }
+
+                            if (!dataBar.NegativeBarBorderColorSameAsPositive)
+                            {
+                                cache.Append($" negativeBarBorderColorSameAsPositive=\"0\"");
+                            }
+
+                            if(dataBar.AxisPosition != eExcelDatabarAxisPosition.Automatic)
+                            {
+                                cache.Append($" axisPostition=\"{dataBar.AxisPosition.ToEnumString()}\"");
+                            }
+
+                            cache.Append(">");
+
+                            cache.Append($"<{prefix}cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"");
+
+                            if (dataBar.LowValue.HasValueOrFormula)
+                            {
+                                cache.Append(">");
+                                //ConvertUtil.ExcelEscapeAndEncodeString(
+                                if(!string.IsNullOrEmpty(dataBar.LowValue.Formula))
+                                {
+                                    cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(dataBar.LowValue.Formula)}</xm:f>");
+                                }
+                                else
+                                {
+                                    cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
+                                }
+                                cache.Append($"</x14:cfvo>");
+                            }
+                            else
+                            {
+                                cache.Append("/>");
+                            }
+
+                            cache.Append($"<{prefix}cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"");
+
+                            if (dataBar.HighValue.HasValueOrFormula)
+                            {
+                                cache.Append(">");
+                                //ConvertUtil.ExcelEscapeAndEncodeString(
+                                if (!string.IsNullOrEmpty(dataBar.HighValue.Formula))
+                                {
+                                    cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(dataBar.HighValue.Formula)}</xm:f>");
+                                }
+                                else
+                                {
+                                    cache.Append($"<xm:f>{dataBar.HighValue.Value}</xm:f>");
+                                }
+                                cache.Append($"</x14:cfvo>");
+                            }
+                            else
+                            {
+                                cache.Append("/>");
+                            }
+
+                            if(dataBar.BorderColor != null)
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.BorderColor, "borderColor");
+                            }
+
+                            if(dataBar.NegativeFillColor != null) 
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.NegativeFillColor, "negativeFillColor");
+                            }
+
+                            if (dataBar.NegativeBorderColor != null)
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.NegativeBorderColor, "negativeBorderColor");
+                            }
+
+                            if (dataBar.AxisColor != null)
+                            {
+                                WriteDxfColor(prefix, cache, dataBar.AxisColor, "axisColor");
+                            }
+
+                            //cache.Append($"<{prefix}negativeFillColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
+                            //cache.Append($"<{prefix}axisColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
+
+                            cache.Append($"</{prefix}dataBar>");
+                        }
+                        else if (format.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
+                                 format.Type == eExcelConditionalFormattingRuleType.FourIconSet ||
+                                 format.Type == eExcelConditionalFormattingRuleType.FiveIconSet)
+                        {
+                            var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
+                            string iconSetString = "";
+                            bool isCustom = false;
+
+                            switch (format.Type)
+                            {
+                                case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                                    var threeIcon = (ExcelConditionalFormattingThreeIconSet)format;
+                                    iconList.Add(threeIcon.Icon1);
+                                    iconList.Add(threeIcon.Icon2);
+                                    iconList.Add(threeIcon.Icon3);
+
+                                    uid = threeIcon.Uid;
+                                    iconSetString = threeIcon.GetIconSetString();
+                                    break;
+
+                                case eExcelConditionalFormattingRuleType.FourIconSet:
+                                    var fourIcon = (ExcelConditionalFormattingFourIconSet)format;
+
+                                    iconList.Add(fourIcon.Icon1);
+                                    iconList.Add(fourIcon.Icon2);
+                                    iconList.Add(fourIcon.Icon3);
+                                    iconList.Add(fourIcon.Icon4);
+
+                                    uid = fourIcon.Uid;
+                                    iconSetString = fourIcon.GetIconSetString();
+                                    break;
+
+                                case eExcelConditionalFormattingRuleType.FiveIconSet:
+                                    var fiveIcon = (ExcelConditionalFormattingFiveIconSet)format;
+
+                                    iconList.Add(fiveIcon.Icon1);
+                                    iconList.Add(fiveIcon.Icon2);
+                                    iconList.Add(fiveIcon.Icon3);
+                                    iconList.Add(fiveIcon.Icon4);
+                                    iconList.Add(fiveIcon.Icon5);
+
+                                    uid = fiveIcon.Uid;
+                                    iconSetString = fiveIcon.GetIconSetString();
+                                    break;
+                                default:
+                                    throw new InvalidOperationException($"Impossible case found {format.Type} is not an iconSet");
+                            }
+
+                            foreach (var icon in iconList)
+                            {
+                                if (icon.CustomIcon != null)
+                                {
+                                    isCustom = true;
+                                }
+                            }
+
+                            cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
+
+                            cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\" ");
+
+                            if (isCustom)
+                            {
+                                cache.Append("custom=\"1\"");
+                            }
+
+                            cache.Append(">");
+
+                            foreach (var icon in iconList)
+                            {
+                                cache.Append($"<{prefix}cfvo type=\"{icon.Type.ToString().UnCapitalizeFirstLetter()}\"");
+
+                                if (icon.GreaterThanOrEqualTo == false && icon != iconList[0])
+                                {
+                                    cache.Append(" gte=\"0\"");
+                                }
+
+                                cache.Append(">");
+                                cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                                cache.Append($"</{prefix}cfvo>");
+                            }
+
+                            if (isCustom)
+                            {
+                                for (int j = 0; j < iconList.Count; j++)
+                                {
+                                    string iconType = iconList[j].CustomIcon == null ? iconSetString : iconList[j].GetCustomIconStringValue();
+                                    int iconIndex = iconList[j].CustomIcon == null ? i : iconList[j].GetCustomIconIndex();
+                                    cache.Append($"<{prefix}cfIcon iconSet=\"{iconType}\" iconId=\"{iconIndex}\"/>");
+                                }
+                            }
+
+                            cache.Append($"</{prefix}iconSet>");
+                        }
+                        else
+                        {
+                            cache.Append($"<{prefix}cfRule type=\"{format.GetAttributeType()}\"" +
+                                $" priority=\"{format.Priority}\" ");
+
+                            if (format.Operator != null)
+                            {
+                                cache.Append($"operator=\"{format.Operator.ToEnumString()}\" ");
+                            }
+
+                            cache.Append($"id=\"{format.Uid}\">");
+
+                            if (format.Type == eExcelConditionalFormattingRuleType.TwoColorScale ||
+                                format.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                            {
+
+                                cache.Append($"<{prefix}colorScale>");
+
+                                var values = new List<ExcelConditionalFormattingColorScaleValue>()
+                                    {format.As.TwoColorScale.LowValue, format.As.TwoColorScale.HighValue };
+
+                                if (format.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                                {
+                                    values.Insert(1, format.As.ThreeColorScale.MiddleValue);
+                                }
+
+                                for (int j = 0; j < values.Count; j++)
+                                {
+                                    cache.Append($"<{prefix}cfvo type=\"{values[j].Type.ToEnumString()}\"");
+
+                                    switch (values[j].Type)
+                                    {
+                                        case eExcelConditionalFormattingValueObjectType.Min:
+                                        case eExcelConditionalFormattingValueObjectType.Max:
+                                            cache.Append("/>");
+                                            break;
+                                        case eExcelConditionalFormattingValueObjectType.Formula:
+                                            cache.Append(">");
+                                            cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(values[j].Formula)}</xm:f>");
+                                            cache.Append($"</{prefix}cfvo>");
+                                            break;
+                                        case eExcelConditionalFormattingValueObjectType.Percent:
+                                        case eExcelConditionalFormattingValueObjectType.Percentile:
+                                        case eExcelConditionalFormattingValueObjectType.Num:
+                                            cache.Append(">");
+                                            if (!string.IsNullOrEmpty(values[j].Formula))
+                                            {
+                                                cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(values[j].Formula)}</xm:f>");
+                                            }
+                                            else
+                                            {
+                                                cache.Append($"<xm:f>{values[j].Value}</xm:f>");
+                                            }
+                                            cache.Append($"</{prefix}cfvo>");
+                                            break;
+                                        default:
+                                            throw new InvalidDataException(
+                                                "WorksheetWriterXML detected unhandled eExcelConditionalFormattingValueObjectType");
+                                    }
+                                }
+
+                                for (int j = 0; j < values.Count; j++)
+                                {
+                                    cache.Append($"<{prefix}color");
+
+                                    if (values[j].ColorSettings.Theme != null)
+                                    {
+                                        cache.Append($" theme=\"{(int)values[j].ColorSettings.Theme}\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Color != null && values[j].ColorSettings.Color != Color.Empty)
+                                    {
+                                        cache.Append($" rgb=\"{values[j].Color.ToColorString()}\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Auto != null && values[j].ColorSettings.Auto != false)
+                                    {
+                                        cache.Append($" auto=\"1\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Index != null)
+                                    {
+                                        cache.Append($" index=\"{values[j].ColorSettings.Index}\"");
+                                    }
+
+                                    if (values[j].ColorSettings.Tint != null)
+                                    {
+                                        cache.Append($" tint=\"{values[j].ColorSettings.Tint}\"");
+                                    }
+
+                                    cache.Append($"/>");
+                                }
+
+                                cache.Append($"</{prefix}colorScale>");
+                            }
+
+                            if (!string.IsNullOrEmpty(format._formula))
+                            {
+                                cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(format._formula)}</xm:f>");
+                            }
+
+                            if (!string.IsNullOrEmpty(format._formula2))
+                            {
+                                cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(format._formula2)}</xm:f>");
+                            }
+
+                            if (format.Style.HasValue)
+                            {
+                                cache.Append($"<{prefix}dxf>");
+
+                                if (format.Style.NumberFormat.HasValue)
+                                {
+                                    cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
+                                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                                }
+
+                                if (format.Style.Font.HasValue)
+                                {
+                                    cache.Append($"<font>");
+
+                                    if (format.Style.Font.Bold == true)
+                                    {
+                                        cache.Append($"<b/>");
+                                    }
+
+                                    if (format.Style.Font.Italic == true)
+                                    {
+                                        if (format.Style.Font.Bold == false || format.Style.Font.Bold == null)
+                                        {
+                                            cache.Append("<b val=\"0\"/>");
+                                        }
+                                        cache.Append($"<i/>");
+                                    }
+
+                                    if (format.Style.Font.Bold == false && format.Style.Font.Italic == false)
+                                    {
+                                        cache.Append("<b val=\"0\"/>");
+                                        cache.Append("<i val=\"0\"/>");
+                                    }
+
+                                    if (format.Style.Font.Strike == true)
+                                    {
+                                        cache.Append($"<strike/>");
+
+                                    }
+
+                                    if (format.Style.Font.Underline.HasValue == true)
+                                    {
+                                        cache.Append($"<u");
+                                        if (format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
+                                        {
+                                            cache.Append(" val=\"double\"");
+                                        }
+                                        cache.Append($"/>");
+                                    }
+
+                                    if (format.Style.Font.Color.HasValue == true)
+                                    {
+                                        cache.Append("<color");
+                                        if (format.Style.Font.Color.Theme != null)
+                                        {
+                                            cache.Append($"theme=\"{(int)format.Style.Font.Color.Theme}\"");
+                                        }
+                                        else
+                                        {
+                                            Color color = (Color)format.Style.Font.Color.Color;
+                                            cache.Append($"rgb=\"" +
+                                                $"{color.ToColorString()}\"");
+
+                                        }
+                                        cache.Append("/>");
+                                    }
+
+                                    cache.Append("</font>");
+                                }
+
+                                if (format.Style.Border.HasValue)
+                                {
+                                    cache.Append("<border>");
+
+                                    if (format.Style.Border.Left.HasValue)
+                                    {
+                                        cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
+                                        cache.Append("</left>");
+                                    }
+
+
+                                    if (format.Style.Border.Right.HasValue)
+                                    {
+                                        cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
+                                        cache.Append("</right>");
+                                    }
+
+                                    if (format.Style.Border.Top.HasValue)
+                                    {
+                                        cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
+                                        cache.Append("</top>");
+                                    }
+
+                                    if (format.Style.Border.Bottom.HasValue)
+                                    {
+                                        cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
+                                        cache.Append("</bottom>");
+                                    }
+
+                                    cache.Append("<vertical/>");
+                                    cache.Append("<horizontal/>");
+                                    cache.Append("</border>");
+                                }
+
+                                if (format.Style.Fill.HasValue)
+                                {
+                                    cache.Append("<fill>");
+
+                                    switch (format.Style.Fill.Style)
+                                    {
+                                        case Style.eDxfFillStyle.PatternFill:
+
+                                            if (format.Style.Fill.PatternType != null)
+                                            {
+                                                cache.Append($"<patternFill patternType=\"{format.Style.Fill.PatternType}\">");
+                                            }
+                                            else
+                                            {
+                                                cache.Append("<patternFill>");
+                                            }
+
+                                            if (format.Style.Fill.PatternColor.Color != null)
+                                            {
+                                                cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
+                                            }
+
+                                            if (format.Style.Fill.BackgroundColor.Color != null)
+                                            {
+                                                cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
+                                            }
+
+                                            cache.Append("</patternFill>");
+                                            break;
+                                        case Style.eDxfFillStyle.GradientFill:
+
+                                            cache.Append("<gradientFill");
+
+                                            if (format.Style.Fill.Gradient.GradientType != null)
+                                            {
+                                                cache.Append($" type=\"{format.Style.Fill.Gradient.GradientType.ToString().ToLower()}\"");
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Degree != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " degree=\"{0}\"", format.Style.Fill.Gradient.Degree.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Left != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " left=\"{0}\"", format.Style.Fill.Gradient.Left.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Right != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " right=\"{0}\"", format.Style.Fill.Gradient.Right.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Top != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " top=\"{0}\"", format.Style.Fill.Gradient.Top.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Bottom != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " bottom=\"{0}\"", format.Style.Fill.Gradient.Bottom.Value));
+                                            }
+
+                                            cache.Append(">");
+                                            cache.Append("<stop position=\"0\">");
+
+                                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
+
+                                            cache.Append("</stop>");
+                                            cache.Append("<stop position=\"1\">");
+
+                                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
+
+                                            cache.Append("</stop>");
+
+                                            cache.Append("</gradientFill>");
+
+                                            break;
+                                    }
+                                    cache.Append("</fill>");
+                                }
+
+                                cache.Append($"</{prefix}dxf>");
+                            }
+                        }
+                        cache.Append($"</{prefix}cfRule>");
+
+                        if (i == ruleList.Value.Count - 1)
+                        {
+                            cache.Append($"<xm:sqref>{format.Address}</xm:sqref>");
+                            cache.Append($"</{prefix}conditionalFormatting>");
+                        }
+                    }
+                }
+
+                cache.Append($"</{prefix}conditionalFormattings>");
+                cache.Append("</ext>");
+            }
+            return cache.ToString();
+        }
+
+        string WriteColorOption(string nodeName, ExcelDxfColor color)
+        {
+            string returnString = "";
+
+            if (color.Auto != null)
+            {
+                returnString = $"<{nodeName} auto=\"{(color.Auto == true ? 1 : 0)}\"";
+            }
+
+            if (color.Theme != null)
+            {
+                returnString = $"<{nodeName} theme=\"{(int)color.Theme}\"";
+            }
+
+            if(color.Color != null)
+            { 
+                Color baseColor = (Color)color.Color;
+                returnString = $"<{nodeName} rgb=\"{baseColor.ToColorString()}\"";
+            }
+
+            ////If we Need to write out the auto that should be default when node empty
+            //if (returnString == "")
+            //{
+            //    returnString = $"<{nodeName} auto=\"1\"";
+            //}
+
+            if (color.Tint != null)
+            {
+                returnString += string.Format(CultureInfo.InvariantCulture, " tint=\"{0}\"", color.Tint);
+            }
+
+            if(returnString != "")
+            {
+                returnString += "/>";
+            }
+
+            return returnString;
+        }
+
+        private string WriteCfIcon(ExcelConditionalFormattingIconDataBarValue icon, bool gteCheck = true)
+        {
+            StringBuilder cache = new StringBuilder();
+
+            cache.Append($"<cfvo type=\"{icon.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+
+            if (icon.Value != double.NaN)
+            {
+                cache.Append($"val=\"{icon.Value}\" ");
+            }
+
+            if (icon.GreaterThanOrEqualTo == false && gteCheck == true)
+            {
+                cache.Append("gte=\"0\"");
+            }
+
+            cache.Append("/>");
+
+            return cache.ToString();
+        }
+
+        private string UpdateConditionalFormattings(string prefix)
+        {
+            var cache = new StringBuilder();
+
+            //Multiple cfRules may be applying to one address. Find out which
+            var addressDict = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
+
+            foreach (var format in _ws.ConditionalFormatting)
+            {
+                if (format is ExcelConditionalFormattingRule cf)
+                {
+                    if (!cf.IsExtLst || cf.Type == eExcelConditionalFormattingRuleType.DataBar)
+                    {
+                        if (addressDict.ContainsKey(cf.Address.Address))
+                        {
+                            addressDict[cf.Address.Address].Add(cf);
+                        }
+                        else
+                        {
+                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                        }
+                    }
+                }
+            }
+
+            //Iterate cfRules for each address
+            foreach( var formatList in addressDict)
+            {
+                for (int i = 0; i < formatList.Value.Count; i++)
+                {
+                    var conditionalFormat = formatList.Value[i];
+
+                    if(i == 0)
+                    {
+                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address}\">");
+                    }
+
+                    cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
+
+                    cache.Append(UpdateConditionalFormattingAttributes(conditionalFormat));
+                    cache.Append($">");
+
+                    if (string.IsNullOrEmpty(conditionalFormat._formula) == false)
+                    {
+                        cache.Append("<formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula) + "</formula>");
+                        if (string.IsNullOrEmpty(conditionalFormat._formula2) == false)
+                        {
+                            cache.Append("<formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula2) + "</formula>");
+                        }
+                    }
+
+                    if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.TwoColorScale ||
+                        conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                    {
+                        cache.Append("<colorScale>");
+
+                        var colorScaleValues = new List<ExcelConditionalFormattingColorScaleValue>()
+                        {
+                            ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).LowValue,
+                            ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).HighValue
+                        };
+
+                        ExcelConditionalFormattingColorScaleValue middle = null;
+                        if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                        {
+                            colorScaleValues.Insert(1, conditionalFormat.As.ThreeColorScale.MiddleValue);
+                        }
+
+                        for(int j = 0; j < colorScaleValues.Count; j++)
+                        {
+                            var cSValue = colorScaleValues[j];
+
+                            cache.Append($"<cfvo type=\"{cSValue.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+
+                            if (!double.IsNaN(cSValue.Value))
+                            {
+                                cache.Append($"val=\"{cSValue.Value}\"");
+                            }
+                            else if (!string.IsNullOrEmpty(cSValue.Formula))
+                            {
+                                cache.Append($"val=\"{cSValue.Formula}\"");
+                            }
+                            cache.Append("/>");
+                        }
+
+                        for (int j = 0; j < colorScaleValues.Count; j++)
+                        {
+                            var cSValue = colorScaleValues[j];
+
+                            cache.Append($"<color");
+
+                            if (cSValue.ColorSettings.Theme != null)
+                            {
+                                cache.Append($" theme=\"{(int)cSValue.ColorSettings.Theme}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Color != null && cSValue.ColorSettings.Color != Color.Empty)
+                            {
+                                cache.Append($" rgb=\"{cSValue.Color.ToColorString()}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)
+                            {
+                                cache.Append($" auto=\"1\"");
+                            }
+
+                            if (cSValue.ColorSettings.Index != null)
+                            {
+                                cache.Append($" index=\"{cSValue.ColorSettings.Index}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Tint != null)
+                            {
+                                cache.Append($" tint=\"{cSValue.ColorSettings.Tint}\"");
+                            }
+
+                            cache.Append($"/>");
+                        }
+
+                        cache.Append("</colorScale>");
+                    }
+
+                    if (conditionalFormat.IsExtLst)
+                    {
+                        if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.DataBar)
+                        {
+                            var dataBar = (ExcelConditionalFormattingDataBar)conditionalFormat;
+                            cache.Append($"<dataBar>");
+
+                            cache.Append($"<cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
+                            cache.Append($"<cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
+
+                            WriteDxfColor(prefix, cache, dataBar.FillColor);
+                            //cache.Append($"<color rgb=\"{dataBar.Color.ToColorString()}\"/>");
+
+                            cache.Append($"</dataBar>");
+
+                            cache.Append($"<extLst>");
+
+                            prefix = "x14";
+                            cache.Append($"<ext xmlns:{prefix}=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ExtChildUri}\">");
+                            cache.Append($"<{prefix}:id>{dataBar.Uid}</{prefix}:id>");
+                            cache.Append($"</ext>");
+
+                            cache.Append($"</extLst>");
+                        }
+                        //IconSet is only written in extLst. We need no "local" node.
+                    }
+                    else if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
+                             conditionalFormat.Type == eExcelConditionalFormattingRuleType.FourIconSet ||
+                             conditionalFormat.Type == eExcelConditionalFormattingRuleType.FiveIconSet)
+                    {
+
+                        var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
+                        string iconSetString = "";
+
+                        switch (conditionalFormat.Type)
+                        {
+                            case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                                var threeIcon = (ExcelConditionalFormattingThreeIconSet)conditionalFormat;
+                                iconList.Add(threeIcon.Icon1);
+                                iconList.Add(threeIcon.Icon2);
+                                iconList.Add(threeIcon.Icon3);
+
+                                iconSetString = threeIcon.GetIconSetString();
+                                break;
+
+                            case eExcelConditionalFormattingRuleType.FourIconSet:
+                                var fourIcon = (ExcelConditionalFormattingFourIconSet)conditionalFormat;
+                                iconList.Add(fourIcon.Icon1);
+                                iconList.Add(fourIcon.Icon2);
+                                iconList.Add(fourIcon.Icon3);
+                                iconList.Add(fourIcon.Icon4);
+
+                                iconSetString = fourIcon.GetIconSetString();
+                                break;
+
+                            case eExcelConditionalFormattingRuleType.FiveIconSet:
+                                var fiveIcon = (ExcelConditionalFormattingFiveIconSet)conditionalFormat;
+
+                                iconList.Add(fiveIcon.Icon1);
+                                iconList.Add(fiveIcon.Icon2);
+                                iconList.Add(fiveIcon.Icon3);
+                                iconList.Add(fiveIcon.Icon4);
+                                iconList.Add(fiveIcon.Icon5);
+
+                                iconSetString = fiveIcon.GetIconSetString();
+                                break;
+                        }
+
+                        cache.Append($"<iconSet iconSet=\"{iconSetString}\">");
+
+                        for (int j = 0; j < iconList.Count; j++)
+                        {
+                            if (j == 0)
+                            {
+                                cache.Append(WriteCfIcon(iconList[j], false));
+
+                            }
+                            else
+                            {
+                                cache.Append(WriteCfIcon(iconList[j]));
+                            }
+                        }
+
+                        cache.Append($"</iconSet>");
+                    }
+                    cache.Append($"</cfRule>");
+                }
+                cache.Append($"</conditionalFormatting>");
+            }
+
+            return cache.ToString();
+        }
+
+        void WriteDxfColor(string prefix, StringBuilder cache, ExcelDxfColor col, string nodeName = "color")
+        {
+            cache.Append($"<{prefix}{nodeName}");
+
+            if (col.Theme != null)
+            {
+                cache.Append($" theme=\"{(int)col.Theme}\"");
+            }
+
+            if (col.Color != null && col.Color != Color.Empty)
+            {
+                cache.Append($" rgb=\"{((Color)col.Color).ToColorString()}\"");
+            }
+
+            if (col.Auto != null && col.Auto != false)
+            {
+                cache.Append($" auto=\"1\"");
+            }
+
+            if (col.Index != null)
+            {
+                cache.Append($" index=\"{col.Index}\"");
+            }
+
+            if (col.Tint != null)
+            {
+                cache.Append($" tint=\"{col.Tint}\"");
+            }
+
+            cache.Append($"/>");
         }
     }
 }

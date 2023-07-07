@@ -17,6 +17,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml
 {
@@ -1896,6 +1897,24 @@ namespace OfficeOpenXml
             {
                 return !string.IsNullOrEmpty(_wb);
             }
+        }
+
+        internal static bool RefersToOtherWorksheet(string address, string worksheetName)
+        {
+            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
+            {
+                var adr = new ExcelAddress(address);
+                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != worksheetName;
+            }
+            else if (!string.IsNullOrEmpty(address))
+            {
+                var tokens = SourceCodeTokenizer.Default.Tokenize(address, worksheetName);
+
+                return tokens.Any(x =>
+                    x.TokenType == TokenType.WorksheetNameContent &&
+                    x.Value.Equals(worksheetName, StringComparison.OrdinalIgnoreCase) == false);
+            }
+            return false;
         }
     }
 }

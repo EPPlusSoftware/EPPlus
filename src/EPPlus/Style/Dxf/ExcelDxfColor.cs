@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Style.Dxf
         }
         bool? _auto;
         /// <summary>
-        /// Gets or sets the color to automativ
+        /// Gets or sets the color to automatic
         /// </summary>
         public bool? Auto
         {
