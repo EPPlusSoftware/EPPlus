@@ -10,13 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Style.Dxf;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Xml;
+
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -51,107 +46,6 @@ namespace OfficeOpenXml.ConditionalFormatting
       internal const string WrongNumberCfvoColorNodes = @"Wrong number of 'cfvo'/'color' nodes in Conditional Formatting Rule";
     }
     #endregion Errors
-
-    #region Nodes
-    internal class Nodes
-    {
-      internal const string Worksheet = "worksheet";
-      internal const string ConditionalFormatting = "conditionalFormatting";
-      internal const string CfRule = "cfRule";
-      internal const string ColorScale = "colorScale";
-      internal const string Cfvo = "cfvo";
-      internal const string Color = "color";
-      internal const string DataBar = "dataBar";
-      internal const string IconSet = "iconSet";
-      internal const string Formula = "formula";
-    }
-    #endregion Nodes
-
-    #region Attributes
-    internal class Attributes
-    {
-      internal const string AboveAverage = "aboveAverage";
-      internal const string Bottom = "bottom";
-      internal const string DxfId = "dxfId";
-      internal const string EqualAverage = "equalAverage";
-      internal const string IconSet = "iconSet";
-      internal const string Operator = "operator";
-      internal const string Percent = "percent";
-      internal const string Priority = "priority";
-      internal const string Rank = "rank";
-      internal const string Reverse = "reverse";
-      internal const string Rgb = "rgb";
-      internal const string ShowValue = "showValue";
-      internal const string Sqref = "sqref";
-      internal const string StdDev = "stdDev";
-      internal const string StopIfTrue = "stopIfTrue";
-      internal const string Text = "text";
-      internal const string Theme = "theme";
-      internal const string TimePeriod = "timePeriod";
-      internal const string Tint = "tint";
-      internal const string Type = "type";
-      internal const string Val = "val";
-      internal const string Gte = "gte";
-    }
-    #endregion Attributes
-
-    #region XML Paths
-    internal class Paths
-    {
-      // Main node and attributes
-      internal const string Worksheet = "d:" + Nodes.Worksheet;
-
-      // <conditionalFormatting> §18.3.1.18 node
-      // can appear more than once in a worksheet
-      internal const string ConditionalFormatting = "d:" + Nodes.ConditionalFormatting;
-
-      // <cfRule> §18.3.1.10 node
-      // can appear more than once in a <conditionalFormatting>
-      internal const string CfRule = "d:" + Nodes.CfRule;
-
-      // <colorScale> §18.3.1.16 node
-      internal const string ColorScale = "d:" + Nodes.ColorScale;
-
-      // <cfvo> §18.3.1.11 node
-      internal const string Cfvo = "d:" + Nodes.Cfvo;
-
-      // <color> §18.3.1.15 node
-      internal const string Color = "d:" + Nodes.Color;
-
-      // <dataBar> §18.3.1.28 node
-      internal const string DataBar = "d:" + Nodes.DataBar;
-
-      // <iconSet> §18.3.1.49 node
-      internal const string IconSet = "d:" + Nodes.IconSet;
-
-      // <formula> §18.3.1.43 node
-      internal const string Formula = "d:" + Nodes.Formula;
-
-      // Attributes (for all the nodes)
-      internal const string AboveAverageAttribute = "@" + Attributes.AboveAverage;
-      internal const string BottomAttribute = "@" + Attributes.Bottom;
-      internal const string DxfIdAttribute = "@" + Attributes.DxfId;
-      internal const string EqualAverageAttribute = "@" + Attributes.EqualAverage;
-      internal const string IconSetAttribute = "@" + Attributes.IconSet;
-      internal const string OperatorAttribute = "@" + Attributes.Operator;
-      internal const string PercentAttribute = "@" + Attributes.Percent;
-      internal const string PriorityAttribute = "@" + Attributes.Priority;
-      internal const string RankAttribute = "@" + Attributes.Rank;
-      internal const string ReverseAttribute = "@" + Attributes.Reverse;
-      internal const string RgbAttribute = "@" + Attributes.Rgb;
-      internal const string ShowValueAttribute = "@" + Attributes.ShowValue;
-      internal const string SqrefAttribute = "@" + Attributes.Sqref;
-      internal const string StdDevAttribute = "@" + Attributes.StdDev;
-      internal const string StopIfTrueAttribute = "@" + Attributes.StopIfTrue;
-      internal const string TextAttribute = "@" + Attributes.Text;
-      internal const string ThemeAttribute = "@" + Attributes.Theme;
-      internal const string TimePeriodAttribute = "@" + Attributes.TimePeriod;
-      internal const string TintAttribute = "@" + Attributes.Tint;
-      internal const string TypeAttribute = "@" + Attributes.Type;
-      internal const string ValAttribute = "@" + Attributes.Val;
-      internal const string GteAttribute = "@" + Attributes.Gte;
-        }
-    #endregion XML Paths
 
     #region Rule Type ST_CfType §18.18.12 (with small EPPlus changes)
     internal class RuleType
@@ -211,52 +105,6 @@ namespace OfficeOpenXml.ConditionalFormatting
     }
     #endregion Rule Type ST_CfType §18.18.12 (with small EPPlus changes)
 
-    #region CFVO Type ST_CfvoType §18.18.13
-    internal class CfvoType
-    {
-      internal const string Min = "min";
-      internal const string Max = "max";
-      internal const string Num = "num";
-      internal const string Formula = "formula";
-      internal const string Percent = "percent";
-      internal const string Percentile = "percentile";
-    }
-    #endregion CFVO Type ST_CfvoType §18.18.13
-
-    #region Operator Type ST_ConditionalFormattingOperator §18.18.15
-    internal class Operators
-    {
-      internal const string BeginsWith = "beginsWith";
-      internal const string Between = "between";
-      internal const string ContainsText = "containsText";
-      internal const string EndsWith = "endsWith";
-      internal const string Equal = "equal";
-      internal const string GreaterThan = "greaterThan";
-      internal const string GreaterThanOrEqual = "greaterThanOrEqual";
-      internal const string LessThan = "lessThan";
-      internal const string LessThanOrEqual = "lessThanOrEqual";
-      internal const string NotBetween = "notBetween";
-      internal const string NotContains = "notContains";
-      internal const string NotEqual = "notEqual";
-    }
-    #endregion Operator Type ST_ConditionalFormattingOperator §18.18.15
-
-    #region Time Period Type ST_TimePeriod §18.18.82
-    internal class TimePeriods
-    {
-      internal const string Last7Days = "last7Days";
-      internal const string LastMonth = "lastMonth";
-      internal const string LastWeek = "lastWeek";
-      internal const string NextMonth = "nextMonth";
-      internal const string NextWeek = "nextWeek";
-      internal const string ThisMonth = "thisMonth";
-      internal const string ThisWeek = "thisWeek";
-      internal const string Today = "today";
-      internal const string Tomorrow = "tomorrow";
-      internal const string Yesterday = "yesterday";
-    }
-    #endregion Time Period Type ST_TimePeriod §18.18.82
-
     #region Colors
     internal class Colors
     {
@@ -265,12 +113,6 @@ namespace OfficeOpenXml.ConditionalFormatting
       internal static readonly Color CfvoHighValue = Color.FromArgb(0xFF,0x63,0xBE,0x7B);
     }
 
-        internal class DxfColor
-        {
-            //internal static readonly ExcelDxfColor CfvoLowValue = new ExcelDxfColor(null,null) Color.FromArgb(0xFF, 0xF8, 0x69, 0x6B);
-            //internal static readonly Color CfvoMiddleValue = Color.FromArgb(0xFF, 0xFF, 0xEB, 0x84);
-            //internal static readonly Color CfvoHighValue = Color.FromArgb(0xFF, 0x63, 0xBE, 0x7B);
-        }
-        #endregion Colors
+    #endregion Colors
     }
 }

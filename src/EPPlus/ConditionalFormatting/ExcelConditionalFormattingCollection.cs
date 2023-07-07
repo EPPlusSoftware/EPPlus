@@ -1,4 +1,17 @@
-﻿using OfficeOpenXml.ConditionalFormatting.Contracts;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
+ *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
@@ -6,12 +19,9 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -735,7 +745,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         /// <param name="type"></param>
         /// <param name="address"></param>
-        /// <returns></returns>F
+        /// <param name="allowNullAddress"></param>
+        /// <returns></returns>
         internal IExcelConditionalFormattingRule AddRule(
           eExcelConditionalFormattingRuleType type,
           ExcelAddress address, bool allowNullAddress = false)
@@ -744,8 +755,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Require.Argument(address).IsNotNull("address");
             }
-
-            // address = ValidateAddress(address);
 
             // Create the Rule according to the correct type, address and priority
             var cfRule = ExcelConditionalFormattingRuleFactory.Create(
@@ -763,11 +772,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             return cfRule;
         }
 
-        ExcelConditionalFormattingRule ExcelConditionalFormattingGreaterThanFunc(ExcelAddress address, int priority, ExcelWorksheet ws)
-        {
-            return new ExcelConditionalFormattingGreaterThan(address, priority, ws);
-        }
-
         /// <summary>
         /// Add GreaterThan Rule
         /// </summary>
@@ -783,6 +787,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add LessThan Rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingLessThan AddLessThan(
             ExcelAddress address)
         {
@@ -791,6 +800,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add between rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingBetween AddBetween(
             ExcelAddress address)
         {
@@ -799,6 +813,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add Equal rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingEqual AddEqual(ExcelAddress address)
         {
             return (IExcelConditionalFormattingEqual)AddRule(
@@ -806,6 +825,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add TextContains rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingContainsText AddTextContains(ExcelAddress address)
         {
             return (IExcelConditionalFormattingContainsText)AddRule(
@@ -813,6 +837,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add Yesterday rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddYesterday(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -820,6 +849,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add Today rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddToday(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -827,6 +861,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add Tomorrow rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddTomorrow(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -834,6 +873,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add Last7Days rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddLast7Days(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -841,6 +885,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add lastWeek rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddLastWeek(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -848,6 +897,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add this week rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddThisWeek(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -855,6 +909,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add next week rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddNextWeek(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -862,6 +921,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add last month rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddLastMonth(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -869,6 +933,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add ThisMonth rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddThisMonth(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(
@@ -876,6 +945,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
+        /// <summary>
+        /// Add NextMonth rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public IExcelConditionalFormattingTimePeriodGroup AddNextMonth(ExcelAddress address)
         {
             return (IExcelConditionalFormattingTimePeriodGroup)AddRule(

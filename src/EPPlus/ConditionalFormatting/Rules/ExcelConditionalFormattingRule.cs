@@ -1,29 +1,56 @@
-﻿using OfficeOpenXml.ConditionalFormatting.Contracts;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
+ *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style.Dxf;
 using System;
 using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System.Linq;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System.Drawing;
-using OfficeOpenXml.Packaging;
 using System.Globalization;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
+    /// <summary>
+    /// Abstract base class for all ConditionalFormattingRules
+    /// </summary>
     public abstract class ExcelConditionalFormattingRule : IExcelConditionalFormattingRule
     {
         //Deprecated
         public XmlNode Node { get; }
 
+        /// <summary>
+        /// The type of conditional formatting rule.
+        /// </summary>
         public eExcelConditionalFormattingRuleType Type { get; set; }
+        /// <summary>
+        /// <para>The range over which these conditional formatting rules apply.</para>
+        /// </summary>
         public virtual ExcelAddress Address { get; set; }
+        /// <summary>
+        /// The priority of the rule. 
+        /// A lower values are higher priority than higher values, where 1 is the highest priority.
+        /// </summary>
         public int Priority { get; set; } = 1;
+        /// <summary>
+        /// If this property is true, no rules with lower priority should be applied over this rule.
+        /// </summary>
         public bool StopIfTrue { get; set; }
+        /// <summary>
+        /// Indicates that the conditional formatting is associated with a PivotTable
+        /// </summary>
         public bool PivotTable { get; set; }
 
         ExcelDxfStyleConditionalFormatting _style = null;
@@ -42,11 +69,12 @@ namespace OfficeOpenXml.ConditionalFormatting
                 return _style;
             }
         }
-        //public ExcelDxfStyleConditionalFormatting Style { get; set; }
 
         internal UInt16 _stdDev = 0;
 
-        //0 is not allowed and will be converted to 1
+        /// <summary>
+        /// 0 is not allowed and will be converted to 1
+        /// </summary>
         public UInt16 StdDev
         {
             get
@@ -78,6 +106,9 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal string _text = null;
 
+        /// <summary>
+        /// Internal worksheet reference
+        /// </summary>
         protected ExcelWorksheet _ws;
 
         private int _dxfId = -1;
@@ -169,8 +200,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Uid = xr.GetAttribute("id");
             }
-
-            // Type = (eExcelConditionalFormattingRuleType)Enum.Parse(typeof(eExcelConditionalFormattingRuleType), xr.GetAttribute("type"));
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("dxfId")))
             {
@@ -454,11 +483,11 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="original"></param>
-            protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original)
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="original"></param>
+        protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original)
         {
             _ws = original._ws;
             Rank = original.Rank;
@@ -621,7 +650,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        public void SetStyle(ExcelDxfStyleConditionalFormatting style)
+        internal void SetStyle(ExcelDxfStyleConditionalFormatting style)
         {
             _style = style;
         }

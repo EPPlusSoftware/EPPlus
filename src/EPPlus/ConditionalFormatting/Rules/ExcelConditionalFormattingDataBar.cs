@@ -1,13 +1,24 @@
-﻿using System.Drawing;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
+ *************************************************************************************************/
+using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.Utils;
 using System.Globalization;
 using System;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style;
-using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -33,13 +44,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             //Excel default blue?
             FillColor.Color = Color.FromArgb(int.Parse("FF638EC6", NumberStyles.HexNumber));
-
-            //var colVal = int.Parse("FFFF0000", NumberStyles.HexNumber);
-            //NegativeFillColor.Color = Color.FromArgb(colVal);
-            //NegativeBorderColor.Color = Color.FromArgb(colVal);
-
-            //AxisColor.Color = Color.FromArgb(colVal);
-
         }
 
         private void InitalizeDxfColours()

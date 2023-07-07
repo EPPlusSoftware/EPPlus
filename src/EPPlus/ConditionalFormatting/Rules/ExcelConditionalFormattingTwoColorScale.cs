@@ -1,20 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
+ *************************************************************************************************/
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-
+    /// <summary>
+    /// Two Colour Scale class
+    /// </summary>
     public class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTwoColorScale
     {
@@ -143,7 +150,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             xr.Read();
         }
 
-        protected void ReadColorAndColorSettings(XmlReader xr, ref ExcelConditionalFormattingColorScaleValue colSettings)
+        /// <summary>
+        /// Internal Reading function
+        /// </summary>
+        /// <param name="xr"></param>
+        /// <param name="colSettings"></param>
+        internal void ReadColorAndColorSettings(XmlReader xr, ref ExcelConditionalFormattingColorScaleValue colSettings)
         {
             if (!string.IsNullOrEmpty(xr.GetAttribute("auto")))
             {
@@ -169,12 +181,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 colSettings.ColorSettings.Tint = double.Parse(xr.GetAttribute("tint"));
             }
-
-            //return value;
         }
 
-        protected ExcelConditionalFormattingColorScaleValue _lowValue;
-        protected ExcelConditionalFormattingColorScaleValue _highValue;
+        internal ExcelConditionalFormattingColorScaleValue _lowValue;
+        internal ExcelConditionalFormattingColorScaleValue _highValue;
 
 
         /// <summary>

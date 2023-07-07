@@ -1919,10 +1919,7 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Adds a new comment for the range.
-        /// If this range 
-        /// 
-        /// 
-        /// more than one cell, the top left comment is returned by the method.
+        /// If this range contains more than one cell, the top left comment is returned by the method.
         /// </summary>
         /// <param name="Text">The text for the comment</param>
         /// <param name="Author">The author for the comment. If this property is null or blank EPPlus will set it to the identity of the ClaimsPrincipal if available otherwise to "Anonymous"</param>
