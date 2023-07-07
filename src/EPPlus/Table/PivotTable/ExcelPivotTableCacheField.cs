@@ -817,7 +817,7 @@ namespace OfficeOpenXml.Table.PivotTable
             //A pivot table cache can reference multiple Pivot tables, so we need to update them all
             foreach (var pt in _cache._pivotTables)
             {
-                var existingItems = new HashSet<object>();
+                var existingItems = new HashSet<object>(new InvariantObjectComparer());
                 var list = pt.Fields[Index].Items._list;
                 
                 for (var ix = 0; ix < list.Count; ix++)
