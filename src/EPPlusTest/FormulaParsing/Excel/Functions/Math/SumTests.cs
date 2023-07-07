@@ -12,7 +12,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
     public class SumTests
     {
         // TODO: this needs a review and potentially redesign
-        [TestMethod, Ignore]
+        [TestMethod]
         public void ShouldTreatSingleBooleanValuesOrginatingFromEvaluationsAsNumbers()
         {
             using (var package = new ExcelPackage())
@@ -27,7 +27,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             }
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void ShouldTreatSingleBooleanValuesAsNumbers()
         {
             // This test is failing - the logic seems to be
