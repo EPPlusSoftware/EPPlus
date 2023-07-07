@@ -11,50 +11,46 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingUniqueValues : ExcelConditionalFormattingRule,
-    IExcelConditionalFormattingUniqueValues
+    internal class ExcelConditionalFormattingTopBottomGroup : ExcelConditionalFormattingRule,
+    IExcelConditionalFormattingTopBottomGroup
     {
-        #region Constructors
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="address"></param>
-        /// <param name="priority"></param>
-        /// <param name="worksheet"></param>
-        internal ExcelConditionalFormattingUniqueValues(
-          ExcelAddress address,
-          int priority,
-          ExcelWorksheet worksheet)
-          : base(eExcelConditionalFormattingRuleType.UniqueValues, address, priority, worksheet)
+        internal ExcelConditionalFormattingTopBottomGroup(
+         eExcelConditionalFormattingRuleType type,
+         ExcelAddress address,
+         int priority,
+         ExcelWorksheet worksheet)
+         : base(type, address, priority, worksheet)
+        {
+            Rank = 10;  // First 10 values
+        }
+
+        internal ExcelConditionalFormattingTopBottomGroup(
+          eExcelConditionalFormattingRuleType type, ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+          : base(type, address, ws, xr)
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="address"></param>
-        /// <param name="ws"></param>
-        /// <param name="xr"></param>
-        internal ExcelConditionalFormattingUniqueValues(ExcelAddress address, ExcelWorksheet ws, XmlReader xr) 
-            : base(eExcelConditionalFormattingRuleType.UniqueValues, address, ws, xr)
+        internal override void ReadClassSpecificXmlNodes(XmlReader xr)
         {
+            base.ReadClassSpecificXmlNodes(xr);
+
+            Rank = UInt16.Parse(xr.GetAttribute("rank"));
         }
 
-        internal ExcelConditionalFormattingUniqueValues(ExcelConditionalFormattingUniqueValues copy) : base(copy)
+        internal ExcelConditionalFormattingTopBottomGroup(ExcelConditionalFormattingTopBottomGroup copy) : base(copy)
         {
             Rank = copy.Rank;
         }
 
         internal override ExcelConditionalFormattingRule Clone()
         {
-            return new ExcelConditionalFormattingUniqueValues(this);
+            return new ExcelConditionalFormattingTopBottomGroup(this);
         }
-
-        #endregion Constructors
     }
 }

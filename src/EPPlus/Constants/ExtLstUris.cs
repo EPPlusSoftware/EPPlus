@@ -51,6 +51,10 @@ namespace OfficeOpenXml.Constants
 
         internal const string DynamicArrayPropertiesUri = "{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}";
         internal const string RichValueDataUri = "{3e2802c4-a4d2-4d8b-9148-e3be6c30e623}";
+
+
+        internal const string ConditionalFormattingUri = "{78C0D931-6437-407d-A8EE-F0AAD7539E65}";
+        internal const string ExtChildUri = "{B025F937-C7B1-47D3-B67F-A62EFF666E3E}";
     }
 }
 

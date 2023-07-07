@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -9,124 +9,151 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingBeginsWith
-  /// </summary>
-  public class ExcelConditionalFormattingBeginsWith
-    : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingBeginsWith : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingBeginsWith
-  {
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-      /// <param name="address"></param>
-      /// <param name="priority"></param>
-      /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingBeginsWith(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.BeginsWith,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
     {
-        if (itemElementNode==null) //Set default values and create attributes if needed
+        /****************************************************************************************/
+
+        #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="priority"></param>
+        /// <param name="worksheet"></param>
+        internal ExcelConditionalFormattingBeginsWith(
+          ExcelAddress address,
+          int priority,
+          ExcelWorksheet worksheet)
+          : base(
+                eExcelConditionalFormattingRuleType.BeginsWith,
+                address,
+                priority,
+                worksheet
+                )
         {
             Operator = eExcelConditionalFormattingOperatorType.BeginsWith;
-            Text = string.Empty;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="worksheet"></param>
+        /// <param name="xr"></param>
+        internal ExcelConditionalFormattingBeginsWith(
+          ExcelAddress address,
+          ExcelWorksheet worksheet,
+          XmlReader xr)
+          : base(
+                eExcelConditionalFormattingRuleType.BeginsWith,
+                address,
+                worksheet,
+                xr)
+        {
+            Operator = eExcelConditionalFormattingOperatorType.BeginsWith;
+        }
+
+        internal ExcelConditionalFormattingBeginsWith(ExcelConditionalFormattingBeginsWith copy) : base(copy)
+        {
+            Operator = copy.Operator;
+            Text = copy._text;
+        }
+
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingBeginsWith(this);
+        }
+
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (Formula2 != null)
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
+            }
+        }
+
+
+        //get Returns Formula2 and set sets both Formula and Formula2
+        //Property name is Formula for Interface ease of use.
+        //It is recommended to use the interface over cast when possible.
+        public override string Formula
+        {
+            get
+            {
+                //We use Formula2 to store user input.
+                //This because Formula has to be in a specific format for this class.
+                return Formula2;
+            }
+            set
+            { 
+                _text = null;
+                Formula2 = value;
+
+                //Set Formula to the required format with the Formula2 user input.
+                base.Formula = string.Format(
+                    "LEFT({0},LEN({1}))={1}",
+                    Address.Start.Address,
+                    value);
+            }
+        }
+
+        public string Text {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                Formula2 = null;
+
+                base.Formula = string.Format(
+                  "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
+                  Address.Start.Address,
+                  value.Replace("\"", "\"\""));
+            }
+        }
+
+        void UpdateFormula()
+        {
+            if (_text != null)
+            {
+                base.Formula = string.Format(
+                    "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
+                    Address.Start.Address,
+                    _text);
+            }
+            else if(Formula2 != null)
+            {
+                Formula = Formula2;
+            }
+        }
+
+        public override ExcelAddress Address
+        {
+            get { return base.Address; }
+            set { base.Address = value;
+                if (value != null)
+                {
+                    UpdateFormula();
+                }
+            }
+        }
+
+
+        #endregion Constructors
+
+        /****************************************************************************************/
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingBeginsWith(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingBeginsWith(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
-
-    /****************************************************************************************/
-
-    #region Exposed Properties
-    /// <summary>
-    /// The text to search in the beginning of the cell
-    /// </summary>
-    public string Text
-    {
-      get
-      {
-        return GetXmlNodeString(
-          ExcelConditionalFormattingConstants.Paths.TextAttribute);
-      }
-      set
-      {
-        SetXmlNodeString(
-          ExcelConditionalFormattingConstants.Paths.TextAttribute,
-          value);
-
-        Formula = string.Format(
-          "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
-          Address.Start.Address,
-          value.Replace("\"", "\"\""));
-      }
-    }
-    #endregion Exposed Properties
-
-    /****************************************************************************************/
-  }
 }
