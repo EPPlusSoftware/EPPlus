@@ -38,9 +38,9 @@ namespace EPPlusTest
                 {
                     exlPackage.Workbook.Calculate();
 
-                    var value1 = exlPackage.Workbook.Worksheets[2].Cells["J10"].Value;
+                    var value1 = exlPackage.Workbook.Worksheets[1].Cells["J10"].Value;
 
-                    var value2 = exlPackage.Workbook.Worksheets[2].Cells["J11"].Value;
+                    var value2 = exlPackage.Workbook.Worksheets[1].Cells["J11"].Value;
 
                     Assert.IsTrue(value1.Equals(1.95583D));
 
