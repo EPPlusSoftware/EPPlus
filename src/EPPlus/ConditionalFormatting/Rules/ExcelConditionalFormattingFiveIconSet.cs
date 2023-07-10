@@ -52,13 +52,11 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             Icon4 = CreateIcon(60, eExcelConditionalFormattingRuleType.FiveIconSet);
             Icon5 = CreateIcon(80, eExcelConditionalFormattingRuleType.FiveIconSet);
 
-            Icon4.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
-            Icon4.Value = double.Parse(xr.GetAttribute("val"));
+            ReadIcon(Icon4, xr);
 
             xr.Read();
 
-            Icon5.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
-            Icon5.Value = double.Parse(xr.GetAttribute("val"));
+            ReadIcon(Icon5, xr);
 
             xr.Read();
             xr.Read();
