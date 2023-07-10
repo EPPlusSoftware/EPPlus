@@ -110,7 +110,7 @@ namespace EPPlusTest
 
             //Act
             excelPackage.Workbook.Calculate();
-            var table = excelPackage.Workbook.Worksheets[1];
+            var table = excelPackage.Workbook.Worksheets[0];
 
             var value1 = table.Cells["A1"].Value.ToString();
             var value2 = table.Cells["A4"].Value.ToString();
