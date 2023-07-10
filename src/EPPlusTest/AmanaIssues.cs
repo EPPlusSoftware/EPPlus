@@ -9,6 +9,39 @@ namespace EPPlusTest
     [TestClass]
     public class AmanaIssues : TestBase
     {
+
+        [TestMethod,
+        Description("If a Chart.xml contains ExtLst Nodes than the indentation of the chart.xml leads to corrupt Excel files")]
+        public void IssueWhitespaceInChartXml()
+        {
+            /* Note: The Microsoft.Office.Interop.Excel library is not compatible with all .Core frameworks. */
+            
+            //Arrange
+#if ! Core
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithCharts_xlsx.xlsx")));
+
+            //Act
+            var savePath = Path.Combine(TestContext.TestDeploymentDir, $"{TestContext.TestName}.xlsx");
+            excelPackage.SaveAs(new FileInfo(savePath));
+
+            var exApp = new Microsoft.Office.Interop.Excel.Application();
+
+            try
+            {
+                var exWbk = exApp.Workbooks.Open(savePath);
+            }
+            catch (System.Runtime.InteropServices.COMException)
+            {
+                Assert.Fail("It is not possible to open the workbook after EPPlus saved it.");
+            }
+            finally
+            {
+                exApp.Workbooks.Close();
+            }
+#endif
+        }
+
         [TestMethod]
         public void ExcelPackage_SaveAs_doesnt_throw_exception()
         {
