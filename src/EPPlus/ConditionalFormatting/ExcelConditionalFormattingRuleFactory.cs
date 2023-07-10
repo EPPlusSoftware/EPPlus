@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -9,361 +9,467 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Utils.Extensions;
+using System;
+using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-	/// <summary>
-	/// Factory class for ExcelConditionalFormatting
-	/// </summary>
-	internal static class ExcelConditionalFormattingRuleFactory
-	{
-		public static ExcelConditionalFormattingRule Create(
-			eExcelConditionalFormattingRuleType type,
-      ExcelAddress address,
-      int priority,
-			ExcelWorksheet worksheet,
-			XmlNode itemElementNode)
-		{
-			Require.Argument(type);
-      Require.Argument(address).IsNotNull("address");
-      Require.Argument(worksheet).IsNotNull("worksheet");
-			
-			// According the conditional formatting rule type
-			switch (type)
-			{
-        case eExcelConditionalFormattingRuleType.AboveAverage:
-          return new ExcelConditionalFormattingAboveAverage(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+    internal static class ExcelConditionalFormattingRuleFactory
+    {
 
-        case eExcelConditionalFormattingRuleType.AboveOrEqualAverage:
-          return new ExcelConditionalFormattingAboveOrEqualAverage(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+        public static ExcelConditionalFormattingRule Create(
+        eExcelConditionalFormattingRuleType type,
+        ExcelAddress address,
+        int priority, ExcelWorksheet worksheet)
+        {
+            Require.Argument(type);
+            Require.Argument(worksheet).IsNotNull("worksheet");
 
-        case eExcelConditionalFormattingRuleType.BelowAverage:
-          return new ExcelConditionalFormattingBelowAverage(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+            switch (type)
+            {
+                case eExcelConditionalFormattingRuleType.GreaterThan:
 
-        case eExcelConditionalFormattingRuleType.BelowOrEqualAverage:
-          return new ExcelConditionalFormattingBelowOrEqualAverage(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                    return new ExcelConditionalFormattingGreaterThan(
+                          address,
+                          priority,
+                          worksheet);
 
-        case eExcelConditionalFormattingRuleType.AboveStdDev:
-          return new ExcelConditionalFormattingAboveStdDev(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.GreaterThanOrEqual:
+                    return new ExcelConditionalFormattingGreaterThanOrEqual(
+                          address,
+                          priority,
+                          worksheet);
 
-        case eExcelConditionalFormattingRuleType.BelowStdDev:
-          return new ExcelConditionalFormattingBelowStdDev(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.LessThan:
+                    return new ExcelConditionalFormattingLessThan(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.Bottom:
-          return new ExcelConditionalFormattingBottom(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.LessThanOrEqual:
+                    return new ExcelConditionalFormattingLessThanOrEqual(
+                          address,
+                          priority,
+                          worksheet);
 
-        case eExcelConditionalFormattingRuleType.BottomPercent:
-          return new ExcelConditionalFormattingBottomPercent(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Between:
+                    return new ExcelConditionalFormattingBetween(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.Top:
-          return new ExcelConditionalFormattingTop(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.NotBetween:
+                    return new ExcelConditionalFormattingNotBetween(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.TopPercent:
-          return new ExcelConditionalFormattingTopPercent(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Equal:
+                    return new ExcelConditionalFormattingEqual(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.Last7Days:
-          return new ExcelConditionalFormattingLast7Days(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.NotEqual:
+                    return new ExcelConditionalFormattingNotEqual(
+                        address, 
+                        priority, 
+                        worksheet);
 
+                case eExcelConditionalFormattingRuleType.ContainsText:
+                    return new ExcelConditionalFormattingContainsText(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.LastMonth:
-          return new ExcelConditionalFormattingLastMonth(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.NotContainsText:
+                    return new ExcelConditionalFormattingNotContainsText(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.LastWeek:
-          return new ExcelConditionalFormattingLastWeek(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.ContainsErrors:
+                    return new ExcelConditionalFormattingContainsErrors(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.NextMonth:
-          return new ExcelConditionalFormattingNextMonth(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.NotContainsErrors:
+                    return new ExcelConditionalFormattingNotContainsErrors(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.NextWeek:
-          return new ExcelConditionalFormattingNextWeek(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.BeginsWith:
+                    return new ExcelConditionalFormattingBeginsWith(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.ThisMonth:
-          return new ExcelConditionalFormattingThisMonth(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.EndsWith:
+                    return new ExcelConditionalFormattingEndsWith(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.ThisWeek:
-          return new ExcelConditionalFormattingThisWeek(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.ContainsBlanks:
+                    return new ExcelConditionalFormattingContainsBlanks(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.Today:
-          return new ExcelConditionalFormattingToday(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.NotContainsBlanks:
+                    return new ExcelConditionalFormattingNotContainsBlanks(
+                       address,
+                       priority,
+                       worksheet);
 
-        case eExcelConditionalFormattingRuleType.Tomorrow:
-          return new ExcelConditionalFormattingTomorrow(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Expression:
+                    return new ExcelConditionalFormattingExpression(
+                        address, 
+                        priority, 
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.Yesterday:
-          return new ExcelConditionalFormattingYesterday(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Yesterday:
+                    return new ExcelConditionalFormattingYesterday(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.BeginsWith:
-          return new ExcelConditionalFormattingBeginsWith(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Today:
+                    return new ExcelConditionalFormattingToday(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.Between:
-          return new ExcelConditionalFormattingBetween(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Tomorrow:
+                    return new ExcelConditionalFormattingTomorrow(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.ContainsBlanks:
-          return new ExcelConditionalFormattingContainsBlanks(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Last7Days:
+                    return new ExcelConditionalFormattingLast7Days(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.ContainsErrors:
-          return new ExcelConditionalFormattingContainsErrors(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.LastWeek:
+                    return new ExcelConditionalFormattingLastWeek(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.ContainsText:
-          return new ExcelConditionalFormattingContainsText(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.ThisWeek:
+                    return new ExcelConditionalFormattingThisWeek(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.DuplicateValues:
-          return new ExcelConditionalFormattingDuplicateValues(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.NextWeek:
+                    return new ExcelConditionalFormattingNextWeek(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.EndsWith:
-          return new ExcelConditionalFormattingEndsWith(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.LastMonth:
+                    return new ExcelConditionalFormattingLastMonth(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.Equal:
-          return new ExcelConditionalFormattingEqual(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.ThisMonth:
+                    return new ExcelConditionalFormattingThisMonth(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.Expression:
-          return new ExcelConditionalFormattingExpression(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.NextMonth:
+                    return new ExcelConditionalFormattingNextMonth(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.GreaterThan:
-          return new ExcelConditionalFormattingGreaterThan(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.DuplicateValues:
+                    return new ExcelConditionalFormattingDuplicateValues(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.GreaterThanOrEqual:
-          return new ExcelConditionalFormattingGreaterThanOrEqual(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.Top:
+                case eExcelConditionalFormattingRuleType.Bottom:
+                case eExcelConditionalFormattingRuleType.TopPercent:
+                case eExcelConditionalFormattingRuleType.BottomPercent:
+                    return new ExcelConditionalFormattingTopBottomGroup(
+                        type, 
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.LessThan:
-          return new ExcelConditionalFormattingLessThan(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.AboveAverage:
+                case eExcelConditionalFormattingRuleType.AboveOrEqualAverage:
+                case eExcelConditionalFormattingRuleType.BelowOrEqualAverage:
+                case eExcelConditionalFormattingRuleType.BelowAverage:
+                    return new ExcelConditionalFormattingAverageGroup(
+                        type, 
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.LessThanOrEqual:
-          return new ExcelConditionalFormattingLessThanOrEqual(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.AboveStdDev:
+                case eExcelConditionalFormattingRuleType.BelowStdDev:
+                    return new ExcelConditionalFormattingStdDevGroup(
+                        type, 
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.NotBetween:
-          return new ExcelConditionalFormattingNotBetween(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.UniqueValues:
+                    return new ExcelConditionalFormattingUniqueValues(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.NotContainsBlanks:
-          return new ExcelConditionalFormattingNotContainsBlanks(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.DataBar:
+                    return new ExcelConditionalFormattingDataBar(
+                        address, 
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.NotContainsErrors:
-          return new ExcelConditionalFormattingNotContainsErrors(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.TwoColorScale:
+                    return new ExcelConditionalFormattingTwoColorScale(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.NotContainsText:
-          return new ExcelConditionalFormattingNotContainsText(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.ThreeColorScale:
+                    return new ExcelConditionalFormattingThreeColorScale(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.NotEqual:
-          return new ExcelConditionalFormattingNotEqual(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                    return new ExcelConditionalFormattingThreeIconSet(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.UniqueValues:
-          return new ExcelConditionalFormattingUniqueValues(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.FourIconSet:
+                    return new ExcelConditionalFormattingFourIconSet(
+                        address,
+                        priority,
+                        worksheet);
 
-        case eExcelConditionalFormattingRuleType.ThreeColorScale:
-          return new ExcelConditionalFormattingThreeColorScale(
-            address,
-            priority,
-            worksheet,
-            itemElementNode);
+                case eExcelConditionalFormattingRuleType.FiveIconSet:
+                    return new ExcelConditionalFormattingFiveIconSet(
+                        address,
+                        priority,
+                        worksheet);
+            }
 
-        case eExcelConditionalFormattingRuleType.TwoColorScale:
-          return new ExcelConditionalFormattingTwoColorScale(
-            address,
-            priority,
-						worksheet,
-						itemElementNode);
-        case eExcelConditionalFormattingRuleType.ThreeIconSet:
-          return new ExcelConditionalFormattingThreeIconSet(
-            address,
-            priority,
-            worksheet,
-            itemElementNode,
-            null);
-        case eExcelConditionalFormattingRuleType.FourIconSet:
-          return new ExcelConditionalFormattingFourIconSet(
-            address,
-            priority,
-            worksheet,
-            itemElementNode,
-            null);
-        case eExcelConditionalFormattingRuleType.FiveIconSet:
-          return new ExcelConditionalFormattingFiveIconSet(
-            address,
-            priority,
-            worksheet,
-            itemElementNode,
-            null);
-        case eExcelConditionalFormattingRuleType.DataBar:
-          return new ExcelConditionalFormattingDataBar(
-            eExcelConditionalFormattingRuleType.DataBar,
-            address,
-            priority,
-            worksheet,
-            itemElementNode,
-            null);
+            throw new InvalidOperationException(
+             string.Format(
+             ExcelConditionalFormattingConstants.Errors.NonSupportedRuleType,
+             type.ToString()));
+        }
 
+        public static ExcelConditionalFormattingRule Create(ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+        {
+            string cfType = xr.GetAttribute("type");
+            string op = xr.GetAttribute("operator");
 
-        //TODO: Add DataBar
-			}
+            if (cfType == "cellIs")
+            {
+                cfType = op;
+            }
 
-			throw new InvalidOperationException(
-        string.Format(
-          ExcelConditionalFormattingConstants.Errors.NonSupportedRuleType,
-          type.ToString()));
-		}
-	}
+            if (cfType == "timePeriod")
+            {
+                cfType = xr.GetAttribute("timePeriod");
+            }
+
+            if (cfType == "top10")
+            {
+                bool isPercent = !string.IsNullOrEmpty(xr.GetAttribute("percent"));
+                bool isBottom = !string.IsNullOrEmpty(xr.GetAttribute("bottom"));
+
+                if (isPercent)
+                {
+                    cfType = "TopPercent";
+
+                    if (isBottom)
+                    {
+                        cfType = "BottomPercent";
+                    }
+                }
+                else if (isBottom)
+                {
+                    cfType = "Bottom";
+                }
+                else
+                {
+                    cfType = "Top";
+                }
+            }
+
+            if (cfType == "aboveAverage")
+            {
+                //aboveAverage is true by default/when empty
+                if (string.IsNullOrEmpty(xr.GetAttribute("aboveAverage")))
+                {
+                    cfType = "Above";
+                }
+                else
+                {
+                    cfType = "Below";
+                }
+
+                string stringEnding = "Average";
+
+                if (!string.IsNullOrEmpty(xr.GetAttribute("stdDev")))
+                {
+                    stringEnding = "StdDev";
+                }
+                else if (!string.IsNullOrEmpty(xr.GetAttribute("equalAverage")))
+                {
+                    cfType = cfType + "OrEqual";
+                }
+
+                cfType = cfType + stringEnding;
+            }
+
+            string text = xr.GetAttribute("timePeriod");
+
+            if(cfType == "colorScale")
+            {
+                return ColourScaleReadHandler.CreateScales(address, xr, ws);
+            }
+
+            if(cfType == "iconSet")
+            {
+                return IconReadHandler.ReadIcons(address, xr, ws);
+            }
+
+            var eType = cfType.ToEnum<eExcelConditionalFormattingRuleType>().Value;
+
+            switch (eType)
+            {
+                case eExcelConditionalFormattingRuleType.GreaterThan:
+                    return new ExcelConditionalFormattingGreaterThan(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.GreaterThanOrEqual:
+                    return new ExcelConditionalFormattingGreaterThanOrEqual(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.LessThan:
+                    return new ExcelConditionalFormattingLessThan(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.LessThanOrEqual:
+                    return new ExcelConditionalFormattingLessThanOrEqual(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Between:
+                    return new ExcelConditionalFormattingBetween(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.NotBetween:
+                    return new ExcelConditionalFormattingNotBetween(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Equal:
+                    return new ExcelConditionalFormattingEqual(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.NotEqual:
+                    return new ExcelConditionalFormattingNotEqual(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.ContainsText:
+                    return new ExcelConditionalFormattingContainsText(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.NotContainsText:
+                    return new ExcelConditionalFormattingNotContainsText(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.BeginsWith:
+                    return new ExcelConditionalFormattingBeginsWith(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.EndsWith:
+                    return new ExcelConditionalFormattingEndsWith(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Expression:
+                    return new ExcelConditionalFormattingExpression(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.ContainsBlanks:
+                    return new ExcelConditionalFormattingContainsBlanks(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.NotContainsBlanks:
+                    return new ExcelConditionalFormattingNotContainsBlanks(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.ContainsErrors:
+                    return new ExcelConditionalFormattingContainsErrors(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.NotContainsErrors:
+                    return new ExcelConditionalFormattingNotContainsErrors(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Yesterday:
+                    return new ExcelConditionalFormattingYesterday(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Today:
+                    return new ExcelConditionalFormattingToday(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Tomorrow:
+                    return new ExcelConditionalFormattingTomorrow(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Last7Days:
+                    return new ExcelConditionalFormattingLast7Days(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.LastWeek:
+                    return new ExcelConditionalFormattingLastWeek(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.ThisWeek:
+                    return new ExcelConditionalFormattingThisWeek(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.NextWeek:
+                    return new ExcelConditionalFormattingNextWeek(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.LastMonth:
+                    return new ExcelConditionalFormattingLastMonth(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.ThisMonth:
+                    return new ExcelConditionalFormattingThisMonth(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.NextMonth:
+                    return new ExcelConditionalFormattingNextMonth(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.DuplicateValues:
+                    return new ExcelConditionalFormattingDuplicateValues(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.Top:
+                case eExcelConditionalFormattingRuleType.Bottom:
+                case eExcelConditionalFormattingRuleType.TopPercent:
+                case eExcelConditionalFormattingRuleType.BottomPercent:
+                    return new ExcelConditionalFormattingTopBottomGroup(eType, address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.AboveAverage:
+                case eExcelConditionalFormattingRuleType.AboveOrEqualAverage:
+                case eExcelConditionalFormattingRuleType.BelowOrEqualAverage:
+                case eExcelConditionalFormattingRuleType.BelowAverage:
+                    return new ExcelConditionalFormattingAverageGroup(eType, address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.AboveStdDev:
+                case eExcelConditionalFormattingRuleType.BelowStdDev:
+                    return new ExcelConditionalFormattingStdDevGroup(eType, address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.UniqueValues:
+                    return new ExcelConditionalFormattingUniqueValues(address, ws, xr);
+
+                case eExcelConditionalFormattingRuleType.DataBar:
+                    return new ExcelConditionalFormattingDataBar(address, ws, xr);
+            }
+
+            throw new InvalidOperationException(
+             string.Format(
+             ExcelConditionalFormattingConstants.Errors.NonSupportedRuleType,
+             eType.ToString()));
+        }
+    }
 }

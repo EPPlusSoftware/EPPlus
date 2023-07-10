@@ -1,4 +1,18 @@
-﻿using System;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  05/07/2023         EPPlus Software AB         Implemented function
+ *************************************************************************************************/
+
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var numeratorPDF = System.Math.Pow(degreesOfFreedom / (degreesOfFreedom + System.Math.Pow(x, 2)), (degreesOfFreedom + 1) / 2);
             var denominatorPDF = System.Math.Sqrt(degreesOfFreedom) * BetaHelper.Beta(degreesOfFreedom / 2, 0.5d);
 
-            var probabilityDensityFunction = numeratorPDF / denominatorPDF;
-            return probabilityDensityFunction;
+            var pdf = numeratorPDF / denominatorPDF;
+            return pdf;
         }
 
-        public static double CumulativeDistributionFuncion(double x, double degreesOfFreedom)
+        public static double CumulativeDistributionFunction(double x, double degreesOfFreedom)
         {
 
             //Using regularized incomplete beta function to find the cumulative distribution function when initial formula has the argument cumulative = true.
@@ -42,6 +56,40 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
 
             return cdf;
+        }
+
+        public static double InverseTFunc(double probability, double degreesOfFreedom)
+        {
+            //Approximating the inverse integral with bisection algorithm. Methods like newton-rhapson might be
+            //better, but this is a rather nice looking and easy implementation.
+            //When the cdf gets close enough to the probability, we know that we have found the area that correlates to given probability.
+
+            var epsilon = 0.000000000001;
+            var lBound = -500d;
+            var uBound = 500d;
+
+            while (uBound - lBound > epsilon)
+            {
+                var intersect = (lBound + uBound) / 2d;
+                var cdf = CumulativeDistributionFunction(intersect, degreesOfFreedom);
+
+                var diff = Math.Abs(cdf - probability);
+                if (Math.Abs(cdf - probability) < epsilon)
+                {
+                    return intersect;
+                }
+                else if (cdf < probability)
+                {
+                    lBound = intersect;
+                }
+                else
+                {
+                    uBound = intersect;
+                }
+
+            }
+
+            return (lBound + uBound) / 2;
         }
     }
 }

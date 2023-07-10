@@ -966,7 +966,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else if (Items.Count > 0)
             {
-                int hasMultipleSelectedCount = 0;
                 foreach (var item in Items)
                 {
                     var v = item.Value ?? ExcelPivotTable.PivotNullValue;
@@ -978,10 +977,9 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         item.X = -1;
                     }
-                    if (hasMultipleSelectedCount<=1 && item.Hidden==false && item.Type!=eItemType.Default) hasMultipleSelectedCount++;
                     item.GetXmlString(sb);
                 }
-                if (hasMultipleSelectedCount > 1 && IsPageField) PageFieldSettings.SelectedItem = -1;
+                if (MultipleItemSelectionAllowed && IsPageField) PageFieldSettings.SelectedItem = -1;
                 var node = (XmlElement)CreateNode("d:items");       //Creates or return the existing node
                 node.InnerXml = sb.ToString();
                 node.SetAttribute("count", Items.Count.ToString());

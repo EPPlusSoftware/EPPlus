@@ -9,13 +9,8 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using OfficeOpenXml.ConditionalFormatting;
 
 namespace OfficeOpenXml.ConditionalFormatting.Contracts
 {
@@ -29,6 +24,10 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     /// Text Attribute
     /// </summary>
     string Text { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    string Formula { get; set; }
     #endregion Public Properties
-  }
+    }
 }

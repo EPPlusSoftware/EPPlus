@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -9,160 +9,110 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Utils.Extensions;
 
-namespace OfficeOpenXml.ConditionalFormatting
+namespace OfficeOpenXml.ConditionalFormatting.Rules
 {
-    /// <summary>
-    /// Conditional formatting with a five icon set
-    /// </summary>
-    public class ExcelConditionalFormattingFiveIconSet
-    : ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>, IExcelConditionalFormattingFiveIconSet
-  {
-    /****************************************************************************************/
-
-    #region Private Properties
-
-    #endregion Private Properties
-
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingFiveIconSet(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.FiveIconSet,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
+    internal class ExcelConditionalFormattingFiveIconSet : 
+        ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>, 
+        IExcelConditionalFormattingFiveIconSet
     {
-        if (itemElementNode != null && itemElementNode.HasChildNodes)
+        internal ExcelConditionalFormattingFiveIconSet(
+        ExcelAddress address,
+        int priority,
+        ExcelWorksheet worksheet)
+            : base(
+              eExcelConditionalFormattingRuleType.FiveIconSet,
+              address,
+              priority,
+              worksheet)
         {
-            XmlNode iconNode4 = TopNode.SelectSingleNode("d:iconSet/d:cfvo[position()=4]", NameSpaceManager);
-            Icon4 = new ExcelConditionalFormattingIconDataBarValue(
-                    eExcelConditionalFormattingRuleType.FiveIconSet,
-                    address,
-                    worksheet,
-                    iconNode4,
-                    namespaceManager);
-            
-            XmlNode iconNode5 = TopNode.SelectSingleNode("d:iconSet/d:cfvo[position()=5]", NameSpaceManager);
-            Icon5 = new ExcelConditionalFormattingIconDataBarValue(
-                    eExcelConditionalFormattingRuleType.FiveIconSet,
-                    address,
-                    worksheet,
-                    iconNode5,
-                    namespaceManager);
+            Icon4 = CreateIcon(60, eExcelConditionalFormattingRuleType.FiveIconSet);
+            Icon5 = CreateIcon(80, eExcelConditionalFormattingRuleType.FiveIconSet);
         }
-        else
+
+        internal ExcelConditionalFormattingFiveIconSet(
+            ExcelAddress address,
+            int priority,
+            ExcelWorksheet worksheet,
+            bool stopIfTrue,
+            XmlReader xr)
+            : base(
+            eExcelConditionalFormattingRuleType.FiveIconSet,
+            address,
+            priority,
+            worksheet,
+            stopIfTrue,
+            xr)
         {
-            XmlNode iconSetNode = TopNode.SelectSingleNode("d:iconSet", NameSpaceManager);
-            var iconNode4 = iconSetNode.OwnerDocument.CreateElement(ExcelConditionalFormattingConstants.Paths.Cfvo, ExcelPackage.schemaMain);
-            iconSetNode.AppendChild(iconNode4);
+            Icon4 = CreateIcon(60, eExcelConditionalFormattingRuleType.FiveIconSet);
+            Icon5 = CreateIcon(80, eExcelConditionalFormattingRuleType.FiveIconSet);
 
-            Icon4 = new ExcelConditionalFormattingIconDataBarValue(eExcelConditionalFormattingValueObjectType.Percent,
-                    60,
-                    "",
-                    eExcelConditionalFormattingRuleType.ThreeIconSet,
-                    address,
-                    priority,
-                    worksheet,
-                    iconNode4,
-                    namespaceManager);
+            Icon4.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
+            Icon4.Value = double.Parse(xr.GetAttribute("val"));
 
-            var iconNode5 = iconSetNode.OwnerDocument.CreateElement(ExcelConditionalFormattingConstants.Paths.Cfvo, ExcelPackage.schemaMain);
-            iconSetNode.AppendChild(iconNode5);
+            xr.Read();
 
-            Icon5 = new ExcelConditionalFormattingIconDataBarValue(eExcelConditionalFormattingValueObjectType.Percent,
-                    80,
-                    "",
-                    eExcelConditionalFormattingRuleType.ThreeIconSet,
-                    address,
-                    priority,
-                    worksheet,
-                    iconNode5,
-                    namespaceManager);
+            Icon5.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
+            Icon5.Value = double.Parse(xr.GetAttribute("val"));
+
+            xr.Read();
+            xr.Read();
         }
-    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingFiveIconSet(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
-    }
+        internal ExcelConditionalFormattingFiveIconSet(ExcelConditionalFormattingFiveIconSet copy) : base(copy)
+        {
+            Icon4 = copy.Icon4;
+            Icon5 = copy.Icon5;
+        }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingFiveIconSet(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-        #endregion Constructors
-
-        /// <summary>
-        /// Icon 5 value
-        /// </summary>
-    public ExcelConditionalFormattingIconDataBarValue Icon5
-    {
-        get;
-        internal set;
-    }
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingFiveIconSet(this);
+        }
 
         /// <summary>
         /// Icon 4 value
         /// </summary>
         public ExcelConditionalFormattingIconDataBarValue Icon4
-    {
-        get;
-        internal set;
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// Icon 4 value
+        /// </summary>
+        public ExcelConditionalFormattingIconDataBarValue Icon5
+        {
+            get;
+            internal set;
+        }
+
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (Icon1.CustomIcon != null ||
+                    Icon2.CustomIcon != null ||
+                    Icon3.CustomIcon != null ||
+                    Icon4.CustomIcon != null ||
+                    Icon5.CustomIcon != null)
+                {
+                    return true;
+                }
+
+                if (ExcelAddressBase.RefersToOtherWorksheet(Icon5.Formula, _ws.Name))
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
+            }
+        }
     }
-  }
-  }
+}
