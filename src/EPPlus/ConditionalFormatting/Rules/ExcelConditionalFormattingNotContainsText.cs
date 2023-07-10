@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -9,124 +9,118 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingNotContainsText
-  /// </summary>
-  public class ExcelConditionalFormattingNotContainsText
-    : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingNotContainsText : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingNotContainsText
-  {
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="address"></param>
-    /// <param name="priority"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingNotContainsText(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.NotContainsText,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
     {
-        if (itemElementNode==null) //Set default values and create attributes if needed
+        public ExcelConditionalFormattingNotContainsText(
+          ExcelAddress address,
+          int priority,
+          ExcelWorksheet worksheet)
+          : base(eExcelConditionalFormattingRuleType.NotContainsText, address, priority, worksheet)
         {
             Operator = eExcelConditionalFormattingOperatorType.NotContains;
             Text = string.Empty;
         }
+
+        public ExcelConditionalFormattingNotContainsText(
+          ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+          : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
+        {
+            Operator = eExcelConditionalFormattingOperatorType.NotContains;
+        }
+
+        ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy) :base(copy)
+        {
+            Text = copy.Text;
+        }
+
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingNotContainsText(this);
+        }
+
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                Formula2 = null;
+
+                //TODO: Error check/Throw when formula does not follow this format and is a ContainsText.
+                base.Formula = string.Format(
+                  "ISERROR(SEARCH(\"{1}\",{0}))",
+                  Address.Start.Address,
+                  value.Replace("\"", "\"\""));
+            }
+        }
+
+        //get Returns Formula2 and set sets both Formula and Formula2
+        //Property name is Formula for Interface ease of use.
+        //It is recommended to use the interface over cast when possible.
+        public override string Formula
+        {
+            get
+            {
+                //We use Formula2 to store user input.
+                //This because Formula has to be in a specific format for this class.
+                return Formula2;
+            }
+            set
+            {
+                _text = null;
+                Formula2 = value;
+
+                //Set Formula to the required format with the Formula2 user input.
+                base.Formula = string.Format(
+                    "ISERROR(SEARCH({1},{0}))",
+                    Address.Start.Address,
+                    Formula2);
+            }
+        }
+
+        void UpdateFormula()
+        {
+            if (_text != null)
+            {
+                Formula = string.Format(
+                    "ISERROR(SEARCH(\"{1}\",{0}))",
+                    Address.Start.Address,
+                    _text);
+            }
+            else if (Formula2 != null)
+            {
+                Formula = Formula2;
+            }
+        }
+
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (Formula2 != null)
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
+            }
+        }
+
+        public override ExcelAddress Address
+        {
+            get { return base.Address; }
+            set { base.Address = value; UpdateFormula(); }
+        }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingNotContainsText(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingNotContainsText(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
-
-    /****************************************************************************************/
-
-    #region Exposed Properties
-    /// <summary>
-    /// The text to search inside the cell
-    /// </summary>
-    public string Text
-    {
-      get
-      {
-        return GetXmlNodeString(
-          ExcelConditionalFormattingConstants.Paths.TextAttribute);
-      }
-      set
-      {
-        SetXmlNodeString(
-          ExcelConditionalFormattingConstants.Paths.TextAttribute,
-          value);
-
-        Formula = string.Format(
-          "ISERROR(SEARCH(\"{1}\",{0}))",
-          Address.Start.Address,
-          value.Replace("\"", "\"\""));
-      }
-    }
-    #endregion Exposed Properties
-
-    /****************************************************************************************/
-  }
 }

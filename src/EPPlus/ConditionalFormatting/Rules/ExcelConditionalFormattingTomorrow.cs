@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -9,98 +9,47 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.Xml;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingTomorrow
-  /// </summary>
-  public class ExcelConditionalFormattingTomorrow
-    : ExcelConditionalFormattingTimePeriodGroup
-  {
-    /****************************************************************************************/
-
-    #region Constructors
     /// <summary>
-    /// 
+    /// ExcelConditionalFormattingLast7Days
     /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingTomorrow(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.Tomorrow,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
+    public class ExcelConditionalFormattingTomorrow: ExcelConditionalFormattingTimePeriodGroup
     {
-        if (itemElementNode==null) //Set default values and create attributes if needed
+        #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <param name="address"></param>
+        /// <param name="worksheet"></param>
+        internal ExcelConditionalFormattingTomorrow(
+            ExcelAddress address,
+            int priority,
+            ExcelWorksheet worksheet)
+        : base(eExcelConditionalFormattingRuleType.Tomorrow, address, priority, worksheet)
         {
             TimePeriod = eExcelConditionalFormattingTimePeriodType.Tomorrow;
             Formula = string.Format(
               "FLOOR({0},1)=TODAY()+1",
               Address.Start.Address);
         }
-    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingTomorrow(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="ws"></param>
+        /// <param name="xr"></param>
+        public ExcelConditionalFormattingTomorrow(
+            ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+            : base(eExcelConditionalFormattingRuleType.Tomorrow, address, ws, xr)
+        {
+        }
+        #endregion
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingTomorrow(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
-
-    /****************************************************************************************/
-  }
 }

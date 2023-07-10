@@ -57,7 +57,7 @@ namespace EPPlusTest.FormulaParsing
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();            
-            if(File.Exists(logFile))
+            if(File.Exists(logFile))    
             {
                 File.Delete(logFile);   
             }
@@ -86,6 +86,7 @@ namespace EPPlusTest.FormulaParsing
 
                 foreach (var name in p.Workbook.Names)
                 {
+                    
                     var id = ExcelCellBase.GetCellId(ushort.MaxValue, name.Index, 0);
                     values.Add(id, name.Value);
                 }
@@ -97,6 +98,10 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
+                    //p.Workbook.Worksheets["Data_Elements"].Cells["W2"].Calculate();
+                    //p.Workbook.Names["Raw_BufferTypeId"].Calculate();
+                    //p.Workbook.Worksheets["RNPS_sig_sample"].Cells["C193"].Calculate();
                     //p.Workbook.Calculate(x => x.CacheExpressions = true);
                     //p.Workbook.Worksheets["Summary"].Cells["G234"].Calculate(x => x.CacheExpressions = true);
                     //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
@@ -122,6 +127,7 @@ namespace EPPlusTest.FormulaParsing
                 {
                     logWriter.WriteLine($"An exception occured: {ex}");
                 }
+
                 logWriter.WriteLine($"Calculating {xlFile} end. Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 logWriter.WriteLine($"Differences:");
                 logWriter.WriteLine($"Formula values to compare: {values.Count}");
@@ -131,10 +137,12 @@ namespace EPPlusTest.FormulaParsing
                     ExcelCellBase.SplitCellId(value.Key, out int wsIndex, out int row, out int col);
                     object v;
                     ExcelWorksheet ws;
+                    string nameOrAddress;
                     if (wsIndex == ushort.MaxValue || wsIndex==-1)
                     {
                         ws = null;
                         v = p.Workbook.Names[row].Value;
+                        nameOrAddress = p.Workbook.Names[row].Name;
                     }
                     else
                     {
@@ -142,10 +150,12 @@ namespace EPPlusTest.FormulaParsing
                         if (col == 0)
                         {
                             v = ws.Names[row].Value;
+                            nameOrAddress = ws.Names[row].Name;
                         }
                         else
                         { 
                             v = ws.GetValue(row, col);
+                            nameOrAddress = ExcelCellBase.GetAddress(row, col);
                         }
                     }
 
@@ -161,7 +171,10 @@ namespace EPPlusTest.FormulaParsing
                     //{
                     //    logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
                     //}
-                    logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value}\t{v}\t{diff}");
+                    var s1 = (value.Value ?? "").ToString().Replace("\r", "").Replace("\n", "");
+                    var s2 = (v ?? "").ToString().Replace("\r", "").Replace("\n", "");
+                    
+                    logWriter.WriteLine($"{ws?.Name}\t{nameOrAddress}\t{s1}\t{s2}\t{diff}");
                     //}
                 }
                 logWriter.WriteLine($"File end processing {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");
@@ -171,7 +184,6 @@ namespace EPPlusTest.FormulaParsing
                 SaveWorkbook("calcIssue.xlsx", p);
             }
         }
-
         private void UpdateData(ExcelPackage p)
         {
             var inputSheet = p.Workbook.Worksheets["Invoer"];

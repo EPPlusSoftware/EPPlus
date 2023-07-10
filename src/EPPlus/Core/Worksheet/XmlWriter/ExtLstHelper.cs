@@ -10,15 +10,18 @@
  *************************************************************************************************
   02/10/2023         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OfficeOpenXml.Core.Worksheet.XmlWriter
+namespace OfficeOpenXml.ExcelXMLWriter
 {
     internal class ExtLstHelper
     {
         List<string> listOfExts = new List<string>();
+        internal int extCount { get { return listOfExts.Count; } }
+
         Dictionary<string, int> uriToIndex = new Dictionary<string, int>();
 
         public ExtLstHelper(string xml)
@@ -62,6 +65,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         /// If <param name="uriOfNodeBefore"> is blank sets content as the first ext</param>
         internal void InsertExt(string uri, string content, string uriOfNodeBefore)
         {
+            if (string.IsNullOrEmpty(content))
+            {
+                return;
+            }
+
             int indexOfNode = -1;
             if (uriOfNodeBefore != "")
             {

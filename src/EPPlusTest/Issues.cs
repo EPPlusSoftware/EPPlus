@@ -4769,7 +4769,6 @@ namespace EPPlusTest
                 {
                     otherInputTab.DataValidations.InternalValidationEnabled = false;
                 }
-
                 // Saving
                 SaveAndCleanup(p);
             }

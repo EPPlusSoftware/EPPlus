@@ -220,6 +220,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["rsq"] = new Rsq();
             Functions["skew"] = new Skew();
             Functions["skew.p"] = new SkewP();
+            Functions["slope"] = new Slope();
             Functions["kurt"] = new Kurt();
             Functions["gauss"] = new Gauss();
             Functions["standardize"] = new Standardize();
@@ -237,7 +238,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["steyx"] = new Steyx();
             Functions["t.dist"] = new TDist();
             Functions["t.dist.2t"] = new TDist2t();
+            Functions["t.inv"] = new TInv();
             Functions["t.dist.rt"] = new TDistRt();
+            Functions["t.inv.2t"] = new TInv2t();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
