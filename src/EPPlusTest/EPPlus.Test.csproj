@@ -161,6 +161,15 @@
     <None Update="Workbooks\VBADecompressBug.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\TestDoc_CountBlankSingleCell_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_XMLTagsTable_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
