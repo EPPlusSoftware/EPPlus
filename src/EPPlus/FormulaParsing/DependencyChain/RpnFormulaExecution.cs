@@ -314,6 +314,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     depChain._formulaStack.Push(f);
                                     ws = ne._worksheetIx < 0 ? null : depChain._parsingContext.Package.Workbook._worksheets[ne._worksheetIx];
+                                    
                                     f = GetNameFormula(depChain, ws, ((NamedValueExpression)f._expressions[f._tokenIndex])._name);
                                     goto ExecuteFormula;
                                 }
@@ -675,9 +676,10 @@ namespace OfficeOpenXml.FormulaParsing
             var address = new FormulaRangeAddress() { FromRow = cc.Row, ToRow = cc.Row, FromCol = cc.Column, ToCol = cc.Column };
             foreach (var sf in depChain._formulaStack)
             {
-                var toCell = ExcelCellBase.GetCellId(sf._ws.IndexInList, sf._row, sf._column);
-                if (address.CollidesWith(sf._ws.IndexInList, sf._row, sf._column))
+                var sheetId = sf._ws?.IndexInList??ushort.MaxValue;
+                if (address.CollidesWith(sheetId, sf._row, sf._column))
                 {
+                    var toCell = ExcelCellBase.GetCellId(sheetId, sf._row, sf._column);
                     HandleCircularReference(depChain, f, options, toCell);
                 }
             }

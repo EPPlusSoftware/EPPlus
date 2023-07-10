@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using OfficeOpenXml.Utils;
+
 namespace OfficeOpenXml.Utils
 {
     internal static class XmlReaderHelper
@@ -17,12 +17,13 @@ namespace OfficeOpenXml.Utils
                     if (xr.EOF) return false;
                 } while (!(xr.Depth == depth && xr.NodeType == XmlNodeType.Element));
             }
-            return xr.NodeType==XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]) ;
+            return xr.NodeType == XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]);
         }
 
         /// <summary>
         /// Read file until a tag in tagName is found or EOF.
         /// This requires more careful consideration than when specifing depth.
+        /// As it will exit on endnodes and continue directly to end of file if nothing is found.
         /// </summary>
         /// <param name="xr">Handle to xml to read data from</param>
         /// <param name="tagName">Array of tags to stop at in the order they should appear in the xml</param>
@@ -40,7 +41,7 @@ namespace OfficeOpenXml.Utils
         }
         internal static bool ReadUntil(this XmlReader xr, int depth, Dictionary<string, int> nodeOrder, string tag)
         {
-            if(xr.EOF == false && nodeOrder.TryGetValue(tag, out int tagIx))
+            if (xr.EOF == false && nodeOrder.TryGetValue(tag, out int tagIx))
             {
                 if (nodeOrder.TryGetValue(xr.LocalName, out int currentNodeIx))
                 {

@@ -53,9 +53,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             }
 
 
-            foreach (var arg in args)
+            foreach (var argument in args )
             {
-                GetComplexNumbers(arg, out double real, out double imag, out string imaginarySuffix);
+                GetComplexNumbers(argument, out double real, out double imag, out string imaginarySuffix);
                 if (double.IsNaN(real) || double.IsNaN(imag))
                 {
                     return CompileResult.GetErrorResult(eErrorType.Num);

@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             return GetDaysBetweenDates(start, end);
         }
 
-        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate)
+        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate, bool returnZeroIfNegative)
         {
             if (endDate.IsLastDayOfFebruary)
             {
@@ -51,7 +51,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             {
                 startDate.Day = 30;
             }
-            return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear);
+            return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear, returnZeroIfNegative);
+        }
+
+        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate)
+        {
+            return GetDaysBetweenDates(startDate, endDate, false);
+
         }
 
         public double GetCoupdays(FinancialDay start, FinancialDay end, int frequency)

@@ -47,12 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
         public FinanceCalcResult<double> GetOddfprice()
         {
 
-            if (!((_maturityDate > _firstCouponDate)
-               || (_maturityDate > _settlementDate)
-               || (_maturityDate > _issueDate))
-               || !((_firstCouponDate > _settlementDate)
-               || (_firstCouponDate > _issueDate)
-               || (_settlementDate > _issueDate)))
+            if (!(_maturityDate > _firstCouponDate && _firstCouponDate > _settlementDate && _settlementDate > _issueDate))
             {
                 return new FinanceCalcResult<double>(eErrorType.Num);
             }
@@ -61,6 +56,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             {
                 return new FinanceCalcResult<double>(eErrorType.Num);
             }
+
+
+            if (_redemption <= 0)
+            {
+                return new FinanceCalcResult<double>(eErrorType.Num);
+            }
+
             var sDate = FinancialDayFactory.Create(_settlementDate, _basis);
             var mDate = FinancialDayFactory.Create(_maturityDate, _basis);
             var fcDate = FinancialDayFactory.Create(_firstCouponDate, _basis);
@@ -70,8 +72,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             // Many of the following variable names are taken from the formula in the Excel documentation for ODDFPRICE.
             // See https://support.microsoft.com/en-gb/office/oddfprice-function-d7d664a8-34df-4233-8d2b-922bcf6a69e1
 
-            var A = daysDefinition.GetDaysBetweenDates(iDate, sDate);
-            var DSC = daysDefinition.GetDaysBetweenDates(sDate, fcDate);
+
+            var A = daysDefinition.GetDaysBetweenDates(iDate, sDate, true);
+            var DSC = daysDefinition.GetDaysBetweenDates(sDate, fcDate, true);
 
             var coupDaysFunc = new CoupdaysImpl(sDate, fcDate, _frequency, _basis);
             var coupDaysResult = coupDaysFunc.GetCoupdays();
@@ -81,7 +84,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             var coupNumResult = coupNumFunc.GetCoupnum();
             var N = coupNumResult.Result;
 
-            var DFC = daysDefinition.GetDaysBetweenDates(_issueDate, _firstCouponDate);
+            var DFC = daysDefinition.GetDaysBetweenDates(iDate, fcDate, true);
             var numOfMonths = 12 / _frequency;
 
             if (DFC < E)
@@ -135,15 +138,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                     var coupNcdFunc = new CoupncdImpl(sDate, fcDate, _frequency, _basis);
                     var coupNcdResult = coupNcdFunc.GetCoupncd();
                     var nextCoupDate = coupNcdResult.Result;
-                    DSC = daysDefinition.GetDaysBetweenDates(_settlementDate, nextCoupDate);
+                    var ncDate = FinancialDayFactory.Create(nextCoupDate, _basis);
+                    DSC = daysDefinition.GetDaysBetweenDates(sDate, ncDate, true);
 
+                    if (DSC < 0)
+                    {
+                        DSC = 0d;
+                    }
                 }
                 else
                 {
                     var coupPcdFunc = new CouppcdImpl(sDate, fcDate, _frequency, _basis);
                     var coupPcdResult = coupPcdFunc.GetCouppcd();
                     var previousCoupDate = coupPcdResult.Result;
-                    A = daysDefinition.GetDaysBetweenDates(previousCoupDate, _settlementDate);
+                    var pcDate = FinancialDayFactory.Create(previousCoupDate, _basis);
+                    A = daysDefinition.GetDaysBetweenDates(pcDate, sDate, true);
                     DSC = E - A;
                 }
 
@@ -167,8 +176,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                     var earlyCouponDate = lateCouponDate.SubtractMonths(numOfMonths, lateCouponDate.Day);
                     if (_basis == DayCountBasis.Actual_Actual)
                     {
-
-                        NL = daysDefinition.GetDaysBetweenDates(earlyCouponDate, lateCouponDate);
+                        NL = daysDefinition.GetDaysBetweenDates(earlyCouponDate, lateCouponDate, true);
                     }
                     else
                     {
@@ -181,7 +189,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                     }
                     else
                     {
-                        DCi = daysDefinition.GetDaysBetweenDates(iDate, lateCouponDate);
+                        DCi = daysDefinition.GetDaysBetweenDates(iDate, lateCouponDate, true);
                     }
 
                     if (iDate > earlyCouponDate)
@@ -202,7 +210,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                         endDate = lateCouponDate;
                     }
 
-                    A = daysDefinition.GetDaysBetweenDates(startDate, endDate);
+                    A = daysDefinition.GetDaysBetweenDates(startDate, endDate, true);
+
                     lateCouponDate = earlyCouponDate;
 
                     dcDivNl += DCi / NL;

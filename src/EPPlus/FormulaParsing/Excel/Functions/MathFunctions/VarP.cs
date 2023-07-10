@@ -35,5 +35,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var args = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
             return new CompileResult(VarMethods.VarP(args), DataType.Decimal);
         }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
+        }
+
     }
 }

@@ -9,11 +9,8 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using OfficeOpenXml.Style.Dxf;
 
@@ -46,8 +43,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         int Priority { get; set; }
 
         /// <summary>
-        /// If this property is true, no rules with lower priority should be applied over this rule,
-        /// when this rule evaluates to true.
+        /// If this property is true, no rules with lower priority should be applied over this rule.
         /// </summary>
         bool StopIfTrue { get; set; }
 

@@ -168,6 +168,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
                 Assert.AreEqual(86.62364985, result);
             }
         }
+
+        [TestMethod]
+        public void OddfpriceExample()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test with some crazy inputs: ");
+                sheet.Cells["A1"].Value = new System.DateTime(2019, 2, 14);
+                sheet.Cells["A2"].Value = new System.DateTime(2029, 2, 14);
+                sheet.Cells["A3"].Value = new System.DateTime(2018, 11, 1);
+                sheet.Cells["A4"].Value = new System.DateTime(2019, 2, 15);
+                sheet.Cells["A5"].Formula = "ODDFPRICE(A1,A2,A3,A4,19%,529%,1678,4,4)";
+
+            }
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -9,223 +9,194 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using System.Globalization;
+using System;
+using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Style;
+
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    /// <summary>
-    /// Databar
-    /// </summary>
-    public class ExcelConditionalFormattingDataBar
-      : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRule,
         IExcelConditionalFormattingDataBarGroup
     {
-        /****************************************************************************************/
+        internal string Uid { get; set; }
 
-        #region Private Properties
-
-        #endregion Private Properties
-
-        /****************************************************************************************/
-
-        #region Constructors
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="priority"></param>
-        /// <param name="address"></param>
-        /// <param name="worksheet"></param>
-        /// <param name="itemElementNode"></param>
-        /// <param name="namespaceManager"></param>
         internal ExcelConditionalFormattingDataBar(
-          eExcelConditionalFormattingRuleType type,
-          ExcelAddress address,
-          int priority,
-          ExcelWorksheet worksheet,
-          XmlNode itemElementNode,
-          XmlNamespaceManager namespaceManager)
-            : base(
-              type,
-              address,
-              priority,
-              worksheet,
-              itemElementNode,
-              (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
+         ExcelAddress address,
+         int priority,
+         ExcelWorksheet ws)
+        : base(eExcelConditionalFormattingRuleType.DataBar, address, priority, ws)
         {
-            var s = SchemaNodeOrder;
-            Array.Resize(ref s, s.Length+2);    //Fixes issue 15429. Append node order instead om overwriting it.
-            s[s.Length - 2] = "cfvo";
-            s[s.Length - 1] = "color";
-            SchemaNodeOrder = s;
+            HighValue = new ExcelConditionalFormattingIconDataBarValue(eExcelConditionalFormattingValueObjectType.Max, eExcelConditionalFormattingRuleType.DataBar);
+            LowValue = new ExcelConditionalFormattingIconDataBarValue(eExcelConditionalFormattingValueObjectType.Min, eExcelConditionalFormattingRuleType.DataBar);
 
-            //Create the <dataBar> node inside the <cfRule> node
-            if (itemElementNode!=null && itemElementNode.HasChildNodes)
+            Uid = NewId();
+
+            InitalizeDxfColours();
+
+            Style.Fill.Style = eDxfFillStyle.GradientFill;
+
+            //Excel default blue?
+            FillColor.Color = Color.FromArgb(int.Parse("FF638EC6", NumberStyles.HexNumber));
+        }
+
+        private void InitalizeDxfColours()
+        {
+            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, null);
+            BorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
+            NegativeFillColor = new ExcelDxfColor(null, eStyleClass.Fill, ValueWasSet);
+            NegativeBorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
+            AxisColor = new ExcelDxfColor(null, eStyleClass.Border, null);
+        }
+
+        internal void ValueWasSet(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+        {
+            if(styleClass == eStyleClass.Border)
             {
-                bool high=false;
-                foreach (XmlNode node in itemElementNode.SelectNodes("d:dataBar/d:cfvo", NameSpaceManager))
+                Border = true;
+                if(NegativeBorderColor.HasValue)
                 {
-                    if (high == false)
-                    {
-                        LowValue = new ExcelConditionalFormattingIconDataBarValue(
-                                type,
-                                address,
-                                worksheet,
-                                node,
-                                namespaceManager);
-                        high = true;
-                    }
-                    else
-                    {
-                        HighValue = new ExcelConditionalFormattingIconDataBarValue(
-                                type,
-                                address,
-                                worksheet,
-                                node,
-                                namespaceManager);
-                    }
+                    NegativeBarBorderColorSameAsPositive = false;
                 }
             }
-            else
+
+            if(styleClass == eStyleClass.Fill)
             {
-                var iconSetNode = CreateComplexNode(
-                  Node,
-                  ExcelConditionalFormattingConstants.Paths.DataBar);
-
-                var lowNode = iconSetNode.OwnerDocument.CreateElement(ExcelConditionalFormattingConstants.Paths.Cfvo, ExcelPackage.schemaMain);
-                iconSetNode.AppendChild(lowNode);
-                LowValue = new ExcelConditionalFormattingIconDataBarValue(eExcelConditionalFormattingValueObjectType.Min,
-                        0,
-                        "",
-                        eExcelConditionalFormattingRuleType.DataBar,
-                        address,
-                        priority,
-                        worksheet,
-                        lowNode,
-                        namespaceManager);
-
-                var highNode = iconSetNode.OwnerDocument.CreateElement(ExcelConditionalFormattingConstants.Paths.Cfvo, ExcelPackage.schemaMain);
-                iconSetNode.AppendChild(highNode);
-                HighValue = new ExcelConditionalFormattingIconDataBarValue(eExcelConditionalFormattingValueObjectType.Max,
-                        0,
-                        "",
-                        eExcelConditionalFormattingRuleType.DataBar,
-                        address,
-                        priority,
-                        worksheet,
-                        highNode,
-                        namespaceManager);
+                NegativeBarColorSameAsPositive = false;
             }
-            Type = type;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="priority"></param>
-        /// <param name="address"></param>
-        /// <param name="worksheet"></param>
-        /// <param name="itemElementNode"></param>
         internal ExcelConditionalFormattingDataBar(
-          eExcelConditionalFormattingRuleType type,
-          ExcelAddress address,
-          int priority,
-          ExcelWorksheet worksheet,
-          XmlNode itemElementNode)
-            : this(
-              type,
-              address,
-              priority,
-              worksheet,
-              itemElementNode,
-              null)
+          ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+          : base(eExcelConditionalFormattingRuleType.DataBar, address, ws, xr)
         {
-        }
+            xr.Read();
+            var highType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
+            HighValue = new ExcelConditionalFormattingIconDataBarValue(highType, eExcelConditionalFormattingRuleType.DataBar);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="priority"></param>
-        /// <param name="address"></param>
-        /// <param name="worksheet"></param>
-        internal ExcelConditionalFormattingDataBar(
-          eExcelConditionalFormattingRuleType type,
-          ExcelAddress address,
-          int priority,
-          ExcelWorksheet worksheet)
-            : this(
-              type,
-              address,
-              priority,
-              worksheet,
-              null,
-              null)
-        {
-        }
-        #endregion Constructors
-        private const string _showValuePath="d:dataBar/@showValue";
-        /// <summary>
-        /// If true the values of the cells are shown, otherwise the cells only contain the databars.
-        /// </summary>
-        public bool ShowValue
-        {
-            get
+            if(!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                return GetXmlNodeBool(_showValuePath, true);
+                HighValue.Value = Double.Parse(xr.GetAttribute("val"));
             }
-            set
+
+            xr.Read();
+            var lowType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
+            LowValue = new ExcelConditionalFormattingIconDataBarValue(lowType, eExcelConditionalFormattingRuleType.DataBar);
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                SetXmlNodeBool(_showValuePath, value);
+                LowValue.Value = Double.Parse(xr.GetAttribute("val"));
             }
+
+            xr.Read();
+
+            InitalizeDxfColours();
+
+            var colVal = int.Parse(xr.GetAttribute("rgb"),NumberStyles.HexNumber);
+            Color = Color.FromArgb(colVal);
+            //Correct the alpha
+            Color = Color.FromArgb(255, Color);
+
+            //enter databar exit node ->(local) extLst -> ext -> id
+            xr.Read();
+            xr.Read();
+            xr.Read();
+            xr.Read();
+
+            Uid = xr.ReadString();
+
+            // /ext -> /extLst
+            xr.Read();
+            xr.Read();
+            xr.Read();
+        }
+
+        ExcelConditionalFormattingDataBar(ExcelConditionalFormattingDataBar copy) : base(copy)
+        {
+            Uid = copy.Uid;
+            LowValue = copy.LowValue;
+            HighValue = copy.HighValue;
+            FillColor = copy.FillColor;
+            BorderColor = copy.BorderColor;
+            NegativeBorderColor = copy.NegativeBorderColor;
+            NegativeFillColor = copy.NegativeFillColor;
+            AxisColor = copy.AxisColor;
+
+            Border = copy.Border;
+            ShowValue = copy.ShowValue;
+            Gradient = copy.Gradient;
+            NegativeBarBorderColorSameAsPositive = copy.NegativeBarBorderColorSameAsPositive;
+            NegativeBarColorSameAsPositive = copy.NegativeBarColorSameAsPositive;
+            AxisPosition = copy.AxisPosition;
+        }
+
+        internal static string NewId()
+        {
+            return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
+        }
+
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingDataBar(this);
         }
 
         /// <summary>
-        /// The low value
+        /// Show value
         /// </summary>
-        public ExcelConditionalFormattingIconDataBarValue LowValue
-        {
-            get;
-            internal set;
-        }
+        public bool ShowValue { get; set; } = true;
+
+        public bool Gradient { get; set; } = true;
+
+        public bool Border { get; set; } = false;
+
+        public bool NegativeBarColorSameAsPositive { get; set; } = true;
+
+        public bool NegativeBarBorderColorSameAsPositive { get; set; } = true;
+
+
+        public eExcelDatabarAxisPosition AxisPosition { get; set; }
 
         /// <summary>
-        /// The high value
+        /// Databar Low Value
         /// </summary>
-        public ExcelConditionalFormattingIconDataBarValue HighValue
-        {
-            get;
-            internal set;
-        }
+        public ExcelConditionalFormattingIconDataBarValue LowValue { get; internal set; }
 
-
-        private const string _colorPath = "d:dataBar/d:color/@rgb";
         /// <summary>
-        /// The color of the databar
+        /// Databar High Value
         /// </summary>
-        public Color Color
-        {
-            get
+        public ExcelConditionalFormattingIconDataBarValue HighValue { get; internal set; }
+        /// <summary>
+        /// Shorthand for the Fillcolor.Color property as it is the most commonly used
+        /// </summary>
+        public Color Color 
+        { 
+            get 
             {
-                var rgb=GetXmlNodeString(_colorPath);
-                if(!string.IsNullOrEmpty(rgb))
+                if(FillColor.Color != null)
                 {
-                    return Color.FromArgb(int.Parse(rgb, NumberStyles.HexNumber));
+                    return (Color)FillColor.Color;
                 }
-                return Color.White;
-            }
+                else
+                {
+                    return Color.Empty;
+                }
+            } 
             set
             {
-                SetXmlNodeString(_colorPath, value.ToArgb().ToString("X"));
+                FillColor.Color = value;
             }
         }
+
+        public ExcelDxfColor FillColor { get; set; }
+        public ExcelDxfColor BorderColor { get; set; }
+        public ExcelDxfColor NegativeFillColor { get; set; }
+        public ExcelDxfColor NegativeBorderColor { get; set; }
+        public ExcelDxfColor AxisColor { get; set; }
     }
 }

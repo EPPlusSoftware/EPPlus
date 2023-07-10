@@ -354,6 +354,11 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static string AdjustStartCellForFormula(string formula, ExcelAddress address, ExcelAddressBase newAddress)
         {
+            if(formula == null)
+            {
+                return "";
+            }
+
             var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
             var tokens = sct.Tokenize(formula);
             var sb = new StringBuilder();

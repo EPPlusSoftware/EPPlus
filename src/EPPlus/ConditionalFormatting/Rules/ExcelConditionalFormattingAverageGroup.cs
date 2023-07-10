@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -9,100 +9,38 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingAverageGroup
-  /// </summary>
-  public class ExcelConditionalFormattingAverageGroup
-    : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingAverageGroup : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingAverageGroup
-  {
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingAverageGroup(
-      eExcelConditionalFormattingRuleType type,
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        type,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
     {
-    }
+        internal ExcelConditionalFormattingAverageGroup(
+         eExcelConditionalFormattingRuleType type,
+         ExcelAddress address,
+         int priority,
+         ExcelWorksheet worksheet)
+         : base(type, address, priority, worksheet)
+        {
+        }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    ///<param name="type"></param>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingAverageGroup(
-      eExcelConditionalFormattingRuleType type,
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        type,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
-    }
+        internal ExcelConditionalFormattingAverageGroup(
+          eExcelConditionalFormattingRuleType type, ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+          : base(type, address, ws, xr)
+        {
+        }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    ///<param name="type"></param>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingAverageGroup(
-      eExcelConditionalFormattingRuleType type,
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        type,
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
+        internal ExcelConditionalFormattingAverageGroup(ExcelConditionalFormattingAverageGroup copy): base(copy) 
+        {
+        }
 
-    /****************************************************************************************/
-  }
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingAverageGroup(this);
+        }
+    }
 }

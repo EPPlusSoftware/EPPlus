@@ -1157,7 +1157,17 @@ namespace OfficeOpenXml
             var nextElementLength = GetAttributeLength(xr);
             stream.SetWriteToBuffer();
             LoadMergeCells(xr);
-            var nextElement = "dataValidations";
+
+            var nextElement = "conditionalFormatting";
+            if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
+            {
+                xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
+                LoadConditionalFormatting(xr);
+                stream.SetWriteToBuffer();
+                lastXmlElement = nextElement;
+            }
+
+            nextElement = "dataValidations";
             if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
@@ -1727,6 +1737,12 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private void LoadConditionalFormatting(XmlReader xr)
+        {
+            _conditionalFormatting = new ExcelConditionalFormattingCollection(xr, this);
+        }
+
         private void WriteArrayFormulaRange(string address, int index, CellFlags type)
         {
             var refAddress = new ExcelAddressBase(address);
@@ -1755,7 +1771,7 @@ namespace OfficeOpenXml
         /// <param name="xr"></param>
         private void LoadMergeCells(XmlReader xr)
         {
-            if (xr.ReadUntil(1, "mergeCells", "dataValidations", "hyperlinks", "rowBreaks", "colBreaks", "extLst") && !xr.EOF)
+            if (xr.ReadUntil(1, "mergeCells", "conditionalFormatting", "dataValidations", "hyperlinks", "rowBreaks", "colBreaks", "extLst") && !xr.EOF)
             {
                 while (xr.Read())
                 {
@@ -2526,8 +2542,6 @@ namespace OfficeOpenXml
             SaveXml(stream);
         }
 
-
-
         /// <summary>
         /// Delete the printersettings relationship and part.
         /// </summary>
@@ -2800,11 +2814,18 @@ namespace OfficeOpenXml
                 CreateNode("d:cols");
                 CreateNode("d:sheetData");
                 CreateNode("d:mergeCells");
+                CreateNode("d:conditionalFormatting");
+                CreateNode("d:dataValidations");
                 CreateNode("d:hyperlinks");
                 CreateNode("d:rowBreaks");
                 CreateNode("d:colBreaks");
+                if (GetNode("d:extLst") == null)
+                {
+                    CreateNode("d:extLst");
+                }
 
-                if (DataValidations != null && DataValidations.Count != 0)
+                if (DataValidations != null && DataValidations.Count != 0 ||
+                    ConditionalFormatting != null && ConditionalFormatting.Count != 0)
                 {
                     WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
                     WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
@@ -2822,21 +2843,6 @@ namespace OfficeOpenXml
                     {
                         WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
                         WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, "xr");
-                    }
-
-                    if (DataValidations.HasValidationType(InternalValidationType.DataValidation))
-                    {
-                        var node = (XmlElement)CreateNode("d:dataValidations");
-
-                        if (DataValidations.HasValidationType(InternalValidationType.ExtLst) &&
-                            GetNode("d:extLst") == null)
-                        {
-                            CreateNode("d:extLst");
-                        }
-                    }
-                    else if (GetNode("d:extLst") == null)
-                    {
-                        CreateNode("d:extLst");
                     }
                 }
 
@@ -3080,6 +3086,23 @@ namespace OfficeOpenXml
                         _dataValidations.ReadDataValidations(xr);
                     }
                     xr.Read(); //Read over ext end tag
+
+                    stream.SetWriteToBuffer();
+                }
+                else if (xr.GetAttribute("uri") == ExtLstUris.ConditionalFormattingUri)
+                {
+                    xml = stream.ReadToExt(xml, ExtLstUris.ConditionalFormattingUri, ref lastXmlElement, lastUri);
+                    lastUri = ExtLstUris.ConditionalFormattingUri;
+                    stream.WriteToBuffer = false;
+
+                    xr.Read();
+
+                    if (_conditionalFormatting == null)
+                        _conditionalFormatting = new ExcelConditionalFormattingCollection(xr, this);
+                    else
+                        _conditionalFormatting.ReadExtConditionalFormattings(xr);
+
+                    xr.Read();
 
                     stream.SetWriteToBuffer();
                 }

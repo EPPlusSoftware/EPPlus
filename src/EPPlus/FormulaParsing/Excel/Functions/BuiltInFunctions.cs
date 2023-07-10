@@ -220,6 +220,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["rsq"] = new Rsq();
             Functions["skew"] = new Skew();
             Functions["skew.p"] = new SkewP();
+            Functions["slope"] = new Slope();
             Functions["kurt"] = new Kurt();
             Functions["gauss"] = new Gauss();
             Functions["standardize"] = new Standardize();
@@ -235,6 +236,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["expondist"] = new Expondist();
             Functions["expon.dist"] = new ExponDotDist();
             Functions["steyx"] = new Steyx();
+            Functions["t.dist"] = new TDist();
+            Functions["t.dist.2t"] = new TDist2t();
+            Functions["t.inv"] = new TInv();
+            Functions["t.dist.rt"] = new TDistRt();
+            Functions["t.inv.2t"] = new TInv2t();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -355,6 +361,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["npv"] = new Npv();
             Functions["oddfprice"] = new Oddfprice();
             Functions["oddfyield"] = new Oddfyield();
+            Functions["oddlyield"] = new Oddlyield();
+            Functions["oddlprice"] = new Oddlprice();
             Functions["rate"] = new Rate();
             Functions["nper"] = new Nper();
             Functions["nominal"] = new Nominal();
@@ -380,7 +388,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["tbilleq"] = new Tbilleq();
             Functions["tbillprice"] = new TbillPrice();
             Functions["tbillyield"] = new TbillYield();
-            Functions["oddlyield"] = new Oddlyield();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
@@ -422,10 +429,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
 
             Functions["imargument"] = new ImArgument();
+            Functions["imsub"] = new ImSub();
+            Functions["imcosh"] = new ImCosh();
             Functions["improduct"] = new ImProduct();
 
             Functions["imcos"] = new ImCos();
-
+            Functions["imcsc"] = new ImCsc();
+            Functions["imsin"] = new ImSin();
+            Functions["imsinh"] = new ImSinh();
+            Functions["imcsch"] = new ImCsch();
+            Functions["imcot"] = new ImCot();            
             Functions["gestep"] = new GeStep();
         }
     }

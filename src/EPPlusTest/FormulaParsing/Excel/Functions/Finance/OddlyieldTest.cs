@@ -118,11 +118,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
         {
             using (var package = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("Test with incorrect basis: ");
+                var sheet = package.Workbook.Worksheets.Add("Test with incorrect dates: ");
                 sheet.Cells["B1"].Value = new System.DateTime(2019, 2, 14);
                 sheet.Cells["B2"].Value = new System.DateTime(2019, 2, 13);
                 sheet.Cells["B3"].Value = new System.DateTime(2018, 11, 1);
-                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,34,100,2,6)";
+                sheet.Cells["A1"].Formula = "ODDLYIELD(B1,B2,B3,1%,34,100,2,0)";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
