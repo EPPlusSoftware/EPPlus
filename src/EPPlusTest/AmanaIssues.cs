@@ -26,6 +26,28 @@ namespace EPPlusTest
 
         }
 
+        [TestMethod]
+        public void Test_issue_with_whitespace_in_chart_xml()
+        { 
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CountBlankSingleCell_xlsx.xlsx")));
+
+            //Act
+            var savePath = Path.Combine(TestContext.TestDeploymentDir, $"{TestContext.TestName}.xlsx");
+            excelPackage.SaveAs(new FileInfo(savePath));
+
+            excelPackage.Workbook.Calculate();
+
+            //Asserts
+            Assert.AreEqual("b)", excelPackage.Workbook.Worksheets[0].Cells["B3"].Value);
+        }
+
         [TestMethod,
          Description(
              "Issue: If a cell is rich text and gets referenced by another cell by formula the Cell gets the Xml-Node as Value")]
@@ -39,16 +61,15 @@ namespace EPPlusTest
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
             //Act & Asserts
-            var excelPackage =
-                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_XMLTagsTable_xlsx.xlsx")));
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_XMLTagsTable_xlsx.xlsx")));
 
             var sheet = excelPackage.Workbook.Worksheets["Tabelle1"];
             Assert.AreEqual(sheet.Cells["A1"].Value, sheet.Cells["B1"].Value);
 
             sheet.Calculate();
             Assert.AreEqual(sheet.Cells["A1"].Value, sheet.Cells["B1"].Value);
-        }
 
+        }
 
         [TestMethod,
          Description(
@@ -72,7 +93,6 @@ namespace EPPlusTest
 
             //Assert
             Assert.AreEqual(worksheet.Cells["C2"].Value, worksheet.Cells["E3"].Value);
-
         }
     }
 }
