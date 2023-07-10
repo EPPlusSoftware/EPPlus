@@ -15,6 +15,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -78,6 +79,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             else if (arg.DataType == DataType.Boolean && arg.Address != null)
             {
                 return 0d;
+            }
+            else if(arg.DataType == DataType.String && arg.Address == null && arg.Value != null)
+            {
+                if(ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double numArg, CultureInfo.InvariantCulture))
+                {
+                    retVal += numArg;
+                }
             }
             else
             {  
