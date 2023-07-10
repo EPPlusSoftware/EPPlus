@@ -32,10 +32,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var realPart = 0d;
             var imagPart = 0d;
             var imSuffix = string.Empty;
+            var args = new List<string>();
 
-            foreach (var arg in arguments)
+            foreach(var arg in arguments)
             {
-                GetComplexNumbers(arg.Value.ToString(), out double real, out double imag, out string imaginarySuffix);
+                if (arg.IsExcelRange)
+                {
+                    foreach(var cell in arg.ValueAsRangeInfo)
+                    {
+                        if (cell.Value != null)
+                        {
+                            args.Add(cell.Value.ToString());
+                        }
+                    }
+                }
+                else if (arg.Value != null)
+                {
+                    args.Add(arg.Value.ToString());
+                }
+            }
+
+
+            foreach (var arg in args)
+            {
+                GetComplexNumbers(arg, out double real, out double imag, out string imaginarySuffix);
                 if (double.IsNaN(real) || double.IsNaN(imag))
                 {
                     return CompileResult.GetErrorResult(eErrorType.Num);

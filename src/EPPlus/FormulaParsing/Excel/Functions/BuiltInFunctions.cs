@@ -426,7 +426,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             Functions["imcos"] = new ImCos();
 
-
+            Functions["gestep"] = new GeStep();
         }
     }
 }
