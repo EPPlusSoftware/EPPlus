@@ -54,5 +54,4 @@ _ReSharper*/
 #NuGet
 packages/
 
-#Rider
 .idea/
