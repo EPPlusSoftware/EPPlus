@@ -244,7 +244,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             //Copy dfx styles used in conditional formatting.
             if (!sameWorkbook)
-            {
+            {                
                 CopyDxfStyles(Copy, added);
             }
 
@@ -850,6 +850,8 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         private static void CopyDxfStyles(ExcelWorksheet copy, ExcelWorksheet added)
         {
+            DxfStyleHandler.UpdateDxfXml(copy.Workbook);
+
             var dxfStyleCashe = new Dictionary<string, int>();
             CopyDxfStylesTables(copy, added, dxfStyleCashe);
             CopyDxfStylesPivotTables(copy, added, dxfStyleCashe);
