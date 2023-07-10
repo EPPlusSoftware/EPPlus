@@ -156,6 +156,9 @@
     <None Update="Workbooks\MultiColorConditionalFormatting.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\TestDoc_WithRoundedValues_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Workbooks\SignedWorkbook1.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -178,6 +181,8 @@
   <ItemGroup>
     <None Remove="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
     <EmbeddedResource Include="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
+    <None Remove="Workbooks\ExternalReferences.xlsx" />
+    <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
