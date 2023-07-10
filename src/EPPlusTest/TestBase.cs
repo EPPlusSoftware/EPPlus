@@ -34,6 +34,7 @@ using System.Reflection;
 using OfficeOpenXml.Drawing;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlusTest
 {
@@ -464,5 +465,16 @@ namespace EPPlusTest
             Assert.Inconclusive($"Image file {imageFile} does not exist");
             return null;
         }
+
+        protected static MemoryStream GetTestStream(string fileName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = assembly.GetManifestResourceNames().First(x => x.EndsWith(fileName));
+            var stream = assembly.GetManifestResourceStream(resourceName);
+            var mStream = new MemoryStream();
+            stream.CopyTo(mStream);
+
+            return mStream;
+        }    
     }
 }
