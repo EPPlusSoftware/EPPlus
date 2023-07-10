@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace EPPlusTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
