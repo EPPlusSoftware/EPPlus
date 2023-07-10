@@ -426,7 +426,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             Functions["imsub"] = new ImSub();
             Functions["imtan"] = new ImTan();
-
+            Functions["imsec"] = new ImSec();
 
             Functions["imargument"] = new ImArgument();
             Functions["imsub"] = new ImSub();
@@ -436,6 +436,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imcos"] = new ImCos();
             Functions["imcsc"] = new ImCsc();
             Functions["imsin"] = new ImSin();
+            Functions["imsinh"] = new ImSinh();
             Functions["imcsch"] = new ImCsch();
             Functions["imcot"] = new ImCot();
         }
