@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 
@@ -22,7 +24,6 @@ namespace EPPlusTest
             File.Delete(output);
 
         }
-    
 
         [TestMethod,
          Description(
