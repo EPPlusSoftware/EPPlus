@@ -149,6 +149,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             {
                 result = string.Format("{0:G15}{1}", imagPart, imSuffix);
             }
+            else if (double.IsNaN(imagPart)&& double.IsNaN(realPart)) 
+            {
+                result = "0";
+            }
             return result;
         }
 
