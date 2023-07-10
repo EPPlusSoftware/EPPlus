@@ -1148,6 +1148,7 @@ namespace OfficeOpenXml
 #endif
             xr.WhitespaceHandling = WhitespaceHandling.None;
 #endif            
+
             LoadColumns(xr);    //columnXml
             var lastXmlElement = "sheetData";
             xr.ReadUntil(1, lastXmlElement);
@@ -1165,6 +1166,8 @@ namespace OfficeOpenXml
                 LoadConditionalFormatting(xr);
                 stream.SetWriteToBuffer();
                 lastXmlElement = nextElement;
+                
+                stream.TestXml();
             }
 
             nextElement = "dataValidations";

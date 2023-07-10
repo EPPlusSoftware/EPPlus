@@ -11,6 +11,7 @@
   02/10/2023         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,8 +35,10 @@ namespace OfficeOpenXml.ExcelXMLWriter
             int start = 0, end = 0;
             GetBlock.Pos(xml, "extLst", ref start, ref end);
 
+            bool isEndNode = xml.Substring(end - 2, 2).Contains("/>");
+
             //If the node isn't just a placeholder
-            if (end - start > 10)
+            if (!isEndNode)
             {
                 int contentStart = start + "<ExtLst>".Length;
                 string extNodesOnly = xml.Substring(contentStart, end - contentStart - "</ExtLst>".Length);

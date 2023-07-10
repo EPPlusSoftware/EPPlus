@@ -229,6 +229,13 @@ namespace OfficeOpenXml
             WriteToBuffer = writeToBuffer;
             return startXml + xml;
         }
+
+        internal void TestXml()
+        {
+            Buffer.Flush();
+            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+        }
+
         internal string ReadToExt(string startXml, string uriValue, ref string lastElement, string lastUri = "")
         {
             Buffer.Flush();
@@ -253,7 +260,7 @@ namespace OfficeOpenXml
                 var lastElementIx = FindLastElementPosWithoutPrefix(xml, lastElement, false, 0);
                 if (lastElementIx < 0)
                 {
-                    throw new InvalidOperationException("Worksheet Xml is invalid");
+                    throw new InvalidOperationException($"Could not find {lastElement}");
                 }
                 xml = xml.Substring(lastElementIx);
             }

@@ -910,13 +910,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            for (var i = 0; i < added.ConditionalFormatting.Count; i++)
-            {
-                if(dxfStyleCashe.ContainsKey(added.ConditionalFormatting[i].DxfId.ToString()))
-                {
-                    added.ConditionalFormatting[i].DxfId = dxfStyleCashe[added.ConditionalFormatting[i].DxfId.ToString()];
-                }
-            }
+            //for (var i = 0; i < added.ConditionalFormatting.Count; i++)
+            //{
+            //    if(dxfStyleCashe.ContainsKey(added.ConditionalFormatting[i].DxfId.ToString()))
+            //    {
+            //        added.ConditionalFormatting[i].DxfId = dxfStyleCashe[added.ConditionalFormatting[i].DxfId.ToString()];
+            //    }
+            //}
                 //var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", added.NameSpaceManager);
                 //foreach (XmlElement cfRule in nodes)
                 //{

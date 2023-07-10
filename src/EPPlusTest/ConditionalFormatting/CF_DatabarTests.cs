@@ -185,5 +185,32 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(2, bar2.AxisColor.Index);
             }
         }
+
+        [TestMethod]
+        public void CF_DataBar_Sparkline_WriteRead()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("databarSparklineDataValidation");
+                var sheetExt = pck.Workbook.Worksheets.Add("databarExt");
+
+                sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A12"), Color.Red);
+
+                sheet.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Line, new ExcelAddress("A1:A12"), new ExcelAddress("B1:B12"));
+
+                var listVal = sheet.DataValidations.AddListValidation("A1:A5");
+
+                listVal.Formula.ExcelFormula = "databarExt!A1:A50";
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var readSheet = readPck.Workbook.Worksheets[0];
+
+                var cf = readSheet.ConditionalFormatting[0];
+            }
+        }
     }
 }
