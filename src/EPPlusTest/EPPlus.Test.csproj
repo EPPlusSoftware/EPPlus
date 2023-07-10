@@ -165,6 +165,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
+    <EmbeddedResource Include="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
+  </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
   </PropertyGroup>
