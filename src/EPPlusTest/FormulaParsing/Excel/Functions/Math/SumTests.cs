@@ -11,7 +11,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
     [TestClass]
     public class SumTests
     {
-        // TODO: this needs a review and potentially redesign
         [TestMethod]
         public void ShouldTreatSingleBooleanValuesOrginatingFromEvaluationsAsNumbers()
         {
@@ -108,7 +107,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = 2;
-                sheet.Cells["A1"].Formula = "1/0";
+                sheet.Cells["A2"].Formula = "1/0";
                 sheet.Cells["A4"].Formula = "SUM(A1:A2)";
                 sheet.Calculate();
                 var a4val = sheet.Cells["A4"].Value;
