@@ -9,7 +9,6 @@ namespace EPPlusTest
     [TestClass]
     public class AmanaIssues : TestBase
     {
-
         [TestMethod]
         public void ExcelPackage_SaveAs_doesnt_throw_exception()
         {
@@ -93,6 +92,44 @@ namespace EPPlusTest
 
             //Assert
             Assert.AreEqual(worksheet.Cells["C2"].Value, worksheet.Cells["E3"].Value);
+        }
+
+        [TestMethod]
+        [DataRow("A1:A3,A5,A6,A7,A8,A10,A9,A11", ";A1;A2;A3;A5;A6;A7;A8;A10;A9;A11", 10)]
+        [DataRow("A1", ";A1", 1)]
+        [DataRow("A1:A4,A5:A7,A8:A11", ";A1;A2;A3;A4;A5;A6;A7;A8;A9;A10;A11", 11)]
+        [DataRow("A1:A4,A5,A6,A7", ";A1;A2;A3;A4;A5;A6;A7", 7)]
+        [DataRow("A1,A2,A3,A4:A7", ";A1;A2;A3;A4;A5;A6;A7", 7)]
+        [DataRow("A1:A7", ";A1;A2;A3;A4;A5;A6;A7", 7)]
+        [DataRow("A1,A2,A3,A4", ";A1;A2;A3;A4", 4)]
+        [DataRow("A1,A2,A3:A5,A6,A7", ";A1;A2;A3;A4;A5;A6;A7", 7)]
+        public void Cell_Range(string cellRange, string expectedAddresses, int expectedCount)
+        {
+            // Arrange
+            var package = new ExcelPackage();
+            package.Workbook.Worksheets.Add("first");
+            var sheet = package.Workbook.Worksheets.First();
+
+            for (var i = 1; i <= 12; i++)
+            {
+                sheet.Cells[$"A{i}"].Value = 1;
+            }
+
+            sheet.Cells["A12"].Formula = "SUM(A1:A3,A5,A6,A7,A8,A10,A9,A11)";
+            var counterFirstIteration = 0;
+            var cellsFirstIteration = string.Empty;
+
+            // Act
+            var range = sheet.Cells[cellRange];
+            foreach (var cell in range)
+            {
+                counterFirstIteration++;
+                cellsFirstIteration = $"{cellsFirstIteration};{cell.Address}";
+            }
+
+            // Assert
+            Assert.AreEqual(expectedAddresses, cellsFirstIteration);
+            Assert.AreEqual(expectedCount, counterFirstIteration);
         }
     }
 }
