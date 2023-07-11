@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
@@ -23,8 +24,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     [FunctionMetadata(
      Category = ExcelFunctionCategory.Engineering,
      EPPlusVersion = "7.0",
-     Description = "Returns the cosecant of a complex number in x+yi or x+yj text format.")]
-    internal class ImCsc : ImFunctionBase
+     Description = "Returns the hyperbolic sine of a complex number in x + yi or x + yj text format.")]
+    internal class ImSinh : ImFunctionBase
     {
 
 
@@ -35,19 +36,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
-            var realNumerator = (Math.Sin(real) * Math.Cosh(imag));
-            var realDenominator = Math.Pow(Math.Cos(real),2)*Math.Pow(Math.Sinh(imag),2)+ Math.Pow(Math.Sin(real), 2)* Math.Pow(Math.Cosh(imag), 2);
-            var realPart = realNumerator / realDenominator;
-
-            var imagNumerator = (Math.Cos(real) * Math.Sinh(imag));
-            var imagDenominator = Math.Pow(Math.Cos(real), 2) * Math.Pow(Math.Sinh(imag), 2) + Math.Pow(Math.Sin(real), 2) * Math.Pow(Math.Cosh(imag), 2);
-            var imagPart = -1*(imagNumerator / imagDenominator);
-
+            var realPart = (Math.Sinh(real) * (Math.Cos(imag)));
+            var imagPart = (Math.Cosh(real) * (Math.Sin(imag)));
             var sign = (imagPart < 0) ? "-" : "+";
             var result = CreateImaginaryString(realPart, imagPart, sign, imaginarySuffix);
             return CreateResult(result, DataType.String);
-            
         }
     }
 }
-
