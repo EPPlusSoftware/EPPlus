@@ -11,6 +11,53 @@ namespace EPPlusTest
     public class AmanaIssues : TestBase
     {
 
+        [TestMethod, Description("If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
+        public void Calculate_sets_old_value_if_formula_contains_external_link()
+        {
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CellsWithFormulas_xlsx.xlsx")));
+            var ws = excelPackage.Workbook.Worksheets[2];
+
+            //Act
+            ws.Calculate();
+
+            //Asserts
+            for (var i = 9; i <= 148; i++)
+                Assert.AreEqual(ws.Cells[i, 3].Value, ws.Cells[i + 140, 3].Value);
+        }
+
+
+        [TestMethod, Description("If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
+        public void Calculate_sets_old_value_if_formula_contains_external_link2()
+        {
+
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithExternalReferences_xlsx.xlsx")));
+
+            //Act
+            var ws = excelPackage.Workbook.Worksheets[0];
+            ws.Calculate();
+
+            //Asserts
+            Assert.AreEqual(60d, ws.Cells["A1"].Value);
+            Assert.AreEqual(60d, ws.Cells["A2"].Value);
+            Assert.AreEqual(23d, ws.Cells["B19"].Value);
+            Assert.AreEqual(23d, ws.Cells["B20"].Value);
+
+        }
+
         [TestMethod]
         public void Test_roman_values()
         {
@@ -89,7 +136,7 @@ namespace EPPlusTest
                 Assert.AreEqual(ws.Cells[i, 7].Value, ws.Cells[i, (7 + 11)].Value);
             //Parameter FALSE
             for (var i = 1; i <= ws.Cells["H:H"].Count(); i++)
-                Assert.AreEqual(ws.Cells[i, 7].Value, ws.Cells[i, (7 + 11)].Value);
+                Assert.AreEqual(ws.Cells[i, 7].Value, ws.Cells[i, 7 + 11].Value);
         }
 
 
