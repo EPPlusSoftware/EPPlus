@@ -126,6 +126,18 @@
     <None Update="Workbooks\TestDoc_WithCharts_xlsx.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\TestDoc_WithRomanNumber_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithRomanValues_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_CellsWithFormulas_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithExternalReferences_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\tree-solid.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -174,6 +186,9 @@
     <None Update="Workbooks\TestDoc_XMLTagsTable_xlsx.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\TestDoc_Wenns_Formula_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -185,6 +200,8 @@
     <EmbeddedResource Include="Workbooks\Trim.xlsx" />
     <None Remove="Workbooks\ExternalReferences.xlsx" />
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
+    <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
+    <EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
