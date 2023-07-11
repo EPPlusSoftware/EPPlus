@@ -1,5 +1,6 @@
 namespace EPPlusTest
 {
+    using EPPlusTest.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OfficeOpenXml;
     using System;
@@ -10,8 +11,138 @@ namespace EPPlusTest
     public class AmanaIssues : TestBase
     {
 
+        [TestMethod, Description("If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
+        public void Calculate_sets_old_value_if_formula_contains_external_link()
+        {
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CellsWithFormulas_xlsx.xlsx")));
+            var ws = excelPackage.Workbook.Worksheets[2];
+
+            //Act
+            ws.Calculate();
+
+            //Asserts
+            for (var i = 9; i <= 148; i++)
+                Assert.AreEqual(ws.Cells[i, 3].Value, ws.Cells[i + 140, 3].Value);
+        }
+
+
+        [TestMethod, Description("If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
+        public void Calculate_sets_old_value_if_formula_contains_external_link2()
+        {
+
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithExternalReferences_xlsx.xlsx")));
+
+            //Act
+            var ws = excelPackage.Workbook.Worksheets[0];
+            ws.Calculate();
+
+            //Asserts
+            Assert.AreEqual(60d, ws.Cells["A1"].Value);
+            Assert.AreEqual(60d, ws.Cells["A2"].Value);
+            Assert.AreEqual(23d, ws.Cells["B19"].Value);
+            Assert.AreEqual(23d, ws.Cells["B20"].Value);
+
+        }
+
+        [TestMethod]
+        public void Test_roman_values()
+        {
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithRomanValues_xlsx.xlsx")));
+            var ws = excelPackage.Workbook.Worksheets[0];
+
+            //Act
+            ws.Calculate();
+
+            //Asserts
+            //Parameter
+            Assert.AreEqual(ws.Cells["A1"].Value, ws.Cells["B1"].Value);
+            Assert.AreEqual(ws.Cells["A2"].Value, ws.Cells["B2"].Value);
+            Assert.AreEqual(ws.Cells["A3"].Value, ws.Cells["B3"].Value);
+            Assert.AreEqual(ws.Cells["A4"].Value, ws.Cells["B4"].Value);
+            Assert.AreEqual(ws.Cells["A5"].Value, ws.Cells["B5"].Value);
+            Assert.AreEqual(ws.Cells["A6"].Value, ws.Cells["B6"].Value);
+            Assert.AreEqual(ws.Cells["A7"].Value, ws.Cells["B7"].Value);
+            Assert.AreEqual(ws.Cells["A8"].Value, ws.Cells["B8"].Value);
+            Assert.AreEqual(ws.Cells["A9"].Value, ws.Cells["B9"].Value);
+            Assert.AreEqual(ws.Cells["A10"].Value, ws.Cells["B10"].Value);
+
+            //Wrong Parameter
+            Assert.AreEqual(ws.Cells["C1"].Value, ws.Cells["D1"].Value);
+            Assert.AreEqual(ws.Cells["C2"].Value, ws.Cells["D2"].Value);
+            Assert.AreEqual(ws.Cells["C3"].Value, ws.Cells["D3"].Value);
+            Assert.AreEqual(ws.Cells["C4"].Value, ws.Cells["D4"].Value);
+            Assert.AreEqual(ws.Cells["C5"].Value, string.Empty);
+        }
+
+        [TestMethod]
+        public void Test_roman_values_for_excel_function()
+        {
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithRomanNumber_xlsx.xlsx")));
+            var ws = excelPackage.Workbook.Worksheets[0];
+            
+            //Act
+            ws.Calculate();
+
+            //Asserts
+            //no Parameter
+            for (var i = 1; i <= ws.Cells["A:A"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 1].Value, ws.Cells[i, (1 + 11)].Value);
+
+            //Parameter 0
+            for (var i = 1; i <= ws.Cells["B:B"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 2].Value, ws.Cells[i, (2 + 11)].Value);
+            //Parameter 1
+            for (var i = 1; i <= ws.Cells["C:C"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 3].Value, ws.Cells[i, (3 + 11)].Value);
+            //Parameter 2
+            for (var i = 1; i <= ws.Cells["D:D"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 4].Value, ws.Cells[i, (4 + 11)].Value);
+            //Parameter 3
+            for (var i = 1; i <= ws.Cells["E:E"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 5].Value, ws.Cells[i, (5 + 11)].Value);
+            //Parameter 4
+            for (var i = 1; i <= ws.Cells["F:F"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 6].Value, ws.Cells[i, (6 + 11)].Value);
+            //Parameter TRUE
+            for (var i = 1; i <= ws.Cells["G:G"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 7].Value, ws.Cells[i, (7 + 11)].Value);
+            //Parameter FALSE
+            for (var i = 1; i <= ws.Cells["H:H"].Count(); i++)
+                Assert.AreEqual(ws.Cells[i, 7].Value, ws.Cells[i, 7 + 11].Value);
+        }
+
+
+
         [TestMethod,
-        Description("If a Chart.xml contains ExtLst Nodes than the indentation of the chart.xml leads to corrupt Excel files")]
+         Description("If a Chart.xml contains ExtLst Nodes than the indentation of the chart.xml leads to corrupt Excel files")]
         public void IssueWhitespaceInChartXml()
         {
             /* Note: The Microsoft.Office.Interop.Excel library is not compatible with all .Core frameworks. */
