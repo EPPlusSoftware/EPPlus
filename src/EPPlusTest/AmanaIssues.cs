@@ -12,7 +12,7 @@ namespace EPPlusTest
     {
         [TestMethod, 
          Description("If a cell contains a hyperlink with special characters such as ä,ö,ü Excel encodes the link not in UTF-8 to keep the rule that a target link must be shorter than 2080 characters")]
-        public void IssueCanNotOpenAfterSaving()
+        public void Test_can_not_open_file_after_saving()
         {
             //Arrange
 #if ! Core
