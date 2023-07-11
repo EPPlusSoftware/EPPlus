@@ -1,16 +1,47 @@
-using System.Linq;
-
 namespace EPPlusTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OfficeOpenXml;
     using System;
     using System.IO;
-
+    using System.Linq;
 
     [TestClass]
     public class AmanaIssues : TestBase
     {
+
+        [TestMethod,
+        Description("If a Chart.xml contains ExtLst Nodes than the indentation of the chart.xml leads to corrupt Excel files")]
+        public void IssueWhitespaceInChartXml()
+        {
+            /* Note: The Microsoft.Office.Interop.Excel library is not compatible with all .Core frameworks. */
+            
+            //Arrange
+#if ! Core
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithCharts_xlsx.xlsx")));
+
+            //Act
+            var savePath = Path.Combine(TestContext.TestDeploymentDir, $"{TestContext.TestName}.xlsx");
+            excelPackage.SaveAs(new FileInfo(savePath));
+
+            var exApp = new Microsoft.Office.Interop.Excel.Application();
+
+            try
+            {
+                var exWbk = exApp.Workbooks.Open(savePath);
+            }
+            catch (System.Runtime.InteropServices.COMException)
+            {
+                Assert.Fail("It is not possible to open the workbook after EPPlus saved it.");
+            }
+            finally
+            {
+                exApp.Workbooks.Close();
+            }
+#endif
+        }
+
         [TestMethod]
         public void ExcelPackage_SaveAs_doesnt_throw_exception()
         {
@@ -95,6 +126,35 @@ namespace EPPlusTest
             //Assert
             Assert.AreEqual(worksheet.Cells["C2"].Value, worksheet.Cells["E3"].Value);
         }
+
+
+        [TestMethod]
+        public void Test_rounded_values()
+        {
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithRoundedValues_xlsx.xlsx")));
+
+            //Act
+            excelPackage.Workbook.Calculate();
+            var table = excelPackage.Workbook.Worksheets[0];
+
+            var value1 = table.Cells["A1"].Value.ToString();
+            var value2 = table.Cells["A4"].Value.ToString();
+            var value3 = table.Cells["B4"].Value.ToString();
+
+            //Asserts
+            Assert.IsTrue(value1.Equals("-18"));
+            Assert.IsTrue(value2.Equals("-40,5"));
+            Assert.IsTrue(value3.Equals("-23,4"));
+        }
+
 
         [TestMethod]
         public void Calculate_calculates_formula_with_external_link()
