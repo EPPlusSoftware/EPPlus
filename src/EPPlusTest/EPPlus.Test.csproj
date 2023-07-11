@@ -196,6 +196,8 @@
   <ItemGroup>
     <None Remove="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
     <EmbeddedResource Include="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
+    <None Remove="Workbooks\Trim.xlsx" />
+    <EmbeddedResource Include="Workbooks\Trim.xlsx" />
     <None Remove="Workbooks\ExternalReferences.xlsx" />
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
     <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
