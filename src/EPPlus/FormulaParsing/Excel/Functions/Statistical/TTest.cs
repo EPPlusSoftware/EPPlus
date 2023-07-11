@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  06/07/2023         EPPlus Software AB         Implemented function
+  11/07/2023         EPPlus Software AB         Implemented function
  *************************************************************************************************/
 
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "7.0",
-    Description = "Returns the probability for the Student's t-test.")]
+    Description = "Returns the probability for the Student's t-test. Can handle three types of t-tests: Paired, homoscedastic and heteroscedastic.")]
     internal class TTest : ExcelFunction
     {
         public override int ArgumentMinLength => 4;
@@ -38,25 +38,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var array1 = ArgToRangeInfo(arguments, 0);
             var array2 = ArgToRangeInfo(arguments, 1);
             var tails = ArgToDecimal(arguments, 2);
-            var type = ArgToDecimal(arguments, 3); //Can be 1, 2 or 3:
-                                                   //1. Test is performed paired
-                                                   //2. Two-sample equal variance (homoscedastic)
-                                                   //3. Two-sample unequal variance (heteroscedastic)
+            var type = ArgToDecimal(arguments, 3);
 
             if ((array1.Size.NumberOfRows * array1.Size.NumberOfCols != array2.Size.NumberOfRows * array2.Size.NumberOfCols)
                 && (type == 1))
             {
-                return CreateResult(eErrorType.NA); //check if there are equal amount of data points (this is ok if type != 1..?).
+                return CreateResult(eErrorType.NA);
             }
 
             if (tails != 1 && tails != 2)
             {
-                return CreateResult(eErrorType.Num); //check if tails input is valid.
+                return CreateResult(eErrorType.Num);
             }
 
             if (type != 1 && type != 2 && type != 3)
             {
-                return CreateResult(eErrorType.Num); //check if type input is valid.
+                return CreateResult(eErrorType.Num);
             }
 
             tails = Math.Floor(tails);
@@ -103,7 +100,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
             else
             {
-                //Separating the variances instead of combining as in the case of type = 1
+                //Separating the variances
 
                 var sX = StandardDeviation(list1);
                 var sY = StandardDeviation(list2);
@@ -114,7 +111,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 var meanX = list1.Average();
                 var meanY = list2.Average();
 
-                //For type = 3 (Welsh-test), the degrees of freedom is calculated differently.
+                //For type = 3 (Welsh-test), the degrees of freedom is calculated differently. Degrees of freedom calculated with Welch-Sattherwaite equation.
 
                 var numerator = Math.Pow(varX / list1.Count() + varY / list2.Count(), 2);
 
