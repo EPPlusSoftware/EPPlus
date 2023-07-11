@@ -52,7 +52,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
             Thread.CurrentThread.CurrentCulture = ci;
         }
 
-
         [TestMethod]
         public void ImLog2ShouldRetrunCorrectResultHighInput()
         {
