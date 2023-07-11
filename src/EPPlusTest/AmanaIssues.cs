@@ -1,3 +1,7 @@
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
+
 namespace EPPlusTest
 {
     using EPPlusTest.Properties;
@@ -10,6 +14,36 @@ namespace EPPlusTest
     [TestClass]
     public class AmanaIssues : TestBase
     {
+        [TestMethod]
+        public void Test_correct_values_in_WENNs_formula()
+        {
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_Wenns_Formula_xlsx.xlsx")));
+            var ws = excelPackage.Workbook.Worksheets[0];
+
+            //Act
+            ws.Calculate();
+
+            var value1 = ws.Cells["C3"].Value.ToString();
+            var value2 = ws.Cells["C4"].Value.ToString();
+            var value3 = ws.Cells["C5"].Value.ToString();
+            var value4 = ws.Cells["C6"].Value.ToString();
+            var value5 = ws.Cells["C7"].Value.ToString();
+
+            //Asserts
+            Assert.IsTrue(value1.Equals("one"));
+            Assert.IsTrue(value2.Equals("two"));
+            Assert.IsTrue(value3.Equals("three")); 
+            Assert.IsTrue(value4.Equals("four"));
+            Assert.IsTrue(value5.Equals("#N/A"));
+        }
+
 
         [TestMethod, Description("If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
         public void Calculate_sets_old_value_if_formula_contains_external_link()
