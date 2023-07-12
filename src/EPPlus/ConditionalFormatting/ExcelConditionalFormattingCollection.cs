@@ -93,7 +93,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             xr.Read();
 
-                            if (dataBar.LowValue.HasValueOrFormula && xr.LocalName == "xm:f")
+                            if (dataBar.LowValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
                                 if (dataBar.LowValue.Type == eExcelConditionalFormattingValueObjectType.Formula)

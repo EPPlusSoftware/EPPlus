@@ -912,23 +912,23 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            //for (var i = 0; i < added.ConditionalFormatting.Count; i++)
+            for (var i = 0; i < added.ConditionalFormatting.Count; i++)
+            {
+                if (dxfStyleCashe.ContainsKey(added.ConditionalFormatting[i].DxfId.ToString()))
+                {
+                    added.ConditionalFormatting[i].DxfId = dxfStyleCashe[added.ConditionalFormatting[i].DxfId.ToString()];
+                }
+            }
+            //var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", added.NameSpaceManager);
+            //foreach (XmlElement cfRule in nodes)
             //{
-            //    if(dxfStyleCashe.ContainsKey(added.ConditionalFormatting[i].DxfId.ToString()))
+            //    var dxfId = cfRule.GetAttribute("dxfId");
+            //    if (dxfStyleCashe.ContainsKey(dxfId))
             //    {
-            //        added.ConditionalFormatting[i].DxfId = dxfStyleCashe[added.ConditionalFormatting[i].DxfId.ToString()];
+            //        cfRule.SetAttribute("dxfId", dxfStyleCashe[dxfId].ToString());
             //    }
             //}
-                //var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", added.NameSpaceManager);
-                //foreach (XmlElement cfRule in nodes)
-                //{
-                //    var dxfId = cfRule.GetAttribute("dxfId");
-                //    if (dxfStyleCashe.ContainsKey(dxfId))
-                //    {
-                //        cfRule.SetAttribute("dxfId", dxfStyleCashe[dxfId].ToString());
-                //    }
-                //}
-            }
+        }
 
         private static void AppendDxf(ExcelStyles stylesFrom, ExcelStyles stylesTo, Dictionary<string, int> dxfStyleCashe, int dxfId)
         {

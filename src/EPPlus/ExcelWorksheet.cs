@@ -1163,11 +1163,13 @@ namespace OfficeOpenXml
             if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
+
+
                 LoadConditionalFormatting(xr);
                 stream.SetWriteToBuffer();
+
+
                 lastXmlElement = nextElement;
-                
-                stream.TestXml();
             }
 
             nextElement = "dataValidations";
@@ -1186,7 +1188,8 @@ namespace OfficeOpenXml
             {
                 LoadExtLst(xr, stream, ref xml, ref lastXmlElement);
             }
-            if (!string.IsNullOrEmpty(lastXmlElement))
+            
+            if(!string.IsNullOrEmpty(lastXmlElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml);
             }
@@ -3118,7 +3121,8 @@ namespace OfficeOpenXml
             if (string.IsNullOrEmpty(lastUri) == false)
             {
                 stream.ReadToEnd();
-                xml = stream.ReadToExt(xml, "", ref lastXmlElement, lastUri);
+                xml = stream.ReadToEndFromAfterUri(lastUri, xml);
+                lastXmlElement = "";
             }
         }
         ExcelIgnoredErrorCollection _ignoredErrors =null;

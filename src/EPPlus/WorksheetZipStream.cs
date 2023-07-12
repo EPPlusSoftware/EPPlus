@@ -194,16 +194,17 @@ namespace OfficeOpenXml
 
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+            var endElementIx = FindElementPos(xml, endElement, false);
 
-            int endElementIx;
-            if(endElement == "conditionalFormatting")
-            {
-               endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
-            }
-            else
-            {
-                endElementIx = FindElementPos(xml, endElement, false);
-            }
+            //int endElementIx;
+            //if(endElement == "conditionalFormatting")
+            //{
+            //   endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
+            //}
+            //else
+            //{
+            //    endElementIx = FindElementPos(xml, endElement, false);
+            //}
 
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))
@@ -230,10 +231,27 @@ namespace OfficeOpenXml
             return startXml + xml;
         }
 
-        internal void TestXml()
+        internal string ReadToEndFromAfterUri(string lastUri, string startXml)
         {
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+
+            var ix = GetXmlIndex(xml, lastUri);
+
+            if (ix > -1)
+            {
+                var xmlIncludingLatestElement = xml.Substring(ix);
+
+                var endIndex = FindElementPos(xmlIncludingLatestElement, "ext", false);
+
+                var xmlFromAfterLatestElement = xmlIncludingLatestElement.Substring(endIndex);
+
+                return startXml + xmlFromAfterLatestElement;
+            }
+            else
+            {
+                return startXml + xml.Substring(xml.IndexOf("Ext"));
+            }
         }
 
         internal string ReadToExt(string startXml, string uriValue, ref string lastElement, string lastUri = "")
@@ -241,41 +259,26 @@ namespace OfficeOpenXml
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
 
-            if (lastElement == "ext")
+            if(lastElement != "ext")
             {
-                var lastExtStartIx = GetXmlIndex(xml, lastUri);
-                int endExtIx;
-                if (lastExtStartIx < 0)
+                var extLstStart = GetXmlIndex(xml, uriValue);
+
+                if (extLstStart > 0)
                 {
-                    endExtIx = FindElementPos(xml, "ext", false);
-                }
-                else
-                {
-                    endExtIx = FindElementPos(xml, "ext", false, lastExtStartIx + 4);
-                }
-                xml = xml.Substring(endExtIx);
-            }
-            else
-            {
-                var lastElementIx = FindLastElementPosWithoutPrefix(xml, lastElement, false, 0);
-                if (lastElementIx < 0)
-                {
-                    throw new InvalidOperationException($"Could not find {lastElement}");
-                }
-                xml = xml.Substring(lastElementIx);
-            }
-            if (string.IsNullOrEmpty(uriValue))
-            {
-                lastElement = "";
-                return startXml + xml;
-            }
-            else
-            {
-                var ix = GetXmlIndex(xml, uriValue);
-                if (ix > 0)
-                {
+                    //Get a shorter string to search through than starting from zero
+                    var firstIndexOfElement = xml.IndexOf(lastElement);
+
+                    var stringOfAllLastElementsBeforeExtLst = xml.Substring(firstIndexOfElement, extLstStart - firstIndexOfElement);
+
+                    var lastKnownElementIndex = stringOfAllLastElementsBeforeExtLst.LastIndexOf(lastElement);
+
+                    var allInbetween = stringOfAllLastElementsBeforeExtLst.Substring(lastKnownElementIndex);
+
+                    var allInbetweenWithoutElement = allInbetween.Substring(allInbetween.IndexOf(">") + 1);
+
                     lastElement = "ext";
-                    return startXml + xml.Substring(0, ix);
+
+                    return startXml + allInbetweenWithoutElement;
                 }
             }
             return startXml;
