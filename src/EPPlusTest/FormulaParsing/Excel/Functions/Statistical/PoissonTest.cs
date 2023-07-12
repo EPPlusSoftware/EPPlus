@@ -101,5 +101,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0.008958554d, result);
             }
         }
+
+        [TestMethod]
+        public void PoissonDotDist()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Call with POISON.DIST: ");
+                sheet.Cells["A1"].Formula = "POISSON.DIST(2,8.24,FALSE)";
+                sheet.Calculate();
+                var result = System.Math.Round((double)sheet.Cells["A1"].Value, 9);
+                Assert.AreEqual(0.008958554d, result);
+            }
+        }
     }
 }
