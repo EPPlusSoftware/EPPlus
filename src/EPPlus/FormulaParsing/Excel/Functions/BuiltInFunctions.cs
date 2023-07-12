@@ -241,6 +241,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.inv"] = new TInv();
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
+            Functions["t.test"] = new TTest();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
