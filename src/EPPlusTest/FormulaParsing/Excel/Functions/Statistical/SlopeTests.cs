@@ -67,33 +67,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
-        [TestMethod, Ignore]
-        public void SlopeShouldCalculateDiffrentRangeForms()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["D2"].Value = 2;
-                sheet.Cells["H2"].Value = 1;
-                sheet.Cells["E2"].Value = 5;
-                sheet.Cells["I2"].Value = 2;
-                sheet.Cells["D3"].Value = 3;
-                sheet.Cells["J2"].Value = 3;
-                sheet.Cells["E3"].Value = 4;
-                sheet.Cells["K2"].Value = 4;
-                sheet.Cells["D4"].Value = 4;
-                sheet.Cells["L2"].Value = 5;
-                sheet.Cells["E4"].Value = 7;
-                sheet.Cells["M2"].Value = 6;
- 
-                sheet.Cells["E9"].Formula = "SLOPE(D2:E4, H2:M2)";
-                sheet.Calculate();
-
-                var result = System.Math.Round((double)sheet.Cells["E9"].Value, 7);
-                Assert.AreEqual(1.348720734, result);
-            }
-        }
-
         [TestMethod]
         public void SlopeShouldCalculate()
         {
