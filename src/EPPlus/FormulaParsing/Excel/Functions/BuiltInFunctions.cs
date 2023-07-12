@@ -438,7 +438,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsin"] = new ImSin();
             Functions["imsinh"] = new ImSinh();
             Functions["imcsch"] = new ImCsch();
-            Functions["imcot"] = new ImCot();            
+            Functions["imcot"] = new ImCot();
+            Functions["imsech"] = new ImSech();
             Functions["imlog2"] = new ImLog2();
             Functions["gestep"] = new GeStep();
         }
