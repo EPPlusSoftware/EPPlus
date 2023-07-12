@@ -423,7 +423,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imreal"] = new ImReal();
             Functions["imsqrt"] = new ImSqrt();
             Functions["imaginary"] = new Imaginary();
-
+            Functions["imlog10"] = new ImLog10();
             Functions["imsub"] = new ImSub();
             Functions["imtan"] = new ImTan();
             Functions["imsec"] = new ImSec();
@@ -432,7 +432,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsub"] = new ImSub();
             Functions["imcosh"] = new ImCosh();
             Functions["improduct"] = new ImProduct();
-
+            
             Functions["imcos"] = new ImCos();
             Functions["imcsc"] = new ImCsc();
             Functions["imsin"] = new ImSin();
@@ -440,6 +440,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imcsch"] = new ImCsch();
             Functions["imcot"] = new ImCot();
             Functions["imln"] = new ImLn();
+            Functions["imsech"] = new ImSech();
+            Functions["imlog2"] = new ImLog2();
+            Functions["gestep"] = new GeStep();
         }
     }
 }
