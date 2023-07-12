@@ -242,13 +242,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
             Functions["poisson"] = new Poisson();
-<<<<<<< HEAD
             Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();
             Functions["weibull"] = new WeibullDist();
-=======
             Functions["t.test"] = new TTest();
->>>>>>> develop7
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();

@@ -101,7 +101,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0.008958554d, result);
             }
         }
-<<<<<<< HEAD
 
         [TestMethod]
         public void PoissonDotDist()
@@ -115,7 +114,5 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0.008958554d, result);
             }
         }
-=======
->>>>>>> develop7
     }
 }
