@@ -58,22 +58,50 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="r2">range 2</param>
         /// <param name="l1">a list containing all numeric values from <paramref name="r1"/> that has a corresponding value in <paramref name="r2"/></param>
         /// <param name="l2">a list containing all numeric values from <paramref name="r2"/> that has a corresponding value in <paramref name="r1"/</param>
-        public static void GetNumericPairLists(IRangeInfo r1  , IRangeInfo r2, out List<double> l1, out List<double> l2)
+        public static void GetNumericPairLists(IRangeInfo r1  , IRangeInfo r2, bool dataPointsEqual,  out List<double> l1, out List<double> l2)
         {
-            if (r1.GetNCells()!= r2.GetNCells())
+            if (dataPointsEqual)
             {
-                throw new ArgumentException("Ranges r1 and r2 must have the same number of cells");
-            }
-            var rangeValues1 = FlattenRange(r1);
-            var rangeValues2 = FlattenRange(r2);
-            l1 = new List<double>();
-            l2 = new List<double>();
-            for (var i = 0; i < rangeValues1.Count; i++)
-            {
-                if ( rangeValues1[i].HasValue && rangeValues2[i].HasValue)
+                if (r1.GetNCells() != r2.GetNCells())
                 {
-                    l1.Add(rangeValues1[i].Value);
-                    l2.Add(rangeValues2[i].Value);
+                    throw new ArgumentException("Ranges r1 and r2 must have the same number of cells");
+                }
+
+                var rangeValues1 = FlattenRange(r1);
+                var rangeValues2 = FlattenRange(r2);
+                l1 = new List<double>();
+                l2 = new List<double>();
+                for (var i = 0; i < rangeValues1.Count; i++)
+                {
+                    if ( rangeValues1[i].HasValue && rangeValues2[i].HasValue)
+                    {
+                        l1.Add(rangeValues1[i].Value);
+                        l2.Add(rangeValues2[i].Value);
+                    }
+                }
+
+            }
+            else
+            {
+                var rangeValues1 = FlattenRange(r1);
+                var rangeValues2 = FlattenRange(r2);
+                l1 = new List<double>();
+                l2 = new List<double>();
+
+                for (var i = 0; i < rangeValues1.Count; i++)
+                {
+                    if (rangeValues1[i].HasValue)
+                    {
+                        l1.Add(rangeValues1[i].Value);
+                    }
+                }
+
+                for (var i = 0; i < rangeValues2.Count; i++)
+                {
+                    if (rangeValues2[i].HasValue)
+                    {
+                        l2.Add(rangeValues2[i].Value);
+                    }
                 }
             }
         }
