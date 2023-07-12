@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Threading;
+
 namespace EPPlusTest
 {
     using EPPlusTest.Properties;
@@ -10,16 +13,18 @@ namespace EPPlusTest
     [TestClass]
     public class AmanaIssues : TestBase
     {
-        [TestMethod, 
-         Description("If a cell contains a hyperlink with special characters such as ä,ö,ü Excel encodes the link not in UTF-8 to keep the rule that a target link must be shorter than 2080 characters")]
+        [TestMethod,
+         Description(
+             "If a cell contains a hyperlink with special characters such as ä,ö,ü Excel encodes the link not in UTF-8 to keep the rule that a target link must be shorter than 2080 characters")]
         public void Test_can_not_open_file_after_saving()
         {
             //Arrange
 #if ! Core
-         
+
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CellWithHyperlink_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CellWithHyperlink_xlsx.xlsx")));
             var ws = excelPackage.Workbook.Worksheets[0];
 
             var savePath = Path.Combine(TestContext.TestDeploymentDir, $"{TestContext.TestName}.xlsx");
@@ -52,7 +57,8 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_Wenns_Formula_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_Wenns_Formula_xlsx.xlsx")));
             var ws = excelPackage.Workbook.Worksheets[0];
 
             //Act
@@ -67,13 +73,15 @@ namespace EPPlusTest
             //Asserts
             Assert.IsTrue(value1.Equals("one"));
             Assert.IsTrue(value2.Equals("two"));
-            Assert.IsTrue(value3.Equals("three")); 
+            Assert.IsTrue(value3.Equals("three"));
             Assert.IsTrue(value4.Equals("four"));
             Assert.IsTrue(value5.Equals("#N/A"));
         }
 
 
-        [TestMethod, Description("If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
+        [TestMethod,
+         Description(
+             "If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
         public void Calculate_sets_old_value_if_formula_contains_external_link()
         {
             //Arrange
@@ -83,7 +91,8 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CellsWithFormulas_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CellsWithFormulas_xlsx.xlsx")));
             var ws = excelPackage.Workbook.Worksheets[2];
 
             //Act
@@ -95,10 +104,11 @@ namespace EPPlusTest
         }
 
 
-        [TestMethod, Description("If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
+        [TestMethod,
+         Description(
+             "If a formula contains external links the old value should be used instead of resulting in #NAME-Error")]
         public void Calculate_sets_old_value_if_formula_contains_external_link2()
         {
-
             //Arrange
 #if Core
             var dir = AppContext.BaseDirectory;
@@ -106,7 +116,9 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithExternalReferences_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(
+                    new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithExternalReferences_xlsx.xlsx")));
 
             //Act
             var ws = excelPackage.Workbook.Worksheets[0];
@@ -117,7 +129,6 @@ namespace EPPlusTest
             Assert.AreEqual(60d, ws.Cells["A2"].Value);
             Assert.AreEqual(23d, ws.Cells["B19"].Value);
             Assert.AreEqual(23d, ws.Cells["B20"].Value);
-
         }
 
         [TestMethod]
@@ -130,7 +141,8 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithRomanValues_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithRomanValues_xlsx.xlsx")));
             var ws = excelPackage.Workbook.Worksheets[0];
 
             //Act
@@ -167,9 +179,10 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithRomanNumber_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithRomanNumber_xlsx.xlsx")));
             var ws = excelPackage.Workbook.Worksheets[0];
-            
+
             //Act
             ws.Calculate();
 
@@ -201,18 +214,19 @@ namespace EPPlusTest
                 Assert.AreEqual(ws.Cells[i, 7].Value, ws.Cells[i, 7 + 11].Value);
         }
 
-
-
         [TestMethod,
-         Description("If a Chart.xml contains ExtLst Nodes than the indentation of the chart.xml leads to corrupt Excel files")]
+         Description(
+             "If a Chart.xml contains ExtLst Nodes than the indentation of the chart.xml leads to corrupt Excel files")]
         public void IssueWhitespaceInChartXml()
         {
             /* Note: The Microsoft.Office.Interop.Excel library is not compatible with all .Core frameworks. */
-            
+
             //Arrange
 #if ! Core
             var dir = AppDomain.CurrentDomain.BaseDirectory;
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithCharts_xlsx.xlsx")));
+
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_WithCharts_xlsx.xlsx")));
 
             //Act
             var savePath = Path.Combine(TestContext.TestDeploymentDir, $"{TestContext.TestName}.xlsx");
@@ -248,12 +262,11 @@ namespace EPPlusTest
 
             // Cleanup
             File.Delete(output);
-
         }
 
         [TestMethod]
         public void Test_issue_with_whitespace_in_chart_xml()
-        { 
+        {
             //Arrange
 #if Core
             var dir = AppContext.BaseDirectory;
@@ -261,7 +274,9 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CountBlankSingleCell_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks",
+                    "TestDoc_CountBlankSingleCell_xlsx.xlsx")));
 
             //Act
             var savePath = Path.Combine(TestContext.TestDeploymentDir, $"{TestContext.TestName}.xlsx");
@@ -286,14 +301,14 @@ namespace EPPlusTest
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
             //Act & Asserts
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_XMLTagsTable_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_XMLTagsTable_xlsx.xlsx")));
 
             var sheet = excelPackage.Workbook.Worksheets["Tabelle1"];
             Assert.AreEqual(sheet.Cells["A1"].Value, sheet.Cells["B1"].Value);
 
             sheet.Calculate();
             Assert.AreEqual(sheet.Cells["A1"].Value, sheet.Cells["B1"].Value);
-
         }
 
         [TestMethod,
@@ -411,10 +426,10 @@ namespace EPPlusTest
             // ARRANGE
             var xlsx = GetTestStream("Layout_Format_vorlage.xlsx");
             var package = new ExcelPackage(xlsx);
-            
+
             // ACT
             var styles = package.Workbook.Styles;
-            
+
             // ASSERT
             Assert.AreEqual(0, styles.CellStyleXfs[0].NumberFormatId);
             Assert.AreEqual(0, styles.CellStyleXfs[0].FontId);
@@ -471,6 +486,50 @@ namespace EPPlusTest
             // Arrange
             Assert.AreEqual("Anlagevermögen", sheet.Cells["B8"].Value);
             Assert.AreEqual("123 456 ABC", sheet.Cells["B9"].Value);
+        }
+
+        [TestMethod]
+        public void SUMMIF_Formula_Issue()
+        {
+            //Issue: SUMMIF can't be calculated correctly, if row or column number is out of the range
+
+            var excelTestFile = Resources.TestDoc_SharedFormula_xlsx;
+
+            using (MemoryStream excelStream = new MemoryStream())
+            {
+                excelStream.Write(excelTestFile, 0, excelTestFile.Length);
+
+                using (ExcelPackage exlPackage = new ExcelPackage(excelStream))
+                {
+                    exlPackage.Workbook.Calculate();
+
+                    var value1 = exlPackage.Workbook.Worksheets[1].Cells["J10"].Value;
+
+                    var value2 = exlPackage.Workbook.Worksheets[1].Cells["J11"].Value;
+
+                    Assert.IsTrue(value1.Equals(1.95583D));
+
+                    Assert.IsTrue(value2.Equals(7.84515D));
+                }
+            }
+        }
+        
+        [DataTestMethod]
+        [DataRow("en-US", ExcelErrorValue.Values.Value, ExcelErrorValue.Values.Value)]
+        [DataRow("de-DE", "31 Dec ", " Dec ")]
+        public void Workbook_Calculate(string culture, string expectedValue1, string expectedValue2)
+        {
+            // Arrange
+            var xlsx = GetTestStream("DateFormatException.xlsx");
+            var package = new ExcelPackage(xlsx);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+            
+            // Act
+            package.Workbook.Calculate();
+            
+            // Assert
+            Assert.AreEqual(expectedValue1, package.Workbook.Worksheets["Tabelle1"].Cells[4, 1].Value.ToString());
+            Assert.AreEqual(expectedValue2, package.Workbook.Worksheets["Tabelle1"].Cells[5, 1].Value.ToString());
         }
     }
 }

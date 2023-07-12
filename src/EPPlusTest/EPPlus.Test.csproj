@@ -205,6 +205,8 @@
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
     <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
     <EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
+    <None Remove="Workbooks\DateFormatException.xlsx" />
+    <EmbeddedResource Include="Workbooks\DateFormatException.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
