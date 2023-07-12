@@ -489,44 +489,33 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void SUMMIF_Formula_Issue()
+        public void Workbook_Calculate()
         {
-            //Issue: SUMMIF can't be calculated correctly, if row or column number is out of the range
+            // Arrange
+            var xlsx = GetTestStream("TestDoc_SharedFormula.xlsx");
+            var package = new ExcelPackage(xlsx);
 
-            var excelTestFile = Resources.TestDoc_SharedFormula_xlsx;
+            // Act
+            package.Workbook.Calculate();
 
-            using (MemoryStream excelStream = new MemoryStream())
-            {
-                excelStream.Write(excelTestFile, 0, excelTestFile.Length);
-
-                using (ExcelPackage exlPackage = new ExcelPackage(excelStream))
-                {
-                    exlPackage.Workbook.Calculate();
-
-                    var value1 = exlPackage.Workbook.Worksheets[1].Cells["J10"].Value;
-
-                    var value2 = exlPackage.Workbook.Worksheets[1].Cells["J11"].Value;
-
-                    Assert.IsTrue(value1.Equals(1.95583D));
-
-                    Assert.IsTrue(value2.Equals(7.84515D));
-                }
-            }
+            // Assert
+            Assert.IsTrue(package.Workbook.Worksheets[1].Cells["J10"].Value.Equals(1.95583D));
+            Assert.IsTrue(package.Workbook.Worksheets[1].Cells["J11"].Value.Equals(7.84515D));
         }
-        
+
         [DataTestMethod]
         [DataRow("en-US", ExcelErrorValue.Values.Value, ExcelErrorValue.Values.Value)]
         [DataRow("de-DE", "31 Dec ", " Dec ")]
-        public void Workbook_Calculate(string culture, string expectedValue1, string expectedValue2)
+        public void Workbook_Calculate_calculates_for_different_cultures(string culture, string expectedValue1, string expectedValue2)
         {
             // Arrange
             var xlsx = GetTestStream("DateFormatException.xlsx");
             var package = new ExcelPackage(xlsx);
             Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
-            
+
             // Act
             package.Workbook.Calculate();
-            
+
             // Assert
             Assert.AreEqual(expectedValue1, package.Workbook.Worksheets["Tabelle1"].Cells[4, 1].Value.ToString());
             Assert.AreEqual(expectedValue2, package.Workbook.Worksheets["Tabelle1"].Cells[5, 1].Value.ToString());

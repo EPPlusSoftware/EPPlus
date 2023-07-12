@@ -259,7 +259,7 @@ namespace EPPlusTest.Properties {
                 return File.ReadAllBytes(path + "\\Resources\\TestDoc_SharedFormula.xlsx");
             }
         }
-        internal static byte[] Svg2ByteArray
+        internal static byte[] Svg2ByteArray    
         {
             get
             {
