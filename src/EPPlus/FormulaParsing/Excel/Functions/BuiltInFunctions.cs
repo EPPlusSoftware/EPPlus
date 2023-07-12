@@ -242,6 +242,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
             Functions["poisson"] = new Poisson();
+            Functions["t.test"] = new TTest();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -424,7 +425,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imreal"] = new ImReal();
             Functions["imsqrt"] = new ImSqrt();
             Functions["imaginary"] = new Imaginary();
-
+            Functions["imlog10"] = new ImLog10();
             Functions["imsub"] = new ImSub();
             Functions["imtan"] = new ImTan();
             Functions["imsec"] = new ImSec();
@@ -433,13 +434,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsub"] = new ImSub();
             Functions["imcosh"] = new ImCosh();
             Functions["improduct"] = new ImProduct();
-
+            
             Functions["imcos"] = new ImCos();
             Functions["imcsc"] = new ImCsc();
             Functions["imsin"] = new ImSin();
             Functions["imsinh"] = new ImSinh();
             Functions["imcsch"] = new ImCsch();
             Functions["imcot"] = new ImCot();
+            Functions["imconjugate"] = new ImConjugate();
+            Functions["imln"] = new ImLn();
+            Functions["imsech"] = new ImSech();
+            Functions["imlog2"] = new ImLog2();
+            Functions["gestep"] = new GeStep();
         }
     }
 }
