@@ -128,5 +128,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Div0), a4val);
             }
         }
+
+
+        [TestMethod]
+        public void ShouldNotReturnErrorFromValidMulticellRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = -1;
+                sheet.Cells["A4"].Formula = "SUM(A1:A2)";
+                sheet.Calculate();
+                var a4val = sheet.Cells["A4"].Value;
+                Assert.AreEqual(1d,a4val);
+            }
+        }
     }
 }
