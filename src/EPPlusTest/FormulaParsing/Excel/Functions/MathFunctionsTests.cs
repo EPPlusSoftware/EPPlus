@@ -509,7 +509,7 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
-            var func = new Sum();
+            var func = new SumSubtotal();
             var args = FunctionsHelper.CreateArgs(2, 3);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(5d, result.Result);
@@ -518,7 +518,7 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void SumShouldCalculateEnumerableOf2Plus5Plus3AndReturn10()
         {
-            var func = new Sum();
+            var func = new SumSubtotal();
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(2, 5), 3);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(10d, result.Result);
@@ -527,7 +527,7 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void SumShouldIgnoreHiddenValuesWhenIgnoreHiddenValuesIsSet()
         {
-            var func = new Sum();
+            var func = new SumSubtotal();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(2, 5), 3, 4);
             args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
