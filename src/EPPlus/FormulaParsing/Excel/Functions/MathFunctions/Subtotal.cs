@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             _functions[6] = new Product();
             _functions[7] = new Stdev();
             _functions[8] = new StdevP();
-            _functions[9] = new Sum();
+            _functions[9] = new SumSubtotal();
             _functions[10] = new Var();
             _functions[11] = new VarP();
 
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             AddHiddenValueHandlingFunction(new Product(), 106);
             AddHiddenValueHandlingFunction(new Stdev(), 107);
             AddHiddenValueHandlingFunction(new StdevP(), 108);
-            AddHiddenValueHandlingFunction(new Sum(), 109);
+            AddHiddenValueHandlingFunction(new SumSubtotal(), 109);
             AddHiddenValueHandlingFunction(new Var(), 110);
             AddHiddenValueHandlingFunction(new VarP(), 111);
         }

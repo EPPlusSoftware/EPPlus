@@ -78,7 +78,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Value = "1";
                 sheet.Cells["A4"].Formula = "SUM(\"1\")";
                 sheet.Calculate();
                 var a4val = sheet.Cells["A4"].Value;
