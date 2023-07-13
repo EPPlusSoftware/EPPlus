@@ -520,5 +520,26 @@ namespace EPPlusTest
             Assert.AreEqual(expectedValue1, package.Workbook.Worksheets["Tabelle1"].Cells[4, 1].Value.ToString());
             Assert.AreEqual(expectedValue2, package.Workbook.Worksheets["Tabelle1"].Cells[5, 1].Value.ToString());
         }
+
+
+        [TestMethod, Description(" VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
+        public void Test_VLookUP_should_not_loose_the_reference_to_the_worksheet()
+        {
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
+
+            //Act
+            excelPackage.Workbook.Calculate();
+
+            //Asserts
+            Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[0].Cells["B6"].Value);
+            Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[1].Cells["A6"].Value);
+        }
     }
 }

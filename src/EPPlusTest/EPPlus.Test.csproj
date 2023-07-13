@@ -189,7 +189,10 @@
     <None Update="Workbooks\TestDoc_Wenns_Formula_xlsx.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx">
+    <None Update="Workbooks\TestDoc_VLookUpDateValue.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_FileWithVLookUPFunction_xlsx.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Workbooks\TestDoc_CellWithHyperlink_xlsx.xlsx">
