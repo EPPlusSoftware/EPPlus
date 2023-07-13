@@ -208,6 +208,12 @@
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
     <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
     <EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
+    <None Remove="Workbooks\DateFormatException.xlsx" />
+    <EmbeddedResource Include="Workbooks\DateFormatException.xlsx" />
+    <None Remove="Workbooks\TestDoc_SharedFormula.xlsx" />
+    <EmbeddedResource Include="Workbooks\TestDoc_SharedFormula.xlsx" />
+    <None Remove="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
+    <EmbeddedResource Include="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
