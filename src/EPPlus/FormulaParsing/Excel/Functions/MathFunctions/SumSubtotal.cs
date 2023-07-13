@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
         Description = "Returns the sum of a supplied list of numbers")]
-    internal class Sum : HiddenValuesHandlingFunction
+    internal class SumSubtotal : HiddenValuesHandlingFunction
     {
-        public Sum()
+        public SumSubtotal()
         {
             IgnoreErrors = false;
         }
