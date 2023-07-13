@@ -26,10 +26,10 @@ namespace EPPlusTest.LoadFunctions
             _collection.Add(new Outer
             {
                 ApprovedUtc = new DateTime(2021, 7, 1),
-                Organization = new Organization 
-                { 
-                    OrgLevel3 = "ABC", 
-                    OrgLevel4 = "DEF", 
+                Organization = new Organization
+                {
+                    OrgLevel3 = "ABC",
+                    OrgLevel4 = "DEF",
                     OrgLevel5 = "GHI"
                 },
                 Acknowledged = true
@@ -119,7 +119,7 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldLoadFromComplexTypeMember()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("test");
                 ws.Cells["A1"].LoadFromCollection(_collection);
@@ -209,7 +209,7 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void LoadComplexTest2()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var items = ExcelItems.GetItems1();
                 var sheet = package.Workbook.Worksheets.Add("test");
@@ -219,6 +219,30 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("Collateral Owner Email", sheet.Cells["F1"].Value);
                 Assert.AreEqual("Mission Control Lead Email", sheet.Cells["I1"].Value);
                 Assert.AreEqual("Created (GMT)", sheet.Cells["L1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void HiddenTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var items = new List<OuterWithHiddenColumn>
+                {
+                    new OuterWithHiddenColumn
+                    {
+                        Active = false,
+                        Number = 1
+                    },
+                    new OuterWithHiddenColumn
+                    {
+                        Active = true,
+                        Number = 2
+                    }
+                };
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].LoadFromCollection(items);
+                package.SaveAs(@"c:\Temp\LoadFromColl1.xlsx");
             }
         }
     }

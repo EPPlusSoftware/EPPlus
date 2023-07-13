@@ -173,6 +173,7 @@ namespace OfficeOpenXml.LoadFunctions
                         Header = header,
                         SortOrder = sortOrder,
                         Index = index++,
+                        Hidden = epplusColumnAttr.Hidden,
                         SortOrderLevels = colInfoSortOrderList,
                         MemberInfo = member,
                         NumberFormat = numberFormat,
