@@ -1,7 +1,3 @@
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
-
 namespace EPPlusTest
 {
     using EPPlusTest.Properties;
@@ -14,6 +10,38 @@ namespace EPPlusTest
     [TestClass]
     public class AmanaIssues : TestBase
     {
+        [TestMethod, 
+         Description("If a cell contains a hyperlink with special characters such as ä,ö,ü Excel encodes the link not in UTF-8 to keep the rule that a target link must be shorter than 2080 characters")]
+        public void Test_can_not_open_file_after_saving()
+        {
+            //Arrange
+#if ! Core
+         
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+
+            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_CellWithHyperlink_xlsx.xlsx")));
+            var ws = excelPackage.Workbook.Worksheets[0];
+
+            var savePath = Path.Combine(TestContext.TestDeploymentDir, $"{TestContext.TestName}.xlsx");
+            excelPackage.SaveAs(new FileInfo(savePath));
+            var exApp = new Microsoft.Office.Interop.Excel.Application();
+
+            try
+            {
+                var exWbk = exApp.Workbooks.Open(savePath);
+            }
+            catch (System.Runtime.InteropServices.COMException)
+            {
+                Assert.Fail("It is not possible to open the workbook after EPPlus saved it.");
+            }
+            finally
+            {
+                exApp.Workbooks.Close();
+            }
+#endif
+        }
+
+
         [TestMethod]
         public void Test_correct_values_in_WENNs_formula()
         {
