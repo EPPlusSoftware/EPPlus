@@ -449,7 +449,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsech"] = new ImSech();
             Functions["imlog2"] = new ImLog2();
             Functions["gestep"] = new GeStep();
-
+            Functions["impower"] = new ImPower();
             Functions["imdiv"] = new ImDiv();
         }
     }
