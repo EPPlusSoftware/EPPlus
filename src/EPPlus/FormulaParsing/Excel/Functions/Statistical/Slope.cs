@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 return CompileResult.GetErrorResult(eErrorType.NA);
             }
 
-            RangeFlattener.GetNumericPairLists(r1, r2, out List<double> yValuesFinal, out List<double> xValuesFinal);
+            RangeFlattener.GetNumericPairLists(r1, r2, true, out List<double> yValuesFinal, out List<double> xValuesFinal);
 
             double yMean = yValuesFinal.Select(y => (double)y).Average();
             double xMean = xValuesFinal.Select(x => (double)x).Average();

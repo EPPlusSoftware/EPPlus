@@ -29,29 +29,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            var realPart = 0d;
+            var imagPart = 0d;
+            var imSuffix = string.Empty;
             var args = new List<string>();
-            if (arguments[0].IsExcelRange)
+
+            foreach(var arg in arguments)
             {
-                var range = arguments[0].ValueAsRangeInfo;
-                foreach(var cell in range)
+                if (arg.IsExcelRange)
                 {
-                    var cellValue = cell.Value;
-                    if (cellValue != null)
+                    foreach(var cell in arg.ValueAsRangeInfo)
                     {
-                        args.Add(cellValue.ToString());
+                        if (cell.Value != null)
+                        {
+                            args.Add(cell.Value.ToString());
+                        }
                     }
                 }
-            }
-            else
-            {
-                foreach (var arg in arguments)
+                else if (arg.Value != null)
                 {
                     args.Add(arg.Value.ToString());
                 }
             }
-            var realPart = 0d;
-            var imagPart = 0d;
-            var imSuffix = string.Empty;
+
 
             foreach (var argument in args )
             {
