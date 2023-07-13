@@ -59,7 +59,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
         {
             var functionRepository = FunctionRepository.Create();
             var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
-            var function = new Sum();
+            var function = new SumSubtotal();
             var functionCompiler = functionCompilerFactory.Create(function);
             Assert.IsInstanceOfType(functionCompiler, typeof(DefaultCompiler));
         }
