@@ -232,17 +232,29 @@ namespace EPPlusTest.LoadFunctions
                     new OuterWithHiddenColumn
                     {
                         Active = false,
-                        Number = 1
+                        Number = 1,
+                        HiddenName = "Hidden 1",
+                        Name = "Name 1"
                     },
                     new OuterWithHiddenColumn
                     {
                         Active = true,
-                        Number = 2
+                        Number = 2,
+                        HiddenName = "Hidden 2",
+                        Name = "Name 2"
                     }
                 };
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].LoadFromCollection(items);
-                package.SaveAs(@"c:\Temp\LoadFromColl1.xlsx");
+
+                Assert.IsTrue(sheet.Column(1).Hidden);
+                Assert.IsFalse((bool)sheet.Cells[1, 1].Value);
+                Assert.IsFalse(sheet.Column(2).Hidden);
+                Assert.AreEqual(1, sheet.Cells[1, 2].Value);
+                Assert.IsTrue(sheet.Column(3).Hidden);
+                Assert.AreEqual("Hidden 1", sheet.Cells[1, 3].Value);
+                Assert.IsFalse(sheet.Column(4).Hidden);
+                Assert.AreEqual("Name 1", sheet.Cells[1, 4].Value);
             }
         }
     }
