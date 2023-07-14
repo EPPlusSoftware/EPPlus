@@ -112,7 +112,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["roman"] = new Roman();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();
-            Functions["sum"] = new Sum();
+            Functions["sum"] = new SumV2();
             Functions["sumif"] = new SumIf();
             Functions["sumifs"] = new SumIfs();
             Functions["sumproduct"] = new SumProduct();
@@ -450,6 +450,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imlog2"] = new ImLog2();
             Functions["gestep"] = new GeStep();
             Functions["impower"] = new ImPower();
+            Functions["imdiv"] = new ImDiv();
         }
     }
 }
