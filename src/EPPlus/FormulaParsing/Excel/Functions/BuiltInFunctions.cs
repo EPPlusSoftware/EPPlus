@@ -246,6 +246,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["weibull.dist"] = new WeibullDist();
             Functions["weibull"] = new WeibullDist();
             Functions["t.test"] = new TTest();
+            Functions["trimmean"] = new Trimmean();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
