@@ -1164,11 +1164,7 @@ namespace OfficeOpenXml
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
 
-
                 LoadConditionalFormatting(xr);
-   
-
-                xml = stream.GetBufferAsString(false);
 
                 lastXmlElement = nextElement;
             }
