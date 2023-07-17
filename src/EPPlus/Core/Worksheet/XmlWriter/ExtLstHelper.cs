@@ -25,12 +25,12 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
         Dictionary<string, int> uriToIndex = new Dictionary<string, int>();
 
-        public ExtLstHelper(string xml)
+        public ExtLstHelper(string xml, ExcelWorksheet ws)
         {
-            ParseIntialXmlToList(xml);
+            ParseIntialXmlToList(xml, ws);
         }
 
-        private void ParseIntialXmlToList(string xml)
+        private void ParseIntialXmlToList(string xml, ExcelWorksheet ws)
         {
             int start = 0, end = 0;
             GetBlock.Pos(xml, "extLst", ref start, ref end);

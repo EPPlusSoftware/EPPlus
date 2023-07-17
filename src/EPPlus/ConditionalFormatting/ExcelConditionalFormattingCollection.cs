@@ -114,7 +114,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             xr.Read();
 
-                            if (dataBar.HighValue.HasValueOrFormula && xr.LocalName == "xm:f")
+                            if (dataBar.HighValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
                                 if (dataBar.HighValue.Type == eExcelConditionalFormattingValueObjectType.Formula)

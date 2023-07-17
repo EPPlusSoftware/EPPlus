@@ -1166,8 +1166,9 @@ namespace OfficeOpenXml
 
 
                 LoadConditionalFormatting(xr);
-                stream.SetWriteToBuffer();
+   
 
+                xml = stream.GetBufferAsString(false);
 
                 lastXmlElement = nextElement;
             }

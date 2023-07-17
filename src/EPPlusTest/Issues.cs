@@ -50,6 +50,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace EPPlusTest
 {
@@ -4757,6 +4758,19 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void i863Offshoot()
+        {
+            using (var p = OpenTemplatePackage("SharedFormulaIssuePart_i863.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+
+                Assert.AreEqual(sheet._sharedFormulas[1].Address, "S5:W6");
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
         public void i863()
         {
             using (var p = OpenTemplatePackage("i863.xlsx"))
@@ -4771,6 +4785,10 @@ namespace EPPlusTest
                 }
                 // Saving
                 SaveAndCleanup(p);
+
+                var p2 = OpenPackage("i863.xlsx");
+
+                var ws17 = p2.Workbook.Worksheets[16];
             }
         }
 

@@ -250,7 +250,13 @@ namespace OfficeOpenXml
             }
             else
             {
-                return startXml + xml.Substring(xml.IndexOf("Ext"));
+                var endIndex = FindElementPos(xml, "ext", false);
+                if (endIndex > -1)
+                {
+                    return startXml + xml.Substring(endIndex);
+                }
+
+                return startXml + "</extLst>";
             }
         }
 

@@ -105,7 +105,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             FindNodePositionAndClearIt(sw, xml, "colBreaks", ref startOfNode, ref endOfNode);
             UpdateColBreaks(sw, prefix);
 
-            ExtLstHelper extLst = new ExtLstHelper(xml);
+            ExtLstHelper extLst = new ExtLstHelper(xml, _ws);
 
             FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
 
