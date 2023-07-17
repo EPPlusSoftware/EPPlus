@@ -5108,5 +5108,14 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s492()
+        {
+            using (var package = OpenTemplatePackage("s492.xlsx"))
+            {
+                package.Workbook.Calculate();
+            }
+        }
+
     }
 }
