@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 7.0.0-Preview 1
+		EPPlus 7.0.0-Preview 2
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,19 +26,25 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-		## Version 7.0.0-Preview 1
+		## Version 7.0.0-Preview 2
 		* Calculation engine update to support array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
-			* Support for calculating legacy / dynamic array formulas.
-			* Support for intersect operator.
-			* Support for Implicit intersection.
-			* Support for array parameters in functions.
-			* Better support for using the colon operator with functions.
-			* 21 new functions
+		* Support for calculating legacy / dynamic array formulas.
+		* Support for intersect operator.
+		* Support for Implicit intersection.
+		* Support for array parameters in functions.
+		* Better support for using the colon operator with functions.
+		* 49 new functions
 		* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information
 
+		## Version 6.2.6
+		* Updated System.Security.Cryptography.Pkcs for security vulnerability in .NET 6 and 7. See https://github.com/dotnet/runtime/issues/87498
+		* Bug fixes.
+
+		## Version 6.2.5
+		* Bug fixes.
 
 		## Version 6.2.4
-		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		* Bug fixes.
 
 		## Version 6.2.3
 		* Bug fixes.
@@ -312,7 +318,10 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		7.0.0-preview 1	20230519 Calculation engine update for array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
+		7.0.0-preview 2	20230519 Calculation engine update for array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
+		6.2.6	        20230615 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.5	        20230614 Minor bug fixes.
+		7.0.0-preview 1	20230519 Calculation engine update for array formulas. 
 		6.2.4			20230515 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		6.2.3			20230502 Minor bug fixes.
 		6.2.2			20230417 Minor bug fixes.

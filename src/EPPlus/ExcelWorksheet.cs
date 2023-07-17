@@ -1165,8 +1165,9 @@ namespace OfficeOpenXml
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
 
                 LoadConditionalFormatting(xr);
-
+                stream.SetWriteToBuffer();
                 lastXmlElement = nextElement;
+                
             }
 
             nextElement = "dataValidations";

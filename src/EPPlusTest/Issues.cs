@@ -1890,7 +1890,7 @@ namespace EPPlusTest
                 pivotTable.OutlineData = true;
                 //pivotTable.ShowDrill = true;
                 //pivotTable.CacheDefinition.Refresh();
-                pivotTable.CacheDefinition.Refresh();
+                pivotTable.Fields["Employee"].Items.Refresh();
                 pivotTable.Fields["Employee"].Items.ShowDetails(false);
                 rowField1.Items.ShowDetails(false);
                 worksheet.Cells.AutoFitColumns(0);
@@ -4450,6 +4450,16 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i863Offshoot()
+        {
+            using (var p = OpenTemplatePackage("SharedFormulaIssuePart_i863.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                Assert.AreEqual(sheet._sharedFormulas[1].Address, "S5:W6");
+                SaveAndCleanup(p);
+            }
+        }
 
         //Should not generate a corrupt file when opened.
         [TestMethod]
@@ -4755,19 +4765,6 @@ namespace EPPlusTest
 
             Assert.AreNotEqual(ws.Row(3).Style.Border.Left.Style, wsCol.Style.Border.Left.Style);
             Assert.AreNotEqual(ws.Row(3).Style.Border.Right.Style, wsCol.Style.Border.Right.Style);
-        }
-
-        [TestMethod]
-        public void i863Offshoot()
-        {
-            using (var p = OpenTemplatePackage("SharedFormulaIssuePart_i863.xlsx"))
-            {
-                var sheet = p.Workbook.Worksheets[0];
-
-                Assert.AreEqual(sheet._sharedFormulas[1].Address, "S5:W6");
-
-                SaveAndCleanup(p);
-            }
         }
 
         [TestMethod]
