@@ -29,6 +29,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -4886,7 +4887,7 @@ namespace EPPlusTest
 
             sheet2.Cells["A1"].Formula = "=Sheet1!A1";
 
-            package.Workbook.Calculate();        
+            package.Workbook.Calculate();
         }
         [TestMethod]
         public void s473()
@@ -4936,6 +4937,36 @@ namespace EPPlusTest
                 Assert.AreEqual($"IF(B{3}=\"\",\"\",IF(B{3}=INDEX(Table1[City],MATCH(Sheet1!A{3},Table1[Country],0),1),TRUE,FALSE))", ws.Cells[3, 3].Formula);
 
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void i923()
+        {
+            using (ExcelPackage package = OpenPackage("cf_i923.xlsx", true))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Cf_Sheet");
+
+                for (int col = 1; col < 10; col++)
+                {
+                    worksheet.Cells[1, col].Value = "Test " + col;
+                    for (int row = 2; row < 21; row++)
+                    {
+                        worksheet.Cells[row, col].Value = "Value";
+                    }
+                }
+
+                var range = worksheet.Cells["C:Z"];
+
+                var cfRule = range.ConditionalFormatting.AddContainsText();
+                cfRule.Text = "Value";
+                cfRule.Style.Fill.BackgroundColor.Color = Color.FromArgb(198, 239, 206);
+
+                worksheet.DeleteColumn(1);
+
+                Assert.AreEqual("NOT(ISERROR(SEARCH(\"Value\",B1)))", ((ExcelConditionalFormattingRule)cfRule).Formula);
+
+                package.Save();
             }
         }
     }

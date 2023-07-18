@@ -20,14 +20,17 @@ namespace OfficeOpenXml.Core.Worksheet
     {
         internal static void AdjustDvAndCfFormulasRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
-            foreach (var dv in ws.DataValidations)
+            for (int i = 0; i < ws.DataValidations.Count; i++)
             {
-                if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
+                var type = ws.DataValidations.GetFormulas(ws.DataValidations[i], out IExcelDataValidationFormula Formula, out IExcelDataValidationFormula Formula2);
+
+                if (Formula != null)
                 {
-                    dvFormula.Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula.Formula.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
-                    if (dv is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula2)
+                    Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(Formula.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                    
+                    if (Formula2 != null)
                     {
-                        dvFormula2.Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula2.Formula2.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                        Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(Formula2.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
                     }
                 }
             }

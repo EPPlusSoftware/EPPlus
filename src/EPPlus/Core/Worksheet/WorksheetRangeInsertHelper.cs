@@ -230,12 +230,6 @@ namespace OfficeOpenXml.Core.Worksheet
                     var cfr = ((ExcelConditionalFormattingRule)cf);
                     if (cfr.Address.Address != newAddress.Address)
                     {
-                        if (cfr.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
-                        {
-                            cfr.Formula = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula, cfr.Address, newAddress);
-                            cfr.Formula2 = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula2, cfr.Address, newAddress);
-                        }
-
                         cfr.Address = new ExcelAddress(newAddress.Address);
                     }
                 }
@@ -262,13 +256,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (dv.Address.Address != newAddress.Address)
                     {
-                        if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
-                        {
-                            if (dv.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
-                            {
-                                dvFormula.Formula.ExcelFormula = WorksheetRangeHelper.AdjustStartCellForFormula(dvFormula.Formula.ExcelFormula, dv.Address, newAddress);
-                            }
-                        }
                         dv.SetAddress(newAddress.Address);
                     }
                 }
