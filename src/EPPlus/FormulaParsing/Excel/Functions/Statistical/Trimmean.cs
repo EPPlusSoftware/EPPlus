@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         {
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments[0] }, context);
             var percentage = ArgToDecimal(arguments, 1);
+
+            if (percentage < 0 || percentage >= 1)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Num);
+            }
+
             // cast ExcelDoubleValue to double
             var doubleValues = values.Select(x => (double)x);   
             var result = TrimMean(doubleValues.ToList(), percentage);
@@ -38,16 +45,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         }
         public static double TrimMean(List<double> values, double percentage)
         {
-            // Sort the values in ascending order
+
             values.Sort();
 
-            // Calculate the number of elements to exclude from the top and bottom
             int excludeCount = (int)Math.Round(values.Count * percentage);
 
-            // Exclude the specified number of elements from the top and bottom
             List<double> trimmedValues = values.Skip(excludeCount).Take(values.Count - 2 * excludeCount).ToList();
 
-            // Calculate the mean of the trimmed values
             double mean = trimmedValues.Average();
 
             return mean;
