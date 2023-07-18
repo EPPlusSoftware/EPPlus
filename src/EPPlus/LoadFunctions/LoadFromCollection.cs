@@ -51,6 +51,7 @@ namespace OfficeOpenXml.LoadFunctions
                 var cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
+                SetHiddenColumns();
             }
             else
             {
@@ -59,9 +60,15 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
+                var colIx = 0;
                 foreach (var columnInfo in _columns)
                 {
                     if (columnInfo.MemberInfo == null) continue;
+                    if(columnInfo.Hidden)
+                    {
+                        Range.Worksheet.Column(Range._fromCol + colIx).Hidden = true;
+                    }
+                    colIx++;
                     var member = columnInfo.MemberInfo;
                     if (member.DeclaringType != null && member.DeclaringType != type)
                     {
@@ -149,6 +156,18 @@ namespace OfficeOpenXml.LoadFunctions
             }
 
             SetValuesAndFormulas(values, formulaCells, ref col, ref row);
+        }
+
+        private void SetHiddenColumns()
+        {
+            for (var colIx = 0; colIx < _columns.Length; colIx++)
+            {
+                var columnInfo = _columns[colIx];
+                if (columnInfo.Hidden)
+                {
+                    Range.Worksheet.Column(Range._fromCol + colIx).Hidden = true;
+                }
+            }
         }
 
         
