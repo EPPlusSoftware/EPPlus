@@ -5116,6 +5116,20 @@ namespace EPPlusTest
                 package.Workbook.Calculate();
             }
         }
-
+        [TestMethod]
+        public void CopyWorksheetBug()
+        {
+            using (var pck = OpenTemplatePackage("TwoTablesTest.xlsx"))
+            {
+                // Create a new workbook
+                using (var newPck = new ExcelPackage())
+                {
+                    // Copy TestTables to the new workbook
+                    newPck.Workbook.Worksheets.Add("TestTablesNew", pck.Workbook.Worksheets["TestTables"]);
+                    var copiedSheet1 = newPck.Workbook.Worksheets["TestTablesNew"];
+                    Assert.IsNotNull(copiedSheet1);
+                }
+            }
+        }
     }
 }
