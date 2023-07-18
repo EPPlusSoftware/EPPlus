@@ -25,8 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// both dates and numeric values will be included.
         /// </summary>
         /// <param name="r1"></param>
+        /// <param name="addNullifEmpty"></param>
         /// <returns></returns>
-        public static List<double?> FlattenRange(IRangeInfo r1)
+        public static List<double?> FlattenRange(IRangeInfo r1, bool addNullifEmpty=true)
         {
             var result = new List<double?>();
 
@@ -42,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
                         result.Add(yNum);
                     }
-                    else
+                    else if(addNullifEmpty)
                     {
                         result.Add(null);
                     }
