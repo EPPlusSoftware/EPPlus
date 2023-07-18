@@ -112,7 +112,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["roman"] = new Roman();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();
-            Functions["sum"] = new Sum();
+            Functions["sum"] = new SumV2();
             Functions["sumif"] = new SumIf();
             Functions["sumifs"] = new SumIfs();
             Functions["sumproduct"] = new SumProduct();
@@ -247,6 +247,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["weibull"] = new WeibullDist();
             Functions["t.test"] = new TTest();
             Functions["trimmean"] = new Trimmean();
+            Functions["z.test"] = new ZDotTest();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -450,6 +451,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsech"] = new ImSech();
             Functions["imlog2"] = new ImLog2();
             Functions["gestep"] = new GeStep();
+            Functions["impower"] = new ImPower();
+            Functions["imdiv"] = new ImDiv();
         }
     }
 }
