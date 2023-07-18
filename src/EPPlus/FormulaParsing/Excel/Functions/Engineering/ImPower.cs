@@ -32,15 +32,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     internal class ImPower : ImFunctionBase
     {
 
-  //      public override int ArgumentMinLength => 2;
+       public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            GetPowerNumber(arguments[0].Value, out double power, out string complexArg);
+            var comp = ArgToString(arguments, 0);
+            var power = ArgToDecimal(arguments, 1);
             if (double.IsNaN(power))
-            {
-            return CompileResult.GetErrorResult(eErrorType.Value);
+            {     
+                return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            GetComplexNumbers(complexArg, out double real, out double imag, out string imaginarySuffix);
+            GetComplexNumbers(comp, out double real, out double imag, out string imaginarySuffix);
+
             if (double.IsNaN(real) || double.IsNaN(imag))
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
@@ -53,40 +55,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var result = CreateImaginaryString(realPart, imagPart, sign, imaginarySuffix);
             return CreateResult(result, DataType.String);
         }
-
-        protected void GetPowerNumber(object arg, out double power, out string complexArg)
-        {
-            if (arg is string formula)
-            {
-                formula = formula.Trim();
-                var comma = formula.IndexOfAny(new char[] { ';' });
-                complexArg = arg as string;
-                complexArg = complexArg.Substring(0, comma);
-                if (comma >= 0)
-                {
-                    GetPowerPosition(formula, out power, comma);
-                }
-                else
-                {
-                    power = double.NaN;
-                    complexArg = string.Empty;
-                }
-            }
-            else
-            {
-                power = double.NaN;
-                complexArg = string.Empty;
-            }
-        }
-
-        private static void GetPowerPosition(string formula, out double power, int comma)
-        {
-            var powerString = formula.Substring(comma + 1);
-            if (ConvertUtil.TryParseNumericString(powerString, out power) == false)
-            {
-                power = double.NaN;
-            }
-        }
-
     }
 }
