@@ -180,7 +180,7 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(Color.FromArgb(255, Color.Aqua), bar2.FillColor.Color);
                 Assert.AreEqual(eThemeSchemeColor.Accent4, bar2.BorderColor.Theme);
                 Assert.AreEqual(0.5, bar2.BorderColor.Tint);
-                Assert.AreEqual(Color.FromArgb(0, Color.Red), bar2.NegativeFillColor.Color);
+                Assert.AreEqual(Color.FromArgb(255, Color.Red), bar2.NegativeFillColor.Color);
                 Assert.AreEqual(true, bar2.NegativeBorderColor.Auto);
                 Assert.AreEqual(2, bar2.AxisColor.Index);
             }

@@ -205,7 +205,7 @@ namespace EPPlusTest.ConditionalFormatting
                 var readSheet = readPackage.Workbook.Worksheets[0];
                 var formatting = readSheet.ConditionalFormatting[0];
 
-                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(0, Color.Coral.R, Color.Coral.G, Color.Coral.B));
+                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(255,Color.Coral));
                 Assert.AreEqual(formatting.Style.Border.Right.Color.HasValue, false);
                 Assert.AreEqual(formatting.Style.Border.Top.Color.Theme, eThemeSchemeColor.Accent3);
                 Assert.AreEqual(formatting.Style.Border.Bottom.Color.Auto, true);

@@ -30,8 +30,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if (Type != eExcelConditionalFormattingValueObjectType.Min
-                    && Type != eExcelConditionalFormattingValueObjectType.Max)
+                if (Type != eExcelConditionalFormattingValueObjectType.Min && Type != eExcelConditionalFormattingValueObjectType.AutoMin
+                    && Type != eExcelConditionalFormattingValueObjectType.Max && Type != eExcelConditionalFormattingValueObjectType.AutoMax)
                 {
                     return true;
                 }

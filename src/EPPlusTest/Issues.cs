@@ -4443,7 +4443,7 @@ namespace EPPlusTest
         [TestMethod]
         public void extLst()
         {
-            using (ExcelPackage package = OpenTemplatePackage("extLstMany.xlsx"))
+            using (ExcelPackage package = OpenTemplatePackage("extLstMany_small.xlsx"))
             {
                 //package.Workbook.Worksheets.Delete(0);
                 Assert.AreEqual(1, package.Workbook.Worksheets[0].DataValidations.Count);
