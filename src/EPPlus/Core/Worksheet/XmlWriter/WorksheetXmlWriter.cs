@@ -1814,7 +1814,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             cache.Append($"<cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"/>");
                             cache.Append($"<cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"/>");
 
-                            WriteDxfColor(prefix, cache, dataBar.FillColor);
+                            WriteDxfColor("", cache, dataBar.FillColor);
 
                             cache.Append($"</dataBar>");
 
