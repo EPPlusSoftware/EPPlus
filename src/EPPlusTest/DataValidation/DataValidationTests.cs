@@ -58,12 +58,27 @@ namespace EPPlusTest.DataValidation
             CleanupTestData();
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
-        public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
+        [TestMethod]
+        public void DataValidations_ShouldNotThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Operator = ExcelDataValidationOperator.equal;
+
             validation.Validate();
+        }
+
+
+        [TestMethod]
+        public void DataValidation_CanReadNoneValidation()
+        {
+            var pck = OpenTemplatePackage("i888.xlsx");
+
+            var validation = pck.Workbook.Worksheets[0].DataValidations[0];
+
+            Assert.IsNotNull(validation);
+            Assert.AreEqual("A1", validation.Address.ToString());
+            Assert.AreEqual("test", validation.PromptTitle);
+            Assert.AreEqual("message", validation.Prompt);
         }
 
         [TestMethod]
@@ -118,7 +133,7 @@ namespace EPPlusTest.DataValidation
                     {
                         if (!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
                         {
-                            sb.Append(addresses[j]+",");
+                            sb.Append(addresses[j] + ",");
                         }
                     }
                 }
@@ -126,7 +141,7 @@ namespace EPPlusTest.DataValidation
                 {
                     if (!validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
                     {
-                        sb.Append(validations[i].Address+",");
+                        sb.Append(validations[i].Address + ",");
                     }
                 }
             }
@@ -146,15 +161,15 @@ namespace EPPlusTest.DataValidation
             StringBuilder sb = new StringBuilder();
 
             //Ensure all addresses exist in _validationsRD
-            for(int i = 0; i< validations.Count; i++) 
+            for (int i = 0; i < validations.Count; i++)
             {
-                if(validations[i].Address.Addresses != null)
+                if (validations[i].Address.Addresses != null)
                 {
                     var addresses = validations[i].Address.Addresses;
 
                     for (int j = 0; j < validations[i].Address.Addresses.Count; j++)
                     {
-                        if(!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
+                        if (!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
                         {
                             sb.Append(addresses[i]);
                         }
@@ -169,7 +184,7 @@ namespace EPPlusTest.DataValidation
                 }
             }
 
-            Assert.AreEqual("",sb.ToString());
+            Assert.AreEqual("", sb.ToString());
         }
 
         [TestMethod]
@@ -829,6 +844,77 @@ namespace EPPlusTest.DataValidation
             }
         }
 
+
+        [TestMethod]
+        public void UserTestClear()
+        {
+            using (var pck = OpenPackage("DataValidationsUserClearTest.xlsx", true))
+            {
+                var myWS = pck.Workbook.Worksheets.Add("MyWorksheet");
+                var yourWS = pck.Workbook.Worksheets.Add("YourWorksheet");
+
+                var validation = myWS.DataValidations.AddTextLengthValidation("A1:E30");
+
+                validation.Operator = ExcelDataValidationOperator.lessThan;
+
+                validation.Formula.Value = 10;
+
+                myWS.Cells["C1:D10"].DataValidation.ClearDataValidation();
+
+                var listVal = myWS.Cells["C5:D10"].DataValidation.AddListDataValidation();
+
+                listVal.Formula.ExcelFormula = "$C$1:$D$4";
+
+                myWS.Cells["B1:C4"].DataValidation.ClearDataValidation();
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void FormulasWithQuotationsInExcelFormulaReadWrite()
+        {
+            using (var pck = OpenPackage("DV_ExcelFormulaQuotations.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("EmptyFormulaTest");
+                var validation = sheet.DataValidations.AddDecimalValidation("A1");
+
+                validation.Operator = ExcelDataValidationOperator.equal;
+                validation.Formula.ExcelFormula = "\"\"\"tiger\"";
+
+                SaveAndCleanup(pck);
+                ExcelPackage readPck = OpenPackage("DV_ExcelFormulaQuotations.xlsx");
+                var validationRead = readPck.Workbook.Worksheets[0].DataValidations[0];
+
+                Assert.AreEqual("\"\"\"tiger\"", validationRead.As.DecimalValidation.Formula.ExcelFormula);
+            }
+        }
+
+
+        [TestMethod]
+        public void FormulasWithQuotationsInListReadWrite()
+        {
+            using (var pck = OpenPackage("DV_ListQuotations.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("EmptyFormulaTest");
+                var validation = sheet.DataValidations.AddListValidation("A1");
+
+                validation.Formula.Values.Add("\"tiger");
+                validation.Formula.Values.Add("5'7\"");
+                //Ensure Empty values are not read or read wrong
+                validation.Formula.Values.Add("");
+
+                SaveAndCleanup(pck);
+                ExcelPackage readPck = OpenPackage("DV_ListQuotations.xlsx");
+                var validationRead = readPck.Workbook.Worksheets[0].DataValidations[0];
+
+                Assert.AreEqual("\"tiger", validationRead.As.ListValidation.Formula.Values[0]);
+                Assert.AreEqual("5'7\"", validationRead.As.ListValidation.Formula.Values[1]);
+                Assert.AreEqual(2, validationRead.As.ListValidation.Formula.Values.Count);
+            }
+        }
+
+
         [TestMethod]
         public void InsertDeleteTest()
         {
@@ -838,7 +924,9 @@ namespace EPPlusTest.DataValidation
                 var topValidation = sheet.DataValidations.AddDecimalValidation("H5");
                 var midValidation = sheet.DataValidations.AddDecimalValidation("H10");
                 var midValidation2 = sheet.DataValidations.AddDecimalValidation("G10");
+
                 var bottomValidation = sheet.DataValidations.AddDecimalValidation("H20");
+
                 topValidation.Operator = ExcelDataValidationOperator.equal;
                 midValidation.Operator = ExcelDataValidationOperator.equal;
                 midValidation2.Operator = ExcelDataValidationOperator.equal;
@@ -889,6 +977,7 @@ namespace EPPlusTest.DataValidation
                                                                            midValidation.Address._toRow, midValidation.Address._toCol));
                 Assert.IsFalse(sheet.DataValidations._validationsRD.Exists(midValidation2.Address._fromRow, midValidation2.Address._fromCol,
                                                                            midValidation2.Address._toRow, midValidation2.Address._toCol));
+
                 SaveAndCleanup(pck);
             }
         }
@@ -899,7 +988,6 @@ namespace EPPlusTest.DataValidation
             using (var pck = OpenPackage("DV_InsertDeleteRanges.xlsx", true))
             {
                 var sheet = pck.Workbook.Worksheets.Add("insertDel");
-
                 var topValidation = sheet.DataValidations.AddListValidation("G5:G50");
                 var midValidation = sheet.DataValidations.AddListValidation("H10:H25");
 
@@ -933,31 +1021,126 @@ namespace EPPlusTest.DataValidation
 
 
         [TestMethod]
-        public void UserTestClear()
+        public void AddressContainingOwnSheetName_ShouldNotThrow()
         {
-            using (var pck = OpenPackage("DataValidationsUserClearTest.xlsx", true))
+            using (var package = new ExcelPackage())
             {
-                var myWS = pck.Workbook.Worksheets.Add("MyWorksheet");
-                var yourWS = pck.Workbook.Worksheets.Add("YourWorksheet");
+                package.Workbook.Worksheets.Add("ExSheet");
+                // add validation rules to ProblemMeta sheet
+                ExcelWorksheet exSheet = package.Workbook.Worksheets.GetByName("ExSheet");
+                if (exSheet != null)
+                {
+                    var intValidation = exSheet.DataValidations.AddIntegerValidation("ExSheet!$C$2");
+                    intValidation.Operator = ExcelDataValidationOperator.equal;
+                }
 
-                var validation = myWS.DataValidations.AddTextLengthValidation("A1:E30");
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
 
-                validation.Operator = ExcelDataValidationOperator.lessThan;
+                var readPck = new ExcelPackage(stream);
 
-                validation.Formula.Value = 10;
-
-                myWS.Cells["C1:D10"].DataValidation.ClearDataValidation();
-
-                var listVal = myWS.Cells["C5:D10"].DataValidation.AddListDataValidation();
-
-                listVal.Formula.ExcelFormula = "$C$1:$D$4";
-
-                myWS.Cells["B1:C4"].DataValidation.ClearDataValidation();
-
-                SaveAndCleanup(pck);
+                var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
+                Assert.AreEqual("$C$2", address);
             }
         }
 
-        //C11:D30
+        [TestMethod]
+        public void MultipleAddressContainingOwnSheetName_ShouldNotThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("TestSheet");
+                package.Workbook.Worksheets.Add("ExtTestSheet");
+
+                // add validation rules to ProblemMeta sheet
+                ExcelWorksheet testSheet = package.Workbook.Worksheets.GetByName("TestSheet");
+                ExcelWorksheet extTest = package.Workbook.Worksheets.GetByName("ExtTestSheet");
+
+                if (testSheet != null)
+                {
+                    var intValidation = testSheet.DataValidations.AddIntegerValidation("TestSheet!$C$2 TestSheet!$Z$2");
+                    intValidation.Operator = ExcelDataValidationOperator.equal;
+
+                    intValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
+                }
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var validation = readPck.Workbook.Worksheets[0].DataValidations[0];
+                var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
+                Assert.AreEqual("$C$2,$Z$2", address);
+                Assert.AreEqual("ExtTestSheet!$C$5", validation.As.IntegerValidation.Formula.ExcelFormula);
+            }
+        }
+
+        [TestMethod]
+        public void MultipleAddressContainingOtherSheetName_ShouldNotThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("TestSheet");
+                package.Workbook.Worksheets.Add("ExtTestSheet");
+
+                // add validation rules to ProblemMeta sheet
+                ExcelWorksheet testSheet = package.Workbook.Worksheets.GetByName("TestSheet");
+                ExcelWorksheet extTest = package.Workbook.Worksheets.GetByName("ExtTestSheet");
+
+                if (testSheet != null)
+                {
+                    //We ignore the worksheet name and only apply the addresses
+                    var defaultValidation = testSheet.DataValidations.AddIntegerValidation("ExtTestSheet!$C$2 ExtTestSheet!$Z$2");
+                    defaultValidation.Operator = ExcelDataValidationOperator.equal;
+
+                    defaultValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
+
+                }
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var validation = readPck.Workbook.Worksheets[0].DataValidations[0];
+                var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
+                Assert.AreEqual("$C$2,$Z$2", address);
+                Assert.AreEqual("ExtTestSheet!$C$5", validation.As.IntegerValidation.Formula.ExcelFormula);
+            }
+        }
+
+        [TestMethod]
+        public void OwnSheetNameApostrophe_ShouldNotThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("Test' She' et");
+                package.Workbook.Worksheets.Add("ExtTestSheet");
+
+                // add validation rules to ProblemMeta sheet
+                ExcelWorksheet testSheet = package.Workbook.Worksheets.GetByName("Test' She' et");
+                ExcelWorksheet extTest = package.Workbook.Worksheets.GetByName("ExtTestSheet");
+
+                if (testSheet != null)
+                {
+                    //We ignore the worksheet name and only apply the addresses
+                    var defaultValidation = testSheet.DataValidations.AddIntegerValidation("Test' She' et!$C$2 Test' She' et!$Z$5");
+                    defaultValidation.Operator = ExcelDataValidationOperator.equal;
+
+                    defaultValidation.Formula.ExcelFormula = "ExtTestSheet!$C$5";
+                }
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var validation = readPck.Workbook.Worksheets[0].DataValidations[0];
+                var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
+                Assert.AreEqual("$C$2,$Z$5", address);
+                Assert.AreEqual("ExtTestSheet!$C$5", validation.As.IntegerValidation.Formula.ExcelFormula);
+            }
+        }
     }
 }

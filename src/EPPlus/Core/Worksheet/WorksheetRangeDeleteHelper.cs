@@ -1,15 +1,15 @@
 ﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
+ Required Notice: Copyright (C) EPPlus Software AB. 
+ This software is licensed under PolyForm Noncommercial License 1.0.0 
+ and may only be used for noncommercial purposes 
+ https://polyformproject.org/licenses/noncommercial/1.0.0/
 
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                   Change
- *************************************************************************************************
-  02/03/2020         EPPlus Software AB       Added
- *************************************************************************************************/
+ A commercial license to use this software can be purchased at https://epplussoftware.com
+*************************************************************************************************
+ Date               Author                   Change
+*************************************************************************************************
+ 02/03/2020         EPPlus Software AB       Added
+*************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
@@ -321,6 +321,11 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         sf.Address = a.Address;
                         sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                        if (sf.StartRow >= rowFrom)
+                        {
+                            var r = Math.Max(rowFrom, sf.StartRow - rows);
+                            sf.StartRow = r;
+                        }
                     }
                 }
                 else if (sf.Formula.Contains(workSheetName))
@@ -362,6 +367,12 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         sf.Address = a.Address;
                         sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
+
+                        if (sf.StartCol > columnFrom)
+                        {
+                            var c = Math.Max(columnFrom, sf.StartCol - columns);
+                            sf.StartCol -= c;
+                        }
                     }
                 }
                 else if (sf.Formula.Contains(workSheetName))
@@ -569,9 +580,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     dv.SetAddress(newAddress.Address);
                 }
-                ws.DataValidations.DeleteRangeDictionary(range, shift == eShiftTypeDelete.Left || shift == eShiftTypeDelete.EntireColumn);
             }
             deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
+            ws.DataValidations.DeleteRangeDictionary(range, shift == eShiftTypeDelete.Left || shift == eShiftTypeDelete.EntireColumn);
         }
 
         private static ExcelAddressBase DeleteSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
@@ -793,13 +804,8 @@ namespace OfficeOpenXml.Core.Worksheet
                                 a = new ExcelAddress(sf.Address).DeleteRow(range._fromRow, rows);
                                 if (sf.StartRow >= rowFrom)
                                 {
-                                    var sr = Math.Max(rowFrom, sf.StartRow - rows);
-                                    sf.StartRow = sr;
-                                }
-                                if(sf.EndRow >= rowFrom)
-                                {
-                                    var er = Math.Max(rowFrom, sf.EndRow - rows);
-                                    sf.EndRow = er;
+                                    var r = Math.Max(rowFrom, sf.StartRow - rows);
+                                    sf.StartRow = r;
                                 }
                             }
                             else
@@ -812,11 +818,6 @@ namespace OfficeOpenXml.Core.Worksheet
                                     var c = Math.Max(colFrom, sf.StartCol - cols);
                                     sf.StartCol = c;
                                 }
-                                if (sf.EndCol >= colFrom)
-                                {
-                                    var c = Math.Max(colFrom, sf.EndCol - cols);
-                                    sf.EndCol = c;
-                                }
                             }
 
                             if (a == null)
@@ -825,6 +826,7 @@ namespace OfficeOpenXml.Core.Worksheet
                             }
                             else
                             {
+                                sf.Address = a.Address;
                                 sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, range, effectedRange, shift, ws.Name, workSheetName);
                             }
                         }
