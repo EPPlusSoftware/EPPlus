@@ -19,7 +19,7 @@ namespace OfficeOpenXml
 {
     internal class WorksheetZipStream : Stream
     {
-        RollingBuffer _rollingBuffer = new RollingBuffer(8192);
+        RollingBuffer _rollingBuffer = new RollingBuffer(8192*2);
         private Stream _stream;
         //private long _size;
         //private long _bytesRead;
@@ -205,6 +205,16 @@ namespace OfficeOpenXml
                 endElementIx = FindElementPos(xml, endElement, false);
             }
 
+            //int endElementIx;
+            //if(endElement == "conditionalFormatting")
+            //{
+            //   endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
+            //}
+            //else
+            //{
+            //    endElementIx = FindElementPos(xml, endElement, false);
+            //}
+
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))
             {
@@ -229,46 +239,61 @@ namespace OfficeOpenXml
             WriteToBuffer = writeToBuffer;
             return startXml + xml;
         }
+
+        internal string ReadToEndFromAfterUri(string lastUri, string startXml)
+        {
+            Buffer.Flush();
+            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+
+            var ix = GetXmlIndex(xml, lastUri);
+
+            if (ix > -1)
+            {
+                var xmlIncludingLatestElement = xml.Substring(ix);
+
+                var endIndex = FindElementPos(xmlIncludingLatestElement, "ext", false);
+
+                var xmlFromAfterLatestElement = xmlIncludingLatestElement.Substring(endIndex);
+
+                return startXml + xmlFromAfterLatestElement;
+            }
+            else
+            {
+                var endIndex = FindElementPos(xml, "ext", false);
+                if (endIndex > -1)
+                {
+                    return startXml + xml.Substring(endIndex);
+                }
+
+                return startXml + "</extLst>";
+            }
+        }
+
         internal string ReadToExt(string startXml, string uriValue, ref string lastElement, string lastUri = "")
         {
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
 
-            if (lastElement == "ext")
+            if(lastElement != "ext")
             {
-                var lastExtStartIx = GetXmlIndex(xml, lastUri);
-                int endExtIx;
-                if (lastExtStartIx < 0)
+                var extLstStart = GetXmlIndex(xml, uriValue);
+
+                if (extLstStart > 0)
                 {
-                    endExtIx = FindElementPos(xml, "ext", false);
-                }
-                else
-                {
-                    endExtIx = FindElementPos(xml, "ext", false, lastExtStartIx + 4);
-                }
-                xml = xml.Substring(endExtIx);
-            }
-            else
-            {
-                var lastElementIx = FindLastElementPosWithoutPrefix(xml, lastElement, false, 0);
-                if (lastElementIx < 0)
-                {
-                    throw new InvalidOperationException("Worksheet Xml is invalid");
-                }
-                xml = xml.Substring(lastElementIx);
-            }
-            if (string.IsNullOrEmpty(uriValue))
-            {
-                lastElement = "";
-                return startXml + xml;
-            }
-            else
-            {
-                var ix = GetXmlIndex(xml, uriValue);
-                if (ix > 0)
-                {
+                    //Get a shorter string to search through than starting from zero
+                    var firstIndexOfElement = xml.IndexOf(lastElement);
+
+                    var stringOfAllLastElementsBeforeExtLst = xml.Substring(firstIndexOfElement, extLstStart - firstIndexOfElement);
+
+                    var lastKnownElementIndex = stringOfAllLastElementsBeforeExtLst.LastIndexOf(lastElement);
+
+                    var allInbetween = stringOfAllLastElementsBeforeExtLst.Substring(lastKnownElementIndex);
+
+                    var allInbetweenWithoutElement = allInbetween.Substring(allInbetween.IndexOf(">") + 1);
+
                     lastElement = "ext";
-                    return startXml + xml.Substring(0, ix);
+
+                    return startXml + allInbetweenWithoutElement;
                 }
             }
             return startXml;
@@ -382,7 +407,7 @@ namespace OfficeOpenXml
             {
                 if (!first)
                 {
-                    first = true;
+                    first = true;   
                 }
                 else
                 {

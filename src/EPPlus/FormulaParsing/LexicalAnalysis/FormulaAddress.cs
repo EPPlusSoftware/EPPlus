@@ -7,11 +7,11 @@ using static OfficeOpenXml.ExcelAddressBase;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
 using OfficeOpenXml.Utils;
+using System.Net;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -19,6 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     {
         internal ExcelWorksheet _ws;
         internal int StartRow, StartCol;
+        internal int StartRowOffset, StartColOffset;
         internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
         internal static ISourceCodeTokenizer _tokenizerNWS = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
         internal IList<Token> Tokens;
@@ -88,9 +89,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             _ws = ws;
             Formula = formula;
-            ExcelCellBase.GetRowColFromAddress(address, out StartRow, out StartCol, out EndRow, out EndCol);
+            ExcelCellBase.GetRowColFromAddress(address, out int sr, out int sc, out EndRow, out EndCol); //We don't use the start row/col from the address as it can differ from the cells row/col if the first cell has been deleted. 
             StartRow = row;
             StartCol = col;
+            StartRowOffset = sr - StartRow;
+            StartColOffset = sc - StartCol;
         }
         public SharedFormula(ExcelRangeBase range) : base(range.Worksheet, range._fromRow, range._fromCol)
         {
@@ -129,11 +132,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get
             {
-                return ExcelCellBase.GetAddress(StartRow, StartCol, EndRow, EndCol);
+                return ExcelCellBase.GetAddress(StartRow + StartRowOffset, StartCol + StartColOffset, EndRow, EndCol);
             }
             set
             {
-                ExcelCellBase.GetRowColFromAddress(value, out StartRow, out StartCol, out EndRow, out EndCol);
+                StartRowOffset = 0;
+                StartColOffset = 0;
+                ExcelCellBase.GetRowColFromAddress(value, out StartRow, out StartCol, out EndRow, out EndCol); 
             }
         }
         /// <summary>

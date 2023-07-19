@@ -133,27 +133,31 @@ namespace OfficeOpenXml.ConditionalFormatting
             Icon3 = CreateIcon(Math.Round(100D * (2D / symbolCount), 0), type);
 
             xr.Read();
-            Icon1.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
-            Icon1.Value = double.Parse(xr.GetAttribute("val"));
+            ReadIcon(Icon1, xr);
+            xr.Read();
+            ReadIcon(Icon2, xr);
+            xr.Read();
+            ReadIcon(Icon3, xr);
 
             xr.Read();
-            Icon2.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
-            Icon2.Value = double.Parse(xr.GetAttribute("val"));
+        }
+
+        internal void ReadIcon(ExcelConditionalFormattingIconDataBarValue icon, XmlReader xr)
+        {
+            icon.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
+            if (icon.Type != eExcelConditionalFormattingValueObjectType.Formula)
+            {
+                icon.Value = double.Parse(xr.GetAttribute("val"));
+            }
+            else
+            {
+                icon.Formula = xr.GetAttribute("val");
+            }
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("gte")))
             {
-                Icon2.GreaterThanOrEqualTo = int.Parse(xr.GetAttribute("gte")) != 0;
+                icon.GreaterThanOrEqualTo = int.Parse(xr.GetAttribute("gte")) != 0;
             }
-
-            xr.Read();
-            Icon3.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
-            Icon3.Value = double.Parse(xr.GetAttribute("val"));
-            if (!string.IsNullOrEmpty(xr.GetAttribute("gte")))
-            {
-                Icon3.GreaterThanOrEqualTo = int.Parse(xr.GetAttribute("gte")) != 0;
-            }
-
-            xr.Read();
         }
 
         internal ExcelConditionalFormattingIconSetBase(ExcelConditionalFormattingIconSetBase<T> copy) : base(copy)
