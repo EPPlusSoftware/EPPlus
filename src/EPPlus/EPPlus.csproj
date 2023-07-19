@@ -33,7 +33,7 @@
 		* Support for Implicit intersection.
 		* Support for array parameters in functions.
 		* Better support for using the colon operator with functions.
-		* 49 new functions
+		* 65 new functions
 		* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information
 
 		## Version 6.2.6
@@ -318,7 +318,7 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		7.0.0-preview 2	20230519 Calculation engine update for array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
+		7.0.0-preview 2	20230719 Calculation engine update for array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
 		6.2.6	        20230615 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		6.2.5	        20230614 Minor bug fixes.
 		7.0.0-preview 1	20230519 Calculation engine update for array formulas. 

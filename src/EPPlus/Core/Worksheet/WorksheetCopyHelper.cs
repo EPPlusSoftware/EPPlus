@@ -863,7 +863,7 @@ namespace OfficeOpenXml.Core.Worksheet
             for(int i=0;i<copy.Tables.Count; i++)
             {
                 var tblFrom = copy.Tables[i];
-                var tblTo = added.Tables[i];
+                var tblTo = added.Tables[tblFrom.Name]; //Use Name, as id can differ if the worksheets are in different workbooks.
                 if (tblFrom.HeaderRowStyle.HasValue) tblTo.HeaderRowStyle = (ExcelDxfStyle)tblFrom.HeaderRowStyle.Clone();
                 if (tblFrom.HeaderRowBorderStyle.HasValue) tblTo.HeaderRowBorderStyle = (ExcelDxfBorderBase)tblFrom.HeaderRowBorderStyle.Clone();
                 if (tblFrom.DataStyle.HasValue) tblTo.DataStyle = (ExcelDxfStyle)tblFrom.DataStyle.Clone();
