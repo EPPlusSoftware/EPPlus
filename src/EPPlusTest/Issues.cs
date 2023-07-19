@@ -51,6 +51,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace EPPlusTest
 {
@@ -1890,7 +1891,7 @@ namespace EPPlusTest
                 pivotTable.OutlineData = true;
                 //pivotTable.ShowDrill = true;
                 //pivotTable.CacheDefinition.Refresh();
-                pivotTable.CacheDefinition.Refresh();
+                pivotTable.Fields["Employee"].Items.Refresh();
                 pivotTable.Fields["Employee"].Items.ShowDetails(false);
                 rowField1.Items.ShowDetails(false);
                 worksheet.Cells.AutoFitColumns(0);
@@ -4443,11 +4444,21 @@ namespace EPPlusTest
         [TestMethod]
         public void extLst()
         {
-            using (ExcelPackage package = OpenTemplatePackage("extLstMany.xlsx"))
+            using (ExcelPackage package = OpenTemplatePackage("extLstMany_small.xlsx"))
             {
                 //package.Workbook.Worksheets.Delete(0);
                 Assert.AreEqual(1, package.Workbook.Worksheets[0].DataValidations.Count);
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i863Offshoot()
+        {
+            using (var p = OpenTemplatePackage("SharedFormulaIssuePart_i863.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                Assert.AreEqual(sheet._sharedFormulas[1].Address, "S5:W6");
+                SaveAndCleanup(p);
             }
         }
 
@@ -4772,6 +4783,10 @@ namespace EPPlusTest
                 }
                 // Saving
                 SaveAndCleanup(p);
+
+                var p2 = OpenPackage("i863.xlsx");
+
+                var ws17 = p2.Workbook.Worksheets[16];
             }
         }
 

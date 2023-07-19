@@ -379,7 +379,16 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Percentile
         /// </summary>
-        Percentile
+        Percentile,
+
+        /// <summary>
+        /// Auto minimal value
+        /// </summary>
+        AutoMin,
+        /// <summary>
+        /// Auto Maximum value
+        /// </summary>
+        AutoMax
     }
 
     /// <summary>

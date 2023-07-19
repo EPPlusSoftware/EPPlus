@@ -49,9 +49,8 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             xr)
         {
             Icon4 = CreateIcon(75, eExcelConditionalFormattingRuleType.FourIconSet);
-            
-            Icon4.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
-            Icon4.Value = double.Parse(xr.GetAttribute("val"));
+
+            ReadIcon(Icon4, xr);
 
             xr.Read();
             xr.Read();
