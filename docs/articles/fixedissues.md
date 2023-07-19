@@ -1,4 +1,14 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.7
+### Fixed issues
+* Copying a worksheet with more than two tables to a new workbook sometimes throws an exception due to different table ids.
+* Matching an existing pivot table cache against source data was case-sensitive.
+* Added support for hidden columns in EPPlusTableColumn attribute.
+* The Calculate method threw an exception if a defined name contained an error value.
+* Fixed an issue when updating formulas in data validations and conditional formatting’s when inserting/delete rows or columns.
+* Conditional formatting text types would fail to function correctly after deleting a column.
+* Copying a worksheet with a defined name with a formula pointing to another worksheet caused a NullReferenceException.
+
 ## Version 6.2.6
 ### Fixed issues
 * Updated System.Security.Cryptography.Pkcs for security vulnerability in .NET 6 and 7. See https://github.com/dotnet/runtime/issues/87498
