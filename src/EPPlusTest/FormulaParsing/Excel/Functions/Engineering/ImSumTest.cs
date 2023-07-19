@@ -64,7 +64,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
         }
 
         [TestMethod]
-        public void ImProductShouldReturnCorrectResult_WithRange()
+        public void ImSumShouldReturnCorrectResult_WithRange()
         {
             using (var package = new ExcelPackage())
             {
@@ -76,6 +76,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Calculate();
                 var result = sheet.Cells["A4"].Value;
                 Assert.AreEqual("12+15i", result);
+            }
+        }
+        [TestMethod]
+        public void ImSumShouldReturnCorrectResult_5CellsAsValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = "5+7i";
+                sheet.Cells["A2"].Value = "3-2i";
+                sheet.Cells["A3"].Value = "9+3i";
+                sheet.Cells["A4"].Value = "6-8i";
+                sheet.Cells["A5"].Value = "2+15i";
+                sheet.Cells["A6"].Formula = "IMSUM(A1:A5)";
+                sheet.Calculate();
+                var result = sheet.Cells["A6"].Value;
+                Assert.AreEqual("25+15i", result);
             }
         }
     }

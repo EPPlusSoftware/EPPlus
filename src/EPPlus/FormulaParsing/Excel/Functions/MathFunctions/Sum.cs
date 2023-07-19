@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,17 +8,16 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/07/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -26,14 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
         Description = "Returns the sum of a supplied list of numbers")]
-    internal class Sum : HiddenValuesHandlingFunction
+    internal class SumV2 : ExcelFunction
     {
-        public Sum()
-        {
-            IgnoreErrors = false;
-        }
-
         public override int ArgumentMinLength => 1;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var retVal = 0d;
@@ -41,72 +36,62 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 foreach (var arg in arguments)
                 {
-                    var c = Calculate(arg, context);
-                    if (c is ExcelErrorValue e)
+                    var c = Calculate(arg, context, out eErrorType? errType);
+                    if (errType.HasValue)
                     {
-                        return CompileResult.GetErrorResult(e.Type) ;
+                        return CompileResult.GetErrorResult(errType.Value);
                     }
-                    else
+                    else if(!double.IsNaN(c))
                     {
-                        retVal += (double)c;
+                        retVal += c;
                     }
                 }
             }
             return CreateResult(retVal, DataType.Decimal);
         }
 
-        
-        private object Calculate(FunctionArgument arg, ParsingContext context)
+        private double Calculate(FunctionArgument arg, ParsingContext context, out eErrorType? errType)
         {
             var retVal = 0d;
-            if (ShouldIgnore(arg, context))
-            {
-                return retVal;
-            }
+            errType = default;
             if (arg.DataType == DataType.ExcelError)
             {
-                return arg.Value;
+                errType = arg.ValueAsExcelErrorValue.Type;
+                return double.NaN;
             }
-            if (arg.Value is IEnumerable<FunctionArgument> args)
-            {
-                foreach (var item in args)
-                {
-                    if(!ShouldIgnore(arg, context))
-                    {
-                        var c = Calculate(item, context);
-                        if (c is ExcelErrorValue e)
-                        {
-                            return e;
-                        }
-                        else
-                        {
-                            retVal += (double)c;
-                        }
-                    }
-                }
-            }
-            else if (arg.Value is IRangeInfo ri)
+            if (arg.Value is IRangeInfo ri)
             {
                 foreach (var c in ri)
                 {
-                    if (ri.IsInMemoryRange || !ShouldIgnore(c, context))
+                    if (c.IsExcelError)
                     {
-                        //CheckForAndHandleExcelError(c);
-                        if (c.IsExcelError) return c.Value;
-                        retVal += c.ValueDouble;
+                        errType = ((ExcelErrorValue)c.Value).Type;
+                        return double.NaN;
                     }
+                    retVal += c.ValueDouble;
+                }
+            }
+            else if(arg.DataType == DataType.ExcelError)
+            {
+                errType = arg.ValueAsExcelErrorValue.Type;
+                return double.NaN;
+            }
+            else if (arg.DataType == DataType.Boolean && arg.Address != null)
+            {
+                return 0d;
+            }
+            else if(arg.DataType == DataType.String && arg.Address == null && arg.Value != null)
+            {
+                if(ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double numArg, CultureInfo.InvariantCulture))
+                {
+                    retVal += numArg;
                 }
             }
             else
-            {
-                //CheckForAndHandleExcelError(arg);
-                retVal += ConvertUtil.GetValueDouble(arg.Value, true);
+            {  
+                retVal += ConvertUtil.GetValueDouble(arg.Value);
             }
             return retVal;
-        }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
-        {
-            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

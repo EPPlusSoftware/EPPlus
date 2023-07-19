@@ -45,14 +45,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 
             var sign = (imagPart < 0) ? "-" : "+";
             var result = CreateImaginaryString(realPart, imagPart, sign, imaginarySuffix);
-            if (double.IsNaN(realPart) && double.IsNaN(imagPart))
-            {
-                result = "0";
-                return CreateResult(result, DataType.String);
-            }else
-            {
-                return CreateResult(result, DataType.String);
-            }
+            return CreateResult(result, DataType.String);
+            
         }
     }
 }

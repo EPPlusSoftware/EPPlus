@@ -108,7 +108,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 return FunctionParameterInformation.IgnoreAddress;
             }
-            return FunctionParameterInformation.Normal;
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

@@ -194,7 +194,16 @@ namespace OfficeOpenXml
 
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
-            var endElementIx = FindElementPos(xml, endElement, false);
+
+            int endElementIx;
+            if(endElement == "conditionalFormatting")
+            {
+               endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
+            }
+            else
+            {
+                endElementIx = FindElementPos(xml, endElement, false);
+            }
 
             //int endElementIx;
             //if(endElement == "conditionalFormatting")

@@ -1719,7 +1719,7 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var expression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("A1"));
 
-                expression.Formula = "\"&%/Stuffåäö}=``#£\"<>\"An Example\"";
+                expression.Formula = "\"&%/Stuffï¿½ï¿½ï¿½}=``#ï¿½\"<>\"An Example\"";
 
                 var stream = new MemoryStream();
 
@@ -1733,7 +1733,7 @@ namespace EPPlusTest.ConditionalFormatting
                 var readPackage = new ExcelPackage(stream);
 
                 var cf = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
-                Assert.AreEqual("\"&%/Stuffåäö}=``#£\"<>\"An Example\"", cf.As.Expression.Formula);
+                Assert.AreEqual("\"&%/Stuffï¿½ï¿½ï¿½}=``#ï¿½\"<>\"An Example\"", cf.As.Expression.Formula);
             }
         }
 
