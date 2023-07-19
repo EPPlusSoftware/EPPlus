@@ -30,6 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -4952,6 +4953,26 @@ namespace EPPlusTest
                 Assert.AreEqual($"IF(B{3}=\"\",\"\",IF(B{3}=INDEX(Table1[City],MATCH(Sheet1!A{3},Table1[Country],0),1),TRUE,FALSE))", ws.Cells[3, 3].Formula);
 
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void Issue888()
+        {
+            using (var package = OpenPackage("issue888.xlsx", true))
+            {
+                var ws1 = package.Workbook.Worksheets.Add("ws1");
+
+                ws1.DataValidations.AddAnyValidation("A1");
+
+                SaveAndCleanup(package);
+
+                var readPackage = OpenPackage("issue888.xlsx");
+
+                var sheet = readPackage.Workbook.Worksheets[0];
+                var formatting = sheet.DataValidations[0];
+
+                Assert.AreEqual(eDataValidationType.Any, formatting.ValidationType.Type);
             }
         }
 
