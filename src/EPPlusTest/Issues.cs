@@ -5013,7 +5013,9 @@ namespace EPPlusTest
 
                 worksheet.DeleteColumn(1);
 
-                Assert.AreEqual("NOT(ISERROR(SEARCH(\"Value\",B1)))", ((ExcelConditionalFormattingRule)cfRule).Formula);
+                var cast = (ExcelConditionalFormattingRule)cfRule;
+
+                Assert.AreEqual("NOT(ISERROR(SEARCH(\"Value\",B1)))", cast._formula);
 
                 package.Save();
             }
