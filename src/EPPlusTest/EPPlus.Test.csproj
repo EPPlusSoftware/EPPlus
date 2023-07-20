@@ -205,6 +205,8 @@
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
     <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
     <EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
+	<None Remove="Workbooks\TestDoc_SumPrecision.xlsx" />
+	<EmbeddedResource Include="Workbooks\TestDoc_SumPrecision.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>

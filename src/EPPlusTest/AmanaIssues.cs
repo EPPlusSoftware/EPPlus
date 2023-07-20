@@ -472,5 +472,31 @@ namespace EPPlusTest
             Assert.AreEqual("Anlagevermögen", sheet.Cells["B8"].Value);
             Assert.AreEqual("123 456 ABC", sheet.Cells["B9"].Value);
         }
+        [TestMethod]
+        public void Test_FormulaSumPrecision()
+        {
+
+            // Arrange
+            var input = GetTestStream("TestDoc_SumPrecision.xlsx");
+            var package = new ExcelPackage(input);
+            var ws = package.Workbook.Worksheets["Tabelle1"];
+
+            // Act
+            ws.Calculate();
+
+            //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+
+            var result = ws.Cells["L14"].Value.ToString();
+            Assert.AreEqual("-3,552713678800501E-15", result);
+
+
+           
+        }
     }
 }
