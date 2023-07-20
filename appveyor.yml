@@ -1,4 +1,4 @@
-4version: 6.2.7.{build}
+version: 6.2.7.{build}
 branches:
   only:
   - develop
