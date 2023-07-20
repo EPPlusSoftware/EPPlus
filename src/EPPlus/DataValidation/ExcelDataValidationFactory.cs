@@ -33,6 +33,7 @@ namespace OfficeOpenXml.DataValidation
             switch (validationTypeName)
             {
                 case "":
+                case "none":
                     return new ExcelDataValidationAny(xr, ws);
                 case "textLength":
                     return new ExcelDataValidationInt(xr, ws, true);

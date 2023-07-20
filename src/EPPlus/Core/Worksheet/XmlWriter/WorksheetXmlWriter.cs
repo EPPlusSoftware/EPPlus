@@ -783,6 +783,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             in StringBuilder cache, string prefix, string extNode, string endExtNode)
         {
             string string1 = ((ExcelDataValidationFormula)formula).GetXmlValue();
+
+            if (string.IsNullOrEmpty(string1))
+            {
+                return;
+            }
+
             string1 = ConvertUtil.ExcelEscapeAndEncodeString(string1);
 
             cache.Append($"<{prefix}formula1>{extNode}{string1}{endExtNode}</{prefix}formula1>");
@@ -793,6 +799,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         {
             string string1 = ((ExcelDataValidationFormula)formula1).GetXmlValue();
             string string2 = ((ExcelDataValidationFormula)formula2).GetXmlValue();
+
+            if (string.IsNullOrEmpty(string1) && string.IsNullOrEmpty(string2))
+            {
+                return;
+            }
 
             //Note that formula1 must be written even when string1 is empty
             string1 = ConvertUtil.ExcelEscapeAndEncodeString(string1);
