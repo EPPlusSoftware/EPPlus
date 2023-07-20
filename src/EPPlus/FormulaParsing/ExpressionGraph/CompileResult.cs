@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -27,6 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private static CompileResult _empty = new CompileResult(null, DataType.Empty);
         private static CompileResult _zeroDecimal = new CompileResult(0d, DataType.Decimal);
         private static CompileResult _zeroInt = new CompileResult(0d, DataType.Integer);
+        private readonly ParsingScope _parsingScope;
 
         /// <summary>
         /// Returns a CompileResult with a null value and data type set to DataType.Empty
@@ -54,12 +56,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         private double? _resultNumeric;
 
-        public CompileResult(object result, DataType dataType)
-            : this(result, dataType, 0)
+        public CompileResult(object result, DataType dataType, ParsingScope parsingScope = null)
+            : this(result, dataType, 0, parsingScope)
         { 
         }
 
-        public CompileResult(object result, DataType dataType, int excelAddressReferenceId)
+        public CompileResult(object result, DataType dataType, int excelAddressReferenceId, ParsingScope parsingScope = null)
         {
             if(result is ExcelDoubleCellValue)
             {
@@ -71,6 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             }
             DataType = dataType;
             ExcelAddressReferenceId = excelAddressReferenceId;
+            _parsingScope = parsingScope;
         }
 
         public CompileResult(eErrorType errorType)
@@ -103,6 +106,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 }
                 else
                 {
+                    if (IsLinearRangeCalculation(r))
+                    {
+                        if (IsParsingScopeOutOfRange(r))
+                            throw new ExcelErrorValueException(eErrorType.Value);
+
+                        return GetCompileResultForCurrentParsingScopeCell(r).ResultValue;
+                    }
+                    
                     return r.GetValue(r.Address._fromRow, r.Address._fromCol);
                 }
             }
@@ -131,9 +142,17 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 					{
                         _resultNumeric = DateTime.FromOADate(0).Add((TimeSpan)Result).ToOADate();
 					}
-					else if (Result is IRangeInfo)
+					else if (Result is IRangeInfo range)
 					{
-						var c = ((IRangeInfo)Result).FirstOrDefault();
+                        if (IsLinearRangeCalculation(range))
+                        {
+                            if (IsParsingScopeOutOfRange(range))
+                                throw new ExcelErrorValueException(eErrorType.Value);
+
+                            return GetCompileResultForCurrentParsingScopeCell(range).ResultNumeric;
+                        }
+
+                        var c = ((IRangeInfo)Result).FirstOrDefault();
 						if (c == null)
 						{
 							return 0;
@@ -143,9 +162,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 							return c.ValueDoubleLogical;
 						}
 					}
-					// The IsNumericString and IsDateString properties will set _resultNumeric for efficiency so we just need
-					// to check them here.
-					else if (!IsDateString && !IsNumericString)
+                    else if (DataType == DataType.ExcelError)
+                    {
+                        return double.NaN;
+                    }
+                    // The IsNumericString and IsDateString properties will set _resultNumeric for efficiency so we just need
+                    // to check them here.
+                    else if (!IsDateString && !IsNumericString)
 					{
 						_resultNumeric = 0;
 					}
@@ -218,5 +241,63 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             get { return ExcelAddressReferenceId > 0; }
         }
+        
+        private bool IsLinearRangeCalculation(IRangeInfo range)
+        => _parsingScope != null
+                && (range.Address._fromRow != range.Address._toRow 
+                    && range.Address._fromCol == range.Address._toCol
+                    || range.Address._fromCol != range.Address._toCol 
+                    && range.Address._fromRow == range.Address._toRow);
+
+        private CompileResult GetCompileResultForCurrentParsingScopeCell(IRangeInfo range)
+        {
+            var value = range.Address._fromRow == range.Address._toRow
+                ? range.GetValue(range.Address._fromRow, _parsingScope.Address.FromCol)
+                : range.GetValue(_parsingScope.Address.FromRow, range.Address._fromCol);
+
+            DataType = GetDataTypeForValue(value);
+
+            return new CompileResult(value, DataType, _parsingScope);
+        }
+
+        private DataType GetDataTypeForValue(object value)
+        {
+            if (value == null)
+                return DataType.Empty;
+
+            return IsNumber(value)
+                ? DataType.Decimal
+                : DataType.ExcelError;
+        }
+
+        private static bool IsNumber(object value)
+            => value is sbyte
+               || value is byte
+               || value is short
+               || value is ushort
+               || value is int
+               || value is uint
+               || value is long
+               || value is ulong
+               || value is float
+               || value is double
+               || value is decimal;
+
+
+        private bool IsParsingScopeOutOfRange(IRangeInfo range)
+        {
+            if (_parsingScope == null) return false;
+
+            if (range.Address._fromCol == range.Address._toCol)             //Column
+                return !(_parsingScope.Address.FromRow >= range.Address._fromRow
+                         && _parsingScope.Address.ToRow <= range.Address._toRow);
+
+            if (range.Address._fromRow == range.Address._toRow)             //Row
+                return !(_parsingScope.Address.FromCol >= range.Address._fromCol
+                         && _parsingScope.Address.ToCol <= range.Address._toCol);
+
+            return false;
+        }
+        
     }
 }

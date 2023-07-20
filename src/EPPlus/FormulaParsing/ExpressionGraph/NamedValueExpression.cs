@@ -60,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 cache.Add(cacheId, range.Address.FullAddress);
                 if (range.IsMulti)
                 {
-                    return new CompileResult(name.Value, DataType.Enumerable, cacheId);
+                    return new CompileResult(name.Value, DataType.Enumerable, cacheId, c);
                 }
                 else
                 {                    
