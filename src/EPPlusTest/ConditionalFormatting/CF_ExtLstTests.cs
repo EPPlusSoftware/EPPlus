@@ -134,6 +134,10 @@ namespace EPPlusTest.ConditionalFormatting
                 c2.Color.SetColor(Color.MediumPurple);
 
                 SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("ExtLstFormulasDxf.xlsx", false);
+
+                var format = readPck.Workbook.Worksheets[0].ConditionalFormatting[0];
             }
         }
 

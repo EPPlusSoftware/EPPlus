@@ -44,6 +44,7 @@ using System.Linq;
 using System.Runtime.Remoting;
 using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Style;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -308,7 +309,7 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-      
+
         [TestMethod]
         public void VerifyReadStyling()
         {
@@ -1761,6 +1762,29 @@ namespace EPPlusTest.ConditionalFormatting
 
                 Assert.AreEqual("B1", readBetween.As.Between.Formula);
                 Assert.AreEqual("B2", readBetween.As.Between.Formula2);
+            }
+        }
+
+        [TestMethod]
+        public void CF_GradientFill()
+        {
+            using (var pck = new ExcelPackage("C:\\Users\\OssianEdström\\Documents\\advExtColorTest.xlsx"))
+            {
+                var cf = pck.Workbook.Worksheets[0].ConditionalFormatting[0];
+
+                Assert.AreEqual(false, cf.Style.Font.Bold);
+                Assert.AreEqual(true, cf.Style.Font.Italic);
+                Assert.AreEqual(Color.FromArgb(255, 51, 51, 255), cf.Style.Font.Color.Color);
+
+                Assert.AreEqual(30, cf.Style.NumberFormat.Id);
+                Assert.AreEqual("@", cf.Style.NumberFormat.Format);
+
+                Assert.AreEqual(eThemeSchemeColor.Accent2, cf.Style.Fill.Gradient.Colors[0].Color.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent1, cf.Style.Fill.Gradient.Colors[1].Color.Theme);
+
+                Assert.AreEqual(45D, cf.Style.Fill.Gradient.Degree);
+                Assert.AreEqual(ExcelBorderStyle.Thin, cf.Style.Border.Left.Style);
+                Assert.AreEqual(true, cf.Style.Border.Left.Color.Auto);
             }
         }
     }
