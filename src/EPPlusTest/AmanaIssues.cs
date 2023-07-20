@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace EPPlusTest
 {
-    using EPPlusTest.Properties;
+    using Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OfficeOpenXml;
     using System;
@@ -498,7 +498,8 @@ namespace EPPlusTest
         [DataTestMethod]
         [DataRow("en-US", ExcelErrorValue.Values.Value, ExcelErrorValue.Values.Value)]
         [DataRow("de-DE", "31 Dec ", " Dec ")]
-        public void Workbook_Calculate_calculates_for_different_cultures(string culture, string expectedValue1, string expectedValue2)
+        public void Workbook_Calculate_calculates_for_different_cultures(string culture, string expectedValue1,
+            string expectedValue2)
         {
             // Arrange
             var xlsx = GetTestStream("DateFormatException.xlsx");
@@ -512,9 +513,10 @@ namespace EPPlusTest
             Assert.AreEqual(expectedValue1, package.Workbook.Worksheets["Tabelle1"].Cells[4, 1].Value.ToString());
             Assert.AreEqual(expectedValue2, package.Workbook.Worksheets["Tabelle1"].Cells[5, 1].Value.ToString());
         }
-
-
-        [TestMethod, Description(" VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
+        
+        [TestMethod,
+         Description(
+             " VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
         public void Test_VLookUP_should_not_loose_the_reference_to_the_worksheet()
         {
             //Arrange
@@ -524,7 +526,9 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks",
+                    "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
 
             //Act
             excelPackage.Workbook.Calculate();
@@ -532,6 +536,104 @@ namespace EPPlusTest
             //Asserts
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[0].Cells["B6"].Value);
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[1].Cells["A6"].Value);
+        }
+
+        [TestMethod]
+        public void Named_range_calculated()
+        {
+            // ARRANGE
+            var xlsx = GetTestStream("Issue_WithRangeCalculation.xlsx");
+            var package = new ExcelPackage(xlsx);
+            var sheet = package.Workbook.Worksheets[0];
+
+            // ACT
+            sheet.Calculate();
+
+            // ASSERT
+            Assert.AreEqual(311d, sheet.Cells["C1"].Value);
+            Assert.AreEqual(306d, sheet.Cells["C2"].Value);
+
+            Assert.AreEqual(103d, sheet.Cells["C3"].Value);
+            Assert.AreEqual(104d, sheet.Cells["C4"].Value);
+            Assert.AreEqual(105d, sheet.Cells["C5"].Value);
+            Assert.AreEqual(106d, sheet.Cells["C6"].Value);
+            Assert.AreEqual(107d, sheet.Cells["C7"].Value);
+            Assert.AreEqual(108d, sheet.Cells["C8"].Value);
+            Assert.AreEqual(109d, sheet.Cells["C9"].Value);
+            Assert.AreEqual(110d, sheet.Cells["C10"].Value);
+
+            Assert.AreEqual(112d, sheet.Cells["C12"].Value);
+            Assert.AreEqual(113d, sheet.Cells["C13"].Value);
+            Assert.AreEqual(114d, sheet.Cells["C14"].Value);
+
+            Assert.AreEqual(101d, sheet.Cells["F21"].Value);
+            Assert.AreEqual(102d, sheet.Cells["G21"].Value);
+            Assert.AreEqual(103d, sheet.Cells["H21"].Value);
+            Assert.AreEqual(104d, sheet.Cells["I21"].Value);
+            Assert.AreEqual(105d, sheet.Cells["J21"].Value);
+            Assert.AreEqual(106d, sheet.Cells["K21"].Value);
+            Assert.AreEqual(107d, sheet.Cells["L21"].Value);
+            Assert.AreEqual(108d, sheet.Cells["M21"].Value);
+            Assert.AreEqual(109d, sheet.Cells["N21"].Value);
+            Assert.AreEqual(110d, sheet.Cells["O21"].Value);
+            Assert.AreEqual(111d, sheet.Cells["P21"].Value);
+            Assert.AreEqual(112d, sheet.Cells["Q21"].Value);
+            Assert.AreEqual(113d, sheet.Cells["R21"].Value);
+
+            Assert.AreEqual(306d, sheet.Cells["H2"].Value);
+            Assert.AreEqual(103d, sheet.Cells["H3"].Value);
+            Assert.AreEqual(104d, sheet.Cells["H4"].Value);
+            Assert.AreEqual(105d, sheet.Cells["H5"].Value);
+
+            Assert.AreEqual(100d, sheet.Cells["I2"].Value);
+            Assert.AreEqual(100d, sheet.Cells["I3"].Value);
+            Assert.AreEqual(100d, sheet.Cells["I4"].Value);
+            Assert.AreEqual(100d, sheet.Cells["I5"].Value);
+
+            Assert.AreEqual(100d, sheet.Cells["J2"].Value);
+            Assert.AreEqual(100d, sheet.Cells["J3"].Value);
+            Assert.AreEqual(100d, sheet.Cells["J4"].Value);
+            Assert.AreEqual(100d, sheet.Cells["J5"].Value);
+
+            Assert.AreEqual("Falsche Auswahl", sheet.Cells["K2"].Value);
+            Assert.AreEqual("Falsche Auswahl", sheet.Cells["K3"].Value);
+            Assert.AreEqual("Falsche Auswahl", sheet.Cells["K4"].Value);
+            Assert.AreEqual("Falsche Auswahl", sheet.Cells["K5"].Value);
+
+            Assert.AreEqual(198d, sheet.Cells["C18"].Value);
+
+            Assert.AreEqual("#VALUE!", sheet.Cells["C19"].Value.ToString());
+            Assert.AreEqual("#VALUE!", sheet.Cells["C15"].Value.ToString());
+
+            Assert.AreEqual(100d, sheet.Cells["C11"].Value);
+            Assert.AreEqual(20d, sheet.Cells["C20"].Value);
+
+            Assert.AreEqual("#VALUE!", sheet.Cells["H1"].Value.ToString());
+            Assert.AreEqual("#VALUE!", sheet.Cells["I1"].Value.ToString());
+            Assert.AreEqual("#VALUE!", sheet.Cells["J1"].Value.ToString());
+            Assert.AreEqual("Falsche Auswahl", sheet.Cells["K1"].Value);
+            Assert.AreEqual("#VALUE!", sheet.Cells["H6"].Value.ToString());
+            Assert.AreEqual("#VALUE!", sheet.Cells["I6"].Value.ToString());
+            Assert.AreEqual("#VALUE!", sheet.Cells["J6"].Value.ToString());
+            Assert.AreEqual("Falsche Auswahl", sheet.Cells["K6"].Value);
+
+            Assert.AreEqual("#VALUE!", sheet.Cells["C16"].Value.ToString());
+            Assert.AreEqual("#VALUE!", sheet.Cells["E21"].Value.ToString());
+            Assert.AreEqual("#VALUE!", sheet.Cells["S21"].Value.ToString());
+
+            Assert.AreEqual(206d, sheet.Cells["F2"].Value);
+            Assert.AreEqual(3d, sheet.Cells["F3"].Value);
+            Assert.AreEqual(4d, sheet.Cells["F4"].Value);
+            Assert.AreEqual(5d, sheet.Cells["F5"].Value);
+
+            Assert.AreEqual(306d, sheet.Cells["M2"].Value);
+            Assert.AreEqual(103d, sheet.Cells["M3"].Value);
+            Assert.AreEqual(104d, sheet.Cells["M4"].Value);
+            Assert.AreEqual(105d, sheet.Cells["M5"].Value);
+            Assert.AreEqual("#VALUE!", sheet.Cells["M6"].Value.ToString());
+
+            Assert.AreEqual(2d, sheet.Cells["F11"].Value);
+            Assert.AreEqual(1d, sheet.Cells["F12"].Value);
         }
     }
 }
