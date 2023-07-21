@@ -1457,19 +1457,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     if (format.Style.Font.Color.HasValue == true)
                                     {
-                                        cache.Append("<color");
-                                        if (format.Style.Font.Color.Theme != null)
-                                        {
-                                            cache.Append($" theme=\"{(int)format.Style.Font.Color.Theme}\"");
-                                        }
-                                        else
-                                        {
-                                            Color color = (Color)format.Style.Font.Color.Color;
-                                            cache.Append($" rgb=\"FF" +
-                                                $"{color.ToColorString()}\"");
-
-                                        }
-                                        cache.Append("/>");
+                                        WriteColorOption("color", format.Style.Font.Color);
                                     }
 
                                     cache.Append("</font>");
@@ -1621,6 +1609,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             return cache.ToString();
         }
 
+        //TODO: Technically multiple attributes can exist at the same time. This doesn't support that.
+        //But its also hard to imagine a scenario where bothe rgb and theme attributes could coexist.
+        //Tint is supported to co-exist.
         string WriteColorOption(string nodeName, ExcelDxfColor color)
         {
             string returnString = "";
