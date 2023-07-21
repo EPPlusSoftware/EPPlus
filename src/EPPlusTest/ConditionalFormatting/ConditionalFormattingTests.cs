@@ -1789,5 +1789,41 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(pck);
             }
         }
+
+        [TestMethod]
+        public void CF_DatabarColorReadWrite()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("basicSheet");
+
+                var bar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A20"), Color.Blue);
+
+                bar.AxisColor.Theme = eThemeSchemeColor.Accent6;
+                bar.BorderColor.Theme = eThemeSchemeColor.Background1;
+                bar.NegativeFillColor.SetColor(Color.Red);
+                bar.NegativeBorderColor.SetColor(Color.MediumPurple);
+                bar.AxisPosition = eExcelDatabarAxisPosition.Middle;
+
+                for(int i = 1; i < 21; i++)
+                {
+                    sheet.Cells[i, 1].Value = i - 10;
+                }
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var readCF = readPck.Workbook.Worksheets[0].ConditionalFormatting[0].As.DataBar;
+
+                Assert.AreEqual(Color.Blue.ToArgb(), readCF.FillColor.Color.Value.ToArgb());
+                Assert.AreEqual(eThemeSchemeColor.Accent6, readCF.AxisColor.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Background1, readCF.BorderColor.Theme);
+                Assert.AreEqual(Color.Red.ToArgb(), readCF.NegativeFillColor.Color.Value.ToArgb());
+                Assert.AreEqual(Color.MediumPurple.ToArgb(), readCF.NegativeBorderColor.Color.Value.ToArgb());
+                Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
+            }
+        }
     }
 }

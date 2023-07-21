@@ -1143,7 +1143,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if(dataBar.AxisPosition != eExcelDatabarAxisPosition.Automatic)
                             {
-                                cache.Append($" axisPostition=\"{dataBar.AxisPosition.ToEnumString()}\"");
+                                cache.Append($" axisPosition=\"{dataBar.AxisPosition.ToEnumString()}\"");
                             }
 
                             cache.Append(">");

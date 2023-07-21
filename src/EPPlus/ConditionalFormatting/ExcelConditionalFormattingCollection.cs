@@ -84,6 +84,11 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             dataBar.NegativeBarBorderColorSameAsPositive = string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive"));
 
+                            if(!string.IsNullOrEmpty(xr.GetAttribute("axisPosition")))
+                            {
+                                dataBar.AxisPosition = (eExcelDatabarAxisPosition)xr.GetAttribute("axisPosition").ToEnum<eExcelDatabarAxisPosition>();
+                            }
+
                             //CfRule -> cfvo
                             xr.Read();
 
