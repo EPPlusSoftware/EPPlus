@@ -1768,7 +1768,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void CF_GradientFill()
         {
-            using (var pck = new ExcelPackage("C:\\Users\\OssianEdström\\Documents\\advExtColorTest.xlsx"))
+            using (var pck = OpenTemplatePackage("advExtColorTest.xlsx"))
             {
                 var cf = pck.Workbook.Worksheets[0].ConditionalFormatting[0];
 
@@ -1776,7 +1776,7 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(true, cf.Style.Font.Italic);
                 Assert.AreEqual(Color.FromArgb(255, 51, 51, 255), cf.Style.Font.Color.Color);
 
-                Assert.AreEqual(30, cf.Style.NumberFormat.Id);
+                Assert.AreEqual(30, cf.Style.NumberFormat.NumFmtID);
                 Assert.AreEqual("@", cf.Style.NumberFormat.Format);
 
                 Assert.AreEqual(eThemeSchemeColor.Accent2, cf.Style.Fill.Gradient.Colors[0].Color.Theme);
@@ -1785,6 +1785,8 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(45D, cf.Style.Fill.Gradient.Degree);
                 Assert.AreEqual(ExcelBorderStyle.Thin, cf.Style.Border.Left.Style);
                 Assert.AreEqual(true, cf.Style.Border.Left.Color.Auto);
+
+                SaveAndCleanup(pck);
             }
         }
     }

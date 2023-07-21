@@ -335,8 +335,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (xr.LocalName == "numFmt")
             {
-                Style.NumberFormat.NumFmtID = int.Parse(xr.GetAttribute("numFmtId"));
                 Style.NumberFormat.Format = xr.GetAttribute("formatCode");
+                Style.NumberFormat.NumFmtID = int.Parse(xr.GetAttribute("numFmtId"));
                 xr.Read();
             }
 
