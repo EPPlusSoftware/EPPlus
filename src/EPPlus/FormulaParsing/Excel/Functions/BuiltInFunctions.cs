@@ -389,6 +389,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["tbilleq"] = new Tbilleq();
             Functions["tbillprice"] = new TbillPrice();
             Functions["tbillyield"] = new TbillYield();
+            Functions["pricedisc"] = new PriceDisc();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();

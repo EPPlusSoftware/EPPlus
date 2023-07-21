@@ -76,6 +76,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
                 return CreateResult(result.ExcelErrorType);
             }
 
+
             return CreateResult(result.Result, DataType.Decimal);
               
 
