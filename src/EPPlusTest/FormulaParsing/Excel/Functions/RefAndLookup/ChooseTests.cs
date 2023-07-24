@@ -85,7 +85,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _worksheet.Cells["B1"].Formula = "SUM(CHOOSE({1,3,4}, A1, A2, A3, A4, A5))";
             _worksheet.Calculate();
 
-            Assert.AreEqual(9D, _worksheet.Cells["B1"].Value);
+            Assert.AreEqual(9M, _worksheet.Cells["B1"].Value);
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _worksheet.Cells["B1"].Formula = "SUM(CHOOSE({2,6}, A1, A2, A3, A4, A5, A6))";
             _worksheet.Calculate();
 
-            Assert.AreEqual(14D, _worksheet.Cells["B1"].Value);
+            Assert.AreEqual(14M, _worksheet.Cells["B1"].Value);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _worksheet.Cells["B1"].Formula = "SUM(CHOOSE(1, A1:A2, A2:A3))";
             _worksheet.Calculate();
 
-            Assert.AreEqual(3D, _worksheet.Cells["B1"].Value);
+            Assert.AreEqual(3M, _worksheet.Cells["B1"].Value);
         }
 
         private void fillChooseOptions()

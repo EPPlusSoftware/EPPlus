@@ -3,7 +3,6 @@ using System.Threading;
 
 namespace EPPlusTest
 {
-    using Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OfficeOpenXml;
     using System;
@@ -513,7 +512,7 @@ namespace EPPlusTest
             Assert.AreEqual(expectedValue1, package.Workbook.Worksheets["Tabelle1"].Cells[4, 1].Value.ToString());
             Assert.AreEqual(expectedValue2, package.Workbook.Worksheets["Tabelle1"].Cells[5, 1].Value.ToString());
         }
-        
+
         [TestMethod,
          Description(
              " VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
@@ -575,6 +574,36 @@ namespace EPPlusTest
 
             // ASSERT
             Assert.AreEqual(expectedValue, sheet.Cells[cellName].Value.ToString());
+        }
+
+
+        [TestMethod]
+        public void Sum_must_not_have_double_precision_error_issue_766()
+        {
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.Worksheets.Add("first");
+
+                var sheet = p.Workbook.Worksheets.First();
+
+                sheet.Cells["A1"].Value = 0.4;
+                sheet.Cells["B1"].Value = 44.4;
+                sheet.Cells["D1"].Value = 44.8;
+                sheet.Cells["E1"].Formula = "=D1-SUM(A1:B1)";
+
+                sheet.Cells["A2"].Value = 0.2;
+                sheet.Cells["B2"].Value = 21.9;
+                sheet.Cells["D2"].Value = 22.1;
+                sheet.Cells["E2"].Formula = "=D2-SUM(A2:B2)";
+
+                sheet.Cells["A3"].Formula = "=E1-E2";
+
+                p.Workbook.Calculate();
+
+                Assert.AreEqual("0", sheet.Cells["E1"].Value.ToString());
+                Assert.AreEqual("0", sheet.Cells["E2"].Value.ToString());
+                Assert.AreEqual("0", sheet.Cells["A3"].Value.ToString());
+            }
         }
     }
 }

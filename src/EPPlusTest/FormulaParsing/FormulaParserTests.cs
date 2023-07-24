@@ -124,7 +124,7 @@ namespace EPPlusTest.FormulaParsing
             A.CallTo(() => excelDataProvider.GetRangeFormula(string.Empty, 1, 1)).Returns("Sum(1,2)");
             var parser = new FormulaParser(excelDataProvider);
             var result = parser.ParseAt("A1");
-            Assert.AreEqual(3d, result);
+            Assert.AreEqual(3m, result);
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]

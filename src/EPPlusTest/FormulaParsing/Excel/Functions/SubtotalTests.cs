@@ -142,7 +142,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Subtotal();
             var args = FunctionsHelper.CreateArgs(9, 10, 20, 30, 40, 50);
             var result = func.Execute(args, _context);
-            Assert.AreEqual(150d, result.Result);
+            Assert.AreEqual(150m, result.Result);
         }
 
         [TestMethod]
@@ -243,7 +243,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Subtotal();
             var args = FunctionsHelper.CreateArgs(109, 10, 20, 30, 40, 50);
             var result = func.Execute(args, _context);
-            Assert.AreEqual(150d, result.Result);
+            Assert.AreEqual(150m, result.Result);
         }
 
         [TestMethod]
@@ -279,7 +279,7 @@ namespace EPPlusTest.Excel.Functions
                 var sheet2 = package.Workbook.Worksheets.Add("sheet2");
                 sheet2.Cells["A1"].Formula = "sheet3!A4";
                 package.Workbook.Calculate();
-                Assert.AreEqual(109231.64d, sheet2.Cells["A1"].Value);
+                Assert.AreEqual(109231.64m, sheet2.Cells["A1"].Value);
 
                 sheet3.Cells["A3"].Formula = "SUBTOTAL(8,A1:A2)";
                 sheet3.Cells["A4"].Formula = "SUBTOTAL(8,A1:A3)";
@@ -327,7 +327,7 @@ namespace EPPlusTest.Excel.Functions
                 Assert.IsTrue(sheet.Row(6).Hidden);
 
                 package.Workbook.Calculate();
-                Assert.AreEqual(300d, Math.Round((double)sheet.Cells["B7"].Value, 4));
+                Assert.AreEqual(300m, Math.Round((decimal)sheet.Cells["B7"].Value, 4));
             }
         }
     }

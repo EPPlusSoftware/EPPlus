@@ -81,8 +81,8 @@ namespace EPPlusTest
             ws.Cells["A12"].Formula = "Average(A1:A8)";
 
             ws.Calculate();
-            Assert.AreEqual(21D, ws.Cells["a10"].Value);
-            Assert.AreEqual(21D, ws.Cells["a11"].Value);
+            Assert.AreEqual(21M, ws.Cells["a10"].Value);
+            Assert.AreEqual(21M, ws.Cells["a11"].Value);
             Assert.AreEqual(21D/6, ws.Cells["a12"].Value);
         }
         [TestMethod]
@@ -97,7 +97,7 @@ namespace EPPlusTest
                         
             ws.Row(1).Hidden = true;
             v = ws.Calculate("subtotal(109,a1:a10)");
-            Assert.AreEqual(0D, v);
+            Assert.AreEqual(0M, v);
 
             v = ws.Calculate("-subtotal(9,a1:a3)");
             Assert.AreEqual(-1D, v);

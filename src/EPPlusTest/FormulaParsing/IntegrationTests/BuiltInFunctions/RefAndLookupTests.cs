@@ -248,11 +248,11 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s1.Cells["A1:A2"].Value = 2;
                 s1.Cells["A3"].Formula = "SUM(Indirect(\"A1:A2\"))";
                 s1.Calculate();
-                Assert.AreEqual(4d, s1.Cells["A3"].Value);
+                Assert.AreEqual(4m, s1.Cells["A3"].Value);
 
                 s1.Cells["A4"].Formula = "SUM(Indirect(\"A1:A\" & \"2\"))";
                 s1.Calculate();
-                Assert.AreEqual(4d, s1.Cells["A4"].Value);
+                Assert.AreEqual(4m, s1.Cells["A4"].Value);
             }
         }
 
@@ -280,7 +280,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s1.Cells["B3"].Value = 1d;
                 s1.Cells["A5"].Formula = "SUM(OFFSET(A1:A3, 0, 1))";
                 s1.Calculate();
-                Assert.AreEqual(3d, s1.Cells["A5"].Value);
+                Assert.AreEqual(3m, s1.Cells["A5"].Value);
             }
         }
 
@@ -326,7 +326,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s1.Cells["B3"].Value = 1d;
                 s1.Cells["A5"].Formula = "SUM(OFFSET(A1:A3, 0, 1, 2))";
                 s1.Calculate();
-                Assert.AreEqual(2d, s1.Cells["A5"].Value);
+                Assert.AreEqual(2m, s1.Cells["A5"].Value);
             }
         }
 
@@ -344,7 +344,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s1.Cells["C3"].Value = 2d;
                 s1.Cells["A5"].Formula = "SUM(OFFSET(A1:A3, 0, 1, 2, 2))";
                 s1.Calculate();
-                Assert.AreEqual(6d, s1.Cells["A5"].Value);
+                Assert.AreEqual(6m, s1.Cells["A5"].Value);
             }
         }
 
@@ -362,7 +362,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s1.Cells["D3"].Value = 2d;
                 s1.Cells["A5"].Formula = "SUM(OFFSET(A1:B3, 0, 2))";
                 s1.Calculate();
-                Assert.AreEqual(9d, s1.Cells["A5"].Value);
+                Assert.AreEqual(9m, s1.Cells["A5"].Value);
             }
         }
 
@@ -436,7 +436,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[2, 1].Value = 5;
                 s.Cells[3, 1].Formula = "SUM(A1:OFFSET(A3,-1,0))";
                 s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
-                Assert.AreEqual(8d, s.Cells[3, 1].Value);
+                Assert.AreEqual(8m, s.Cells[3, 1].Value);
             }
         }
 
@@ -450,7 +450,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[2, 1].Value = 5;
                 s.Cells[4, 1].Formula = "SUM(OFFSET(A3,-1,0):A1)";
                 s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
-                Assert.AreEqual(8d, s.Cells[4, 1].Value);
+                Assert.AreEqual(8m, s.Cells[4, 1].Value);
             }
         }
 
@@ -464,7 +464,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[2, 1].Value = 5;
                 s.Cells[4, 1].Formula = "SUM(OFFSET(A3,-2,0):OFFSET(A3,-1,0))";
                 s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
-                Assert.AreEqual(8d, s.Cells[4, 1].Value);
+                Assert.AreEqual(8m, s.Cells[4, 1].Value);
             }
         }
     }
