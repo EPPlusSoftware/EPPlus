@@ -13,6 +13,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
@@ -79,6 +80,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                             dataBar.LowValue.minLength = int.Parse(xr.GetAttribute("minLength"));
                             dataBar.HighValue.maxLength = int.Parse(xr.GetAttribute("maxLength"));
 
+                            dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : true;
+
+                            dataBar.NegativeBarBorderColorSameAsPositive = string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive"));
+
                             //CfRule -> cfvo
                             xr.Read();
 
@@ -88,7 +93,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             xr.Read();
 
-                            if (dataBar.LowValue.HasValueOrFormula)
+                            if (dataBar.LowValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
                                 if (dataBar.LowValue.Type == eExcelConditionalFormattingValueObjectType.Formula)
@@ -109,7 +114,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             xr.Read();
 
-                            if (dataBar.HighValue.HasValueOrFormula)
+                            if (dataBar.HighValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
                                 if (dataBar.HighValue.Type == eExcelConditionalFormattingValueObjectType.Formula)

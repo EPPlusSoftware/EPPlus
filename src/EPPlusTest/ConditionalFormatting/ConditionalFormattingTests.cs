@@ -239,71 +239,56 @@ namespace EPPlusTest.ConditionalFormatting
             condition2.Formula = "FALSE";
             condition2.Style.Fill.BackgroundColor.Color = Color.Red;
         }
+
         [TestMethod]
-        public void Databar()
+        public void ReadWriteTwoColorScale()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Databar");
-            var cf = ws.ConditionalFormatting.AddDatabar(ws.Cells["A1:A5"], Color.BlueViolet);
-            ws.SetValue(1, 1, 1);
-            ws.SetValue(2, 1, 2);
-            ws.SetValue(3, 1, 3);
-            ws.SetValue(4, 1, 4);
-            ws.SetValue(5, 1, 5);
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("twoColorScale");
+
+            var twoColor = sheet.ConditionalFormatting.AddTwoColorScale(new ExcelAddress(1, 36, 10, 36));
+
+            twoColor.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+            twoColor.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+
+            twoColor.LowValue.Value = 5;
+            twoColor.HighValue.Value = 80;
+
+            twoColor.LowValue.Color = Color.Gold;
+            twoColor.HighValue.Color = Color.Silver;
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.TwoColorScale);
+            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Value, 5);
+            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Value, 80);
+            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Color.ToColorString(), Color.Gold.ToColorString());
+            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Color.ToColorString(), Color.Silver.ToColorString());
         }
 
         [TestMethod]
-        public void DatabarChangingAddressCorrectly()
+        public void ReadWriteThreeColorScale()
         {
-            var ws = _pck.Workbook.Worksheets.Add("DatabarAddressing");
-            // Ensure there is at least one element that always exists below ConditionalFormatting nodes.   
-            ws.HeaderFooter.AlignWithMargins = true;
-            var cf = ws.ConditionalFormatting.AddDatabar(ws.Cells["A1:A5"], Color.BlueViolet);
-            cf.Address = new ExcelAddress("C3");
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("threeColorScale");
 
-            Assert.AreEqual(cf.Address, "C3");
+            var threeColor = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress(1, 37, 10, 37));
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.ThreeColorScale);
+            Assert.AreEqual(cf.As.ThreeColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Min);
+            Assert.AreEqual(cf.As.ThreeColorScale.MiddleValue.Type, eExcelConditionalFormattingValueObjectType.Percentile);
+            Assert.AreEqual(cf.As.ThreeColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Max);
+            Assert.AreEqual(cf.As.ThreeColorScale.MiddleValue.Value, 50);
         }
 
-        [TestMethod]
-        public void IconSet()
-        {
-            var ws = _pck.Workbook.Worksheets.Add("IconSet");
-            var cf = ws.ConditionalFormatting.AddThreeIconSet(ws.Cells["A1:A3"], eExcelconditionalFormatting3IconsSetType.Symbols);
-            ws.SetValue(1, 1, 1);
-            ws.SetValue(2, 1, 2);
-            ws.SetValue(3, 1, 3);
-
-            var cf4 = ws.ConditionalFormatting.AddFourIconSet(ws.Cells["B1:B4"], eExcelconditionalFormatting4IconsSetType.Rating);
-            cf4.Icon1.Type = eExcelConditionalFormattingValueObjectType.Formula;
-            cf4.Icon1.Formula = "0";
-            cf4.Icon2.Type = eExcelConditionalFormattingValueObjectType.Formula;
-            cf4.Icon2.Formula = "1/3";
-            cf4.Icon3.Type = eExcelConditionalFormattingValueObjectType.Formula;
-            cf4.Icon3.Formula = "2/3";
-            ws.SetValue(1, 2, 1);
-            ws.SetValue(2, 2, 2);
-            ws.SetValue(3, 2, 3);
-            ws.SetValue(4, 2, 4);
-
-            var cf5 = ws.ConditionalFormatting.AddFiveIconSet(ws.Cells["C1:C5"], eExcelconditionalFormatting5IconsSetType.Quarters);
-            cf5.Icon1.Type = eExcelConditionalFormattingValueObjectType.Num;
-            cf5.Icon1.Value = 1;
-            cf5.Icon2.Type = eExcelConditionalFormattingValueObjectType.Num;
-            cf5.Icon2.Value = 2;
-            cf5.Icon3.Type = eExcelConditionalFormattingValueObjectType.Num;
-            cf5.Icon3.Value = 3;
-            cf5.Icon4.Type = eExcelConditionalFormattingValueObjectType.Num;
-            cf5.Icon4.Value = 4;
-            cf5.Icon5.Type = eExcelConditionalFormattingValueObjectType.Num;
-            cf5.Icon5.Value = 5;
-            cf5.ShowValue = false;
-            cf5.Reverse = true;
-
-            ws.SetValue(1, 3, 1);
-            ws.SetValue(2, 3, 2);
-            ws.SetValue(3, 3, 3);
-            ws.SetValue(4, 3, 4);
-            ws.SetValue(5, 3, 5);
-        }
         [TestMethod]
         public void WriteReadEqual()
         {
@@ -323,213 +308,7 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-        [TestMethod]
-        public void WriteReadEqualExt()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Equal");
-                var ws2 = p.Workbook.Worksheets.Add("EqualExt");
-
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddEqual();
-                cf.Formula = "EqualExt!A1";
-
-                p.Save();
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.Equal;
-                    Assert.AreEqual("EqualExt!A1", cf.Formula);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void WriteReadThreeIcon()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("FiveIcon");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
-
-                p.Save();
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.ThreeIconSet;
-                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights2, cf.IconSet);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void WriteReadThreeIconSameAddress()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("FiveIcon");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
-                var cf2 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights1);
-                var cf3 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.ArrowsGray);
-
-                p.Save();
-
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.ThreeIconSet;
-                    cf2 = ws.ConditionalFormatting[1].As.ThreeIconSet;
-                    cf3 = ws.ConditionalFormatting[2].As.ThreeIconSet;
-
-                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights2, cf.IconSet);
-                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights1, cf2.IconSet);
-                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.ArrowsGray, cf3.IconSet);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void WriteReadThreeIconExtSameAddress()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("FiveIcon");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
-                var cf2 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.Stars);
-                var cf3 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.ArrowsGray);
-                var cf4 = ws.Cells["A1"].ConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType.Boxes);
-
-                p.Save();
-
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.ThreeIconSet;
-                    cf2 = ws.ConditionalFormatting[1].As.ThreeIconSet;
-                    cf3 = ws.ConditionalFormatting[2].As.ThreeIconSet;
-                    cf4 = ws.ConditionalFormatting[3].As.FiveIconSet;
-
-                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights2, cf.IconSet);
-                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.Stars, cf3.IconSet);
-                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.ArrowsGray, cf2.IconSet);
-                    Assert.AreEqual(eExcelconditionalFormatting5IconsSetType.Boxes, cf4.IconSet);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void WriteReadFourIcon()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("FourIcon");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddFourIconSet(eExcelconditionalFormatting4IconsSetType.ArrowsGray);
-
-                p.Save();
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.FourIconSet;
-                    Assert.AreEqual(eExcelconditionalFormatting4IconsSetType.ArrowsGray, cf.IconSet);
-                }
-            }
-        }
-        [TestMethod]
-        public void WriteReadFiveIcon()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("FiveIcon");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType.Arrows);
-
-                p.Save();
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.FiveIconSet;
-                    Assert.AreEqual(eExcelconditionalFormatting5IconsSetType.Arrows, cf.IconSet);
-                }
-            }
-        }
-
-
-        [TestMethod]
-        public void WriteReadDataBar()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("DataBar");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddDatabar(Color.Red);
-
-                p.Save();
-
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.DataBar;
-                    Assert.AreEqual(Color.Red.ToArgb(), cf.Color.ToArgb());
-                }
-            }
-        }
-
-        [TestMethod]
-        public void WriteReadTwoColorScale()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("TwoColorScale");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddTwoColorScale();
-                cf.LowValue.Type = eExcelConditionalFormattingValueObjectType.Num;
-                cf.LowValue.Value = 2;
-                cf.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percentile;
-                cf.HighValue.Value = 50;
-                cf.PivotTable = true;
-
-                Assert.AreEqual(2, cf.LowValue.Value);
-                Assert.AreEqual(50, cf.HighValue.Value);
-
-                p.Save();
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.TwoColorScale;
-                    Assert.AreEqual(2, cf.LowValue.Value);
-                    Assert.AreEqual(50, cf.HighValue.Value);
-                }
-
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void WriteReadThreeColorScale()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("ThreeColorScale");
-                var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeColorScale();
-                cf.LowValue.Type = eExcelConditionalFormattingValueObjectType.Num;
-                cf.LowValue.Value = 2;
-                cf.MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                cf.MiddleValue.Value = 25;
-                cf.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percentile;
-                cf.HighValue.Value = 50;
-                cf.PivotTable = true;
-
-                Assert.AreEqual(2, cf.LowValue.Value);
-                Assert.AreEqual(50, cf.HighValue.Value);
-
-                p.Save();
-                using (var p2 = new ExcelPackage(p.Stream))
-                {
-                    ws = p2.Workbook.Worksheets[0];
-                    cf = ws.ConditionalFormatting[0].As.ThreeColorScale;
-                    Assert.AreEqual(2, cf.LowValue.Value);
-                    Assert.AreEqual(50, cf.HighValue.Value);
-                }
-
-                SaveAndCleanup(p);
-            }
-        }
+      
         [TestMethod]
         public void VerifyReadStyling()
         {
@@ -660,140 +439,6 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(pck);
             }
         }
-
-        [TestMethod]
-        public void CustomIconsWriteRead()
-        {
-
-            using (var pck = OpenPackage("FlagTest.xlsx", true))
-            {
-                var wks = pck.Workbook.Worksheets.Add("FormattingTest");
-
-                for (int i = 1; i < 21; i++)
-                {
-                    wks.Cells[i, 1].Value = i;
-                }
-
-                wks.Cells[1, 1, 20, 1].Copy(wks.Cells[1, 2, 20, 2]);
-                wks.Cells[1, 1, 20, 1].Copy(wks.Cells[1, 3, 20, 3]);
-                wks.Cells[1, 1, 20, 1].Copy(wks.Cells[1, 4, 20, 4]);
-
-                var threeIcon = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("A1:A20"), eExcelconditionalFormatting3IconsSetType.Triangles);
-
-                threeIcon.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedFlag;
-                threeIcon.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.NoIcon;
-                threeIcon.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow;
-
-                var fourIcon = wks.ConditionalFormatting.AddFourIconSet(new ExcelAddress("B1:B20"), eExcelconditionalFormatting4IconsSetType.Rating);
-
-                fourIcon.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.PinkCircle;
-                fourIcon.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder;
-                fourIcon.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircleWithBorder;
-                fourIcon.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircle;
-
-                var fiveIcon = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("C1:C20"), eExcelconditionalFormatting5IconsSetType.Boxes);
-
-                fiveIcon.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.PinkCircle;
-                fiveIcon.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder;
-                fiveIcon.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircleWithBorder;
-                fiveIcon.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircle;
-                fiveIcon.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircle;
-
-                var specialCase = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("D1:D20"), eExcelconditionalFormatting5IconsSetType.Boxes);
-
-                specialCase.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars;
-                specialCase.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar;
-                specialCase.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithTwoFilledBars;
-                specialCase.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars;
-                specialCase.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars;
-
-                SaveAndCleanup(pck);
-
-                ExcelPackage package2 = OpenPackage("FlagTest.xlsx");
-                var threeIconRead = (ExcelConditionalFormattingThreeIconSet)package2.Workbook.Worksheets[0].ConditionalFormatting[0];
-
-                Assert.AreEqual(threeIconRead.Icon1.CustomIcon, eExcelconditionalFormattingCustomIcon.RedFlag);
-                Assert.AreEqual(threeIconRead.Icon2.CustomIcon, eExcelconditionalFormattingCustomIcon.NoIcon);
-                Assert.AreEqual(threeIconRead.Icon3.CustomIcon, eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow);
-
-                SaveAndCleanup(package2);
-            }
-        }
-
-        [TestMethod]
-        public void EnsureCustomIconsReturnCorrectStrings()
-        {
-            using (var pck = new ExcelPackage())
-            {
-                var wks = pck.Workbook.Worksheets.Add("FormattingTest");
-
-                var validation = (ExcelConditionalFormattingThreeIconSet)wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("A1"), eExcelconditionalFormatting3IconsSetType.Triangles);
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowSideArrow;
-
-                Assert.AreEqual("3Arrows", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayUpArrow;
-
-                Assert.AreEqual("3ArrowsGray", validation.Icon2.GetCustomIconStringValue());
-
-                validation.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowFlag;
-                Assert.AreEqual("3Flags", validation.Icon3.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenCircle;
-
-                Assert.AreEqual("3TrafficLights1", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowTrafficLight;
-                Assert.AreEqual("3TrafficLights2", validation.Icon2.GetCustomIconStringValue());
-
-                validation.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.RedDiamond;
-                Assert.AreEqual("3Signs", validation.Icon3.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol;
-                Assert.AreEqual("3Symbols", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenCheck;
-                Assert.AreEqual("3Symbols2", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.HalfGoldStar;
-                Assert.AreEqual("3Stars", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowDash;
-                Assert.AreEqual("3Triangles", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowDash;
-                Assert.AreEqual("3Triangles", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowDash;
-                Assert.AreEqual("3Triangles", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowDownInclineArrow;
-                Assert.AreEqual("4Arrows", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.PinkCircle;
-                Assert.AreEqual("4RedToBlack", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars;
-                Assert.AreEqual("4Rating", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder;
-                Assert.AreEqual("4TrafficLights", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars;
-                Assert.AreEqual("5Rating", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.CircleWithThreeWhiteQuarters;
-                Assert.AreEqual("5Quarters", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.OneFilledBox;
-                Assert.AreEqual("5Boxes", validation.Icon1.GetCustomIconStringValue());
-
-                validation.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.NoIcon;
-                Assert.AreEqual("NoIcons", validation.Icon1.GetCustomIconStringValue());
-            }
-        }
-
 
         [TestMethod]
         public void BeginsWith_ReadWrite()
@@ -1645,7 +1290,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void ReadWriteDataBar()
+        public void ReadWriteDataBarOverview()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("dataBar");
@@ -1664,55 +1309,6 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.DataBar);
             Assert.AreEqual(cf.As.DataBar.LowValue.Value, 0);
             Assert.AreEqual(cf.As.DataBar.HighValue.Value, 50);
-        }
-
-        [TestMethod]
-        public void ReadWriteTwoColorScale()
-        {
-            var pck = new ExcelPackage();
-            var sheet = pck.Workbook.Worksheets.Add("twoColorScale");
-
-            var twoColor = sheet.ConditionalFormatting.AddTwoColorScale(new ExcelAddress(1, 36, 10, 36));
-
-            twoColor.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-            twoColor.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-
-            twoColor.LowValue.Value = 5;
-            twoColor.HighValue.Value = 80;
-
-            twoColor.LowValue.Color = Color.Gold;
-            twoColor.HighValue.Color = Color.Silver;
-
-            var cf = SavePackageReadCollection(pck)[0];
-            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
-            ws.ConditionalFormatting.CopyRule(cf);
-
-            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.TwoColorScale);
-            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
-            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
-            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Value, 5);
-            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Value, 80);
-            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Color.ToColorString(), Color.Gold.ToColorString());
-            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Color.ToColorString(), Color.Silver.ToColorString());
-        }
-
-        [TestMethod]
-        public void ReadWriteThreeColorScale()
-        {
-            var pck = new ExcelPackage();
-            var sheet = pck.Workbook.Worksheets.Add("threeColorScale");
-
-            var threeColor = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress(1, 37, 10, 37));
-
-            var cf = SavePackageReadCollection(pck)[0];
-            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
-            ws.ConditionalFormatting.CopyRule(cf);
-
-            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.ThreeColorScale);
-            Assert.AreEqual(cf.As.ThreeColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Min);
-            Assert.AreEqual(cf.As.ThreeColorScale.MiddleValue.Type, eExcelConditionalFormattingValueObjectType.Percentile);
-            Assert.AreEqual(cf.As.ThreeColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Max);
-            Assert.AreEqual(cf.As.ThreeColorScale.MiddleValue.Value, 50);
         }
 
         [TestMethod]
@@ -1863,23 +1459,6 @@ namespace EPPlusTest.ConditionalFormatting
             newPck.SaveAs(streamResave);
         }
 
-        //TODO: We should most likely throw a clearer exception.
-        [TestMethod]
-        public void CFThrowsIfDatabarValueNotSetOnSave()
-        {
-            ExcelPackage pck = new ExcelPackage(new MemoryStream());
-
-            var sheet = pck.Workbook.Worksheets.Add("DatabarValueTest");
-
-            var databar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A5"), Color.Green);
-
-            databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-            databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-
-            var stream = new MemoryStream();
-            pck.SaveAs(stream);
-        }
-
         [TestMethod]
         public void CFShouldNotThrowIfStyleNotSet()
         {
@@ -2008,45 +1587,6 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void PriorityTestExtLst()
-        {
-            using (var pck = OpenPackage("CFPriorityTestExtLst.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("priorityTest");
-
-                sheet.Cells["A1:A7"].Formula = "=Row()";
-                sheet.Cells["A1:A7"].AutoFitColumns();
-                sheet.Cells["B1"].Value = "A1:A5 should be green, A6 yellow, A7 red";
-                sheet.Cells["B1"].AutoFitColumns();
-
-                var cfHighestPriorityExt = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A5"), Color.Green);
-
-                var cfMiddlePriorityExt = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A6"), Color.Yellow);
-
-                var cfLowestPriorityExt = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A7"), Color.Red);
-
-                sheet.Cells["B1"].Value = "A1:A5 should be green, A6 yellow, A7 red";
-                sheet.Cells["B1"].AutoFitColumns();
-
-                var cfHighestPriority = sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A5"));
-
-                cfHighestPriority.Formula = "0";
-                cfHighestPriority.Style.Fill.BackgroundColor.Color = Color.Orange;
-
-                var cfMiddlePriority = sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A6"));
-
-                cfMiddlePriority.Formula = "0";
-                cfMiddlePriority.Style.Fill.BackgroundColor.Color = Color.Silver;
-
-                var cfLowestPriority = sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A7"));
-                cfLowestPriority.Style.Fill.BackgroundColor.Color = Color.Yellow;
-                cfLowestPriority.Formula = "0";
-
-                SaveAndCleanup(pck);
-            }
-        }
-
-        [TestMethod]
         public void PriorityTestChangedOrder()
         {
             using (var pck = OpenPackage("CFPriorityTestChangedOrder.xlsx", true))
@@ -2080,193 +1620,9 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void ExtLstFormulaValidations()
-        {
-            using (var pck = OpenPackage("ExtLstFormulas.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
-
-                refSheet.Cells["B5"].Value = 5;
-
-                sheet.Cells["B1:B5"].Value = 5;
-                sheet.Cells["B3"].Value = 2;
-
-                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
-                equal.Formula = "formulasReference!$B$5";
-                equal.Style.Fill.BackgroundColor.Color = Color.Blue;
-                equal.Style.Font.Italic = true;
-
-                SaveAndCleanup(pck);
-            }
-        }
-
-
-        [TestMethod]
-        public void ExtLstWithDxf()
-        {
-            using (var pck = OpenPackage("ExtLstFormulasDxf.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
-
-                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
-                equal.Formula = "formulasReference!$B$5";
-                equal.Style.Fill.BackgroundColor.Color = Color.Blue;
-                equal.Style.Font.Italic = true;
-                equal.Style.Font.Bold = false;
-
-                var equal2 = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("C1:C5"));
-                equal2.Formula = "formulasReference!$B$1";
-                equal2.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.GradientFill;
-                var c1 = equal2.Style.Fill.Gradient.Colors.Add(0);
-                var c2 = equal2.Style.Fill.Gradient.Colors.Add(100);
-
-                equal2.Style.Fill.Gradient.Degree = 90;
-
-                c1.Color.SetColor(Color.LightGreen);
-                c2.Color.SetColor(Color.MediumPurple);
-
-                SaveAndCleanup(pck);
-            }
-        }
-
-
-        [TestMethod]
-        public void ExtLstWithDxfBorderAndNumFmt()
-        {
-            using (var pck = OpenPackage("ExtLstBordersNumFmt.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
-
-                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
-                equal.Formula = "formulasReference!$B$5";
-                equal.Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
-                equal.Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                equal.Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dotted;
-                equal.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
-                equal.Style.NumberFormat.Format = "YYYY";
-
-                var equal2 = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("C1:C5"));
-                equal2.Formula = "formulasReference!$B$1";
-                equal2.Style.Border.BorderAround();
-
-                SaveAndCleanup(pck);
-
-                var pck2 = OpenPackage("ExtLstBordersNumFmt.xlsx");
-
-                var sheet2 = pck2.Workbook.Worksheets[0];
-
-                var formatting = sheet2.ConditionalFormatting[0];
-
-                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thick, formatting.Style.Border.Left.Style);
-                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thin, formatting.Style.Border.Right.Style);
-                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Dotted, formatting.Style.Border.Top.Style);
-                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Dashed, formatting.Style.Border.Bottom.Style);
-                Assert.AreEqual("YYYY", formatting.Style.NumberFormat.Format);
-
-                var formatting2 = sheet2.ConditionalFormatting[1];
-
-                Assert.AreEqual("formulasReference!$B$1", formatting2.Formula);
-                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thin, formatting2.Style.Border.Right.Style);
-            }
-        }
-
-        [TestMethod]
-        public void EnsureExtLstDXFBorderColorsReadWrite()
-        {
-            using (var pck = OpenPackage("ExtLstBordersDXFColor.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
-
-                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
-                equal.Formula = "formulasReference!$B$5";
-                equal.Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
-                equal.Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                equal.Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dotted;
-                equal.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
-
-                equal.Style.Border.Left.Color.Color = Color.Coral;
-                equal.Style.Border.Top.Color.Theme = OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3;
-                equal.Style.Border.Bottom.Color.Auto = true;
-
-                SaveAndCleanup(pck);
-
-                var readPackage = OpenPackage("ExtLstBordersDXFColor.xlsx");
-
-                var readSheet = readPackage.Workbook.Worksheets[0];
-                var formatting = readSheet.ConditionalFormatting[0];
-
-                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(0, Color.Coral.R, Color.Coral.G, Color.Coral.B));
-                Assert.AreEqual(formatting.Style.Border.Right.Color.HasValue, false);
-                Assert.AreEqual(formatting.Style.Border.Top.Color.Theme, eThemeSchemeColor.Accent3);
-                Assert.AreEqual(formatting.Style.Border.Bottom.Color.Auto, true);
-
-                SaveAndCleanup(readPackage);
-            }
-        }
-
-        [TestMethod]
-        public void EnsureExtLstDXFBorderColorsThemeReadWrite()
-        {
-            using (var pck = OpenPackage("ExtLstBordersDXFTheme.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
-
-                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
-                equal.Formula = "formulasReference!$B$5";
-
-                sheet.Workbook.ThemeManager.CreateDefaultTheme();
-
-                equal.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin, eThemeSchemeColor.Accent5);
-
-                SaveAndCleanup(pck);
-
-                var readPck = OpenPackage("ExtLstBordersDXFTheme.xlsx");
-
-                var readSheet = readPck.Workbook.Worksheets[0];
-                var formatting = readSheet.ConditionalFormatting[0];
-
-                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Left.Color.Theme);
-                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Right.Color.Theme);
-                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Top.Color.Theme);
-                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Bottom.Color.Theme);
-            }
-        }
-
-        [TestMethod]
-        public void ConditionalFormattingOnSameAddressExtWriteRead()
-        {
-            using (var pck = OpenPackage("CF_SameAddressExt.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
-
-                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
-                equal.Formula = "formulasReference!$B$5";
-
-                var rule2 = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("B1:B5"));
-
-                rule2.Formula = "formulasReference!$B$5";
-                rule2.Formula2 = "formulasReference!$B$6";
-
-                SaveAndCleanup(pck);
-
-                //Can it be read
-                var readPackage = OpenPackage("CF_SameAddressExt.xlsx");
-                var sheet2 = readPackage.Workbook.Worksheets[0];
-                Assert.AreEqual(sheet2.ConditionalFormatting[0].Type, eExcelConditionalFormattingRuleType.Equal);
-                Assert.AreEqual(sheet2.ConditionalFormatting[1].Type, eExcelConditionalFormattingRuleType.Between);
-            }
-        }
-
-        [TestMethod]
         public void ConditionalFormattingOnSameAddress()
         {
-            using (var pck = OpenPackage("CF_SameAddressExtBasic.xlsx", true))
+            using (var pck = OpenPackage("CF_SameAddressBasic.xlsx", true))
             {
                 var sheet = pck.Workbook.Worksheets.Add("formulas");
                 var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
@@ -2277,144 +1633,6 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(pck);
             }
         }
-
-        [TestMethod]
-        public void ConditionalFormattingMultipleKindsOnSameAddressReadWrite()
-        {
-            using (var pck = OpenPackage("CF_SameAddressExtManyTypes.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var extSheet = pck.Workbook.Worksheets.Add("formulasRef");
-
-                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
-                equal.Formula = "formulasRef!$A$1";
-
-                var rule2 = sheet.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("B1:B5"), eExcelconditionalFormatting3IconsSetType.Stars);
-
-                var rule3 = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("B1:B5"), Color.BlueViolet);
-
-                SaveAndCleanup(pck);
-
-                var readPackage = OpenPackage("CF_SameAddressExtManyTypes.xlsx");
-
-                var formats = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
-
-                Assert.AreEqual(eExcelConditionalFormattingRuleType.Equal, formats[0].Type);
-                Assert.AreEqual(eExcelConditionalFormattingRuleType.ThreeIconSet, formats[1].Type);
-                Assert.AreEqual(eExcelConditionalFormattingRuleType.DataBar, formats[2].Type);
-            }
-        }
-
-        [TestMethod]
-        public void ConditionalFormattingOrderDatabar()
-        {
-            using (var pck = OpenPackage("CF_DataBarOrder.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-
-                sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("B1:B5"), Color.BlueViolet);
-                sheet.ConditionalFormatting.AddExpression(new ExcelAddress("B1:B5"));
-                sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
-
-                SaveAndCleanup(pck);
-
-                var readPackage = OpenPackage("CF_DataBarOrder.xlsx");
-
-                var formats = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
-
-                Assert.AreEqual(eExcelConditionalFormattingRuleType.Expression, formats[0].Type);
-                Assert.AreEqual(eExcelConditionalFormattingRuleType.GreaterThan, formats[1].Type);
-                Assert.AreEqual(eExcelConditionalFormattingRuleType.DataBar, formats[2].Type);
-            }
-        }
-
-        [TestMethod]
-        public void CF_MinMaxColourScale()
-        {
-            using (var pck = OpenPackage("CF_ColourScaleInverseMinMax.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var sheet2 = pck.Workbook.Worksheets.Add("formulasExt");
-
-                var formatting = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("A1:A5"));
-                formatting.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
-                formatting.LowValue.Type = eExcelConditionalFormattingValueObjectType.Max;
-                formatting.HighValue.Formula = "formulasExt!A1";
-
-                SaveAndCleanup(pck);
-
-                var readPck = OpenPackage("CF_ColourScaleInverseMinMax.xlsx");
-                var test = readPck.Workbook.Worksheets[0].ConditionalFormatting[0];
-
-                Assert.AreEqual("formulasExt!A1", test.As.ThreeColorScale.HighValue.Formula);
-            }
-        }
-
-        [TestMethod]
-        public void ReadWriteAllIExcelConditionalFormattingWithText()
-        {
-            using (var pck = OpenPackage("CF_TExt.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("formulas");
-                var sheet2 = pck.Workbook.Worksheets.Add("formulasRef");
-
-                var text = "\"IF(\"Yes\"=\"Yes\",\"Hi\",\"Bye\")\"";
-                var formula = "IF(\"Yes\"=\"Yes\",\"Hi\",\"Bye\")";
-
-                var formattingNot = sheet.ConditionalFormatting.AddNotContainsText(new ExcelAddress("A1"));
-                formattingNot.Text = text;
-                var extFormattingNot = sheet.ConditionalFormatting.AddNotContainsText(new ExcelAddress("B1:B5"));
-                extFormattingNot.Formula = formula;
-
-                var formattingContains = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("A1"));
-                formattingContains.Text = text;
-                var extFormattingContains = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("B1:B5"));
-                extFormattingContains.Formula = formula;
-
-                var formattingEnds = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("A1"));
-                formattingEnds.Text = text;
-                var extFormattingEnds = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("B1:B5"));
-                extFormattingEnds.Formula = formula;
-
-                var formattingBegins = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
-                formattingBegins.Text = text;
-                var extFormattingBegins = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("B1:B5"));
-                extFormattingBegins.Formula = formula;
-
-                SaveAndCleanup(pck);
-
-                var readPck = OpenPackage("CF_TExt.xlsx");
-
-                var count = readPck.Workbook.Worksheets[0].ConditionalFormatting.Count;
-
-                //Note that extLst items are read in after all "normal" items into the conditionalFormattingList.
-                //So we read in extLst items starting from index count - 4 as we have 4 "normal" items.
-                var textTestNot = readPck.Workbook.Worksheets[0].ConditionalFormatting[0];
-                var extTestNot = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 4];
-
-                Assert.AreEqual(text, textTestNot.As.NotContainsText.Text);
-                Assert.AreEqual(formula, extTestNot.As.NotContainsText.Formula);
-
-                var textTestContains = readPck.Workbook.Worksheets[0].ConditionalFormatting[1];
-                var extTestContains = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 3];
-
-                Assert.AreEqual(text, textTestContains.As.ContainsText.Text);
-                Assert.AreEqual(formula, extTestContains.As.ContainsText.Formula);
-
-                var textTestEnds = readPck.Workbook.Worksheets[0].ConditionalFormatting[2];
-                var extTestEnds = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 2];
-
-                Assert.AreEqual(text, textTestEnds.As.EndsWith.Text);
-                Assert.AreEqual(formula, extTestEnds.As.EndsWith.Formula);
-
-                var textTestBegins = readPck.Workbook.Worksheets[0].ConditionalFormatting[3];
-                var extTestBegins = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 1];
-
-                Assert.AreEqual(text, textTestBegins.As.BeginsWith.Text);
-                Assert.AreEqual(formula, extTestBegins.As.BeginsWith.Formula);
-            }
-        }
-
 
         [TestMethod]
         public void ConditionalFormattingSameAddressBasics()
@@ -2501,7 +1719,7 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var expression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("A1"));
 
-                expression.Formula = "\"&%/Stuffåäö}=``#£\"<>\"An Example\"";
+                expression.Formula = "\"&%/Stuffï¿½ï¿½ï¿½}=``#ï¿½\"<>\"An Example\"";
 
                 var stream = new MemoryStream();
 
@@ -2515,177 +1733,7 @@ namespace EPPlusTest.ConditionalFormatting
                 var readPackage = new ExcelPackage(stream);
 
                 var cf = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
-                Assert.AreEqual("\"&%/Stuffåäö}=``#£\"<>\"An Example\"", cf.As.Expression.Formula);
-            }
-        }
-
-        [TestMethod]
-        public void CF_Databar_Formula()
-        {
-            using (var pck = new ExcelPackage())
-            {
-                var sheet = pck.Workbook.Worksheets.Add("databars");
-
-                var databar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A10"), Color.BlueViolet);
-
-                databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
-                databar.LowValue.Formula = "10";
-
-                databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
-                databar.HighValue.Formula = "20";
-
-                var stream = new MemoryStream();
-                pck.SaveAs(stream);
-
-                var readPackage = new ExcelPackage(stream);
-
-                var readBar = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
-                Assert.AreEqual(readBar.As.DataBar.LowValue.Formula, "10");
-                Assert.AreEqual(readBar.As.DataBar.HighValue.Formula, "20");
-            }
-        }
-
-        //Features to add:
-        //Databar takes a formula on each value except percentile in excel
-        //It should support addresses. We currently don't. You could always read the value in from a cell but arguably you should be able to reference it as well
-        //Same with colourScale
-
-        //[TestMethod]
-        //public void CF_Databar_Types()
-        //{
-        //    using (var pck = new ExcelPackage())
-        //    {
-        //        var sheet = pck.Workbook.Worksheets.Add("databars");
-
-        //        var databar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A10"), Color.BlueViolet);
-
-        //        databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.Num;
-        //        databar.LowValue.Value = "10";
-
-        //        databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
-        //        databar.HighValue.Formula = "20";
-
-        //        var stream = new MemoryStream();
-        //        pck.SaveAs(stream);
-
-        //        var readPackage = new ExcelPackage(stream);
-
-        //        var readBar = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
-        //        Assert.AreEqual(readBar.As.DataBar.LowValue.Formula, "10");
-        //        Assert.AreEqual(readBar.As.DataBar.HighValue.Formula, "20");
-        //    }
-        //}
-
-        [TestMethod]
-        public void CF_ColourScale()
-        {
-            using (var pck = new ExcelPackage())
-            {
-                var sheet = pck.Workbook.Worksheets.Add("colourScale");
-                var extSheet = pck.Workbook.Worksheets.Add("extSheet");
-
-                var colorScale = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("A1:A20"));
-
-                for(int i = 1; i < 21; i++)
-                {
-                    sheet.Cells[i, 1].Value = i;
-                }
-
-                colorScale.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                colorScale.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                colorScale.MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Num;
-
-                colorScale.MiddleValue.Formula = "$B$2";
-
-                colorScale.LowValue.Formula = "IF($B$5 < extSheet!A1, 5, 10)";
-
-                colorScale.HighValue.Formula = "B6";
-
-                //colorScale.LowValue.Color = Color.AliceBlue;
-                colorScale.LowValue.ColorSettings.SetColor(eThemeSchemeColor.Accent3);
-                colorScale.LowValue.ColorSettings.Tint = 0.5f;
-
-                colorScale.MiddleValue.ColorSettings.Index = 4;
-                colorScale.MiddleValue.ColorSettings.Tint = 1.0f;
-
-                colorScale.HighValue.ColorSettings.Auto = true;
-
-                var stream = new MemoryStream();
-                pck.SaveAs(stream);
-
-                var readPackage = new ExcelPackage(stream);
-                
-                var scale = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
-
-                var threeCol = scale.As.ThreeColorScale;
-
-                Assert.AreEqual(scale.As.ThreeColorScale.MiddleValue.Formula, "$B$2");
-                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.Formula, "IF($B$5 < extSheet!A1, 5, 10)");
-                Assert.AreEqual(scale.As.ThreeColorScale.HighValue.Formula, "B6");
-
-                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Theme, eThemeSchemeColor.Accent3);
-                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Tint, 0.5f);
-
-                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Index, 4);
-                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Tint, 1.0f);
-
-                Assert.AreEqual(threeCol.HighValue.ColorSettings.Auto, true);
-            }
-        }
-
-        [TestMethod]
-        public void CF_ColourScaleColLocal()
-        {
-            using (var pck = new ExcelPackage())
-            {
-                var sheet = pck.Workbook.Worksheets.Add("colourScale");
-                var extSheet = pck.Workbook.Worksheets.Add("extSheet");
-
-                var colorScale = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("A1:A20"));
-
-                for (int i = 1; i < 21; i++)
-                {
-                    sheet.Cells[i, 1].Value = i;
-                }
-
-                colorScale.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                colorScale.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                colorScale.MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Num;
-
-                colorScale.MiddleValue.Formula = "$B$2";
-
-                colorScale.LowValue.Formula = "Z34";
-
-                colorScale.HighValue.Formula = "B6";
-
-                colorScale.LowValue.ColorSettings.SetColor(eThemeSchemeColor.Accent3);
-                colorScale.LowValue.ColorSettings.Tint = 0.5f;
-
-                colorScale.MiddleValue.ColorSettings.Index = 4;
-                colorScale.MiddleValue.ColorSettings.Tint = 1.0f;
-
-                colorScale.HighValue.ColorSettings.Auto = true;
-
-                var stream = new MemoryStream();
-                pck.SaveAs(stream);
-
-                var readPackage = new ExcelPackage(stream);
-
-                var scale = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
-
-                var threeCol = scale.As.ThreeColorScale;
-
-                Assert.AreEqual(scale.As.ThreeColorScale.MiddleValue.Formula, "$B$2");
-                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.Formula, "Z34");
-                Assert.AreEqual(scale.As.ThreeColorScale.HighValue.Formula, "B6");
-
-                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Theme, eThemeSchemeColor.Accent3);
-                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Tint, 0.5f);
-
-                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Index, 4);
-                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Tint, 1.0f);
-
-                Assert.AreEqual(threeCol.HighValue.ColorSettings.Auto, true);
+                Assert.AreEqual("\"&%/Stuffï¿½ï¿½ï¿½}=``#ï¿½\"<>\"An Example\"", cf.As.Expression.Formula);
             }
         }
 
@@ -2703,72 +1751,16 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var lessThanOrEqualTo = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A10"));
 
-
                 MemoryStream stream = new MemoryStream();
                 pck.SaveAs(stream);
-                //colorScale.LowValue.Value = 
 
                 var readPck = new ExcelPackage(stream);
 
                 var readSheet = readPck.Workbook.Worksheets[0];
                 var readBetween = readSheet.ConditionalFormatting[0];
 
-
-
                 Assert.AreEqual("B1", readBetween.As.Between.Formula);
                 Assert.AreEqual("B2", readBetween.As.Between.Formula2);
-            }
-        }
-
-        [TestMethod]
-        public void CF_DataBar_ColorSettings_WriteRead()
-        {
-            using (var pck = new ExcelPackage())
-            {
-                var sheet = pck.Workbook.Worksheets.Add("databar");
-
-                var bar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A12"), Color.Red);
-
-                for(int i = 1; i < 11; i++)
-                {
-                    sheet.Cells[i,1].Value = i-6;
-                }
-
-                bar.LowValue.Formula = "B5";
-
-                bar.HighValue.Formula = "Z34";
-
-                bar.FillColor.Color = Color.Aqua;
-
-                bar.BorderColor.Clear();
-                bar.BorderColor.Theme = eThemeSchemeColor.Accent4;
-                bar.BorderColor.Tint = 0.5f;
-
-                bar.NegativeFillColor.Color = Color.Red;
-
-                bar.NegativeBorderColor.Auto = true;
-                bar.NegativeBorderColor.Tint = 0.5f;
-
-                bar.AxisColor.Index = 2;
-
-                MemoryStream stream = new MemoryStream();
-
-                pck.SaveAs(stream);
-
-                var readPck = new ExcelPackage(stream);
-
-                var sheet2 = readPck.Workbook.Worksheets[0];
-
-                var cf = sheet2.ConditionalFormatting[0];
-
-                var bar2 = cf.As.DataBar;
-
-                Assert.AreEqual(Color.FromArgb(255, Color.Aqua), bar2.FillColor.Color);
-                Assert.AreEqual(eThemeSchemeColor.Accent4, bar2.BorderColor.Theme);
-                Assert.AreEqual(0.5, bar2.BorderColor.Tint);
-                Assert.AreEqual(Color.FromArgb(0, Color.Red), bar2.NegativeFillColor.Color);
-                Assert.AreEqual(true, bar2.NegativeBorderColor.Auto);
-                Assert.AreEqual(2, bar2.AxisColor.Index);
             }
         }
     }

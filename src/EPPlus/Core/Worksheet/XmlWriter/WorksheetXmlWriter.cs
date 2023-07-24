@@ -105,7 +105,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             FindNodePositionAndClearIt(sw, xml, "colBreaks", ref startOfNode, ref endOfNode);
             UpdateColBreaks(sw, prefix);
 
-            ExtLstHelper extLst = new ExtLstHelper(xml);
+            ExtLstHelper extLst = new ExtLstHelper(xml, _ws);
 
             FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
 
@@ -783,6 +783,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             in StringBuilder cache, string prefix, string extNode, string endExtNode)
         {
             string string1 = ((ExcelDataValidationFormula)formula).GetXmlValue();
+
+            if (string.IsNullOrEmpty(string1))
+            {
+                return;
+            }
+
             string1 = ConvertUtil.ExcelEscapeAndEncodeString(string1);
 
             cache.Append($"<{prefix}formula1>{extNode}{string1}{endExtNode}</{prefix}formula1>");
@@ -793,6 +799,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         {
             string string1 = ((ExcelDataValidationFormula)formula1).GetXmlValue();
             string string2 = ((ExcelDataValidationFormula)formula2).GetXmlValue();
+
+            if (string.IsNullOrEmpty(string1) && string.IsNullOrEmpty(string2))
+            {
+                return;
+            }
 
             //Note that formula1 must be written even when string1 is empty
             string1 = ConvertUtil.ExcelEscapeAndEncodeString(string1);
@@ -813,8 +824,15 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (extraAttribute == "")
             {
-                cache.Append($"<{prefix}dataValidations count=\"{_ws.DataValidations.GetNonExtLstCount()}\">");
-                type = InternalValidationType.DataValidation;
+                if (_ws.DataValidations.GetNonExtLstCount() > 0)
+                {
+                    cache.Append($"<{prefix}dataValidations count=\"{_ws.DataValidations.GetNonExtLstCount()}\">");
+                    type = InternalValidationType.DataValidation;
+                }
+                else
+                {
+                    return cache;
+                }
             }
             else
             {
@@ -1140,7 +1158,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 {
                                     cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(dataBar.LowValue.Formula)}</xm:f>");
                                 }
-                                else
+                                else if(dataBar.LowValue.Value != double.NaN)
                                 {
                                     cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
                                 }
@@ -1191,9 +1209,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             {
                                 WriteDxfColor(prefix, cache, dataBar.AxisColor, "axisColor");
                             }
-
-                            //cache.Append($"<{prefix}negativeFillColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
-                            //cache.Append($"<{prefix}axisColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
 
                             cache.Append($"</{prefix}dataBar>");
                         }
@@ -1362,7 +1377,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     if (values[j].ColorSettings.Color != null && values[j].ColorSettings.Color != Color.Empty)
                                     {
-                                        cache.Append($" rgb=\"{values[j].Color.ToColorString()}\"");
+                                        cache.Append($" rgb=\"FF{values[j].Color.ToColorString()}\"");
                                     }
 
                                     if (values[j].ColorSettings.Auto != null && values[j].ColorSettings.Auto != false)
@@ -1456,7 +1471,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                         else
                                         {
                                             Color color = (Color)format.Style.Font.Color.Color;
-                                            cache.Append($"rgb=\"" +
+                                            cache.Append($"rgb=\"FF" +
                                                 $"{color.ToColorString()}\"");
 
                                         }
@@ -1622,7 +1637,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             if(color.Color != null)
             { 
                 Color baseColor = (Color)color.Color;
-                returnString = $"<{nodeName} rgb=\"{baseColor.ToColorString()}\"";
+                returnString = $"<{nodeName} rgb=\"FF{baseColor.ToColorString()}\"";
             }
 
             ////If we Need to write out the auto that should be default when node empty
@@ -1763,7 +1778,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if (cSValue.ColorSettings.Color != null && cSValue.ColorSettings.Color != Color.Empty)
                             {
-                                cache.Append($" rgb=\"{cSValue.Color.ToColorString()}\"");
+                                cache.Append($" rgb=\"FF{cSValue.Color.ToColorString()}\"");
                             }
 
                             if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)
@@ -1794,11 +1809,23 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             var dataBar = (ExcelConditionalFormattingDataBar)conditionalFormat;
                             cache.Append($"<dataBar>");
 
-                            cache.Append($"<cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
-                            cache.Append($"<cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
+                            string typeLow = dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter();
+                            string typeHigh = dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter();
 
-                            WriteDxfColor(prefix, cache, dataBar.FillColor);
-                            //cache.Append($"<color rgb=\"{dataBar.Color.ToColorString()}\"/>");
+                            if (typeLow.Contains("auto"))
+                            {
+                                typeLow = typeLow.Remove(0,"auto".Length);
+                            }
+
+                            if (typeHigh.Contains("auto"))
+                            {
+                                typeHigh = typeHigh.Remove(0, "auto".Length);
+                            }
+
+                            cache.Append($"<cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"/>");
+                            cache.Append($"<cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"/>");
+
+                            WriteDxfColor("", cache, dataBar.FillColor);
 
                             cache.Append($"</dataBar>");
 
@@ -1891,7 +1918,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (col.Color != null && col.Color != Color.Empty)
             {
-                cache.Append($" rgb=\"{((Color)col.Color).ToColorString()}\"");
+                cache.Append($" rgb=\"FF{((Color)col.Color).ToColorString()}\"");
             }
 
             if (col.Auto != null && col.Auto != false)
