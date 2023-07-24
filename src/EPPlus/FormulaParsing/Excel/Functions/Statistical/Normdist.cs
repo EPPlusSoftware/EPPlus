@@ -26,6 +26,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class Normdist : NormalDistributionBase
     {
         public override int ArgumentMinLength => 4;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1, 2, 3 }
+        };
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var probability = ArgToDecimal(arguments, 0);
