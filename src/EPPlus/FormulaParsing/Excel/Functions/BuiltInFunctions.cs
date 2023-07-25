@@ -112,7 +112,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["roman"] = new Roman();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();
-            Functions["sum"] = new Sum();
+            Functions["sum"] = new SumV2();
             Functions["sumif"] = new SumIf();
             Functions["sumifs"] = new SumIfs();
             Functions["sumproduct"] = new SumProduct();
@@ -242,6 +242,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
             Functions["poisson"] = new Poisson();
+
+            Functions["poisson.dist"] = new Poisson();
+            Functions["weibull.dist"] = new WeibullDist();
+            Functions["weibull"] = new WeibullDist();
+            Functions["t.test"] = new TTest();
+            Functions["trimmean"] = new Trimmean();
+            Functions["z.test"] = new ZDotTest();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -425,7 +432,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imreal"] = new ImReal();
             Functions["imsqrt"] = new ImSqrt();
             Functions["imaginary"] = new Imaginary();
-
+            Functions["imlog10"] = new ImLog10();
             Functions["imsub"] = new ImSub();
             Functions["imtan"] = new ImTan();
             Functions["imsec"] = new ImSec();
@@ -434,15 +441,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["imsub"] = new ImSub();
             Functions["imcosh"] = new ImCosh();
             Functions["improduct"] = new ImProduct();
-
+            
             Functions["imcos"] = new ImCos();
             Functions["imcsc"] = new ImCsc();
             Functions["imsin"] = new ImSin();
             Functions["imsinh"] = new ImSinh();
             Functions["imcsch"] = new ImCsch();
-            Functions["imcot"] = new ImCot();            
+            Functions["imcot"] = new ImCot();
+            Functions["imconjugate"] = new ImConjugate();
+            Functions["imln"] = new ImLn();
             Functions["imsech"] = new ImSech();
+            Functions["imlog2"] = new ImLog2();
             Functions["gestep"] = new GeStep();
+            Functions["impower"] = new ImPower();
+            Functions["imdiv"] = new ImDiv();
         }
     }
 }

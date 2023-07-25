@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 using System;
@@ -434,6 +435,62 @@ namespace OfficeOpenXml.DataValidation
         public void Clear()
         {
             _validations.Clear();
+        }
+
+        internal IExcelDataValidation GetFormulas(ExcelDataValidation dv, out IExcelDataValidationFormula Formula, out IExcelDataValidationFormula Formula2)
+        {
+            switch (dv.ValidationType.Type)
+            {
+                case eDataValidationType.TextLength:
+                case eDataValidationType.Whole:
+                    var intType = dv as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
+
+                    var form = (IExcelDataValidationFormula)intType.Formula;
+
+                    Formula = intType.Formula;
+                    Formula2 = intType.Formula2;
+
+                    return intType;
+
+                case eDataValidationType.Decimal:
+                    var decimalType = dv as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDecimal>;
+                    Formula = decimalType.Formula;
+                    Formula2 = decimalType.Formula2;
+
+                    return decimalType;
+
+                case eDataValidationType.List:
+                    var listType = dv as ExcelDataValidationWithFormula<IExcelDataValidationFormulaList>;
+                    Formula = listType.Formula;
+                    Formula2 = null;
+                    return listType;
+
+                case eDataValidationType.Time:
+                    var timeType = dv as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaTime>;
+                    Formula = timeType.Formula;
+                    Formula2 = timeType.Formula2;
+                    return timeType;
+
+                case eDataValidationType.DateTime:
+                    var dateTimeType = dv as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDateTime>;
+                    Formula = dateTimeType.Formula;
+                    Formula2 = dateTimeType.Formula2;
+                    return dateTimeType;
+
+                case eDataValidationType.Custom:
+                    var customType = dv as ExcelDataValidationWithFormula<IExcelDataValidationFormula>;
+                    Formula = customType.Formula;
+                    Formula2 = null;
+                    return customType;
+
+                case eDataValidationType.Any:
+                    Formula = null;
+                    Formula2 = null;
+                    return null;
+
+                default:
+                    throw new Exception("UNKNOWN TYPE IN GetFormulas");
+            }
         }
 
         /// <summary>

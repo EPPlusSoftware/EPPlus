@@ -13,6 +13,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
@@ -79,6 +80,15 @@ namespace OfficeOpenXml.ConditionalFormatting
                             dataBar.LowValue.minLength = int.Parse(xr.GetAttribute("minLength"));
                             dataBar.HighValue.maxLength = int.Parse(xr.GetAttribute("maxLength"));
 
+                            dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : true;
+
+                            dataBar.NegativeBarBorderColorSameAsPositive = string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive"));
+
+                            if(!string.IsNullOrEmpty(xr.GetAttribute("axisPosition")))
+                            {
+                                dataBar.AxisPosition = (eExcelDatabarAxisPosition)xr.GetAttribute("axisPosition").ToEnum<eExcelDatabarAxisPosition>();
+                            }
+
                             //CfRule -> cfvo
                             xr.Read();
 
@@ -88,7 +98,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             xr.Read();
 
-                            if (dataBar.LowValue.HasValueOrFormula)
+                            if (dataBar.LowValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
                                 if (dataBar.LowValue.Type == eExcelConditionalFormattingValueObjectType.Formula)
@@ -109,7 +119,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             xr.Read();
 
-                            if (dataBar.HighValue.HasValueOrFormula)
+                            if (dataBar.HighValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
                                 if (dataBar.HighValue.Type == eExcelConditionalFormattingValueObjectType.Formula)
@@ -124,30 +134,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 xr.Read();
                             }
 
-                            if (xr.LocalName == "fillColor")
-                            {
-                                ReadCT_Color(xr, dataBar.FillColor);
-                            }
-
-                            if (xr.LocalName == "borderColor")
-                            {
-                                ReadCT_Color(xr, dataBar.BorderColor);
-                            }
-
-                            if (xr.LocalName == "negativeFillColor")
-                            {
-                                ReadCT_Color(xr, dataBar.NegativeFillColor);
-                            }
-
-                            if (xr.LocalName == "negativeBorderColor")
-                            {
-                                ReadCT_Color(xr, dataBar.NegativeBorderColor);
-                            }
-
-                            if (xr.LocalName == "axisColor")
-                            {
-                                ReadCT_Color(xr, dataBar.AxisColor);
-                            }
+                            dataBar.ReadInCTColor(xr);
 
                             // /DataBar-> /cfRule -> xm:sqref -> textValue
                             xr.Read();
@@ -356,37 +343,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                     }
                 }
             }
-        }
-
-        void ReadCT_Color(XmlReader xr, ExcelDxfColor color)
-        {
-
-            if (!string.IsNullOrEmpty(xr.GetAttribute("theme")))
-            {
-                color.Theme = (eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
-            }
-
-            if (!string.IsNullOrEmpty(xr.GetAttribute("rgb")))
-            {
-                color.Color = GetColorFromExcelRgb(xr.GetAttribute("rgb"));
-            }
-
-            if (!string.IsNullOrEmpty(xr.GetAttribute("auto")))
-            {
-                color.Auto = xr.GetAttribute("auto") == "1" ? true : false;
-            }
-
-            if (!string.IsNullOrEmpty(xr.GetAttribute("index")))
-            {
-                color.Index = int.Parse(xr.GetAttribute("index"));
-            }
-
-            if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
-            {
-                color.Tint = double.Parse(xr.GetAttribute("tint"));
-            }
-
-            xr.Read();
         }
 
         ExcelConditionalFormattingIconDataBarValue[] CreateBaseIconArr(eExcelConditionalFormattingRuleType type)

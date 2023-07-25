@@ -29,6 +29,7 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.ConditionalFormatting;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -105,6 +106,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 foreach(ExcelDataValidation dv in copy.DataValidations)
                 {
                     added.DataValidations.AddCopyOfDataValidation(dv, added);
+                }
+            }
+            if(copy.ConditionalFormatting.Count > 0)
+            {
+                foreach (ExcelConditionalFormattingRule cf in copy.ConditionalFormatting)
+                {
+                    added.ConditionalFormatting.CopyRule(cf);
                 }
             }
 
@@ -236,7 +244,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             //Copy dfx styles used in conditional formatting.
             if (!sameWorkbook)
-            {
+            {                
                 CopyDxfStyles(Copy, added);
             }
 
@@ -842,6 +850,8 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         private static void CopyDxfStyles(ExcelWorksheet copy, ExcelWorksheet added)
         {
+            DxfStyleHandler.UpdateDxfXml(copy.Workbook);
+
             var dxfStyleCashe = new Dictionary<string, int>();
             CopyDxfStylesTables(copy, added, dxfStyleCashe);
             CopyDxfStylesPivotTables(copy, added, dxfStyleCashe);
@@ -853,7 +863,7 @@ namespace OfficeOpenXml.Core.Worksheet
             for(int i=0;i<copy.Tables.Count; i++)
             {
                 var tblFrom = copy.Tables[i];
-                var tblTo = added.Tables[i];
+                var tblTo = added.Tables[tblFrom.Name]; //Use Name, as id can differ if the worksheets are in different workbooks.
                 if (tblFrom.HeaderRowStyle.HasValue) tblTo.HeaderRowStyle = (ExcelDxfStyle)tblFrom.HeaderRowStyle.Clone();
                 if (tblFrom.HeaderRowBorderStyle.HasValue) tblTo.HeaderRowBorderStyle = (ExcelDxfBorderBase)tblFrom.HeaderRowBorderStyle.Clone();
                 if (tblFrom.DataStyle.HasValue) tblTo.DataStyle = (ExcelDxfStyle)tblFrom.DataStyle.Clone();
@@ -894,22 +904,30 @@ namespace OfficeOpenXml.Core.Worksheet
             for (var i = 0; i < copy.ConditionalFormatting.Count; i++)
             {
                 var cfSource = copy.ConditionalFormatting[i];
-                var dxfElement = ((XmlElement)cfSource.Node);
-                var dxfId = dxfElement.GetAttribute("dxfId");
-                if (ConvertUtil.TryParseIntString(dxfId, out int dxfIdInt))
+                //var dxfElement = ((XmlElement)cfSource.Node);
+                var dxfId = cfSource.DxfId;
+                if (dxfId != -1)
                 {
-                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, dxfIdInt);
+                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, dxfId);
                 }
             }
-            var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", added.NameSpaceManager);
-            foreach (XmlElement cfRule in nodes)
+
+            for (var i = 0; i < added.ConditionalFormatting.Count; i++)
             {
-                var dxfId = cfRule.GetAttribute("dxfId");
-                if (dxfStyleCashe.ContainsKey(dxfId))
+                if (dxfStyleCashe.ContainsKey(added.ConditionalFormatting[i].DxfId.ToString()))
                 {
-                    cfRule.SetAttribute("dxfId", dxfStyleCashe[dxfId].ToString());
+                    added.ConditionalFormatting[i].DxfId = dxfStyleCashe[added.ConditionalFormatting[i].DxfId.ToString()];
                 }
             }
+            //var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", added.NameSpaceManager);
+            //foreach (XmlElement cfRule in nodes)
+            //{
+            //    var dxfId = cfRule.GetAttribute("dxfId");
+            //    if (dxfStyleCashe.ContainsKey(dxfId))
+            //    {
+            //        cfRule.SetAttribute("dxfId", dxfStyleCashe[dxfId].ToString());
+            //    }
+            //}
         }
 
         private static void AppendDxf(ExcelStyles stylesFrom, ExcelStyles stylesTo, Dictionary<string, int> dxfStyleCashe, int dxfId)
