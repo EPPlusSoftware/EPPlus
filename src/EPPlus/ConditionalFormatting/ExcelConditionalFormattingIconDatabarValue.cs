@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using OfficeOpenXml.Style.Dxf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if (Type != eExcelConditionalFormattingValueObjectType.Min
-                    && Type != eExcelConditionalFormattingValueObjectType.Max)
+                if (Type != eExcelConditionalFormattingValueObjectType.Min && Type != eExcelConditionalFormattingValueObjectType.AutoMin
+                    && Type != eExcelConditionalFormattingValueObjectType.Max && Type != eExcelConditionalFormattingValueObjectType.AutoMax)
                 {
                     return true;
                 }

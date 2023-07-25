@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "7.0",
-    Description = "Returns the Poisson distribution")]
+    Description = "Returns the Poisson distribution. This function works the same as POISSON.DIST")]
     internal class Poisson : ExcelFunction
     {
         public override int ArgumentMinLength => 3;

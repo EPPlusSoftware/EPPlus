@@ -148,18 +148,18 @@ namespace OfficeOpenXml.Core.CellStore
             var minCol = _addresses.Keys.Min();
             var maxCol = _addresses.Keys.Max();
             fromCol = fromCol < minCol ? minCol : fromCol;
-            for (int col = fromCol; col<=toCol;col++)
+            for (int col = fromCol; col <= toCol; col++)
             {
                 if (col > maxCol) break;
-                if(_addresses.TryGetValue(col, out List<RangeItem> rows))
+                if (_addresses.TryGetValue(col, out List<RangeItem> rows))
                 {
                     var ix = rows.BinarySearch(searchItem);
-                    if(ix < 0)
+                    if (ix < 0)
                     {
                         ix = ~ix;
                         if (ix > 0) ix--;
                     }
-                    while(ix<rows.Count)
+                    while (ix < rows.Count)
                     {
                         var ri = rows[ix];
                         var fr = (int)(ri.RowSpan >> 20) + 1;
@@ -169,9 +169,9 @@ namespace OfficeOpenXml.Core.CellStore
                             ix++;
                             continue;
                         }
-                        if(fromRow <= tr && toRow >= fr)
+                        if (fromRow <= tr && toRow >= fr)
                         {
-                            if(!hs.Contains(ri.Value))
+                            if (!hs.Contains(ri.Value))
                             {
                                 hs.Add(ri.Value);
                             }
@@ -212,12 +212,12 @@ namespace OfficeOpenXml.Core.CellStore
             }
             AddRowSpan(col, row,row, value);
         }
-        internal void InsertRow(int fromRow, int noRows, int fromCol=1, int toCol=ExcelPackage.MaxColumns)
+        internal void InsertRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
         {
-            long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);            
-            foreach(var c in _addresses.Keys)
+            long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
+            foreach (var c in _addresses.Keys)
             {
-                if(c>=fromCol && c <= toCol)
+                if (c >= fromCol && c <= toCol)
                 {
                     var rows = _addresses[c];
                     var ri = new RangeItem(rowSpan, default);
@@ -230,24 +230,27 @@ namespace OfficeOpenXml.Core.CellStore
 
                     if (ix < rows.Count)
                     {
-                        ri = rows[ix];                        
+                        ri = rows[ix];
                         var fr = (int)(ri.RowSpan >> 20) + 1;
                         var tr = (int)(ri.RowSpan & 0xFFFFF) + 1;
 
-                        if(fr>=fromRow)
+                        if (tr >= fromRow)
                         {
-                            ri.RowSpan = ((fr + noRows - 1) << 20) | (tr + noRows - 1);
+                            if (fr >= fromRow)
+                            {
+                                ri.RowSpan = ((fr + noRows - 1) << 20) | (tr + noRows - 1);
+                            }
+                            else
+                            {
+                                ri.RowSpan = ((fr - 1) << 20) | (tr + noRows - 1);
+                            }
+                            rows[ix] = ri;
                         }
-                        else
-                        {
-                            ri.RowSpan = ((fr - 1) << 20) | (tr + noRows - 1);
-                        }
-                        rows[ix] = ri;
                     }
                     var add = (noRows << 20) | (noRows);
-                    for (int i=ix+1;i<rows.Count;i++)
+                    for (int i = ix + 1; i < rows.Count; i++)
                     {
-                        rows[i]= new RangeItem(rows[i].RowSpan+add, rows[i].Value);
+                        rows[i] = new RangeItem(rows[i].RowSpan + add, rows[i].Value);
                     }
                 }
             }
@@ -275,16 +278,16 @@ namespace OfficeOpenXml.Core.CellStore
                         var fromRowRangeItem = (int)(ri.RowSpan >> 20) + 1;
                         var toRowRangeItem = (int)(ri.RowSpan & 0xFFFFF) + 1;
 
-                        if(fromRowRangeItem >= fromRow)
+                        if (fromRowRangeItem >= fromRow)
                         {
-                            if(fromRowRangeItem >= fromRow && toRowRangeItem <= fromRow + noRows)
-                            { 
+                            if (fromRowRangeItem >= fromRow && toRowRangeItem <= fromRow + noRows)
+                            {
                                 rows.RemoveAt(i--);
                                 continue;
                             }
-                            else if(fromRowRangeItem >= fromRow + noRows)
+                            else if (fromRowRangeItem >= fromRow + noRows)
                             {
-                                if(shiftRow)
+                                if (shiftRow)
                                 {
                                     toRowRangeItem -= noRows;
                                     fromRowRangeItem -= noRows;
@@ -304,7 +307,7 @@ namespace OfficeOpenXml.Core.CellStore
                                 }
                             }
                         }
-                        else if(toRowRangeItem >= fromRow) 
+                        else if (toRowRangeItem >= fromRow)
                         {
                             toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                         }
@@ -318,7 +321,7 @@ namespace OfficeOpenXml.Core.CellStore
         internal void InsertColumn(int fromCol, int noCols, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
         {
             //Full column
-            if(fromRow<=1 && toRow >=ExcelPackage.MaxRows)
+            if (fromRow <= 1 && toRow >= ExcelPackage.MaxRows)
             {
                 AddFullColumn(fromCol, noCols);
             }
@@ -326,9 +329,9 @@ namespace OfficeOpenXml.Core.CellStore
             {
                 InsertPartialColumn(fromCol, noCols, fromRow, toRow);
             }
-            if(_extendValuesToInsertedColumn)
+            if (_extendValuesToInsertedColumn)
             {
-                ExtendValues(fromCol - 1, fromCol+noCols, fromRow, toRow);
+                ExtendValues(fromCol - 1, fromCol + noCols, fromRow, toRow);
             }
         }
         private void ExtendValues(int fromCol, int toCol, int fromRow, int toRow)
@@ -612,27 +615,27 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     int fr, tr = -1;
                     while (rows.Count > ix)
-                    {                         
+                    {
                         var rs = rows[ix];
                         fr = (int)(rs.RowSpan >> 20) + 1;
                         tr = (int)(rs.RowSpan & 0xFFFFF) + 1;
                         if (fr <= fromRow && tr >= toRow) break; //Inside, exit
-                        if (fr > toRow) 
+                        if (fr > toRow)
                         {
                             rows.Insert(ix, new RangeItem(rowSpan, value));
                             ix++;
                             break;
                         }
-                        else if(fromRow<fr)
+                        else if (fromRow < fr)
                         {
                             rowSpan = ((long)(fromRow - 1) << 20) | (long)(fr - 2);
                             rows.Insert(ix, new RangeItem(rowSpan, value));
                             ix++;
-                            fromRow=tr+1;
+                            fromRow = tr + 1;
                         }
                         ix++;
                     }
-                    if(tr < toRow)
+                    if (tr < toRow)
                     {
                         tr = tr > fromRow - 1 ? tr : fromRow - 1;
                         rowSpan = ((long)(tr) << 20) | (long)(toRow - 1);
