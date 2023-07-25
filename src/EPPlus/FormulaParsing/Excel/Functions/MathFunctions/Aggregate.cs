@@ -113,7 +113,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     result = f8.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
                 case 9:
-                    var f9 = new Sum
+                    var f9 = new SumSubtotal
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
                         IgnoreErrors = IgnoreErrors(options)

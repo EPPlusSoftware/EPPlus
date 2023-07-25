@@ -86,7 +86,7 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Address of data validation
         /// </summary>
-        public ExcelAddress Address { get { return _address; } internal set { _address = (ExcelDatavalidationAddress)value; } }
+        public ExcelAddress Address { get { return _address; } internal set { _address = new ExcelDatavalidationAddress(value.Address, this); } }
 
         /// <summary>
         /// Validation type
@@ -236,6 +236,18 @@ namespace OfficeOpenXml.DataValidation
             {
                 throw new FormatException("Multiple addresses may not be commaseparated, use space instead");
             }
+
+            var tempAddress = new ExcelAddress(address);
+            string wsName = "";
+
+            if (!string.IsNullOrEmpty(tempAddress.WorkSheetName))
+            {
+                address = address.Replace("'", "");
+
+                wsName = tempAddress.WorkSheetName + "!";
+                address = address.Replace(wsName, "");
+            }
+
             address = ConvertUtil._invariantTextInfo.ToUpper(address);
 
             if (IsEntireColumn(address))
@@ -345,7 +357,6 @@ namespace OfficeOpenXml.DataValidation
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
             _address = new ExcelDatavalidationAddress(address, this);
-            _ws.DataValidations.UpdateRangeDictionary(this);
         }
 
         /// <summary>

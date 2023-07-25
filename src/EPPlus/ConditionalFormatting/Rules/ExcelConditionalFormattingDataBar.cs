@@ -19,6 +19,8 @@ using System;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -98,13 +100,9 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             InitalizeDxfColours();
 
-            var colVal = int.Parse(xr.GetAttribute("rgb"),NumberStyles.HexNumber);
-            Color = Color.FromArgb(colVal);
-            //Correct the alpha
-            Color = Color.FromArgb(255, Color);
+            ReadInCTColor(xr, "fillColor");
 
             //enter databar exit node ->(local) extLst -> ext -> id
-            xr.Read();
             xr.Read();
             xr.Read();
             xr.Read();
@@ -115,6 +113,76 @@ namespace OfficeOpenXml.ConditionalFormatting
             xr.Read();
             xr.Read();
             xr.Read();
+        }
+
+        /// <summary>
+        /// For reading all Databar CT_Colors Recursively until we hit a non-color node.
+        /// </summary>
+        /// <param name="xr"></param>
+        /// <param name="altName">To force the color to write to. Useful e.g. when loading the local databar node that denotes fill color is just named Color</param>
+        /// <exception cref="Exception"></exception>
+        internal void ReadInCTColor(XmlReader xr, string altName = null)
+        {
+            ExcelDxfColor col;
+            string nodeName = altName != null ? altName : xr.LocalName;
+
+            switch (nodeName)
+            {
+                case "fillColor":
+                    col = FillColor;
+                break;
+
+                case "borderColor":
+                    col = BorderColor;
+                break;
+
+                case "negativeFillColor":
+                    col = NegativeFillColor;
+                break;
+
+                case "negativeBorderColor":
+                    col = NegativeBorderColor;
+                break;
+
+                case "axisColor":
+                    col = AxisColor;
+                break;
+                
+                default: throw new Exception($"{xr.LocalName} is not a CT_Color node and cannot be read.");
+            }
+
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("auto")))
+            {
+                col.Auto = xr.GetAttribute("auto") == "1" ? true : false;
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("theme")))
+            {
+                col.Theme = (eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("index")))
+            {
+                col.Index = int.Parse(xr.GetAttribute("index"));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("rgb")))
+            {
+                col.Color = (ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb")));
+            }
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
+            {
+                col.Tint = double.Parse(xr.GetAttribute("tint"));
+            }
+
+            xr.Read();
+
+            if(xr.LocalName.Contains("Color"))
+            {
+                ReadInCTColor(xr);
+            }
         }
 
         ExcelConditionalFormattingDataBar(ExcelConditionalFormattingDataBar copy) : base(copy)

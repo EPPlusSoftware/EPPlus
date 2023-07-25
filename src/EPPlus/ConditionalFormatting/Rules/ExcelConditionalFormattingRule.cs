@@ -328,13 +328,15 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {
                     ParseColor(Style.Font.Color, xr);
                 }
+
+                xr.Read();
             }
 
 
             if (xr.LocalName == "numFmt")
             {
-                Style.NumberFormat.NumFmtID = int.Parse(xr.GetAttribute("numFmtId"));
                 Style.NumberFormat.Format = xr.GetAttribute("formatCode");
+                Style.NumberFormat.NumFmtID = int.Parse(xr.GetAttribute("numFmtId"));
                 xr.Read();
             }
 
@@ -366,6 +368,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                         
                         xr.Read();
                     }
+
+                    xr.Read();
                 }
                 else
                 {
@@ -407,6 +411,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                     ParseColor(Style.Fill.Gradient.Colors.Add(1).Color, xr);
                     xr.Read();
+                    xr.Read();
+                    xr.Read();
                 }
             }
 
@@ -445,8 +451,12 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void ParseColor(ExcelDxfColor col, XmlReader xr)
         {
-            xr.Read();
-            if (xr.Name == "color" || xr.Name == "bgColor" || xr.Name == "fgColor")
+            if (xr.LocalName != "color" && xr.LocalName != "bgColor" && xr.LocalName != "fgColor")
+            {
+                xr.Read();
+            }
+
+            if (xr.LocalName == "color" || xr.LocalName == "bgColor" || xr.LocalName == "fgColor")
             {
                 if (xr.GetAttribute("theme") != null)
                 {
@@ -500,6 +510,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             StdDev = original.StdDev;
             DxfId = original.DxfId;
             Address = original.Address;
+            Priority = original.Priority;
 
             if (DxfId >= 0 && DxfId < _ws.Workbook.Styles.Dxfs.Count)
             {
