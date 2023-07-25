@@ -110,6 +110,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["floor.math"] = new FloorMath();
             Functions["radians"] = new Radians();
             Functions["roman"] = new Roman();
+            Functions["arabic"] = new Arabic();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();
             Functions["sum"] = new Sum();
