@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
     SupportsArrays = true,
     Category = ExcelFunctionCategory.Statistical,
-    EPPlusVersion = "6.0",
+    EPPlusVersion = "7.0",
     Description = "Returns the lognormal distribution of x")]
 
 

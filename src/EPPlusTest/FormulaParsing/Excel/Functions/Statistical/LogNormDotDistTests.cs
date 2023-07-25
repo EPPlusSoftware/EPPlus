@@ -231,5 +231,30 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0.017617597, result2);
             }
         }
+
+        [TestMethod]
+        public void LogNormDotDistShouldReturnCorrectResultArray9()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2"].Value = 3;
+                sheet.Cells["A3"].Value = 4;
+                sheet.Cells["A4"].Value = 3.5;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 1.2;
+                sheet.Cells["A7"].Value = true;
+                sheet.Cells["A8"].Value = false;
+
+                sheet.Cells["B7"].Formula = "LOGNORM.DIST(A2:A3,A4,A5:A6,A7:A8)";
+                sheet.Calculate();
+
+                var result = System.Math.Round((double)sheet.Cells["B7"].Value, 9);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = sheet.Cells["B9"].Value;
+                Assert.AreEqual(0.211721421, result);
+                Assert.AreEqual(0.017617597, result2);
+            }
+        }
     }
 }

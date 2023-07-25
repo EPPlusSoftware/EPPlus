@@ -20,6 +20,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
+            SupportsArrays = true,
             Category = ExcelFunctionCategory.Statistical,
             EPPlusVersion = "6.0",
             IntroducedInExcelVersion = "2010",

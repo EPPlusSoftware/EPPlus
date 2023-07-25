@@ -20,6 +20,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
+            SupportsArrays = true,
             Category = ExcelFunctionCategory.Statistical,
             EPPlusVersion = "5.8",
             Description = "Calculates the Normal Probability Density Function or the Cumulative Normal Distribution. Function for a supplied set of parameters.")]
