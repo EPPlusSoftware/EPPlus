@@ -1143,7 +1143,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if(dataBar.AxisPosition != eExcelDatabarAxisPosition.Automatic)
                             {
-                                cache.Append($" axisPostition=\"{dataBar.AxisPosition.ToEnumString()}\"");
+                                cache.Append($" axisPosition=\"{dataBar.AxisPosition.ToEnumString()}\"");
                             }
 
                             cache.Append(">");
@@ -1415,12 +1415,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             {
                                 cache.Append($"<{prefix}dxf>");
 
-                                if (format.Style.NumberFormat.HasValue)
-                                {
-                                    cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
-                                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
-                                }
-
                                 if (format.Style.Font.HasValue)
                                 {
                                     cache.Append($"<font>");
@@ -1463,60 +1457,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     if (format.Style.Font.Color.HasValue == true)
                                     {
-                                        cache.Append("<color");
-                                        if (format.Style.Font.Color.Theme != null)
-                                        {
-                                            cache.Append($"theme=\"{(int)format.Style.Font.Color.Theme}\"");
-                                        }
-                                        else
-                                        {
-                                            Color color = (Color)format.Style.Font.Color.Color;
-                                            cache.Append($"rgb=\"FF" +
-                                                $"{color.ToColorString()}\"");
-
-                                        }
-                                        cache.Append("/>");
+                                        WriteColorOption("color", format.Style.Font.Color);
                                     }
 
                                     cache.Append("</font>");
                                 }
 
-                                if (format.Style.Border.HasValue)
+                                if (format.Style.NumberFormat.HasValue)
                                 {
-                                    cache.Append("<border>");
-
-                                    if (format.Style.Border.Left.HasValue)
-                                    {
-                                        cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
-                                        cache.Append("</left>");
-                                    }
-
-
-                                    if (format.Style.Border.Right.HasValue)
-                                    {
-                                        cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
-                                        cache.Append("</right>");
-                                    }
-
-                                    if (format.Style.Border.Top.HasValue)
-                                    {
-                                        cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
-                                        cache.Append("</top>");
-                                    }
-
-                                    if (format.Style.Border.Bottom.HasValue)
-                                    {
-                                        cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
-                                        cache.Append("</bottom>");
-                                    }
-
-                                    cache.Append("<vertical/>");
-                                    cache.Append("<horizontal/>");
-                                    cache.Append("</border>");
+                                    cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
+                                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
                                 }
 
                                 if (format.Style.Fill.HasValue)
@@ -1601,6 +1551,45 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     cache.Append("</fill>");
                                 }
 
+                                if (format.Style.Border.HasValue)
+                                {
+                                    cache.Append("<border>");
+
+                                    if (format.Style.Border.Left.HasValue)
+                                    {
+                                        cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
+                                        cache.Append("</left>");
+                                    }
+
+
+                                    if (format.Style.Border.Right.HasValue)
+                                    {
+                                        cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
+                                        cache.Append("</right>");
+                                    }
+
+                                    if (format.Style.Border.Top.HasValue)
+                                    {
+                                        cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
+                                        cache.Append("</top>");
+                                    }
+
+                                    if (format.Style.Border.Bottom.HasValue)
+                                    {
+                                        cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
+                                        cache.Append("</bottom>");
+                                    }
+
+                                    cache.Append("<vertical/>");
+                                    cache.Append("<horizontal/>");
+                                    cache.Append("</border>");
+                                }
+
+
                                 cache.Append($"</{prefix}dxf>");
                             }
                         }
@@ -1620,6 +1609,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             return cache.ToString();
         }
 
+        //TODO: Technically multiple attributes can exist at the same time. This doesn't support that.
+        //But its also hard to imagine a scenario where bothe rgb and theme attributes could coexist.
+        //Tint is supported to co-exist.
         string WriteColorOption(string nodeName, ExcelDxfColor color)
         {
             string returnString = "";

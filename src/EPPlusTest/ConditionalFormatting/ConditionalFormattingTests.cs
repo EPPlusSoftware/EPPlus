@@ -44,6 +44,7 @@ using System.Linq;
 using System.Runtime.Remoting;
 using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Style;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -308,7 +309,7 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-      
+
         [TestMethod]
         public void VerifyReadStyling()
         {
@@ -1761,6 +1762,67 @@ namespace EPPlusTest.ConditionalFormatting
 
                 Assert.AreEqual("B1", readBetween.As.Between.Formula);
                 Assert.AreEqual("B2", readBetween.As.Between.Formula2);
+            }
+        }
+
+        [TestMethod]
+        public void CF_GradientFill()
+        {
+            using (var pck = OpenTemplatePackage("advExtColorTest.xlsx"))
+            {
+                var cf = pck.Workbook.Worksheets[0].ConditionalFormatting[0];
+
+                Assert.AreEqual(false, cf.Style.Font.Bold);
+                Assert.AreEqual(true, cf.Style.Font.Italic);
+                Assert.AreEqual(Color.FromArgb(255, 51, 51, 255), cf.Style.Font.Color.Color);
+
+                Assert.AreEqual(30, cf.Style.NumberFormat.NumFmtID);
+                Assert.AreEqual("@", cf.Style.NumberFormat.Format);
+
+                Assert.AreEqual(eThemeSchemeColor.Accent2, cf.Style.Fill.Gradient.Colors[0].Color.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent1, cf.Style.Fill.Gradient.Colors[1].Color.Theme);
+
+                Assert.AreEqual(45D, cf.Style.Fill.Gradient.Degree);
+                Assert.AreEqual(ExcelBorderStyle.Thin, cf.Style.Border.Left.Style);
+                Assert.AreEqual(true, cf.Style.Border.Left.Color.Auto);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void CF_DatabarColorReadWrite()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("basicSheet");
+
+                var bar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A20"), Color.Blue);
+
+                bar.AxisColor.Theme = eThemeSchemeColor.Accent6;
+                bar.BorderColor.Theme = eThemeSchemeColor.Background1;
+                bar.NegativeFillColor.SetColor(Color.Red);
+                bar.NegativeBorderColor.SetColor(Color.MediumPurple);
+                bar.AxisPosition = eExcelDatabarAxisPosition.Middle;
+
+                for(int i = 1; i < 21; i++)
+                {
+                    sheet.Cells[i, 1].Value = i - 10;
+                }
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var readCF = readPck.Workbook.Worksheets[0].ConditionalFormatting[0].As.DataBar;
+
+                Assert.AreEqual(Color.Blue.ToArgb(), readCF.FillColor.Color.Value.ToArgb());
+                Assert.AreEqual(eThemeSchemeColor.Accent6, readCF.AxisColor.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Background1, readCF.BorderColor.Theme);
+                Assert.AreEqual(Color.Red.ToArgb(), readCF.NegativeFillColor.Color.Value.ToArgb());
+                Assert.AreEqual(Color.MediumPurple.ToArgb(), readCF.NegativeBorderColor.Color.Value.ToArgb());
+                Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
             }
         }
     }
