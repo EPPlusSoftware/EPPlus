@@ -1,4 +1,18 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  07/25/2023         EPPlus Software AB       Implemented function
+ *************************************************************************************************/
+
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -7,6 +21,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
+    [FunctionMetadata(
+   Category = ExcelFunctionCategory.Financial,
+   EPPlusVersion = "7.0",
+   Description = "Calculates the price per 100$ Face value of a discounted bond or other security.")]
     internal class PriceDisc : ExcelFunction
     {
         public override int ArgumentMinLength => 4;
@@ -23,9 +41,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             if (arguments.Count > 4) 
             {
                 b = ArgToDecimal(arguments, 4);
+                b = Math.Floor(b);
             }
-
-
 
             var basis = (DayCountBasis)b;
 
