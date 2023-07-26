@@ -209,6 +209,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["normsdist"] = new Normsdist();
             Functions["norm.dist"] = new NormDotDist();
             Functions["norm.s.dist"] = new NormDotSdotDist();
+            Functions["lognorm.dist"] = new LogNormDotDist();
             Functions["correl"] = new Correl();
             Functions["fisher"] = new Fisher();
             Functions["fisherinv"] = new FisherInv();
