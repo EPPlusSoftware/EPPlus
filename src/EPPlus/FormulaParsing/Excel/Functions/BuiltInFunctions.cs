@@ -210,6 +210,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["normsdist"] = new Normsdist();
             Functions["norm.dist"] = new NormDotDist();
             Functions["norm.s.dist"] = new NormDotSdotDist();
+            Functions["lognorm.dist"] = new LogNormDotDist();
             Functions["correl"] = new Correl();
             Functions["fisher"] = new Fisher();
             Functions["fisherinv"] = new FisherInv();
@@ -397,6 +398,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["tbilleq"] = new Tbilleq();
             Functions["tbillprice"] = new TbillPrice();
             Functions["tbillyield"] = new TbillYield();
+            Functions["pricedisc"] = new PriceDisc();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
