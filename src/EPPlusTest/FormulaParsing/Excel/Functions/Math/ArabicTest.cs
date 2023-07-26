@@ -180,5 +180,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             }
         }
 
+        [TestMethod]
+        public void ArabicRangeTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test with more cocise version: ");
+                sheet.Cells["A5"].Value = "VDIV";
+                sheet.Cells["A6"].Value = "XXI";
+                sheet.Cells["A1"].Formula = "=ARABIC(A5:A6)";
+                sheet.Calculate();
+                var result = (double)sheet.Cells["A1"].Value;
+                var result2 = (double)sheet.Cells["A2"].Value;
+                Assert.AreEqual(499d, result);
+                Assert.AreEqual(21d, result2);
+            }
+        }
+
     }
 }
