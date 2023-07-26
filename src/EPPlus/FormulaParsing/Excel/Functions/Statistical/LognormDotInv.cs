@@ -21,12 +21,25 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
+        SupportsArrays = true,
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "6.0",
+        EPPlusVersion = "7.0",
         Description = "Returns the inverse of the lognormal cumulative distribution function")]
-    internal class LognormDotInv : NormalDistributionBase
+
+
+    internal class LognormDotInv : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
+        };
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var p = ArgToDecimal(arguments, 0);
@@ -36,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
-            var result = Math.Exp(-Math.Sqrt(2*ErfHelper.Erfcinv(2*p)));
+            var result = Math.Exp(-1.41421356237309505 * stdev * ErfHelper.Erfcinv(2*p)+mean);
             return CreateResult(result, DataType.Decimal);
         }
     }
