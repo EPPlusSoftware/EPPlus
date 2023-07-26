@@ -110,6 +110,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["floor.math"] = new FloorMath();
             Functions["radians"] = new Radians();
             Functions["roman"] = new Roman();
+            Functions["arabic"] = new Arabic();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();
             Functions["sum"] = new SumV2();
@@ -243,6 +244,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
             Functions["poisson"] = new Poisson();
+
             Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();
             Functions["weibull"] = new WeibullDist();
