@@ -492,6 +492,17 @@ namespace EPPlusTest
             // Act
             ws.Calculate();
 
+                 //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+
+            var result = ws.Cells["L14"].Value.ToString();
+            Assert.AreEqual("-3,552713678800501E-15", result);
+
        }
 
         [TestMethod]
