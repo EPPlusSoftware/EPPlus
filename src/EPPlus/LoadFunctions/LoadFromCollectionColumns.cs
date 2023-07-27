@@ -125,6 +125,7 @@ namespace OfficeOpenXml.LoadFunctions
                     var header = default(string);
                     var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(memberPath) : -1;
                     var sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : SortOrderOffset;
+                    var hidden = false;
                     var numberFormat = string.Empty;
                     var rowFunction = RowFunctions.None;
                     var totalsRowNumberFormat = string.Empty;
@@ -134,6 +135,7 @@ namespace OfficeOpenXml.LoadFunctions
                     var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                     if (epplusColumnAttr != null)
                     {
+                        hidden = epplusColumnAttr.Hidden;
                         if(!string.IsNullOrEmpty(epplusColumnAttr.Header) && !string.IsNullOrEmpty(headerPrefix))
                         {
                             header = $"{headerPrefix} {epplusColumnAttr.Header}";
@@ -173,6 +175,7 @@ namespace OfficeOpenXml.LoadFunctions
                         Header = header,
                         SortOrder = sortOrder,
                         Index = index++,
+                        Hidden = hidden,
                         SortOrderLevels = colInfoSortOrderList,
                         MemberInfo = member,
                         NumberFormat = numberFormat,

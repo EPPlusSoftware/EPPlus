@@ -41,6 +41,8 @@ namespace OfficeOpenXml.LoadFunctions
 
         public string Header { get; set; }
 
+        public bool Hidden { get; set; }
+
         public string NumberFormat { get; set; }
 
         public RowFunctions TotalsRowFunction { get; set; }
