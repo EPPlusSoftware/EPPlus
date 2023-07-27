@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments.Count < 2 || arguments.Count > 3)
+            if (arguments.Count > 3)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }

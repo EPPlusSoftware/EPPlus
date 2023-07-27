@@ -8,8 +8,9 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/29/2021         EPPlus Software AB       Implemented function
+  22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -20,18 +21,20 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-            SupportsArrays = true,
-            Category = ExcelFunctionCategory.Statistical,
-            EPPlusVersion = "5.8",
-            Description = "Calculates the Normal Probability Density Function or the Cumulative Normal Distribution. Function for a supplied set of parameters.")]
-    internal class Normdist : NormalDistributionBase
+        SupportsArrays = true,
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "7.0",
+        Description = "Returns the inverse of the lognormal cumulative distribution function")]
+
+
+    internal class LognormDotInv : ExcelFunction
     {
-        public override int ArgumentMinLength => 4;
+        public override int ArgumentMinLength => 3;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
         private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
         {
-            ArrayParameterIndexes = new List<int> { 0, 1, 2, 3 }
+            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
         };
         public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
@@ -39,15 +42,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var probability = ArgToDecimal(arguments, 0);
+            var p = ArgToDecimal(arguments, 0);
             var mean = ArgToDecimal(arguments, 1);
             var stdev = ArgToDecimal(arguments, 2);
-            var cumulative = ArgToBool(arguments, 3);
-            if (stdev <= 0)
+            if (p <= 0|| p>=1||stdev<=0)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
-            var result = cumulative ? CumulativeDistribution(probability, mean, stdev) : ProbabilityDensity(probability, mean, stdev);
+            var result = Math.Exp(-1.41421356237309505 * stdev * ErfHelper.Erfcinv(2*p)+mean);
             return CreateResult(result, DataType.Decimal);
         }
     }
