@@ -110,6 +110,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["floor.math"] = new FloorMath();
             Functions["radians"] = new Radians();
             Functions["roman"] = new Roman();
+            Functions["arabic"] = new Arabic();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();
             Functions["sum"] = new SumV2();
@@ -201,6 +202,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gamma"] = new Gamma();
             Functions["gammaln"] = new Gammaln();
             Functions["gammaln.precise"] = new GammalnPrecise();
+            Functions["lognorm.inv"] = new LognormDotInv();
             Functions["norminv"] = new NormInv();
             Functions["norm.inv"] = new NormDotInv();
             Functions["normsinv"] = new NormsInv();
@@ -244,6 +246,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
             Functions["poisson"] = new Poisson();
+
             Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();
             Functions["weibull"] = new WeibullDist();
@@ -397,6 +400,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["tbilleq"] = new Tbilleq();
             Functions["tbillprice"] = new TbillPrice();
             Functions["tbillyield"] = new TbillYield();
+            Functions["pricedisc"] = new PriceDisc();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
