@@ -13,6 +13,7 @@
 
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -25,25 +26,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "7.0",
-    Description = "Calculates the F probability distribution. Takes a boolean argument that determines if PDF or CDF is used.")]
-    internal class FDist : ExcelFunction
+    Description = "Calculates the result of the F-test")]
+    internal class FTest : ExcelFunction
     {
-        public override int ArgumentMinLength => 4;
+        public override int ArgumentMinLength => 2;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
-            var deg_freedom1 = ArgToDecimal(arguments, 1);
-            var deg_freedom2 = ArgToDecimal(arguments, 2);
-            var cumulative = ArgToBool(arguments, 3);
+            var array1 = arguments[0].ValueAsRangeInfo;
+            var array2 = arguments[1].ValueAsRangeInfo;
 
-            deg_freedom1 = Math.Floor(deg_freedom1);
-            deg_freedom2 = Math.Floor(deg_freedom2);
+            RangeFlattener.GetNumericPairLists(array1, array2, false, out List<double> list1, out List<double> list2);
+            if (list1.Count() < 2 || list2.Count() < 2) return CreateResult(eErrorType.Div0);
 
-            if (x < 0) return CreateResult(eErrorType.Num);
-            if (deg_freedom1 < 1 || deg_freedom2 < 1) return CreateResult(eErrorType.Num);
-            var result = FHelper.GetProbability(x, deg_freedom1, deg_freedom2, cumulative);
+            double variance1 = VarianceCalc(list1);
+            double variance2 = VarianceCalc(list2);
+
+            if (variance1 == 0 || variance2 == 0) return CreateResult(eErrorType.Div0);
+
+            var fStatistics = (variance2 > variance1) ? variance1 / variance2 : variance2 / variance1; //The smallest variance is divided by the largest.
+            var df1 = list1.Count() - 1;
+            var df2 = list2.Count() - 1;
+            var result = 2 * FHelper.GetProbability(fStatistics, df1, df2, true);
+
             return CreateResult(result, DataType.Decimal);
+        }
+
+        internal static double VarianceCalc(List<double> values)
+        {
+            var mean = values.Average();
+            var sumOfSquares = values.Sum(val => Math.Pow(val - mean, 2));
+            var setVariance = sumOfSquares / (values.Count() - 1);
+            return setVariance;
         }
     }
 }
+
