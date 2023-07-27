@@ -84,6 +84,10 @@ namespace OfficeOpenXml.LoadFunctions
                     var memberPath = path != null ? $"{path}.{member.Name}" : member.Name;
                     if (member.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
                     {
+                        if (member.PropertyType == typeof(string) || (!member.PropertyType.IsClass && !member.PropertyType.IsInterface))
+                        {
+                            throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {memberPath})");
+                        }
                         var nestedTableAttr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
                         var attrOrder = nestedTableAttr.Order;
                         hPrefix = nestedTableAttr.HeaderPrefix;
