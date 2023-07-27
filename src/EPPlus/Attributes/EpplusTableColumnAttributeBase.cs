@@ -52,6 +52,15 @@ namespace OfficeOpenXml.Attributes
         }
 
         /// <summary>
+        /// If true, the entire column will be hidden.
+        /// </summary>
+        public bool Hidden
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// If not <see cref="RowFunctions.None"/> the last cell in the column (the totals row) will contain a formula of the specified type.
         /// </summary>
         public RowFunctions TotalsRowFunction
