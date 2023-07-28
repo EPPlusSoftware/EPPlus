@@ -27,6 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2019")]
     internal class MaxIfs : IfsWithMultipleMatchesBase
     {
+
+        public override string NamespacePrefix => "_xlfn.";
+
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

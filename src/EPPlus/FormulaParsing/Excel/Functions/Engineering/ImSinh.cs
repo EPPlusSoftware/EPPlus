@@ -28,6 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     internal class ImSinh : ImFunctionBase
     {
 
+        public override string NamespacePrefix => "_xlfn.";
+
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

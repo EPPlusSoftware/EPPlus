@@ -27,6 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         SupportsArrays = true)]
     internal class IsoWeekNum : ExcelFunction
     {
+
+        public override string NamespacePrefix => "_xlfn.";
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
