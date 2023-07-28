@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         IntroducedInExcelVersion = "2010")]
     internal class ErfPrecise : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

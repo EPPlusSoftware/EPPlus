@@ -25,6 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     internal class ZDotTest: NormalDistributionBase
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

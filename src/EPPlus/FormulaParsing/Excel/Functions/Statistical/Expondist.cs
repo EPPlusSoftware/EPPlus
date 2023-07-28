@@ -25,6 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Returns the value of the exponential distribution for a give value of x. Same implementation as EXPON.DIST")]
     internal class Expondist : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
