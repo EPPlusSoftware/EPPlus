@@ -42,6 +42,7 @@
     <PackageReference Include="FakeItEasy" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
@@ -122,6 +123,21 @@
     <None Update="Resources\TestTheme.thmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\TestDoc_WithCharts_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithRomanNumber_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithRomanValues_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_CellsWithFormulas_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithExternalReferences_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\tree-solid.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -152,6 +168,9 @@
     <None Update="Workbooks\MultiColorConditionalFormatting.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\TestDoc_WithRoundedValues_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Workbooks\SignedWorkbook1.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -167,15 +186,74 @@
     <None Update="Workbooks\TestDoc_XMLTagsTable_xlsx.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx">
+    <None Update="Workbooks\TestDoc_Wenns_Formula_xlsx.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
+    <None Update="Workbooks\TestDoc_VLookUpDateValue.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_FileWithVLookUPFunction_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_CellWithHyperlink_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Remove="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
     <EmbeddedResource Include="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
+    <None Remove="Workbooks\Trim.xlsx" />
+    <EmbeddedResource Include="Workbooks\Trim.xlsx" />
     <None Remove="Workbooks\ExternalReferences.xlsx" />
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
+    <None Remove="Workbooks\GermanBuildInNumberFormat.xlsx" />
+    <EmbeddedResource Include="Workbooks\GermanBuildInNumberFormat.xlsx" />
+    <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
+    <EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
+    <None Remove="Workbooks\DateFormatException.xlsx" />
+    <EmbeddedResource Include="Workbooks\DateFormatException.xlsx" />
+    <None Remove="Workbooks\TestDoc_SharedFormula.xlsx" />
+    <EmbeddedResource Include="Workbooks\TestDoc_SharedFormula.xlsx" />
+    <None Remove="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
+    <EmbeddedResource Include="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
+    <None Remove="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <EmbeddedResource Include="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <None Update="Workbooks\TestDoc_WithCharts_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithRomanNumber_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithRomanValues_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_CellsWithFormulas_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_WithExternalReferences_xlsx.xlsx">
+    <None Update="Workbooks\TestDoc_WithRoundedValues_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_Wenns_Formula_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_VLookUpDateValue.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_FileWithVLookUPFunction_xlsx.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\TestDoc_CellWithHyperlink_xlsx.xlsx">
+    <None Remove="Workbooks\Trim.xlsx" />
+    <EmbeddedResource Include="Workbooks\Trim.xlsx" />
+    <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
+    <EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
+    <None Remove="Workbooks\DateFormatException.xlsx" />
+    <EmbeddedResource Include="Workbooks\DateFormatException.xlsx" />
+    <None Remove="Workbooks\TestDoc_SharedFormula.xlsx" />
+    <EmbeddedResource Include="Workbooks\TestDoc_SharedFormula.xlsx" />
+    <None Remove="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
+    <EmbeddedResource Include="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
+    <None Remove="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <EmbeddedResource Include="Workbooks\Issue_WithRangeCalculation.xlsx" />
     <None Remove="Workbooks\GermanBuildInNumberFormat.xlsx" />
     <EmbeddedResource Include="Workbooks\GermanBuildInNumberFormat.xlsx" />
   </ItemGroup>
