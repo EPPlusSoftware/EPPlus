@@ -176,6 +176,8 @@
     <EmbeddedResource Include="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
     <None Remove="Workbooks\ExternalReferences.xlsx" />
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
+    <None Remove="Workbooks\GermanBuildInNumberFormat.xlsx" />
+    <EmbeddedResource Include="Workbooks\GermanBuildInNumberFormat.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
