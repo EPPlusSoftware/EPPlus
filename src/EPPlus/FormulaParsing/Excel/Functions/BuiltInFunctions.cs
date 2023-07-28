@@ -245,8 +245,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
             Functions["poisson"] = new Poisson();
-            Functions["f.dist"] = new FDist();
-            Functions["f.test"] = new FTest();
+            Functions["fdist"] = new FDist();
+            Functions["f.dist"] = new FdotDist();
+            Functions["ftest"] = new FTest();
+            Functions["f.test"] = new FdotTest();
 
             Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();
