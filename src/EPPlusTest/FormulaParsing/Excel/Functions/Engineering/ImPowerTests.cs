@@ -32,7 +32,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
             Thread.CurrentThread.CurrentCulture = ci;
         }
 
-
         [TestMethod, Ignore]
         public void ImPowerShouldReturnCorrectresultWithIOnlyInput()
         {

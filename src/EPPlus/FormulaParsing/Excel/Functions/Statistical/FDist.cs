@@ -8,8 +8,10 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/29/2021         EPPlus Software AB       Implemented function
+  27/07/2023         EPPlus Software AB         Implemented function
  *************************************************************************************************/
+
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -19,35 +21,28 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
+
     [FunctionMetadata(
-            SupportsArrays = true,
-            Category = ExcelFunctionCategory.Statistical,
-            EPPlusVersion = "5.8",
-            Description = "Calculates the Normal Probability Density Function or the Cumulative Normal Distribution. Function for a supplied set of parameters.")]
-    internal class Normdist : NormalDistributionBase
+    Category = ExcelFunctionCategory.Statistical,
+    EPPlusVersion = "7.0",
+    Description = "Calculates the F probability distribution. Takes a boolean argument that determines if PDF or CDF is used.")]
+    internal class FDist : ExcelFunction
     {
         public override int ArgumentMinLength => 4;
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
-        {
-            ArrayParameterIndexes = new List<int> { 0, 1, 2, 3 }
-        };
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
-        {
-            return _arrayConfig;
-        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var probability = ArgToDecimal(arguments, 0);
-            var mean = ArgToDecimal(arguments, 1);
-            var stdev = ArgToDecimal(arguments, 2);
+            var x = ArgToDecimal(arguments, 0);
+            var deg_freedom1 = ArgToDecimal(arguments, 1);
+            var deg_freedom2 = ArgToDecimal(arguments, 2);
             var cumulative = ArgToBool(arguments, 3);
-            if (stdev <= 0)
-            {
-                return CompileResult.GetErrorResult(eErrorType.Num);
-            }
-            var result = cumulative ? CumulativeDistribution(probability, mean, stdev) : ProbabilityDensity(probability, mean, stdev);
+
+            deg_freedom1 = Math.Floor(deg_freedom1);
+            deg_freedom2 = Math.Floor(deg_freedom2);
+
+            if (x < 0) return CreateResult(eErrorType.Num);
+            if (deg_freedom1 < 1 || deg_freedom2 < 1) return CreateResult(eErrorType.Num);
+            var result = FHelper.GetProbability(x, deg_freedom1, deg_freedom2, cumulative);
             return CreateResult(result, DataType.Decimal);
         }
     }

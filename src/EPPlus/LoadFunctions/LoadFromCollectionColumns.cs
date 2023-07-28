@@ -84,6 +84,10 @@ namespace OfficeOpenXml.LoadFunctions
                     var memberPath = path != null ? $"{path}.{member.Name}" : member.Name;
                     if (member.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
                     {
+                        if (member.PropertyType == typeof(string) || (!member.PropertyType.IsClass && !member.PropertyType.IsInterface))
+                        {
+                            throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {memberPath})");
+                        }
                         var nestedTableAttr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
                         var attrOrder = nestedTableAttr.Order;
                         hPrefix = nestedTableAttr.HeaderPrefix;
@@ -125,6 +129,7 @@ namespace OfficeOpenXml.LoadFunctions
                     var header = default(string);
                     var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(memberPath) : -1;
                     var sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : SortOrderOffset;
+                    var hidden = false;
                     var numberFormat = string.Empty;
                     var rowFunction = RowFunctions.None;
                     var totalsRowNumberFormat = string.Empty;
@@ -134,6 +139,7 @@ namespace OfficeOpenXml.LoadFunctions
                     var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                     if (epplusColumnAttr != null)
                     {
+                        hidden = epplusColumnAttr.Hidden;
                         if(!string.IsNullOrEmpty(epplusColumnAttr.Header) && !string.IsNullOrEmpty(headerPrefix))
                         {
                             header = $"{headerPrefix} {epplusColumnAttr.Header}";
@@ -173,6 +179,7 @@ namespace OfficeOpenXml.LoadFunctions
                         Header = header,
                         SortOrder = sortOrder,
                         Index = index++,
+                        Hidden = hidden,
                         SortOrderLevels = colInfoSortOrderList,
                         MemberInfo = member,
                         NumberFormat = numberFormat,
