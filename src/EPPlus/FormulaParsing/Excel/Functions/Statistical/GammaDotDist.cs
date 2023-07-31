@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         SupportsArrays = true,
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "7.0",
-        Description = "")]
+        Description = "Returns the gamma distribution.")]
 
 
     internal class GammaDotDist : ExcelFunction
