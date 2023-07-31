@@ -26,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         IntroducedInExcelVersion = "2013")]
     internal class BitRshift : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

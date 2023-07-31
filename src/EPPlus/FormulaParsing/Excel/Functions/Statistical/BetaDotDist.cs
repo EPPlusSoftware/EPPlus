@@ -26,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the cumulative beta probability density function")]
     internal class BetaDotDist : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 4;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

@@ -220,6 +220,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["harmean"] = new Harmean();
             Functions["pearson"] = new Pearson();
             Functions["phi"] = new Phi();
+            Functions["prob"] = new Prob();
             Functions["rsq"] = new Rsq();
             Functions["skew"] = new Skew();
             Functions["skew.p"] = new SkewP();

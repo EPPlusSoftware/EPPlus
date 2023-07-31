@@ -24,5 +24,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns covariance, the average of the products of deviations for each data point pair in two data sets.")]
     internal class CovarianceP : Covar
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

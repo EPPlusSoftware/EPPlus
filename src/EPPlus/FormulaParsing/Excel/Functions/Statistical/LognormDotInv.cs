@@ -29,6 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
     internal class LognormDotInv : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
