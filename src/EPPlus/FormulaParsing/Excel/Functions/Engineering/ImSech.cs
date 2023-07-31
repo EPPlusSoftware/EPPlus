@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
      Description = "Returns the hyperbolic secant of a complex number in x+yi or x+yj text format.")]
     internal class ImSech : ImFunctionBase
     {
-
+        public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

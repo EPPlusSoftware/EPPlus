@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {"D", 500 },
             {"M", 1000 }
         };
-
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
 
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;

@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
      Description = "Returns the cosecant of a complex number in x+yi or x+yj text format.")]
     internal class ImCsc : ImFunctionBase
     {
-
+        public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

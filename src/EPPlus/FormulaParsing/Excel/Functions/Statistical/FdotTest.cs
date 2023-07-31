@@ -8,32 +8,21 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  27/07/2023         EPPlus Software AB         Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.MathAndTrig,
-        EPPlusVersion = "5.1",
-        Description = "Returns the cosecant of an angle",
-        IntroducedInExcelVersion = "2013",
-        SupportsArrays = true)]
-    internal class Csc : ExcelFunction
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "7.0",
+        Description = "Calculates the result of the F-test")]
+    internal class FdotTest : FTest
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
-        public override int ArgumentMinLength => 1;
-        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            var number = ArgToDecimal(arguments, 0);
-            return CreateResult(MathHelper.Cosec(number), DataType.Decimal);
-        }
     }
 }

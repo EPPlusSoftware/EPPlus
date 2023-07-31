@@ -26,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         SupportsArrays = true)]
     internal class Combina : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
         {
             ArrayParameterIndexes = new List<int> { 0, 1 }

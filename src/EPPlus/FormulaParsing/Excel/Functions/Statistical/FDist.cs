@@ -8,8 +8,9 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
- 21/06/2023         EPPlus Software AB       Initial release EPPlus 7
+  27/07/2023         EPPlus Software AB         Implemented function
  *************************************************************************************************/
+
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -20,37 +21,28 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
+
     [FunctionMetadata(
-        SupportsArrays = true,
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "7.0",
-        Description = "Returns the inverse of the lognormal cumulative distribution function")]
-
-
-    internal class LognormDotInv : ExcelFunction
+    Category = ExcelFunctionCategory.Statistical,
+    EPPlusVersion = "7.0",
+    Description = "Calculates the F probability distribution. Takes a boolean argument that determines if PDF or CDF is used.")]
+    internal class FDist : ExcelFunction
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 3;
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override int ArgumentMinLength => 4;
 
-        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
-        {
-            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
-        };
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
-        {
-            return _arrayConfig;
-        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var p = ArgToDecimal(arguments, 0);
-            var mean = ArgToDecimal(arguments, 1);
-            var stdev = ArgToDecimal(arguments, 2);
-            if (p <= 0|| p>=1||stdev<=0)
-            {
-                return CompileResult.GetErrorResult(eErrorType.Num);
-            }
-            var result = Math.Exp(-1.41421356237309505 * stdev * ErfHelper.Erfcinv(2*p)+mean);
+            var x = ArgToDecimal(arguments, 0);
+            var deg_freedom1 = ArgToDecimal(arguments, 1);
+            var deg_freedom2 = ArgToDecimal(arguments, 2);
+            var cumulative = ArgToBool(arguments, 3);
+
+            deg_freedom1 = Math.Floor(deg_freedom1);
+            deg_freedom2 = Math.Floor(deg_freedom2);
+
+            if (x < 0) return CreateResult(eErrorType.Num);
+            if (deg_freedom1 < 1 || deg_freedom2 < 1) return CreateResult(eErrorType.Num);
+            var result = FHelper.GetProbability(x, deg_freedom1, deg_freedom2, cumulative);
             return CreateResult(result, DataType.Decimal);
         }
     }

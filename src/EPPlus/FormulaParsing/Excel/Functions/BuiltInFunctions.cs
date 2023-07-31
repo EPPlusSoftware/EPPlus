@@ -221,6 +221,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["harmean"] = new Harmean();
             Functions["pearson"] = new Pearson();
             Functions["phi"] = new Phi();
+            Functions["prob"] = new Prob();
             Functions["rsq"] = new Rsq();
             Functions["skew"] = new Skew();
             Functions["skew.p"] = new SkewP();
@@ -246,6 +247,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t.dist.rt"] = new TDistRt();
             Functions["t.inv.2t"] = new TInv2t();
             Functions["poisson"] = new Poisson();
+            Functions["fdist"] = new FDist();
+            Functions["f.dist"] = new FdotDist();
+            Functions["ftest"] = new FTest();
+            Functions["f.test"] = new FdotTest();
 
             Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();
