@@ -24,33 +24,42 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         SupportsArrays = true,
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "7.0",
-        Description = "Returns the inverse of the lognormal cumulative distribution function")]
+        Description = "Returns the gamma distribution.")]
 
 
-    internal class LognormDotInv : ExcelFunction
+    internal class GammaDotDist : ExcelFunction
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 3;
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override int ArgumentMinLength => 4;
 
-        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
-        {
-            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
-        };
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
-        {
-            return _arrayConfig;
-        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var p = ArgToDecimal(arguments, 0);
-            var mean = ArgToDecimal(arguments, 1);
-            var stdev = ArgToDecimal(arguments, 2);
-            if (p <= 0|| p>=1||stdev<=0)
+            if (arguments.Count > 4)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            var z = ArgToDecimal(arguments, 0);
+            var alpha = ArgToDecimal(arguments, 1);
+            var beta = ArgToDecimal(arguments, 2);
+            var cumulative = ArgToBool(arguments, 3);
+            if (z < 0 || alpha<=0 || beta<=0)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
-            var result = Math.Exp(-1.41421356237309505 * stdev * ErfHelper.Erfcinv(2*p)+mean);
+
+            var result = 0d;
+            //if (beta == 1)
+            //{
+            //    result = (Math.Pow(z, alpha - 1) * Math.Pow(Math.E, -z)) / GammaHelper.gamma(alpha);
+            //}
+            if (cumulative)
+            {
+                result = GammaHelper.LowerRegularizedIncompleteGamma(alpha, z/beta);
+            }
+            else
+            {
+                result = (1/(Math.Pow(beta, alpha)* GammaHelper.gamma(alpha))) * Math.Pow(z, alpha - 1) * Math.Pow(Math.E,-z/beta);
+            }
+            
             return CreateResult(result, DataType.Decimal);
         }
     }

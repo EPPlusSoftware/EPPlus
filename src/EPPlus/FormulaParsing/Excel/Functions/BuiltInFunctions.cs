@@ -202,6 +202,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gamma"] = new Gamma();
             Functions["gammaln"] = new Gammaln();
             Functions["gammaln.precise"] = new GammalnPrecise();
+            Functions["gamma.dist"] = new GammaDotDist();
+            Functions["gammadist"] = new GammaDist();
             Functions["lognorm.inv"] = new LognormDotInv();
             Functions["norminv"] = new NormInv();
             Functions["norm.inv"] = new NormDotInv();
