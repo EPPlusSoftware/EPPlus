@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -576,17 +578,64 @@ namespace EPPlusTest
             Assert.AreEqual(expectedValue, sheet.Cells[cellName].Value.ToString());
         }
         
+        [DataTestMethod]
+        [DataRow(2, "General")]
+        [DataRow(3, "0")]
+        [DataRow(4, "0.00")]
+        [DataRow(5, "#,##0")]
+        [DataRow(6, "#,##0.00")]
+        [DataRow(7, "#,##0 _€;-#,##0 _€")]
+        [DataRow(8, "#,##0 _€;[Red]-#,##0 _€")]
+        [DataRow(9, "#,##0.00 _€;-#,##0.00 _€")]
+        [DataRow(10, "#,##0.00 _€;[Red]-#,##0.00 _€")]
+        [DataRow(11, "#,##0\\ \"€\";\\-#,##0\\ \"€\"")]
+        [DataRow(12, "#,##0\\ \"€\";[Red]\\-#,##0\\ \"€\"")]
+        [DataRow(13, "#,##0.00\\ \"€\";\\-#,##0.00\\ \"€\"")]
+        [DataRow(14, "#,##0.00\\ \"€\";[Red]\\-#,##0.00\\ \"€\"")]
+        [DataRow(15, "0%")]
+        [DataRow(16, "0.00%")]
+        [DataRow(17, "0.00E+00")]
+        [DataRow(18, "##0.0E+0")]
+        [DataRow(19, "# ?/?")]
+        [DataRow(20, "# ??/??")]
+        [DataRow(21, "dd.mm.yyyy")]
+        [DataRow(22, "dd. mm yy")]
+        [DataRow(23, "dd. mmm")]
+        [DataRow(24, "mmm yy")]
+        [DataRow(25, "h:mm AM/PM")]
+        [DataRow(26, "h:mm:ss AM/PM")]
+        [DataRow(27, "hh:mm")]
+        [DataRow(28, "hh:mm:ss")]
+        [DataRow(29, "dd.mm.yyyy hh:mm")]
+        [DataRow(30, "mm:ss")]
+        [DataRow(31, "mm:ss.0")]
+        [DataRow(32, "@")]
+        [DataRow(33, "[h]:mm:ss")]
+        [DataRow(34, "_-* #,##0\\ \"€\"_-;\\-* #,##0\\ \"€\"_-;_-* \"-\"\\ \"€\"_-;_-@_-")]
+        [DataRow(35, "_-* #,##0\\ _€_-;\\-* #,##0\\ _€_-;_-* \"-\"\\ _€_-;_-@_-")]
+        [DataRow(36, "_-* #,##0.00\\ \"€\"_-;\\-* #,##0.00\\ \"€\"_-;_-* \"-\"??\\ \"€\"_-;_-@_-")]
+        [DataRow(37, "_-* #,##0.00\\ _€_-;\\-* #,##0.00\\ _€_-;_-* \"-\"??\\ _€_-;_-@_-")]
+        [DataRow(38, "mmm\\ yyyy")]
+        [DataRow(39, "[$-407]dddd\\,\\ d/\\ mmmm\\ yyyy")]
+        public void German_built_in_number_format(int cellRow, string expectedFormat)
+        {
+            // Arrange
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+            var exlPackage = new ExcelPackage(GetTestStream("GermanBuildInNumberFormat.xlsx"));
+            var ws = exlPackage.Workbook.Worksheets[0];
+
+            // Act
+            var excelFormatString = ws.Cells[cellRow, 1].Style?.Numberformat?.Format;
+            
+            // Assert
+            Assert.AreEqual(expectedFormat, excelFormatString);
+        }
+
         [TestMethod]
         public void IssueGermanBuildInNumberFormat()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
-
-            //Issue: The German BuildInNumberFormat differs from the English BuildInNumberformat therefore Epplus has to check the culture before parsing the id to NumberFormatExpression.
-            // var excelTestFile = Resources.GermanBuildInNumberFormat;
-            // excelStream.Write(excelTestFile, 0, excelTestFile.Length);
-
             var exlPackage = new ExcelPackage(GetTestStream("GermanBuildInNumberFormat.xlsx"));
-
             var ws = exlPackage.Workbook.Worksheets[0];
 
             var excelFormatString_2 = ws.Cells[2, 1].Style?.Numberformat?.Format;

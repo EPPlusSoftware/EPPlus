@@ -184,7 +184,7 @@ namespace OfficeOpenXml.Table
                 case eStyleProperty.Format:
                     if(value is int n)
                     {
-                        range.Style.Numberformat.Format = ExcelNumberFormat.GetFromBuildInFromID(n);
+                        range.Style.Numberformat.Format = ExcelNumberFormat.GetFormatById(n);
                     }
                     else
                     {
