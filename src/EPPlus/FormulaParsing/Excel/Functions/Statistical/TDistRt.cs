@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     Description = "Returns the right-tailed Students t-distribution. The Students t-distribution is used for hypothesis testing with small samples.")]
     internal class TDistRt : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

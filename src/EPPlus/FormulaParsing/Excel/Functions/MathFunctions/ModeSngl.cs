@@ -23,5 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the Mode (the most frequently occurring value) of a list of supplied numbers ")]
     internal class ModeSngl : Mode
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

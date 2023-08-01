@@ -28,6 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     Description = "Returns the left-tailed Students t-distribution. The Students t-distribution is used for hypothesis testing with small samples.")]
     internal class TDist : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 3;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

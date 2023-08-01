@@ -29,6 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         SupportsArrays = true)]
     internal class NumberValue : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
+
         private string _decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
         private string _groupSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator;
         private string _arg = string.Empty;
