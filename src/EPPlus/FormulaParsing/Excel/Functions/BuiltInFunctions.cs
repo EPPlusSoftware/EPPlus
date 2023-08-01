@@ -195,6 +195,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["confidence.t"] = new ConfidenceT();
             Functions["devsq"] = new Devsq();
             Functions["avedev"] = new Avedev();
+            Functions["binomdist"] = new BinomDist();
             Functions["betadist"] = new Betadist();
             Functions["beta.dist"] = new BetaDotDist();
             Functions["betainv"] = new Betainv();
