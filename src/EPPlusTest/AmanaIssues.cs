@@ -481,6 +481,31 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void Test_FormulaSumPrecision()
+        {
+
+            // Arrange
+            var input = GetTestStream("TestDoc_SumPrecision.xlsx");
+            var package = new ExcelPackage(input);
+            var ws = package.Workbook.Worksheets["Tabelle1"];
+
+            // Act
+            ws.Calculate();
+
+                 //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+
+            var result = ws.Cells["L14"].Value.ToString();
+            Assert.AreEqual("-3,552713678800501E-15", result);
+
+       }
+
+        [TestMethod]
         public void Workbook_Calculate()
         {
             // Arrange
@@ -519,6 +544,7 @@ namespace EPPlusTest
              " VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
         public void Test_VLookUP_should_not_loose_the_reference_to_the_worksheet()
         {
+
             //Arrange
 #if Core
             var dir = AppContext.BaseDirectory;
@@ -526,9 +552,11 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
+
             var excelPackage =
                 new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks",
                     "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
+
 
             //Act
             excelPackage.Workbook.Calculate();
@@ -536,6 +564,7 @@ namespace EPPlusTest
             //Asserts
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[0].Cells["B6"].Value);
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[1].Cells["A6"].Value);
+
         }
 
         [DataTestMethod]
