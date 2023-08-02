@@ -220,6 +220,8 @@
     <EmbeddedResource Include="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
     <None Remove="Workbooks\Issue_WithRangeCalculation.xlsx" />
     <EmbeddedResource Include="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <None Remove="Workbooks\GermanBuildInNumberFormat.xlsx" />
+    <EmbeddedResource Include="Workbooks\GermanBuildInNumberFormat.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>

@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Style.Dxf
             set
             {
                 _format = value;
-                NumFmtID = ExcelNumberFormat.GetFromBuildIdFromFormat(value);
+                NumFmtID = ExcelNumberFormat.GetIdByEnglishFormat(value);
                 _callback?.Invoke(eStyleClass.Numberformat, eStyleProperty.Format, value);
             }
         }
@@ -151,7 +151,7 @@ namespace OfficeOpenXml.Style.Dxf
                 Format = helper.GetXmlNodeString("d:numFmt/@formatCode");
                 if (NumFmtID < 164 && string.IsNullOrEmpty(Format))
                 {
-                    Format = ExcelNumberFormat.GetFromBuildInFromID(NumFmtID);
+                    Format = ExcelNumberFormat.GetFormatById(NumFmtID);
                 }
             }
         }
