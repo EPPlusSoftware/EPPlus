@@ -196,6 +196,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["devsq"] = new Devsq();
             Functions["avedev"] = new Avedev();
             Functions["binomdist"] = new BinomDist();
+            Functions["binom.dist"] = new BinomDotDist();
             Functions["betadist"] = new Betadist();
             Functions["beta.dist"] = new BetaDotDist();
             Functions["betainv"] = new Betainv();
