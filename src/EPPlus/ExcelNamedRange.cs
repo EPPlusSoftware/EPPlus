@@ -10,8 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Core;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml
@@ -97,7 +102,77 @@ namespace OfficeOpenXml
             set;
         }
         internal object NameValue { get; set; }
-        internal string NameFormula { get; set; }
+        string _nameFormula;
+        internal string NameFormula 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_nameFormula)) return _nameFormula;
+                GetRefAddress(out int row, out int col);
+                var formula = "";
+                var tokens = SourceCodeTokenizer.R1C1.Tokenize(_nameFormula);
+                foreach (var t in tokens)
+                {
+                    switch (t.TokenType)
+                    {
+                        case TokenType.ExcelAddressR1C1:
+                            if (t.Value.Count(x => x == '$') < 2)
+                            {
+                                formula += R1C1Translator.FromR1C1Formula(t.Value, row, col);
+                            }
+                            else
+                            {
+                                formula += t.Value;
+                            }
+                            break;
+                        default:
+                            formula += t.Value;
+                            break;
+                    }
+                }
+                return formula;
+            }
+
+            set
+            {
+                try
+                {
+                    var tokens = _workbook.FormulaParser.Tokenizer.Tokenize(value);
+                    GetRefAddress(out int row, out int col);
+                    _nameFormula = "";
+                    foreach (var t in tokens)
+                    {
+                        switch(t.TokenType)
+                        {
+                            case TokenType.CellAddress:
+                                if(t.Value.Count(x=>x=='$') < 2)
+                                {
+                                    _nameFormula += R1C1Translator.ToR1C1Formula(t.Value, row, col);
+                                }
+                                else
+                                {
+                                    _nameFormula += t.Value;
+                                }
+                                break;
+                            default:
+                                _nameFormula += t.Value;
+                                break;
+                        }
+                    }
+                }
+                catch
+                {
+                    _nameFormula= value;
+                }
+            }
+        }
+
+        private void GetRefAddress(out int row, out int col)
+        {
+            var ix = _workbook.View.ActiveTab;
+            var activeCell =  _workbook.GetWorksheetByIndexInList(ix).View.ActiveCell;
+            ExcelCellBase.GetRowCol(activeCell, out row, out col, false);
+        }
         /// <summary>
         /// Returns a string representation of the object
         /// </summary>

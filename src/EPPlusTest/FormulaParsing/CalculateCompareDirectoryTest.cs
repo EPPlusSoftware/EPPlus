@@ -52,6 +52,7 @@ namespace EPPlusTest.FormulaParsing
                 string logFile = path + new FileInfo(xlFile).Name + ".log";
                 VerifyCalculationInPackage(xlFile, logFile);
             }            
+        
         }
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {

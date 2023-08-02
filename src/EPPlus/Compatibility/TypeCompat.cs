@@ -25,6 +25,7 @@ namespace OfficeOpenXml.Compatibility
 #else
             return v.GetType().IsPrimitive;
 #endif
+
         }
         public static bool IsSubclassOf(Type t, Type c)
         {

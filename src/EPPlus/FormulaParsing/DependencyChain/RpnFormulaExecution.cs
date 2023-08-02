@@ -266,7 +266,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if (f._ws == null)
             {
-                depChain._parsingContext.CurrentCell = new FormulaCellAddress(-1, f._row, 0);
+                depChain._parsingContext.CurrentName = new FormulaCellAddress(-1, f._row, 0);
             }
             else
             {

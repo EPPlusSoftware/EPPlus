@@ -3,6 +3,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -81,5 +82,16 @@ namespace OfficeOpenXml.FormulaParsing
                 e._cachedCompileResult = null;
             }
         }
+    }
+    internal class RpnNameFormula : RpnFormula
+    {        
+        internal RpnNameFormula(ExcelWorksheet ws, int nameId, int row, int column) : base(ws, row, column)
+        {
+            NameId  = nameId;
+
+        }
+        internal int NameId { get; set; }
+        internal bool IsStatic { get; set; }
+        internal object Value { get; set; }
     }
 }
