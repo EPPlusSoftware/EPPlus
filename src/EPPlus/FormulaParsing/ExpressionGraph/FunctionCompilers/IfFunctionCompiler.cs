@@ -87,7 +87,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             if (boolVal)
             {
                 var result = children.ElementAt(1).Compile();
-                args.Add(new FunctionArgument(result == CompileResult.Empty ? 0d : result.Result));
+                var val = result ==CompileResult.Empty 
+                    ? 0d 
+                    : result.DataType == DataType.Enumerable
+                        ? result.ResultNumeric
+                        : result.Result;
+                args.Add(new FunctionArgument(val));
                 args.Add(new FunctionArgument(null));
             }
             else
@@ -102,7 +107,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
                 else
                 {
                     var result = child.Compile();
-                    val = (result == CompileResult.Empty) ? 0d : result.Result;
+                    val = result == CompileResult.Empty
+                        ? 0d
+                        : result.DataType == DataType.Enumerable
+                            ? result.ResultNumeric
+                            : result.Result;
                 }
                 args.Add(new FunctionArgument(null));
                 args.Add(new FunctionArgument(val));

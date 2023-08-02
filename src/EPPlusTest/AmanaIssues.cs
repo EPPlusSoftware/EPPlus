@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace EPPlusTest
 {
-    using EPPlusTest.Properties;
+    using Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OfficeOpenXml;
     using System;
@@ -523,7 +523,8 @@ namespace EPPlusTest
         [DataTestMethod]
         [DataRow("en-US", ExcelErrorValue.Values.Value, ExcelErrorValue.Values.Value)]
         [DataRow("de-DE", "31 Dec ", " Dec ")]
-        public void Workbook_Calculate_calculates_for_different_cultures(string culture, string expectedValue1, string expectedValue2)
+        public void Workbook_Calculate_calculates_for_different_cultures(string culture, string expectedValue1,
+            string expectedValue2)
         {
             // Arrange
             var xlsx = GetTestStream("DateFormatException.xlsx");
@@ -537,9 +538,10 @@ namespace EPPlusTest
             Assert.AreEqual(expectedValue1, package.Workbook.Worksheets["Tabelle1"].Cells[4, 1].Value.ToString());
             Assert.AreEqual(expectedValue2, package.Workbook.Worksheets["Tabelle1"].Cells[5, 1].Value.ToString());
         }
-
-
-        [TestMethod, Description(" VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
+        
+        [TestMethod,
+         Description(
+             " VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
         public void Test_VLookUP_should_not_loose_the_reference_to_the_worksheet()
         {
 
@@ -551,7 +553,10 @@ namespace EPPlusTest
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
 
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks",
+                    "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
+
 
             //Act
             excelPackage.Workbook.Calculate();
@@ -560,6 +565,45 @@ namespace EPPlusTest
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[0].Cells["B6"].Value);
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[1].Cells["A6"].Value);
 
+        }
+
+        [DataTestMethod]
+        [DataRow("C1", 311d)]
+        [DataRow("C2", 306d)]
+        [DataRow("C3", 103d)]
+        [DataRow("C4", 104d)]
+        [DataRow("C5", 105d)]
+        [DataRow("F12", 1d)]
+        public void Named_range_calculated(string cellName, double expectedValue)
+        {
+            // ARRANGE
+            var xlsx = GetTestStream("Issue_WithRangeCalculation.xlsx");
+            var package = new ExcelPackage(xlsx);
+            var sheet = package.Workbook.Worksheets[0];
+
+            // ACT
+            sheet.Calculate();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, sheet.Cells[cellName].Value);
+        }
+
+        [DataTestMethod]
+        [DataRow("C19", "#VALUE!")]
+        [DataRow("C15", "#VALUE!")]
+        [DataRow("M6", "#VALUE!")]
+        public void Named_range_calculated_string(string cellName, string expectedValue)
+        {
+            // ARRANGE
+            var xlsx = GetTestStream("Issue_WithRangeCalculation.xlsx");
+            var package = new ExcelPackage(xlsx);
+            var sheet = package.Workbook.Worksheets[0];
+
+            // ACT
+            sheet.Calculate();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, sheet.Cells[cellName].Value.ToString());
         }
     }
 }
