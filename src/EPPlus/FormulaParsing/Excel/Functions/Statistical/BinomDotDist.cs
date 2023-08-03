@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/29/2021         EPPlus Software AB       Implemented function
+  21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;

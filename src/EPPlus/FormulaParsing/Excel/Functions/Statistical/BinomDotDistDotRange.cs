@@ -23,10 +23,10 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-        SupportsArrays = true,
+
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "7.0",
-        Description = "Returns the inverse of the lognormal cumulative distribution function")]
+        Description = "Returns the probability of a trial result using a binomial distribution.")]
 
 
     internal class BinomDotDistDotRange : ExcelFunction
@@ -40,16 +40,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var trails = ArgToDecimal(arguments, 0);
             trails = Math.Floor(trails);
             var probS = ArgToDecimal(arguments, 1);
-            probS = Math.Floor(probS);
             var numS = ArgToDecimal(arguments, 2);
             numS = Math.Floor(numS);
             
-            if (trails <= 0 || probS <= 0 || probS >= 1|| numS<=0|| numS>trails)
-            {
-                return CompileResult.GetErrorResult(eErrorType.Num);
-            }
-            var result = 0d;
+            if (trails < 0 || probS < 0 || probS > 1|| numS<0|| numS>trails) return CompileResult.GetErrorResult(eErrorType.Num);
 
+            var result = 0d;
             if (arguments.Count > 3)
             {
                 var numS2 = ArgToDecimal(arguments, 3);
@@ -62,7 +58,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                     result += combin * Math.Pow(probS, i) * Math.Pow(1 - probS, trails - i);
                 }
             }
-
+            else
+            {
+                var combin = MathHelper.Factorial(trails, trails - numS) / MathHelper.Factorial(numS);
+                result = combin * Math.Pow(probS, numS) * Math.Pow(1 - probS, trails - numS);
+            }
             return CreateResult(result, DataType.Decimal);
         }
     }
