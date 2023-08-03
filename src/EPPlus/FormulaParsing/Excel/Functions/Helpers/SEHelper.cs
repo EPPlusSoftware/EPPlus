@@ -7,7 +7,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal class SEHelper
     {
-        public static double GetStandardError(List<double> xValues, List<double> yValues)
+        public static double GetStandardError(List<double> xValues, List<double> yValues, bool pushToZero)
         {
 
             double yMean = yValues.Average();
@@ -22,12 +22,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 double y1 = yValues[i];
                 double x1 = xValues[i];
 
-                p1 += System.Math.Pow(y1 - yMean, 2);
-                numerator += (x1 - xMean) * (y1 - yMean);
-                denominator += (System.Math.Pow(x1 - xMean, 2));
+                if (pushToZero)
+                {
+                    p1 += Math.Pow(y1, 2);
+                    numerator += x1 * y1;
+                    denominator += Math.Pow(x1, 2);
+                }
+                else
+                {
+                    p1 += System.Math.Pow(y1 - yMean, 2);
+                    numerator += (x1 - xMean) * (y1 - yMean);
+                    denominator += (System.Math.Pow(x1 - xMean, 2));
+                }
             }
 
-            double result = System.Math.Sqrt((p1 - numerator * numerator / denominator) / (sampleSize - 2));
+            double result = (pushToZero) ? Math.Sqrt((p1 - numerator * numerator / denominator) / (sampleSize - 1)) : 
+                                           Math.Sqrt((p1 - numerator * numerator / denominator) / (sampleSize - 2));
 
             return result;
         }

@@ -70,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                    
                 }
             }
-            var result = SEHelper.GetStandardError(yValues, xValues);
+            var result = SEHelper.GetStandardError(yValues, xValues, false);
             return CreateResult(result, DataType.Decimal);
         }
     }

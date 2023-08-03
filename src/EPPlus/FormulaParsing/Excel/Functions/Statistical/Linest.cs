@@ -13,6 +13,7 @@
 using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -26,17 +27,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
        Category = ExcelFunctionCategory.Statistical,
        EPPlusVersion = "7.0",
-       Description = "The LINEST function calculates...")]
+       Description = "The LINEST function calculates a regressional line that fits your data. It also calculates additional statistics.")]
     internal class Linest : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+
+            //X can have more than one vector corresponding to each y-value
             if (!arguments[0].IsExcelRange) return CompileResult.GetErrorResult(eErrorType.Value);
             var constVar = true;
             var stats = false;
-            if (arguments.Count() > 1)
+            bool multipleXranges = false;
+            bool columnArray = false;
+            bool rowArray = false;
+            if (arguments.Count() > 1 && arguments[1].IsExcelRange)
             {
                 var rangeX = arguments[1].ValueAsRangeInfo;
                 var rangeY = arguments[0].ValueAsRangeInfo;
@@ -44,10 +50,75 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 var yColumns = rangeY.Size.NumberOfCols;
                 var xRows = rangeX.Size.NumberOfRows;
                 var yRows = rangeY.Size.NumberOfRows;
-                if (xRows != yRows || xColumns != yColumns) return CreateResult(eErrorType.Ref);
-                RangeFlattener.GetNumericPairLists(rangeX, rangeY, true, out List<double> knownXs, out List<double> knownYs);
+
+                if ((xRows != yRows && xColumns == yColumns)
+                    || (xColumns != yColumns && xRows == yRows))
+                {
+                    multipleXranges = true;
+                }
+                else
+                {
+                    if (xRows != yRows || xColumns != yColumns) return CreateResult(eErrorType.Ref);
+                }
+
+                RangeFlattener.GetNumericPairLists(rangeX, rangeY, !multipleXranges, out List<double> knownXs, out List<double> knownYs);
+                SortedDictionary<int, List<double>> xRanges = new SortedDictionary<int, List<double>>();
+
+                if (multipleXranges && xColumns != yColumns)
+                {
+                    columnArray = true;
+                    for (var i = 0; i < xColumns; i++)
+                    {
+                        xRanges.Add(i, new List<double>());
+                    }
+
+                    var colCount = -1;
+
+                    while (colCount < (xColumns - 1))
+                    {
+                        colCount += 1;
+                        var listCount = colCount;
+                        while (listCount < knownXs.Count())
+                        {
+                            xRanges[colCount].Add(knownXs[listCount]);
+                            listCount += xColumns;
+                        }
+                    }
+                }
+                else if (multipleXranges && xRows != yRows) //This is wrong!!! goes through all columns so rows is "easier"
+                                                            //Change later
+                {
+                    rowArray = true;
+                    for (var i = 0; i < xRows; i++)
+                    {
+                        xRanges.Add(i, new List<double>());
+                    }
+
+                    var rowCount = -1;
+
+                    while (rowCount < (xRows - 1))
+                    {
+                        rowCount += 1;
+                        var listCount = rowCount;
+                        while (listCount < knownXs.Count())
+                        {
+                            xRanges[rowCount].Add(knownXs[listCount]);
+                            listCount += xRows;
+                        }
+                    }
+                }
+
                 if (arguments.Count() > 2 && arguments[2].DataType != DataType.Empty) constVar = ArgToBool(arguments, 2);
                 if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
+                if (columnArray)
+                {
+                    List<List<double>> xRangeList = new List<List<double>>();
+
+                    for (var i = 0; i < xColumns; i++)
+                    {
+                        xRangeList.Add(xRanges[i]);
+                    }
+                }
                 var resultRange = CalculateResult(knownYs, knownXs, constVar, stats);
                 return CreateResult(resultRange, DataType.ExcelRange);
             }
@@ -55,8 +126,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 var knownYs = ArgsToDoubleEnumerable(new List<FunctionArgument> {  arguments[0] }, context).Select(x => (double)x).ToList();
                 var knownXs = GetDefaultKnownXs(knownYs.Count());
+
                 if (arguments.Count() > 2) constVar = ArgToBool(arguments, 2);
                 if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
+
                 var resultRange = CalculateResult(knownYs, knownXs, constVar, stats);
                 return CreateResult(resultRange, DataType.ExcelRange);
             }
@@ -70,38 +143,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 result.Add(i);
             }
             return result;
-        }
-
-        private static double StandardDeviation(List<double> values)
-        {
-            //Returns the standard deviation of a list
-
-            var std = 0d;
-            var mean = values.Average();
-
-            for (var i = 0; i < values.Count; i++)
-            {
-                std += Math.Pow(values[i] - mean, 2);
-            }
-
-            std = Math.Sqrt(std / (values.Count() - 1));
-
-            return std;
-        }
-
-        private static double GetCoefficientOfDetermination(List<double> estimated, List<double> actual)
-        {
-            var nominator = 0d;
-            var denominator = 0d;
-            var estimatedMean = estimated.Average();
-            var actualMean = actual.Average();
-            for (var i = 0; i < estimated.Count; i++)
-            {
-                nominator += (estimated[i] - estimatedMean) * (actual[i] - actualMean);
-                denominator += Math.Pow(estimated[i] - actualMean, 2) * Math.Pow(actual[i] - actualMean, 2);
-            }
-
-            return Math.Pow(nominator / denominator, 2);
         }
 
         private InMemoryRange CalculateResult(List <double> knownYs, List <double> knownXs, bool constVar, bool stats)
@@ -120,7 +161,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var v1 = 0d;
             var v2 = 0d;
             var fStatistics = 0d;
-            var f = 0d;
 
             for (var i = 0; i < knownYs.Count; i++)
             {
@@ -151,20 +191,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                     var y = knownYs[i];
                     var estimatedY = m * x + b;
 
-                    estimatedDiff += Math.Pow(y - estimatedY, 2);
-                    xDiff += Math.Pow(x - averageX, 2);
-                    yDiff += Math.Pow(y - estimatedY, 2);
-                    ssr += Math.Pow(estimatedY - averageY, 2);
-                    sst += Math.Pow(y - averageY, 2);
+                    if (constVar)
+                    {
+                        estimatedDiff += Math.Pow(y - estimatedY, 2);
+                        xDiff += Math.Pow(x - averageX, 2);
+                        yDiff += Math.Pow(y - estimatedY, 2);
+                        ssr += Math.Pow(estimatedY - averageY, 2);
+                        sst += Math.Pow(y - averageY, 2);
+                    }
+                    else
+                    {
+                        estimatedDiff += Math.Pow(y - estimatedY, 2);
+                        xDiff += Math.Pow(x, 2);
+                        yDiff = Math.Pow(y - estimatedY, 2);
+                        ssr += Math.Pow(estimatedY, 2);
+                        sst += Math.Pow(y, 2);
+                    }
+
                 }
 
                 var errorVariance = yDiff / (knownXs.Count() - 2);
-                var standardErrorM = Math.Sqrt(1d / (knownXs.Count() - 2d) * estimatedDiff / xDiff);
-                var standardErrorB = Math.Sqrt(errorVariance) * Math.Sqrt(1d / knownXs.Count() + Math.Pow(averageX, 2) / xDiff);
-                var ssreg = ssr;
-                var ssresid = yDiff;
+                if (!constVar) errorVariance = yDiff / (knownXs.Count() - 1);
+
+                var standardErrorM = (constVar) ? Math.Sqrt(1d / (knownXs.Count() - 2d) * estimatedDiff / xDiff) : 
+                                                  Math.Sqrt(1d / (knownXs.Count() - 1d) * estimatedDiff / xDiff) ;
+
+                object standardErrorB = Math.Sqrt(errorVariance) * Math.Sqrt(1d / knownXs.Count() + Math.Pow(averageX, 2) / xDiff);
+                if (!constVar) standardErrorB = ExcelErrorValue.Create(eErrorType.NA);
+
                 var rSquared = ssr / sst;
-                var standardErrorEstimateY = SEHelper.GetStandardError(knownXs, knownYs);
+                var standardErrorEstimateY = (!constVar) ? SEHelper.GetStandardError(knownXs, knownYs, true) :
+                                                          SEHelper.GetStandardError(knownXs, knownYs, false) ;
+                var ssreg = ssr;
+                var ssresid = (constVar) ? yDiff : (sst - ssr);
 
                 if (constVar)
                 {
@@ -178,7 +237,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                     df = knownXs.Count() - 1; //Need to review this
                     v1 = knownXs.Count() - df;
                     v2 = df;
-                    fStatistics = ssr / yDiff;
+                    fStatistics = ssr / (ssresid / (knownXs.Count() - 1));
                 }
 
                 var resultRangeStats = new InMemoryRange(5, 2);
