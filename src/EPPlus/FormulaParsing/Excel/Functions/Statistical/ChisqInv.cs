@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the inverse of the left-tailed probability of the Chi-Square Distribution.")]
     internal class ChisqInv : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

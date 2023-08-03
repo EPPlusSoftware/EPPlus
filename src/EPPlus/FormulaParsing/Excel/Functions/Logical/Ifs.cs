@@ -26,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2019")]
     internal class Ifs : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

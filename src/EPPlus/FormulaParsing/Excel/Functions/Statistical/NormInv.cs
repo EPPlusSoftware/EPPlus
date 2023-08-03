@@ -20,12 +20,24 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
+            SupportsArrays = true,
             Category = ExcelFunctionCategory.Statistical,
             EPPlusVersion = "5.8",
             Description = "Calculates the inverse of the Cumulative Normal Distribution Function for a supplied value of x, and a supplied distribution mean & standard deviation.")]
     internal class NormInv : NormInvBase
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 3;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
+        };
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var probability = ArgToDecimal(arguments, 0);

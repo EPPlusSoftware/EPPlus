@@ -494,7 +494,52 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             return ret;
         }
+        /// <summary>
+        /// The following function is ported from the jstat library licensed under the MIT license. 
+        /// See https://github.com/jstat/jstat/blob/1.x/src/distribution.js
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        internal static double LowerRegularizedIncompleteGamma(double a, double x)
+        {
+            var aln = logGamma(a);
+            var ap = a;
+            var sum = 1 / a;
+            var del = sum;
+            var b = x + 1 - a;
+            var c = 1 / 1.0e-30;
+            var d = 1 / b;
+            var h = d;
+            var i = 1;
+            // calculate maximum number of iterations required for a
+            var maxIterations = -~Convert.ToInt32((Math.Log((a >= 1) ? a : 1 / a) * 8.5 + a * 0.4 + 17));
 
+            if (x < 0 || a <= 0)
+            {
+                return double.NaN;
+            }
+            else if (x < a + 1)
+            {
+                for (; i <= maxIterations; i++)
+                {
+                    sum += del *= x / ++ap;
+                }
+                return (sum * Math.Exp(-x + a * Math.Log(x) - (aln)));
+            }
 
+            double an;
+            for (; i <= maxIterations; i++)
+            {
+                an = -i * (i - a);
+                b += 2;
+                d = an * d + b;
+                c = b + an / c;
+                d = 1 / d;
+                h *= d * c;
+            }
+
+            return (1 - h * Math.Exp(-x + a * Math.Log(x) - (aln)));
+        }
     }
 }

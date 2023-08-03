@@ -24,6 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the right-tailed probability of the Chi-Square Distribution")]
     internal class ChiSqDistRt : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

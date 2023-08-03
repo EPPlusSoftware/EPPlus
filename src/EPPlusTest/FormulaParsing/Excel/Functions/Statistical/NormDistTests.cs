@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
 {
     [TestClass]
-    public class NormDistTests
+    public class NormDistTests : TestBase
     {
         [TestMethod]
         public void NormDistShouldReturnCorrectResult()
@@ -26,6 +26,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Calculate();
                 result = sheet.Cells["A2"].Value;
                 Assert.AreEqual(0.125794409d, System.Math.Round((double)result, 9));
+                SaveWorkbook("Normdist.xlsx", package);
             }
         }
 

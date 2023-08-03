@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     internal class ImSec : ImFunctionBase
     {
 
-
+        public override string NamespacePrefix => "_xlfn.";
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             GetComplexNumbers(arguments[0].Value, out double real, out double imag, out string imaginarySuffix);

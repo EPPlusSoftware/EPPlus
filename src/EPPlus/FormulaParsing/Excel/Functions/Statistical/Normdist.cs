@@ -20,12 +20,24 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
+            SupportsArrays = true,
             Category = ExcelFunctionCategory.Statistical,
             EPPlusVersion = "5.8",
             Description = "Calculates the Normal Probability Density Function or the Cumulative Normal Distribution. Function for a supplied set of parameters.")]
     internal class Normdist : NormalDistributionBase
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 4;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1, 2, 3 }
+        };
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var probability = ArgToDecimal(arguments, 0);

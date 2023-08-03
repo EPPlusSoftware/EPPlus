@@ -122,4 +122,20 @@ namespace EPPlusTest.LoadFunctions
         [EpplusTableColumn(Header = "Acknowledged...", Order = 1)]
         public bool Acknowledged { get; set; }
     }
+
+    [EpplusTable]
+    public class OuterWithHiddenColumn
+    {
+        [EpplusTableColumn(Hidden = true, Order = 1)]
+        public bool Active { get; set; }
+
+        [EpplusTableColumn(Header = "Number", Order = 2)]
+        public int Number { get; set; }
+
+        [EpplusTableColumn(Hidden = true, Order = 3)]
+        public string HiddenName { get; set; }
+
+        [EpplusTableColumn(Header = "Name", Order = 4)]
+        public string Name { get; set; }
+    }
 }
