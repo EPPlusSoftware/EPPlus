@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     Description = "Returns the Weibull distribution. This function works the same as WEIBULL.")]
     internal class WeibullDist : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 4;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

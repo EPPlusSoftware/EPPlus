@@ -30,6 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     Description = "Returns the probability for the Student's t-test. Can handle three types of t-tests: Paired, homoscedastic and heteroscedastic.")]
     internal class TTest : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 4;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
