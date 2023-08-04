@@ -23,10 +23,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the statistical rank of a given value, within a supplied array of values (if more than one value has same rank, the average rank is returned) ")]
     internal class RankAvg : Rank
     {
+        public override string NamespacePrefix => "_xlfn.";
         public RankAvg()
             : base(true)
         {
-
+            
         }
     }
 }

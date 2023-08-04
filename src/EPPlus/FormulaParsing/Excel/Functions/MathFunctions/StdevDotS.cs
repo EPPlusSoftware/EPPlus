@@ -23,5 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the standard deviation of a supplied set of values (which represent a sample of a population) ")]
     internal class StdevDotS : Stdev
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

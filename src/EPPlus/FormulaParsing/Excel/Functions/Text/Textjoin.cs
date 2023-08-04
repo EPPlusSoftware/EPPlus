@@ -27,8 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Joins together two or more text strings, separated by a delimiter")]
     internal class Textjoin : ExcelFunction
     {
-        private readonly int MaxReturnLength = 32767;
 
+        private readonly int MaxReturnLength = 32767;
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
