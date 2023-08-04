@@ -26,8 +26,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class NormsInv : NormInvBase
     {
         public override string NamespacePrefix => "_xlfn.";
-
-        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
