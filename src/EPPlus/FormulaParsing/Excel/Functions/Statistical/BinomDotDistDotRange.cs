@@ -8,56 +8,60 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  21/06/2023         EPPlus Software AB       Initial release EPPlus 7
+ 21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-    Category = ExcelFunctionCategory.Statistical,
-    EPPlusVersion = "7.0",
-    Description = "Returns the individual term binomial distribution probability.")]
+
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "7.0",
+        Description = "Returns the probability of a trial result using a binomial distribution.")]
 
 
-    internal class BinomDist : ExcelFunction
+    internal class BinomDotDistDotRange : ExcelFunction
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 4;
+        public override int ArgumentMinLength => 3;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments.Count > 4) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (arguments.Count > 4) return CompileResult.GetErrorResult(eErrorType.Value); 
 
-            var numberS = ArgToDecimal(arguments, 0);
-            numberS = Math.Floor(numberS);
-            var trails = ArgToDecimal(arguments, 1);
+            var trails = ArgToDecimal(arguments, 0);
             trails = Math.Floor(trails);
-            var probabilityS = ArgToDecimal(arguments, 2);
-            var cumulative = ArgToBool(arguments, 3);
-
-            if (numberS < 0 || numberS > trails || probabilityS < 0 || probabilityS > 1) return CompileResult.GetErrorResult(eErrorType.Num);
+            var probS = ArgToDecimal(arguments, 1);
+            var numS = ArgToDecimal(arguments, 2);
+            numS = Math.Floor(numS);
+            
+            if (trails < 0 || probS < 0 || probS > 1|| numS<0|| numS>trails) return CompileResult.GetErrorResult(eErrorType.Num);
 
             var result = 0d;
-            if (cumulative)
+            if (arguments.Count > 3)
             {
-                for (var i = 0; i <= numberS; i++)
+                var numS2 = ArgToDecimal(arguments, 3);
+                numS2 = Math.Floor(numS2);
+                if (numS2 < numS || numS2 > trails) return CompileResult.GetErrorResult(eErrorType.Num);
+
+                for (int i = (int)numS; i <= numS2; i++)
                 {
                     var combin = MathHelper.Factorial(trails, trails - i) / MathHelper.Factorial(i);
-                    result += combin * Math.Pow(probabilityS, i) * Math.Pow(1 - probabilityS, trails - i);
+                    result += combin * Math.Pow(probS, i) * Math.Pow(1 - probS, trails - i);
                 }
             }
             else
             {
-                var combin = MathHelper.Factorial(trails, trails - numberS) / MathHelper.Factorial(numberS);
-                result = combin * Math.Pow(probabilityS, numberS) * Math.Pow(1 - probabilityS, trails - numberS);
+                var combin = MathHelper.Factorial(trails, trails - numS) / MathHelper.Factorial(numS);
+                result = combin * Math.Pow(probS, numS) * Math.Pow(1 - probS, trails - numS);
             }
             return CreateResult(result, DataType.Decimal);
         }
