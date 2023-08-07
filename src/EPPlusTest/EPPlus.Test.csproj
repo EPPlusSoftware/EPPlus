@@ -208,6 +208,14 @@
     <EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
     <None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
     <EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
+
+	<None Remove="Workbooks\TestDoc_SumPrecision.xlsx" />
+	<EmbeddedResource Include="Workbooks\TestDoc_SumPrecision.xlsx" />
+
+
+	<None Remove="Workbooks\TestDoc_SumPrecision.xlsx" />
+	<EmbeddedResource Include="Workbooks\TestDoc_SumPrecision.xlsx" />
+
     <None Remove="Workbooks\DateFormatException.xlsx" />
     <EmbeddedResource Include="Workbooks\DateFormatException.xlsx" />
     <None Remove="Workbooks\TestDoc_SharedFormula.xlsx" />
@@ -216,6 +224,16 @@
     <EmbeddedResource Include="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx" />
     <None Remove="Workbooks\FullPrecisionIF.xlsx" />
     <EmbeddedResource Include="Workbooks\FullPrecisionIF.xlsx" />
+    <None Remove="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <EmbeddedResource Include="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <None Remove="Workbooks\GermanBuildInNumberFormat.xlsx" />
+    <EmbeddedResource Include="Workbooks\GermanBuildInNumberFormat.xlsx" />
+    <None Remove="Workbooks\FullPrecisionIF.xlsx" />
+    <EmbeddedResource Include="Workbooks\FullPrecisionIF.xlsx" />
+    <None Remove="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <EmbeddedResource Include="Workbooks\Issue_WithRangeCalculation.xlsx" />
+    <None Remove="Workbooks\GermanBuildInNumberFormat.xlsx" />
+    <EmbeddedResource Include="Workbooks\GermanBuildInNumberFormat.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>

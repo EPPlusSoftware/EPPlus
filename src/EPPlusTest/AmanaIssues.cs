@@ -1,14 +1,14 @@
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 
 namespace EPPlusTest
 {
-    using EPPlusTest.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OfficeOpenXml;
     using System;
     using System.IO;
-    using System.Linq;
+
 
     [TestClass]
     public class AmanaIssues : TestBase
@@ -262,11 +262,12 @@ namespace EPPlusTest
 
             // Cleanup
             File.Delete(output);
+
         }
 
         [TestMethod]
         public void Test_issue_with_whitespace_in_chart_xml()
-        {
+        { 
             //Arrange
 #if Core
             var dir = AppContext.BaseDirectory;
@@ -309,6 +310,7 @@ namespace EPPlusTest
 
             sheet.Calculate();
             Assert.AreEqual(sheet.Cells["A1"].Value, sheet.Cells["B1"].Value);
+
         }
 
         [TestMethod,
@@ -354,7 +356,6 @@ namespace EPPlusTest
             Assert.IsTrue(value2.Equals("-40,5"));
             Assert.IsTrue(value3.Equals("-23,4"));
         }
-
 
         [TestMethod]
         public void Calculate_calculates_formula_with_external_link()
@@ -481,6 +482,31 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void Test_FormulaSumPrecision()
+        {
+
+            // Arrange
+            var input = GetTestStream("TestDoc_SumPrecision.xlsx");
+            var package = new ExcelPackage(input);
+            var ws = package.Workbook.Worksheets["Tabelle1"];
+
+            // Act
+            ws.Calculate();
+
+                 //Arrange
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+
+            var result = ws.Cells["L14"].Value.ToString();
+            Assert.AreEqual("-3,552713678800501E-15", result);
+
+       }
+
+        [TestMethod]
         public void Workbook_Calculate()
         {
             // Arrange
@@ -498,7 +524,8 @@ namespace EPPlusTest
         [DataTestMethod]
         [DataRow("en-US", ExcelErrorValue.Values.Value, ExcelErrorValue.Values.Value)]
         [DataRow("de-DE", "31 Dec ", " Dec ")]
-        public void Workbook_Calculate_calculates_for_different_cultures(string culture, string expectedValue1, string expectedValue2)
+        public void Workbook_Calculate_calculates_for_different_cultures(string culture, string expectedValue1,
+            string expectedValue2)
         {
             // Arrange
             var xlsx = GetTestStream("DateFormatException.xlsx");
@@ -512,11 +539,13 @@ namespace EPPlusTest
             Assert.AreEqual(expectedValue1, package.Workbook.Worksheets["Tabelle1"].Cells[4, 1].Value.ToString());
             Assert.AreEqual(expectedValue2, package.Workbook.Worksheets["Tabelle1"].Cells[5, 1].Value.ToString());
         }
-
-
-        [TestMethod, Description(" VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
+        
+        [TestMethod,
+         Description(
+             " VLOOKUP is loosing the reference to the worksheet and is therefore always taking the first worksheet")]
         public void Test_VLookUP_should_not_loose_the_reference_to_the_worksheet()
         {
+
             //Arrange
 #if Core
             var dir = AppContext.BaseDirectory;
@@ -524,7 +553,11 @@ namespace EPPlusTest
 #else
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            var excelPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
+
+            var excelPackage =
+                new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks",
+                    "TestDoc_FileWithVLookUPFunction_xlsx.xlsx")));
+
 
             //Act
             excelPackage.Workbook.Calculate();
@@ -532,6 +565,99 @@ namespace EPPlusTest
             //Asserts
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[0].Cells["B6"].Value);
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[1].Cells["A6"].Value);
+
+        }
+
+        [DataTestMethod]
+        [DataRow("C1", 311d)]
+        [DataRow("C2", 306d)]
+        [DataRow("C3", 103d)]
+        [DataRow("C4", 104d)]
+        [DataRow("C5", 105d)]
+        [DataRow("F12", 1d)]
+        public void Named_range_calculated(string cellName, double expectedValue)
+        {
+            // ARRANGE
+            var xlsx = GetTestStream("Issue_WithRangeCalculation.xlsx");
+            var package = new ExcelPackage(xlsx);
+            var sheet = package.Workbook.Worksheets[0];
+
+            // ACT
+            sheet.Calculate();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, sheet.Cells[cellName].Value);
+        }
+
+        [DataTestMethod]
+        [DataRow("C19", "#VALUE!")]
+        [DataRow("C15", "#VALUE!")]
+        [DataRow("M6", "#VALUE!")]
+        public void Named_range_calculated_string(string cellName, string expectedValue)
+        {
+            // ARRANGE
+            var xlsx = GetTestStream("Issue_WithRangeCalculation.xlsx");
+            var package = new ExcelPackage(xlsx);
+            var sheet = package.Workbook.Worksheets[0];
+
+            // ACT
+            sheet.Calculate();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, sheet.Cells[cellName].Value.ToString());
+        }
+        
+        [DataTestMethod]
+        [DataRow(2, "General")]
+        [DataRow(3, "0")]
+        [DataRow(4, "0.00")]
+        [DataRow(5, "#,##0")]
+        [DataRow(6, "#,##0.00")]
+        [DataRow(7, "#,##0 _€;-#,##0 _€")]
+        [DataRow(8, "#,##0 _€;[Red]-#,##0 _€")]
+        [DataRow(9, "#,##0.00 _€;-#,##0.00 _€")]
+        [DataRow(10, "#,##0.00 _€;[Red]-#,##0.00 _€")]
+        [DataRow(11, "#,##0\\ \"€\";\\-#,##0\\ \"€\"")]
+        [DataRow(12, "#,##0\\ \"€\";[Red]\\-#,##0\\ \"€\"")]
+        [DataRow(13, "#,##0.00\\ \"€\";\\-#,##0.00\\ \"€\"")]
+        [DataRow(14, "#,##0.00\\ \"€\";[Red]\\-#,##0.00\\ \"€\"")]
+        [DataRow(15, "0%")]
+        [DataRow(16, "0.00%")]
+        [DataRow(17, "0.00E+00")]
+        [DataRow(18, "##0.0E+0")]
+        [DataRow(19, "# ?/?")]
+        [DataRow(20, "# ??/??")]
+        [DataRow(21, "dd.mm.yyyy")]
+        [DataRow(22, "dd. mm yy")]
+        [DataRow(23, "dd. mmm")]
+        [DataRow(24, "mmm yy")]
+        [DataRow(25, "h:mm AM/PM")]
+        [DataRow(26, "h:mm:ss AM/PM")]
+        [DataRow(27, "hh:mm")]
+        [DataRow(28, "hh:mm:ss")]
+        [DataRow(29, "dd.mm.yyyy hh:mm")]
+        [DataRow(30, "mm:ss")]
+        [DataRow(31, "mm:ss.0")]
+        [DataRow(32, "@")]
+        [DataRow(33, "[h]:mm:ss")]
+        [DataRow(34, "_-* #,##0\\ \"€\"_-;\\-* #,##0\\ \"€\"_-;_-* \"-\"\\ \"€\"_-;_-@_-")]
+        [DataRow(35, "_-* #,##0\\ _€_-;\\-* #,##0\\ _€_-;_-* \"-\"\\ _€_-;_-@_-")]
+        [DataRow(36, "_-* #,##0.00\\ \"€\"_-;\\-* #,##0.00\\ \"€\"_-;_-* \"-\"??\\ \"€\"_-;_-@_-")]
+        [DataRow(37, "_-* #,##0.00\\ _€_-;\\-* #,##0.00\\ _€_-;_-* \"-\"??\\ _€_-;_-@_-")]
+        [DataRow(38, "mmm\\ yyyy")]
+        [DataRow(39, "[$-407]dddd\\,\\ d/\\ mmmm\\ yyyy")]
+        public void German_built_in_number_format(int cellRow, string expectedFormat)
+        {
+            // Arrange
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+            var exlPackage = new ExcelPackage(GetTestStream("GermanBuildInNumberFormat.xlsx"));
+            var ws = exlPackage.Workbook.Worksheets[0];
+
+            // Act
+            var excelFormatString = ws.Cells[cellRow, 1].Style?.Numberformat?.Format;
+            
+            // Assert
+            Assert.AreEqual(expectedFormat, excelFormatString);
         }
 
         [TestMethod]
