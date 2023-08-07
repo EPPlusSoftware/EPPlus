@@ -533,5 +533,21 @@ namespace EPPlusTest
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[0].Cells["B6"].Value);
             Assert.AreEqual((double)1, excelPackage.Workbook.Worksheets[1].Cells["A6"].Value);
         }
+
+        [TestMethod]
+        public void Workbook_FullPrecision()
+        {
+            // Arrange
+            var xlsx = GetTestStream("FullPrecisionIF.xlsx");
+            var package = new ExcelPackage(xlsx);
+            
+            // Act
+            package.Workbook.Calculate();
+            var fullPrecision = package.Workbook.FullPrecision;
+
+            // Assert
+            Assert.IsFalse(fullPrecision);
+            Assert.AreEqual("OK", package.Workbook.Worksheets[0].Cells["A3"].Value);
+        }
     }
 }

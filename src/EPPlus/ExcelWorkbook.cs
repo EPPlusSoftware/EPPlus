@@ -852,6 +852,30 @@ namespace OfficeOpenXml
                 }
             }
         }
+        
+        private const string FULL_PRECISION = "d:calcPr/@fullPrecision";
+        private bool? _fullPrecision;
+        /// <summary>
+        /// Should Excel calculate with the displayed value?
+        /// </summary>
+        public bool FullPrecision
+        {
+            get
+            {
+	            
+                if(!_fullPrecision.HasValue)
+                    _fullPrecision = GetXmlNodeBool(FULL_PRECISION, true);
+                return _fullPrecision.Value;
+            }
+            set
+            {
+                _fullPrecision = value;
+                SetXmlNodeBool(FULL_PRECISION, value);
+
+
+            }
+        }
+
 
         const string date1904Path = "d:workbookPr/@date1904";
         internal const double date1904Offset = 365.5 * 4;  // offset to fix 1900 and 1904 differences, 4 OLE years
