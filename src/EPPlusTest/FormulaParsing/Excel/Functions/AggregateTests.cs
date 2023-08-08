@@ -53,7 +53,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             LoadData1();
             _sheet.Cells["A6"].Formula = "AGGREGATE( 9, 4, A1, A2, A3, A4, A5 )";
             _sheet.Calculate();
-            Assert.AreEqual(10.5D, _sheet.Cells["A6"].Value);
+            Assert.AreEqual(10.5d, _sheet.Cells["A6"].Value);
         }
 
         [TestMethod]

@@ -56,7 +56,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             _sheet.Cells["C1"].Formula = "SUM(COUNTIF(A1:A6,B1:B2))";
             _sheet.Calculate();
-            Assert.AreEqual(3D, _sheet.Cells["C1"].Value);
+            Assert.AreEqual(3d, _sheet.Cells["C1"].Value);
         }
     }
 }
