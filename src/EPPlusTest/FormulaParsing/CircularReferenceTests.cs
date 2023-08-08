@@ -50,7 +50,7 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Cells["A3"].Formula = "SUM(A1:A2)";
                 var calcOptions = new ExcelCalculationOption { AllowCircularReferences = true };
                 sheet.Calculate(calcOptions);
-                Assert.AreEqual(1m, sheet.Cells["A3"].Value);
+                Assert.AreEqual(1d, sheet.Cells["A3"].Value);
             }
         }
 

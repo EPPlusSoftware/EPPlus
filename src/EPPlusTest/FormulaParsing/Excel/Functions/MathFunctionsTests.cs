@@ -514,7 +514,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Sum();
             var args = FunctionsHelper.CreateArgs(2, 3);
             var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(5m, result.Result);
+            Assert.AreEqual(5d, result.Result);
         }
 
         [TestMethod]
@@ -523,7 +523,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Sum();
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(2, 5), 3);
             var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(10m, result.Result);
+            Assert.AreEqual(10d, result.Result);
         }
 
         [TestMethod]
@@ -534,7 +534,7 @@ namespace EPPlusTest.Excel.Functions
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(2, 5), 3, 4);
             args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
             var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(10m, result.Result);
+            Assert.AreEqual(10d, result.Result);
         }
 
         [TestMethod]

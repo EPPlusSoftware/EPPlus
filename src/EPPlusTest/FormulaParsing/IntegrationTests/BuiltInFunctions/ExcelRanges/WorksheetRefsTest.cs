@@ -61,7 +61,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         {
             _secondSheet.Cells["A1"].Formula = "SUM('sheet1'!A1:A2)";
             _secondSheet.Calculate();
-            Assert.AreEqual(3m, _secondSheet.Cells["A1"].Value);
+            Assert.AreEqual(3d, _secondSheet.Cells["A1"].Value);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
             sheet.Cells["A2"].Value = 2;
             _secondSheet.Cells["A1"].Formula = "SUM('ab#k..2'!A1:A2)";
             _secondSheet.Calculate();
-            Assert.AreEqual(3m, _secondSheet.Cells["A1"].Value);
+            Assert.AreEqual(3d, _secondSheet.Cells["A1"].Value);
         }
 
         [TestMethod]

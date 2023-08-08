@@ -3489,7 +3489,7 @@ namespace EPPlusTest
                 wsB.Cells["A4"].Formula = "sum(a!a1:'a'!A3)";
 
                 wsB.Calculate();
-                Assert.AreEqual(6M, wsB.GetValue(4, 1));
+                Assert.AreEqual(6D, wsB.GetValue(4, 1));
             }
         }
         [TestMethod]

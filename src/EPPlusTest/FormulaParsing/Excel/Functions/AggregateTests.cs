@@ -53,7 +53,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             LoadData1();
             _sheet.Cells["A6"].Formula = "AGGREGATE( 9, 4, A1, A2, A3, A4, A5 )";
             _sheet.Calculate();
-            Assert.AreEqual(10.5m, _sheet.Cells["A6"].Value);
+            Assert.AreEqual(10.5D, _sheet.Cells["A6"].Value);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _sheet.Cells["A6"].Formula = "AGGREGATE( 9, 5, A1, A2, A3, A4, A5 )";
             _sheet.Row(3).Hidden = true;
             _sheet.Calculate();
-            Assert.AreEqual(9.5m, _sheet.Cells["A6"].Value);
+            Assert.AreEqual(9.5d, _sheet.Cells["A6"].Value);
         }
 
         [TestMethod]
@@ -232,11 +232,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _sheet.Cells["A6"].Formula = "AGGREGATE( 9, 6, A1:A5 )";
             _sheet.Cells["A3"].Formula = "1/0";
             _sheet.Calculate();
-            Assert.AreEqual(9.5m, _sheet.Cells["A6"].Value);
+            Assert.AreEqual(9.5d, _sheet.Cells["A6"].Value);
 
             _sheet.Cells["A3"].Value = 1;
             _sheet.Calculate();
-            Assert.AreEqual(10.5m, _sheet.Cells["A6"].Value);
+            Assert.AreEqual(10.5d, _sheet.Cells["A6"].Value);
         }
 
         [TestMethod]
@@ -394,7 +394,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 var sheet2 = package.Workbook.Worksheets.Add("sheet2");
                 sheet2.Cells["A1"].Formula = "sheet3!A4";
                 package.Workbook.Calculate();
-                Assert.AreEqual(109231.64m, sheet2.Cells["A1"].Value);
+                Assert.AreEqual(109231.64d, sheet2.Cells["A1"].Value);
 
                 sheet3.Cells["A3"].Formula = "AGGREGATE(8,0,A1:A2)";
                 sheet3.Cells["A4"].Formula = "AGGREGATE(8,0,A1:A3)";

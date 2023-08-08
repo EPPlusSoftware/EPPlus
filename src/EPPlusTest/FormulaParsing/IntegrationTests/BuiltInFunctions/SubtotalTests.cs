@@ -166,7 +166,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             _worksheet.Cells["A5"].Value = 2d;
             _worksheet.Calculate();
             var result = _worksheet.Cells["A1"].Value;
-            Assert.AreEqual(2m, result);
+            Assert.AreEqual(2d, result);
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             _worksheet.Cells["A6"].Value = 4d;
             _worksheet.Calculate();
             var result = _worksheet.Cells["A1"].Value;
-            Assert.AreEqual(9m, result);
+            Assert.AreEqual(9d, result);
         }
 
         [TestMethod]

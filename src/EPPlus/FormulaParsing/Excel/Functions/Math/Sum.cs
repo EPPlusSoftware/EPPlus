@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     retVal += Calculate(arg, context);                    
                 }
             }
-            return CreateResult(retVal, DataType.Decimal);
+            return CreateResult(Convert.ToDouble(retVal), DataType.Decimal);
         }
 
         

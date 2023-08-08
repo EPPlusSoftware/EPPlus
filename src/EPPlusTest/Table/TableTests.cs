@@ -69,9 +69,9 @@ namespace EPPlusTest.Table
             table.Columns[0].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
             table.Columns[1].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
             ws.Cells["B5"].Calculate();
-            Assert.AreEqual(3.0m, ws.Cells["B5"].Value);
+            Assert.AreEqual(3.0d, ws.Cells["B5"].Value);
             ws.Cells["C5"].Calculate();
-            Assert.AreEqual(7.0m, ws.Cells["C5"].Value);
+            Assert.AreEqual(7.0d, ws.Cells["C5"].Value);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]

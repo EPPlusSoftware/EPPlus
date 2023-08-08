@@ -70,7 +70,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual(24D, ws.Cells["G3"].Value);
 
             Assert.AreEqual(20D, ws.Cells["H5"].Value);
-            Assert.AreEqual(117M, ws.Cells["K5"].Value);
+            Assert.AreEqual(117D, ws.Cells["K5"].Value);
 
             Assert.AreEqual(111D, ws.Cells["H8"].Value);
             Assert.IsInstanceOfType(ws.Cells["J8"].Value, typeof(ExcelErrorValue));
@@ -102,7 +102,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual(16D, ws.Cells["F3"].Value);
             Assert.AreEqual(24D, ws.Cells["G3"].Value);
 
-            Assert.AreEqual(117M, ws.Cells["K5"].Value);
+            Assert.AreEqual(117D, ws.Cells["K5"].Value);
 
             Assert.AreEqual(111D, ws.Cells["H8"].Value);
             Assert.AreEqual(20D, ws.Cells["J8"].Value);

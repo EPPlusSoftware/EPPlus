@@ -259,21 +259,21 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         public void SumShouldReturnCorrectResultWithInts()
         {
             var result = _parser.Parse("sum(1, 2)");
-            Assert.AreEqual(3m, result);
+            Assert.AreEqual(3d, result);
         }
 
         [TestMethod]
         public void SumShouldReturnCorrectResultWithDecimals()
         {
             var result = _parser.Parse("sum(1,2.5)");
-            Assert.AreEqual(3.5m, result);
+            Assert.AreEqual(3.5d, result);
         }
 
         [TestMethod]
         public void SumShouldReturnCorrectResultWithEnumerable()
         {
             var result = _parser.Parse("sum({1;2;3;-1}, 2.5)");
-            Assert.AreEqual(7.5m, result);
+            Assert.AreEqual(7.5d, result);
         }
 
         [TestMethod]

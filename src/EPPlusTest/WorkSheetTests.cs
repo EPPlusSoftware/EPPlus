@@ -1896,10 +1896,10 @@ namespace EPPlusTest
                 worksheet.Cells["A2"].Value = 2;
                 worksheet.Cells["A3"].Formula = "SUM(A1:A2)";
                 worksheet.Calculate();
-                Assert.AreEqual(3m, worksheet.Cells["A3"].Value);
+                Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
                 Assert.AreEqual("SUM(A1:A2)", worksheet.Cells["A3"].Formula);
                 worksheet.ClearFormulas();
-                Assert.AreEqual(3m, worksheet.Cells["A3"].Value);
+                Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
                 Assert.AreEqual(string.Empty, worksheet.Cells["A3"].Formula);
             }
         }
@@ -1914,7 +1914,7 @@ namespace EPPlusTest
                 worksheet.Cells["A2"].Value = 2;
                 worksheet.Cells["A3"].Formula = "SUM(A1:A2)";
                 worksheet.Calculate();
-                Assert.AreEqual(3m, worksheet.Cells["A3"].Value);
+                Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
                 worksheet.ClearFormulaValues();
                 Assert.IsNull(worksheet.Cells["A3"].Value);
             }
