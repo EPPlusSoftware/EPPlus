@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Linq;
+using System.Threading;
+using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Style
 {
@@ -45,18 +48,14 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                for(int i=0;i<_styles.NumberFormats.Count;i++)
-                {
-                    if(Index==_styles.NumberFormats[i].NumFmtId)
-                    {
-                        return _styles.NumberFormats[i].Format;
-                    }
-                }
-                return "general";
+                var numberFormat = _styles.NumberFormats.FirstOrDefault(nf => nf.NumFmtId == Index);
+                return numberFormat?.Format ?? "general";
             }
             set
-            {                
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Numberformat, eStyleProperty.Format, (string.IsNullOrEmpty(value) ? "General" : value), _positionID, _address));
+            {
+                _ChangedEvent(this,
+                    new StyleChangeEventArgs(eStyleClass.Numberformat, eStyleProperty.Format,
+                        (string.IsNullOrEmpty(value) ? "General" : value), _positionID, _address));
             }
         }
 
@@ -71,10 +70,86 @@ namespace OfficeOpenXml.Style
         /// If the numeric format is a build-in from.
         /// </summary>
         public bool BuildIn { get; private set; }
-
-        internal static string GetFromBuildInFromID(int _numFmtId)
+        
+        internal static int GetIdByFormat(string format)
         {
-            switch (_numFmtId)
+            return Thread.CurrentThread.CurrentCulture.Name.Equals("de-DE") ? GetIdByGermanFormat(format) : GetIdByEnglishFormat(format);
+        }
+        
+        internal static string GetFormatById(int id)
+        {
+            return Thread.CurrentThread.CurrentCulture.Name.Equals("de-DE") ? GetGermanFormatById(id) : GetEnglishFormatById(id);
+        }
+
+        private static int GetIdByGermanFormat(string format)
+        {
+            switch (format)
+            {
+                case "General":
+                case "":
+                    return 0;
+                case "0":
+                    return 1;
+                case "0.00":
+                    return 2;
+                case "#,##0":
+                    return 3;
+                case "#,##0.00":
+                    return 4;
+                case "0%":
+                    return 9;
+                case "0.00%":
+                    return 10;
+                case "0.00E+00":
+                    return 11;
+                case "# ?/?":
+                    return 12;
+                case "# ??/??":
+                    return 13;
+                case "dd.mm.yyyy":
+                    return 14;
+                case "dd. mm yy":
+                    return 15;
+                case "dd. mmm":
+                    return 16;
+                case "mmm yy":
+                    return 17;
+                case "h:mm AM/PM":
+                    return 18;
+                case "h:mm:ss AM/PM":
+                    return 19;
+                case "hh:mm":
+                    return 20;
+                case "hh:mm:ss":
+                    return 21;
+                case "dd.mm.yyyy hh:mm":
+                    return 22;
+                case "#,##0 _€;-#,##0 _€":
+                    return 37;
+                case "#,##0 _€;[Red]-#,##0 _€":
+                    return 38;
+                case "#,##0.00 _€;-#,##0.00 _€":
+                    return 39;
+                case "#,##0.00 _€;[Red]-#,##0.00 _€":
+                    return 40;
+                case "mm:ss":
+                    return 45;
+                case "[h]:mm:ss":
+                    return 46;
+                case "mm:ss.0":
+                    return 47;
+                case "##0.0E+0":
+                    return 48;
+                case "@":
+                    return 49;
+                default:
+                    return int.MinValue;
+            }
+        }
+        
+        private static string GetEnglishFormatById(int id)
+        {
+            switch (id)
             {
                 case 0:
                     return "General";
@@ -136,7 +211,8 @@ namespace OfficeOpenXml.Style
                     return string.Empty;
             }
         }
-        internal static int GetFromBuildIdFromFormat(string format)
+        
+        internal static int GetIdByEnglishFormat(string format)
         {
             switch (format)
             {
@@ -199,6 +275,71 @@ namespace OfficeOpenXml.Style
                     return 49;
                 default:
                     return int.MinValue;
+            }
+        }
+        
+        private static string GetGermanFormatById(int id)
+        {
+            switch (id)
+            {
+                case 0:
+                    return "General";
+                case 1:
+                    return "0";
+                case 2:
+                    return "0.00";
+                case 3:
+                    return "#,##0";
+                case 4:
+                    return "#,##0.00";
+                case 9:
+                    return "0%";
+                case 10:
+                    return "0.00%";
+                case 11:
+                    return "0.00E+00";
+                case 12:
+                    return "# ?/?";
+                case 13:
+                    return "# ??/??";
+                case 14:
+                    return "dd.mm.yyyy";
+                case 15:
+                    return "dd. mm yy";
+                case 16:
+                    return "dd. mmm";
+                case 17:
+                    return "mmm yy";
+                case 18:
+                    return "h:mm AM/PM";
+                case 19:
+                    return "h:mm:ss AM/PM";
+                case 20:
+                    return "hh:mm";
+                case 21:
+                    return "hh:mm:ss";
+                case 22:
+                    return "dd.mm.yyyy hh:mm";
+                case 37:
+                    return "#,##0 _€;-#,##0 _€";
+                case 38:
+                    return "#,##0 _€;[Red]-#,##0 _€";
+                case 39:
+                    return "#,##0.00 _€;-#,##0.00 _€";
+                case 40:
+                    return "#,##0.00 _€;[Red]-#,##0.00 _€";
+                case 45:
+                    return "mm:ss";
+                case 46:
+                    return "[h]:mm:ss";
+                case 47:
+                    return "mm:ss.0";
+                case 48:
+                    return "##0.0E+0";
+                case 49:
+                    return "@";
+                default:
+                    return string.Empty;
             }
         }
     }

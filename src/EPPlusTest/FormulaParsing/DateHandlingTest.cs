@@ -124,7 +124,7 @@ namespace EPPlusTest.FormulaParsing
 
             ExcelPackage pck = new ExcelPackage();
             ExcelWorksheet ws = pck.Workbook.Worksheets.Add("test");
-            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFromBuildInFromID(14);
+            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFormatById(14);
             ws.Cells[1, 1].Value = dt1;
             ws.Cells[2, 1].Value = dt2;
             pck.Save();
@@ -149,7 +149,7 @@ namespace EPPlusTest.FormulaParsing
             ExcelPackage pck = new ExcelPackage();
             ExcelWorksheet ws = pck.Workbook.Worksheets.Add("test");
             pck.Workbook.Date1904 = false;
-            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFromBuildInFromID(14);
+            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFormatById(14);
             ws.Cells[1, 1].Value = dt1;
             ws.Cells[2, 1].Value = dt2;
             pck.Save();
@@ -172,7 +172,7 @@ namespace EPPlusTest.FormulaParsing
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Date1904 = true;
             var ws = pck.Workbook.Worksheets.Add("test");
-            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFromBuildInFromID(14);
+            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFormatById(14);
             ws.Cells[1, 1].Value = dt1;
             ws.Cells[2, 1].Value = dt2;
             pck.Save();
@@ -203,7 +203,7 @@ namespace EPPlusTest.FormulaParsing
             pck.Workbook.Date1904 = true;
 
             var ws = pck.Workbook.Worksheets.Add("test");
-            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFromBuildInFromID(14);
+            ws.Cells[1, 1, 2, 1].Style.Numberformat.Format = ExcelNumberFormat.GetFormatById(14);
             ws.Cells[1, 1].Value = dt1;
             ws.Cells[2, 1].Value = dt2;
             pck.Save();
