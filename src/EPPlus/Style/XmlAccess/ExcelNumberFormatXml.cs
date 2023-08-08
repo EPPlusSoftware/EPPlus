@@ -127,11 +127,11 @@ namespace OfficeOpenXml.Style.XmlAccess
             XmlNamespaceManager nameSpaceManager,
             ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
         {
-            AddNonCultureSpecificFormats(nameSpaceManager, numberFormats);
+            AddDifineableFormats(nameSpaceManager, numberFormats);
             
             if (Thread.CurrentThread.CurrentCulture.Name.Equals("de-DE"))
             {
-                AddGermanCultureSpecificFormats(nameSpaceManager, numberFormats);
+                AddNonDefineableGermanFormats(nameSpaceManager, numberFormats);
             }
             else
             {
@@ -139,8 +139,9 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
         }
         
-        private static void AddNonCultureSpecificFormats(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
+        private static void AddDifineableFormats(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
         {
+            var dateTimeFormat = Thread.CurrentThread.CurrentCulture.DateTimeFormat;
             var nonCultureSpecificFormats = new[]
             {
                 (0, "General"), 
@@ -153,8 +154,11 @@ namespace OfficeOpenXml.Style.XmlAccess
                 (11, "0.00E+00"), 
                 (12, "# ?/?"), 
                 (13, "# ??/??"),
+                (14, dateTimeFormat.ShortDatePattern),
                 (18, "h:mm AM/PM"), 
                 (19, "h:mm:ss AM/PM"), 
+                (20, dateTimeFormat.ShortTimePattern), 
+                (21, dateTimeFormat.LongTimePattern), 
                 (45, "mm:ss"), 
                 (46, "[h]:mm:ss"), 
                 (49, "@")
@@ -168,16 +172,13 @@ namespace OfficeOpenXml.Style.XmlAccess
             numberFormats.NextId = 164; // Start for custom formats.
         }
 
-        private static void AddGermanCultureSpecificFormats(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
+        private static void AddNonDefineableGermanFormats(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
         {
             var germanFormats = new[]
             {
-                (14, "dd.mm.yyyy"), 
                 (15, "dd. mm yy"), 
                 (16, "dd. mmm"), 
                 (17, "mmm yy"),
-                (20, "hh:mm"), 
-                (21, "hh:mm:ss"), 
                 (22, "dd.mm.yyyy hh:mm"), 
                 (37, "#,##0 _€;-#,##0 _€"),
                 (38, "#,##0 _€;[Red]-#,##0 _€"), 
@@ -198,12 +199,9 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             var defaultFormats = new[]
             {
-                (14, "mm-dd-yy"), 
                 (15, "d-mmm-yy"), 
                 (16, "d-mmm"), 
                 (17, "mmm-yy"),
-                (20, "h:mm"), 
-                (21, "h:mm:ss"), 
                 (22, "m/d/yy h:mm"), 
                 (37, "#,##0 ;(#,##0)"),
                 (38, "#,##0 ;[Red](#,##0)"), 
