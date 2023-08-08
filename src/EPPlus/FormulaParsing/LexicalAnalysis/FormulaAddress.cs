@@ -453,6 +453,18 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return "";
             }
         }
+
+        /// <summary>
+        /// The cell id for the address. 
+        /// The cell Id is an ulong with the worksheet shifted as <code>((ushort)sheetId) | (((ulong)col) &lt;&lt; 16) | (((ulong)row) &lt;&lt; 30)</code>
+        /// </summary>
+        public ulong CellId 
+        { 
+            get 
+            { 
+                return ExcelCellBase.GetCellId(WorksheetIx,Row,Column);
+            } 
+        }
     }
     public class FormulaAddressBase
     {
@@ -704,6 +716,40 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             return wsIx==WorksheetIx && row >= FromRow && row <= ToRow && column >= FromCol && column <= ToCol;
         }
+
+        internal FormulaRangeAddress GetOffset(int row, int column, bool rollIfOverflow=false)
+        {
+            var ret = new FormulaRangeAddress(_context);
+            var fromRow = (FixedFlag & FixedFlag.FromRowFixed) == FixedFlag.FromRowFixed ? FromRow : FromRow + row-1;            
+            var toRow = (FixedFlag & FixedFlag.ToRowFixed) == FixedFlag.ToRowFixed ? ToRow : ToRow + row-1;
+            var fromCol = (FixedFlag & FixedFlag.FromColFixed) == FixedFlag.FromColFixed ? FromCol : FromCol + column-1;
+            var toCol = (FixedFlag & FixedFlag.ToColFixed) == FixedFlag.ToColFixed ? ToCol : ToCol + column - 1;            
+            if(rollIfOverflow)
+            {
+                GetRolledValue(ref fromRow, ExcelPackage.MaxRows);
+                GetRolledValue(ref toRow, ExcelPackage.MaxRows);
+                GetRolledValue(ref fromCol, ExcelPackage.MaxColumns);
+                GetRolledValue(ref toCol, ExcelPackage.MaxColumns);
+            }
+            ret.FromRow = fromRow;
+            ret.ToRow = toRow;
+            ret.FromCol = fromCol;
+            ret.ToCol = toCol;
+            return ret;
+        }
+
+        private void GetRolledValue(ref int value, int maxValue)
+        {
+            if(value < 1)
+            {
+                value = Math.Abs(value) + 1;
+            }
+            else if(value > maxValue)
+            {
+                value = value - maxValue;
+            }            
+        }
+
         public FormulaRangeAddress Address => this;
     }
     public class FormulaTableAddress : FormulaRangeAddress

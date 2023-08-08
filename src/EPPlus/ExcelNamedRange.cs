@@ -14,6 +14,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,70 +102,74 @@ namespace OfficeOpenXml
             get;
             set;
         }
-        internal object NameValue { get; set; }
-        string _nameFormula;
-        internal string NameFormula 
+        internal object NameValue 
+        { 
+            get; 
+            set; 
+        }
+        List<Token> tokens = null;
+        internal string NameFormula
         {
-            get
+            get;
+            set;
+        }        
+        string _r1c1Formula = "";
+        internal string GetRelativeFormula(int row, int col)
+        {
+            if (string.IsNullOrEmpty(_r1c1Formula) && !string.IsNullOrEmpty(NameFormula))
             {
-                if (string.IsNullOrEmpty(_nameFormula)) return _nameFormula;
-                GetRefAddress(out int row, out int col);
-                var formula = "";
-                var tokens = SourceCodeTokenizer.R1C1.Tokenize(_nameFormula);
-                foreach (var t in tokens)
-                {
-                    switch (t.TokenType)
-                    {
-                        case TokenType.ExcelAddressR1C1:
-                            if (t.Value.Count(x => x == '$') < 2)
-                            {
-                                formula += R1C1Translator.FromR1C1Formula(t.Value, row, col);
-                            }
-                            else
-                            {
-                                formula += t.Value;
-                            }
-                            break;
-                        default:
-                            formula += t.Value;
-                            break;
-                    }
-                }
-                return formula;
+                var tokens = SourceCodeTokenizer.Default.Tokenize(NameFormula);
+                AllowRelativeAddress = HasRelativeRef(tokens);
+                if (AllowRelativeAddress == false) return NameFormula;
+                _r1c1Formula = R1C1Translator.ToR1C1FromTokens(tokens, 1, 1);
             }
+            else if(AllowRelativeAddress== false) 
+            {
+                return NameFormula;
+            }
+            
+            return GetRelativeFormula(_r1c1Formula, row, col);
+        }
 
-            set
+        private bool HasRelativeRef(IList<Token> tokens)
+        {
+            foreach(var t in tokens)
             {
-                try
+                if(t.TokenType==TokenType.CellAddress)
                 {
-                    var tokens = _workbook.FormulaParser.Tokenizer.Tokenize(value);
-                    GetRefAddress(out int row, out int col);
-                    _nameFormula = "";
-                    foreach (var t in tokens)
+                    if(t.Value.Count(x=>x=='$')<2)
                     {
-                        switch(t.TokenType)
-                        {
-                            case TokenType.CellAddress:
-                                if(t.Value.Count(x=>x=='$') < 2)
-                                {
-                                    _nameFormula += R1C1Translator.ToR1C1Formula(t.Value, row, col);
-                                }
-                                else
-                                {
-                                    _nameFormula += t.Value;
-                                }
-                                break;
-                            default:
-                                _nameFormula += t.Value;
-                                break;
-                        }
+                        return true;
                     }
                 }
-                catch
+                else if(t.TokenType==TokenType.TablePart)
                 {
-                    _nameFormula= value;
+                    if (t.Value.Equals("#this row", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        return true;
+                    }
                 }
             }
+            return false;
+        }
+
+        internal static string GetRelativeFormula(string sourceFormula, int row, int col)
+        {
+            var formula = "";
+            var tokens = SourceCodeTokenizer.R1C1.Tokenize(sourceFormula);
+            foreach (var t in tokens)
+            {
+                switch (t.TokenType)
+                {
+                    case TokenType.ExcelAddressR1C1:
+                        formula += R1C1Translator.FromR1C1Formula(t.Value, row, col, true);
+                        break;
+                    default:
+                        formula += t.Value;
+                        break;
+                }
+            }
+            return formula;
         }
 
         private void GetRefAddress(out int row, out int col)
@@ -215,6 +220,66 @@ namespace OfficeOpenXml
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        internal object GetValue(FormulaCellAddress currentCell)
+        {
+            if (AllowRelativeAddress)
+            {
+                if(string.IsNullOrEmpty(NameFormula))
+                {
+                    var ri = NameValue as RangeInfo;
+                    if (ri == null) 
+                    {
+                        return NameValue;
+                    }
+                    else
+                    {
+                        return GetRelativeRange(ri, currentCell);
+                    }
+                }
+                else
+                {
+                    var values = NameValue as Dictionary<ulong, object>;                    
+                    if(values!=null && values.ContainsKey(currentCell.CellId))
+                    {
+                        return values[currentCell.CellId];
+                    }
+                    return NameValue;
+                }
+            }
+            else
+            {
+                return NameValue;
+            }
+        }
+
+        private RangeInfo GetRelativeRange(RangeInfo ri, FormulaCellAddress currentCell)
+        {
+            var address = ri.Address.GetOffset(currentCell.Row, currentCell.Column, true);
+            return new RangeInfo(address, address._context);
+        }
+
+        internal void SetValue(object resultValue, FormulaCellAddress currentCell)
+        {
+            if(AllowRelativeAddress)
+            {
+                Dictionary<ulong, object> values;
+                if(NameValue==null)
+                {
+                    values = new Dictionary<ulong, object>();
+                    NameValue=values; 
+                }
+                else
+                {
+                    values = (Dictionary<ulong, object>)NameValue;
+                }
+                values.Add(currentCell.CellId, resultValue);
+            }
+            else
+            {
+                NameValue = resultValue;
+            }
         }
     }
 }

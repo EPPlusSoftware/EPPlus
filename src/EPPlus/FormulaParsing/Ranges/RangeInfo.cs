@@ -53,16 +53,16 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             _size = new RangeDefinition(address.ToRow - address.FromRow + 1, (short)(address.ToCol - address.FromCol + 1));
         }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ws">The worksheet</param>
-        /// <param name="fromRow"></param>
-        /// <param name="fromCol"></param>
-        /// <param name="toRow"></param>
-        /// <param name="toCol"></param>
-        /// <param name="ctx">Parsing context</param>
-        public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="ws">The worksheet</param>
+            /// <param name="fromRow"></param>
+            /// <param name="fromCol"></param>
+            /// <param name="toRow"></param>
+            /// <param name="toCol"></param>
+            /// <param name="ctx">Parsing context</param>
+            public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
         {
             _context = ctx;
             var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);

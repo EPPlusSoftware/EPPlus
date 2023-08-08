@@ -58,8 +58,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal void SetFormula(string formula, RpnOptimizedDependencyChain depChain)
         {
-            depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
-            _tokens = FormulaExecutor.CreateRPNTokens(depChain._tokenizer.Tokenize(formula));
+            //depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
+            _tokens = FormulaExecutor.CreateRPNTokens(
+                    depChain._tokenizer.Tokenize(formula));
+            
             _formula= formula;
             _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
         }

@@ -114,7 +114,7 @@ namespace EPPlusTest.FormulaParsing
                 p.Workbook.Names.AddFormula("SumOfSheet1", "Sum(Sheet1!A2:A10)");
                 ws.Cells["L1"].Formula = "Sheet1!B2+SumOfSheet1+15";
                 ws.Calculate();
-
+                var ie = ws.IgnoredErrors.Add(ws.Cells["A1"]);                
                 Assert.AreEqual(403830D, p.Workbook.Names["SumOfSheet1"].Value);
                 Assert.AreEqual(403847D, ws.Cells["L1"].Value);
             }
@@ -124,7 +124,7 @@ namespace EPPlusTest.FormulaParsing
         {
             using(var p = OpenTemplatePackage("DefinedNameRelative.xlsx"))
             {
-                p.Workbook.Calculate();
+                p.Workbook.Calculate();                
             }
         }
     }

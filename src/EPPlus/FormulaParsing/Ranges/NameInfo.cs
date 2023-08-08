@@ -65,13 +65,29 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <summary>
         /// Formula of the name
         /// </summary>
-        public string Formula 
+        public string Formula
         {
             get
             {
                 return _nameItem.Formula;
             }
         }
+        /// <summary>
+        /// Gets the forumla relative to a row and column.
+        /// </summary>
+        /// <param name="row">The row </param>
+        /// <param name="col">The column</param>
+        /// <returns></returns>
+        public string GetRelativeFormula(int row, int col)
+        {
+            return _nameItem.GetRelativeFormula(row, col);
+        }
+
+        public object GetValue(FormulaCellAddress currentCell)
+        {
+            return _nameItem.GetValue(currentCell);
+        }
+
         /// <summary>
         /// Tokens
         /// </summary>
@@ -90,6 +106,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 _nameItem.NameValue = value;
             }
         }
+        
     }
     public class NameInfoWithValue : INameInfo
     {
@@ -112,6 +129,15 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get;
             private set;
+        }
+        public object GetValue(FormulaCellAddress currentCell)
+        {
+            return Value;
+        }
+
+        public string GetRelativeFormula(int row, int col)
+        {
+            return null;
         }
     }
 }

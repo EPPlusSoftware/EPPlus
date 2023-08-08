@@ -87,6 +87,7 @@ Methods
 * `CreateAddressResult`  - Returns the result with a reference to a range.
 * `CreateDynamicArrayResult` - The result should be treated as a dynamic array.
 * `GetArrayBehaviourConfig` - Sets the index if the parameters that can be arrays. Also see the `ArrayBehaviour` property.
+Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `CalculatedColumn`
 ####Tokenizer, Expressions and Compile result
 * The source code tokenizer now tokenizes in more detail, tokenizing addresses. 
 * The expression handling is totally rewritten and now uses reversed polish notation instead of an expression tree. This change affects internal classes only.
