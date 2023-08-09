@@ -43,33 +43,32 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            if (arguments.Count > 4) return CompileResult.GetErrorResult(eErrorType.Value);
+
+            var numberS = ArgToDecimal(arguments, 0);
+            numberS = Math.Floor(numberS);
+            var trails = ArgToDecimal(arguments, 1);
+            trails = Math.Floor(trails);
+            var probabilityS = ArgToDecimal(arguments, 2);
+            var cumulative = ArgToBool(arguments, 3);
+
+            if (numberS < 0 || numberS > trails || probabilityS < 0 || probabilityS > 1) return CompileResult.GetErrorResult(eErrorType.Num);
+
+            var result = 0d;
+            if (cumulative)
             {
-                var numberS = ArgToDecimal(arguments, 0);
-                numberS = Math.Floor(numberS);
-                var trails = ArgToDecimal(arguments, 1);
-                trails = Math.Floor(trails);
-                var probabilityS = ArgToDecimal(arguments, 2);
-                var cumulative = ArgToBool(arguments, 3);
-
-                if (arguments.Count >4) return CompileResult.GetErrorResult(eErrorType.Value);
-                if (numberS < 0 || numberS>trails || probabilityS<0 || probabilityS>1) return CompileResult.GetErrorResult(eErrorType.Num);
-
-                var result = 0d;
-                if (cumulative)
+                for (var i = 0; i <= numberS; i++)
                 {
-                    for (var i = 0; i <= numberS; i++)
-                    {
-                        var combin = MathHelper.Factorial(trails, trails - i) / MathHelper.Factorial(i);
-                        result += combin*Math.Pow(probabilityS, i) * Math.Pow(1 - probabilityS, trails - i);
-                    }
+                    var combin = MathHelper.Factorial(trails, trails - i) / MathHelper.Factorial(i);
+                    result += combin * Math.Pow(probabilityS, i) * Math.Pow(1 - probabilityS, trails - i);
                 }
-                else
-                {
-                    var combin = MathHelper.Factorial(trails, trails - numberS) / MathHelper.Factorial(numberS);
-                    result = combin * Math.Pow(probabilityS, numberS) * Math.Pow(1 - probabilityS, trails - numberS);
-                }
-                return CreateResult(result, DataType.Decimal);
             }
+            else
+            {
+                var combin = MathHelper.Factorial(trails, trails - numberS) / MathHelper.Factorial(numberS);
+                result = combin * Math.Pow(probabilityS, numberS) * Math.Pow(1 - probabilityS, trails - numberS);
+            }
+            return CreateResult(result, DataType.Decimal);
         }
     }
 }

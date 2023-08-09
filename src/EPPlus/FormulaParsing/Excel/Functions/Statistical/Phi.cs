@@ -26,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the value of the density function for a standard normal distribution for a supplied number.")]
     internal class Phi : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

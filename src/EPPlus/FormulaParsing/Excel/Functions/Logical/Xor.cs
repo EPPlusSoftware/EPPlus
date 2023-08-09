@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
 
         private readonly DoubleEnumerableArgConverter _converter;
-
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

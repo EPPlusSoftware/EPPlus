@@ -28,6 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     Description = "Returns left tailed inverse of Students T-distribution")]
     internal class TInv : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

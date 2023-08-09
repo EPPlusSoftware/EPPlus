@@ -14,6 +14,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         Description = "Returns the sheet number relating to a supplied reference")]
     internal class Sheet : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 0;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
