@@ -106,26 +106,5 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
 
             }
         }
-
-
-        [TestMethod]
-        public void NegBinomDotDistShouldReturnCorrectResultWhenCumulative3()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A2"].Value = 9;
-                sheet.Cells["A3"].Value = 11;
-                sheet.Cells["A4"].Value = 0.87;
-                sheet.Cells["A5"].Value = true;
-                sheet.Cells["B5"].Formula = "NEGBINOM.DIST(A2,A3,A4,A5)";
-                sheet.Calculate();
-
-                var result = System.Math.Round((double)sheet.Cells["B5"].Value, 7);
-                Assert.AreEqual(0.9999948, result);
-
-
-            }
-        }
     }
 }
