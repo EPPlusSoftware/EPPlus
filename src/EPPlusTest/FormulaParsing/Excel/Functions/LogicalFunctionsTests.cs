@@ -143,6 +143,48 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void AndShouldHandleRange_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Formula = "AND(A1:A2)";
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void AndShouldHandleRange_2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 0;
+                sheet.Cells["A3"].Formula = "AND(A1:A2)";
+                sheet.Calculate();
+                Assert.IsFalse((bool)sheet.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void AndShouldReturnValueErrorIfNoValidInput()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = "HI";
+                sheet.Cells["A2"].Value = "THERE";
+                sheet.Cells["A3"].Formula = "AND(A1:A2)";
+                sheet.Calculate();
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
         public void AndShouldReturnTrueIfAllArgumentsAreTrue()
         {
             var func = new And();
@@ -185,6 +227,20 @@ namespace EPPlusTest.Excel.Functions
             var args = FunctionsHelper.CreateArgs(true, false, false);
             var result = func.Execute(args, _parsingContext);
             Assert.IsTrue((bool)result.Result);
+        }
+
+        [TestMethod]
+        public void OrShouldHandleRange_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 0;
+                sheet.Cells["A3"].Formula = "OR(A1:A2)";
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["A3"].Value);
+            }
         }
 
         [TestMethod]
