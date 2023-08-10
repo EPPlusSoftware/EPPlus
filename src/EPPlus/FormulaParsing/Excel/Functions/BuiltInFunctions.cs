@@ -141,7 +141,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["mod"] = new Mod();
             Functions["mode"] = new Mode();
             Functions["mode.sngl"] = new ModeSngl();
-            Functions["mode.mult"] = new ModeDotMult();
             Functions["mround"] = new Mround();
             Functions["multinomial"] = new Multinomial();
             Functions["average"] = new Average();
@@ -198,7 +197,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["avedev"] = new Avedev();
             Functions["binomdist"] = new BinomDist();
             Functions["binom.dist"] = new BinomDotDist();
-            Functions["binom.dist.range"] = new BinomDotDistDotRange();
+            Functions["binom.inv"] = new BinomInv();    
             Functions["betadist"] = new Betadist();
             Functions["beta.dist"] = new BetaDotDist();
             Functions["betainv"] = new Betainv();
@@ -256,10 +255,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["f.dist"] = new FdotDist();
             Functions["ftest"] = new FTest();
             Functions["f.test"] = new FdotTest();
-            Functions["f.inv.rt"] = new FDotInvDotRT();
-            Functions["f.inv"] = new FDotInv();
 
-            Functions["poisson.dist"] = new PoissonDotDist();
+            Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();
             Functions["weibull"] = new WeibullDist();
             Functions["t.test"] = new TTest();

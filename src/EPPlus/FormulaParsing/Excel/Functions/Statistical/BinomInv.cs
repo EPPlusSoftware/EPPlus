@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "7.0",
-    Description = "Returns the individual term binomial distribution probability.")]
+    Description = "Returns the smallest value for which the cumulative binomial distribution is greater than or equal to a criterion value.")]
 
 
     internal class BinomInv : ExcelFunction
@@ -43,9 +43,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
             if (trails < 0 || probS <= 0 || probS >= 1 || alpha <= 0 || alpha >= 1) return CompileResult.GetErrorResult(eErrorType.Num);
 
-            var result = 0d;
+            var x = 0d;
 
-            return CreateResult(result, DataType.Decimal);
+            while (x<=trails)
+            {
+                if (BinomHelper.CumulativeDistrubution(x, trails, probS)>=alpha)
+                {
+                    return CreateResult(x, DataType.Decimal);
+                }
+                x++;
+            }
+            return CreateResult(x, DataType.Decimal);
         }
+
     }
 }

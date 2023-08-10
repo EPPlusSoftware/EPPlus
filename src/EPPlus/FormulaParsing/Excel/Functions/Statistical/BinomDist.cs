@@ -48,11 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var result = 0d;
             if (cumulative)
             {
-                for (var i = 0; i <= numberS; i++)
-                {
-                    var combin = MathHelper.Factorial(trails, trails - i) / MathHelper.Factorial(i);
-                    result += combin * Math.Pow(probabilityS, i) * Math.Pow(1 - probabilityS, trails - i);
-                }
+                result = BinomHelper.CumulativeDistrubution(numberS, trails, probabilityS);
             }
             else
             {
