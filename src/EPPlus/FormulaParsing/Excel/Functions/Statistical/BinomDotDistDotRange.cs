@@ -23,7 +23,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-
+        SupportsArrays = true,
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "7.0",
         Description = "Returns the probability of a trial result using a binomial distribution.")]
@@ -32,6 +32,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class BinomDotDistDotRange : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1, 2}
+        };
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
