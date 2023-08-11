@@ -19,6 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml
 {
@@ -27,6 +29,18 @@ namespace OfficeOpenXml
     /// </summary>
     public sealed class ExcelNamedRange : ExcelRangeBase 
     {
+        [Flags]
+        private enum NameRelativeType
+        {
+            /// <summary>
+            /// The name contains a relative address
+            /// </summary>
+            RelativeAddress = 1,
+            /// <summary>
+            /// The name contains a relative table address, i.e. [#this row]
+            /// </summary>
+            RelativeTableAddress = 2
+        }
         ExcelWorksheet _sheet;
         /// <summary>
         /// A named range
@@ -40,18 +54,27 @@ namespace OfficeOpenXml
         internal ExcelNamedRange(string name, ExcelWorksheet nameSheet , ExcelWorksheet sheet, string address, int index, bool allowRelativeAddress = false) :
             base(sheet, address)
         {
-            Name = name;
-            _sheet = nameSheet;
-            Index = index;
-            AllowRelativeAddress = allowRelativeAddress;
+            Init(name, nameSheet, index, allowRelativeAddress);
         }
         internal ExcelNamedRange(string name,ExcelWorkbook wb, ExcelWorksheet nameSheet, int index, bool allowRelativeAddress = false) :
             base(wb, nameSheet, name, true)
         {
+            Init(name, nameSheet, index, allowRelativeAddress);
+        }
+        private void Init(string name, ExcelWorksheet nameSheet, int index, bool allowRelativeAddress)
+        {
             Name = name;
             _sheet = nameSheet;
             Index = index;
-            AllowRelativeAddress = allowRelativeAddress;
+            if(allowRelativeAddress && _fromRow>0)
+            {                
+                _relativeType = (_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed) ? 0 : NameRelativeType.RelativeAddress;
+            }
+            else if(_fromRow>0 && !(_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed))
+            {
+                _fromRowFixed = _toRowFixed = _fromColFixed = _toColFixed = true;
+                ResetAddress(_address);
+            }
         }
 
         /// <summary>
@@ -107,7 +130,7 @@ namespace OfficeOpenXml
             get; 
             set; 
         }
-        List<Token> tokens = null;
+        List<Token> _tokens = null;
         internal string NameFormula
         {
             get;
@@ -118,39 +141,50 @@ namespace OfficeOpenXml
         {
             if (string.IsNullOrEmpty(_r1c1Formula) && !string.IsNullOrEmpty(NameFormula))
             {
+                if (_relativeType == NameRelativeType.RelativeTableAddress) return NameFormula;
+                
                 var tokens = SourceCodeTokenizer.Default.Tokenize(NameFormula);
-                AllowRelativeAddress = HasRelativeRef(tokens);
-                if (AllowRelativeAddress == false) return NameFormula;
-                _r1c1Formula = R1C1Translator.ToR1C1FromTokens(tokens, 1, 1);
+                _relativeType = HasRelativeRef(tokens);
+                if (_relativeType == 0) return NameFormula;
+                if(EnumUtil.HasFlag(_relativeType, NameRelativeType.RelativeAddress))
+                {
+                    _r1c1Formula = R1C1Translator.ToR1C1FromTokens(tokens, 1, 1);
+                    return GetRelativeFormula(_r1c1Formula, row, col);
+                }
+                else
+                {
+                    return NameFormula; 
+                }
             }
-            else if(AllowRelativeAddress== false) 
+            else if(IsRelative == false) 
             {
                 return NameFormula;
             }
-            
+
             return GetRelativeFormula(_r1c1Formula, row, col);
         }
 
-        private bool HasRelativeRef(IList<Token> tokens)
+        private NameRelativeType HasRelativeRef(IList<Token> tokens)
         {
+            NameRelativeType ret=0;
             foreach(var t in tokens)
             {
                 if(t.TokenType==TokenType.CellAddress)
                 {
                     if(t.Value.Count(x=>x=='$')<2)
                     {
-                        return true;
+                        ret |= NameRelativeType.RelativeAddress;
                     }
                 }
                 else if(t.TokenType==TokenType.TablePart)
                 {
                     if (t.Value.Equals("#this row", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        return true;
+                        ret |= NameRelativeType.RelativeTableAddress;
                     }
                 }
             }
-            return false;
+            return ret;
         }
 
         internal static string GetRelativeFormula(string sourceFormula, int row, int col)
@@ -213,6 +247,14 @@ namespace OfficeOpenXml
             get; private set;
         }
 
+        NameRelativeType _relativeType;
+        internal bool IsRelative
+        {
+            get
+            {
+                return _relativeType > 0;
+            }
+        }
         /// <summary>
         /// Serves as the default hash function.
         /// </summary>
@@ -224,7 +266,7 @@ namespace OfficeOpenXml
 
         internal object GetValue(FormulaCellAddress currentCell)
         {
-            if (AllowRelativeAddress)
+            if (IsRelative)
             {
                 if(string.IsNullOrEmpty(NameFormula))
                 {
@@ -254,7 +296,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private RangeInfo GetRelativeRange(RangeInfo ri, FormulaCellAddress currentCell)
+        internal RangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
         {
             var address = ri.Address.GetOffset(currentCell.Row, currentCell.Column, true);
             return new RangeInfo(address, address._context);

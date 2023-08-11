@@ -5176,6 +5176,17 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s503()
+        {
+            using (var package = OpenTemplatePackage("s503.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.InsertRow(1, 1);
+                ws.DeleteRow(1, 1);
+                SaveAndCleanup(package);
+            }
+        }
 
     }
 }

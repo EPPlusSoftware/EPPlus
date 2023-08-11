@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             object result;
             FormulaRangeAddress addr;
             // vertical direction
-            if (tr - fr > 0)
+            if(tr - fr > 0)
             {
                 if (ccr < fr || ccr > tr) return CompileResult.GetErrorResult(eErrorType.Value);
                 // use row of the current cell
@@ -53,11 +53,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             // horizontal direction
             else
             {
-
-                if (ccc < fc || ccc > tc) return CompileResult.GetErrorResult(eErrorType.Value);
-                // use col of the current cell
-                result = range.GetValue(tr, ccc);
-                addr = new FormulaRangeAddress(context, tr, ccc, tr, ccc);
+                if (tr - fr == 0 && !(ccr < fr || ccr > tr)) //Single cell, check row as well.
+                {
+                    // use row of the current cell
+                    result = range.GetValue(ccr, tc);
+                    addr = new FormulaRangeAddress(context, ccr, tc, ccr, tc);
+                }
+                else if (ccc >= fc && ccc <= tc)
+                {
+                    // use col of the current cell
+                    result = range.GetValue(tr, ccc);
+                    addr = new FormulaRangeAddress(context, tr, ccc, tr, ccc);
+                }
+                else
+                {
+                    return CompileResult.GetErrorResult(eErrorType.Value);
+                }
             }
 
             return CompileResultFactory.Create(result, addr);

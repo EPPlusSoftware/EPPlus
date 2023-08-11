@@ -119,12 +119,13 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(403847D, ws.Cells["L1"].Value);
             }
         }
+
         [TestMethod]
         public void ReadRelativeAddressesInDefinedName()
         {
             using(var p = OpenTemplatePackage("DefinedNameRelative.xlsx"))
             {
-                p.Workbook.Calculate();                
+                p.Workbook.Calculate();
             }
         }
     }

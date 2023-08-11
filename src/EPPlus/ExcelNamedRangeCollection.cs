@@ -144,6 +144,7 @@ namespace OfficeOpenXml
             var namedRanges = this._list.Where(filter);
             foreach(var namedRange in namedRanges)
             {
+                if (namedRange._fromRow <= 0) continue;
                 var address = new ExcelAddressBase(namedRange.Address);
                 if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint && address.Rows < ExcelPackage.MaxRows)
                 {
@@ -165,6 +166,7 @@ namespace OfficeOpenXml
             var namedRanges = this._list.Where(filter);
             foreach (var namedRange in namedRanges)
             {
+                if (namedRange._fromRow <= 0) continue;
                 var address = new ExcelAddressBase(namedRange.Address);
                 if (rows > 0 && address._toCol <= upperLimit && address._fromCol >= lowerLimint)
                 {

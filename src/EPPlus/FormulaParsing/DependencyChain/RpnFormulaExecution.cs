@@ -307,9 +307,10 @@ namespace OfficeOpenXml.FormulaParsing
             try
             {
                 SetCurrentCell(depChain, f);
-                var ws = f._ws;
+                var ws = f._ws; 
                 if (f._tokenIndex < f._tokens.Count)
                 {
+                    
                     address = ExecuteNextToken(depChain, f, true);
                     if (f._tokenIndex < f._tokens.Count)
                     {
@@ -320,7 +321,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 rd = AddAddressToRD(depChain, ne._worksheetIx);
 
-                                if (rd.Merge(ExcelCellBase.GetRowFromCellId(ne._name.Id), 0))
+                                if (ne.IsRelative || rd.Merge(ExcelCellBase.GetRowFromCellId(ne._name.Id), 0))
                                 {
                                     depChain._formulaStack.Push(f);
                                     ws = ne._worksheetIx < 0 ? null : depChain._parsingContext.Package.Workbook._worksheets[ne._worksheetIx];

@@ -79,7 +79,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 return GetNegatedValue(value, null);
             }            
         }
-
+        public bool IsRelative 
+        { 
+            get 
+            { 
+                return _name.IsRelative;
+            } 
+        }
         private CompileResult GetNegatedValue(object value, FormulaRangeAddress address)
         {
             if (_negate == 0)
@@ -132,7 +138,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             if(_name?.Value is IRangeInfo ri) 
             {
-                return ri.Address.Clone();
+                if(_name.IsRelative)
+                {
+                    return _name.GetRelativeRange(ri, Context.CurrentCell).Address;
+                }
+                else
+                {
+                    return ri.Address.Clone();
+                }
             }
             return null;
         }

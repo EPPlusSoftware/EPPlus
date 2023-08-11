@@ -33,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 var arg = arguments[x];
                 if (arg.DataType == DataType.ExcelError) return new CompileResult(arg.Value, arg.DataType);
                 if (!ArgToBool(arguments, x))
-               {
+                {
                     return new CompileResult(false, DataType.Boolean);
                 }
             }

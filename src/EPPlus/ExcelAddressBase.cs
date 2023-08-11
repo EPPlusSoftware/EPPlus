@@ -147,13 +147,18 @@ namespace OfficeOpenXml
             _toColFixed = toColFixed;
             _ws = worksheetName;
             Validate();
+            ResetAddress(prevAddress);
+        }
+
+        internal void ResetAddress(string prevAddress)
+        {
             var prevAddressHasWs = prevAddress != null && prevAddress.IndexOf("!") > 0 && !prevAddress.EndsWith("!");
-            _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, fromColFixed, _toRowFixed, _toColFixed );
-            if(prevAddressHasWs && !string.IsNullOrEmpty(_ws))
+            _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+            if (prevAddressHasWs && !string.IsNullOrEmpty(_ws))
             {
-                if(ExcelWorksheet.NameNeedsApostrophes(_ws))
+                if (ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
-                    _address = $"'{_ws.Replace("'","''")}'!{_address}";
+                    _address = $"'{_ws.Replace("'", "''")}'!{_address}";
                 }
                 else
                 {
@@ -161,6 +166,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+
         /// <summary>
         /// Creates an Address object
         /// </summary>

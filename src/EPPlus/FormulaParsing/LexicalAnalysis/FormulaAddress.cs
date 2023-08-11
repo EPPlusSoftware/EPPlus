@@ -535,9 +535,27 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {                
                 WorksheetIx = ctx.CurrentCell.WorksheetIx;
             }
-            ExcelCellBase.GetRowColFromAddress(address, out FromRow, out FromCol, out ToRow, out ToCol);
-        }
+            ExcelCellBase.GetRowColFromAddress(address, out FromRow, out FromCol, out ToRow, out ToCol, 
+                out bool fixedFromRow, out bool fixedFromCol, out bool fixedToRow, out bool fixedToCol);
 
+            FixedFlag = fixedFromRow ? FixedFlag.FromRowFixed : 0;
+            FixedFlag |= fixedFromCol ? FixedFlag.FromColFixed : 0;
+            FixedFlag |= fixedToRow ? FixedFlag.ToRowFixed : 0;
+            FixedFlag |= fixedToCol ? FixedFlag.ToColFixed : 0;
+        }
+        internal FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address) : this(ctx)
+        {
+            WorksheetIx = ctx.GetWorksheetIndex(address.WorkSheetName);
+            FromRow = address._fromRow;
+            FromCol = address._fromCol;
+            ToRow = address._toRow;
+            ToCol = address._toCol;
+
+            FixedFlag = address._fromRowFixed ? FixedFlag.FromRowFixed : 0;
+            FixedFlag |= address._fromColFixed ? FixedFlag.FromColFixed : 0;
+            FixedFlag |= address._toRowFixed ? FixedFlag.ToRowFixed : 0;
+            FixedFlag |= address._toColFixed ? FixedFlag.ToColFixed : 0;
+        }
         public FormulaRangeAddress(ParsingContext context, int fromRow, int fromCol, int toRow, int toCol) : this(context)
         {
             FromRow = fromRow;
@@ -735,6 +753,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             ret.ToRow = toRow;
             ret.FromCol = fromCol;
             ret.ToCol = toCol;
+            ret.FixedFlag = FixedFlag;
             return ret;
         }
 

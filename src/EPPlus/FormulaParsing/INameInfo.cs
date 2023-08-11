@@ -25,8 +25,10 @@ namespace OfficeOpenXml.FormulaParsing
         string Name { get; }
         string Formula { get;  }
         object Value { get; }
-
+        bool IsRelative { get; }
         string GetRelativeFormula(int row, int col);
+        IRangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell);
         object GetValue(FormulaCellAddress currentCell);
+
     }
 }

@@ -715,7 +715,9 @@ namespace OfficeOpenXml.FormulaParsing
             var ni = new NameInfo(nameItem);
             if (nameItem._fromRow > 0)
             {
-                nameItem.NameValue = new RangeInfo(nameItem.Worksheet ?? ParsingContext.CurrentWorksheet, nameItem._fromRow, nameItem._fromCol, nameItem._toRow, nameItem._toCol, ParsingContext);
+                //var addr = new FormulaRangeAddress(ctx, nameItem);
+                nameItem.NameValue = new RangeInfo(
+                    nameItem.Worksheet ?? ParsingContext.CurrentWorksheet, nameItem, _context);
             }
 
             return ni;
