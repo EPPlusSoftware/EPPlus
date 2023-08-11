@@ -198,9 +198,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["avedev"] = new Avedev();
             Functions["binomdist"] = new BinomDist();
             Functions["binom.dist"] = new BinomDotDist();
-            Functions["binom.dist.range"] = new BinomDotDistDotRange();
+            Functions["binom.inv"] = new BinomInv();    
             Functions["betadist"] = new Betadist();
             Functions["beta.dist"] = new BetaDotDist();
+            Functions["binom.dist.range"] = new BinomDotDistDotRange();
             Functions["betainv"] = new Betainv();
             Functions["beta.inv"] = new BetaDotInv();
             Functions["gamma"] = new Gamma();
@@ -257,10 +258,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["f.dist"] = new FdotDist();
             Functions["ftest"] = new FTest();
             Functions["f.test"] = new FdotTest();
-            Functions["f.inv.rt"] = new FDotInvDotRT();
             Functions["f.inv"] = new FDotInv();
+            Functions["f.inv.rt"] = new FDotInvDotRT();
 
-            Functions["poisson.dist"] = new PoissonDotDist();
+            Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();
             Functions["weibull"] = new WeibullDist();
             Functions["t.test"] = new TTest();
