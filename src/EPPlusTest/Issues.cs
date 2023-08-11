@@ -5131,5 +5131,38 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void s497()
+        {
+            using (var package = OpenTemplatePackage("s497.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets["Sheet1"];
+                package.Workbook.Calculate();
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void CsvRead()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("csv1");
+                var csvFile = new FileInfo("c:\\temp\\csv1.csv");
+                ws.Cells["A1"].LoadFromText(csvFile, new ExcelTextFormat() { TextQualifier = '"', SkipLinesEnd=1 }, TableStyles.Dark1, true);
+                ws.Cells.AutoFitColumns();
+                package.SaveAs("c:\\temp\\CsvWorkbook.xslx");
+            }
+        }
+        [TestMethod]
+        public void s503()
+        {
+            using (var package = OpenTemplatePackage("s503.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.InsertColumn(1, 1);
+                ws.DeleteColumn(1, 1);
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
