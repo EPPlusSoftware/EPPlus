@@ -22,49 +22,39 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-    SupportsArrays = true,
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "7.0",
-    Description = "Returns the individual term binomial distribution probability.")]
+    Description = "Returns the smallest value for which the cumulative binomial distribution is greater than or equal to a criterion value.")]
 
-    internal class BinomDist : ExcelFunction
+
+    internal class BinomInv : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 4;
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override int ArgumentMinLength => 3;
 
-        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
-        {
-            ArrayParameterIndexes = new List<int> { 0, 1, 2, 3 }
-        };
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
-        {
-            return _arrayConfig;
-        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments.Count > 4) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (arguments.Count > 3) return CompileResult.GetErrorResult(eErrorType.Value);
 
-            var numberS = ArgToDecimal(arguments, 0);
-            numberS = Math.Floor(numberS);
-            var trails = ArgToDecimal(arguments, 1);
+            var trails = ArgToDecimal(arguments, 0);
             trails = Math.Floor(trails);
-            var probabilityS = ArgToDecimal(arguments, 2);
-            var cumulative = ArgToBool(arguments, 3);
+            var probS = ArgToDecimal(arguments, 1);
+            var alpha = ArgToDecimal(arguments, 2);
 
-            if (numberS < 0 || numberS > trails || probabilityS < 0 || probabilityS > 1) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (trails < 0 || probS <= 0 || probS >= 1 || alpha <= 0 || alpha >= 1) return CompileResult.GetErrorResult(eErrorType.Num);
 
-            var result = 0d;
-            if (cumulative)
+            var x = 0d;
+
+            while (x<=trails)
             {
-                result = BinomHelper.CumulativeDistrubution(numberS, trails, probabilityS);
+                if (BinomHelper.CumulativeDistrubution(x, trails, probS)>=alpha)
+                {
+                    return CreateResult(x, DataType.Decimal);
+                }
+                x++;
             }
-            else
-            {
-                var combin = MathHelper.Factorial(trails, trails - numberS) / MathHelper.Factorial(numberS);
-                result = combin * Math.Pow(probabilityS, numberS) * Math.Pow(1 - probabilityS, trails - numberS);
-            }
-            return CreateResult(result, DataType.Decimal);
+            return CreateResult(x, DataType.Decimal);
         }
+
     }
 }
