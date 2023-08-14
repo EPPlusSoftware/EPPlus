@@ -670,10 +670,11 @@ namespace EPPlusTest
             // Act
             package.Workbook.Calculate();
             var fullPrecision = package.Workbook.FullPrecision;
+            var sum = package.Workbook.Worksheets[0].Cells["B3"].Value;
 
             // Assert
             Assert.IsFalse(fullPrecision);
-            Assert.AreEqual("OK", package.Workbook.Worksheets[0].Cells["A3"].Value);
+            Assert.AreEqual(0, sum);
         }
     }
 }
