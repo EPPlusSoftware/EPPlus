@@ -91,4 +91,5 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 ####Tokenizer, Expressions and Compile result
 * The source code tokenizer now tokenizes in more detail, tokenizing addresses. 
 * The expression handling is totally rewritten and now uses reversed polish notation instead of an expression tree. This change affects internal classes only.
-* The CompileResult class has moved to a new namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+* The `CompileResult` class has moved to a new namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+* Adding defined names referencing addresses will now be added as fixed addresses (i.e $A$1), unless the `allowRelativeAddress` parameter of the `ExcelNamedRangeCollection.Add` method is set to true.

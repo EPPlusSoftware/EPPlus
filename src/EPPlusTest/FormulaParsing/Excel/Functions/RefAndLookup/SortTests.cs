@@ -191,7 +191,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(3, _sheet.Cells[5, 1].Value);
             Assert.AreEqual(2, _sheet.Cells[6, 1].Value);
             Assert.AreEqual(1, _sheet.Cells[7, 1].Value);
-            Assert.AreEqual(0, _sheet.Cells[8, 1].Value);
+            Assert.AreEqual(0D, _sheet.Cells[8, 1].Value);
 
         }
 
@@ -213,7 +213,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(3, _sheet.Cells[5, 1].Value);
             Assert.AreEqual(2, _sheet.Cells[6, 1].Value);
             Assert.AreEqual(1, _sheet.Cells[7, 1].Value);
-            Assert.AreEqual(0, _sheet.Cells[8, 1].Value);
+            Assert.AreEqual(0D, _sheet.Cells[8, 1].Value);
 
         }
     }

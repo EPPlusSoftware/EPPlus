@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if(arg1.Address==null)
                 {
-                    return CreateResult(eErrorType.Value);
+                    return CreateResult(arg1.Value, arg1.DataType);
                 }
                 range = new RangeInfo(arg1.Address, context);
             }

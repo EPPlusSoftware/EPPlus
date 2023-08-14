@@ -545,7 +545,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         internal FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address) : this(ctx)
         {
-            WorksheetIx = ctx.GetWorksheetIndex(address.WorkSheetName);
             FromRow = address._fromRow;
             FromCol = address._fromCol;
             ToRow = address._toRow;
@@ -555,6 +554,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             FixedFlag |= address._fromColFixed ? FixedFlag.FromColFixed : 0;
             FixedFlag |= address._toRowFixed ? FixedFlag.ToRowFixed : 0;
             FixedFlag |= address._toColFixed ? FixedFlag.ToColFixed : 0;
+            if(ctx!=null)
+            {
+                WorksheetIx = ctx.GetWorksheetIndex(address.WorkSheetName);
+            }
         }
         public FormulaRangeAddress(ParsingContext context, int fromRow, int fromCol, int toRow, int toCol) : this(context)
         {

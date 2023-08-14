@@ -34,15 +34,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             var tc = range.Address.ToCol;
             // always return #VALUE if both multiple rows and multiple cols
             if (tr - fr > 0 && tc - fc > 0) return CompileResult.GetErrorResult(eErrorType.Value);
+
+            object result;
+            FormulaRangeAddress addr;
+            //Single cell, always return the value and the address.
+            if (fr == tr && fc == tc) 
+            {
+                result = range.GetValue(fr, fc);
+                addr = new FormulaRangeAddress(context, fr, fc, tr, tc);
+                return CompileResultFactory.Create(result, addr);
+            }
+
             // if current cell is outside rows and cols of the range
             // are we outside the allowed area?
             if ((ccr < fr || ccr > tr) && (ccc < fc || ccc > tc)) return CompileResult.GetErrorResult(eErrorType.Value);
 
             // do implicit intersection
 
-            object result;
-            FormulaRangeAddress addr;
-            // vertical direction
             if(tr - fr > 0)
             {
                 if (ccr < fr || ccr > tr) return CompileResult.GetErrorResult(eErrorType.Value);
@@ -53,22 +61,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             // horizontal direction
             else
             {
-                if (tr - fr == 0 && !(ccr < fr || ccr > tr)) //Single cell, check row as well.
-                {
-                    // use row of the current cell
-                    result = range.GetValue(ccr, tc);
-                    addr = new FormulaRangeAddress(context, ccr, tc, ccr, tc);
-                }
-                else if (ccc >= fc && ccc <= tc)
-                {
-                    // use col of the current cell
-                    result = range.GetValue(tr, ccc);
-                    addr = new FormulaRangeAddress(context, tr, ccc, tr, ccc);
-                }
-                else
-                {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
-                }
+                if (ccc < fc || ccc > tc) return CompileResult.GetErrorResult(eErrorType.Value);
+                // use col of the current cell
+                result = range.GetValue(tr, ccc);
+                addr = new FormulaRangeAddress(context, tr, ccc, tr, ccc);
             }
 
             return CompileResultFactory.Create(result, addr);

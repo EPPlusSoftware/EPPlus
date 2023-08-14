@@ -59,7 +59,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells["A1"].Value = null;
             _sheet.Cells["A10"].Formula = "TOCOL(A1:C2,0)";
             _sheet.Calculate();
-            Assert.AreEqual(0, _sheet.Cells["A10"].Value);
+            Assert.AreEqual(0D, _sheet.Cells["A10"].Value);
             Assert.AreEqual(5, _sheet.Cells["A11"].Value);
             Assert.AreEqual(9, _sheet.Cells["A12"].Value);
             Assert.AreEqual(2, _sheet.Cells["A13"].Value);

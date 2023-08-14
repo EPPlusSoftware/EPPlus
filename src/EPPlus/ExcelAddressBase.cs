@@ -679,6 +679,13 @@ namespace OfficeOpenXml
                 return _address;
             }
         }
+        public string AddressAbsolute
+        {
+            get
+            {
+                return GetAddress(_fromRow, _fromCol, _toRow, _toCol, true, true, true, true);
+            }
+        }
         /// <summary>
         /// The full address including the worksheet
         /// </summary>
@@ -1174,7 +1181,7 @@ namespace OfficeOpenXml
             else if (col + cols < _fromCol || _fromColFixed && col < _fromCol) //Before
             {
                 var toCol = ((setFixed && _toColFixed) ||(adjustMaxCol==false && _toCol==ExcelPackage.MaxColumns)) ? _toCol : _toCol - cols;
-                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol - cols), _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : Math.Max(_fromCol - cols, col)), _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else  //Partly
             {

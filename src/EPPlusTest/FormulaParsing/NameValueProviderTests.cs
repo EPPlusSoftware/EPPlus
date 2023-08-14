@@ -111,8 +111,8 @@ namespace EPPlusTest.FormulaParsing
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 LoadTestdata(ws);
 
-                p.Workbook.Names.AddFormula("SumOfSheet1", "Sum(Sheet1!A2:A10)");
-                ws.Cells["L1"].Formula = "Sheet1!B2+SumOfSheet1+15";
+                p.Workbook.Names.AddFormula("SumOfSheet1", "Sum(Sheet1!$A$2:$A$10)");
+                ws.Cells["L1"].Formula = "Sheet1!$B$2+SumOfSheet1+15";
                 ws.Calculate();
                 var ie = ws.IgnoredErrors.Add(ws.Cells["A1"]);                
                 Assert.AreEqual(403830D, p.Workbook.Names["SumOfSheet1"].Value);
@@ -125,7 +125,38 @@ namespace EPPlusTest.FormulaParsing
         {
             using(var p = OpenTemplatePackage("DefinedNameRelative.xlsx"))
             {
+                var ws0 = p.Workbook.Worksheets[0];
+                var ws1 = p.Workbook.Worksheets[1];
+                ws0.ClearFormulaValues();
+                ws1.ClearFormulaValues();
+                
                 p.Workbook.Calculate();
+
+                //Check dynamic array
+                Assert.AreEqual(0D, ws0.Cells["F6"].Value);
+                Assert.AreEqual(0D, ws0.Cells["F10"].Value);
+                Assert.IsNull(ws0.Cells["F11"].Value);
+
+                Assert.AreEqual(3D, ws0.Cells["I9"].Value);
+                Assert.AreEqual(3D, ws0.Cells["I10"].Value);
+                Assert.AreEqual(3D, ws0.Cells["I11"].Value);
+                
+                Assert.AreEqual(5D, ws0.Cells["K11"].Value);
+                Assert.AreEqual("L11", ws0.Cells["M11"].Value);
+
+                Assert.AreEqual(1D, ws0.Cells["I12"].Value); //RelativeRow
+                Assert.AreEqual(3D, ws0.Cells["I16"].Value); //RelativeRow
+
+                //Worksheet 2 - Names containing Table references.
+                Assert.AreEqual(3D, ws1.Cells["D2"].Value); //Table referece #this row
+                Assert.AreEqual(9D, ws1.Cells["D3"].Value); //Table referece #this row
+                Assert.AreEqual(15D, ws1.Cells["D4"].Value); //Table referece #this row
+
+                Assert.AreEqual(3D, ws1.Cells["L2"].Value); //Table referece #this row
+                Assert.AreEqual(9D, ws1.Cells["L3"].Value); //Table referece #this row
+                Assert.AreEqual(15D, ws1.Cells["L4"].Value); //Table referece #this row
+
+
             }
         }
     }

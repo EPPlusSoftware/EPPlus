@@ -1508,14 +1508,14 @@ namespace OfficeOpenXml
                 {
                     elem.InnerText = name.Address;
                 }
-                else if(name.AllowRelativeAddress)
+                else// if(name.AllowRelativeAddress)
                 {
 					elem.InnerText = name.FullAddress;
                 }
-				else
-                {
-					elem.InnerText = name.FullAddressAbsolute;
-				}
+				//else
+    //            {
+				//	elem.InnerText = name.FullAddressAbsolute;
+				//}
 			}
 		}
 		/// <summary>

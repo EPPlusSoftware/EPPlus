@@ -228,8 +228,8 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual(sheetName, sheet1.Name);
                 Assert.AreEqual(sheet1, package.Workbook.Worksheets[sheetName]);
 
-                package.Workbook.Names.Add("WorkbookDefinedName1", sheet1.Cells["A1"]);
-                sheet1.Names.Add("DefinedName1", sheet1.Cells["A1"]);
+                package.Workbook.Names.Add("WorkbookDefinedName1", sheet1.Cells["A1"], true);
+                sheet1.Names.Add("DefinedName1", sheet1.Cells["A1"], true);
 
                 package.Save();
                 using (var p2 = new ExcelPackage(package.Stream))
