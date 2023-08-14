@@ -5159,8 +5159,20 @@ namespace EPPlusTest
             using (var package = OpenTemplatePackage("s503.xlsx"))
             {
                 var ws = package.Workbook.Worksheets[0];
-                ws.InsertColumn(1, 1);
-                ws.DeleteColumn(1, 1);
+                ws.InsertRow(1, 1);
+                ws.DeleteRow(1, 1);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s504()
+        {
+            using (var package = OpenPackage("s504.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws.Cells.Style.Fill.BackgroundColor.SetColor(Color.Black);
+                ws.Cells.Style.Font.Color.SetColor(Color.White);
                 SaveAndCleanup(package);
             }
         }
