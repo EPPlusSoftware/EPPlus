@@ -11,5 +11,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the Mode (the most frequently occurring value) of a list of supplied numbers (if more than one value has same rank, the top rank of that set is returned)")]
     internal class RankEq : Rank
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

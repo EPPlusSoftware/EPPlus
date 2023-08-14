@@ -8,21 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  06/23/2020         EPPlus Software AB       EPPlus 5.2
+ 21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "Returns the Mode (the most frequently occurring value) of a list of supplied numbers ")]
-    internal class ModeSngl : Mode
+            Category = ExcelFunctionCategory.Statistical,
+            EPPlusVersion = "7.0",
+            Description = "Returns the negative binomial distribution")]
+    internal class NegBinomDist : NegBinomDotDist
     {
-        public override string NamespacePrefix => "_xlfn.";
     }
 }

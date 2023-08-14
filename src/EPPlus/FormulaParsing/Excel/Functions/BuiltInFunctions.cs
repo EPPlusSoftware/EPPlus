@@ -141,6 +141,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["mod"] = new Mod();
             Functions["mode"] = new Mode();
             Functions["mode.sngl"] = new ModeSngl();
+            Functions["mode.mult"] = new ModeDotMult();
             Functions["mround"] = new Mround();
             Functions["multinomial"] = new Multinomial();
             Functions["average"] = new Average();
@@ -195,8 +196,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["confidence.t"] = new ConfidenceT();
             Functions["devsq"] = new Devsq();
             Functions["avedev"] = new Avedev();
+            Functions["binomdist"] = new BinomDist();
+            Functions["binom.dist"] = new BinomDotDist();
+            Functions["binom.inv"] = new BinomInv();    
             Functions["betadist"] = new Betadist();
             Functions["beta.dist"] = new BetaDotDist();
+            Functions["binom.dist.range"] = new BinomDotDistDotRange();
             Functions["betainv"] = new Betainv();
             Functions["beta.inv"] = new BetaDotInv();
             Functions["gamma"] = new Gamma();
@@ -205,6 +210,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gamma.dist"] = new GammaDotDist();
             Functions["gammadist"] = new GammaDist();
             Functions["lognorm.inv"] = new LognormDotInv();
+            Functions["negbinom.dist"] = new NegBinomDotDist();
             Functions["norminv"] = new NormInv();
             Functions["norm.inv"] = new NormDotInv();
             Functions["normsinv"] = new NormsInv();
@@ -252,6 +258,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["f.dist"] = new FdotDist();
             Functions["ftest"] = new FTest();
             Functions["f.test"] = new FdotTest();
+            Functions["f.inv"] = new FDotInv();
+            Functions["f.inv.rt"] = new FDotInvDotRT();
 
             Functions["poisson.dist"] = new Poisson();
             Functions["weibull.dist"] = new WeibullDist();

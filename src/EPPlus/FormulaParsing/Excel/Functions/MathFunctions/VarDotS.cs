@@ -23,5 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the variance of a supplied set of values (which represent a sample of a population) ")]
     internal class VarDotS : Var
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }
