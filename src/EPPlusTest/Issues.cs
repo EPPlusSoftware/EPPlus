@@ -5142,18 +5142,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void CsvRead()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var ws = package.Workbook.Worksheets.Add("csv1");
-                var csvFile = new FileInfo("c:\\temp\\csv1.csv");
-                ws.Cells["A1"].LoadFromText(csvFile, new ExcelTextFormat() { TextQualifier = '"', SkipLinesEnd=1 }, TableStyles.Dark1, true);
-                ws.Cells.AutoFitColumns();
-                package.SaveAs("c:\\temp\\CsvWorkbook.xslx");
-            }
-        }
-        [TestMethod]
         public void s503()
         {
             using (var package = OpenTemplatePackage("s503.xlsx"))
@@ -5165,14 +5153,11 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s504()
+        public void s505()
         {
-            using (var package = OpenPackage("s504.xlsx"))
+            using (var package = OpenTemplatePackage("s505.xlsx"))
             {
-                var ws = package.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells.Style.Fill.BackgroundColor.SetColor(Color.Black);
-                ws.Cells.Style.Font.Color.SetColor(Color.White);
+                var ws = package.Workbook.Worksheets[0];
                 SaveAndCleanup(package);
             }
         }
