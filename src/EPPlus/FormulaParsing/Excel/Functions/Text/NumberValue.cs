@@ -39,7 +39,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
         public override int ArgumentMinLength => 1;
-        public override string NamespacePrefix => "_xlfn.";
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arg = ArgToString(arguments, 0);
