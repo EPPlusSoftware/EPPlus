@@ -43,7 +43,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Calculated Column
         /// </summary>
-        public bool CalculatedColumm
+        public bool CalculatedColumn
         {
             get
             {

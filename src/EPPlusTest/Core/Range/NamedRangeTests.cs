@@ -33,7 +33,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertRow(1, 1);
 
-                Assert.AreEqual("NEW!A3:C4", namedRange.FullAddress);
+                Assert.AreEqual("NEW!$A$3:$C$4", namedRange.FullAddress);
             }
         }
 
@@ -48,7 +48,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertRow(4, 1);
 
-                Assert.AreEqual("A2:C3", namedRange.Address);
+                Assert.AreEqual("$A$2:$C$3", namedRange.Address);
             }
         }
 
@@ -63,7 +63,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertRow(3, 1);
 
-                Assert.AreEqual("NEW!A2:C4", namedRange.FullAddress);
+                Assert.AreEqual("NEW!$A$2:$C$4", namedRange.FullAddress);
             }
         }
 
@@ -78,7 +78,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertColumn(1, 1);
 
-                Assert.AreEqual("NEW!C2:E3", namedRange.FullAddress);
+                Assert.AreEqual("NEW!$C$2:$E$3", namedRange.FullAddress);
             }
         }
 
@@ -93,7 +93,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertColumn(5, 1);
 
-                Assert.AreEqual("B2:D3", namedRange.Address);
+                Assert.AreEqual("$B$2:$D$3", namedRange.Address);
             }
         }
 
@@ -108,7 +108,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertColumn(5, 1);
 
-                Assert.AreEqual("B2:D3", namedRange.Address);
+                Assert.AreEqual("$B$2:$D$3", namedRange.Address);
             }
         }
 
@@ -124,7 +124,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertRow(1, 1);
 
-                Assert.AreEqual("NEW!A3:C4", namedRange.FullAddress);
+                Assert.AreEqual("NEW!$A$3:$C$4", namedRange.FullAddress);
             }
         }
 
@@ -140,7 +140,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertColumn(1, 1);
 
-                Assert.AreEqual("NEW!C2:D3", namedRange.FullAddress);
+                Assert.AreEqual("NEW!$C$2:$D$3", namedRange.FullAddress);
             }
         }
 
@@ -157,7 +157,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet1.InsertColumn(1, 1);
 
-                Assert.AreEqual("B2:C3", namedRange.Address);
+                Assert.AreEqual("$B$2:$C$3", namedRange.Address);
             }
         }
         [TestMethod]
@@ -238,7 +238,7 @@ namespace EPPlusTest.Core.Range
                 using (var package = new ExcelPackage(ms))
                 {
                     var sheet = package.Workbook.Worksheets.Add("test");
-                    package.Workbook.Names.Add("MyName", sheet.Cells["A1:A3"], true);
+                    var n = package.Workbook.Names.Add("MyName", sheet.Cells["A1:A3"], true);
                     package.Save();
                 }
                 ms.Position = 0;

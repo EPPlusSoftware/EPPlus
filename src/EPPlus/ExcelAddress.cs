@@ -108,6 +108,6 @@ namespace OfficeOpenXml
                 SetAddress(value, null, null);
                 ChangeAddress();
             }
-        }
+        }        
     }
 }

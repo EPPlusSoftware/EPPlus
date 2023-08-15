@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing
                     var col = sc + c;
                     if (r < nr && c < nc)
                     {
-                        ws.SetValueInner(row, col, array.GetOffset(r, c) ?? 0);
+                        ws.SetValueInner(row, col, array.GetOffset(r, c) ?? 0D);
                     }
                     else
                     {

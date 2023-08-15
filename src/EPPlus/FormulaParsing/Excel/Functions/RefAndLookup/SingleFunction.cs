@@ -13,6 +13,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arg1 = arguments.First();
-            if (!arg1.IsExcelRange) return CreateResult(eErrorType.Value);
             var range = arg1.ValueAsRangeInfo;
+            if(range==null)
+            {
+                if(arg1.Address==null)
+                {
+                    return CreateResult(arg1.Value, arg1.DataType);
+                }
+                range = new RangeInfo(arg1.Address, context);
+            }
             return ImplicitIntersectionUtil.GetResult(range, context.CurrentCell, context);
         }
 

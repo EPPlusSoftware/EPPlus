@@ -147,13 +147,18 @@ namespace OfficeOpenXml
             _toColFixed = toColFixed;
             _ws = worksheetName;
             Validate();
+            ResetAddress(prevAddress);
+        }
+
+        internal void ResetAddress(string prevAddress)
+        {
             var prevAddressHasWs = prevAddress != null && prevAddress.IndexOf("!") > 0 && !prevAddress.EndsWith("!");
-            _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, fromColFixed, _toRowFixed, _toColFixed );
-            if(prevAddressHasWs && !string.IsNullOrEmpty(_ws))
+            _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+            if (prevAddressHasWs && !string.IsNullOrEmpty(_ws))
             {
-                if(ExcelWorksheet.NameNeedsApostrophes(_ws))
+                if (ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
-                    _address = $"'{_ws.Replace("'","''")}'!{_address}";
+                    _address = $"'{_ws.Replace("'", "''")}'!{_address}";
                 }
                 else
                 {
@@ -161,6 +166,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+
         /// <summary>
         /// Creates an Address object
         /// </summary>
@@ -673,6 +679,13 @@ namespace OfficeOpenXml
                 return _address;
             }
         }
+        public string AddressAbsolute
+        {
+            get
+            {
+                return GetAddress(_fromRow, _fromCol, _toRow, _toCol, true, true, true, true);
+            }
+        }
         /// <summary>
         /// The full address including the worksheet
         /// </summary>
@@ -1168,7 +1181,7 @@ namespace OfficeOpenXml
             else if (col + cols < _fromCol || _fromColFixed && col < _fromCol) //Before
             {
                 var toCol = ((setFixed && _toColFixed) ||(adjustMaxCol==false && _toCol==ExcelPackage.MaxColumns)) ? _toCol : _toCol - cols;
-                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol - cols), _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : Math.Max(_fromCol - cols, col)), _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else  //Partly
             {

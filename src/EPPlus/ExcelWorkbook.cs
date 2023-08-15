@@ -403,14 +403,13 @@ namespace OfficeOpenXml
 
         private ExcelRangeBase CreateRangeForName(ExcelWorksheet worksheet, string fullAddress, out bool allowRelativeAddress)
         {
-			var iR = false;
 			var range = new ExcelRangeBase(this, worksheet, fullAddress, false);
 			var addr = range.ToInternalAddress();
-			if(addr._fromColFixed || addr._toColFixed || addr._fromRowFixed || addr._toRowFixed)
-            {
-				iR = true;
-            }
-			allowRelativeAddress = iR;
+			
+			allowRelativeAddress = (
+			   addr._fromColFixed == false || addr._toColFixed == false ||
+			   addr._fromRowFixed == false || addr._toRowFixed == false);
+
 			return range;
 		}
 		internal void RemoveSlicerCacheReference(string relId, eSlicerSourceType sourceType)
@@ -1509,14 +1508,14 @@ namespace OfficeOpenXml
                 {
                     elem.InnerText = name.Address;
                 }
-                else if(name.AllowRelativeAddress)
+                else// if(name.AllowRelativeAddress)
                 {
 					elem.InnerText = name.FullAddress;
                 }
-				else
-                {
-					elem.InnerText = name.FullAddressAbsolute;
-				}
+				//else
+    //            {
+				//	elem.InnerText = name.FullAddressAbsolute;
+				//}
 			}
 		}
 		/// <summary>
