@@ -65,11 +65,51 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <summary>
         /// Formula of the name
         /// </summary>
-        public string Formula 
+        public string Formula
         {
             get
             {
                 return _nameItem.Formula;
+            }
+        }
+        /// <summary>
+        /// Gets the forumla relative to a row and column.
+        /// </summary>
+        /// <param name="row">The row </param>
+        /// <param name="col">The column</param>
+        /// <returns></returns>
+        public string GetRelativeFormula(int row, int col)
+        {
+            return _nameItem.GetRelativeFormula(row, col);
+        }
+        /// <summary>
+        /// Returns the range relative to the cell for a named range with a relative address.
+        /// </summary>
+        /// <param name="ri"></param>
+        /// <param name="currentCell"></param>
+        /// <returns></returns>
+        public IRangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
+        {
+            return _nameItem.GetRelativeRange(ri, currentCell);
+        }
+
+        /// <summary>
+        /// Get the value relative to the current cell.
+        /// </summary>
+        /// <param name="currentCell"></param>
+        /// <returns></returns>
+        public object GetValue(FormulaCellAddress currentCell)
+        {
+            return _nameItem.GetValue(currentCell);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsRelative
+        {
+            get
+            {
+                return _nameItem.IsRelative;
             }
         }
         /// <summary>
@@ -90,6 +130,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 _nameItem.NameValue = value;
             }
         }
+        
     }
     public class NameInfoWithValue : INameInfo
     {
@@ -112,6 +153,23 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get;
             private set;
+        }
+
+        public bool IsRelative => false;
+
+        public object GetValue(FormulaCellAddress currentCell)
+        {
+            return Value;
+        }
+
+        public string GetRelativeFormula(int row, int col)
+        {
+            return null;
+        }
+
+        public IRangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
+        {
+            return null;
         }
     }
 }
