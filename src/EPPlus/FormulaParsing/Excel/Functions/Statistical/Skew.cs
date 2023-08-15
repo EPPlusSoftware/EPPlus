@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "6.0",
+        EPPlusVersion = "6.0",        
         Description = "Returns the skewness of a distribution")]
     internal class Skew : ExcelFunction
     {

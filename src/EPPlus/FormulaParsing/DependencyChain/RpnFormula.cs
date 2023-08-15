@@ -3,6 +3,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -57,8 +58,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal void SetFormula(string formula, RpnOptimizedDependencyChain depChain)
         {
-            depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
-            _tokens = FormulaExecutor.CreateRPNTokens(depChain._tokenizer.Tokenize(formula));
+            //depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
+            _tokens = FormulaExecutor.CreateRPNTokens(
+                    depChain._tokenizer.Tokenize(formula));
+            
             _formula= formula;
             _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
         }
@@ -81,5 +84,16 @@ namespace OfficeOpenXml.FormulaParsing
                 e._cachedCompileResult = null;
             }
         }
+    }
+    internal class RpnNameFormula : RpnFormula
+    {        
+        internal RpnNameFormula(ExcelWorksheet ws, int nameId, int row, int column) : base(ws, row, column)
+        {
+            NameId  = nameId;
+
+        }
+        internal int NameId { get; set; }
+        internal bool IsStatic { get; set; }
+        internal object Value { get; set; }
     }
 }

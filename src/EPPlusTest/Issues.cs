@@ -5020,6 +5020,173 @@ namespace EPPlusTest
                 package.Save();
             }
         }
+
+        [TestMethod]
+        public void s474()
+        {
+            using (var p = OpenPackage("dataValidationInsertTest.xlsx", true))
+            {
+
+                int CustomTemplateRowsOffset = 0, START_ROW = 5, START_COLUMN = 8;
+
+                var sheet = p.Workbook.Worksheets.Add("dataValidationsInsert");
+
+                var validation = sheet.DataValidations.AddDecimalValidation("H3");
+                var rangeValidation = sheet.DataValidations.AddDecimalValidation("H4");
+                var rangeValidationH2 = sheet.DataValidations.AddDecimalValidation("H5");
+
+                var rangeValidation2 = sheet.DataValidations.AddDecimalValidation("G10");
+
+                validation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidationH2.Operator = ExcelDataValidationOperator.equal;
+
+
+                int rowCnt = START_ROW + CustomTemplateRowsOffset;
+                int startRow = rowCnt;
+                int startColumn = START_COLUMN;
+                int sheetRows = 30;
+
+
+                sheet.SetValue("A" + (2 + CustomTemplateRowsOffset), "Code");
+                sheet.SetValue("A" + (4 + CustomTemplateRowsOffset), "Description");
+
+                int columnCount = startColumn;
+                sheet.InsertRow(5, sheetRows - 1);
+
+                OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList validationList =
+                    sheet.DataValidations.AddListValidation(sheet.Cells[startRow, columnCount, sheetRows - 1, columnCount].Address);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I892()
+        {
+            using (var p = OpenTemplatePackage("TEST_20230607.xlsx"))
+            {
+                p.Encryption.Password = "P@ssw0rd";
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void SaveDialogIssue890()
+        {
+            using (var package = OpenTemplatePackage("issue890.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                ExcelWorksheet newWorksheet = package.Workbook.Worksheets.Add("Sheet2", worksheet);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s476()
+        {
+            using (var package = OpenTemplatePackage("s476.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s486()
+        {
+            using (var package = OpenTemplatePackage("s486.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[1];
+
+                ws.Cells["A2"].Value = "sampleuser";
+                ws.Cells["B2"].Value = "123456";
+                ws.Cells["C2"].Value = "Sample";
+                ws.Cells["D2"].Value = "User";
+                ws.Cells["E2"].Value = "Sample User";
+                ws.Cells["F2"].Value = "40798";
+                ws.Cells["G2"].Value = "AGI_IG3004-1";
+                ws.Cells["H2"].Value = "Navigating The River";
+                ws.Cells["I2"].Value = "eLearning";
+                ws.Cells["J2"].Value = "Onboarding";
+                ws.Cells["K2"].Value = 0.01388889;
+                ws.Cells["L2"].Value = 1;
+                ws.Cells["M2"].Value = 270864;
+                ws.Cells["N2"].Value = "Administrative";
+                ws.Cells["O2"].Value = 43641;
+                ws.Cells["P2"].Value = 43648;
+                ws.Cells["Q2"].Value = 42039;
+                ws.Cells["R2"].Value = "Manually Completed";
+                ws.Cells["T2"].Value = "Yes";
+                ws.Cells["U2"].Value = "No";
+                var pt = package.Workbook.Worksheets[0].PivotTables[0];
+                pt.CacheDefinition.Refresh();
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s492()
+        {
+            using (var package = OpenTemplatePackage("s492.xlsx"))
+            {
+                package.Workbook.Calculate();
+            }
+        }
+        [TestMethod]
+        public void s491_encr()
+        {
+            using (var package = OpenTemplatePackage("enc_s492.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+            }
+        }
+        [TestMethod]
+        public void CopyWorksheetBug()
+        {
+            using (var pck = OpenTemplatePackage("TwoTablesTest.xlsx"))
+            {
+                // Create a new workbook
+                using (var newPck = new ExcelPackage())
+                {
+                    // Copy TestTables to the new workbook
+                    newPck.Workbook.Worksheets.Add("TestTablesNew", pck.Workbook.Worksheets["TestTables"]);
+                    var copiedSheet1 = newPck.Workbook.Worksheets["TestTablesNew"];
+                    Assert.IsNotNull(copiedSheet1);
+                }
+            }
+        }
+        [TestMethod]
+        public void s496()
+        {
+            using (var package = OpenPackage("s496.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Formula = "_xlfn.NUMBERVALUE(\"2\")";
+                package.Workbook.Calculate();
+                Assert.AreEqual(2d, ws.Cells["A1"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s497()
+        {
+            using (var package = OpenTemplatePackage("s497.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets["Sheet1"];
+                package.Workbook.Calculate();
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s503()
+        {
+            using (var package = OpenTemplatePackage("s503.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.InsertRow(1, 1);
+                ws.DeleteRow(1, 1);
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
-

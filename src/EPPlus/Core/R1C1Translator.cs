@@ -13,6 +13,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OfficeOpenXml.Core
@@ -37,8 +38,9 @@ namespace OfficeOpenXml.Core
         /// <param name="formula">The formula</param>
         /// <param name="row">The row of the cell to calculate from</param>
         /// <param name="col">The column of the cell to calculate from</param>
+        /// <param name="rollIfOverflow">If row or col exceeds the maximum value the row/col will start over from 1</param>
         /// <returns>The formula in A1 notation</returns>
-        public static string FromR1C1Formula(string formula, int row, int col)
+        public static string FromR1C1Formula(string formula, int row, int col, bool rollIfOverflow=false)
         {
             var tokens = SourceCodeTokenizer.R1C1.Tokenize(formula);
             for(var ix = 0; ix < tokens.Count; ix++)
@@ -46,7 +48,7 @@ namespace OfficeOpenXml.Core
                 var token = tokens[ix];
                 if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1) || token.TokenTypeIsSet(TokenType.CellAddress))
                 {
-                    var part = FromR1C1(token.Value, row, col);
+                    var part = FromR1C1(token.Value, row, col, rollIfOverflow);
                     if (ix+2 <tokens.Count && tokens[ix+1].TokenType==TokenType.Operator && tokens[ix+1].Value==":" && IsFullRowOrColumn(part))
                     {
                         part = part.Substring(0, part.IndexOf(":"));
@@ -92,15 +94,18 @@ namespace OfficeOpenXml.Core
         /// <returns>The formula in R1C1 notation</returns>        
         public static string ToR1C1Formula(string formula, int row, int col)
         {
-            //var lexer = new Lexer(SourceCodeTokenizer.Default, new SyntacticAnalyzer());
-            //var tokens = lexer.Tokenize(formula, null).ToArray();
             var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+            return ToR1C1FromTokens(tokens, row, col);
+        }
+
+        internal static string ToR1C1FromTokens(IList<Token> tokens, int row, int col)
+        {
             for (var ix = 0; ix < tokens.Count; ix++)
             {
                 var token = tokens[ix];
-                if(token.TokenTypeIsSet(TokenType.FullColumnAddress))
+                if (token.TokenTypeIsSet(TokenType.FullColumnAddress))
                 {
-                    if(tokens[ix + 1].TokenTypeIsSet(TokenType.Operator) && tokens[ix + 1].Value==":" &&
+                    if (tokens[ix + 1].TokenTypeIsSet(TokenType.Operator) && tokens[ix + 1].Value == ":" &&
                        tokens[ix + 2].TokenTypeIsSet(TokenType.FullColumnAddress))
                     {
                         var part = ToR1C1(new ExcelAddressBase(token.Value + ":" + tokens[ix + 2].Value), row, col);
@@ -110,7 +115,7 @@ namespace OfficeOpenXml.Core
                     }
 
                 }
-                else if(token.TokenTypeIsSet(TokenType.FullRowAddress))
+                else if (token.TokenTypeIsSet(TokenType.FullRowAddress))
                 {
                     if (tokens[ix + 1].TokenTypeIsSet(TokenType.Operator) && tokens[ix + 1].Value == ":" &&
                        tokens[ix + 2].TokenTypeIsSet(TokenType.FullRowAddress))
@@ -131,26 +136,28 @@ namespace OfficeOpenXml.Core
             var ret = string.Join("", tokens.Select(x => x.Value).ToArray());
             return ret;
         }
+
         /// <summary>
         /// Translate an address from R1C1 to A1
         /// </summary>
         /// <param name="r1C1Address">The address</param>
         /// <param name="row">The row of the cell to calculate from</param>
         /// <param name="col">The column of the cell to calculate from</param>
+        /// <param name="rollIfOverflow">If row or col exceeds the maximum value the row/col will start over from 1</param>
         /// <returns>The address in A1 notation</returns>        
-        public static string FromR1C1(string r1C1Address, int row, int col)
+        public static string FromR1C1(string r1C1Address, int row, int col, bool rollIfOverflow = false)
         {
             if (ExcelAddress.IsTableAddress(r1C1Address)) return r1C1Address;
             var addresses = ExcelAddressBase.SplitFullAddress(r1C1Address);
             var ret = "";
             foreach(var address in addresses)
             {
-                ret += ExcelCellBase.GetFullAddress(address[0], address[1], FromR1C1SingleAddress(address[2], row, col))+",";
+                ret += ExcelCellBase.GetFullAddress(address[0], address[1], FromR1C1SingleAddress(address[2], row, col, rollIfOverflow))+",";
             }
             return ret.Length==0?"":ret.Substring(0,ret.Length-1);
         }
 
-        private static string FromR1C1SingleAddress(string r1C1Address, int row, int col)
+        private static string FromR1C1SingleAddress(string r1C1Address, int row, int col, bool rollIfOverflow)
         {
             R1C1 firstCell = new R1C1();
             var currentCell = firstCell;
@@ -231,20 +238,21 @@ namespace OfficeOpenXml.Core
             {
                 if (currentCell.hasRow == false || currentCell.hasCol == false)
                 {
-                    var cell = GetCell(currentCell, row, col);
+                    var cell = GetCell(currentCell, row, col, rollIfOverflow);
                     return $"{cell}:{cell}";
                 }
                 else
                 {
-                    return GetCell(currentCell, row, col);
+                    return GetCell(currentCell, row, col, rollIfOverflow);
                 }
             }
             else
             {
-                var cell1 = GetCell(firstCell, row, col);
-                var cell2 = GetCell(currentCell, row, col);
+                var cell1 = GetCell(firstCell, row, col, rollIfOverflow);
+                var cell2 = GetCell(currentCell, row, col, rollIfOverflow);
                 if (cell1 == cell2)
                     return cell1;
+
                 else
                     return $"{cell1}:{cell2}";
             }
@@ -322,7 +330,7 @@ namespace OfficeOpenXml.Core
             }
         }
 
-        private static string GetCell(R1C1 currentCell, int refRow, int refCol)
+        private static string GetCell(R1C1 currentCell, int refRow, int refCol, bool rollIfOverflow)
         {
             string ret="";
 
@@ -334,8 +342,29 @@ namespace OfficeOpenXml.Core
                 }
                 else
                 {
-                    if (refCol + currentCell.ColOffset < 1) return "#REF!";
-                    ret = ExcelCellBase.GetColumnLetter(refCol + currentCell.ColOffset);
+                    var col = refCol + currentCell.ColOffset;
+                    if (col < 1 || col > ExcelPackage.MaxColumns)
+                    {
+                        if(rollIfOverflow)
+                        {
+                            if (col < 1)
+                            {
+                                ret = ExcelCellBase.GetColumnLetter(ExcelPackage.MaxColumns + (refCol + currentCell.ColOffset));
+                            }
+                            else
+                            {
+                                ret = ExcelCellBase.GetColumnLetter((refCol + currentCell.ColOffset) - ExcelPackage.MaxColumns);
+                            }
+                        }
+                        else
+                        {
+                            return "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        ret = ExcelCellBase.GetColumnLetter(col);
+                    }
                 }
             }
 
@@ -347,8 +376,30 @@ namespace OfficeOpenXml.Core
                 }
                 else
                 {
-                    if (refRow + currentCell.RowOffset < 1) return "#REF!";
-                    ret += (refRow + currentCell.RowOffset).ToString();
+                    var row = refRow + currentCell.RowOffset;
+                    if (row < 1 || row > ExcelPackage.MaxRows)
+                    {
+                        if (rollIfOverflow)
+                        {
+                            if (row < 1)
+                            {
+                                ret += (ExcelPackage.MaxRows + row).ToString();
+                            }
+                            else
+                            {
+                                ret += (row - ExcelPackage.MaxRows).ToString();
+                            }
+                        }
+                        else
+                        {
+                            return "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        ret += row.ToString();
+                    }
+
                 }
             }
             return ret;

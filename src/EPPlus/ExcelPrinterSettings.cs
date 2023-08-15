@@ -568,11 +568,11 @@ namespace OfficeOpenXml
                 string addr;
                 if (vertAddr == null)
                 {
-                    addr = value.Address;
+                    addr = value.AddressAbsolute;
                 }
                 else
                 {
-                    addr = vertAddr.Address + "," + value.Address;
+                    addr = vertAddr.AddressAbsolute + "," + value.AddressAbsolute;
                 }
 
                 if (_ws.Names.ContainsKey("_xlnm.Print_Titles"))
@@ -628,11 +628,11 @@ namespace OfficeOpenXml
                 string addr;
                 if (horAddr == null)
                 {
-                    addr = value.Address;
+                    addr = value.AddressAbsolute;
                 }
                 else
                 {
-                    addr = value.Address + "," + horAddr.Address;
+                    addr = value.AddressAbsolute + "," + horAddr.AddressAbsolute;
                 }
 
                 if (_ws.Names.ContainsKey("_xlnm.Print_Titles"))

@@ -293,7 +293,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             switch (arg.DataType)
             {
                 case DataType.ExcelError:
-                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                    
+                    
+                   throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
                 case DataType.Empty:
                     return 0;
                 default:
