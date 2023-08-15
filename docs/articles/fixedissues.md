@@ -1,4 +1,10 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.8
+### Fixed issues
+* Boolean style xml elements (like b, i or strike),  with attribute 'val' set to 'false' or 'true' did not work.
+* The ExcelRangeBase.Insert and ExcelRangeBase.Delete methods failed if a defined name referenced another defined name.
+* The AND and OR functions did'nt handle multi-cell ranges as parameters.
+
 ## Version 6.2.7
 ### Fixed issues
 * Copying a worksheet with more than two tables to a new workbook sometimes throws an exception due to different table ids.
@@ -29,7 +35,7 @@
 * Added IRangeDataValidation. ClearDataValidation to clear data validations from a range.
 ### Fixed issues 
 * Having a table data source set to a defined name, and then insert rows into the range, caused the table source to be inverted into a range without inserting the rows.
-* An error occured when setting the Shape.Text in some cases."Name cannot begin with the ' ' character, hexadecimal value 0x20, due to invalid xml. 
+* An error occured when setting the Shape.Text in some cases. Name cannot begin with the ' ' character, hexadecimal value 0x20, due to invalid xml. 
 * Scientific notation numbers were not being recognized in the calculation when there were leading or trailing whitespaces.
 * Formulas update for Data Validation and Conditional Formatting sometimes updated the addresses wrong when inserting and deleting.
 * The worksheet xml got corrupt in rare cases, when having extLst items.
