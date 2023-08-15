@@ -243,6 +243,32 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
         [TestMethod]
+        public void AddDefinedNameRanges()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheetName = "AName";
+                var sheet1 = package.Workbook.Worksheets.Add(sheetName);
+                Assert.AreEqual(sheetName, sheet1.Name);
+                Assert.AreEqual(sheet1, package.Workbook.Worksheets[sheetName]);
+
+                package.Workbook.Names.Add("NamedRange1", sheet1.Cells["A1:C10"], false);
+                sheet1.Names.Add("NamedRange2", sheet1.Cells["A1:Z10"], false);
+
+                package.Save();
+
+                using (var p2 = new ExcelPackage(package.Stream))
+                {
+                    sheet1 = package.Workbook.Worksheets[sheetName];
+                    Assert.IsNotNull(sheet1);
+                    Assert.AreEqual(sheetName, sheet1.Name);
+                    Assert.AreEqual(sheet1, package.Workbook.Worksheets[sheetName]);
+                    Assert.AreEqual("AName!$A$1:$Z$10", sheet1.Names["NamedRange2"].FullAddress);
+                    Assert.AreEqual("AName!$A$1:$C$10", p2.Workbook.Names["NamedRange1"].FullAddress);
+                }
+            }
+        }
+        [TestMethod]
         public void VerifyAddressFullAddress()
         {
             using (var package = new ExcelPackage())
