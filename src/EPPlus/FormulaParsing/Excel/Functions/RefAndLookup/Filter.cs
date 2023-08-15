@@ -82,8 +82,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
+            var nr = s2.NumberOfRows > arg1.Worksheet.Dimension.Rows ? s2.NumberOfRows : arg1.Worksheet.Dimension.Rows;
             var filteredData = new List<List<object>>();
-            for (int r = 0; r < s2.NumberOfRows; r++)
+            for (int r = 0; r < nr; r++)
             {
                 var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(r, 0), false, true);
                 if (double.IsNaN(boolValue))
@@ -124,7 +125,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var filteredData = new List<List<object>>();
-            for (int c = 0; c < s2.NumberOfCols; c++)
+            var nc = s2.NumberOfCols > arg1.Worksheet.Dimension.Columns ? s2.NumberOfCols : arg1.Worksheet.Dimension.Columns;
+            for (int c = 0; c < nc; c++)
             {
                 var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(0, c), false, true);
                 if (double.IsNaN(boolValue))
