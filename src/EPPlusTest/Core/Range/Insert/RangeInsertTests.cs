@@ -303,9 +303,9 @@ namespace EPPlusTest.Core.Range.Insert
             ws.Cells["A1"].Insert(eShiftTypeInsert.Down);
 
             //Assert
-            Assert.AreEqual("A2", ws.Names["NameA1"].Address);
-            Assert.AreEqual("B1", ws.Names["NameB1"].Address);
-            Assert.AreEqual("C1", ws.Names["NameC1"].Address);
+            Assert.AreEqual("$A$2", ws.Names["NameA1"].Address);
+            Assert.AreEqual("$B$1", ws.Names["NameB1"].Address);
+            Assert.AreEqual("$C$1", ws.Names["NameC1"].Address);
         }
         [TestMethod]
         public void ValidateNameAfterInsertShiftDown_MustBeInsideRange()
@@ -320,19 +320,19 @@ namespace EPPlusTest.Core.Range.Insert
             ws.Cells["A2:B3"].Insert(eShiftTypeInsert.Down);
 
             //Assert
-            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
-            Assert.AreEqual("B2:D3", ws.Names["NameB2D3"].Address);
-            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+            Assert.AreEqual("$A$4:$B$6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("$B$2:$D$3", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("$C$1:$F$3", ws.Names["NameC1F3"].Address);
 
             ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
-            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
-            Assert.AreEqual("B6:D7", ws.Names["NameB2D3"].Address);
-            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+            Assert.AreEqual("$A$4:$B$6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("$B$6:$D$7", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("$C$1:$F$3", ws.Names["NameC1F3"].Address);
 
             ws.Cells["B2:F2"].Insert(eShiftTypeInsert.Down);
-            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
-            Assert.AreEqual("B7:D8", ws.Names["NameB2D3"].Address);
-            Assert.AreEqual("C1:F4", ws.Names["NameC1F3"].Address);
+            Assert.AreEqual("$A$4:$B$6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("$B$7:$D$8", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("$C$1:$F$4", ws.Names["NameC1F3"].Address);
         }
 
         [TestMethod]
@@ -348,14 +348,14 @@ namespace EPPlusTest.Core.Range.Insert
             ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Right);
 
             //Assert
-            Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
-            Assert.AreEqual("B2:D4", ws.Names["NameB2C4"].Address);
-            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+            Assert.AreEqual("$D$1:$F$2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("$B$2:$D$4", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("$A$3:$C$6", ws.Names["NameA3C6"].Address);
 
             ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
-            Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
-            Assert.AreEqual("B6:D8", ws.Names["NameB2C4"].Address);
-            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+            Assert.AreEqual("$D$1:$F$2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("$B$6:$D$8", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("$A$3:$C$6", ws.Names["NameA3C6"].Address);
         }
 
         [TestMethod]

@@ -125,6 +125,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal HashSet<ulong> SubtotalAddresses { get; private set; }
         internal FormulaCellAddress CurrentCell { get; set; }
+        internal FormulaCellAddress CurrentName { get; set; }
         internal string CurrentCellFullAddress 
         { 
             get

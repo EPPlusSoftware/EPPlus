@@ -171,6 +171,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         wsIx = int.MinValue;
                         break;
                     case TokenType.NameValue:
+                        
                         expressions.Add(i, new NamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
                         break;
                     case TokenType.ExternalReference:

@@ -35,8 +35,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arg1 = arguments[0];
-            if (!arg1.IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
-            var range = arg1.ValueAsRangeInfo;
+            IRangeInfo range;
+            if (arg1.IsExcelRange) 
+            {
+                range = arg1.ValueAsRangeInfo;
+            }
+            else
+            {
+                return new DynamicArrayCompileResult(arg1.Value, arg1.DataType);
+            }
 
             var byCol = false;
             if(arguments.Count > 1)
@@ -48,6 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 exactlyOnce= ArgToBool(arguments, 2);
             }
+
             var resultRange = byCol ? GetByCols(range, exactlyOnce) : GetByRows(range, exactlyOnce);
             return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
         }

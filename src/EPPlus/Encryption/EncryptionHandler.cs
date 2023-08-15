@@ -506,7 +506,7 @@ namespace OfficeOpenXml.Encryption
         }
         private MemoryStream GetStreamFromPackage(CompoundDocument doc, ExcelEncryption encryption)
         {
-            if(doc.Storage.DataStreams.ContainsKey("EncryptionInfo") ||
+            if(doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
                doc.Storage.DataStreams.ContainsKey("EncryptedPackage"))
             {
                 var encryptionInfo = EncryptionInfo.ReadBinary(doc.Storage.DataStreams["EncryptionInfo"]);
@@ -515,7 +515,7 @@ namespace OfficeOpenXml.Encryption
             }
             else
             {
-                throw (new InvalidDataException("Invalid document. EncryptionInfo or EncryptedPackage stream is missing"));
+                throw (new InvalidDataException("Invalid or unsupported encryption. EncryptionInfo or EncryptedPackage stream is missing"));
             }
         }
 

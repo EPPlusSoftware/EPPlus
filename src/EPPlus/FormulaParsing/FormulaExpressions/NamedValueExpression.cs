@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             if (_name == null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
-            if (_name.Value == null)
+            var value = _name.GetValue(Context.CurrentCell);
+            if (value == null)
             {
                 // check if there is a table with the name
                 var table = Context.ExcelDataProvider.GetExcelTable(_name.Name);
@@ -50,17 +51,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 return new CompileResult(eErrorType.Name);
             }
 
-            if (_name.Value==null)
+            if (value==null)
             {
                 return new CompileResult(null, DataType.Empty);
             }
 
-            if (_name.Value is IRangeInfo)
+            if (value is IRangeInfo)
             {
-                var range = (IRangeInfo)_name.Value;
+                var range = (IRangeInfo)value;
                 if (range.GetNCells()>1)
                 {
-                    return new AddressCompileResult(_name.Value, DataType.ExcelRange, range.Address);
+                    return new AddressCompileResult(value, DataType.ExcelRange, range.Address);
                 }
                 else
                 {                    
@@ -74,10 +75,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             else
             {
-                return GetNegatedValue(_name.Value, null);
+                
+                return GetNegatedValue(value, null);
             }            
         }
-
+        public bool IsRelative 
+        { 
+            get 
+            { 
+                return _name.IsRelative;
+            } 
+        }
         private CompileResult GetNegatedValue(object value, FormulaRangeAddress address)
         {
             if (_negate == 0)
@@ -130,7 +138,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             if(_name?.Value is IRangeInfo ri) 
             {
-                return ri.Address.Clone();
+                if(_name.IsRelative)
+                {
+                    return _name.GetRelativeRange(ri, Context.CurrentCell).Address;
+                }
+                else
+                {
+                    return ri.Address.Clone();
+                }
             }
             return null;
         }

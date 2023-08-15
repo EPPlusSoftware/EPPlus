@@ -53,16 +53,16 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             _size = new RangeDefinition(address.ToRow - address.FromRow + 1, (short)(address.ToCol - address.FromCol + 1));
         }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ws">The worksheet</param>
-        /// <param name="fromRow"></param>
-        /// <param name="fromCol"></param>
-        /// <param name="toRow"></param>
-        /// <param name="toCol"></param>
-        /// <param name="ctx">Parsing context</param>
-        public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="ws">The worksheet</param>
+            /// <param name="fromRow"></param>
+            /// <param name="fromCol"></param>
+            /// <param name="toRow"></param>
+            /// <param name="toCol"></param>
+            /// <param name="ctx">Parsing context</param>
+            public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
         {
             _context = ctx;
             var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
@@ -86,15 +86,19 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// </summary>
         /// <param name="ws"></param>
         /// <param name="address"></param>
-        public RangeInfo(ExcelWorksheet ws, ExcelAddressBase address)
+        public RangeInfo(ExcelWorksheet ws, ExcelAddressBase address, ParsingContext ctx=null)
         {
+            _context = ctx;
             SetAddress(ws, address);
         }
 
         private void SetAddress(ExcelWorksheet ws, ExcelAddressBase address)
         {
             _ws = ws;
-            _address = new FormulaRangeAddress(_context) { FromRow = address._fromRow, FromCol = address._fromCol, ToRow = address._toRow, ToCol = address._toCol, WorksheetIx = (short)ws.PositionId };
+            _address = new FormulaRangeAddress(_context, address) 
+            { 
+                WorksheetIx = (short)ws.PositionId,
+            };
             if (_ws != null && _ws.IsDisposed == false)
             {
                 _values = new CellStoreEnumerator<ExcelValue>(_ws._values, address._fromRow, address._fromCol, address._toRow, address._toCol);

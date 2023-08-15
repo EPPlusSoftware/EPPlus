@@ -43,9 +43,28 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Cells[3, 3].Value = 5;
                 sheet.Cells[4, 3].Value = 6;
                 sheet.Cells["C6"].Formula = "SINGLE(B1:B3)";
-                sheet.Cells["A4"].Formula = "SINGLE(B4:C4)"; ;
+                sheet.Cells["A4"].Formula = "SINGLE(B4:C4)";
                 sheet.Calculate();
                 Assert.AreEqual(ErrorValues.ValueError, sheet.Cells["C6"].Value, "C6 was not #VALUE");
+            }
+        }
+        [TestMethod]
+        public void SingleShouldAlwaysReturnValueIfSingleCell()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells[2, 2].Value = 1;
+                sheet.Cells[3, 2].Value = 2;
+                sheet.Cells[4, 2].Value = 3;
+                sheet.Cells[2, 3].Value = 4;
+                sheet.Cells[3, 3].Value = 5;
+                sheet.Cells[4, 3].Value = 6;
+                sheet.Cells["C6"].Formula = "SINGLE(B2)";
+                sheet.Cells["A4"].Formula = "SINGLE(C3)";
+                sheet.Calculate();
+                Assert.AreEqual(1, sheet.Cells["C6"].Value);
+                Assert.AreEqual(5, sheet.Cells["A4"].Value);
             }
         }
 

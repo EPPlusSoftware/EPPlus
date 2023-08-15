@@ -1811,10 +1811,11 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("RepeatRowCols");
             ws.PrinterSettings.RepeatRows = new ExcelAddress("1:1");
             ws.PrinterSettings.RepeatColumns = new ExcelAddress("B:C");
-            Assert.AreEqual("B:C", ws.PrinterSettings.RepeatColumns.Address);
-            Assert.AreEqual("1:1", ws.PrinterSettings.RepeatRows.Address);
-            Assert.AreEqual("B:C,1:1", ws.Names["_xlnm.Print_Titles"].Address);
+            Assert.AreEqual("$B:$C", ws.PrinterSettings.RepeatColumns.Address);
+            Assert.AreEqual("$1:$1", ws.PrinterSettings.RepeatRows.Address);
+            Assert.AreEqual("$B:$C,$1:$1", ws.Names["_xlnm.Print_Titles"].Address);
         }
+
         private static void AddSortingData(ExcelWorksheet ws, int row, int col)
         {
             var rand = new Random();
