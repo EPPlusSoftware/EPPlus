@@ -85,8 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                         }
                     }
                 }
-                else if (multipleXranges && xRows != yRows) //This is wrong!!! goes through all columns so rows is "easier"
-                                                            //Change later
+                else if (multipleXranges && xRows != yRows)
                 {
                     rowArray = true;
                     for (var i = 0; i < xRows; i++)
@@ -94,33 +93,47 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                         xRanges.Add(i, new List<double>());
                     }
 
-                    var rowCount = -1;
-
-                    while (rowCount < (xRows - 1))
+                    var rowCount = 0;
+                    var listCount = 0;
+                    while (rowCount < xRows)
                     {
                         rowCount += 1;
-                        var listCount = rowCount;
-                        while (listCount < knownXs.Count())
+                        while (listCount < (xColumns * rowCount))
                         {
-                            xRanges[rowCount].Add(knownXs[listCount]);
-                            listCount += xRows;
+                            xRanges[rowCount - 1].Add(knownXs[listCount]); //Write test for this
+                            listCount += 1;
                         }
                     }
                 }
 
-                if (arguments.Count() > 2 && arguments[2].DataType != DataType.Empty) constVar = ArgToBool(arguments, 2);
+                if (arguments.Count() > 2 && arguments[2].DataType != DataType.Empty) constVar = ArgToBool(arguments, 2); //Need to change this
                 if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
+
+                List<List<double>> xRangeList = new List<List<double>>();
                 if (columnArray)
                 {
-                    List<List<double>> xRangeList = new List<List<double>>();
-
                     for (var i = 0; i < xColumns; i++)
                     {
                         xRangeList.Add(xRanges[i]);
                     }
                 }
-                var resultRange = CalculateResult(knownYs, knownXs, constVar, stats);
-                return CreateResult(resultRange, DataType.ExcelRange);
+                else if (rowArray)
+                {
+                    for (var i = 0; i < xRows; ++i)
+                    {
+                        xRangeList.Add(xRanges[i]);
+                    }
+                }
+                if (multipleXranges)
+                {
+                    var resultRangeX = LinestHelper.CalculateMultipleXRanges(knownYs, xRangeList, constVar, stats);
+                    return CreateResult(resultRangeX, DataType.ExcelRange);
+                }
+                else
+                {
+                    var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats);
+                    return CreateResult(resultRange, DataType.ExcelRange);
+                }
             }
             else
             {
@@ -130,7 +143,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 if (arguments.Count() > 2) constVar = ArgToBool(arguments, 2);
                 if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
 
-                var resultRange = CalculateResult(knownYs, knownXs, constVar, stats);
+                var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats); //change here so that multiple x is possible
                 return CreateResult(resultRange, DataType.ExcelRange);
             }
 
@@ -143,123 +156,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 result.Add(i);
             }
             return result;
-        }
-
-        private InMemoryRange CalculateResult(List <double> knownYs, List <double> knownXs, bool constVar, bool stats)
-        {
-            var averageY = knownYs.Average();
-            var averageX = knownXs.Average();
-            
-            double nominator = 0d;
-            double denominator = 0d;
-            double xDiff = 0d;
-            double yDiff = 0d;
-            double estimatedDiff = 0d;
-            double ssr = 0d;
-            double sst = 0d;
-            var df = 0d;
-            var v1 = 0d;
-            var v2 = 0d;
-            var fStatistics = 0d;
-
-            for (var i = 0; i < knownYs.Count; i++)
-            {
-                var y = knownYs[i];
-                var x = knownXs[i];
-
-                if (constVar)
-                {
-                    nominator += (x - averageX) * (y - averageY);
-                    denominator += (x - averageX) * (x - averageX);
-                }
-                else
-                {
-                    nominator += x * y;
-                    denominator += Math.Pow(x, 2);
-                }
-
-            }
-
-            var m = nominator / denominator;
-            var b = (constVar) ? averageY - (m * averageX) : 0d;
-
-            if (stats)
-            {
-                for (var i = 0; i < knownXs.Count(); i++)
-                {
-                    var x = knownXs[i];
-                    var y = knownYs[i];
-                    var estimatedY = m * x + b;
-
-                    if (constVar)
-                    {
-                        estimatedDiff += Math.Pow(y - estimatedY, 2);
-                        xDiff += Math.Pow(x - averageX, 2);
-                        yDiff += Math.Pow(y - estimatedY, 2);
-                        ssr += Math.Pow(estimatedY - averageY, 2);
-                        sst += Math.Pow(y - averageY, 2);
-                    }
-                    else
-                    {
-                        estimatedDiff += Math.Pow(y - estimatedY, 2);
-                        xDiff += Math.Pow(x, 2);
-                        yDiff = Math.Pow(y - estimatedY, 2);
-                        ssr += Math.Pow(estimatedY, 2);
-                        sst += Math.Pow(y, 2);
-                    }
-
-                }
-
-                var errorVariance = yDiff / (knownXs.Count() - 2);
-                if (!constVar) errorVariance = yDiff / (knownXs.Count() - 1);
-
-                var standardErrorM = (constVar) ? Math.Sqrt(1d / (knownXs.Count() - 2d) * estimatedDiff / xDiff) : 
-                                                  Math.Sqrt(1d / (knownXs.Count() - 1d) * estimatedDiff / xDiff) ;
-
-                object standardErrorB = Math.Sqrt(errorVariance) * Math.Sqrt(1d / knownXs.Count() + Math.Pow(averageX, 2) / xDiff);
-                if (!constVar) standardErrorB = ExcelErrorValue.Create(eErrorType.NA);
-
-                var rSquared = ssr / sst;
-                var standardErrorEstimateY = (!constVar) ? SEHelper.GetStandardError(knownXs, knownYs, true) :
-                                                          SEHelper.GetStandardError(knownXs, knownYs, false) ;
-                var ssreg = ssr;
-                var ssresid = (constVar) ? yDiff : (sst - ssr);
-
-                if (constVar)
-                {
-                    df = knownXs.Count() - 2; //Need to review this
-                    v1 = knownXs.Count() - df - 1;
-                    v2 = df;
-                    fStatistics = (ssr / v1) / (yDiff / v2);
-                }
-                else
-                {
-                    df = knownXs.Count() - 1; //Need to review this
-                    v1 = knownXs.Count() - df;
-                    v2 = df;
-                    fStatistics = ssr / (ssresid / (knownXs.Count() - 1));
-                }
-
-                var resultRangeStats = new InMemoryRange(5, 2);
-                resultRangeStats.SetValue(0, 0, m);
-                resultRangeStats.SetValue(0, 1, b);
-                resultRangeStats.SetValue(1, 0, standardErrorM);
-                resultRangeStats.SetValue(1, 1, standardErrorB);
-                resultRangeStats.SetValue(2, 0, rSquared);
-                resultRangeStats.SetValue(2, 1, standardErrorEstimateY);
-                resultRangeStats.SetValue(3, 0, fStatistics);
-                resultRangeStats.SetValue(3, 1, df);
-                resultRangeStats.SetValue(4, 0, ssreg);
-                resultRangeStats.SetValue(4, 1, ssresid);
-                return resultRangeStats;
-            }
-
-            var resultRangeNormal = new InMemoryRange(1, 2);
-            resultRangeNormal.SetValue(0, 0, m);
-            resultRangeNormal.SetValue(0, 1, b);
-            return resultRangeNormal;
-
-
         }
     }
 }

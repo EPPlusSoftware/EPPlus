@@ -168,5 +168,31 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(1, newRange.Size.NumberOfRows);
             Assert.AreEqual(2, newRange.Size.NumberOfCols);
         }
+
+        [TestMethod]
+        public void TransposeShouldReturnTransposedRange()
+        {
+            var range = new InMemoryRange(3, 2);
+            range.SetValue(0, 0, 1);
+            range.SetValue(1, 0, 2);
+            range.SetValue(2, 0, 3); 
+            range.SetValue(0, 1, 4);
+            range.SetValue(1, 1, 5);
+            range.SetValue(2, 1, 6);
+
+            var tr = range.Transpose();
+
+            Assert.AreEqual(2, tr.Size.NumberOfRows);
+            Assert.AreEqual(3, tr.Size.NumberOfCols);
+
+            Assert.AreEqual(1, tr.GetValue(0, 0));
+            Assert.AreEqual(4, tr.GetValue(1, 0));
+            Assert.AreEqual(2, tr.GetValue(0, 1));
+            Assert.AreEqual(5, tr.GetValue(1, 1));
+            Assert.AreEqual(3, tr.GetValue(0, 2));
+            Assert.AreEqual(6, tr.GetValue(1, 2));
+
+
+        }
     }
 }

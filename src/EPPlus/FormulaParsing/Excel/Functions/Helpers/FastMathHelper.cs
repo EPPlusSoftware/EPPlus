@@ -17,25 +17,32 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
-    internal class FHelper
+    internal static class FastMathHelper
     {
-        public static double ProbabilityDensityFunction(double x, double df1, double df2)
+        internal static double Min(params double[] values)
         {
-            var arg1 = Math.Pow(df1 * x, df1) * Math.Pow(df2, df2);
-            var arg2 = Math.Pow(df1 * x + df2, df1 + df2);
-            var arg3 = x * BetaHelper.Beta(df1 / 2, df2 / 2);
-            return Math.Sqrt(arg1 / arg2) / arg3;
+            var minValue = double.MaxValue;
+            foreach (var d in values)
+            {
+                if (d < minValue)
+                {
+                    minValue = d;
+                }
+            }
+            return minValue;
         }
 
-        public static double CumulativeDistributionFunction(double x, double df1, double df2)
+        internal static int Min(params int[] values)
         {
-            return BetaHelper.IBeta(df1 * x / (df1 * x + df2), df1 / 2, df2 / 2);
-        }
-
-        public static double GetProbability(double x, double df1, double df2, bool cumulative)
-        {
-            var fValue = (cumulative) ? FHelper.CumulativeDistributionFunction(x, df1, df2) : FHelper.ProbabilityDensityFunction(x, df1, df2);
-            return fValue;
+            var minValue = int.MaxValue;
+            foreach (var i in values)
+            {
+                if (i < minValue)
+                {
+                    minValue = i;
+                }
+            }
+            return minValue;
         }
     }
 }

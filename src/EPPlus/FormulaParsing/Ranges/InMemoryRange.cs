@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.LoadFunctions;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -87,6 +88,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public static InMemoryRange Empty => _empty;
 
         public void SetValue(int row, int col, object val)
+        {
+            var c = new InMemoryCellInfo(val);
+            _cells[row, col] = c;
+        }
+
+        public void SetDouble(int row, int col, double val)
         {
             var c = new InMemoryCellInfo(val);
             _cells[row, col] = c;
@@ -198,6 +205,19 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
         }
 
+        public double GetDouble(int row, int col)
+        {
+            var val = GetValue(row, col);
+            var result = double.NaN;
+            try
+            {
+                result = Convert.ToDouble(val);
+            }
+            catch { }
+            return result;
+
+        }
+
         public ICellInfo GetCell(int row, int col)
         {
             var c = _cells[row, col];
@@ -242,6 +262,47 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 }
             }
             return ret;
+        }
+
+        internal InMemoryRange Transpose()
+        {
+            var transposedRange = new InMemoryRange(Size.NumberOfCols, (short)Size.NumberOfRows);
+            for (var r = 0; r < Size.NumberOfRows; r++)
+            {
+                for (var c = 0; c < Size.NumberOfCols; c++)
+                {
+                    transposedRange.SetValue(c, r, GetOffset(r, c));
+                }
+            }
+            return transposedRange;
+        }
+
+        internal List<List<double>> ToDoubleMatrix()
+        {
+            var res = new List<List<double>>();
+            for(var r =  0; r < Size.NumberOfRows; r++)
+            {
+                var insertRow = new List<double>();
+                for(var c = 0; c < Size.NumberOfCols; c++)
+                {
+                    insertRow.Add(ConvertUtil.GetValueDouble(GetValue(r, c)));
+                }
+                res.Add(insertRow);
+            }
+            return res;
+        }
+
+        internal static InMemoryRange FromDoubleMatrix(List<List<double>> rangeData)
+        {
+            var res = new InMemoryRange(rangeData[0].Count, (short)rangeData.Count);
+            for (var c = 0; c < rangeData.Count; c++)
+            {
+                for (var r = 0; r < rangeData[0].Count; r++)
+                {
+                    res.SetValue(r, c, rangeData[c][r]);
+                }
+            }
+            return res;
         }
     }
 }

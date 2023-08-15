@@ -186,10 +186,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["A5"].Value = 7;
                 sheet.Cells["A6"].Value = 11;
                 sheet.Cells["A7"].Value = 2;
-                sheet.Cells["A8"].Formula = "LINEST(A2:A7,,FALSE,TRUE)";
+                sheet.Cells["A8"].Formula = "LINEST(A2:A7,,TRUE,TRUE)";
                 sheet.Calculate();
                 var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
-                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 0);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
                 var result3 = System.Math.Round((double)sheet.Cells["A9"].Value, 9);
                 var result4 = System.Math.Round((double)sheet.Cells["B9"].Value, 9);
                 var result5 = System.Math.Round((double)sheet.Cells["A10"].Value, 9);
@@ -198,9 +198,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result8 = System.Math.Round((double)sheet.Cells["B11"].Value, 0);
                 var result9 = System.Math.Round((double)sheet.Cells["A12"].Value, 9);
                 var result10 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
-                Assert.AreEqual(1.417582418d, result1);
-                Assert.AreEqual(0d, result2);
-                Assert.AreEqual(0.464407618d, result3);
+                Assert.AreEqual(0.371428571d, result1);
+                Assert.AreEqual(4.533333333d, result2);
+                Assert.AreEqual(1.031081593d, result3);
                 Assert.AreEqual(4.015485896d, result4);
                 Assert.AreEqual(0.031422374d, result5);
                 Assert.AreEqual(4.313323765d, result6);
@@ -271,7 +271,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
         }
 
         [TestMethod]
-        public void LinestMultipleXRanges()
+        public void LinestMultipleXRangesSeveralColumns()
         {
             using (var package = new ExcelPackage())
             {
@@ -290,13 +290,241 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["C5"].Value = 0;
                 sheet.Cells["A8"].Formula = "LINEST(A2:A5,B2:C5)";
                 sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 0);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 0);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 0);
+                Assert.AreEqual(0d, result1);
+                Assert.AreEqual(2d, result2);
+                Assert.AreEqual(1d, result3);
+            }
+        }
+
+        [TestMethod]
+        public void LinestMultipleXRangesSeveralRows()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with multiple x-ranges");
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = 9;
+                sheet.Cells["C2"].Value = 5;
+                sheet.Cells["D2"].Value = 7;
+                sheet.Cells["E2"].Value = 0;
+                sheet.Cells["A3"].Value = 4;
+                sheet.Cells["B3"].Value = 2;
+                sheet.Cells["C3"].Value = 3;
+                sheet.Cells["D3"].Value = 6;
+                sheet.Cells["E3"].Value = 5;
+                sheet.Cells["A4"].Value = 2;
+                sheet.Cells["B4"].Value = 2;
+                sheet.Cells["C4"].Value = 8;
+                sheet.Cells["D4"].Value = 5;
+                sheet.Cells["E4"].Value = 1;
+                sheet.Cells["A8"].Formula = "LINEST(A2:E2,A3:E4)";
+                sheet.Calculate();
                 var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
                 var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
                 var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
-                Assert.AreEqual(0.007556081d, result1);
-                Assert.AreEqual(0.325533857d, result2);
-                Assert.AreEqual(3.490035743d, result3);
+                Assert.AreEqual(0.450151057d, result1);
+                Assert.AreEqual(-0.854984894d, result2);
+                Assert.AreEqual(6.19939577d, result3);
             }
         }
+
+        [TestMethod]
+        public void LinestMultipleXRangesTwoByTwo()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with multiple x-ranges");
+                sheet.Cells["A2"].Value = 9;
+                sheet.Cells["A3"].Value = 12;
+                sheet.Cells["B2"].Value = 34;
+                sheet.Cells["B3"].Value = 65;
+                sheet.Cells["C2"].Value = 8;
+                sheet.Cells["C3"].Value = 7;
+                sheet.Cells["A8"].Formula = "LINEST(A2:A3,B2:C3)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 0);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
+                Assert.AreEqual(0d, result1);
+                Assert.AreEqual(0.096774194d, result2);
+                Assert.AreEqual(5.709677419d, result3);
+            }
+        }
+
+        [TestMethod]
+        public void LinestMultipleRegressionWithStats()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with multiple x-ranges and stats");
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = 9;
+                sheet.Cells["C2"].Value = 5;
+                sheet.Cells["D2"].Value = 7;
+                sheet.Cells["E2"].Value = 0;
+                sheet.Cells["A3"].Value = 4;
+                sheet.Cells["B3"].Value = 2;
+                sheet.Cells["C3"].Value = 3;
+                sheet.Cells["D3"].Value = 6;
+                sheet.Cells["E3"].Value = 5;
+                sheet.Cells["A4"].Value = 2;
+                sheet.Cells["B4"].Value = 2;
+                sheet.Cells["C4"].Value = 8;
+                sheet.Cells["D4"].Value = 5;
+                sheet.Cells["E4"].Value = 1;
+                sheet.Cells["A8"].Formula = "LINEST(A2:E2,A3:E4,TRUE,TRUE)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 8);
+                var result4 = System.Math.Round((double)sheet.Cells["A9"].Value, 9);
+                var result5 = System.Math.Round((double)sheet.Cells["B9"].Value, 9);
+                var result6 = System.Math.Round((double)sheet.Cells["C9"].Value, 9);
+                var result7 = System.Math.Round((double)sheet.Cells["A10"].Value, 9);
+                var result8 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
+                var result9 = sheet.Cells["C10"].Value;
+                var result10 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
+                var result11 = (int)sheet.Cells["B11"].Value;
+                var result12 = sheet.Cells["C11"].Value;
+                var result13 = System.Math.Round((double)sheet.Cells["A12"].Value, 8);
+                var result14 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
+                var result15 = sheet.Cells["C12"].Value;
+                Assert.AreEqual(0.450151057d, result1);
+                Assert.AreEqual(-0.854984894d, result2);
+                Assert.AreEqual(6.19939577d, result3);
+                Assert.AreEqual(0.81889275d, result4);
+                Assert.AreEqual(1.492093601d, result5);
+                Assert.AreEqual(7.119188135d, result6);
+                Assert.AreEqual(0.250122479d, result7);
+                Assert.AreEqual(4.711302858d, result8);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result9);
+                Assert.AreEqual(0.333551109d, result10);
+                Assert.AreEqual(2, result11);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result12);
+                Assert.AreEqual(14.80725076d, result13);
+                Assert.AreEqual(44.39274924d, result14);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result15);
+            }
+        }
+
+        [TestMethod]
+        public void LinestMultipleRegressionWithStatsAndConstIsFalse()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with multiple x-ranges and stats");
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = 9;
+                sheet.Cells["C2"].Value = 5;
+                sheet.Cells["D2"].Value = 7;
+                sheet.Cells["E2"].Value = 0;
+                sheet.Cells["A3"].Value = 4;
+                sheet.Cells["B3"].Value = 2;
+                sheet.Cells["C3"].Value = 3;
+                sheet.Cells["D3"].Value = 6;
+                sheet.Cells["E3"].Value = 5;
+                sheet.Cells["A4"].Value = 2;
+                sheet.Cells["B4"].Value = 2;
+                sheet.Cells["C4"].Value = 8;
+                sheet.Cells["D4"].Value = 5;
+                sheet.Cells["E4"].Value = 1;
+                sheet.Cells["A8"].Formula = "LINEST(A2:E2,A3:E4,FALSE,TRUE)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 0);
+                var result4 = System.Math.Round((double)sheet.Cells["A9"].Value, 9);
+                var result5 = System.Math.Round((double)sheet.Cells["B9"].Value, 9);
+                var result6 = sheet.Cells["C9"].Value;
+                var result7 = System.Math.Round((double)sheet.Cells["A10"].Value, 9);
+                var result8 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
+                var result9 = sheet.Cells["C10"].Value;
+                var result10 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
+                var result11 = (int)sheet.Cells["B11"].Value;
+                var result12 = sheet.Cells["C11"].Value;
+                var result13 = System.Math.Round((double)sheet.Cells["A12"].Value, 8);
+                var result14 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
+                var result15 = sheet.Cells["C12"].Value;
+                Assert.AreEqual(0.778248214d, result1);
+                Assert.AreEqual(0.263826409d, result2);
+                Assert.AreEqual(0d, result3);
+                Assert.AreEqual(0.697161675d, result4);
+                Assert.AreEqual(0.727487085d, result5);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result6);
+                Assert.AreEqual(0.607537607d, result7);
+                Assert.AreEqual(4.517526365d, result8);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result9);
+                Assert.AreEqual(2.32202225d, result10);
+                Assert.AreEqual(3, result11);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result12);
+                Assert.AreEqual(94.77586663d, result13);
+                Assert.AreEqual(61.22413337d, result14);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result15);
+            }
+        }
+
+        [TestMethod]
+        public void LinestCollinearityTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with redundant x-sets");
+                sheet.Cells["A2"].Value = 9;
+                sheet.Cells["A3"].Value = 12;
+                sheet.Cells["B2"].Value = 34;
+                sheet.Cells["B3"].Value = 65;
+                sheet.Cells["C2"].Value = 8;
+                sheet.Cells["C3"].Value = 7;
+                sheet.Cells["D2"].Value = 15;
+                sheet.Cells["D3"].Value = 2431;
+                sheet.Cells["E2"].Value = 2534;
+                sheet.Cells["E3"].Value = 6769;
+                sheet.Cells["A8"].Formula = "LINEST(A2:A3,B2:E3)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 0);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
+                Assert.AreEqual(0d, result1);
+                Assert.AreEqual(0.096774194d, result2);
+                Assert.AreEqual(5.709677419d, result3);
+            }
+        }
+
+        [TestMethod]
+        public void LinestRemovalOfRedundantVariablesTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with where independent values are completely dependent of one another");
+                sheet.Cells["A2"].Value = 10;
+                sheet.Cells["A3"].Value = 20;
+                sheet.Cells["A4"].Value = 30;
+                sheet.Cells["A5"].Value = 40;
+                sheet.Cells["A6"].Value = 50;
+                sheet.Cells["B2"].Value = 1;
+                sheet.Cells["B3"].Value = 4;
+                sheet.Cells["B4"].Value = 8;
+                sheet.Cells["B5"].Value = 7;
+                sheet.Cells["B6"].Value = 9;
+                sheet.Cells["C2"].Value = 11;
+                sheet.Cells["C3"].Value = 20;
+                sheet.Cells["C4"].Value = 32;
+                sheet.Cells["C5"].Value = 29;
+                sheet.Cells["C6"].Value = 35;
+                sheet.Cells["A8"].Formula = "LINEST(A2:A6,B2:C6)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 0);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
+                Assert.AreEqual(0d, result1);
+                Assert.AreEqual(0.096774194d, result2);
+                Assert.AreEqual(5.709677419d, result3);
+            }
+        }
+
+
     }
 }
