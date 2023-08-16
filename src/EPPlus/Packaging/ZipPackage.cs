@@ -218,7 +218,14 @@ namespace OfficeOpenXml.Packaging
             var part = new ZipPackagePart(this, partUri, contentType, compressionLevel);
             if(string.IsNullOrEmpty(extension))
             {
-                _contentTypes.Add(GetUriKey(part.Uri.OriginalString), new ContentType(contentType, false, part.Uri.OriginalString));
+                if (_contentTypes.ContainsKey(GetUriKey(part.Uri.OriginalString)))
+                {
+                    _contentTypes[GetUriKey(part.Uri.OriginalString)] = new ContentType(contentType, false, part.Uri.OriginalString);
+                }
+                else
+                {
+                    _contentTypes.Add(GetUriKey(part.Uri.OriginalString), new ContentType(contentType, false, part.Uri.OriginalString));
+                }
             }
             else
             {
