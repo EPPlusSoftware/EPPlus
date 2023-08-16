@@ -130,7 +130,15 @@ namespace OfficeOpenXml.Export.HtmlExport
                 id = _styleCache.Count + 1;
                 _styleCache.Add(key, id);
             }
+
             cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
+
+            var cfList = cell.Worksheet.ConditionalFormatting.Where(cf => cf.Address.Collide(new ExcelAddress(cell.Address)) != ExcelAddressBase.eAddressCollition.No);
+            for (int i = 0; i < cfList.Count(); i++)
+            {
+                cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf{i+1}";
+            }
+
             AddAttribute("class", cls.Trim());
         }
     }

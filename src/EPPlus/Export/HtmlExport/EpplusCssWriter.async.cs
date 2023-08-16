@@ -23,6 +23,8 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using System.Linq;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 #if !NET35
 using System.Threading.Tasks;
 #endif
@@ -200,6 +202,16 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
+        internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting Dxfs, string styleClassPrefix, string cellStyleClassName, int priorityID)
+        {
+            await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf{priorityID}{{", _settings.Minify);
+            if (Dxfs.Fill != null)
+            {
+                await WriteFillStylesAsync(Dxfs.Fill);
+            }
+            await WriteClassEndAsync(_settings.Minify);
+        }
+
         internal async Task AddToCssAsync(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName)
         {
             var xfs = styles.CellXfs[styleId];
@@ -366,6 +378,16 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     await WriteCssItemAsync($"{PatternFills.GetPatternSvg(f.PatternType, GetColor(f.BackgroundColor), GetColor(f.PatternColor))}", _settings.Minify);
                 }
+            }
+        }
+
+        private async Task WriteFillStylesAsync(ExcelDxfFill f)
+        {
+            if (_cssExclude.Fill) return;
+
+            if (f.PatternType == ExcelFillStyle.Solid)
+            {
+                await WriteCssItemAsync($"background-color:{GetDxfColor(f.BackgroundColor)};", _settings.Minify);
             }
         }
 

@@ -10,9 +10,12 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -112,6 +115,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         else
                         {
                             await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+
+                            var cfList = ws.ConditionalFormatting.Where(cf => cf.Address.Collide(new ExcelAddress(ce.CellAddress)) != ExcelAddressBase.eAddressCollition.No);
+                            foreach (var cf in cfList ) 
+                            {
+                                await styleWriter.AddToCssAsyncCF(cf.Style, Settings.StyleClassPrefix, Settings.CellStyleClassName, cf.Priority);
+                            }
                         }
                     }
                 }

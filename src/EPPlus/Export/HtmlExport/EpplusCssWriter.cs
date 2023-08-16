@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using System.Linq;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
+using OfficeOpenXml.Style.Dxf;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -538,6 +539,47 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
+
+        private string GetDxfColor(ExcelDxfColor c)
+        {
+            Color ret;
+            if (c.Color.HasValue)
+            {
+                ret = c.Color.Value;
+                //if (int.TryParse(c.Rgb, NumberStyles.HexNumber, null, out int hex))
+                //{
+                //    ret = Color.FromArgb(hex);
+                //}
+                //else
+                //{
+                //    ret = Color.Empty;
+                //}
+            }
+            else
+            {
+                //Automatic, set to black.
+                ret = Color.Black;
+            }
+            //else if (c.Theme.HasValue)
+            //{
+            //    ret = Utils.ColorConverter.GetThemeColor(_theme, c.Theme.Value);
+            //}
+            //else if (c.Indexed >= 0)
+            //{
+            //    ret = ExcelColor.GetIndexedColor(c.Indexed);
+            //}
+            //else
+            //{
+            //    //Automatic, set to black.
+            //    ret = Color.Black;
+            //}
+            //if (c.Tint != 0)
+            //{
+            //    ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+            //}
+            return "#" + ret.ToArgb().ToString("x8").Substring(2);
+        }
+
         public void FlushStream()
         {
             _writer.Flush();
