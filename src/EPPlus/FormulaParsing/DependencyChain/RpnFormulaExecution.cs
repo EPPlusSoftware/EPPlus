@@ -768,7 +768,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 f._expressionStack.Push(new EmptyExpression());                                
                             }
                             var pi = fexp._function.GetParameterInfo(fexp._argPos++);
-                            if (pi == FunctionParameterInformation.Condition)
+                            if (EnumUtil.HasFlag(pi, FunctionParameterInformation.Condition))
                             {
                                 var v = s.Pop().Compile();
                                 PushResult(depChain._parsingContext, f, v);
@@ -873,7 +873,8 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static bool ShouldIgnoreAddress(FunctionExpression fe)
         {
-            return !(fe._function.HasNormalArguments || fe._function.GetParameterInfo(fe._argPos)!=FunctionParameterInformation.IgnoreAddress);
+            return !(fe._function.HasNormalArguments || 
+                EnumUtil.HasNotFlag(fe._function.GetParameterInfo(fe._argPos), FunctionParameterInformation.IgnoreAddress));
         }
 
         private static int GetNextTokenPosFromCondition(RpnFormula f, FunctionExpression fexp)
@@ -882,8 +883,8 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 var fe = fexp._function.GetParameterInfo(fexp._argPos);
                 while(fexp._argPos < fexp._arguments.Count && (
-                    (fe == FunctionParameterInformation.UseIfConditionIsTrue && fexp._latestConitionValue == ExpressionCondition.False) ||
-                    (fe == FunctionParameterInformation.UseIfConditionIsFalse && fexp._latestConitionValue == ExpressionCondition.True)
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && fexp._latestConitionValue == ExpressionCondition.False) ||
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && fexp._latestConitionValue == ExpressionCondition.True)
                     ))
                 {
                     fexp._argPos++;

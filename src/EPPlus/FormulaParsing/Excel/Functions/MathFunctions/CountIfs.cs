@@ -32,10 +32,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class CountIfs : MultipleRangeCriteriasFunction
     {
         public override int ArgumentMinLength => 2;
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            if(argumentIndex % 2 == 1)
+            {
+                return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            return FunctionParameterInformation.Normal;
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var argRanges = new List<RangeOrValue>();
-            var criterias = new List<string>();
+            var criterias = new List<object>();
             for (var ix = 0; ix < 30; ix +=2)
             {
                 if (arguments.Count <= ix) break;
@@ -56,8 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                var value = arguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
-                criterias.Add(value);
+                criterias.Add(arguments[ix + 1].ValueFirst);
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context, false);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
