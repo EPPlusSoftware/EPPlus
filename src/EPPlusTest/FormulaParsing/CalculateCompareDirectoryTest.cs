@@ -98,7 +98,13 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    p.Workbook.Worksheets["Content - By Month"].Cells["z27"].Calculate();
+                    //p.Workbook.Worksheets["Transactions - By Month"].Cells["D5"].Calculate();
+                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["AB5"].Calculate();
+                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["B5"].Calculate();
+                    //p.Workbook.Worksheets["Content - By Month"].Cells["D24"].Calculate();
+                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["C2"].Calculate();
                     //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
                     //p.Workbook.Worksheets["Data_Elements"].Cells["W2"].Calculate();
                     //p.Workbook.Names["Raw_BufferTypeId"].Calculate();

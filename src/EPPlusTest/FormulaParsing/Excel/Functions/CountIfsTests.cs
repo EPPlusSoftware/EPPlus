@@ -220,5 +220,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 Assert.AreEqual(4, sheet1.Cells["B1"].GetValue<double>(), double.Epsilon);
             }
         }
+        [TestMethod]
+        public void ShouldHandleErrorInCriteria()
+        {
+            _worksheet.Cells["A1"].Value = "#REF!";
+            _worksheet.Cells["A2"].Value = 1;
+            _worksheet.Cells["A3"].Value = new ExcelErrorValue(eErrorType.Ref);            
+            _worksheet.Cells["A4"].Formula = "COUNTIFS(A1:A3, #REF!)";
+            _worksheet.Calculate();
+            
+            Assert.AreEqual(1d, _worksheet.Cells["A4"].Value);
+        }
+
     }
 }

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -35,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var arg2 = GetAsRangeInfo(arguments, 1);
 
             FunctionArgument arg3;
-            if(arguments.Count() > 2)
+             if(arguments.Count() > 2)
             {
                 arg3 = arguments[2];
             }
@@ -83,8 +84,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var filteredData = new List<List<object>>();
+            var checkDimension = !arg2.IsInMemoryRange;
+            var fr = arg2.Address.FromRow;
+            var dfr = arg2.Dimension.FromRow;
             for (int r = 0; r < s2.NumberOfRows; r++)
             {
+                if (checkDimension && fr + r > dfr)
+                {
+                    break;
+                }
                 var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(r, 0), false, true);
                 if (double.IsNaN(boolValue))
                 {
@@ -124,8 +132,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var filteredData = new List<List<object>>();
+            //var nc = s2.NumberOfCols > arg1.Worksheet.Dimension.Columns ? s2.NumberOfCols : arg1.Worksheet.Dimension.Columns;
+            var checkDimension = !arg2.IsInMemoryRange;
+            var fc = arg2.Address.FromCol;
+            var dfc = arg2.Dimension.FromCol;
             for (int c = 0; c < s2.NumberOfCols; c++)
             {
+                if (checkDimension && fc + c > dfc)
+                {
+                    break;
+                }
                 var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(0, c), false, true);
                 if (double.IsNaN(boolValue))
                 {
