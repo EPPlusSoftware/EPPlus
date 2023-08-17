@@ -55,7 +55,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var width = xRangeList.Count;
             var height = xRangeList[0].Count;
 
-            var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats);
+            var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
+            if (matrixIsSingular)
+            {
+                if (!constVar) width += 1;
+                if (stats)
+                {
+                    var numMat = new InMemoryRange(5, (short)(width));
+                    for (var row = 0; row < 5; row++)
+                    {
+                        for (var col = 0; col < width; col++)
+                        {
+                            numMat.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Num));
+                        }
+                    }
+
+                    return numMat;
+                }
+                else
+                {
+                    var numVec = new InMemoryRange(1, (short)(width));
+                    for (var col = 0; col < width; col++)
+                    {
+                        numVec.SetValue(0, col, ExcelErrorValue.Create(eErrorType.Num));
+                    }
+
+                    return numVec;
+                }
+            }
             if (!constVar)
             {
                 List<double> zeroIntercept = new List<double>(); //when const is false, GetSlopes doesnt return an intercept, so we have to add it manually.
@@ -127,12 +154,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var rSquared = ssreg / (ssreg + ssresid);
                 var df = height - width;
                 var standardErrorEstimate = (df != 0d) ? Math.Sqrt(ssresid / df) : 0d;
-                var fStatistic = (df != 0d) ? ((constVar) ? (ssreg / (width - 1)) / (ssresid / df) : 0d) : (ssreg / width) / (ssresid / df);
+                var fStatistic = 0d;
+                if (df != 0)
+                {
+                    fStatistic = (constVar) ? (ssreg / (width - 1)) / (ssresid / df) : (ssreg / width) / (ssresid / df);
+                }
 
                 //Calculating standard errors of all coefficients below
                 var residualMS = (df != 0d) ? ssresid / (height - width) : 0d; //Mean squared of the sum of residual
                 var xTdotX = MatrixHelper.TransposedMult(xRangeList, width, height);
-                var inverseMat = GetInverse(xTdotX);
+                var inverseMat = GetInverse(xTdotX, out bool mIs);
                 var standardErrorMat = MatrixHelper.MatrixMultDouble(inverseMat, residualMS);
                 var diagonal = MatrixHelper.MatrixDiagonal(standardErrorMat);
                 var standardErrorList = diagonal.Select(x => Math.Sqrt(x)).ToList(); //Standard errors are derived from the inverse matrix of sum of squares and cross product (SSCP matrix) multiplied with residualMS
@@ -155,16 +186,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
                 if (constVar)
                 {
-                    for (var i = 0; i < width; i++)
+                    for (var col = 2; col < width; col++) //wrong in this loop
                     {
-                        resultRangeStats.SetValue(i + 2, width - 1, ExcelErrorValue.Create(eErrorType.NA));
+                        for (var row = 2; row < 5; row++)
+                        {
+                            resultRangeStats.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                        }
                     }
                 }
                 else
                 {
-                    for (var i = 0; i < width + 1; i++ )
+                    for (var col = 2; col < width + 1; col++) //wrong in this loop
                     {
-                        resultRangeStats.SetValue(i + 2, width, ExcelErrorValue.Create(eErrorType.NA));
+                        for (var row = 2; row < 5; row++)
+                        {
+                            resultRangeStats.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                        }
                     }
                 }
 
@@ -177,82 +214,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 return resultRangeStats;
             }
         }
-        private static List<List<double>> GetCorrelationMatrix(List<List<double>> matrix)
-        {
-            var height = matrix.Count;
-            var width = matrix[0].Count;
 
-            List<List<double>> centeringMatrix = new List<List<double>>();
-            for (var i = 0; i < height; i++)  // Use height for the outer loop
-            {
-                centeringMatrix.Add(new List<double>());  // Initialize inner list
-                var sum = 0d;
-                for (var j = 0; j < width; j++)
-                {
-                    sum += matrix[i][j];
-                }
-                var mean = sum / width;
-
-                for (int k = 0; k < width; k++)  // Use width for the inner loop
-                {
-                    centeringMatrix[i].Add(matrix[i][k] - mean);  // Add centered value to inner list
-                }
-            }
-
-            var coVarianceMat = MatrixHelper.TransposedMult(centeringMatrix, width, height);
-
-            List<List<double>> stdMat = new List<List<double>>();
-            for (var i = 0; i < width; i++)
-            {
-                stdMat.Add(new List<double>());  // Initialize inner list
-                for (var j = 0; j < width; j++)
-                {
-                    stdMat[i].Add(Math.Sqrt(coVarianceMat[i][j]));  // Add standard deviation value to inner list
-                }
-            }
-
-            List<List<double>> correlationMat = new List<List<double>>();
-            for (var i = 0; i < width; i++)
-            {
-                correlationMat.Add(new List<double>());  // Initialize inner list
-                for (var j = 0; j < width; j++)
-                {
-                    correlationMat[i].Add(coVarianceMat[i][j] / (stdMat[i][i] * stdMat[j][j]));  // Add correlation value to inner list
-                }
-            }
-
-            return correlationMat;
-        }
-
-        private static List<int> GetRedundantSetIndex(List<List<double>> correlationMat)
-        {
-            List<int> redundantSets = new List<int>();
-            var width = correlationMat.Count;
-            var thresh = (double)(1 - 1e-9);
-
-            for (var i = 0; i < width; i++)
-            {
-                for (var j = 0; j < correlationMat[i].Count; j++)
-                {
-                    if (i == j) continue;
-                    var clMat = correlationMat[i][j];
-                    if (Math.Abs(clMat) >= thresh)
-                    {
-                        redundantSets.Add(i);
-                    }
-                }
-            }
-
-            return redundantSets;
-        }
-
-
-        private static List<List<double>> GetSlope(List<List<double>> xValues, List<double> yValues, bool constVar, bool stats)
+        private static List<List<double>> GetSlope(List<List<double>> xValues, List<double> yValues, bool constVar, bool stats, out bool matrixIsSingular)
         {
             var width = xValues.Count;
             var height = xValues[0].Count;
             var xTdotX = MatrixHelper.TransposedMult(xValues, width, height); //Multiply transpose of X with X, denoted X'X
-            var myInverse = GetInverse(xTdotX); //Inverse of transpose of X multiplied by X, denoted as (X'X)^-1
+            var myInverse = GetInverse(xTdotX, out bool mIs); //Inverse of transpose of X multiplied by X, denoted as (X'X)^-1
+            matrixIsSingular = mIs;
             //if (matrixIsSingular) CalculateResult(yValues, xValues[0], constVar, stats); //*************************************************************************************************
             var dotProduct = MatrixHelper.MatrixMult(myInverse, xValues, false);
             var b = MatrixHelper.MatrixMultArray(dotProduct, yValues);
@@ -276,9 +245,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             //if (determinant == 0d) determinant = -2.38964E-12;
             return determinant;
         }
-        private static List<List<double>> GetInverse(List<List<double>> mat)
+        private static List<List<double>> GetInverse(List<List<double>> mat, out bool matrixIsSingular)
         {
-            bool matrixIsSingular = false;
+            matrixIsSingular = false;
             var determinant = GetDeterminant(mat);
             if (determinant == 0d) matrixIsSingular = true;
             if (mat.Count == 2 || matrixIsSingular)

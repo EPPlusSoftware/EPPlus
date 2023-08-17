@@ -514,11 +514,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["C4"].Value = 32;
                 sheet.Cells["C5"].Value = 29;
                 sheet.Cells["C6"].Value = 35;
-                sheet.Cells["A8"].Formula = "LINEST(A2:A6,B2:C6)";
+                sheet.Cells["A8"].Formula = "LINEST(A2:A6,B2:C6,TRUE,true)";
                 sheet.Calculate();
-                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 0);
-                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
-                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
+                var result1 = sheet.Cells["A8"].Value;
+                var result2 = sheet.Cells["B8"].Value;
+                var result3 = sheet.Cells["C8"].Value;
                 Assert.AreEqual(0d, result1);
                 Assert.AreEqual(0.096774194d, result2);
                 Assert.AreEqual(5.709677419d, result3);
@@ -567,7 +567,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["F4"].Value = 423.789;
                 sheet.Cells["F5"].Value = 432.4;
                 sheet.Cells["F6"].Value = 746;
-                sheet.Cells["F10"].Formula = "LINEST(A1:A6, B1:F6, TRUE, TRUE)";
+                sheet.Cells["F10"].Formula = "LINEST(A1:A6, B1:F6, FALSE, TRUE)";
                 sheet.Calculate();
 
 
