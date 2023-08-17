@@ -24,22 +24,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
     internal abstract class MultipleRangeCriteriasFunction : ExcelFunction
     {
-        protected bool Evaluate(object obj, string expression, ParsingContext ctx, bool convertNumericString = true)
+        protected bool Evaluate(object obj, object expression, ParsingContext ctx, bool convertNumericString = true)
         {
+            if(expression is ExcelErrorValue e)
+            {
+                if (obj == null) return false;
+                return obj.Equals(e);
+            }
             var expressionEvaluator = new ExpressionEvaluator(ctx);
             double? candidate = default(double?);
             if (IsNumeric(obj))
             {
                 candidate = ConvertUtil.GetValueDouble(obj);
             }
+            var expressionString = expression==null ? string.Empty : expression.ToString();
             if (candidate.HasValue)
             {
-                return expressionEvaluator.Evaluate(candidate.Value, expression, convertNumericString);
+                return expressionEvaluator.Evaluate(candidate.Value, expressionString, convertNumericString);
             }
-            return expressionEvaluator.Evaluate(obj, expression, convertNumericString);
+            return expressionEvaluator.Evaluate(obj, expressionString, convertNumericString);        
         }
 
-        protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, string searched, ParsingContext ctx, bool convertNumericString = true)
+        protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, object searched, ParsingContext ctx, bool convertNumericString = true)
         {
             var expressionEvaluator = new ExpressionEvaluator(ctx);
             var result = new List<int>();

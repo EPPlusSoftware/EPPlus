@@ -81,7 +81,8 @@ namespace OfficeOpenXml.FormulaParsing
         {
             foreach(var e in _expressions.Values)
             {
-                e._cachedCompileResult = null;
+                if(e.ExpressionType == ExpressionType.CellAddress)
+                    e._cachedCompileResult = null;
             }
         }
     }

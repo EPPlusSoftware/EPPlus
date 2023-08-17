@@ -83,6 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
                 var compiler = _functionCompilerFactory.Create(_function);
                 var result = compiler.Compile(_args ?? Enumerable.Empty<Expression>());
+                
                 if (_negate != 0)
                 {
                     if (result.IsNumeric==false)
