@@ -102,11 +102,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private double? _resultNumeric;
 
         public CompileResult(object result, DataType dataType)
-            : this(result, dataType, 0)
-        { 
-        }
-
-        public CompileResult(object result, DataType dataType, int excelAddressReferenceId)
         {
             if(result is ExcelDoubleCellValue v)
             {
@@ -371,6 +366,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get
             {
+                if(Address==null)
+                {
+                    return base.ResultType;
+                }
                 return CompileResultType.RangeAddress;
             }
         }
