@@ -18,24 +18,20 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public override CompileResult Compile()
         {
-            if (_cachedCompileResult == null)
+            if (_addressInfo.FromRow < 1)
             {
-                if (_addressInfo.FromRow < 1)
-                {
-                    _cachedCompileResult = new CompileResult(eErrorType.Ref);
-                }
-
-                var ri = Context.ExcelDataProvider.GetRange(_addressInfo);
-                if (ri.IsMulti)
-                {
-                    _cachedCompileResult = new AddressCompileResult(ri, DataType.ExcelRange, _addressInfo);
-                }
-                else
-                {
-                    _cachedCompileResult = CompileResultFactory.Create(ri.GetOffset(0, 0), _addressInfo);
-                }
+                return new CompileResult(eErrorType.Ref);
             }
-            return _cachedCompileResult;
+
+            var ri = Context.ExcelDataProvider.GetRange(_addressInfo);
+            if (ri.IsMulti)
+            {
+                return new AddressCompileResult(ri, DataType.ExcelRange, _addressInfo);
+            }
+            else
+            {
+                return CompileResultFactory.Create(ri.GetOffset(0, 0), _addressInfo);
+            }
         }
 
         public override void Negate()
