@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -39,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             // Criteria can either be a string or an array of strings
             var criteria = GetCriteria(arguments.ElementAt(1));
-            var retVal = 0d;
+            KahanSum retVal = 0d;
             if (argRange == null)
             {
                 var val = arguments[0].Value;
@@ -65,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 retVal = CalculateSingleRange(argRange, criteria, context);
             }
-            return CreateResult(retVal, DataType.Decimal);
+            return CreateResult(retVal.Get(), DataType.Decimal);
         }
 
         internal static IEnumerable<string> GetCriteria(FunctionArgument criteriaArg)
@@ -97,7 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         private double CalculateWithSumRange(IRangeInfo range, IEnumerable<string> criteria, IRangeInfo sumRange, ParsingContext context)
         {
-            var retVal = 0d;
+            KahanSum retVal = 0d;
             foreach (var cell in range)
             {
                 if (_evaluator.Evaluate(cell.Value, criteria))
@@ -116,12 +117,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                 }
             }
-            return retVal;
+            return retVal.Get();
         }
 
         private double CalculateSingleRange(IRangeInfo range, IEnumerable<string> expressions, ParsingContext context)
         {
-            var retVal = 0d;
+            KahanSum retVal = 0d;
             foreach (var candidate in range)
             {
                 if (IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expressions) && IsNumeric(candidate.Value))
@@ -133,7 +134,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     retVal += candidate.ValueDouble;
                 }
             }
-            return retVal;
+            return retVal.Get();
         }
         public override bool IsVolatile => true;
     }

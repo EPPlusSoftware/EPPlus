@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
@@ -84,9 +85,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 
-            var result = matchIndexes.Sum(index => sumRange[index]);
+            //var result = matchIndexes.Sum(index => sumRange[index]);
+            KahanSum result = 0.0;
+            foreach(var index in matchIndexes)
+            {
+                result += sumRange[index];
+            }
 
-            return CreateResult(result, DataType.Decimal);
+            return CreateResult(result.Get(), DataType.Decimal);
         }
     }
 }
