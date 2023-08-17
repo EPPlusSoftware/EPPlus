@@ -195,5 +195,31 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Finance
             }
         }
 
+        [TestMethod]
+        public void VdbArrayTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test with array arguments");
+                sheet.Cells["A1"].Value = 2000;
+                sheet.Cells["A2"].Value = 90;
+                sheet.Cells["A3"].Value = 50;
+                sheet.Cells["A4"].Value = 8;
+                sheet.Cells["A5"].Value = 32.6;
+                sheet.Cells["A6"].Value = 2;
+                sheet.Cells["B1"].Value = 1000;
+                sheet.Cells["B2"].Value = 30;
+                sheet.Cells["B3"].Value = 30;
+                sheet.Cells["B4"].Value = 5;
+                sheet.Cells["B5"].Value = 8;
+                sheet.Cells["B6"].Value = 4;
+                sheet.Cells["B7"].Formula = "VDB(A1:B1,A2:B2,A3:B3,A4:B4,A5:B5,A6:B6)";
+                sheet.Calculate();
+                Assert.AreEqual(920.10d, System.Math.Round((double)sheet.Cells["B7"].Value, 2));
+                Assert.AreEqual(170.6600936d, System.Math.Round((double)sheet.Cells["C7"].Value, 7));
+
+            }
+        }
+
     }
 }

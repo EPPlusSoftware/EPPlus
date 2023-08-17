@@ -30,6 +30,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
     internal class Vdb : ExcelFunction
     {
         public override int ArgumentMinLength => 5;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return new ArrayBehaviourConfig { ArrayParameterIndexes = new List<int> { 0, 1, 2, 3, 4, 5 } };
+        }
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
