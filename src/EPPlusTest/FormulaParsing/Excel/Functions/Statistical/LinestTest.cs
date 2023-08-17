@@ -525,6 +525,56 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
+        [TestMethod]
+        public void LinestWithMultipleXNoCollinearity()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test with multiple x-variables, but there is no collinearity: ");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 9;
+                sheet.Cells["A3"].Value = 18;
+                sheet.Cells["A4"].Value = 0;
+                sheet.Cells["A5"].Value = 4;
+                sheet.Cells["A6"].Value = 45;
+                sheet.Cells["B1"].Value = 50;
+                sheet.Cells["B2"].Value = 345;
+                sheet.Cells["B3"].Value = 3.4983;
+                sheet.Cells["B4"].Value = 234;
+                sheet.Cells["B5"].Value = 876;
+                sheet.Cells["B6"].Value = 876;
+                sheet.Cells["C1"].Value = 2738;
+                sheet.Cells["C2"].Value = 29810;
+                sheet.Cells["C3"].Value = 4309;
+                sheet.Cells["C4"].Value = 95;
+                sheet.Cells["C5"].Value = 34.0678;
+                sheet.Cells["C6"].Value = 561.4823;
+                sheet.Cells["D1"].Value = 2;
+                sheet.Cells["D2"].Value = 8;
+                sheet.Cells["D3"].Value = 6666;
+                sheet.Cells["D4"].Value = 5;
+                sheet.Cells["D5"].Value = 544.45;
+                sheet.Cells["D6"].Value = 7654;
+                sheet.Cells["E1"].Value = 543;
+                sheet.Cells["E2"].Value = 890;
+                sheet.Cells["E3"].Value = 876;
+                sheet.Cells["E4"].Value = 8765;
+                sheet.Cells["E5"].Value = 3487.298;
+                sheet.Cells["E6"].Value = 32.1;
+                sheet.Cells["F1"].Value = 50;
+                sheet.Cells["F2"].Value = 30;
+                sheet.Cells["F3"].Value = 2397.346;
+                sheet.Cells["F4"].Value = 423.789;
+                sheet.Cells["F5"].Value = 432.4;
+                sheet.Cells["F6"].Value = 746;
+                sheet.Cells["F10"].Formula = "LINEST(A1:A6, B1:F6, TRUE, TRUE)";
+                sheet.Calculate();
+
+
+
+            }
+        }
+
 
     }
 }

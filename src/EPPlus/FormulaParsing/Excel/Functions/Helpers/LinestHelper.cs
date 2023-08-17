@@ -22,22 +22,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             if (constVar)
             {
-                var range = InMemoryRange.FromDoubleMatrix(xRangeList);
-                var qr2 = new QRDecompositionLibre();
-                var h2 = new Dictionary<int, double>();
-                qr2.lcl_CalculateQRdecomposition(range, h2, range.Size.NumberOfCols, range.Size.NumberOfRows);
-                var qr = new QRDecomposition(range);
+                //var range = InMemoryRange.FromDoubleMatrix(xRangeList);
+                //var qr2 = new QRDecompositionLibre();
+                //var h2 = new Dictionary<int, double>();
+                //qr2.lcl_CalculateQRdecomposition(range, h2, range.Size.NumberOfCols, range.Size.NumberOfRows);
+                //var qr = new QRDecomposition(range);
                 //var q = qr.getQ();
                 //var r = qr.getR();
                 //var qT = q.Transpose();
                 //var rT = r.Transpose();
-                var qrSolver = qr.getSolver();
-                double[] yArray = new double[knownYs.Count];
-                for (var i = 0; i < knownYs.Count; i++) yArray[i] = knownYs[i];
-                var resultArray = qrSolver.Solve(yArray);
-                var decomposedMat = qrSolver.SolveMat(range);
-                var q = qr.getQ();
-                var r = qr.getR();
+                //var qrSolver = qr.getSolver();
+                //double[] yArray = new double[knownYs.Count];
+                //for (var i = 0; i < knownYs.Count; i++) yArray[i] = knownYs[i];
+                //var resultArray = qrSolver.Solve(yArray);
+                //var decomposedMat = qrSolver.SolveMat(range);
+                //var q = qr.getQ();
+                //var r = qr.getR();
                 //var blockMatrix = qrSolver.SolveMat();
 
                 //var correlationMatrix = GetCorrelationMatrix(xRangeList);
@@ -126,11 +126,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var ssreg = (constVar) ? MatrixHelper.DevSq(estimatedYs, false) : MatrixHelper.DevSq(estimatedYs, true);
                 var rSquared = ssreg / (ssreg + ssresid);
                 var df = height - width;
-                var standardErrorEstimate = Math.Sqrt(ssresid / df);
-                var fStatistic = (constVar) ? (ssreg / (width - 1)) / (ssresid / df) : (ssreg / width) / (ssresid / df);
+                var standardErrorEstimate = (df != 0d) ? Math.Sqrt(ssresid / df) : 0d;
+                var fStatistic = (df != 0d) ? ((constVar) ? (ssreg / (width - 1)) / (ssresid / df) : 0d) : (ssreg / width) / (ssresid / df);
 
                 //Calculating standard errors of all coefficients below
-                var residualMS = ssresid / (height - width); //Mean squared of the sum of residual
+                var residualMS = (df != 0d) ? ssresid / (height - width) : 0d; //Mean squared of the sum of residual
                 var xTdotX = MatrixHelper.TransposedMult(xRangeList, width, height);
                 var inverseMat = GetInverse(xTdotX);
                 var standardErrorMat = MatrixHelper.MatrixMultDouble(inverseMat, residualMS);
