@@ -99,6 +99,9 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["B5"].Calculate();
+                    //p.Workbook.Worksheets["Content - By Month"].Cells["D24"].Calculate();
+                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["C2"].Calculate();
                     //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
                     //p.Workbook.Worksheets["Data_Elements"].Cells["W2"].Calculate();
                     //p.Workbook.Names["Raw_BufferTypeId"].Calculate();
