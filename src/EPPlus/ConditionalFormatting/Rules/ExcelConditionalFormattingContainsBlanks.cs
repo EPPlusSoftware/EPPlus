@@ -61,6 +61,11 @@ namespace OfficeOpenXml.ConditionalFormatting
               Address.Start.Address);
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            return _ws.Cells[Address.Start.Address].Value == null ? true : false;
+        }
+
         /// <summary>
         /// 
         /// </summary>

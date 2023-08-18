@@ -139,8 +139,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 for (int i = 0; i < cfCollection[cell.Address].Count(); i++)
                 {
-                    //cfList[i].
-                    cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf{i + 1}";
+                    if (cfCollection[cell.Address][i].ShouldApplyToCell(cell))
+                    {
+                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf{i + 1}";
+                    }
                 }
             }
 
