@@ -258,12 +258,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, false, image);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, false, image, _cfAtAddresses);
                     }
                     else
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
                         writer.RenderBeginTag(HtmlElements.TableData);
                         AddImage(writer, Settings, image, cell.Value);
                         RenderHyperlink(writer, cell, Settings);
@@ -328,7 +328,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses);
                     }
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {

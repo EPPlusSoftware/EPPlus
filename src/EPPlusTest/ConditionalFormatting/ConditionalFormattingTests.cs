@@ -1805,7 +1805,7 @@ namespace EPPlusTest.ConditionalFormatting
                 bar.NegativeBorderColor.SetColor(Color.MediumPurple);
                 bar.AxisPosition = eExcelDatabarAxisPosition.Middle;
 
-                for(int i = 1; i < 21; i++)
+                for (int i = 1; i < 21; i++)
                 {
                     sheet.Cells[i, 1].Value = i - 10;
                 }
@@ -1823,6 +1823,27 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(Color.Red.ToArgb(), readCF.NegativeFillColor.Color.Value.ToArgb());
                 Assert.AreEqual(Color.MediumPurple.ToArgb(), readCF.NegativeBorderColor.Color.Value.ToArgb());
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
+            }
+        }
+
+        [TestMethod]
+        public void GetCFFromRange()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("basicSheet");
+
+                for(int i = 1; i < 21000; i++)
+                {
+                    sheet.Cells[1, i].ConditionalFormatting.AddContainsBlanks();
+                    sheet.Cells[i, 1].ConditionalFormatting.AddBottomPercent();
+                    sheet.Cells[1, i].ConditionalFormatting.AddDatabar(Color.Red);
+                }
+
+                var dictCon = sheet.Cells["A1:E5"].ConditionalFormatting.GetConditionalFormattings();
+
+                Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()["A1"][0].Type, 
+                    eExcelConditionalFormattingRuleType.ContainsBlanks);
             }
         }
     }

@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -25,9 +26,8 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
-        
-
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 
+            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, Dictionary<string, List<ExcelConditionalFormattingRule>> cfRules)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName);
+            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
             writer.RenderBeginTag(HtmlElements.TableData);
             HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
@@ -62,7 +62,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormat(settings.Minify);
         }
 #if !NET35
-        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image)
+        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 
+            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, Dictionary<string, List<ExcelConditionalFormattingRule>> cfRules)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -81,7 +82,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName);
+            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
             HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)

@@ -96,13 +96,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
-                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image);
+                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image, _cfAtAddresses);
                     }
                     else
                     {
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
                         await RenderHyperlinkAsync(writer, cell, Settings);
                         await writer.RenderEndTagAsync();
                         await writer.ApplyFormatAsync(Settings.Minify);
@@ -151,7 +151,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
 
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
-                writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName);
+                writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses);
                 if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TableHeaderCellRole))
                 {
                     writer.AddAttribute("role", accessibilitySettings.TableSettings.TableHeaderCellRole);
@@ -225,7 +225,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     writer.AddAttribute("role", "cell");
                 }
                 var imageCellClassName = GetImageCellClassName(image, Settings);
-                writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
+                writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
                 await writer.RenderBeginTagAsync(HtmlElements.TableData);
                 await AddImageAsync(writer, Settings, image, cell.Value);
                 await writer.WriteAsync(GetCellText(cell, Settings));

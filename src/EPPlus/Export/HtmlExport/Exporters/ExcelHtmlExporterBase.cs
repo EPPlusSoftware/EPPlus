@@ -14,7 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.RangeQuadTree;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -30,6 +32,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         internal ExcelHtmlExporterBase(ExcelRangeBase range)
         {
             _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+
+            _cfAtAddresses = range.ConditionalFormatting.GetConditionalFormattings();
 
             if (range.Addresses == null)
             {
@@ -59,6 +63,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
 
         private readonly EPPlusReadOnlyList<ExcelRangeBase> _ranges;
+        private readonly Dictionary<string, List<ExcelConditionalFormattingRule>> _cfAtAddresses;
 
         /// <summary>
         /// Exported ranges

@@ -29,6 +29,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             (HtmlExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
             _settings = settings;
+
         }
 
         internal HtmlRangeExporterAsyncBase(HtmlExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges) : base(settings, ranges)
@@ -89,12 +90,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                     if (cell.Hyperlink == null)
                     {
-                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, accessibilitySettings, false, image);
+                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, accessibilitySettings, false, image, _cfAtAddresses);
                     }
                     else
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
                         await AddImageAsync(writer, Settings, image, cell.Value);
                         await RenderHyperlinkAsync(writer, cell, Settings);
@@ -160,7 +161,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses);
                     }
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {

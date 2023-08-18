@@ -35,7 +35,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal Dictionary<string, ExcelConditionalFormattingRule> _extLstDict = new Dictionary<string, ExcelConditionalFormattingRule>();
         List<ExcelConditionalFormattingRule> _dataBarStorage = new List<ExcelConditionalFormattingRule>();
 
-
         internal ExcelConditionalFormattingCollection(ExcelWorksheet ws)
         {
             _ws = ws;

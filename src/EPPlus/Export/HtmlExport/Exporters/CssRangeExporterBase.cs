@@ -10,6 +10,7 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Utils;
 using System;
@@ -26,6 +27,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             Settings = settings;
             Require.Argument(range).IsNotNull("range");
             _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+            _cfAtAddresses = range.ConditionalFormatting.GetConditionalFormattings();
 
             if (range.Addresses == null)
             {
@@ -45,10 +47,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             Settings = settings;
             Require.Argument(ranges).IsNotNull("ranges");
             _ranges = ranges;
+            //TODO ensure overlapping ranges are all added to the same collection. Alternatively just grab the entire worksheet.
+            _cfAtAddresses = _ranges[0].ConditionalFormatting.GetConditionalFormattings();
         }
 
         protected HtmlExportSettings Settings;
         protected EPPlusReadOnlyList<ExcelRangeBase> _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+        protected Dictionary<string, List<ExcelConditionalFormattingRule>> _cfAtAddresses;
 
         private void AddRange(ExcelRangeBase range)
         {

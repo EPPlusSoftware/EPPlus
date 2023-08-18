@@ -116,10 +116,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         {
                             await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
 
-                            var cfList = ws.ConditionalFormatting.Where(cf => cf.Address.Collide(new ExcelAddress(ce.CellAddress)) != ExcelAddressBase.eAddressCollition.No);
-                            foreach (var cf in cfList ) 
+                            if(ce.CellAddress != null)
                             {
-                                await styleWriter.AddToCssAsyncCF(cf.Style, Settings.StyleClassPrefix, Settings.CellStyleClassName, cf.Priority);
+                                if (_cfAtAddresses.ContainsKey(ce.CellAddress))
+                                {
+                                    var cfList = _cfAtAddresses[ce.CellAddress];
+                                    foreach (var cf in cfList)
+                                    {
+                                        await styleWriter.AddToCssAsyncCF(cf.Style, Settings.StyleClassPrefix, Settings.CellStyleClassName, cf.Priority);
+                                    }
+                                }
                             }
                         }
                     }

@@ -10,6 +10,8 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
@@ -77,7 +79,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer.Flush();
         }
 
-        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, string additionalClasses)
+        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, string additionalClasses, Dictionary<string, List<ExcelConditionalFormattingRule>> cfCollection)
         {            
             string cls = string.IsNullOrEmpty(additionalClasses) ? "" : additionalClasses;
             int styleId = cell.StyleID;
@@ -133,10 +135,13 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
 
-            var cfList = cell.Worksheet.ConditionalFormatting.Where(cf => cf.Address.Collide(new ExcelAddress(cell.Address)) != ExcelAddressBase.eAddressCollition.No);
-            for (int i = 0; i < cfList.Count(); i++)
+            if(cfCollection.ContainsKey(cell.Address))
             {
-                cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf{i+1}";
+                for (int i = 0; i < cfCollection[cell.Address].Count(); i++)
+                {
+                    //cfList[i].
+                    cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf{i + 1}";
+                }
             }
 
             AddAttribute("class", cls.Trim());
