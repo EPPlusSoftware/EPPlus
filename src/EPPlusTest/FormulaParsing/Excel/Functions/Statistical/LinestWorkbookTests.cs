@@ -28,7 +28,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                         sheet2.Cells[r, c].Value = sheet.GetValue(r, c);
                     }
                 }
-                package.SaveAs(@"c:\Temp\Hannes\test.xlsx");
+                SaveWorkbook(@"LinestTestResults.xlsx", package);
                 //CompareRange(excelSheet, sheet, "O10:R14");
                
 
