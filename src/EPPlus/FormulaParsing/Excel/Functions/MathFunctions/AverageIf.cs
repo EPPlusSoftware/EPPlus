@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -91,7 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         private object CalculateWithLookupRange(IRangeInfo argRange, string criteria, IRangeInfo sumRange, ParsingContext context)
         {
-            var returnValue = 0d;
+            KahanSum returnValue = 0d;
             var nMatches = 0;
             foreach (var cell in argRange)
             {
@@ -112,7 +113,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                 }
             }
-            var div = Divide(returnValue, nMatches);
+            var div = Divide(returnValue.Get(), nMatches);
             if (double.IsPositiveInfinity(div))
             {
                 return CompileResult.GetErrorResult(eErrorType.Div0);
@@ -122,7 +123,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         private object CalculateSingleRange(IRangeInfo range, string expression, ParsingContext context)
         {
-            var returnValue = 0d;
+            KahanSum returnValue = 0d;
             var nMatches = 0;
             foreach (var candidate in range)
             {
@@ -137,7 +138,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     nMatches++;
                 }
             }
-            var div = Divide(returnValue, nMatches);
+            var div = Divide(returnValue.Get(), nMatches);
             if (double.IsPositiveInfinity(div))
             {
                 return CompileResult.GetErrorResult(eErrorType.Div0);

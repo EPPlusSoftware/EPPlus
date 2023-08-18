@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
@@ -71,7 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
 
             if (matchIndexes.Count() == 0) return CreateResult(eErrorType.Div0);
-            var result = matchIndexes.Average(index => sumRange[index]);
+            var result = matchIndexes.AverageKahan(index => sumRange[index]);
 
             return CreateResult(result, DataType.Decimal);
         }
