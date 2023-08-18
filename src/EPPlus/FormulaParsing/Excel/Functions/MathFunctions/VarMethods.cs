@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
@@ -33,11 +34,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             return Var(args.Select(x => (double)x));
         }
-
+       
         public static double Var(IEnumerable<double> args)
         {
             double avg = args.Select(x => (double)x).Average();
-            double d = args.Aggregate(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
+            double d1 = args.Aggregate(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
+            double d = args.AggregateKahan(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
             return Divide(d, (args.Count() - 1));
         }
 
@@ -49,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public static double VarP(IEnumerable<double> args)
         {
             double avg = args.Select(x => (double)x).Average();
-            double d = args.Aggregate(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
+            double d = args.AggregateKahan(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
             return Divide(d, args.Count()); 
         }
     }

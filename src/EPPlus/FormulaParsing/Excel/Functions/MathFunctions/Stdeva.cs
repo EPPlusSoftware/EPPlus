@@ -19,6 +19,7 @@ using MathObj = System.Math;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -57,9 +58,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 var nValues = values.Count();
                 if (nValues == 1) throw new ExcelErrorValueException(eErrorType.Div0);
                 //Compute the Average       
-                double avg = values.Average();
+                double avg = values.AverageKahan();
                 //Perform the Sum of (value-avg)_2_2       
-                double sum = values.Sum(d => MathObj.Pow(d - avg, 2));
+                double sum = values.SumKahan(d => MathObj.Pow(d - avg, 2));
                 //Put it all together       
                 var div = Divide(sum, (values.Count() - 1));
                 if (double.IsPositiveInfinity(div))
