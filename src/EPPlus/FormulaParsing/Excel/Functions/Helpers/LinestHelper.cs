@@ -34,28 +34,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             if (constVar)
             {
-                //var range = InMemoryRange.FromDoubleMatrix(xRangeList);
-                //var qr2 = new QRDecompositionLibre();
-                //var h2 = new Dictionary<int, double>();
-                //qr2.lcl_CalculateQRdecomposition(range, h2, range.Size.NumberOfCols, range.Size.NumberOfRows);
-                //var qr = new QRDecomposition(range);
-                //var q = qr.getQ();
-                //var r = qr.getR();
-                //var qT = q.Transpose();
-                //var rT = r.Transpose();
-                //var qrSolver = qr.getSolver();
-                //double[] yArray = new double[knownYs.Count];
-                //for (var i = 0; i < knownYs.Count; i++) yArray[i] = knownYs[i];
-                //var resultArray = qrSolver.Solve(yArray);
-                //var decomposedMat = qrSolver.SolveMat(range);
-                //var q = qr.getQ();
-                //var r = qr.getR();
-                //var blockMatrix = qrSolver.SolveMat();
-
-                //var correlationMatrix = GetCorrelationMatrix(xRangeList);
-                //var removeTheseColumns = GetRedundantSetIndex(correlationMatrix);
-                //List<double> varianceInflationFactors = new List<double>();
-
                 List<double> onesArray = new List<double>();
                 for (var i = 0; i < xRangeList[0].Count; i++)
                 {
@@ -64,40 +42,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 xRangeList.Add(onesArray);
             }
 
-            var removedColumns = 0;
             var width = xRangeList.Count;
             var height = xRangeList[0].Count;
 
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
-            /*
-            if (matrixIsSingular)
-            {
-                if (!constVar) width += 1;
-                if (stats)
-                {
-                    var numMat = new InMemoryRange(5, (short)(width));
-                    for (var row = 0; row < 5; row++)
-                    {
-                        for (var col = 0; col < width; col++)
-                        {
-                            numMat.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Num));
-                        }
-                    }
-
-                    return numMat;
-                }
-                else
-                {
-                    var numVec = new InMemoryRange(1, (short)(width));
-                    for (var col = 0; col < width; col++)
-                    {
-                        numVec.SetValue(0, col, ExcelErrorValue.Create(eErrorType.Num));
-                    }
-
-                    return numVec;
-                }
-            }
-            */
 
             if (matrixIsSingular)
             {
@@ -110,12 +58,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var threshold = 0.05;
 
                 List<double> collinearityColumns = new List<double>();
-                for (var i = 0; i < rSquaredValues.Count(); i++)
+                for (var i = 0; i < rSquaredValues.Count(); i++) //This can be optimized!
                 {
                     for (var j = 0; j < rSquaredValues.Count(); j++)
                     {
                         if (i == j) continue;
-                        if (Math.Abs(rSquaredValues[i] - rSquaredValues[j]) <= threshold)
+                        if (Math.Abs(rSquaredValues[i] - rSquaredValues[j]) <= threshold) //Test this threshold thoroughly
                         {
                             if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
                             if (!(collinearityColumns.Contains(j))) collinearityColumns.Add(j);
@@ -134,12 +82,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 {
                     if (collinearityColumns.Contains(i) && i != saveThisColumn)
                     {
-                        //xRangeList.Remove(xRangeList[i]);
                         xRangeListCopy[i] = null;
                     }
                 }
                 xRangeListCopy.RemoveAll(x  => x == null);
-                removedColumns = collinearityColumns.Count - 1;
+                //removedColumns = collinearityColumns.Count - 1;
                 multipleRegressionSlopes = GetSlope(xRangeListCopy, knownYs, constVar, stats, out bool matIsSingular);
 
                 //populate multipleRefressionSlopes with zeros where column was removed due to collinearity
@@ -304,9 +251,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var xTdotX = MatrixHelper.TransposedMult(xValues, width, height); //Multiply transpose of X with X, denoted X'X
             var myInverse = GetInverse(xTdotX, out bool mIs); //Inverse of transpose of X multiplied by X, denoted as (X'X)^-1
             matrixIsSingular = mIs;
-            //if (matrixIsSingular) CalculateResult(yValues, xValues[0], constVar, stats); //*************************************************************************************************
             var dotProduct = MatrixHelper.MatrixMult(myInverse, xValues, false);
-            var b = MatrixHelper.MatrixMultArray(dotProduct, yValues);
+            var b = MatrixHelper.MatrixMultArray(dotProduct, yValues); // b = (X'X)^-1 * X' * Y
             return b;
         }
         private static double GetDeterminant(List<List<double>> matrix)
@@ -314,8 +260,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             if (matrix.Count == 2)
             {
                 var determinantTwoByTwo = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]; //If matrix is 2x2, determinant is easily derived from this determinant formula
-                //if (determinantTwoByTwo == 0d && finalCalc) ;
-                //if (determinantTwoByTwo == 0d) determinantTwoByTwo = -2.38964E-12;
                 return determinantTwoByTwo;
             }
             var determinant = 0d;
@@ -323,8 +267,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 determinant += Math.Pow(-1, col) * matrix[0][col] * GetDeterminant(MatrixHelper.GetMatrixMinor(matrix, 0, col));
             }
-            //if (determinant == 0d && finalCalc == true); //if matrix is singular, we set determinant to near zero.
-            //if (determinant == 0d) determinant = -2.38964E-12;
             return determinant;
         }
         private static List<List<double>> GetInverse(List<List<double>> mat, out bool matrixIsSingular)
