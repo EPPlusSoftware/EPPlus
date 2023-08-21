@@ -1124,6 +1124,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 cache.Append($" border=\"1\"");
                             }
 
+                            if(dataBar.Direction != eDatabarDirection.Context)
+                            {
+                                cache.Append($" direction=\"{dataBar.Direction.ToEnumString()}\"");
+                            }
+
                             if (dataBar.Gradient == false)
                             {
                                 cache.Append($" gradient=\"0\"");

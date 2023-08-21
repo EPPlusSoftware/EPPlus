@@ -158,6 +158,8 @@ namespace EPPlusTest.ConditionalFormatting
                 bar.BorderColor.Theme = eThemeSchemeColor.Accent4;
                 bar.BorderColor.Tint = 0.5f;
 
+                //bar.
+
                 bar.NegativeFillColor.Color = Color.Red;
 
                 bar.NegativeBorderColor.Auto = true;
@@ -246,6 +248,35 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(Color.Red.ToArgb(), readCF.NegativeFillColor.Color.Value.ToArgb());
                 Assert.AreEqual(Color.MediumPurple.ToArgb(), readCF.NegativeBorderColor.Color.Value.ToArgb());
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
+            }
+        }
+
+        [TestMethod]
+        public void CF_DatabarDirectionTest()
+        {
+            using (var pck = OpenPackage("direction.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("basicSheet");
+
+                var bar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A20"), Color.Blue);
+                var bar2 = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:B20"), Color.Red);
+                var bar3 = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("B1:B20"), Color.Yellow);
+
+                sheet.Cells["A1:B20"].Formula = "Row()";
+
+                bar.Direction = eDatabarDirection.RightToLeft;
+                bar2.Direction = eDatabarDirection.LeftToRight;
+                bar3.Direction = eDatabarDirection.Context;
+
+                SaveAndCleanup(pck);
+
+                var pck2 = OpenPackage("direction.xlsx");
+
+                var cf = pck2.Workbook.Worksheets[0].ConditionalFormatting;
+
+                Assert.AreEqual(eDatabarDirection.RightToLeft, cf[0].As.DataBar.Direction);
+                Assert.AreEqual(eDatabarDirection.LeftToRight, cf[1].As.DataBar.Direction);
+                Assert.AreEqual(eDatabarDirection.Context, cf[2].As.DataBar.Direction);
             }
         }
     }

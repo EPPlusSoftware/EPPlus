@@ -45,6 +45,7 @@ using System.Runtime.Remoting;
 using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
+using FakeItEasy;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -1823,6 +1824,39 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(Color.Red.ToArgb(), readCF.NegativeFillColor.Color.Value.ToArgb());
                 Assert.AreEqual(Color.MediumPurple.ToArgb(), readCF.NegativeBorderColor.Color.Value.ToArgb());
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
+            }
+        }
+        
+        [TestMethod]
+        public void CF_PriorityTest()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("prioritySheet");
+
+                var lowPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
+
+                lowPriority.Priority = 500;
+
+                lowPriority.Text = "D";
+                
+                lowPriority.Style.Fill.BackgroundColor.Color = Color.DarkRed;
+                lowPriority.Style.Font.Italic = true;
+
+                var highPriority = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("A1"));
+
+                var types = sheet.ConditionalFormatting.ToList().Find(x => x.As.BeginsWith != null);
+
+                highPriority.Text = "r";
+                highPriority.Priority = 2;
+
+                highPriority.Style.Fill.BackgroundColor.Color = Color.DarkBlue;
+                highPriority.Style.Font.Color.Color = Color.White;
+
+                sheet.Cells["A1"].Value = "Danger";
+
+                //Change MYPATH to whatever directory you would like to save in. For example C:\\PriorityTest if you make a folder of that name.
+                pck.SaveAs("C:\\PriorityTest\\priorityTest.xlsx");
             }
         }
     }

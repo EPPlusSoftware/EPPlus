@@ -33,7 +33,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
 
         /// <summary>
         /// The priority of the rule. 
-        /// A lower values are higher priority than higher values, where 1 is the highest priority.
+        /// Priority for the rule gets lower the higher this number is. 1 is the highest priority.
         /// </summary>
         int Priority { get; set; }
 

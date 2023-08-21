@@ -27,6 +27,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
+    /// <summary>
+    /// Collection of all ConditionalFormattings in the workbook
+    /// </summary>
     public class ExcelConditionalFormattingCollection : IEnumerable<IExcelConditionalFormattingRule>
     {
         List<ExcelConditionalFormattingRule> _rules = new List<ExcelConditionalFormattingRule>();
@@ -81,6 +84,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                             dataBar.HighValue.maxLength = int.Parse(xr.GetAttribute("maxLength"));
 
                             dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : true;
+
+                            if(!string.IsNullOrEmpty(xr.GetAttribute("direction")))
+                            {
+                                dataBar.Direction = (eDatabarDirection)xr.GetAttribute("direction").ToEnum<eDatabarDirection>();   
+                            }
 
                             dataBar.NegativeBarBorderColorSameAsPositive = string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive"));
 

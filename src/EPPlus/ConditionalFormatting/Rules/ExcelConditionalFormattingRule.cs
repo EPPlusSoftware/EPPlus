@@ -28,9 +28,6 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// </summary>
     public abstract class ExcelConditionalFormattingRule : IExcelConditionalFormattingRule
     {
-        //Deprecated
-        public XmlNode Node { get; }
-
         /// <summary>
         /// The type of conditional formatting rule.
         /// </summary>

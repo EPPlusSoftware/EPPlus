@@ -24,9 +24,20 @@ using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRule,
+    /// <summary>
+    /// Direction of Databar
+    /// </summary>
+    public enum eDatabarDirection
+    {
+        Context = 0,
+        LeftToRight = 1,
+        RightToLeft = 2
+    }
+
+internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRule,
         IExcelConditionalFormattingDataBarGroup
     {
+
         internal string Uid { get; set; }
 
         internal ExcelConditionalFormattingDataBar(
@@ -266,5 +277,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         public ExcelDxfColor NegativeFillColor { get; set; }
         public ExcelDxfColor NegativeBorderColor { get; set; }
         public ExcelDxfColor AxisColor { get; set; }
+
+        public eDatabarDirection Direction { get; set; }
     }
 }
