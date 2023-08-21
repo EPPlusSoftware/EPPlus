@@ -25,5 +25,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Returns the gamma distribution.")]
     internal class GammaDist : GammaDotDist 
     {
+        public override string NamespacePrefix => null;
     }
 }

@@ -24,5 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the inverse of the beta cumulative probability density function")]
     internal class Betainv : BetaDotInv 
     {
+        // BETAINV doesn't need _xlfn prefix, which BETA.INV do.
+        public override string NamespacePrefix => null;
     }
 }

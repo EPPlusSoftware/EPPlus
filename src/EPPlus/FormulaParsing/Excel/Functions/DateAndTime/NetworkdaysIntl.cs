@@ -29,6 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
     internal class NetworkdaysIntl : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var startDate = DateTime.FromOADate(ArgToInt(arguments, 0));

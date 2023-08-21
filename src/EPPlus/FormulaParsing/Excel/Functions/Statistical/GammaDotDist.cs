@@ -30,6 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class GammaDotDist : ExcelFunction
     {
         public override int ArgumentMinLength => 4;
+
+        public override string NamespacePrefix => "_xlfn.";
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
         private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig

@@ -8,26 +8,16 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  21/06/2023         EPPlus Software AB       Initial release EPPlus 7
+  12/07/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using OfficeOpenXml.Core;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
+
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "7.0",
-        Description = "Returns the one-tailed P-value of a z-test.")]
-    internal class ZDotTest: Ztest
+    internal class WeibullDotDist : WeibullDist
     {
         public override string NamespacePrefix => "_xlfn.";
     }

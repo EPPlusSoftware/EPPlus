@@ -210,6 +210,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gamma.dist"] = new GammaDotDist();
             Functions["gammadist"] = new GammaDist();
             Functions["lognorm.inv"] = new LognormDotInv();
+            Functions["negbinomdist"] = new NegBinomDist();
             Functions["negbinom.dist"] = new NegBinomDotDist();
             Functions["norminv"] = new NormInv();
             Functions["norm.inv"] = new NormDotInv();
@@ -262,11 +263,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["f.inv"] = new FDotInv();
             Functions["f.inv.rt"] = new FDotInvDotRT();
 
-            Functions["poisson.dist"] = new Poisson();
-            Functions["weibull.dist"] = new WeibullDist();
+            Functions["poisson.dist"] = new PoissonDotDist();
+            Functions["weibull.dist"] = new WeibullDotDist();
             Functions["weibull"] = new WeibullDist();
             Functions["t.test"] = new TTest();
             Functions["trimmean"] = new Trimmean();
+            Functions["ztest"] = new Ztest();
             Functions["z.test"] = new ZDotTest();
             // Information
             Functions["isblank"] = new IsBlank();

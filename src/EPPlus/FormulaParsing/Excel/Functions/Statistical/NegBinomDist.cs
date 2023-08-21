@@ -25,5 +25,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Returns the negative binomial distribution")]
     internal class NegBinomDist : NegBinomDotDist
     {
+        public override string NamespacePrefix => null;
     }
 }
