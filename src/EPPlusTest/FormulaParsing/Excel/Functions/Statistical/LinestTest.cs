@@ -481,8 +481,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["D2"].Value = 15;
                 sheet.Cells["D3"].Value = 2431;
                 sheet.Cells["E2"].Value = 2534;
-                //sheet.Cells["E3"].Value = 6769;
-                sheet.Cells["E3"].Value = 5;
+                sheet.Cells["E3"].Value = 6769;
+                //sheet.Cells["E3"].Value = 5;
                 sheet.Cells["A8"].Formula = "LINEST(A2:A3,B2:E3,false,TRUE)";
                 sheet.Calculate();
                 var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
@@ -586,6 +586,39 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Calculate();
 
                 //When debugging, this test returns the same as excel.
+
+            }
+        }
+
+        [TestMethod]
+        public void LinestOnesTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test where one column is just ones: ");
+                sheet.Cells["A1"].Value = 432;
+                sheet.Cells["A2"].Value = 47;
+                sheet.Cells["A3"].Value = 3287389;
+                sheet.Cells["A4"].Value = 23.6789;
+                sheet.Cells["A5"].Value = 246.3673287;
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["B2"].Value = 1;
+                sheet.Cells["B3"].Value = 1;
+                sheet.Cells["B4"].Value = 1;
+                sheet.Cells["B5"].Value = 1;
+                sheet.Cells["C1"].Value = 46;
+                sheet.Cells["C2"].Value = 23;
+                sheet.Cells["C3"].Value = 69;
+                sheet.Cells["C4"].Value = 12;
+                sheet.Cells["C5"].Value = 8;
+                sheet.Cells["D1"].Value = 92;
+                sheet.Cells["D2"].Value = 46;
+                sheet.Cells["D3"].Value = 132.2;
+                sheet.Cells["D4"].Value = 42;
+                sheet.Cells["D5"].Value = 16.1;
+                sheet.Cells["D6"].Formula = "Linest(A1:A5,B1:D5,true,TRUE)";
+                sheet.Calculate();
+
 
             }
         }

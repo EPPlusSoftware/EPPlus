@@ -45,6 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var width = xRangeList.Count;
             var height = xRangeList[0].Count;
 
+            //Add check if all values in a column is the same, that variable is "redundant in that case!
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
 
             if (matrixIsSingular)
@@ -58,17 +59,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var threshold = 0.05;
 
                 List<double> collinearityColumns = new List<double>();
-                for (var i = 0; i < rSquaredValues.Count(); i++) //This can be optimized!
+                for (var i = 0; i < rSquaredValues.Count() - 1; i++) //This can be optimized!
                 {
-                    for (var j = 0; j < rSquaredValues.Count(); j++)
+                    if (Math.Abs(rSquaredValues[i] - rSquaredValues[i + 1]) <= threshold) //Test this threshold thoroughly
                     {
-                        if (i == j) continue;
-                        if (Math.Abs(rSquaredValues[i] - rSquaredValues[j]) <= threshold) //Test this threshold thoroughly
-                        {
-                            if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
-                            if (!(collinearityColumns.Contains(j))) collinearityColumns.Add(j);
-                        }
+                        if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
+                        if (!(collinearityColumns.Contains(i + 1))) collinearityColumns.Add(i + 1);
                     }
+                    //for (var j = 0; j < rSquaredValues.Count(); j++)
+                    //{
+                    //    if (i == j) continue;
+                    //    if (Math.Abs(rSquaredValues[i] - rSquaredValues[j]) <= threshold) //Test this threshold thoroughly
+                    //    {
+                    //        if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
+                    //        if (!(collinearityColumns.Contains(j))) collinearityColumns.Add(j);
+                    //    }
+                    //}
                 }
 
                 var saveThisValue = coefficients.Min(x => Math.Abs(x));
@@ -273,6 +279,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             matrixIsSingular = false;
             var determinant = GetDeterminant(mat);
+            //if (Math.Abs(determinant) < 1e-6) matrixIsSingular = true; //check if this threshold holds.
             if (determinant == 0d) matrixIsSingular = true;
             if (mat.Count == 2)
             {
@@ -319,15 +326,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             List<double> rSquaredValues = new List<double>();
             List<double> coefficients = new List<double>();
             List<double> ones = new List<double>();
-            for (var i = 0; i < independentVariables[0].Count(); i++)
-            {
-                ones.Add(1d);
-            }
+            //for (var i = 0; i < independentVariables[0].Count(); i++)
+            //{
+            //    ones.Add(1d);
+            //}
 
             for (var i = 0; i < independentVariables.Count; i++)
             {
-                bool OnesArray = independentVariables[i].TrueForAll(x => x == 1d);
-                if (!OnesArray)
+                //bool OnesArray = independentVariables[i].TrueForAll(x => x == 1d);
+                //if (!OnesArray)
+                if (constVar == true && i == independentVariables.Count() - 1)
+                {
+                    continue;
+                }
+                else
                 {
                     var singleRegression = CalculateResult(dependentVariable, independentVariables[i], constVar, true);
                     var rSquared = singleRegression.GetValue(2, 0);
@@ -375,7 +387,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             }
 
-            var m = nominator / denominator;
+            var m = (denominator != 0) ? nominator / denominator : 0d;
             var b = (constVar) ? averageY - (m * averageX) : 0d;
 
             if (stats)
