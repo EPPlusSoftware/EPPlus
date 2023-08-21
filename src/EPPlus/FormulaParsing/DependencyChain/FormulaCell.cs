@@ -34,5 +34,9 @@ namespace OfficeOpenXml.FormulaParsing
         internal CellStoreEnumerator<object> iterator;
         internal ExcelWorksheet iteratorWs;
         internal ExcelWorksheet ws;
+        /// <summary>
+        /// stores the depth at which a cell was referenced during depth-first dependency chain traversal in in order to support a breadth-first precedent list
+        /// </summary>
+        internal int ChainDepth { get; set; } 
     }
 }

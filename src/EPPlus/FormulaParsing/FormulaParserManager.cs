@@ -173,6 +173,75 @@ namespace OfficeOpenXml.FormulaParsing
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the dependency chain for a cell/range, ordered by depth of traversal (ascending)
+        /// In other words, breadth-first instead of depth-first
+        /// </summary>
+        /// <param name="range">The cell or range for which </param>
+        /// <returns></returns>
+        public IEnumerable<IFormulaCellInfo> GetCalculationChainByDepth(ExcelRangeBase range)
+        {
+            Require.That(range).IsNotNull();
+            return GetCalculationChainByDepth(range, null);
+        }
+
+        /// <summary>
+        /// Retrieves the dependency chain for a cell/range, ordered by depth of traversal (ascending)
+        /// In other words, breadth-first instead of depth-first
+        /// </summary>
+        /// <param name="range">The cell or range for which </param>
+        /// <param name="options">The options to use during traversal </param>
+        /// <returns></returns>
+        public IEnumerable<IFormulaCellInfo> GetCalculationChainByDepth(ExcelRangeBase range, ExcelCalculationOption options)
+        {
+            Require.That(range).IsNotNull();
+            SortedList<int, List<FormulaCell>> depthTree = GetDepthTree(range, options);
+
+            var result = new List<IFormulaCellInfo>();
+            foreach (var depth in depthTree.Values)
+                foreach (var cell in depth)
+                {
+                    var fc = cell;
+                    var adr = new ExcelAddress(fc.Row, fc.Column, fc.Row, fc.Column);
+                    var fi = new FormulaCellInfo(fc.ws.Name, adr.Address, fc.Formula);
+                    result.Add(fi);
+                }
+            return result;
+        }
+
+        /// <summary>
+        /// This intent of this method is  to process the FormulaCell ChainDepths into a breadth-first list.
+        /// No specific logic is used to ensure the tokens at a given depth are in order, but 
+        /// the depth-first traversal does appear to preserve their left-to-right order
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        private SortedList<int, List<FormulaCell>> GetDepthTree(ExcelRangeBase range, ExcelCalculationOption options)
+        {
+            Require.That(range).IsNotNull();
+            Init(range.Worksheet.Workbook);
+            var filterInfo = new FilterInfo(range.Worksheet.Workbook);
+            _parser.InitNewCalc(filterInfo);
+            var opt = options != null ? options : new ExcelCalculationOption();
+            var dc = DependencyChainFactory.Create(range, opt);
+            // create a list of lists
+            SortedList<int, List<FormulaCell>> depthTree = new SortedList<int, List<FormulaCell>>();
+            // foreach FormulaCell in the dependencyChain,
+            foreach (var cell in dc.list)
+            {
+                // if the depth is new,
+                if (!depthTree.ContainsKey(cell.ChainDepth))
+                    // add a new list at this depth
+                    depthTree.Add(cell.ChainDepth, new List<FormulaCell>());
+
+                // add the cell at the depth it was referenced
+                depthTree[cell.ChainDepth].Add(cell);
+            }
+
+            return depthTree;
+        }
+
         private static void Init(ExcelWorkbook workbook)
         {
             workbook._formulaTokens = new CellStore<List<Token>>();

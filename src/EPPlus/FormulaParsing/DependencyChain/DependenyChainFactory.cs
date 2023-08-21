@@ -161,7 +161,10 @@ namespace OfficeOpenXml.FormulaParsing
         private static void FollowChain(DependencyChain depChain, ILexer lexer, ExcelWorkbook wb, ExcelWorksheet ws, FormulaCell f, ExcelCalculationOption options)
         {
             Stack<FormulaCell> stack = new Stack<FormulaCell>();
+            int depth = 0; // tracks the current depth during traversal
+            f.ChainDepth = 0; // set the initial chain depth while f is still the original f
         iterateToken:
+            depth = f.ChainDepth; // iterate from whatever depth FormulaCell f is at
             while (f.tokenIx < f.Tokens.Count)
             {
                 var t = f.Tokens[f.tokenIx];
@@ -283,7 +286,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     rf.iteratorWs = wb.Worksheets._worksheets[rf.wsIndex];
                                 }
                                 rf.Tokens = rf.iteratorWs==null ? lexer.Tokenize(rf.Formula).ToList() : lexer.Tokenize(rf.Formula, rf.iteratorWs.Name).ToList();
-
+                                rf.ChainDepth = depth; // this new formula cell is at the current depth
                                 depChain.Add(rf);
                                 stack.Push(f);
                                 f = rf;
@@ -316,6 +319,7 @@ namespace OfficeOpenXml.FormulaParsing
             if (stack.Count > 0)
             {
                 f = stack.Pop();
+                depth = f.ChainDepth; // resume iterating cells with the popped formula cell's depth 
                 goto iterateCells;
             }
             return;
@@ -339,8 +343,9 @@ namespace OfficeOpenXml.FormulaParsing
                     rf.ws = f.iteratorWs;
                     rf.Tokens = lexer.Tokenize(rf.Formula, f.iteratorWs.Name).ToList();
                     ws._formulaTokens.SetValue(rf.Row, rf.Column, rf.Tokens);
+                    rf.ChainDepth = depth + 1; // this new formula cell is at the next depth
                     depChain.Add(rf);
-                    stack.Push(f);
+                    stack.Push(f);                    
                     f = rf;
                     goto iterateToken;
                 }
@@ -365,6 +370,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     {
                                         // TODO: Find out circular reference from and to cell
                                         f = stack.Pop();
+                                        depth = f.ChainDepth; // resume iterating with the popped formula cell's depth 
                                         goto iterateCells;
                                     }
                                 }
