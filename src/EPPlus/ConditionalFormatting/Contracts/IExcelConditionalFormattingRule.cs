@@ -22,11 +22,6 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     public interface IExcelConditionalFormattingRule
     {
         /// <summary>
-        /// The 'cfRule' XML node
-        /// </summary>
-        XmlNode Node { get; }
-
-        /// <summary>
         /// The type of conditional formatting rule.
         /// </summary>
         eExcelConditionalFormattingRuleType Type { get; }
