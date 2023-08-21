@@ -43,5 +43,24 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("e", sheet.Cells["C10"].Value);
             }
         }
+
+        [TestMethod]
+        [DataRow(null, 0)]
+        [DataRow(1, 1)]
+        public void VlookupCeilingSignificance(object significance, double expected)
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                string keyValue = "key";
+                sheet.Cells["A1"].Value = keyValue;
+                sheet.Cells["B1"].Value = significance;
+                sheet.Cells["C1"].Formula= $@"CEILING(0.5,VLOOKUP(""{keyValue}"",A1:B1,2))";
+                sheet.Calculate();
+                Assert.AreEqual(expected, sheet.Cells["C1"].Value);
+            }
+        }
+
+
     }
 }
