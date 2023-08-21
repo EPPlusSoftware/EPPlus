@@ -4928,9 +4928,7 @@ namespace EPPlusTest
             using (var p = OpenPackage("tableCopyTest.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("sheet1");
-                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");
-
-                
+                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");               
 
                 tableSheet.Cells[1, 1].Value = "Country";
                 tableSheet.Cells[2, 1].Value = "England";
@@ -4947,7 +4945,6 @@ namespace EPPlusTest
                 tableSheet.Cells[6, 2].Value = "Paris";
 
                 var table = tableSheet.Tables.Add(new ExcelAddress("A1:B11"), "Table1");
-                //table.ToDataTable
 
                 for (int i =  2; i < 7; i++)
                 {
