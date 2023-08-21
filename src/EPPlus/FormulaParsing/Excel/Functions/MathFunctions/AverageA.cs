@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
 
@@ -39,7 +40,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            double nValues = 0d, result = 0d;
+            double nValues = 0d;
+            KahanSum result = 0d;
             foreach (var arg in arguments)
             {
                 Calculate(arg, context, ref result, ref nValues);
@@ -56,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return CreateResult(div, DataType.Decimal);
         }
 
-        private void Calculate(FunctionArgument arg, ParsingContext context, ref double retVal, ref double nValues, bool isInArray = false)
+        private void Calculate(FunctionArgument arg, ParsingContext context, ref KahanSum retVal, ref double nValues, bool isInArray = false)
         {
             if (ShouldIgnore(arg, context))
             {
@@ -78,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     if (IsBool(c.Value))
                     {
                         nValues++;
-                        retVal += (bool)c.Value ? 1 : 0;
+                        retVal += (bool)c.Value ? 1d : 0d;
                     }
                     else if (IsNumeric(c.Value))
 					{

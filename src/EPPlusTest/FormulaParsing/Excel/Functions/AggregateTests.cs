@@ -252,7 +252,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             _sheet.Cells["A3"].Value = 1;
             _sheet.Calculate();
-            Assert.AreEqual(8.55d, _sheet.Cells["A6"].Value);
+            var a6Result = System.Math.Round((double)_sheet.Cells["A6"].Value, 14);
+            Assert.AreEqual(8.55d, a6Result);
         }
 
         [TestMethod]
