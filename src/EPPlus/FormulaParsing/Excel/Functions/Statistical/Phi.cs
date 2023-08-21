@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Category = ExcelFunctionCategory.Statistical,
             EPPlusVersion = "6.0",
             IntroducedInExcelVersion = "2013",
-            Description = "Calculates tthe value of the density function for a standard normal distribution for a supplied number.")]
+            Description = "Calculates the value of the density function for a standard normal distribution for a supplied number.")]
     internal class Phi : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";

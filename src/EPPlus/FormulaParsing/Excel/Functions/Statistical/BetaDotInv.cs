@@ -10,9 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,33 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "6.0",
         Description = "Calculates the inverse of the beta cumulative probability density function")]
-    internal class BetaDotInv : ExcelFunction
+    internal class BetaDotInv : Betainv 
     {
-        public override int ArgumentMinLength => 3;
-
         public override string NamespacePrefix => "_xlfn.";
-
-        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            var probability = ArgToDecimal(arguments, 0);
-            var alpha = ArgToDecimal(arguments, 1);
-            var beta = ArgToDecimal(arguments, 2);
-            var A = 0d;
-            var B = 1d;
-            if(arguments.Count > 3)
-            {
-                A = ArgToDecimal(arguments, 3);
-            }
-            if (arguments.Count > 4)
-            {
-                B = ArgToDecimal(arguments, 4);
-            }
-            // validate
-            if (alpha <= 0 || beta <= 0) return CreateResult(eErrorType.Num);
-            if (probability <= 0 || probability > 1) return CreateResult(eErrorType.Num);
-
-            var result = BetaHelper.IBetaInv(probability, alpha, beta) * (B - A) + A;
-            return CreateResult(result, DataType.Decimal);
-        }
     }
 }
