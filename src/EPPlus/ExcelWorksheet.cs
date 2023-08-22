@@ -1743,7 +1743,8 @@ namespace OfficeOpenXml
 
         private void LoadConditionalFormatting(XmlReader xr)
         {
-            _conditionalFormatting = new ExcelConditionalFormattingCollection(xr, this);
+            _conditionalFormatting = new ExcelConditionalFormattingCollection(this);
+            _conditionalFormatting.ReadRegularConditionalFormattings(xr);
         }
 
         private void WriteArrayFormulaRange(string address, int index, CellFlags type)
@@ -3100,10 +3101,12 @@ namespace OfficeOpenXml
 
                     xr.Read();
 
-                    if (_conditionalFormatting == null)
-                        _conditionalFormatting = new ExcelConditionalFormattingCollection(xr, this);
-                    else
-                        _conditionalFormatting.ReadExtConditionalFormattings(xr);
+                    if(_conditionalFormatting == null)
+                    {
+                        _conditionalFormatting = new ExcelConditionalFormattingCollection(this);
+                    }
+
+                    _conditionalFormatting.ReadExtConditionalFormattings(xr);
 
                     xr.Read();
 

@@ -1806,7 +1806,7 @@ namespace EPPlusTest.ConditionalFormatting
                 bar.NegativeBorderColor.SetColor(Color.MediumPurple);
                 bar.AxisPosition = eExcelDatabarAxisPosition.Middle;
 
-                for(int i = 1; i < 21; i++)
+                for (int i = 1; i < 21; i++)
                 {
                     sheet.Cells[i, 1].Value = i - 10;
                 }
@@ -1826,7 +1826,7 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
             }
         }
-        
+
         [TestMethod]
         public void CF_PriorityTest()
         {
@@ -1839,7 +1839,7 @@ namespace EPPlusTest.ConditionalFormatting
                 lowPriority.Priority = 500;
 
                 lowPriority.Text = "D";
-                
+
                 lowPriority.Style.Fill.BackgroundColor.Color = Color.DarkRed;
                 lowPriority.Style.Font.Italic = true;
 
@@ -1857,6 +1857,45 @@ namespace EPPlusTest.ConditionalFormatting
 
                 //Change MYPATH to whatever directory you would like to save in. For example C:\\PriorityTest if you make a folder of that name.
                 pck.SaveAs("C:\\PriorityTest\\priorityTest.xlsx");
+            }
+        }
+
+        [TestMethod]
+        public void CF_PerformanceTest()
+        {
+            using (var pck = OpenPackage("performance.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("performanceTest");
+
+                for (int i = 0; i < 210000; i++)
+                {
+                    sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
+                    sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
+                    sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
+                }
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void Get_CF_FromRange()
+        {
+            using (var pck = OpenPackage("performance.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("performanceTest");
+
+                sheet.Cells["A1:C500"].ConditionalFormatting.AddDatabar(Color.Blue);
+
+                for (int i = 0; i < 21000; i++)
+                {
+                    //sheet.Cells[1, 1].ConditionalFormatting.getall
+                    sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
+                    sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
+                    sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
+                }
+
+                SaveAndCleanup(pck);
             }
         }
     }

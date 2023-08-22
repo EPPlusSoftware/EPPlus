@@ -279,5 +279,42 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(eDatabarDirection.Context, cf[2].As.DataBar.Direction);
             }
         }
+
+        [TestMethod]
+        public void CF_DatabarReadTest()
+        {
+            using (var pck = OpenTemplatePackage("ExtremeIconSet_Databar.xlsx"))
+            {
+                var sheet1 = pck.Workbook.Worksheets[0];
+                var sheet2 = pck.Workbook.Worksheets[1];
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void CF_SameNrOfFormattings()
+        {
+            using (var pck = OpenTemplatePackage("ExtremeIconSet_Databar.xlsx"))
+            {
+                var sheet1 = pck.Workbook.Worksheets[0];
+                var sheet2 = pck.Workbook.Worksheets[1];
+
+                var numCFs = sheet1.ConditionalFormatting.Count;
+                var numCFs2 = sheet2.ConditionalFormatting.Count;
+
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var pck2 = new ExcelPackage(stream);
+
+                var readSheet1 = pck.Workbook.Worksheets[0];
+                var readSheet2 = pck.Workbook.Worksheets[1];
+
+                Assert.AreEqual(numCFs, readSheet1.ConditionalFormatting.Count);
+                Assert.AreEqual(numCFs2, readSheet2.ConditionalFormatting.Count);
+            }
+        }
     }
 }

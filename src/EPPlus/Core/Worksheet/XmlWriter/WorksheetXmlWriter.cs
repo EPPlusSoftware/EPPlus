@@ -1462,7 +1462,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     if (format.Style.Font.Color.HasValue == true)
                                     {
-                                        WriteColorOption("color", format.Style.Font.Color);
+                                        cache.Append(WriteColorOption("color", format.Style.Font.Color));
                                     }
 
                                     cache.Append("</font>");
@@ -1482,7 +1482,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     {
                                         case Style.eDxfFillStyle.PatternFill:
 
-                                            if (format.Style.Fill.PatternType != null)
+                                            if (format.Style.Fill.PatternType != null && format.Style.Fill.PatternType != ExcelFillStyle.None)
                                             {
                                                 cache.Append($"<patternFill patternType=\"{format.Style.Fill.PatternType}\">");
                                             }
