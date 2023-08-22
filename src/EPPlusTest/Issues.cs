@@ -37,6 +37,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -4928,9 +4929,7 @@ namespace EPPlusTest
             using (var p = OpenPackage("tableCopyTest.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("sheet1");
-                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");
-
-                
+                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");               
 
                 tableSheet.Cells[1, 1].Value = "Country";
                 tableSheet.Cells[2, 1].Value = "England";
@@ -4947,7 +4946,6 @@ namespace EPPlusTest
                 tableSheet.Cells[6, 2].Value = "Paris";
 
                 var table = tableSheet.Tables.Add(new ExcelAddress("A1:B11"), "Table1");
-                //table.ToDataTable
 
                 for (int i =  2; i < 7; i++)
                 {
@@ -5129,6 +5127,65 @@ namespace EPPlusTest
                     var copiedSheet1 = newPck.Workbook.Worksheets["TestTablesNew"];
                     Assert.IsNotNull(copiedSheet1);
                 }
+            }
+        }
+        [TestMethod]
+        public void s497()
+        {
+            using (var package = OpenTemplatePackage("s497.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets["Sheet1"];
+                package.Workbook.Calculate();
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s503()
+        {
+            using (var package = OpenTemplatePackage("s503.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.InsertRow(1, 1);
+                ws.DeleteRow(1, 1);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s505()
+        {
+            using (var package = OpenTemplatePackage("s505.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void I1022()
+        {
+            using (var package = OpenTemplatePackage("I1022.xlsx"))
+            {
+                package.Workbook.Calculate();
+                ExcelWorksheet sheet = package.Workbook.Worksheets["result"];
+                ExcelRangeBase exportRange = sheet.Cells["A1:E24"];
+                IExcelHtmlRangeExporter exporter = exportRange.CreateHtmlExporter();
+                string Html = exporter.GetSinglePage();
+                File.WriteAllText(@"ceil-vlookup.html", Html);
+            }
+        }
+        [TestMethod]
+        [DataRow(null, 0)]
+        [DataRow(1, 1)]
+        public void VlookupCeilingSignificance(object significance, double expected)
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                string keyValue = "key";
+                sheet.Cells["A1"].Value = keyValue;
+                sheet.Cells["B1"].Value = significance;
+                sheet.Cells["C1"].Formula = $@"CEILING(A2,VLOOKUP(""{keyValue}"",A1:B1,2))";
+                sheet.Calculate();
+                Assert.AreEqual(expected, sheet.Cells["C1"].Value);
             }
         }
     }

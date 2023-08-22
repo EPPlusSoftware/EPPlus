@@ -44,7 +44,8 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
             else
             {
-                if (node != null && ((node.Attributes["val"] != null && node.Attributes["val"].Value != "0") || node.Attributes["val"] == null))
+                if (node != null  && (node.Attributes["val"] == null || 
+                   (node.Attributes["val"] != null && node.Attributes["val"].Value != "0" && node.Attributes["val"].Value != "false")))
                 {
                     return true;
                 }

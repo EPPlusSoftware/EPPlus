@@ -297,7 +297,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet);
         }
+        /// <summary>
+        /// Returns the value of the argument att the position of the 0-based
+        /// <paramref name="index"/> as a <see cref="System.Double"/>.
+        /// If the the value is null, zero will be returned.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="index"></param>
+        /// <returns>Value of the argument as an integer.</returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected double ArgToDecimalZeroIfEmpty(IEnumerable<FunctionArgument> arguments, int index)
+        {
+            var arg = arguments.ElementAt(index);
+            if (arg.DataType == DataType.Empty )
+            {
+                return 0D;
+            }
+            if (arg.ValueIsExcelError)
+            {
+                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+            }
+            return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet);
 
+        }
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based
         /// <paramref name="index"/> as a <see cref="System.Double"/>.

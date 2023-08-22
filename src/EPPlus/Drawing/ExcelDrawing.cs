@@ -172,33 +172,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (_parent == null) //Top level drawing
             {
-                XmlNode posNode = node.SelectSingleNode("xdr:from", drawings.NameSpaceManager);
-                if (posNode != null)
-                {
-                    From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
-                }
-                else
-                {
-                    posNode = node.SelectSingleNode("xdr:pos", drawings.NameSpaceManager);
-                    if (posNode != null)
-                    {
-                        Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
-                    }
-                }
-                posNode = node.SelectSingleNode("xdr:to", drawings.NameSpaceManager);
-                if (posNode != null)
-                {
-                    To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
-                }
-                else
-                {
-                    To = null;
-                    posNode = node.SelectSingleNode("xdr:ext", drawings.NameSpaceManager);
-                    if (posNode != null)
-                    {
-                        Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
-                    }
-                }
+                SetPositionPropertiesTopDrawing(drawings, node);
             }
             else //Child to Group shape
             {
@@ -211,6 +185,37 @@ namespace OfficeOpenXml.Drawing
                 }
 
                 posNode = GetXFrameNode(node, "a:ext");
+                if (posNode != null)
+                {
+                    Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
+                }
+            }
+        }
+
+        private void SetPositionPropertiesTopDrawing(ExcelDrawings drawings, XmlNode node)
+        {
+            XmlNode posNode = node.SelectSingleNode("xdr:from", drawings.NameSpaceManager);
+            if (posNode != null)
+            {
+                From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+            }
+            else
+            {
+                posNode = node.SelectSingleNode("xdr:pos", drawings.NameSpaceManager);
+                if (posNode != null)
+                {
+                    Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
+                }
+            }
+            posNode = node.SelectSingleNode("xdr:to", drawings.NameSpaceManager);
+            if (posNode != null)
+            {
+                To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+            }
+            else
+            {
+                To = null;
+                posNode = node.SelectSingleNode("xdr:ext", drawings.NameSpaceManager);
                 if (posNode != null)
                 {
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
@@ -425,6 +430,7 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
+
         const string lockedPath="xdr:clientData/@fLocksWithSheet";
         /// <summary>
         /// Lock drawing
@@ -1034,7 +1040,22 @@ namespace OfficeOpenXml.Drawing
                 CellAnchorChanged();
             }
         }
-
+        internal void SetCellAnchorFromNode()
+        {
+            if(TopNode.LocalName== "twoCellAnchor")
+            {
+                EditAs = CellAnchor = eEditAs.TwoCell;
+            }
+            else if (TopNode.LocalName == "oneCellAnchor")
+            {
+                CellAnchor = eEditAs.OneCell;
+            }
+            else
+            {
+                CellAnchor = eEditAs.Absolute;
+            }
+            SetPositionPropertiesTopDrawing(_drawings, TopNode);
+        }
         internal virtual void CellAnchorChanged()
         {
             
