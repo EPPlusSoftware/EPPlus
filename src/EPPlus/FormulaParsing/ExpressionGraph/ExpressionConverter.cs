@@ -21,13 +21,17 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
     public class ExpressionConverter : IExpressionConverter
     {
-        public StringExpression ToStringExpression(Expression expression)
+        public Expression ToStringExpression(Expression expression)
         {
             var result = expression.Compile();
             string toString;
             if(result.DataType == DataType.Decimal)
             {
                 toString = result.ResultNumeric.ToString("G15");
+            }
+            else if(result.DataType == DataType.ExcelError)
+            {
+                return expression;
             }
             else
             {

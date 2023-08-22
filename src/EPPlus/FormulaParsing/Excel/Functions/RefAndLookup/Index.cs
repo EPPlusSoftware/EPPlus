@@ -67,7 +67,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 //}
                 return crf.Create(candidate);
             }
-            throw new NotImplementedException();
+            else
+            {
+                // only one argument
+                if(arg1.ValueIsExcelError)
+                {
+                    return CreateResult(arg1.Value, DataType.ExcelError);
+                }
+                else if (arguments.ElementAt(1).ValueIsExcelError)
+                {
+                    return CreateResult(arguments.ElementAt(1).Value, DataType.ExcelError);
+                }
+                var index = ArgToInt(arguments, 1, RoundingMethod.Floor);
+                return index >= 0 && index <= 1 ? crf.Create(arg1.Value) : CreateResult(eErrorType.Ref);
+            }
         }
     }
 }
