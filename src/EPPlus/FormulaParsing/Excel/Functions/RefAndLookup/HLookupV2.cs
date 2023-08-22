@@ -28,6 +28,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class HLookupV2 : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            if (argumentIndex == 1)
+            {
+                return FunctionParameterInformation.IgnoreAddress;
+            }
+            return FunctionParameterInformation.Normal;
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
@@ -60,6 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             return CompileResultFactory.Create(lookupRange.GetOffset(lookupIndex - 1, index));
         }
+        public override bool HasNormalArguments => false;
         public override int ArgumentMinLength => 3;
     }
 }

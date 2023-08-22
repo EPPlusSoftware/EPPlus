@@ -495,15 +495,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
         public ParsingContext _context;
-        internal FormulaRangeAddress()
+        public FormulaRangeAddress()
         {
 
         }
-        internal FormulaRangeAddress(ParsingContext ctx)
+        public FormulaRangeAddress(ParsingContext ctx)
         {            
             _context = ctx;
         }
-        internal FormulaRangeAddress(ParsingContext ctx, string address) : this(ctx)
+        public FormulaRangeAddress(ParsingContext ctx, string address) : this(ctx)
         {
             int ix;
             if (address.StartsWith("["))
@@ -543,7 +543,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             FixedFlag |= fixedToRow ? FixedFlag.ToRowFixed : 0;
             FixedFlag |= fixedToCol ? FixedFlag.ToColFixed : 0;
         }
-        internal FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address) : this(ctx)
+        public FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address) : this(ctx)
         {
             FromRow = address._fromRow;
             FromCol = address._fromCol;

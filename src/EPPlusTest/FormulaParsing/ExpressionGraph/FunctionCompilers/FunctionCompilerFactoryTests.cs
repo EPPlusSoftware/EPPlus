@@ -95,16 +95,6 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
         }
 
         [TestMethod]
-        public void CreateHandlesLookupFunctionCompiler()
-        {
-            var functionRepository = FunctionRepository.Create();
-            var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
-            var function = new Column();
-            var functionCompiler = functionCompilerFactory.Create(function);
-            Assert.IsInstanceOfType(functionCompiler, typeof(LookupFunctionCompiler));
-        }
-
-        [TestMethod]
         public void CreateHandlesErrorFunctionCompiler()
         {
             var functionRepository = FunctionRepository.Create();

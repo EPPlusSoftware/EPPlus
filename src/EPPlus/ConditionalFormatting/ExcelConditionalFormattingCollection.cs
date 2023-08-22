@@ -722,7 +722,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             // Add the newly created rule to the list
             _rules.Add(cfRule);
 
-            UpdateExtDict();
+            //UpdateExtDict();
 
             // Return the newly created rule
             return cfRule;

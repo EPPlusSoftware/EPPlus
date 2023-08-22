@@ -55,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             {
                 return _specialCompilers[funcType];
             }
-            else if (function.IsLookupFuction) return new LookupFunctionCompiler(function, _context);
+            //else if (function.IsLookupFuction) return new LookupFunctionCompiler(function, _context);
             else if (function.IsErrorHandlingFunction) return new ErrorHandlingFunctionCompiler(function, _context);
             else if (function.ArrayBehaviour == ExcelFunctionArrayBehaviour.FirstArgCouldBeARange) return new FirstArgToArrayCompiler(function, _context);
             else if(function.ArrayBehaviour == ExcelFunctionArrayBehaviour.Custom) return new CustomArrayBehaviourCompiler(function, _context);

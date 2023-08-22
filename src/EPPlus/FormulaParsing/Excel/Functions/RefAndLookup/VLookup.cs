@@ -27,6 +27,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Looks up a supplied value in the first column of a table, and returns the corresponding value from another column")]
     internal class VLookup : LookupFunction
     {
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            if(argumentIndex == 1)
+            {
+                return FunctionParameterInformation.IgnoreAddress; //
+            }
+            return FunctionParameterInformation.Normal;
+        }
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
