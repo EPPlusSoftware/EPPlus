@@ -37,6 +37,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -5156,6 +5157,35 @@ namespace EPPlusTest
             {
                 var ws = package.Workbook.Worksheets[0];
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void I1022()
+        {
+            using (var package = OpenTemplatePackage("I1022.xlsx"))
+            {
+                package.Workbook.Calculate();
+                ExcelWorksheet sheet = package.Workbook.Worksheets["result"];
+                ExcelRangeBase exportRange = sheet.Cells["A1:E24"];
+                IExcelHtmlRangeExporter exporter = exportRange.CreateHtmlExporter();
+                string Html = exporter.GetSinglePage();
+                File.WriteAllText(@"ceil-vlookup.html", Html);
+            }
+        }
+        [TestMethod]
+        [DataRow(null, 0)]
+        [DataRow(1, 1)]
+        public void VlookupCeilingSignificance(object significance, double expected)
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                string keyValue = "key";
+                sheet.Cells["A1"].Value = keyValue;
+                sheet.Cells["B1"].Value = significance;
+                sheet.Cells["C1"].Formula = $@"CEILING(A2,VLOOKUP(""{keyValue}"",A1:B1,2))";
+                sheet.Calculate();
+                Assert.AreEqual(expected, sheet.Cells["C1"].Value);
             }
         }
     }
