@@ -5183,7 +5183,7 @@ namespace EPPlusTest
                 string keyValue = "key";
                 sheet.Cells["A1"].Value = keyValue;
                 sheet.Cells["B1"].Value = significance;
-                sheet.Cells["C1"].Formula = $@"CEILING(A2,VLOOKUP(""{keyValue}"",A1:B1,2))";
+                sheet.Cells["C1"].Formula = $@"CEILING(0.5,VLOOKUP(""{keyValue}"",A1:B1,2))";
                 sheet.Calculate();
                 Assert.AreEqual(expected, sheet.Cells["C1"].Value);
             }
