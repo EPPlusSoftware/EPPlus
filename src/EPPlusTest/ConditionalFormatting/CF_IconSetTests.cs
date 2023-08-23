@@ -238,8 +238,6 @@ namespace EPPlusTest.ConditionalFormatting
 
                 Assert.AreEqual(false, cf.ShowValue);
 
-                SaveAndCleanup(pck);
-
                 var stream = new MemoryStream();
                 pck.SaveAs(stream);
 
