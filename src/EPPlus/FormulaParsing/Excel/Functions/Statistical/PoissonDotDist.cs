@@ -24,8 +24,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
    Description = "Returns the Poisson distribution. This function works the same as POISSON")]
     internal class PoissonDotDist : Poisson
     {
-        public PoissonDotDist()
-        {
-        }
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

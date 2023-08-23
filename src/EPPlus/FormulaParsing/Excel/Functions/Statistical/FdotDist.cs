@@ -24,5 +24,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the F probability distribution. Takes a boolean argument that determines if PDF or CDF is used.")]
     internal class FdotDist : FDist
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

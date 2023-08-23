@@ -23,49 +23,12 @@ using System.Linq;
 using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    internal class ZDotTest: NormalDistributionBase
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "7.0",
+        Description = "Returns the one-tailed P-value of a z-test.")]
+    internal class ZDotTest: Ztest
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 2;
-        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            if (arguments.Count > 3)
-            {
-                return CompileResult.GetErrorResult(eErrorType.Value);
-            }
-            else
-            {
-
-                var r1 = arguments[0].ValueAsRangeInfo;
-                var numbers = RangeFlattener.FlattenRange(r1, false);
-                var value = ArgToDecimal(arguments[1].Value);
-                var stdev = new Stdev().StandardDeviation(numbers.Select(x => x.Value));
-                var result = 0d;
-                if (stdev.Result is ExcelErrorValue)
-                {
-                    return stdev;
-                }
-                double numbersMean = numbers.Select(i => (double)i).Average();
-                var z = (numbersMean - value) / (stdev.ResultNumeric / Math.Sqrt(numbers.Count));
-                if (arguments.Count < 3)
-                {
-                    result = 1 - CumulativeDistribution(z, 0, 1);
-                }
-                else
-                {
-                    var sigma = ArgToDecimal(arguments[2].Value);
-                    if (sigma <= 0)
-                    {
-                        return CompileResult.GetErrorResult(eErrorType.Num);
-                    }
-                    else
-                    {
-                        z = (numbersMean - value) / (sigma / Math.Sqrt(numbers.Count));
-                        result = 1 - CumulativeDistribution(z, 0, 1);
-                    }
-                }
-                return CreateResult(result, DataType.Decimal);
-            }
-        }
     }
 }

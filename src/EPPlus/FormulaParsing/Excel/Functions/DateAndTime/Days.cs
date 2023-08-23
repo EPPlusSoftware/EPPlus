@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         Description = "Calculates the number of days between 2 dates",
         IntroducedInExcelVersion = "2013",
         SupportsArrays = true)]
-    public class Days : ExcelFunction
+    internal class Days : ExcelFunction
     {
         private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
         {
@@ -39,6 +39,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         }
 
         public override int ArgumentMinLength => 2;
+
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var numDate1 = ArgToDecimal(arguments, 0);
@@ -47,10 +50,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             var startDate = DateTime.FromOADate(numDate2);
             return CreateResult(endDate.Subtract(startDate).TotalDays, DataType.Date);
         }
-        /// <summary>
-        /// If the function has a namespace prefix when it's saved. Excel uses this for newer function. 
-        /// For example "xlfn.".
-        /// </summary>
-        public override string NamespacePrefix => "xlfn.";
     }
 }

@@ -24,5 +24,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the result of the F-test")]
     internal class FdotTest : FTest
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

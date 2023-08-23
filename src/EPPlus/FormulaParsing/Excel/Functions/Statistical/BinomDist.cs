@@ -29,7 +29,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
     internal class BinomDist : ExcelFunction
     {
-        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 4;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 

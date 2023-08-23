@@ -26,7 +26,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the inverse of the Cumulative Normal Distribution Function for a supplied value of x, and a supplied distribution mean & standard deviation.")]
     internal class NormInv : NormInvBase
     {
-        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 

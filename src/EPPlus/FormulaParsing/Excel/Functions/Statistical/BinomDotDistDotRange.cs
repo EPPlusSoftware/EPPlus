@@ -32,6 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class BinomDotDistDotRange : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
+
+        public override string NamespacePrefix => "_xlfn.";
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
         private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig

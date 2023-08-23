@@ -8,10 +8,8 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
- 21/06/2023         EPPlus Software AB       Initial release EPPlus 7
+  12/07/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    [FunctionMetadata(
-            Category = ExcelFunctionCategory.Statistical,
-            EPPlusVersion = "7.0",
-            Description = "Returns the negative binomial distribution")]
-    internal class NegBinomDotDist : NegBinomDist
+    internal class WeibullDotDist : WeibullDist
     {
         public override string NamespacePrefix => "_xlfn.";
     }
