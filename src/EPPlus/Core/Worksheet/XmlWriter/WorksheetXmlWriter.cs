@@ -1224,6 +1224,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
                             string iconSetString = "";
                             bool isCustom = false;
+                            bool showValue;
+                            bool reverse;
 
                             switch (format.Type)
                             {
@@ -1232,6 +1234,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     iconList.Add(threeIcon.Icon1);
                                     iconList.Add(threeIcon.Icon2);
                                     iconList.Add(threeIcon.Icon3);
+
+                                    showValue = threeIcon.ShowValue;
+                                    reverse = threeIcon.Reverse;
 
                                     uid = threeIcon.Uid;
                                     iconSetString = threeIcon.GetIconSetString();
@@ -1245,6 +1250,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     iconList.Add(fourIcon.Icon3);
                                     iconList.Add(fourIcon.Icon4);
 
+                                    showValue = fourIcon.ShowValue;
+                                    reverse = fourIcon.Reverse;
+
                                     uid = fourIcon.Uid;
                                     iconSetString = fourIcon.GetIconSetString();
                                     break;
@@ -1257,6 +1265,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     iconList.Add(fiveIcon.Icon3);
                                     iconList.Add(fiveIcon.Icon4);
                                     iconList.Add(fiveIcon.Icon5);
+
+                                    showValue = fiveIcon.ShowValue;
+                                    reverse = fiveIcon.Reverse;
 
                                     uid = fiveIcon.Uid;
                                     iconSetString = fiveIcon.GetIconSetString();
@@ -1277,9 +1288,19 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\" ");
 
+                            if (showValue == false)
+                            {
+                                cache.Append($" showValue=\"0\" ");
+                            }
+
+                            if (reverse)
+                            {
+                                cache.Append($" reverse=\"1\"");
+                            }
+
                             if (isCustom)
                             {
-                                cache.Append("custom=\"1\"");
+                                cache.Append("custom=\"1\" ");
                             }
 
                             cache.Append(">");
@@ -1835,7 +1856,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             cache.Append($"</extLst>");
                         }
-                        //IconSet is only written in extLst. We need no "local" node.
                     }
                     else if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
                              conditionalFormat.Type == eExcelConditionalFormattingRuleType.FourIconSet ||
@@ -1844,6 +1864,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                         var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
                         string iconSetString = "";
+                        bool showValue = false;
+                        bool reverse = false;
 
                         switch (conditionalFormat.Type)
                         {
@@ -1852,6 +1874,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 iconList.Add(threeIcon.Icon1);
                                 iconList.Add(threeIcon.Icon2);
                                 iconList.Add(threeIcon.Icon3);
+
+                                showValue = threeIcon.ShowValue;
+                                reverse = threeIcon.Reverse;
 
                                 iconSetString = threeIcon.GetIconSetString();
                                 break;
@@ -1862,6 +1887,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 iconList.Add(fourIcon.Icon2);
                                 iconList.Add(fourIcon.Icon3);
                                 iconList.Add(fourIcon.Icon4);
+
+                                showValue = fourIcon.ShowValue;
+                                reverse = fourIcon.Reverse;
 
                                 iconSetString = fourIcon.GetIconSetString();
                                 break;
@@ -1875,11 +1903,26 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 iconList.Add(fiveIcon.Icon4);
                                 iconList.Add(fiveIcon.Icon5);
 
+                                showValue = fiveIcon.ShowValue;
+                                reverse = fiveIcon.Reverse;
+
                                 iconSetString = fiveIcon.GetIconSetString();
                                 break;
                         }
 
-                        cache.Append($"<iconSet iconSet=\"{iconSetString}\">");
+                        cache.Append($"<iconSet iconSet=\"{iconSetString}\"");
+
+                        if (showValue == false)
+                        {
+                            cache.Append($" showValue=\"0\"");
+                        }
+
+                        if(reverse)
+                        {
+                            cache.Append($" reverse=\"1\"");
+                        }
+
+                        cache.Append(">");
 
                         for (int j = 0; j < iconList.Count; j++)
                         {

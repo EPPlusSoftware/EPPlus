@@ -140,7 +140,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if (_uid == null)
                 {
-                    return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
+                    _uid = Guid.NewGuid().ToString().ToUpperInvariant();
+                    return "{" + _uid + "}";
                 }
 
                 return _uid;
