@@ -206,6 +206,52 @@ namespace OfficeOpenXml.Utils
             }
             return d;
         }
+
+        /// <summary>
+        /// Convert an object value to a decimal 
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="ignoreBool"></param>
+        /// <returns></returns>
+        internal static decimal GetValueDecimal(object v, bool ignoreBool = false)
+        {
+            decimal d;
+            try
+            {
+                if (ignoreBool && v is bool)
+                {
+                    return 0;
+                }
+                if (IsNumericOrDate(v))
+                {
+                    if (v is DateTime dt)
+                    {
+                        d = Convert.ToDecimal(
+                            dt.ToOADate());
+                    }
+                    else if (v is TimeSpan ts)
+                    {
+                        d = Convert.ToDecimal(
+                            DateTime.FromOADate(0).Add(ts).ToOADate());
+                    }
+                    else
+                    {
+                        d = Convert.ToDecimal(v, CultureInfo.InvariantCulture);
+                    }
+                }
+                else
+                {
+                    d = 0;
+                }
+            }
+
+            catch
+            {
+                d = 0;
+            }
+            return d;
+        }
+
         internal static DateTime? GetValueDate(object v)
         {
             if (v is DateTime d)
