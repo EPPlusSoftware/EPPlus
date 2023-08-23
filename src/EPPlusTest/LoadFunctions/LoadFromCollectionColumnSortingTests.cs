@@ -182,11 +182,11 @@ namespace EPPlusTest.LoadFunctions
                 sheet.Cells["A1"].LoadFromCollection(new ExcelSpaceRow[] { space });
 
                 Assert.AreEqual("Space Manager WWID", sheet.Cells["A1"].Value);
-                Assert.AreEqual("Space Manager Name", sheet.Cells["A2"].Value);
-				Assert.AreEqual("Space Manager Email", sheet.Cells["A3"].Value);
-				Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual("Space Manager Name", sheet.Cells["B1"].Value);
+				Assert.AreEqual("Space Manager Email", sheet.Cells["C1"].Value);
+				Assert.AreEqual(1, sheet.Cells["A2"].Value);
 				Assert.AreEqual("Mr. Foo", sheet.Cells["B2"].Value);
-				Assert.AreEqual("foo@bar.com", sheet.Cells["B3"].Value);
+				Assert.AreEqual("foo@bar.com", sheet.Cells["C2"].Value);
             }
         }
 	}
