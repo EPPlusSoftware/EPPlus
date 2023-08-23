@@ -1968,5 +1968,80 @@ namespace EPPlusTest
                 Assert.IsNull(worksheet.Cells["B3"].Value);
             }
         }
+
+        [TestMethod]
+        public void DeletingSheetMovesSelectedSheetCorrectly()
+        {
+            using (var package = OpenPackage("deletedSheets.xlsx", true))
+            {
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("VisibleSheet2");
+                package.Workbook.Worksheets.Add("HiddenSheet2").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("HiddenSheet3").Hidden = eWorkSheetHidden.VeryHidden;
+                package.Workbook.Worksheets.Add("VisibleSheet3");
+                package.Workbook.Worksheets.Add("VisibleSheet4");
+                package.Workbook.Worksheets.Add("HiddenSheet4").Hidden = eWorkSheetHidden.Hidden;
+
+                package.Workbook.View.ActiveTab = 2;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet2");
+
+                Assert.AreEqual(4, package.Workbook.View.ActiveTab);
+
+                package.Workbook.View.ActiveTab = package.Workbook.Worksheets.GetByName("VisibleSheet4").Index;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet4");
+
+                Assert.AreEqual(package.Workbook.Worksheets.GetByName("VisibleSheet3").Index, package.Workbook.View.ActiveTab);
+
+                package.Workbook.Worksheets.Delete("HiddenSheet4");
+
+                Assert.AreEqual(package.Workbook.Worksheets.GetByName("VisibleSheet3").Index, package.Workbook.View.ActiveTab);
+
+                package.Workbook.Worksheets.Delete("VisibleSheet3");
+
+                Assert.AreEqual(0, package.Workbook.View.ActiveTab);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DeletingSheetMovesLastSelectedSheetCorrectly()
+        {
+            using (var package = OpenPackage("deletedSheets.xlsx", true))
+            {
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("VisibleSheet2");
+                var nextSheet = package.Workbook.Worksheets.Add("VisibleSheet3");
+
+                var lastSheet = package.Workbook.Worksheets.Add("VisibleSheet4");
+
+                package.Workbook.View.ActiveTab = 4;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet4");
+
+                Assert.AreEqual(nextSheet.Index, package.Workbook.View.ActiveTab);
+            }
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void NoVisibleSheetShouldThrow()
+        {
+            using (var package = new ExcelPackage("ExceptionSheet.xlsx"))
+            {
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("HiddenSheet2").Hidden = eWorkSheetHidden.Hidden;
+
+                package.Workbook.Worksheets.Delete(0);
+
+                package.Save();
+            }
+        }
     }
 }
