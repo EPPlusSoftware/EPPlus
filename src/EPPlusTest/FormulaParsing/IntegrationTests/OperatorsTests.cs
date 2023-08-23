@@ -69,5 +69,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
             result = _ws.Calculate("\"%\" & 14.000000000000002");
             Assert.AreEqual("%14", result);
         }
+
+        [TestMethod]
+        public void ConcatShouldReturnErrorOnly()
+        {
+            _ws.Cells["A1"].Value = "asdf";
+            _ws.Cells["A2"].Formula = "INDEX(A1,2) & \",\"";
+            _ws.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Ref), _ws.Cells["A2"].Value);
+        }
     }
 }
