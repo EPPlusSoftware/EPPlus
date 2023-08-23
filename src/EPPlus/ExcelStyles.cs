@@ -80,7 +80,7 @@ namespace OfficeOpenXml
             }
 
             //NumberFormats
-            ExcelNumberFormatXml.AddBuildIn(NameSpaceManager, NumberFormats);
+            ExcelNumberFormatXml.AddBuiltIn(NameSpaceManager, NumberFormats);
             XmlNode numNode = GetNode(NumberFormatsPath);
             if (numNode != null)
             {
