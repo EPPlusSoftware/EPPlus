@@ -69,13 +69,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public virtual void BeforeInvoke(ParsingContext context) { }
 
         public virtual bool IsLookupFuction 
-        { 
+        {
             get 
             { 
                 return false; 
-            } 
+            }
         }
-
         public virtual bool IsErrorHandlingFunction
         {
             get
@@ -100,7 +99,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             else
             {
-                return arg==null?null:arg.Value;
+                return arg==null ? null : arg.Value;
             }
         }
         /// <summary>
@@ -304,14 +303,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="index"></param>
+        /// <param name="valueIfNull">Valur returned if the arg is empty</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimalZeroIfEmpty(IEnumerable<FunctionArgument> arguments, int index)
+        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, double valueIfNull)
         {
             var arg = arguments.ElementAt(index);
             if (arg.DataType == DataType.Empty )
             {
-                return 0D;
+                return valueIfNull;
             }
             if (arg.ValueIsExcelError)
             {
