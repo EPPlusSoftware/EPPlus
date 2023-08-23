@@ -1,4 +1,5 @@
-﻿/*************************************************************************************************
+﻿
+/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
