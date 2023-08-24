@@ -4,6 +4,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.ConditionalFormatting
 {
     [TestClass]
-    internal class CF_IconSetTests : TestBase
+    public class CF_IconSetTests : TestBase
     {
         [TestMethod]
         public void WriteReadThreeIcon()
@@ -221,6 +222,28 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(threeIconRead.Icon3.CustomIcon, eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow);
 
                 SaveAndCleanup(package2);
+            }
+        }
+
+        [TestMethod]
+        public void IconSetsAreHideValueOnDefaultAndAfterSavingAndLoading()
+        {
+            using (var pck = OpenPackage("valueHide.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("valueHideWs");
+
+                sheet.Cells["A1:A20"].Formula = "Row()";
+
+                var cf = sheet.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("A1:A20"), eExcelconditionalFormatting5IconsSetType.Arrows);
+
+                Assert.AreEqual(false, cf.ShowValue);
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var pckRead = new ExcelPackage(stream);
+
+                Assert.AreEqual(false, pckRead.Workbook.Worksheets[0].ConditionalFormatting[0].As.FiveIconSet.ShowValue);
             }
         }
 
