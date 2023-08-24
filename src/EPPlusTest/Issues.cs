@@ -5173,6 +5173,22 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void s508()
+        {
+            using (var package = OpenPackage("s508.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Column 2";
+                ws.Cells["C1"].Value = "Column 3";
+
+                ws.Cells["A1:B1"].Merge = true;
+                ws.Cells["A1:C1"].AutoFilter = true;
+                ws.AutoFilter.Columns.AddValueFilterColumn(0);
+                ws.AutoFilter.Columns[0].ShowButton = false;
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
         [DataRow(null, 0)]
         [DataRow(1, 1)]
         public void VlookupCeilingSignificance(object significance, double expected)

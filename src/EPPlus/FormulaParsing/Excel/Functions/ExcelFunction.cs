@@ -69,13 +69,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public virtual void BeforeInvoke(ParsingContext context) { }
 
         public virtual bool IsLookupFuction 
-        { 
+        {
             get 
             { 
                 return false; 
-            } 
+            }
         }
-
         public virtual bool IsErrorHandlingFunction
         {
             get
@@ -100,7 +99,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             else
             {
-                return arg==null?null:arg.Value;
+                return arg==null ? null : arg.Value;
             }
         }
         /// <summary>
@@ -171,7 +170,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {            
             return arguments.ElementAt(index).IsExcelRange ? arguments.ElementAt(index).ValueAsRangeInfo.Address.FullAddress : ArgToString(arguments, index);
         }
-
         protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
         {
             var arg = arguments.ElementAt(index);
@@ -181,7 +179,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             return ArgToAddress(arguments, index);
         }
-
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based index
         /// <paramref name="index"/> as an integer.
@@ -304,14 +301,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="index"></param>
+        /// <param name="valueIfNull">Value returned if the argument value is null</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimalZeroIfEmpty(IEnumerable<FunctionArgument> arguments, int index)
+        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, double valueIfNull)
         {
             var arg = arguments.ElementAt(index);
-            if (arg.DataType == DataType.Empty )
+            if (arg.Value == null)
             {
-                return 0D;
+                return valueIfNull;
             }
             if (arg.ValueIsExcelError)
             {
@@ -427,7 +425,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             if (value != null) throw new ExcelErrorValueException(value.Type);
         }
-
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> if <paramref name="condition"/> evaluates to true.
         /// </summary>
@@ -441,18 +438,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 throw new ExcelErrorValueException("An excel function error occurred", ExcelErrorValue.Create(errorType));
             }
         }
-
         protected bool IsNumeric(object val)
         {
             if (val == null) return false;
             return (TypeCompat.IsPrimitive(val) || val is double || val is decimal  || val is System.DateTime || val is TimeSpan);
         }
-
         protected bool IsBool(object val)
         {
             return val is bool;
         }
-
         protected bool IsString(object val, bool allowNullOrEmpty = true)
         {
             if (!allowNullOrEmpty)
