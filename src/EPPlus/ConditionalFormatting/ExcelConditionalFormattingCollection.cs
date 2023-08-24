@@ -78,15 +78,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 {
                                     _rules.Add(cf);
                                 }
-
-                                //if (cf.Type == eExcelConditionalFormattingRuleType.DataBar)
-                                //{
-                                //    _extLstDict.Add(((ExcelConditionalFormattingDataBar)cf).Uid, cf);
-                                //}
-                                //else
-                                //{
-                                //    _rules.Add(cf);
-                                //}
                             }
 
                             if(xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.EndElement)
@@ -220,6 +211,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                         }
                         else if (xr.GetAttribute("type") == "iconSet")
                         {
+                            int priority = int.Parse(xr.GetAttribute("priority"));
+
                             //cfRule->Type
                             xr.Read();
 
@@ -345,6 +338,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     rule = (ExcelConditionalFormattingRule)fiveSet;
                                     break;
                             }
+
+                            rule.Priority = priority;
 
                             if (iconAddress == null && rule != null)
                             {
