@@ -36,6 +36,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 
         private readonly bool _handleErrors;
 
+        //private bool IndexIsArrayArgument(int ix, CompileResult cr, ArrayBehaviourConfig arrayConfig)
+        //{
+        //    return ((cr.DataType == DataType.ExcelRange && arrayConfig.ArrayParameterIndexes.Contains(ix))
+        //        || (ix > arrayConfig);
+        //}
+
         public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
@@ -51,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             {
                 var child = children.ElementAt(ix);
                 var cr = child.Compile();
-                if(cr.DataType == DataType.ExcelRange && arrayConfig.ArrayParameterIndexes.Contains(ix))
+                if(cr.DataType == DataType.ExcelRange && arrayConfig.CanBeArrayArg(ix))
                 {
                     var range = cr.Result as IRangeInfo;
                     if(range.IsMulti)

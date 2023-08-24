@@ -32,6 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class CountIfs : MultipleRangeCriteriasFunction
     {
         public override int ArgumentMinLength => 2;
+
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {
             if(argumentIndex % 2 == 1)
@@ -39,6 +41,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             return FunctionParameterInformation.Normal;
+        }
+
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return new ArrayBehaviourConfig
+            {
+                IgnoreNumberOfArgsFromStart = 1,
+                ArrayArgInterval = 2
+            };
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
