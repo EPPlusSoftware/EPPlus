@@ -27,15 +27,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         IntroducedInExcelVersion = "2007")]
     internal class SumIfs : MultipleRangeCriteriasFunction
     {
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            var abc = new ArrayBehaviourConfig() { ArrayParameterIndexes=new List<int>() };
-            for(int i=1;i<=127;i++)
-            {
-                abc.ArrayParameterIndexes.Add(i);
-            }
-            return abc;
+            config.IgnoreNumberOfArgsFromStart = 1;
+            config.ArrayArgInterval = 1;
         }
+        //public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        //{
+        //    var abc = new ArrayBehaviourConfig() { ArrayParameterIndexes=new List<int>() };
+        //    for(int i=1;i<=127;i++)
+        //    {
+        //        abc.ArrayParameterIndexes.Add(i);
+        //    }
+        //    return abc;
+        //}
         public override int ArgumentMinLength => 3;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {

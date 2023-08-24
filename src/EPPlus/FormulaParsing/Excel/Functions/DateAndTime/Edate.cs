@@ -28,12 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            return new ArrayBehaviourConfig
-            {
-                ArrayParameterIndexes = new List<int> { 1 }
-            };
+            config.SetArrayParameterIndexes(1);
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

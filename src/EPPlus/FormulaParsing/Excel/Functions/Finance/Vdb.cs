@@ -31,9 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
     {
         public override int ArgumentMinLength => 5;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            return new ArrayBehaviourConfig { ArrayParameterIndexes = new List<int> { 0, 1, 2, 3, 4, 5 } };
+            config.SetArrayParameterIndexes(0, 1, 2, 3, 4, 5);
         }
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

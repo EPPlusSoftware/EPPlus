@@ -43,13 +43,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return FunctionParameterInformation.Normal;
         }
 
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            return new ArrayBehaviourConfig
-            {
-                IgnoreNumberOfArgsFromStart = 1,
-                ArrayArgInterval = 2
-            };
+            config.IgnoreNumberOfArgsFromStart = 1;
+            config.ArrayArgInterval = 2;
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

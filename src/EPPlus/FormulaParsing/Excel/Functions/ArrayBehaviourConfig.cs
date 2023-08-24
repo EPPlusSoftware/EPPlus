@@ -23,10 +23,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// </summary>
     public class ArrayBehaviourConfig
     {
+        internal ArrayBehaviourConfig()
+        {
+
+        }
+
+        private readonly List<int> _arrayParameterIndexes = new List<int>();
+
+
         /// <summary>
-        /// A list of integers that specified the 0-based index of arguments that can be an array.
+        /// This method sets indexes of arguments that can be an array.
         /// </summary>
-        public List<int> ArrayParameterIndexes { get; set; }
+        /// <param name="indexes">A list of integers that specifies the 0-based index of arguments that can be an array.</param>
+        public void SetArrayParameterIndexes(params int[] indexes)
+        {
+            _arrayParameterIndexes.AddRange(indexes);
+        }
 
         /// <summary>
         /// Use this property in combination with <see cref="ArrayArgInterval"/>. A typical scenario would be that
@@ -42,18 +54,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         /// <summary>
         /// Returns true if the 0-based <paramref name="ix">index</paramref>
-        /// occurrs in the <see cref="ArrayParameterIndexes"/> list or if
+        /// occurs in the <see cref="SetArrayParameterIndexes(int[])"/> list or if
         /// the index matches the configuration of <see cref="IgnoreNumberOfArgsFromStart"/>
         /// and <see cref="ArrayArgInterval"/>.
         /// </summary>
-        /// <param name="ix"></param>
+        /// <param name="argIx">argument index (0-based)</param>
         /// <returns></returns>
-        public bool CanBeArrayArg(int ix)
+        public bool CanBeArrayArg(int argIx)
         {
-            var startIndex = ix - IgnoreNumberOfArgsFromStart;
+            var startIndex = argIx - IgnoreNumberOfArgsFromStart;
             if (startIndex < 0) return false;
             if (ArrayArgInterval > 0 && startIndex % ArrayArgInterval == 0) return true;
-            return ArrayParameterIndexes != null && ArrayParameterIndexes.Contains(startIndex);
+            return _arrayParameterIndexes != null && _arrayParameterIndexes.Contains(startIndex);
         }
     }
 }
