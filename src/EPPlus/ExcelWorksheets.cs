@@ -479,11 +479,6 @@ namespace OfficeOpenXml
                         }
                     }
                 }
-
-                //if (_pck.Workbook.View.ActiveTab == worksheet.SheetId)
-                //{
-                //    _pck.Workbook.Worksheets[_pck._worksheetAdd].View.TabSelected = true;
-                //}
             }
         }
 
