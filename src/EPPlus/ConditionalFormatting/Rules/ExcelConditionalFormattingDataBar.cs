@@ -38,7 +38,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
         IExcelConditionalFormattingDataBarGroup
     {
 
-        internal string Uid { get; set; }
+        //internal string Uid { get; set; }
 
         internal ExcelConditionalFormattingDataBar(
          ExcelAddress address,
@@ -118,7 +118,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             xr.Read();
             xr.Read();
 
-            Uid = xr.ReadString();
+            _uid = xr.ReadString();
 
             // /ext -> /extLst
             xr.Read();

@@ -1226,6 +1226,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             bool isCustom = false;
                             bool showValue;
                             bool reverse;
+                            bool iconSetPercent;
 
                             switch (format.Type)
                             {
@@ -1237,6 +1238,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     showValue = threeIcon.ShowValue;
                                     reverse = threeIcon.Reverse;
+                                    iconSetPercent = threeIcon.IconSetPercent;
 
                                     uid = threeIcon.Uid;
                                     iconSetString = threeIcon.GetIconSetString();
@@ -1252,6 +1254,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     showValue = fourIcon.ShowValue;
                                     reverse = fourIcon.Reverse;
+                                    iconSetPercent = fourIcon.IconSetPercent;
 
                                     uid = fourIcon.Uid;
                                     iconSetString = fourIcon.GetIconSetString();
@@ -1268,6 +1271,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     showValue = fiveIcon.ShowValue;
                                     reverse = fiveIcon.Reverse;
+                                    iconSetPercent = fiveIcon.IconSetPercent;
 
                                     uid = fiveIcon.Uid;
                                     iconSetString = fiveIcon.GetIconSetString();
@@ -1286,11 +1290,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
 
-                            cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\" ");
+                            cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\"");
 
                             if (showValue == false)
                             {
-                                cache.Append($" showValue=\"0\" ");
+                                cache.Append($" showValue=\"0\"");
+                            }
+
+                            if (iconSetPercent == false)
+                            {
+                                cache.Append($" percent=\"0\"");
                             }
 
                             if (reverse)
@@ -1300,7 +1309,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if (isCustom)
                             {
-                                cache.Append("custom=\"1\" ");
+                                cache.Append(" custom=\"1\"");
                             }
 
                             cache.Append(">");
@@ -1866,6 +1875,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         string iconSetString = "";
                         bool showValue = false;
                         bool reverse = false;
+                        bool iconSetPercent = true;
 
                         switch (conditionalFormat.Type)
                         {
@@ -1877,6 +1887,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                 showValue = threeIcon.ShowValue;
                                 reverse = threeIcon.Reverse;
+                                iconSetPercent = threeIcon.IconSetPercent;
 
                                 iconSetString = threeIcon.GetIconSetString();
                                 break;
@@ -1890,6 +1901,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                 showValue = fourIcon.ShowValue;
                                 reverse = fourIcon.Reverse;
+                                iconSetPercent = fourIcon.IconSetPercent;
 
                                 iconSetString = fourIcon.GetIconSetString();
                                 break;
@@ -1905,19 +1917,25 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                 showValue = fiveIcon.ShowValue;
                                 reverse = fiveIcon.Reverse;
+                                iconSetPercent = fiveIcon.IconSetPercent;
 
                                 iconSetString = fiveIcon.GetIconSetString();
                                 break;
                         }
 
-                        cache.Append($"<iconSet iconSet=\"{iconSetString}\"");
+                        cache.Append($"<iconSet iconSet=\"{iconSetString}\" ");
 
                         if (showValue == false)
                         {
                             cache.Append($" showValue=\"0\"");
                         }
 
-                        if(reverse)
+                        if(iconSetPercent == false)
+                        {
+                            cache.Append($" percent=\"0\"");
+                        }
+
+                        if (reverse)
                         {
                             cache.Append($" reverse=\"1\"");
                         }
