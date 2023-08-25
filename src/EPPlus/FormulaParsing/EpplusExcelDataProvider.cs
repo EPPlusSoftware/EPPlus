@@ -22,7 +22,6 @@ using OfficeOpenXml.Table;
 using System;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -250,68 +249,15 @@ namespace OfficeOpenXml.FormulaParsing
                 get { return _address; }
             }
 
+            /// <summary>
+            /// Returns the cell value 
+            /// </summary>
+            /// <param name="row"></param>
+            /// <param name="col"></param>
+            /// <returns></returns>
             public object GetValue(int row, int col)
             {
-                object retVal = _ws.GetValue(row, col);
-                if (retVal.IsNumeric())
-                {
-                    if (!_ws.Workbook.FullPrecision)
-                    {
-                        int? amountOfDecimals = GetAmountOfDecimals(_ws.Cells[row, col]);
-
-                        retVal = RoundValue(retVal, amountOfDecimals);
-                    }
-
-                }
-
-                return retVal;
-
-            }
-
-            
-            private int? GetAmountOfDecimals(ExcelRange cell)
-            {
-                string formatting = cell.Style.Numberformat.Format;
-                if (!string.IsNullOrEmpty(formatting))
-                {
-                    if (formatting.Contains(";"))
-                    {
-                        formatting = formatting.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)[0];
-                    }
-
-                    int decimalPointIndex = formatting.IndexOf('.');
-
-                    return decimalPointIndex < 0 ? 0 : (formatting.Length - 1) - decimalPointIndex;
-
-
-                }
-                return null;
-            }
-
-            private object RoundValue(object value, int? amountOfDecimals)
-            {
-                decimal val;
-                if (TryParseToDecimal(value, out val) && amountOfDecimals.HasValue)
-                {
-                    return System.Math.Round(val, amountOfDecimals.Value);
-                }
-
-                return value;
-
-            }
-            
-            private static bool TryParseToDecimal(object number, out decimal val)
-            {
-                if (decimal.TryParse(number.ToString(), out val))
-                    return true;
-
-                if (double.TryParse(number.ToString(), out var dblVal))
-                {
-                    val = (decimal)dblVal;
-                    return true;
-                }
-
-                return false;
+                return _ws?.GetValue(row, col);
             }
 
             public object GetOffset(int rowOffset, int colOffset)

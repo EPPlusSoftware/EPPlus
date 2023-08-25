@@ -659,22 +659,20 @@ namespace EPPlusTest
             // Assert
             Assert.AreEqual(expectedFormat, excelFormatString);
         }
-
+        
         [TestMethod]
         public void Workbook_FullPrecision()
         {
             // Arrange
-            var xlsx = GetTestStream("FullPrecisionIF.xlsx");
-            var package = new ExcelPackage(xlsx);
+            var excelStream = GetTestStream("FullPrecisionIF.xlsx");
+            var excelPackage = new ExcelPackage(excelStream);
             
             // Act
-            package.Workbook.Calculate();
-            var fullPrecision = package.Workbook.FullPrecision;
-            var sum = package.Workbook.Worksheets[0].Cells["B3"].Value;
-
+            excelPackage.Workbook.Calculate();
+            
             // Assert
-            Assert.IsFalse(fullPrecision);
-            Assert.AreEqual(0, sum);
+            Assert.IsFalse(excelPackage.Workbook.FullPrecision);
+            Assert.AreEqual("OK", excelPackage.Workbook.Worksheets[0].Cells["A3"].Value);
         }
     }
 }
