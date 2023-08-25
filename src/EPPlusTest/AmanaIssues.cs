@@ -627,14 +627,14 @@ namespace EPPlusTest
         [DataRow(18, "##0.0E+0")]
         [DataRow(19, "# ?/?")]
         [DataRow(20, "# ??/??")]
-        [DataRow(21, "dd.mm.yyyy")]
+        [DataRow(21, "dd.MM.yyyy")]
         [DataRow(22, "dd. mm yy")]
         [DataRow(23, "dd. mmm")]
         [DataRow(24, "mmm yy")]
         [DataRow(25, "h:mm AM/PM")]
         [DataRow(26, "h:mm:ss AM/PM")]
-        [DataRow(27, "hh:mm")]
-        [DataRow(28, "hh:mm:ss")]
+        [DataRow(27, "HH:mm")]
+        [DataRow(28, "HH:mm:ss")]
         [DataRow(29, "dd.mm.yyyy hh:mm")]
         [DataRow(30, "mm:ss")]
         [DataRow(31, "mm:ss.0")]
@@ -658,6 +658,36 @@ namespace EPPlusTest
             
             // Assert
             Assert.AreEqual(expectedFormat, excelFormatString);
+        }
+
+
+        [TestMethod]
+        public void Sum_must_not_have_double_precision_error_issue_766()
+        {
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.Worksheets.Add("first");
+
+                var sheet = p.Workbook.Worksheets.First();
+
+                sheet.Cells["A1"].Value = 0.4;
+                sheet.Cells["B1"].Value = 44.4;
+                sheet.Cells["D1"].Value = 44.8;
+                sheet.Cells["E1"].Formula = "=D1-SUM(A1:B1)";
+
+                sheet.Cells["A2"].Value = 0.2;
+                sheet.Cells["B2"].Value = 21.9;
+                sheet.Cells["D2"].Value = 22.1;
+                sheet.Cells["E2"].Formula = "=D2-SUM(A2:B2)";
+
+                sheet.Cells["A3"].Formula = "=E1-E2";
+
+                p.Workbook.Calculate();
+
+                Assert.AreEqual("0", sheet.Cells["E1"].Value.ToString());
+                Assert.AreEqual("0", sheet.Cells["E2"].Value.ToString());
+                Assert.AreEqual("0", sheet.Cells["A3"].Value.ToString());
+            }
         }
         
         [TestMethod]
