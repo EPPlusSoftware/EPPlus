@@ -460,6 +460,5 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
             }
         }
-
     }
 }
