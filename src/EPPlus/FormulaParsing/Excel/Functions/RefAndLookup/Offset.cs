@@ -57,15 +57,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override int ArgumentMinLength => 3;
 
         public override bool ReturnsReference => true;
-        public override bool HasNormalArguments => false;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if(argumentIndex==0)
+            if (argumentIndex == 0)
             {
                 return FunctionParameterInformation.IgnoreAddress;
             }
             return FunctionParameterInformation.Normal;
-        }
+        }));
+
         public override bool IsVolatile => true; 
     }
 }

@@ -160,14 +160,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
 
         public override bool ReturnsReference => true;
-        public override bool HasNormalArguments => false;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if(argumentIndex==0)
+            if (argumentIndex == 0)
             {
                 return FunctionParameterInformation.Condition;
             }
-            else if(argumentIndex==1)
+            else if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.UseIfConditionIsTrue;
             }
@@ -175,6 +174,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 return FunctionParameterInformation.UseIfConditionIsFalse;
             }
-        }
+        }));
     }
 }

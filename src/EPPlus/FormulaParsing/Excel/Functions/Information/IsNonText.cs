@@ -35,9 +35,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             if (firstArg.Value == null || firstArg.ValueIsExcelError) return CreateResult(true, DataType.Boolean);
             return CreateResult(!(firstArg.Value is string), DataType.Boolean);
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
     }
 }

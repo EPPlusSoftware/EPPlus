@@ -30,11 +30,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             IgnoreHiddenValues = false;
             IgnoreErrors = false;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
-
+        }));
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

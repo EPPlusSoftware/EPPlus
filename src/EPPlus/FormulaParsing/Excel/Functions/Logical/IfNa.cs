@@ -32,9 +32,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         {
             return GetResultByObject(arguments[0].Value);
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
     }
 }

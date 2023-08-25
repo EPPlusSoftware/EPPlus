@@ -113,13 +113,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal int GetTokenPosForArg(FunctionParameterInformation type)
         {
             var i = _argPos;
-            while (i < _arguments.Count && _function.GetParameterInfo(i) != type) i++;
+            while (i < _arguments.Count && _function.ParametersInfo.GetParameterInfo(i) != type) i++;
             if(i < _arguments.Count ) return _arguments[i];
             return -1;
         }
         internal override Expression CloneWithOffset(int row, int col)
         {
-            if(_function==null || _function.HasNormalArguments)
+            if(_function==null || _function.ParametersInfo.HasNormalArguments)
             {
                 return this;
             }
@@ -154,6 +154,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             var adr = ExcelCellBase.GetAddress(fa.FromRow, fa.FromCol, fa.ToRow, fa.ToCol);
                             key.Append(adr);
                         }
+                        else if(e.ExpressionType == ExpressionType.NameValue)
+                        {
+                            var ne = (NamedValueExpression)e;
+                            if(ne.IsRelative)
+                            {
+                                key.Append($"{f._tokens[i].Value},{f._ws?.IndexInList},{f._row},{f._column}");
+                            }
+                            else
+                            {
+                                key.Append(f._tokens[i].Value);
+                            }
+                        }
                         else
                         {
                             var fa = e.GetAddress();
@@ -165,7 +177,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             {
                                 var adr = fa.Address;
                                 key.Append(adr);
-
                             }
                         }
                     }

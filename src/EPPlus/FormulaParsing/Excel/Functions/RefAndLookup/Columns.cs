@@ -47,11 +47,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             throw new ArgumentException("Invalid range supplied");
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreAddress;
-        }
-        public override bool HasNormalArguments => false;
+        }));
         public override int ArgumentMinLength => 1;
 
     }

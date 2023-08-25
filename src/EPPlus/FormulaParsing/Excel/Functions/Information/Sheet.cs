@@ -100,9 +100,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         /// <summary>
         /// Reference Parameters do not need to be follows in the dependency chain.
         /// </summary>
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreAddress;
-        }
+        }));
     }
 }

@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             return CompileResult.GetErrorResult(eErrorType.NA);
         }
         public override bool ReturnsReference => true;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex % 2 == 0)
             {
@@ -63,7 +63,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 return FunctionParameterInformation.UseIfConditionIsTrue | FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
-        }
-        public override bool HasNormalArguments => false;
+        }));
     }
 }

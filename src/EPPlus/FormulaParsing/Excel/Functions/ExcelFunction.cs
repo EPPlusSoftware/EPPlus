@@ -31,11 +31,45 @@ using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    public class ExcelFunctionParametersInfo
+    {
+        public static ExcelFunctionParametersInfo Default 
+        { 
+            get
+            {
+                return new ExcelFunctionParametersInfo();
+            }
+        }
+        Func<int, FunctionParameterInformation> _getParameter=null;
+        private ExcelFunctionParametersInfo()
+        {
+
+        }
+        public ExcelFunctionParametersInfo(Func<int, FunctionParameterInformation> getParameter)
+        {
+            _getParameter = getParameter;
+        }
+        public bool HasNormalArguments
+        {
+            get 
+            { 
+                return _getParameter == null;
+            }
+        }
+        public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            if(_getParameter== null)
+            {
+                return FunctionParameterInformation.Normal;
+            }
+            return _getParameter(argumentIndex);
+        }
+    }
     /// <summary>
     /// Base class for Excel function implementations.
     /// </summary>
     public abstract class ExcelFunction
-    {
+    {        
         public ExcelFunction()
             : this(new ArgumentCollectionUtil(), new ArgumentParsers(), new CompileResultValidators())
         {
@@ -71,13 +105,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
+            
             for (int i = 0; i < arguments.Count; i++)
             {
-                var pi = GetParameterInfo(i);
-                if (arguments[i].DataType == DataType.ExcelError && 
-                    (pi & FunctionParameterInformation.IgnoreErrorInPreExecute) != FunctionParameterInformation.IgnoreErrorInPreExecute)
+                if (ParametersInfo.HasNormalArguments)
                 {
-                    return CompileResult.GetErrorResult(arguments[i].ValueAsExcelErrorValue.Type);
+                    if (arguments[i].DataType == DataType.ExcelError)
+                    {
+                        return CompileResult.GetErrorResult(arguments[i].ValueAsExcelErrorValue.Type);
+                    }
+                }
+                else
+                {
+                    var pi = ParametersInfo.GetParameterInfo(i);
+                    if (arguments[i].DataType == DataType.ExcelError &&
+                        (pi & FunctionParameterInformation.IgnoreErrorInPreExecute) != FunctionParameterInformation.IgnoreErrorInPreExecute)
+                    {
+                        return CompileResult.GetErrorResult(arguments[i].ValueAsExcelErrorValue.Type);
+                    }
                 }
             }
 
@@ -369,14 +414,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="index"></param>
+        /// <param name="valueIfNull"></param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimalZeroIfEmpty(IList<FunctionArgument> arguments, int index)
+        protected double ArgToDecimal(IList<FunctionArgument> arguments, int index, double valueIfNull)
         {
             var arg = arguments[index];
-            if (arg.DataType == DataType.Empty)
+            if (arg.Value == null)
             {
-                return 0D;
+                return valueIfNull;
             }
             if (arg.ValueIsExcelError)
             {
@@ -766,26 +812,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return false;
             }
         }
-
         /// <summary>
-        /// Returns true if there are no deviations 
+        /// Provides information about the functions parameters.
         /// </summary>
-        public virtual bool HasNormalArguments
+        public virtual ExcelFunctionParametersInfo ParametersInfo
         {
-            get
-            {
-                return true;
-            }
-        }
+            get;
+        } = ExcelFunctionParametersInfo.Default;
+
         /// <summary>
         /// Information of individual arguments of the function used internally by the formula parser .
         /// </summary>
         /// <param name="argumentIndex">The argument index</param>
         /// <returns>Function argument information</returns>
-        public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
-        {
-            return FunctionParameterInformation.Normal;
-        }
         public virtual string NamespacePrefix
         {
             get

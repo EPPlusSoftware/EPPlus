@@ -189,6 +189,8 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 var c = _cells[row, col];
                 if (c == null) return null;
                 return c.Value;
+
+
             }
             else
             {

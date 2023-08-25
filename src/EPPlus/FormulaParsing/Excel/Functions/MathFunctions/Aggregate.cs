@@ -225,9 +225,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             return options == 0 || options == 1 || options == 2 || options == 3;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
     }
 }

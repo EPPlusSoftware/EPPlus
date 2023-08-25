@@ -29,15 +29,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override int ArgumentMinLength => 3;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if(argumentIndex == 1)
+            if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.IgnoreAddress;
             }
             return FunctionParameterInformation.Normal;
-        }
-        public override bool HasNormalArguments => false;
+        }));
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead

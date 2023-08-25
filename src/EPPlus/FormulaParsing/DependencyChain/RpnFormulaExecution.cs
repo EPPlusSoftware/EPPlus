@@ -2,6 +2,7 @@
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -266,14 +267,13 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if (f._column > 0)
             {
-                if (f._ws == null)
-                {
-                    depChain._parsingContext.CurrentName = new FormulaCellAddress(-1, f._row, 0);
-                }
-                else
-                {
-                    depChain._parsingContext.CurrentCell = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column);
-                }
+                depChain._parsingContext.CurrentCell = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column);
+            }
+            else
+            {
+                var cc = ((RpnNameFormula)f).CurrentCell;
+                if (cc.Row == 0) cc = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column); //Not set, set to the name.
+                depChain._parsingContext.CurrentCell =  cc;
             }
         }
         static bool _prevExists = false;
@@ -284,7 +284,7 @@ namespace OfficeOpenXml.FormulaParsing
             {                
                 ws = depChain._parsingContext.Package.Workbook.Worksheets[name.wsIx];
             }
-            var f = new RpnFormula(ws, row , col);
+            var f = new RpnNameFormula(ws, row , col, depChain._parsingContext.CurrentCell);
             if (cellRow == 0 || cellCol == 0)
             {
                 f.SetFormula(name.Formula, depChain);
@@ -374,6 +374,7 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             CheckCircularReferences(depChain, f, address, options);
                         }
+
 
                         if (rd.ExistsGetSpill(ref address))
                         {
@@ -767,7 +768,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
                                 f._expressionStack.Push(new EmptyExpression());                                
                             }
-                            var pi = fexp._function.GetParameterInfo(fexp._argPos++);
+                            var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);
                             if (EnumUtil.HasFlag(pi, FunctionParameterInformation.Condition))
                             {
                                 var v = s.Pop().Compile();
@@ -777,7 +778,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else if (fexp._latestConitionValue!=ExpressionCondition.None)
                             {
-                                pi = fexp._function.GetParameterInfo(fexp._argPos);
+                                pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                                 if ((pi == FunctionParameterInformation.UseIfConditionIsFalse && fexp._latestConitionValue == ExpressionCondition.True)
                                    ||
                                    (pi == FunctionParameterInformation.UseIfConditionIsTrue && fexp._latestConitionValue == ExpressionCondition.False))
@@ -787,7 +788,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                         }
                         break;
-                    case TokenType.Function:
+                    case TokenType.Function:                        
                         var r = ExecFunc(depChain, f);
                         if(r.DataType==DataType.ExcelRange && returnAddresses)
                         {
@@ -873,15 +874,19 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static bool ShouldIgnoreAddress(FunctionExpression fe)
         {
-            return !(fe._function.HasNormalArguments || 
-                EnumUtil.HasNotFlag(fe._function.GetParameterInfo(fe._argPos), FunctionParameterInformation.IgnoreAddress));
+            if(fe._function.ParametersInfo.HasNormalArguments==false)
+            {
+                var pi = fe._function.ParametersInfo.GetParameterInfo(fe._argPos);
+                return (pi & (FunctionParameterInformation.IgnoreAddress | FunctionParameterInformation.AdjustParameterAddress)) != 0;
+            }
+            return false;
         }
 
         private static int GetNextTokenPosFromCondition(RpnFormula f, FunctionExpression fexp)
         {
             if(fexp._argPos < fexp._arguments.Count)
             {
-                var fe = fexp._function.GetParameterInfo(fexp._argPos);
+                var fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                 while(fexp._argPos < fexp._arguments.Count && (
                     (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && fexp._latestConitionValue == ExpressionCondition.False) ||
                     (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && fexp._latestConitionValue == ExpressionCondition.True)
@@ -895,7 +900,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         f._expressionStack.Push(Expression.Empty);  //This expression is not used.
                     }
-                    fe = fexp._function.GetParameterInfo(fexp._argPos);
+                    fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                 }
                 if(fexp._argPos < fexp._arguments.Count)
                 {

@@ -26,15 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Looks up a supplied value in the first row of a table, and returns the corresponding value from another row")]
     internal class HLookup : LookupFunction
     {
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.IgnoreAddress;
             }
             return FunctionParameterInformation.Normal;
-        }
-
+        }));
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var lookupArgs = new LookupArguments(arguments, context);

@@ -85,16 +85,27 @@ namespace OfficeOpenXml.FormulaParsing
                     e._cachedCompileResult = null;
             }
         }
+        internal bool IsName
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
     internal class RpnNameFormula : RpnFormula
     {        
-        internal RpnNameFormula(ExcelWorksheet ws, int nameId, int row, int column) : base(ws, row, column)
+        internal RpnNameFormula(ExcelWorksheet ws, int row, int column, FormulaCellAddress currentCell) : base(ws, row, column)
         {
-            NameId  = nameId;
-
+            CurrentCell = currentCell;
         }
-        internal int NameId { get; set; }
-        internal bool IsStatic { get; set; }
-        internal object Value { get; set; }
+        internal FormulaCellAddress CurrentCell { get;  }
+        internal bool IsName
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

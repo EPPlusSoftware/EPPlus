@@ -32,14 +32,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class CountIfs : MultipleRangeCriteriasFunction
     {
         public override int ArgumentMinLength => 2;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if(argumentIndex % 2 == 1)
+            if (argumentIndex % 2 == 1)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             return FunctionParameterInformation.Normal;
-        }
+        }));
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var argRanges = new List<RangeOrValue>();

@@ -99,7 +99,10 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     //p.Workbook.Calculate(x => x.CacheExpressions=true);
-                    p.Workbook.Worksheets["Component Failure Rates"].Cells["B2"].Calculate();
+                    p.Workbook.Worksheets["Components"].Cells["H2"].Calculate();
+                    //p.Workbook.Worksheets["FMEDA"].Cells["K2:K11"].Calculate();
+                    //p.Workbook.Worksheets["Results"].Cells["C23"].Calculate();
+                    //p.Workbook.Worksheets["Component Failure Rates"].Cells["B2"].Calculate();
                     //p.Workbook.Worksheets["Content - By Month"].Cells["z27"].Calculate();
                     //p.Workbook.Worksheets["Transactions - By Month"].Cells["D5"].Calculate();
                     //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["AB5"].Calculate();
@@ -113,23 +116,6 @@ namespace EPPlusTest.FormulaParsing
                     //p.Workbook.Calculate(x => x.CacheExpressions = true);
                     //p.Workbook.Worksheets["Summary"].Cells["G234"].Calculate(x => x.CacheExpressions = true);
                     //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
-
-                    //p.Workbook.Worksheets["LeverancierOpties"].Cells["B3"].Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Risk Report"].Cells["C13"].Calculate(x=>x.CacheExpressions=true);
-                    //p.Workbook.Worksheets["T SMP"].Cells["M73"].Calculate();    
-                    //p.Workbook.Worksheets["Holdings"].Cells["D210"].Calculate();
-                    //p.Workbook.Worksheets["MISC"].Cells["M2"].Calculate();
-                    //p.Workbook.Names["SizePort"].Calculate();
-                    //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate();
-                    //p.Workbook.Worksheets["CELP Change Tool Index"].Cells["AJ7"].Calculate(); 
-                    //p.Workbook.Worksheets["RptEC"].Cells["DC63"].Calculate(); 
-                    //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate(); 
-                    //p.Workbook.Worksheets["Risk Report"].Cells["C13"].Calculate();
-                    //p.Workbook.Worksheets["RptEC"].Cells["DC6"].Calculate();
-                    //p.Workbook.Worksheets["RptEC"].Cells["DC7"].Calculate();
-                    //p.Workbook.Worksheets["Risk Report"].Cells["D6"].Calculate();
-                    //p.Workbook.Worksheets["Risk Report"].Cells["AO99"].Calculate();
-                    //p.Workbook.Worksheets["RptEC"].Cells["DC6"].Calculate();
                 }
                 catch (Exception ex)
                 {

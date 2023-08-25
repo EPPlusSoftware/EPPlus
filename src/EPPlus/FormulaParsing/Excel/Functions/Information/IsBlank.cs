@@ -58,9 +58,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             }
             return CreateResult(result, DataType.Boolean);
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
     }
 }
