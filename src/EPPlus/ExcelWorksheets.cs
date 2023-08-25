@@ -256,7 +256,7 @@ namespace OfficeOpenXml
                     return i;
                 }
             }
-            throw new InvalidOperationException("The worksheets collection must have at least one visible woreksheet");
+            throw new InvalidOperationException("The worksheets collection must have at least one visible worksheet");
         }
 
 
@@ -440,16 +440,44 @@ namespace OfficeOpenXml
 
             _worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
             ReindexWorksheetDictionary();
-            //If the active sheet is deleted, set the first tab as active.
+            //If the active sheet is deleted, set the next visible sheet as active.
+            //If none are start going backwards until one isn't.
             if (_pck.Workbook.Worksheets.Count > 0)
             {
+                var sheetIndex = 0;
+
                 if (_pck.Workbook.View.ActiveTab >= _pck.Workbook.Worksheets.Count)
                 {
-                    _pck.Workbook.View.ActiveTab = Math.Min(_pck.Workbook.View.ActiveTab - 1, _pck.Workbook.Worksheets.Count-1);
+
+                    for (int i = 1; i < _pck.Workbook.Worksheets.Count + 1; i++)
+                    {
+                        sheetIndex = Math.Min(_pck.Workbook.View.ActiveTab - i, _pck.Workbook.Worksheets.Count - i);
+                        if (_pck.Workbook.Worksheets[sheetIndex].Hidden == eWorkSheetHidden.Visible)
+                        {
+                            i = _pck.Workbook.Worksheets.Count;
+                        }
+                    }
+                    _pck.Workbook.View.ActiveTab = sheetIndex;
                 }
-                if (_pck.Workbook.View.ActiveTab == worksheet.SheetId)
+                else
                 {
-                    _pck.Workbook.Worksheets[_pck._worksheetAdd].View.TabSelected = true;
+                    for (int i = _pck.Workbook.View.ActiveTab; i < _pck.Workbook.Worksheets.Count; i++)
+                    {
+                        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
+                        {
+                            _pck.Workbook.View.ActiveTab = i;
+                            return;
+                        }
+                    }
+
+                    for (int i = _pck.Workbook.View.ActiveTab - 1; i > 0; i--)
+                    {
+                        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
+                        {
+                            _pck.Workbook.View.ActiveTab = i;
+                            return;
+                        }
+                    }
                 }
             }
         }
