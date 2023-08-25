@@ -36,12 +36,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 
         private readonly bool _handleErrors;
 
-        //private bool IndexIsArrayArgument(int ix, CompileResult cr, ArrayBehaviourConfig arrayConfig)
-        //{
-        //    return ((cr.DataType == DataType.ExcelRange && arrayConfig.ArrayParameterIndexes.Contains(ix))
-        //        || (ix > arrayConfig);
-        //}
-
         public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
@@ -145,84 +139,5 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             }
             return new CompileResult(resultRange, DataType.ExcelRange);
         }
-
-        /*
-        #region Starting code
-        private CompileResult StartingCode(IEnumerable<Expression> children, ParsingContext context)
-        {
-            var firstChild = children.First();
-            var compileResult = firstChild.Compile();
-            if (compileResult.DataType == DataType.ExcelRange)
-            {
-                var remainingChildren = children.Skip(1).ToList();
-                var range = compileResult.Result as IRangeInfo;
-                if (range.IsMulti)
-                {
-                    var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
-                    var inMemoryRange = new InMemoryRange(rangeDef);
-                    var errorCompileResult = default(CompileResult);
-                    for (var row = 0; row < rangeDef.NumberOfRows; row++)
-                    {
-                        errorCompileResult = default(CompileResult);
-                        for (var col = 0; col < rangeDef.NumberOfCols; col++)
-                        {
-                            errorCompileResult = default(CompileResult);
-                            var argAsCompileResult = CompileResultFactory.Create(range.GetOffset(row, col));
-                            var arg = new FunctionArgument(argAsCompileResult.ResultValue, argAsCompileResult.DataType);
-                            var argList = new List<FunctionArgument> { arg };
-                            argList.AddRange(remainingChildren.Select(x =>
-                            {
-                                if (_handleErrors)
-                                {
-                                    try
-                                    {
-                                        var cr = x.Compile();
-                                        return new FunctionArgument(cr.ResultValue, cr.DataType);
-                                    }
-                                    catch (ExcelErrorValueException efe)
-                                    {
-                                        errorCompileResult = ((ErrorHandlingFunction)Function).HandleError(efe.ErrorValue.ToString());
-                                        return null;
-                                    }
-                                    catch// (Exception e)
-                                    {
-                                        errorCompileResult = ((ErrorHandlingFunction)Function).HandleError(ExcelErrorValue.Values.Value);
-                                        return null;
-                                    }
-                                }
-                                else
-                                {
-                                    var cr = x.Compile();
-                                    return new FunctionArgument(cr.ResultValue, cr.DataType);
-                                }
-                            }));
-                            if (errorCompileResult != null)
-                            {
-                                inMemoryRange.SetValue(row, col, errorCompileResult.Result);
-                            }
-                            else
-                            {
-                                var result = Function.Execute(argList, context);
-                                inMemoryRange.SetValue(row, col, result.Result);
-                            }
-                        }
-                    }
-                    return new CompileResult(inMemoryRange, DataType.ExcelRange);
-                }
-                else
-                {
-                    var defaultCompiler = new DefaultCompiler(Function);
-                    return defaultCompiler.Compile(children, context);
-                }
-
-            }
-            else
-            {
-                var defaultCompiler = new DefaultCompiler(Function);
-                return defaultCompiler.Compile(children, context);
-            }
-        }
-        #endregion
-        */
     }
 }
