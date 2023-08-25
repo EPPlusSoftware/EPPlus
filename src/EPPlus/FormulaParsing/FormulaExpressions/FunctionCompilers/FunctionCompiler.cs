@@ -28,18 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             private set;
         }
 
-        protected ParsingContext Context
-        {
-            get;
-            private set;
-        }
-
-        public FunctionCompiler(ExcelFunction function, ParsingContext context)
+        public FunctionCompiler(ExcelFunction function)
         {
             Require.That(function).Named("function").IsNotNull();
-            Require.That(context).Named("context").IsNotNull();
             Function = function;
-            Context = context;
         }
 
         protected void BuildFunctionArguments(CompileResult compileResult, DataType dataType, List<FunctionArgument> args)
@@ -73,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             BuildFunctionArguments(result, result.DataType, args);
         }
 
-        public abstract CompileResult Compile(IEnumerable<Expression> children);
+        public abstract CompileResult Compile(IEnumerable<Expression> children, ParsingContext context);
 
     }
 }

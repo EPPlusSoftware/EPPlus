@@ -18,16 +18,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
     internal class DefaultCompiler : FunctionCompiler
     {
-        public DefaultCompiler(ExcelFunction function, ParsingContext context)
-            : base(function, context)
+        public DefaultCompiler(ExcelFunction function)
+            : base(function)
         {
 
         }
 
-        public override CompileResult Compile(IEnumerable<Expression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(Context);
+            Function.BeforeInvoke(context);
             foreach (var child in children)
             {
                 var compileResult = child.Compile();
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     BuildFunctionArguments(compileResult, args);     
                 }
             }
-            return Function.ExecuteInternal(args, Context);
+            return Function.ExecuteInternal(args, context);
         }
     }
 }

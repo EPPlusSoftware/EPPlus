@@ -25,10 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         Description = "Tests if an initial supplied value (or expression) returns an error, and if so, returns a supplied value; Otherwise the function returns the initial value.")]
     internal class IfError : ExcelFunction
     {
-        public override int ArgumentMinLength => 1;
+        public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            return GetResultByObject(arguments[0].Value);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
+            if (arg1.ValueIsExcelError)
+            {
+                return GetResultByObject(arg2.Value);
+            }
+            return GetResultByObject(arg1.Value);
         }
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {

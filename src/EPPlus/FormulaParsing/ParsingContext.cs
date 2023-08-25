@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.Logging;
 using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
 using System;
 using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -28,6 +29,11 @@ namespace OfficeOpenXml.FormulaParsing
         private ParsingContext(ExcelPackage package) {
             SubtotalAddresses = new HashSet<ulong>();
             Package = package;
+        }
+
+        internal FunctionCompilerFactory FunctionCompilerFactory
+        {
+            get; private set;
         }
 
         /// <summary>
@@ -92,9 +98,14 @@ namespace OfficeOpenXml.FormulaParsing
             //context.Scopes = new ParsingScopes(context);
             //context.AddressCache = new ExcelAddressCache();
             context.NameValueProvider = NvProvider.Empty;
+            context.FunctionCompilerFactory = new FunctionCompilerFactory(context.Configuration.FunctionRepository);
             return context;
         }
 
+        /// <summary>
+        /// Factory method
+        /// </summary>
+        /// <returns></returns>
         public static ParsingContext Create()
         {
             return Create(null);

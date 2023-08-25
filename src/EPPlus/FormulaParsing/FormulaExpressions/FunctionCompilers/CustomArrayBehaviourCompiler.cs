@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         }
 
         internal CustomArrayBehaviourCompiler(ExcelFunction function, ParsingContext context, bool handleErrors)
-            : base(function, context)
+            : base(function)
         {
             _handleErrors = handleErrors;
         }
@@ -42,10 +42,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         //        || (ix > arrayConfig);
         //}
 
-        public override CompileResult Compile(IEnumerable<Expression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(Context);
+            Function.BeforeInvoke(context);
             
             if (!children.Any()) return new CompileResult(eErrorType.Value);
 
@@ -75,8 +75,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 
             if(rangeArgs.Count == 0)
             {
-                var defaultCompiler = new DefaultCompiler(Function, Context);
-                return defaultCompiler.Compile(children);
+                var defaultCompiler = new DefaultCompiler(Function);
+                return defaultCompiler.Compile(children, context);
             }
 
             short maxWidth = 0;
@@ -138,7 +138,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     }
                     if (!isError)
                     {
-                        var result = Function.ExecuteInternal(argList, Context);
+                        var result = Function.ExecuteInternal(argList, context);
                         resultRange.SetValue(row, col, result.Result);
                     }
                 }
@@ -146,8 +146,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             return new CompileResult(resultRange, DataType.ExcelRange);
         }
 
+        /*
         #region Starting code
-        private CompileResult StartingCode(IEnumerable<Expression> children)
+        private CompileResult StartingCode(IEnumerable<Expression> children, ParsingContext context)
         {
             var firstChild = children.First();
             var compileResult = firstChild.Compile();
@@ -201,7 +202,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                             }
                             else
                             {
-                                var result = Function.Execute(argList, Context);
+                                var result = Function.Execute(argList, context);
                                 inMemoryRange.SetValue(row, col, result.Result);
                             }
                         }
@@ -210,17 +211,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 }
                 else
                 {
-                    var defaultCompiler = new DefaultCompiler(Function, Context);
-                    return defaultCompiler.Compile(children);
+                    var defaultCompiler = new DefaultCompiler(Function);
+                    return defaultCompiler.Compile(children, context);
                 }
 
             }
             else
             {
-                var defaultCompiler = new DefaultCompiler(Function, Context);
-                return defaultCompiler.Compile(children);
+                var defaultCompiler = new DefaultCompiler(Function);
+                return defaultCompiler.Compile(children, context);
             }
         }
         #endregion
+        */
     }
 }
