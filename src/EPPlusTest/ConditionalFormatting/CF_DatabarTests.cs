@@ -158,8 +158,6 @@ namespace EPPlusTest.ConditionalFormatting
                 bar.BorderColor.Theme = eThemeSchemeColor.Accent4;
                 bar.BorderColor.Tint = 0.5f;
 
-                //bar.
-
                 bar.NegativeFillColor.Color = Color.Red;
 
                 bar.NegativeBorderColor.Auto = true;

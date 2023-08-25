@@ -1422,7 +1422,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     if (values[j].ColorSettings.Index != null)
                                     {
-                                        cache.Append($" index=\"{values[j].ColorSettings.Index}\"");
+                                        cache.Append($" indexed=\"{values[j].ColorSettings.Index}\"");
                                     }
 
                                     if (values[j].ColorSettings.Tint != null)
@@ -1667,12 +1667,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 returnString = $"<{nodeName} rgb=\"FF{baseColor.ToColorString()}\"";
             }
 
-            ////If we Need to write out the auto that should be default when node empty
-            //if (returnString == "")
-            //{
-            //    returnString = $"<{nodeName} auto=\"1\"";
-            //}
-
             if (color.Tint != null)
             {
                 returnString += string.Format(CultureInfo.InvariantCulture, " tint=\"{0}\"", color.Tint);
@@ -1769,7 +1763,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).HighValue
                         };
 
-                        ExcelConditionalFormattingColorScaleValue middle = null;
                         if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
                         {
                             colorScaleValues.Insert(1, conditionalFormat.As.ThreeColorScale.MiddleValue);
@@ -1789,6 +1782,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             {
                                 cache.Append($"val=\"{cSValue.Formula}\"");
                             }
+
+                            //Note: No GTE bool attribute as it is only applicable to iconsets according to documentation.
+
                             cache.Append("/>");
                         }
 
@@ -1798,16 +1794,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             cache.Append($"<color");
 
-                            if (cSValue.ColorSettings.Theme != null)
-                            {
-                                cache.Append($" theme=\"{(int)cSValue.ColorSettings.Theme}\"");
-                            }
-
-                            if (cSValue.ColorSettings.Color != null && cSValue.ColorSettings.Color != Color.Empty)
-                            {
-                                cache.Append($" rgb=\"FF{cSValue.Color.ToColorString()}\"");
-                            }
-
                             if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)
                             {
                                 cache.Append($" auto=\"1\"");
@@ -1815,7 +1801,17 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if (cSValue.ColorSettings.Index != null)
                             {
-                                cache.Append($" index=\"{cSValue.ColorSettings.Index}\"");
+                                cache.Append($" indexed=\"{cSValue.ColorSettings.Index}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Color != null && cSValue.ColorSettings.Color != Color.Empty)
+                            {
+                                cache.Append($" rgb=\"FF{cSValue.Color.ToColorString()}\"");
+                            }
+
+                            if (cSValue.ColorSettings.Theme != null)
+                            {
+                                cache.Append($" theme=\"{(int)cSValue.ColorSettings.Theme}\"");
                             }
 
                             if (cSValue.ColorSettings.Tint != null)
@@ -1986,7 +1982,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (col.Index != null)
             {
-                cache.Append($" index=\"{col.Index}\"");
+                cache.Append($" indexed=\"{col.Index}\"");
             }
 
             if (col.Tint != null)

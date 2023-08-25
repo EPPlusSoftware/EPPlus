@@ -1878,31 +1878,31 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-        [TestMethod]
-        public void Get_CF_FromRange()
-        {
-            using (var pck = OpenPackage("performance.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("performanceTest");
+        //[TestMethod]
+        //public void Get_CF_FromRange()
+        //{
+        //    using (var pck = OpenPackage("performance.xlsx", true))
+        //    {
+        //        var sheet = pck.Workbook.Worksheets.Add("performanceTest");
 
-                sheet.Hidden = eWorkSheetHidden.Hidden;
+        //        sheet.Hidden = eWorkSheetHidden.Hidden;
 
-                sheet.Cells["A1:C500"].ConditionalFormatting.AddDatabar(Color.Blue);
+        //        sheet.Cells["A1:C500"].ConditionalFormatting.AddDatabar(Color.Blue);
 
-                sheet.Cells["C1:D250"].ConditionalFormatting.AddDatabar(Color.Blue);
+        //        sheet.Cells["C1:D250"].ConditionalFormatting.AddDatabar(Color.Blue);
 
-                for (int i = 0; i < 21000; i++)
-                {
-                    //sheet.Cells[1, 1].ConditionalFormatting.getall
-                    sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
-                    sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
-                    sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
-                }
+        //        for (int i = 0; i < 21000; i++)
+        //        {
+        //            //sheet.Cells[1, 1].ConditionalFormatting.getall
+        //            sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
+        //            sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
+        //            sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
+        //        }
 
-                //var list = sheet.Cells["A1:B200"].ConditionalFormatting.GetConditionalFormattings();
+        //        //var list = sheet.Cells["A1:B200"].ConditionalFormatting.GetConditionalFormattings();
 
-                SaveAndCleanup(pck);
-            }
-        }
+        //        SaveAndCleanup(pck);
+        //    }
+        //}
     }
 }

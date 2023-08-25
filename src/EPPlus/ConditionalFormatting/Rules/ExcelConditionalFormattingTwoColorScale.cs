@@ -167,9 +167,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 colSettings.ColorSettings.Theme = (eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
             }
 
-            if (!string.IsNullOrEmpty(xr.GetAttribute("index")))
+            if (!string.IsNullOrEmpty(xr.GetAttribute("indexed")))
             {
-                colSettings.ColorSettings.Index = int.Parse(xr.GetAttribute("index"));
+                colSettings.ColorSettings.Index = int.Parse(xr.GetAttribute("indexed"));
             }
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("rgb")))

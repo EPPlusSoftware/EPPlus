@@ -173,9 +173,9 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
                 col.Theme = (eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
             }
 
-            if (!string.IsNullOrEmpty(xr.GetAttribute("index")))
+            if (!string.IsNullOrEmpty(xr.GetAttribute("indexed")))
             {
-                col.Index = int.Parse(xr.GetAttribute("index"));
+                col.Index = int.Parse(xr.GetAttribute("indexed"));
             }
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("rgb")))

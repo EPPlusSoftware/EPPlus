@@ -112,7 +112,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 foreach (ExcelConditionalFormattingRule cf in copy.ConditionalFormatting)
                 {
-                    added.ConditionalFormatting.CopyRule(cf);
+                    added.ConditionalFormatting.CopyRule(cf, cf.Address);
                 }
             }
 
