@@ -209,7 +209,7 @@ namespace EPPlusTest.ConditionalFormatting
                 var readSheet = readPackage.Workbook.Worksheets[0];
                 var formatting = readSheet.ConditionalFormatting[0];
 
-                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(255,Color.Coral));
+                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(255, Color.Coral));
                 Assert.AreEqual(formatting.Style.Border.Right.Color.HasValue, false);
                 Assert.AreEqual(formatting.Style.Border.Top.Color.Theme, eThemeSchemeColor.Accent3);
                 Assert.AreEqual(formatting.Style.Border.Bottom.Color.Auto, true);
@@ -442,6 +442,54 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Tint, 1.0f);
 
                 Assert.AreEqual(threeCol.HighValue.ColorSettings.Auto, true);
+            }
+        }
+
+
+        [TestMethod]
+        public void CF_ExtAndLocalMostComplexTypes()
+        {
+            using (var pck = OpenPackage("complexTest.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("extWorksheet");
+                var ws2 = pck.Workbook.Worksheets.Add("formulaWs");
+
+                ws.ConditionalFormatting.AddDatabar(new ExcelAddress("A1"), Color.Magenta);
+
+                ws.ConditionalFormatting.AddDatabar(new ExcelAddress("A1"), Color.LimeGreen);
+
+                ws.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("A1:B3"), eExcelconditionalFormatting3IconsSetType.Signs);
+                
+                var cfIconSet = ws.ConditionalFormatting.AddFourIconSet(new ExcelAddress("C1:C10"), eExcelconditionalFormatting4IconsSetType.TrafficLights);
+
+                cfIconSet.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenCheckSymbol;
+
+                ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("C1:C10"), eExcelconditionalFormatting5IconsSetType.Boxes);
+
+                ws.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("C1:C20"));
+
+                var textContains = ws.ConditionalFormatting.AddTextContains(new ExcelAddress("A1:Z50"));
+
+                textContains.Priority = 1;
+
+                textContains.Text = "abc";
+
+                textContains.Formula = "formulaWs!B3";
+
+                //Theme doesn't seem to set. Fix.
+                textContains.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                textContains.Style.Fill.BackgroundColor.Theme = eThemeSchemeColor.Accent3;
+
+                var stream = new MemoryStream(); 
+                
+                pck.SaveAs(stream);
+
+                var pckRead = new ExcelPackage(stream);
+
+                pckRead.Workbook.Worksheets[0].ConditionalFormatting[2].Style.Fill.BackgroundColor.Color = Color.Red;
+                pckRead.Workbook.Worksheets[0].ConditionalFormatting[3].As.DataBar.FillColor.Color = Color.AliceBlue;
+
+                pckRead.SaveAs("C:\\Users\\OssianEdström\\Documents\\ComplexTest.xlsx");
             }
         }
     }

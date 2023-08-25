@@ -603,11 +603,22 @@ namespace OfficeOpenXml.ConditionalFormatting
         public IExcelConditionalFormattingGreaterThan AddGreaterThan(
           ExcelAddress address)
         {
-            //var rule = new ExcelConditionalFormattingGreaterThan(address, LastPriority++, _ws);
-
             return (IExcelConditionalFormattingGreaterThan)AddRule(
               eExcelConditionalFormattingRuleType.GreaterThan,
               address);
+        }
+
+        /// <summary>
+        /// Add GreaterThan Rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public IExcelConditionalFormattingGreaterThan AddGreaterThan(
+          string address)
+        {
+            return (IExcelConditionalFormattingGreaterThan)AddRule(
+              eExcelConditionalFormattingRuleType.GreaterThan,
+              new ExcelAddress(address));
         }
 
         /// <summary>
@@ -621,6 +632,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             return (IExcelConditionalFormattingLessThan)AddRule(
               eExcelConditionalFormattingRuleType.LessThan,
               address);
+        }
+
+        /// <summary>
+        /// Add LessThan Rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public IExcelConditionalFormattingLessThan AddLessThan(
+            string address)
+        {
+            return (IExcelConditionalFormattingLessThan)AddRule(
+              eExcelConditionalFormattingRuleType.LessThan,
+              new ExcelAddress(address));
         }
 
         /// <summary>
