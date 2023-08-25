@@ -26,16 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         SupportsArrays = true)]
     internal class Mid : ExcelFunction
     {
-        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
-        {
-            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
-        };
-
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            return _arrayConfig;
+            config.SetArrayParameterIndexes(0, 1, 2);
         }
 
         public override int ArgumentMinLength => 2;

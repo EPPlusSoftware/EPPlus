@@ -50,12 +50,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             _argumentCollectionUtil = argumentCollectionUtil;
             _argumentParsers = argumentParsers;
             _compileResultValidators = compileResultValidators;
+            _arrayConfig = new ArrayBehaviourConfig();
+            ConfigureArrayBehaviour(_arrayConfig);
         }
 
         private readonly ArgumentCollectionUtil _argumentCollectionUtil;
         protected readonly ArgumentParsers _argumentParsers;
         private readonly CompileResultValidators _compileResultValidators;
         protected readonly int NumberOfSignificantFigures = 15;
+        private readonly ArrayBehaviourConfig _arrayConfig;
+
+        /// <summary>
+        /// Configuration for paramenters that can be an array. See <see cref="ConfigureArrayBehaviour(ArrayBehaviourConfig)"/>
+        /// </summary>
+        internal ArrayBehaviourConfig ArrayBehaviourConfig => _arrayConfig;
+        
 
         /// <summary>
         /// 
@@ -122,9 +131,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
 
-        public virtual ArrayBehaviourConfig GetArrayBehaviourConfig()
+        /// <summary>
+        /// Configures parameters of a function that can be arrays (multi-cell ranges)
+        /// even if the function itself treats them as single values.
+        /// </summary>
+        /// <param name="config"></param>
+        public virtual void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            return null;
         }
 
         /// <summary>
