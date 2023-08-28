@@ -1573,7 +1573,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                             cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
 
                                             cache.Append("</stop>");
-                                            cache.Append("<stop position=\"1\">");
+                                            cache.Append("<stop position=\"1.0\">");
 
                                             cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
 

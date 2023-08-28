@@ -314,5 +314,34 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(numCFs2, readSheet2.ConditionalFormatting.Count);
             }
         }
+
+        [TestMethod]
+        public void CF_SolidFillForDatabars()
+        {
+            using (var pck = OpenPackage("SolidFill_Databar.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("SolidFill");
+
+                var databar = ws.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A5"), Color.Red);
+
+                ws.Cells["A1:A5"].Formula = "Row()";
+
+                databar.Gradient = false;
+
+                databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.AutoMax;
+                databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.AutoMin;
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("SolidFill_Databar.xlsx");
+                var sheet = readPck.Workbook.Worksheets[0];
+
+                var readDatabar = sheet.ConditionalFormatting[0].As.DataBar;
+
+                Assert.AreEqual(false, readDatabar.Gradient);
+                Assert.AreEqual(readDatabar.HighValue.Type, eExcelConditionalFormattingValueObjectType.AutoMax);
+                Assert.AreEqual(readDatabar.LowValue.Type, eExcelConditionalFormattingValueObjectType.AutoMin);
+            }
+        }
     }
 }

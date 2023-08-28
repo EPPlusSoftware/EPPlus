@@ -144,16 +144,26 @@ namespace OfficeOpenXml.ConditionalFormatting
                             dataBar.LowValue.minLength = int.Parse(xr.GetAttribute("minLength"));
                             dataBar.HighValue.maxLength = int.Parse(xr.GetAttribute("maxLength"));
 
-                            dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : true;
+                            dataBar.ShowValue = string.IsNullOrEmpty(xr.GetAttribute("showValue")) ? true : xr.GetAttribute("showValue") != "0";
+                            dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : xr.GetAttribute("border") != "0";
+                            dataBar.Gradient = string.IsNullOrEmpty(xr.GetAttribute("gradient")) ? true : xr.GetAttribute("gradient") != "0";
 
-                            if(!string.IsNullOrEmpty(xr.GetAttribute("direction")))
+                            if (!string.IsNullOrEmpty(xr.GetAttribute("direction")))
                             {
                                 dataBar.Direction = (eDatabarDirection)xr.GetAttribute("direction").ToEnum<eDatabarDirection>();   
                             }
 
-                            dataBar.NegativeBarBorderColorSameAsPositive = string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive"));
+                            if(!string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive")))
+                            {
+                                dataBar.NegativeBarBorderColorSameAsPositive = xr.GetAttribute("negativeBarBorderColorSameAsPositive") != "0";
+                            }
 
-                            if(!string.IsNullOrEmpty(xr.GetAttribute("axisPosition")))
+                            if (!string.IsNullOrEmpty(xr.GetAttribute("negativeBarColorSameAsPositive")))
+                            {
+                                dataBar.NegativeBarBorderColorSameAsPositive = xr.GetAttribute("negativeBarBorderColorSameAsPositive") != "0";
+                            }
+
+                            if (!string.IsNullOrEmpty(xr.GetAttribute("axisPosition")))
                             {
                                 dataBar.AxisPosition = (eExcelDatabarAxisPosition)xr.GetAttribute("axisPosition").ToEnum<eExcelDatabarAxisPosition>();
                             }

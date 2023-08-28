@@ -37,9 +37,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRule,
         IExcelConditionalFormattingDataBarGroup
     {
-
-        //internal string Uid { get; set; }
-
         internal ExcelConditionalFormattingDataBar(
          ExcelAddress address,
          int priority,
