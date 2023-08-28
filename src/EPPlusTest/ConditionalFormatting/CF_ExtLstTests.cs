@@ -484,9 +484,12 @@ namespace EPPlusTest.ConditionalFormatting
                 pck.SaveAs(stream);
 
                 var pckRead = new ExcelPackage(stream);
+                var readSheet = pckRead.Workbook.Worksheets[0];
 
-                pckRead.Workbook.Worksheets[0].ConditionalFormatting[2].Style.Fill.BackgroundColor.Color = Color.Red;
-                pckRead.Workbook.Worksheets[0].ConditionalFormatting[3].As.DataBar.FillColor.Color = Color.AliceBlue;
+                readSheet.ConditionalFormatting[2].Style.Fill.BackgroundColor.Color = Color.Red;
+
+                Assert.AreEqual(readSheet.ConditionalFormatting[3].As.DataBar.FillColor.Color, Color.FromArgb(255, Color.LimeGreen));
+                Assert.AreEqual(readSheet.ConditionalFormatting[6].Style.Fill.BackgroundColor.Theme, eThemeSchemeColor.Accent2);
 
                 pckRead.SaveAs("C:\\Users\\OssianEdström\\Documents\\ComplexTest.xlsx");
             }
