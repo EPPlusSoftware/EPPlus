@@ -323,5 +323,73 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual("NoIcons", validation.Icon1.GetCustomIconStringValue());
             }
         }
+
+        [TestMethod]
+        public void EnsureIconSetAttributesReadWrite()
+        {
+            using (var pck = OpenPackage("IconsetAttributes.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("IconsetAttributes");
+
+                var is3 = ws.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("A1:A30"), eExcelconditionalFormatting3IconsSetType.TrafficLights1);
+
+                var is4 = ws.ConditionalFormatting.AddFourIconSet(new ExcelAddress("B1:B30"), eExcelconditionalFormatting4IconsSetType.Rating);
+                var is5 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("C1:C30"), eExcelconditionalFormatting5IconsSetType.Quarters);
+
+                var isExt = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("D1:D30"), eExcelconditionalFormatting5IconsSetType.Boxes);
+
+                var is3Custom = ws.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("E1:E30"), eExcelconditionalFormatting3IconsSetType.ArrowsGray);
+
+                is3.ShowValue = false;
+                is4.ShowValue = false;
+                is5.ShowValue = false;
+                isExt.ShowValue = false;
+
+                is3.IconSetPercent = false;
+                is4.IconSetPercent = false;
+                is5.IconSetPercent = false;
+                isExt.IconSetPercent = false;
+
+                is3.Reverse = true;
+                is4.Reverse = true;
+                is5.Reverse = true;
+                isExt.Reverse = true;
+
+                is3Custom.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCrossSymbol;
+
+                ws.Cells["A1:E30"].Formula = "Row()";
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("IconsetAttributes.xlsx");
+
+                var cfs = readPck.Workbook.Worksheets[0].ConditionalFormatting;
+
+                Assert.AreEqual(false, cfs[0].As.ThreeIconSet.ShowValue);
+                Assert.AreEqual(false, cfs[1].As.FourIconSet.ShowValue);
+                Assert.AreEqual(false, cfs[2].As.FiveIconSet.ShowValue);
+                Assert.AreEqual(false, cfs[3].As.FiveIconSet.ShowValue);
+
+
+                Assert.AreEqual(false, cfs[0].As.ThreeIconSet.IconSetPercent);
+                Assert.AreEqual(false, cfs[1].As.FourIconSet.IconSetPercent);
+                Assert.AreEqual(false, cfs[2].As.FiveIconSet.IconSetPercent);
+                Assert.AreEqual(false, cfs[3].As.FiveIconSet.IconSetPercent);
+
+                Assert.AreEqual(true, cfs[0].As.ThreeIconSet.Reverse);
+                Assert.AreEqual(true, cfs[1].As.FourIconSet.Reverse);
+                Assert.AreEqual(true, cfs[2].As.FiveIconSet.Reverse);
+                Assert.AreEqual(true, cfs[3].As.FiveIconSet.Reverse);
+
+                Assert.AreEqual(false, cfs[0].As.ThreeIconSet.Custom);
+                Assert.AreEqual(false, cfs[1].As.FourIconSet.Custom);
+                Assert.AreEqual(false, cfs[2].As.FiveIconSet.Custom);
+                Assert.AreEqual(false, cfs[3].As.FiveIconSet.Custom);
+
+                Assert.AreEqual(eExcelconditionalFormattingCustomIcon.RedCrossSymbol, cfs[4].As.ThreeIconSet.Icon3.CustomIcon);
+                Assert.AreEqual(true, cfs[4].As.ThreeIconSet.Custom);
+
+            }
+        }
     }
 }

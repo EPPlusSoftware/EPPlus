@@ -238,6 +238,11 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             string iconSet = xr.GetAttribute("iconSet");
 
+                            bool showValue = string.IsNullOrEmpty(xr.GetAttribute("showValue")) ? true : xr.GetAttribute("showValue") != "0";
+                            bool percent = string.IsNullOrEmpty(xr.GetAttribute("percent")) ? true : xr.GetAttribute("percent") != "0";
+                            bool reverse = string.IsNullOrEmpty(xr.GetAttribute("reverse")) ? false : xr.GetAttribute("reverse") != "0";
+                            bool custom = string.IsNullOrEmpty(xr.GetAttribute("custom")) ? false : xr.GetAttribute("custom") != "0";
+
                             xr.Read();
 
                             var types = new List<string>();
@@ -316,6 +321,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                         { threeIconSet.Icon1, threeIconSet.Icon2, threeIconSet.Icon3 },
                                         types, values, customIconTypes, customIconIds);
 
+                                    ApplyIconSetAttributes(showValue, percent, reverse, threeIconSet);
+
                                     rule = (ExcelConditionalFormattingRule)threeIconSet;
 
                                     break;
@@ -337,6 +344,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     { fourSet.Icon1, fourSet.Icon2, fourSet.Icon3, fourSet.Icon4 },
                                     types, values, customIconTypes, customIconIds);
 
+                                    ApplyIconSetAttributes(showValue, percent, reverse, fourSet);
+
                                     rule = (ExcelConditionalFormattingRule)fourSet;
 
                                     break;
@@ -354,6 +363,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                      new ExcelConditionalFormattingIconDataBarValue[]
                                      { fiveSet.Icon1, fiveSet.Icon2, fiveSet.Icon3, fiveSet.Icon4 , fiveSet.Icon5 },
                                      types, values, customIconTypes, customIconIds);
+
+                                    ApplyIconSetAttributes(showValue, percent, reverse, fiveSet);
 
                                     rule = (ExcelConditionalFormattingRule)fiveSet;
                                     break;
@@ -415,6 +426,13 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
 
             return arr;
+        }
+
+        void ApplyIconSetAttributes<T>(bool showValue, bool percent, bool reverse, IExcelConditionalFormattingIconSetGroup<T> group)
+        {
+            group.ShowValue = showValue;
+            group.IconSetPercent = percent;
+            group.Reverse = reverse;
         }
 
         void ApplyIconSetExtValues(

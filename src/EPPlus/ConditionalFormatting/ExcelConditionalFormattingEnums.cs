@@ -846,14 +846,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         //--------
 
         /// <summary>
-        /// Yellow Triangle.
-        /// </summary>
-        YellowTriangle = 0x50,
-
-        /// <summary>
         /// Red Diamond
         /// </summary>
-        RedDiamond = 0x51,
+        RedDiamond = 0x50,
+
+        /// <summary>
+        /// Yellow Triangle.
+        /// </summary>
+        YellowTriangle = 0x51,
 
         //3Symbols2
         //--------

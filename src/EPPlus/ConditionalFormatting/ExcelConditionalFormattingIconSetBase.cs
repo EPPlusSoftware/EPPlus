@@ -102,11 +102,12 @@ namespace OfficeOpenXml.ConditionalFormatting
           XmlReader xr)
             :base (type, address, priority, worksheet)
         {
+
             StopIfTrue = stopIfTrue;
 
-            ShowValue = xr.GetAttribute("showValue") != "0";
-            IconSetPercent = xr.GetAttribute("percent") != "0";
-            Reverse = xr.GetAttribute("reverse") == "0";
+            ShowValue = string.IsNullOrEmpty(xr.GetAttribute("showValue")) ? true : xr.GetAttribute("showValue") != "0";
+            IconSetPercent = string.IsNullOrEmpty(xr.GetAttribute("percent")) ? true : xr.GetAttribute("percent") != "0";
+            Reverse = string.IsNullOrEmpty(xr.GetAttribute("reverse")) ? false : xr.GetAttribute("reverse") != "0";
 
             var set = xr.GetAttribute("iconSet").Substring(1);
 
@@ -224,6 +225,19 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get;
             set;
+        }
+
+        public virtual bool Custom
+        {
+            get
+            {
+                if (Icon1.CustomIcon != null || Icon2.CustomIcon != null || Icon3.CustomIcon != null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         /// <summary>

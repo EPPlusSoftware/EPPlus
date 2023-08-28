@@ -91,15 +91,26 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             internal set;
         }
 
+        public override bool Custom
+        {
+            get
+            {
+                var ret = base.Custom;
+
+                if (Icon4.CustomIcon != null || Icon5.CustomIcon != null)
+                {
+                    ret = true;
+                }
+
+                return ret;
+            }
+        }
+
         internal override bool IsExtLst
         {
             get
             {
-                if (Icon1.CustomIcon != null ||
-                    Icon2.CustomIcon != null ||
-                    Icon3.CustomIcon != null ||
-                    Icon4.CustomIcon != null ||
-                    Icon5.CustomIcon != null)
+                if (Custom)
                 {
                     return true;
                 }

@@ -343,5 +343,40 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(readDatabar.LowValue.Type, eExcelConditionalFormattingValueObjectType.AutoMin);
             }
         }
+
+        [TestMethod]
+        public void CF_DatabarAttributesReadWrite()
+        {
+            using (var pck = OpenPackage("Databar_Attributes.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("attributesDatabar");
+
+                var databar = ws.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A20"), Color.Blue);
+
+                ws.Cells["A1:A20"].Formula = "Row()-10";
+
+                databar.ShowValue = false;
+                databar.Gradient = false;
+                databar.Border = true;
+                databar.Direction = eDatabarDirection.RightToLeft;
+                databar.NegativeBarColorSameAsPositive = true;
+                databar.NegativeBarBorderColorSameAsPositive = false;
+                databar.AxisPosition = eExcelDatabarAxisPosition.Middle;
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("Databar_Attributes.xlsx");
+
+                var bar = readPck.Workbook.Worksheets[0].ConditionalFormatting[0].As.DataBar;
+
+                Assert.AreEqual(false, bar.ShowValue);
+                Assert.AreEqual(false, bar.Gradient);
+                Assert.AreEqual(true, bar.Border);
+                Assert.AreEqual(eDatabarDirection.RightToLeft, bar.Direction);
+                Assert.AreEqual(true, bar.NegativeBarColorSameAsPositive);
+                Assert.AreEqual(false, bar.NegativeBarBorderColorSameAsPositive);
+                Assert.AreEqual(eExcelDatabarAxisPosition.Middle, bar.AxisPosition);
+            }
+        }
     }
 }

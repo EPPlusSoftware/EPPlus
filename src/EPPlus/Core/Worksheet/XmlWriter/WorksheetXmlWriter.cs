@@ -1239,6 +1239,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     showValue = threeIcon.ShowValue;
                                     reverse = threeIcon.Reverse;
                                     iconSetPercent = threeIcon.IconSetPercent;
+                                    isCustom = threeIcon.Custom;
 
                                     uid = threeIcon.Uid;
                                     iconSetString = threeIcon.GetIconSetString();
@@ -1255,6 +1256,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     showValue = fourIcon.ShowValue;
                                     reverse = fourIcon.Reverse;
                                     iconSetPercent = fourIcon.IconSetPercent;
+                                    isCustom = fourIcon.Custom;
+
 
                                     uid = fourIcon.Uid;
                                     iconSetString = fourIcon.GetIconSetString();
@@ -1272,20 +1275,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     showValue = fiveIcon.ShowValue;
                                     reverse = fiveIcon.Reverse;
                                     iconSetPercent = fiveIcon.IconSetPercent;
+                                    isCustom = fiveIcon.Custom;
 
                                     uid = fiveIcon.Uid;
                                     iconSetString = fiveIcon.GetIconSetString();
                                     break;
                                 default:
                                     throw new InvalidOperationException($"Impossible case found {format.Type} is not an iconSet");
-                            }
-
-                            foreach (var icon in iconList)
-                            {
-                                if (icon.CustomIcon != null)
-                                {
-                                    isCustom = true;
-                                }
                             }
 
                             cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
