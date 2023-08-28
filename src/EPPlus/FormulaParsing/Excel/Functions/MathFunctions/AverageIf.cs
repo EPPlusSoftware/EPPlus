@@ -32,6 +32,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class AverageIf : HiddenValuesHandlingFunction
     {
         private ExpressionEvaluator _expressionEvaluator;
+
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(1);
+        }
         private bool Evaluate(object obj, string expression)
         {
             double? candidate = default(double?);
@@ -57,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             _expressionEvaluator = new ExpressionEvaluator(context);
             var argRange = ArgToRangeInfo(arguments, 0);
             var criteria = GetCriteraFromArg(arguments);
-            object returnValue;
+            double returnValue;
             if (argRange == null)
             {
                 var val = arguments.ElementAt(0).Value;
@@ -76,22 +83,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             else if (arguments.Count() > 2)
             {
                 var lookupRange = ArgToRangeInfo(arguments, 2);
-                returnValue = CalculateWithLookupRange(argRange, criteria, lookupRange, context);
-
+                returnValue = CalculateWithLookupRange(argRange, criteria, lookupRange, context, out ExcelErrorValue eev);
+                if(eev != null)
+                {
+                    return GetResultByObject(eev);
+                }
             }
             else
             {
-                returnValue = CalculateSingleRange(argRange, criteria, context);
-            }
-            if (returnValue is ExcelErrorValue e)
-            {
-                return CreateResult(e, DataType.ExcelError);
+                returnValue = CalculateSingleRange(argRange, criteria, context, out ExcelErrorValue eev);
+                if (eev != null)
+                {
+                    return GetResultByObject(eev);
+                }
             }
             return CreateResult(returnValue, DataType.Decimal);
         }
 
-        private object CalculateWithLookupRange(IRangeInfo argRange, string criteria, IRangeInfo sumRange, ParsingContext context)
+        private double CalculateWithLookupRange(IRangeInfo argRange, string criteria, IRangeInfo sumRange, ParsingContext context, out ExcelErrorValue error)
         {
+            error = null;
             KahanSum returnValue = 0d;
             var nMatches = 0;
             foreach (var cell in argRange)
@@ -104,9 +115,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                        sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
                     {
                         var val = sumRange.GetOffset(rowOffset, columnOffset);
-                        if (val is ExcelErrorValue)
+                        if (val is ExcelErrorValue eev)
                         {
-                            return val;
+                            error = eev;
+                            return double.NaN;
                         }
                         nMatches++;
                         returnValue += ConvertUtil.GetValueDouble(val, true);
@@ -114,15 +126,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
             }
             var div = Divide(returnValue.Get(), nMatches);
-            if (double.IsPositiveInfinity(div))
-            {
-                return CompileResult.GetErrorResult(eErrorType.Div0);
-            }
             return div;
         }
 
-        private object CalculateSingleRange(IRangeInfo range, string expression, ParsingContext context)
+        private double CalculateSingleRange(IRangeInfo range, string expression, ParsingContext context, out ExcelErrorValue error)
         {
+            error = null;
             KahanSum returnValue = 0d;
             var nMatches = 0;
             foreach (var candidate in range)
@@ -132,7 +141,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     
                     if (candidate.IsExcelError)
                     {
-                        return candidate.Value;
+                        error = (ExcelErrorValue)candidate.Value;
+                        return double.NaN;
                     }
                     returnValue += candidate.ValueDouble;
                     nMatches++;
@@ -141,7 +151,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var div = Divide(returnValue.Get(), nMatches);
             if (double.IsPositiveInfinity(div))
             {
-                return CompileResult.GetErrorResult(eErrorType.Div0);
+                error = ExcelErrorValue.Create(eErrorType.Div0);
+                return double.NaN;
             }
             return div;
         }

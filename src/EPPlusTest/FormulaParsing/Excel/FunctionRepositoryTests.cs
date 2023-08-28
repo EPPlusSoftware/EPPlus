@@ -61,7 +61,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             public TestFunctionModule()
             {
                 var myFunction = new MyFunction();
-                var customCompiler = new MyFunctionCompiler(myFunction, ParsingContext.Create());
+                var customCompiler = new MyFunctionCompiler(myFunction);
                 base.Functions.Add(MyFunction.Name, myFunction);
                 base.CustomCompilers.Add(typeof(MyFunction), customCompiler);
             }
@@ -73,16 +73,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             public override int ArgumentMinLength => 0;
             public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
             {
-                throw new NotImplementedException();
+                return CreateResult(2, DataType.Integer);
             }
         }
 
-        public class MyFunctionCompiler : FunctionCompiler
+        internal class MyFunctionCompiler : DefaultCompiler
         {
-            public MyFunctionCompiler(MyFunction function, ParsingContext context) : base(function, context) { }
-            public override CompileResult Compile(IEnumerable<Expression> children)
+            public MyFunctionCompiler(MyFunction function) : base(function) { }
+            public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
             {
-                throw new NotImplementedException();
+                return base.Compile(children, context);
             }
         }
         #endregion

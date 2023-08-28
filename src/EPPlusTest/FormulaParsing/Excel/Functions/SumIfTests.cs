@@ -66,5 +66,24 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 Assert.AreEqual(15, sheet1.Cells["B1"].GetValue<double>(), double.Epsilon);
             }
         }
+
+        [TestMethod]
+        public void ShouldHandleCriteriasInArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = ">1";
+                sheet.Cells["B2"].Value = ">2";
+                sheet.Cells["A4"].Formula = "SUMIF(A1:A3,B1:B2)";
+                sheet.Calculate();
+
+                Assert.AreEqual(5d, sheet.Cells["A4"].Value);
+                Assert.AreEqual(3d, sheet.Cells["A5"].Value);
+            }
+        }
     }
 }

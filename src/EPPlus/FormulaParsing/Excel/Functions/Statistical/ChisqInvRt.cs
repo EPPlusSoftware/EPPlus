@@ -28,6 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class ChisqInvRt : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var n = ArgToDecimal(arguments, 0);

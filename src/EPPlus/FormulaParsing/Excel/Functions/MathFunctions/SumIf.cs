@@ -33,6 +33,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         private ExpressionEvaluator _evaluator;
         public override int ArgumentMinLength => 2;
 
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(1);
+        }
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             _evaluator = new ExpressionEvaluator(context);

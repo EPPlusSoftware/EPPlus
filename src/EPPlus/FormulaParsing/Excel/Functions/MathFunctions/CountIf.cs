@@ -30,9 +30,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class CountIf : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            return new ArrayBehaviourConfig { ArrayParameterIndexes = new List<int> { 1 } };
+            config.SetArrayParameterIndexes(1);
         }
         private ExpressionEvaluator _expressionEvaluator;
         private bool Evaluate(object obj, string expression)

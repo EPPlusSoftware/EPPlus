@@ -296,7 +296,7 @@ namespace EPPlusTest.Excel.Functions
             using (var package = new ExcelPackage())
             {
                 var s1 = package.Workbook.Worksheets.Add("test");
-                s1.Cells["A1"].Formula = "IFERROR(A2, \"hello\")";
+                s1.Cells["A1"].Formula = "IFNA(A2, \"hello\")";
                 s1.Cells["A2"].Value = ExcelErrorValue.Create(eErrorType.NA);
                 s1.Calculate();
                 Assert.AreEqual("hello", s1.Cells["A1"].Value);

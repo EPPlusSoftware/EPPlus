@@ -207,10 +207,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gamma"] = new Gamma();
             Functions["gammaln"] = new Gammaln();
             Functions["gammaln.precise"] = new GammalnPrecise();
-            Functions["gamma.dist"] = new GammaDotDist();
             Functions["gammadist"] = new GammaDist();
+            Functions["gamma.dist"] = new GammaDotDist();
             Functions["lognorm.inv"] = new LognormDotInv();
             Functions["negbinom.dist"] = new NegBinomDotDist();
+            Functions["negbinomdist"] = new NegBinomDist();
             Functions["norminv"] = new NormInv();
             Functions["norm.inv"] = new NormDotInv();
             Functions["normsinv"] = new NormsInv();
@@ -262,11 +263,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["f.inv"] = new FDotInv();
             Functions["f.inv.rt"] = new FDotInvDotRT();
 
-            Functions["poisson.dist"] = new Poisson();
-            Functions["weibull.dist"] = new WeibullDist();
+            Functions["poisson.dist"] = new PoissonDotDist();
+            Functions["weibull.dist"] = new WeibullDotDist();
             Functions["weibull"] = new WeibullDist();
             Functions["t.test"] = new TTest();
             Functions["trimmean"] = new Trimmean();
+            Functions["ztest"] = new Ztest();
             Functions["z.test"] = new ZDotTest();
             // Information
             Functions["isblank"] = new IsBlank();

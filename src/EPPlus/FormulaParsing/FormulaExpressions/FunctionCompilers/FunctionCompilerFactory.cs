@@ -23,47 +23,37 @@ using IndexFunc = OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Inde
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    public class FunctionCompilerFactory
+    internal class FunctionCompilerFactory
     {
         private readonly Dictionary<Type, FunctionCompiler> _specialCompilers = new Dictionary<Type, FunctionCompiler>();
-        private readonly ParsingContext _context;
-        public FunctionCompilerFactory(FunctionRepository repository, ParsingContext context)
+        
+        public FunctionCompilerFactory(FunctionRepository repository)
         {
-            Require.That(context).Named("context").IsNotNull();
-            _context = context;
-            //_specialCompilers.Add(typeof(If), new RpnIfFunctionCompiler(repository.GetFunction("if"), 1context));
-            //_specialCompilers.Add(typeof(CountIf), new CountIfFunctionCompiler(repository.GetFunction("countif"), context));
-            _specialCompilers.Add(typeof(SumIf), new SumIfCompiler(repository.GetFunction("sumif"), context));
-            _specialCompilers.Add(typeof(CountIfs), new CountIfsCompiler(repository.GetFunction("countifs"), context));
-            _specialCompilers.Add(typeof(IfError), new IfErrorFunctionCompiler(repository.GetFunction("iferror"), context));
-            _specialCompilers.Add(typeof(IfNa), new IfNaFunctionCompiler(repository.GetFunction("ifna"), context));
-            //_specialCompilers.Add(typeof(Row), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("row"), context));
-            //_specialCompilers.Add(typeof(Rows), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("rows"), context));
-            //_specialCompilers.Add(typeof(Column), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("column"), context));
-            //_specialCompilers.Add(typeof(Columns), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("columns"), context));
-            //_specialCompilers.Add(typeof(IndexFunc), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("index"), context));
             foreach (var key in repository.CustomCompilers.Keys)
             {
               _specialCompilers.Add(key, repository.CustomCompilers[key]);
             }
         }
 
-        private FunctionCompiler GetCompilerByType(ExcelFunction function)
+        private FunctionCompiler GetCompilerByType(ExcelFunction function, ParsingContext context)
         {
             var funcType = function.GetType();
             if (_specialCompilers.ContainsKey(funcType))
             {
                 return _specialCompilers[funcType];
             }
-            //else if (function.IsLookupFuction) return new LookupFunctionCompiler(function, _context);
-            else if (function.IsErrorHandlingFunction) return new ErrorHandlingFunctionCompiler(function, _context);
-            else if (function.ArrayBehaviour == ExcelFunctionArrayBehaviour.FirstArgCouldBeARange) return new FirstArgToArrayCompiler(function, _context);
-            else if(function.ArrayBehaviour == ExcelFunctionArrayBehaviour.Custom) return new CustomArrayBehaviourCompiler(function, _context);
-            return new DefaultCompiler(function, _context);
+            else if (
+                function.ArrayBehaviour == ExcelFunctionArrayBehaviour.Custom
+                ||
+                function.ArrayBehaviour == ExcelFunctionArrayBehaviour.FirstArgCouldBeARange)
+            {
+                return new CustomArrayBehaviourCompiler(function, context);
+            }
+            return new DefaultCompiler(function);
         }
-        internal virtual FunctionCompiler Create(ExcelFunction function)
+        internal virtual FunctionCompiler Create(ExcelFunction function, ParsingContext context)
         { 
-            return GetCompilerByType(function);
+            return GetCompilerByType(function, context);
         }
     }
 }
