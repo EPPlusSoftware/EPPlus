@@ -939,12 +939,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Yellow down incline arrow
         /// </summary>
-        YellowDownInclineArrow = 0xa0,
+        YellowDownInclineArrow = 0xa1,
 
         /// <summary>
         /// Yellow up incline arrow
         /// </summary>
-        YellowUpInclineArrow = 0xa1,
+        YellowUpInclineArrow = 0xa2,
 
         //4ArrowsGray
         //--------
@@ -952,12 +952,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Gray down incline arrow
         /// </summary>
-        GrayDownInclineArrow = 0xb0,
+        GrayDownInclineArrow = 0xb1,
 
         /// <summary>
         /// Gray up incline arrow
         /// </summary>
-        GrayUpInclineArrow = 0xb1,
+        GrayUpInclineArrow = 0xb2,
 
 
         //4RedToBlack

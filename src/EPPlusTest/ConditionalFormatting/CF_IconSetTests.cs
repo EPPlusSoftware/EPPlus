@@ -336,8 +336,10 @@ namespace EPPlusTest.ConditionalFormatting
                 var is4 = ws.ConditionalFormatting.AddFourIconSet(new ExcelAddress("B1:B30"), eExcelconditionalFormatting4IconsSetType.Rating);
                 var is5 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("C1:C30"), eExcelconditionalFormatting5IconsSetType.Quarters);
 
+                //Chose an extLst type
                 var isExt = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("D1:D30"), eExcelconditionalFormatting5IconsSetType.Boxes);
 
+                //Setup for custom
                 var is3Custom = ws.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("E1:E30"), eExcelconditionalFormatting3IconsSetType.ArrowsGray);
 
                 is3.ShowValue = false;
@@ -388,7 +390,95 @@ namespace EPPlusTest.ConditionalFormatting
 
                 Assert.AreEqual(eExcelconditionalFormattingCustomIcon.RedCrossSymbol, cfs[4].As.ThreeIconSet.Icon3.CustomIcon);
                 Assert.AreEqual(true, cfs[4].As.ThreeIconSet.Custom);
+            }
+        }
 
+        [TestMethod]
+        public void OrderOfCustomIconsAreCorrect()
+        {
+            using (var pck = OpenPackage("CustomIcons.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("CustomIcons");
+
+                var c1 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("A1:A5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c2 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("B1:B5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c3 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("C1:C5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c4 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("D1:D5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c5 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("E1:E5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c6 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("F1:F5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c7 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("G1:G5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c8 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("H1:H5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c9 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("I1:I5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c10 = ws.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("J1:J5"), eExcelconditionalFormatting5IconsSetType.Arrows);
+                var c11 = ws.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("K1:K5"), eExcelconditionalFormatting3IconsSetType.Triangles);
+
+                ws.Cells["A1:K5"].Formula = "Row()";
+
+                c1.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedDownArrow;
+                c1.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowSideArrow;
+                c1.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenUpArrow;
+                c1.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayDownArrow;
+                c1.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.GraySideArrow;
+
+                c2.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayUpArrow;
+                c2.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.RedFlag;
+                c2.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowFlag;
+                c2.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenFlag;
+                c2.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircleWithBorder;
+
+                c3.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowCircle;
+                c3.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenCircle;
+                c3.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.RedTrafficLight;
+                c3.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowTrafficLight;
+                c3.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenTrafficLight;
+
+                c4.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedDiamond;
+                c4.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowTriangle;
+                c4.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCrossSymbol;
+                c4.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol;
+                c4.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenCheckSymbol;
+
+                c5.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCross;
+                c5.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowExclamation;
+                c5.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenCheck;
+                c5.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.SilverStar;
+                c5.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.HalfGoldStar;
+
+                c6.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.GoldStar;
+                c6.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.RedDownTriangle;
+                c6.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowDash;
+                c6.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.GreenUpTriangle;
+                c6.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowDownInclineArrow;
+
+                c7.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.YellowUpInclineArrow;
+                c7.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow;
+                c7.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayUpInclineArrow;
+                c7.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircle;
+                c7.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayCircle;
+
+                c8.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.PinkCircle;
+                c8.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircle;
+                c8.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar;
+                c8.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithTwoFilledBars;
+                c8.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars;
+
+                c9.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars;
+                c9.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder;
+                c9.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars;
+                c9.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.WhiteCircle;
+                c9.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.CircleWithThreeWhiteQuarters;
+
+                c10.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.CircleWithTwoWhiteQuarters;
+                c10.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.CircleWithOneWhiteQuarter;
+                c10.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.ZeroFilledBoxes;
+                c10.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.OneFilledBox;
+                c10.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.TwoFilledBoxes;
+
+                c11.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.ThreeFilledBoxes;
+                c11.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.FourFilledBoxes;
+                c11.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.NoIcon;
+
+                SaveAndCleanup(pck);
             }
         }
     }
