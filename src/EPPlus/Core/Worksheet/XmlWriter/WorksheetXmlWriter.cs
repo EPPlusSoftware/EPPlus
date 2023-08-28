@@ -1521,12 +1521,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                                 cache.Append("<patternFill>");
                                             }
 
-                                            if (format.Style.Fill.PatternColor.Color != null)
+                                            if (format.Style.Fill.PatternColor.HasValue)
                                             {
                                                 cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
                                             }
 
-                                            if (format.Style.Fill.BackgroundColor.Color != null)
+                                            if (format.Style.Fill.BackgroundColor.HasValue)
                                             {
                                                 cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
                                             }

@@ -476,9 +476,8 @@ namespace EPPlusTest.ConditionalFormatting
 
                 textContains.Formula = "formulaWs!B3";
 
-                //Theme doesn't seem to set. Fix.
                 textContains.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                textContains.Style.Fill.BackgroundColor.Theme = eThemeSchemeColor.Accent3;
+                textContains.Style.Fill.BackgroundColor.Theme = eThemeSchemeColor.Accent2;
 
                 var stream = new MemoryStream(); 
                 
