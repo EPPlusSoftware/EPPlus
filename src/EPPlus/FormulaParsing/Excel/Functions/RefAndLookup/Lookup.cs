@@ -31,6 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class Lookup : LookupFunction
     {
         public override int ArgumentMinLength => 2;
+
+        public override string NamespacePrefix => "_xlfn.";
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (HaveTwoRanges(arguments))

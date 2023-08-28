@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -36,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var retVal = 0d;
+            KahanSum retVal = 0d;
             if (arguments != null)
             {
                 foreach (var arg in arguments)
@@ -52,16 +53,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                 }
             }
-            return CreateResult(retVal, DataType.Decimal);
+            return CreateResult(retVal.Get(), DataType.Decimal);
         }
 
         
         private object Calculate(FunctionArgument arg, ParsingContext context)
         {
-            var retVal = 0d;
+            KahanSum retVal = 0d;
             if (ShouldIgnore(arg, context))
             {
-                return retVal;
+                return retVal.Get();
             }
             if (arg.DataType == DataType.ExcelError)
             {
@@ -102,7 +103,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 //CheckForAndHandleExcelError(arg);
                 retVal += ConvertUtil.GetValueDouble(arg.Value, true);
             }
-            return retVal;
+            return retVal.Get();
         }
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {

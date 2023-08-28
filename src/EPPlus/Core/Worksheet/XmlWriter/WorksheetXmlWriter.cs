@@ -1307,6 +1307,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 cache.Append($" reverse=\"1\"");
                             }
 
+                            if (showValue == false)
+                            {
+                                cache.Append($" showValue=\"0\" ");
+                            }
+
+                            if (reverse)
+                            {
+                                cache.Append($" reverse=\"1\"");
+                            }
+
                             if (isCustom)
                             {
                                 cache.Append(" custom=\"1\"");
@@ -1919,7 +1929,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 break;
                         }
 
-                        cache.Append($"<iconSet iconSet=\"{iconSetString}\" ");
+                        cache.Append($"<iconSet iconSet=\"{iconSetString}\"");
 
                         if (showValue == false)
                         {

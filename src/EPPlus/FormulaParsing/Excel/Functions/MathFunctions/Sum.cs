@@ -11,6 +11,7 @@
   07/07/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
 using System;
@@ -31,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var retVal = 0d;
+            KahanSum retVal = 0d;
             if (arguments != null)
             {
                 foreach (var arg in arguments)
@@ -47,12 +48,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                 }
             }
-            return CreateResult(retVal, DataType.Decimal);
+            return CreateResult(retVal.Get(), DataType.Decimal);
         }
 
         private double Calculate(FunctionArgument arg, ParsingContext context, out eErrorType? errType)
         {
-            var retVal = 0d;
+            KahanSum retVal = 0d;
             errType = default;
             if (arg.DataType == DataType.ExcelError)
             {
@@ -91,7 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {  
                 retVal += ConvertUtil.GetValueDouble(arg.Value);
             }
-            return retVal;
+            return retVal.Get();
         }
     }
 }

@@ -27,6 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     internal class BitOr : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (!IsNumeric(arguments[0].Value) || !IsNumeric(arguments[1].Value)) return CompileResult.GetErrorResult(eErrorType.Value);

@@ -123,5 +123,31 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual("value_to_match", _worksheet.Cells["B2"].Value);
         }
+
+        [TestMethod]
+        public void ShouldHandleSingleValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "asdf";
+                sheet.Cells["A2"].Formula = "INDEX(A1,1)";
+                sheet.Calculate();
+                Assert.AreEqual("asdf", sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldHandleSingleValue_IndexOutOfRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "asdf";
+                sheet.Cells["A2"].Formula = "INDEX(A1,2)";
+                sheet.Calculate();
+                Assert.AreEqual("#REF!", sheet.Cells["A2"].Value.ToString());
+            }
+        }
     }
 }

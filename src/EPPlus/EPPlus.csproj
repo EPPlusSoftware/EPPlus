@@ -501,6 +501,10 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="FormulaParsing\CalculateExtentionsOld.cs" />
+  </ItemGroup>
+
  <ItemGroup>
     <None Remove="resources\DefaultTableStyles.cst" />
     <None Remove="resources\fontsize.zip" />

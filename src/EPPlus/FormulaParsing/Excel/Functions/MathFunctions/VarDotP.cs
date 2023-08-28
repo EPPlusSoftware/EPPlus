@@ -23,5 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the variance of a supplied set of values (which represent an entire population) ")]
     internal class VarDotP : VarP
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

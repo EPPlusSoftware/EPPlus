@@ -28,12 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     internal class FormulaExecutor
     {
         private ParsingContext _parsingContext;
-        private FunctionCompilerFactory _functionCompilerFactory;
 
         internal FormulaExecutor(ParsingContext parsingContext)
         {
             _parsingContext = parsingContext;
-            _functionCompilerFactory = new FunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
         }
 
         internal static List<Token> CreateRPNTokens(IList<Token> tokens)
@@ -232,154 +230,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return expressions;
         }
-        //private static void LoadArgumentPositions(FunctionExpression func, IList<Token> tokens, int tokenIndex)
-        //{
-        //    int subFunctions = 0;
-        //    for (int i = tokenIndex + 1; i < tokens.Count; i++)
-        //    {
-        //        if (tokens[i].TokenType == TokenType.Comma)
-        //        {
-        //            if (subFunctions == 0)
-        //            {
-        //                func._arguments.Add(i);
-        //            }
-        //        }
-        //        else if (tokens[i].TokenType == TokenType.StartFunctionArguments)
-        //        {
-        //            subFunctions++;
-        //        }
-        //        else if (tokens[i].TokenType == TokenType.Function)
-        //        {
-        //            if (subFunctions == 0)
-        //            {
-        //                func._endPos = i;
-        //                return;
-        //            }
-        //            subFunctions--;
-        //        }
-        //    }
-        //    func._endPos = tokens.Count - 1;
-        //}
-        //Dictionary<int, RangeHashset> _usedRanges;
-
-        //internal CompileResult Execute(IList<Token> exps)
-        //{
-        //    _usedRanges = new Dictionary<int, RangeHashset>();
-        //    var cell = new FormulaCell();
-        //    short extRefIx = short.MinValue;
-        //    int wsIx = int.MinValue;
-        //    var s = cell._expressionStack;
-
-        //    for (int i = 0; i < exps.Count; i++)
-        //    {
-        //        var t = exps[i];
-
-        //        if (s.Count > 0 && 
-        //            !(t.TokenType == TokenType.Operator && t.Value != ":") && 
-        //            s.Peek().Status == ExpressionStatus.IsAddress)
-        //        {
-        //            //We have an address, follow dependency chain before executing .
-        //            var a = GetAddressToFollow(s.Peek());
-        //            if(a!=null)
-        //            {
-
-        //            }
-        //        }
-
-        //        switch (t.TokenType)
-        //        {                    
-        //            case TokenType.Boolean:
-        //                s.Push(new BooleanExpression(t.Value, _parsingContext));
-        //                break;
-        //            case TokenType.Integer:
-        //                s.Push(new IntegerExpression(t.Value, _parsingContext));
-        //                break;
-        //            case TokenType.Decimal:
-        //                s.Push(new DecimalExpression(t.Value, _parsingContext));
-        //                break;
-        //            case TokenType.StringContent:
-        //                s.Push(new StringExpression(t.Value, _parsingContext));
-        //                break;                    
-        //            case TokenType.Negator:
-        //                s.Peek().Negate();
-        //                break;
-        //            case TokenType.CellAddress:
-        //                s.Push(new RangeExpression(t.Value, _parsingContext, extRefIx, wsIx));
-        //                extRefIx = short.MinValue;
-        //                wsIx = int.MinValue;                        
-        //                break;
-        //            case TokenType.NameValue:
-        //                s.Push(new NamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
-        //                break;
-        //            case TokenType.ExternalReference:
-        //                extRefIx = short.Parse(t.Value);
-        //                break;
-        //            case TokenType.WorksheetNameContent:
-        //                wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
-        //                break;
-        //            case TokenType.Comma:
-        //                cell._funcStackPosition.Peek()._arguments.Add(i-1);
-        //                break;
-        //            case TokenType.Function:
-        //                ExecFunc(t, cell);
-        //                break;
-        //            case TokenType.StartFunctionArguments:
-        //                var func = new FunctionExpression(t.Value, _parsingContext, i);
-        //                if (i <= exps.Count && exps[i + 1].TokenType != TokenType.Function)
-        //                {
-        //                    func._arguments.Add(i);
-        //                }
-        //                break;
-        //            case TokenType.TableName:
-        //                ExtractTableAddress(extRefIx, exps, i, out FormulaTableAddress tableAddress, _parsingContext);
-        //                s.Push(new TableAddressExpression(tableAddress, _parsingContext));
-        //                break;
-        //            case TokenType.OpeningEnumerable:
-        //                ExtractArray(exps, i, out IRangeInfo range, _parsingContext);
-        //                s.Push(new EnumerableExpression(range, _parsingContext));
-        //                break;
-        //            case TokenType.Operator:
-        //                ApplyOperator(t, cell);
-        //                break;
-        //        }
-        //    }
-        //    return s.Pop().Compile();
-        //}
-
-        //private FormulaRangeAddress GetAddressToFollow(Expression ae)
-        //{
-        //    var a = ae.Compile().Address;
-        //    if (a.WorksheetIx < 0) return null;
-
-        //    RangeHashset rd;
-        //    if (!_usedRanges.TryGetValue(a.WorksheetIx, out rd))
-        //    {
-        //        rd = new RangeHashset();
-        //        _usedRanges.Add(a.WorksheetIx, rd);
-        //    }
-
-        //    if (a.IsSingleCell)
-        //    {
-        //        if (rd.Exists(a.FromRow, a.ToRow))
-        //        {
-        //            return null;
-        //        }
-        //        var ws = _parsingContext.Package.Workbook.Worksheets[a.WorksheetIx];
-        //        if(ws._formulas.Exists(a.FromRow, a.FromCol))
-        //        {
-        //            return a.Address;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        FormulaRangeAddress r=a.Address;
-        //        if (rd.Merge(ref r))
-        //        {
-
-        //        }
-        //    }
-        //    return null;
-        //}
 
         private static void ExtractTableAddress(int extRef, int wsIx, IList<Token> exps, int i, out FormulaTableAddress tableAddress, ParsingContext parsingContext)
         {
@@ -504,15 +354,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             range = new InMemoryRange(matrix);
         }
 
-        private void ExecFunc(Token t, FormulaCell cell)
-        {
-            var f = _parsingContext.Configuration.FunctionRepository.GetFunction(t.Value);
-            var args = GetFunctionArguments(cell);
-            var compiler = _functionCompilerFactory.Create(f);
-            var result = compiler.Compile(args);
-            PushResult(cell, result);
-        }
-
         private void PushResult(FormulaCell cell, CompileResult result)
         {
             switch (result.DataType)
@@ -547,68 +388,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 list.Insert(0, si);
             }
             return list;
-        }
-        private void AddExpressionOrApplyOperator(IList<Expression> precompiledExps, Token opToken, FormulaCell cell)
-        {
-            var v1 = cell._expressionStack.Pop();
-            var v2 = cell._expressionStack.Pop();
-
-            if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
-            {
-                if ((v1.Status == ExpressionStatus.CanCompile && 
-                    v2.Status == ExpressionStatus.CanCompile) ||
-                    (v1.Status == ExpressionStatus.IsAddress &&
-                    v2.Status == ExpressionStatus.IsAddress && op.Operator==Operators.Colon))
-                {
-                    var c1 = v1.Compile();
-                    var c2 = v2.Compile();
-
-                    var result = op.Apply(c2, c1, _parsingContext);
-                    PushResult(cell, result);
-                }
-                else
-                {
-                    if (v1.Status == ExpressionStatus.OnExpressionList || v2.Status == ExpressionStatus.OnExpressionList)
-                    {
-                        precompiledExps[precompiledExps.Count - 1].Operator = op.Operator;
-                    }
-                    else
-                    {
-                        v2.Operator = op.Operator;
-                    }
-                    
-                    if (v2.Status != ExpressionStatus.OnExpressionList)
-                    {
-                        v2.Status = ExpressionStatus.OnExpressionList;
-                        precompiledExps.Add(v2);
-                    }
-                    if (v1.Status != ExpressionStatus.OnExpressionList)
-                    {
-                        precompiledExps.Add(v1);
-                        v1.Status = ExpressionStatus.OnExpressionList;
-                    }
-                    cell._expressionStack.Push(v1);
-                }
-            }
-            else
-            {
-                throw new InvalidFormulaException($"Invalid operator {opToken.Value}");
-            }
-        }
-
-        private void ApplyOperator(Token opToken, FormulaCell cell)
-        {
-            var v1 = cell._expressionStack.Pop();
-            var v2 = cell._expressionStack.Pop();
-            
-            var c1 = v1.Compile();
-            var c2 = v2.Compile();
-
-            if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
-            {
-                var result = op.Apply(c2, c1, _parsingContext);
-                PushResult(cell, result);
-            }
         }
     }
 }

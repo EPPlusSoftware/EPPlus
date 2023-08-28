@@ -19,7 +19,6 @@ namespace OfficeOpenXml.FormulaParsing
         internal ISourceCodeTokenizer _tokenizer;
         internal FormulaExecutor _formulaExecutor;
         internal ParsingContext _parsingContext;
-        internal FunctionCompilerFactory _functionCompilerFactory;
         internal List<int> _startOfChain = new List<int>();
         internal bool HasDynamicArrayFormula=false;
         internal Dictionary<int, Dictionary<string, CompileResult>> _expressionCache = new Dictionary<int, Dictionary<string, CompileResult>>();
@@ -33,8 +32,6 @@ namespace OfficeOpenXml.FormulaParsing
             var filterInfo = new FilterInfo(wb);
             parser.InitNewCalc(filterInfo);
 
-            _functionCompilerFactory = new FunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
-            
             wb.FormulaParser.Configure(config =>
             {
                 config.AllowCircularReferences = options.AllowCircularReferences;
