@@ -1855,8 +1855,14 @@ namespace EPPlusTest.ConditionalFormatting
 
                 sheet.Cells["A1"].Value = "Danger";
 
-                //Change MYPATH to whatever directory you would like to save in. For example C:\\PriorityTest if you make a folder of that name.
-                pck.SaveAs("C:\\PriorityTest\\priorityTest.xlsx");
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var readPackage = new ExcelPackage(stream);
+                var readSheet = readPackage.Workbook.Worksheets[0];
+
+                Assert.AreEqual(500, readSheet.ConditionalFormatting[0].Priority);
+                Assert.AreEqual(2, readSheet.ConditionalFormatting[1].Priority);
             }
         }
 
