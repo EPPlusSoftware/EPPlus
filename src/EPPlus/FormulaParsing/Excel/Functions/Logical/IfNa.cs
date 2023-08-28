@@ -27,10 +27,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     internal class IfNa : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 1;
+        public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            return GetResultByObject(arguments[0].Value);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
+            if(arg1.ValueIsExcelError && arg1.ValueAsExcelErrorValue.Type == eErrorType.NA)
+            {
+                return GetResultByObject(arg2.Value);
+            }
+            return GetResultByObject(arg1.Value);
         }
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {

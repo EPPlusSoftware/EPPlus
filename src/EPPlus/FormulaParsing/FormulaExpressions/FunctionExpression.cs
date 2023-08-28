@@ -15,10 +15,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -31,7 +29,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     }
     internal class FunctionExpression : Expression
     {
-        private FunctionCompilerFactory _functionCompilerFactory;
         internal ExcelFunction _function;
         internal int _startPos, _endPos;
         internal IList<int> _arguments;
@@ -45,9 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             if (tokenValue.StartsWith("_xlws.", StringComparison.OrdinalIgnoreCase)) tokenValue = tokenValue.Replace("_xlws.", string.Empty);
             _arguments = new List<int>();
             _startPos = pos;
-            _functionCompilerFactory = new FunctionCompilerFactory(ctx.Configuration.FunctionRepository, ctx);
             _function = ctx.Configuration.FunctionRepository.GetFunction(tokenValue);
-            //var compiler = _functionCompilerFactory.Create(_function);
         }
         private FunctionExpression(ParsingContext ctx) : base(ctx)
         {
@@ -81,8 +76,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 
                 if(_function==null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
-                var compiler = _functionCompilerFactory.Create(_function);
-                var result = compiler.Compile(_args ?? Enumerable.Empty<Expression>());
+                var compiler = Context.FunctionCompilerFactory.Create(_function, Context);
+                var result = compiler.Compile(_args ?? Enumerable.Empty<Expression>(), Context);
                 
                 if (_negate != 0)
                 {
@@ -127,7 +122,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {   
                 _arguments = _arguments, 
                 _function = _function, 
-                _functionCompilerFactory = _functionCompilerFactory, 
                 _startPos = _startPos, 
                 _endPos = _endPos
             };

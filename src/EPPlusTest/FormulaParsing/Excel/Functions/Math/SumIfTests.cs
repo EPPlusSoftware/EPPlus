@@ -379,7 +379,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 
                 sheet.Cells["A9"].Formula = "SUMIF(A1:A6,{\"A\",\"C\"}, B1:B6)";
                 sheet.Calculate();
-                Assert.AreEqual(60d, sheet.Cells["A9"].Value);
+                Assert.AreEqual(20d, sheet.Cells["A9"].Value);
+                Assert.AreEqual(40d, sheet.Cells["B9"].Value);
             }
         }
 
@@ -408,7 +409,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 
                 sheet.Cells["A9"].Formula = "SUMIF(A1:A6,D9:E9, B1:B6)";
                 sheet.Calculate();
-                Assert.AreEqual(60d, sheet.Cells["A9"].Value);
+                Assert.AreEqual(20d, sheet.Cells["A9"].Value);
+                Assert.AreEqual(40d, sheet.Cells["B9"].Value);
             }
         }
 

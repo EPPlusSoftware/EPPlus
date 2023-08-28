@@ -21,15 +21,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
     internal class LookupFunctionCompiler : FunctionCompiler
     {
         internal LookupFunctionCompiler(ExcelFunction function, ParsingContext context)
-            : base(function, context)
+            : base(function)
         {
 
         }
 
-        public override CompileResult Compile(IEnumerable<Expression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(Context);
+            Function.BeforeInvoke(context);
             for(var x = 0; x < children.Count(); x++)
             {
                 var child = children.ElementAt(x);
@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     BuildFunctionArguments(null, DataType.Unknown, args);
                 } 
             }
-            return Function.ExecuteInternal(args, Context);
+            return Function.ExecuteInternal(args, context);
         }
     }
 }

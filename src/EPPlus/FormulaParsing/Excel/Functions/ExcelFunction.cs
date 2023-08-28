@@ -138,6 +138,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="config"></param>
         public virtual void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
+            if(ArrayBehaviour == ExcelFunctionArrayBehaviour.FirstArgCouldBeARange)
+            {
+                config.SetArrayParameterIndexes(0);
+            }
         }
 
         /// <summary>
