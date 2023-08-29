@@ -352,21 +352,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                     if (xr.LocalName == "fgColor")
                     {
                         ParseColor(Style.Fill.PatternColor, xr);
-                        xr.Read();
                     }
 
                     if (xr.LocalName == "bgColor")
                     {
                         ParseColor(Style.Fill.BackgroundColor, xr);
-
-                        if(!string.IsNullOrEmpty(xr.GetAttribute("tint")))
-                        {
-                            Style.Fill.BackgroundColor.Tint = double.Parse(xr.GetAttribute("tint"));
-                        }
-                        
-                        xr.Read();
                     }
 
+                    xr.Read();
                     xr.Read();
                 }
                 else

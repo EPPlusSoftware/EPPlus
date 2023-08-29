@@ -479,11 +479,9 @@ namespace EPPlusTest.ConditionalFormatting
                 textContains.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 textContains.Style.Fill.BackgroundColor.Theme = eThemeSchemeColor.Accent2;
 
-                var stream = new MemoryStream(); 
-                
-                pck.SaveAs(stream);
+                SaveAndCleanup(pck);
 
-                var pckRead = new ExcelPackage(stream);
+                var pckRead = OpenPackage("complexTest.xlsx");
                 var readSheet = pckRead.Workbook.Worksheets[0];
 
                 readSheet.ConditionalFormatting[2].Style.Fill.BackgroundColor.Color = Color.Red;
@@ -491,7 +489,53 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(readSheet.ConditionalFormatting[3].As.DataBar.FillColor.Color, Color.FromArgb(255, Color.LimeGreen));
                 Assert.AreEqual(readSheet.ConditionalFormatting[6].Style.Fill.BackgroundColor.Theme, eThemeSchemeColor.Accent2);
 
-                pckRead.SaveAs("C:\\Users\\OssianEdström\\Documents\\ComplexTest.xlsx");
+                SaveAndCleanup(pckRead);
+            }
+        }
+
+
+        [TestMethod]
+        public void CF_ExtFormulaBetweenReadWrite()
+        {
+            using (var pck = OpenPackage("Cf_BetweenExt.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("AverageSheet");
+                var extWS = pck.Workbook.Worksheets.Add("ExtSheet");
+
+                var between = ws.ConditionalFormatting.AddBetween(new ExcelAddress("A1:A40"));
+                var notBetween = ws.ConditionalFormatting.AddNotBetween(new ExcelAddress("B1:B40"));
+
+                between.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.DarkVertical;
+                between.Style.Fill.PatternColor.Color = Color.BlueViolet;
+
+                between.Style.Fill.BackgroundColor.Color = Color.DarkRed;
+                notBetween.Style.Fill.BackgroundColor.Color = Color.DarkGreen;
+
+                between.Formula = "ExtSheet!$B$3";
+                between.Formula2 = "ExtSheet!$B$5";
+
+                notBetween.Formula = "ExtSheet!$B$3";
+                notBetween.Formula2 = "ExtSheet!$B$5";
+
+                extWS.Cells["B3"].Value = 5;
+                extWS.Cells["B5"].Value = 27;
+
+                ws.Cells["A1:B40"].Formula = "Row()+3";
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("Cf_BetweenExt.xlsx");
+                var readSheet = readPck.Workbook.Worksheets[0];
+
+                Assert.AreEqual("ExtSheet!$B$3", readSheet.ConditionalFormatting[0].Formula);
+                Assert.AreEqual("ExtSheet!$B$5", readSheet.ConditionalFormatting[0].Formula2);
+                Assert.AreEqual(Color.FromArgb(255, Color.BlueViolet), readSheet.ConditionalFormatting[0].Style.Fill.PatternColor.Color);
+                Assert.AreEqual(OfficeOpenXml.Style.ExcelFillStyle.DarkVertical, readSheet.ConditionalFormatting[0].Style.Fill.PatternType);
+                Assert.AreEqual(Color.FromArgb(255, Color.DarkRed), readSheet.ConditionalFormatting[0].Style.Fill.BackgroundColor.Color);
+
+                Assert.AreEqual("ExtSheet!$B$3", readSheet.ConditionalFormatting[1].Formula);
+                Assert.AreEqual("ExtSheet!$B$5", readSheet.ConditionalFormatting[1].Formula2);
+                Assert.AreEqual(Color.FromArgb(255, Color.DarkGreen), readSheet.ConditionalFormatting[1].Style.Fill.BackgroundColor.Color);
             }
         }
     }

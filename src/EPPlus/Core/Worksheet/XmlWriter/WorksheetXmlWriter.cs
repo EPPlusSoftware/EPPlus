@@ -1134,8 +1134,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 cache.Append($" gradient=\"0\"");
                             }
 
-                            //TODO: Add direction
-
                             if(dataBar.NegativeBarColorSameAsPositive)
                             {
                                 cache.Append($" negativeBarColorSameAsPositive=\"1\"");
@@ -1158,7 +1156,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (dataBar.LowValue.HasValueOrFormula)
                             {
                                 cache.Append(">");
-                                //ConvertUtil.ExcelEscapeAndEncodeString(
                                 if(!string.IsNullOrEmpty(dataBar.LowValue.Formula))
                                 {
                                     cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(dataBar.LowValue.Formula)}</xm:f>");
@@ -1179,7 +1176,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (dataBar.HighValue.HasValueOrFormula)
                             {
                                 cache.Append(">");
-                                //ConvertUtil.ExcelEscapeAndEncodeString(
                                 if (!string.IsNullOrEmpty(dataBar.HighValue.Formula))
                                 {
                                     cache.Append($"<xm:f>{ConvertUtil.ExcelEscapeAndEncodeString(dataBar.HighValue.Formula)}</xm:f>");
@@ -1444,183 +1440,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if (format.Style.HasValue)
                             {
-                                cache.Append($"<{prefix}dxf>");
-
-                                if (format.Style.Font.HasValue)
-                                {
-                                    cache.Append($"<font>");
-
-                                    if (format.Style.Font.Bold == true)
-                                    {
-                                        cache.Append($"<b/>");
-                                    }
-
-                                    if (format.Style.Font.Italic == true)
-                                    {
-                                        if (format.Style.Font.Bold == false || format.Style.Font.Bold == null)
-                                        {
-                                            cache.Append("<b val=\"0\"/>");
-                                        }
-                                        cache.Append($"<i/>");
-                                    }
-
-                                    if (format.Style.Font.Bold == false && format.Style.Font.Italic == false)
-                                    {
-                                        cache.Append("<b val=\"0\"/>");
-                                        cache.Append("<i val=\"0\"/>");
-                                    }
-
-                                    if (format.Style.Font.Strike == true)
-                                    {
-                                        cache.Append($"<strike/>");
-
-                                    }
-
-                                    if (format.Style.Font.Underline.HasValue == true)
-                                    {
-                                        cache.Append($"<u");
-                                        if (format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
-                                        {
-                                            cache.Append(" val=\"double\"");
-                                        }
-                                        cache.Append($"/>");
-                                    }
-
-                                    if (format.Style.Font.Color.HasValue == true)
-                                    {
-                                        cache.Append(WriteColorOption("color", format.Style.Font.Color));
-                                    }
-
-                                    cache.Append("</font>");
-                                }
-
-                                if (format.Style.NumberFormat.HasValue)
-                                {
-                                    cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
-                                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
-                                }
-
-                                if (format.Style.Fill.HasValue)
-                                {
-                                    cache.Append("<fill>");
-
-                                    switch (format.Style.Fill.Style)
-                                    {
-                                        case Style.eDxfFillStyle.PatternFill:
-
-                                            if (format.Style.Fill.PatternType != null && format.Style.Fill.PatternType != ExcelFillStyle.None)
-                                            {
-                                                cache.Append($"<patternFill patternType=\"{format.Style.Fill.PatternType}\">");
-                                            }
-                                            else
-                                            {
-                                                cache.Append("<patternFill>");
-                                            }
-
-                                            if (format.Style.Fill.PatternColor.HasValue)
-                                            {
-                                                cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
-                                            }
-
-                                            if (format.Style.Fill.BackgroundColor.HasValue)
-                                            {
-                                                cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
-                                            }
-
-                                            cache.Append("</patternFill>");
-                                            break;
-                                        case Style.eDxfFillStyle.GradientFill:
-
-                                            cache.Append("<gradientFill");
-
-                                            if (format.Style.Fill.Gradient.GradientType != null)
-                                            {
-                                                cache.Append($" type=\"{format.Style.Fill.Gradient.GradientType.ToString().ToLower()}\"");
-                                            }
-
-                                            if (format.Style.Fill.Gradient.Degree != null)
-                                            {
-                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " degree=\"{0}\"", format.Style.Fill.Gradient.Degree.Value));
-                                            }
-
-                                            if (format.Style.Fill.Gradient.Left != null)
-                                            {
-                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " left=\"{0}\"", format.Style.Fill.Gradient.Left.Value));
-                                            }
-
-                                            if (format.Style.Fill.Gradient.Right != null)
-                                            {
-                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " right=\"{0}\"", format.Style.Fill.Gradient.Right.Value));
-                                            }
-
-                                            if (format.Style.Fill.Gradient.Top != null)
-                                            {
-                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " top=\"{0}\"", format.Style.Fill.Gradient.Top.Value));
-                                            }
-
-                                            if (format.Style.Fill.Gradient.Bottom != null)
-                                            {
-                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " bottom=\"{0}\"", format.Style.Fill.Gradient.Bottom.Value));
-                                            }
-
-                                            cache.Append(">");
-                                            cache.Append("<stop position=\"0\">");
-
-                                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
-
-                                            cache.Append("</stop>");
-                                            cache.Append("<stop position=\"1.0\">");
-
-                                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
-
-                                            cache.Append("</stop>");
-
-                                            cache.Append("</gradientFill>");
-
-                                            break;
-                                    }
-                                    cache.Append("</fill>");
-                                }
-
-                                if (format.Style.Border.HasValue)
-                                {
-                                    cache.Append("<border>");
-
-                                    if (format.Style.Border.Left.HasValue)
-                                    {
-                                        cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
-                                        cache.Append("</left>");
-                                    }
-
-                                    if (format.Style.Border.Right.HasValue)
-                                    {
-                                        cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
-                                        cache.Append("</right>");
-                                    }
-
-                                    if (format.Style.Border.Top.HasValue)
-                                    {
-                                        cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
-                                        cache.Append("</top>");
-                                    }
-
-                                    if (format.Style.Border.Bottom.HasValue)
-                                    {
-                                        cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
-                                        cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
-                                        cache.Append("</bottom>");
-                                    }
-
-                                    cache.Append("<vertical/>");
-                                    cache.Append("<horizontal/>");
-                                    cache.Append("</border>");
-                                }
-
-
-                                cache.Append($"</{prefix}dxf>");
+                                WriteStyle(cache, prefix, format);
                             }
                         }
                         cache.Append($"</{prefix}cfRule>");
@@ -1991,6 +1811,189 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             }
 
             cache.Append($"/>");
+        }
+
+        void WriteStyle(StringBuilder cache, string prefix, ExcelConditionalFormattingRule format)
+        {
+            if (format.Style.HasValue)
+            {
+                cache.Append($"<{prefix}dxf>");
+
+                if (format.Style.Font.HasValue)
+                {
+                    cache.Append($"<font>");
+
+                    if (format.Style.Font.Bold == true)
+                    {
+                        cache.Append($"<b/>");
+                    }
+
+                    if (format.Style.Font.Italic == true)
+                    {
+                        if (format.Style.Font.Bold == false || format.Style.Font.Bold == null)
+                        {
+                            cache.Append("<b val=\"0\"/>");
+                        }
+                        cache.Append($"<i/>");
+                    }
+
+                    if (format.Style.Font.Bold == false && format.Style.Font.Italic == false)
+                    {
+                        cache.Append("<b val=\"0\"/>");
+                        cache.Append("<i val=\"0\"/>");
+                    }
+
+                    if (format.Style.Font.Strike == true)
+                    {
+                        cache.Append($"<strike/>");
+
+                    }
+
+                    if (format.Style.Font.Underline.HasValue == true)
+                    {
+                        cache.Append($"<u");
+                        if (format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
+                        {
+                            cache.Append(" val=\"double\"");
+                        }
+                        cache.Append($"/>");
+                    }
+
+                    if (format.Style.Font.Color.HasValue == true)
+                    {
+                        cache.Append(WriteColorOption("color", format.Style.Font.Color));
+                    }
+
+                    cache.Append("</font>");
+                }
+
+                if (format.Style.NumberFormat.HasValue)
+                {
+                    cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
+                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                }
+
+                if (format.Style.Fill.HasValue)
+                {
+                    cache.Append("<fill>");
+
+                    switch (format.Style.Fill.Style)
+                    {
+                        case Style.eDxfFillStyle.PatternFill:
+
+                            if (format.Style.Fill.PatternType != null && format.Style.Fill.PatternType != ExcelFillStyle.None)
+                            {
+                                cache.Append($"<patternFill patternType=\"{format.Style.Fill.PatternType.ToEnumString()}\">");
+                            }
+                            else
+                            {
+                                cache.Append("<patternFill>");
+                            }
+
+                            if (format.Style.Fill.PatternColor.HasValue)
+                            {
+                                cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
+                            }
+
+                            if (format.Style.Fill.BackgroundColor.HasValue)
+                            {
+                                cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
+                            }
+
+                            cache.Append("</patternFill>");
+                            break;
+                        case Style.eDxfFillStyle.GradientFill:
+
+                            cache.Append("<gradientFill");
+
+                            if (format.Style.Fill.Gradient.GradientType != null)
+                            {
+                                cache.Append($" type=\"{format.Style.Fill.Gradient.GradientType.ToString().ToLower()}\"");
+                            }
+
+                            if (format.Style.Fill.Gradient.Degree != null)
+                            {
+                                cache.Append(string.Format(CultureInfo.InvariantCulture, " degree=\"{0}\"", format.Style.Fill.Gradient.Degree.Value));
+                            }
+
+                            if (format.Style.Fill.Gradient.Left != null)
+                            {
+                                cache.Append(string.Format(CultureInfo.InvariantCulture, " left=\"{0}\"", format.Style.Fill.Gradient.Left.Value));
+                            }
+
+                            if (format.Style.Fill.Gradient.Right != null)
+                            {
+                                cache.Append(string.Format(CultureInfo.InvariantCulture, " right=\"{0}\"", format.Style.Fill.Gradient.Right.Value));
+                            }
+
+                            if (format.Style.Fill.Gradient.Top != null)
+                            {
+                                cache.Append(string.Format(CultureInfo.InvariantCulture, " top=\"{0}\"", format.Style.Fill.Gradient.Top.Value));
+                            }
+
+                            if (format.Style.Fill.Gradient.Bottom != null)
+                            {
+                                cache.Append(string.Format(CultureInfo.InvariantCulture, " bottom=\"{0}\"", format.Style.Fill.Gradient.Bottom.Value));
+                            }
+
+                            cache.Append(">");
+                            cache.Append("<stop position=\"0\">");
+
+                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
+
+                            cache.Append("</stop>");
+                            cache.Append("<stop position=\"1.0\">");
+
+                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
+
+                            cache.Append("</stop>");
+
+                            cache.Append("</gradientFill>");
+
+                            break;
+                    }
+                    cache.Append("</fill>");
+                }
+
+                if (format.Style.Border.HasValue)
+                {
+                    cache.Append("<border>");
+
+                    if (format.Style.Border.Left.HasValue)
+                    {
+                        cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
+                        cache.Append("</left>");
+                    }
+
+                    if (format.Style.Border.Right.HasValue)
+                    {
+                        cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
+                        cache.Append("</right>");
+                    }
+
+                    if (format.Style.Border.Top.HasValue)
+                    {
+                        cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
+                        cache.Append("</top>");
+                    }
+
+                    if (format.Style.Border.Bottom.HasValue)
+                    {
+                        cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
+                        cache.Append("</bottom>");
+                    }
+
+                    cache.Append("<vertical/>");
+                    cache.Append("<horizontal/>");
+                    cache.Append("</border>");
+                }
+
+                cache.Append($"</{prefix}dxf>");
+            }
         }
     }
 }
