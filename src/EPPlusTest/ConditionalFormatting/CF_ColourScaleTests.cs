@@ -20,7 +20,6 @@ namespace EPPlusTest.ConditionalFormatting
             using (var pck = new ExcelPackage())
             {
                 var sheet = pck.Workbook.Worksheets.Add("colourScale");
-                var extSheet = pck.Workbook.Worksheets.Add("extSheet");
 
                 var colorScale = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("A1:A20"));
 
@@ -123,10 +122,77 @@ namespace EPPlusTest.ConditionalFormatting
                     ws = p2.Workbook.Worksheets[0];
                     cf = ws.ConditionalFormatting[0].As.ThreeColorScale;
                     Assert.AreEqual(2, cf.LowValue.Value);
+                    Assert.AreEqual(25,cf.MiddleValue.Value);
                     Assert.AreEqual(50, cf.HighValue.Value);
+                    Assert.AreEqual(eExcelConditionalFormattingValueObjectType.Num, cf.LowValue.Type);
+                    Assert.AreEqual(eExcelConditionalFormattingValueObjectType.Percent, cf.MiddleValue.Type);
+                    Assert.AreEqual(eExcelConditionalFormattingValueObjectType.Percentile, cf.HighValue.Type);
                 }
 
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CF_ColourScaleColExt()
+        {
+            using (var pck = OpenPackage("ColScaleTestExt.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("colourScale");
+                var extSheet = pck.Workbook.Worksheets.Add("extSheet");
+
+                var colorScale = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("A1:A20"));
+
+                for (int i = 1; i < 21; i++)
+                {
+                    sheet.Cells[i, 1].Value = i;
+                }
+                
+                colorScale.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+                colorScale.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+                colorScale.MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Num;
+
+                colorScale.MiddleValue.Formula = "extSheet!B2";
+
+                extSheet.Cells["B2"].Value = 5;
+                extSheet.Cells["B6"].Value = 70;
+
+                colorScale.LowValue.Formula = "Z34";
+
+                sheet.Cells["Z34"].Value = 4;
+
+                colorScale.HighValue.Formula = "extSheet!B6";
+
+                colorScale.LowValue.ColorSettings.SetColor(eThemeSchemeColor.Accent3);
+                colorScale.LowValue.ColorSettings.Tint = 0.5f;
+
+                colorScale.MiddleValue.ColorSettings.Index = 4;
+                colorScale.MiddleValue.ColorSettings.Tint = 1.0f;
+
+                colorScale.HighValue.ColorSettings.Auto = true;
+
+                var stream = new MemoryStream();
+                SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("ColScaleTestExt.xlsx");
+
+                var scale = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
+
+                var threeCol = scale.As.ThreeColorScale;
+
+                Assert.AreEqual(scale.As.ThreeColorScale.MiddleValue.Formula, "extSheet!B2");
+                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.Formula, "Z34");
+                Assert.AreEqual(scale.As.ThreeColorScale.HighValue.Formula, "extSheet!B6");
+
+                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Theme, eThemeSchemeColor.Accent3);
+                Assert.AreEqual(scale.As.ThreeColorScale.LowValue.ColorSettings.Tint, 0.5f);
+
+                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Index, 4);
+                Assert.AreEqual(threeCol.MiddleValue.ColorSettings.Tint, 1.0f);
+
+                Assert.AreEqual(threeCol.HighValue.ColorSettings.Auto, true);
+
+                SaveAndCleanup(readPackage);
             }
         }
     }

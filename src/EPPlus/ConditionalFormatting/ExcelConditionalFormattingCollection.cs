@@ -381,7 +381,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                         {
                             var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
                             _rules.Add(cf);
-                            localAndExtDict.Add(cf.Uid, cf);
 
                             if (cf.Address == null)
                             {
@@ -390,9 +389,17 @@ namespace OfficeOpenXml.ConditionalFormatting
                         }
                     } while (xr.LocalName == "cfRule");
 
+                    var latestAddress = _rules.LastOrDefault().Address;
+
+                    if (xr.LocalName == "sqref" && xr.NodeType != XmlNodeType.EndElement)
+                    {
+                        xr.Read();
+                        latestAddress = new ExcelAddress(xr.ReadString());
+                    }
+
                     foreach (var cf in addresslessCFs)
                     {
-                        cf.Address = _rules.LastOrDefault().Address;
+                        cf.Address = latestAddress;
                     }
                 }
             }
