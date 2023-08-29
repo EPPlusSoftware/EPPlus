@@ -538,5 +538,80 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(Color.FromArgb(255, Color.DarkGreen), readSheet.ConditionalFormatting[1].Style.Fill.BackgroundColor.Color);
             }
         }
+
+        [TestMethod]
+        public void CF_ExtGreaterThanReadWrite()
+        {
+            using (var pck = OpenPackage("Cf_GreaterThanExt.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("GreaterSheet");
+                var extWS = pck.Workbook.Worksheets.Add("ExtSheet");
+
+                var greater = ws.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A40"));
+                var greaterEqual = ws.ConditionalFormatting.AddGreaterThanOrEqual(new ExcelAddress("B1:B40"));
+
+                var lesser = ws.ConditionalFormatting.AddLessThan(new ExcelAddress("C1:C40"));
+                var lesserEqual = ws.ConditionalFormatting.AddLessThanOrEqual(new ExcelAddress("D1:D40"));
+
+                greater.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.GradientFill;
+
+                greater.Style.Fill.Gradient.Colors.Add(0);
+                greater.Style.Fill.Gradient.Colors.Add(100);
+
+                greater.Style.Fill.Gradient.Colors[0].Color.Color = Color.Aquamarine;
+                greater.Style.Fill.Gradient.Colors[1].Color.Color = Color.MediumPurple;
+
+                greaterEqual.Style.Fill.BackgroundColor.Color = Color.MediumSeaGreen;
+
+                lesser.Style.Fill.BackgroundColor.Color = Color.MediumVioletRed;
+                lesserEqual.Style.Fill.BackgroundColor.Color = Color.OrangeRed;
+
+                ws.Cells["A1:D40"].Formula = "Row()";
+
+                extWS.Cells["C15"].Value = 10;
+                extWS.Cells["Z72"].Value = 20;
+
+                greater.Formula = "ExtSheet!$C$15";
+                greaterEqual.Formula = "ExtSheet!$Z$72";
+
+                lesser.Formula = "ExtSheet!$C$15";
+                lesserEqual.Formula = "ExtSheet!$Z$72";
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("Cf_GreaterThanExt.xlsx");
+                
+                var readWS = readPck.Workbook.Worksheets[0];
+
+                Assert.AreEqual("ExtSheet!$C$15", readWS.ConditionalFormatting[0].Formula);
+                Assert.AreEqual("ExtSheet!$C$15", readWS.ConditionalFormatting[2].Formula);
+                Assert.AreEqual("ExtSheet!$Z$72", readWS.ConditionalFormatting[1].Formula);
+                Assert.AreEqual("ExtSheet!$Z$72", readWS.ConditionalFormatting[3].Formula);
+                
+                Assert.AreEqual(Color.FromArgb(255, Color.Aquamarine), readWS.ConditionalFormatting[0].Style.Fill.Gradient.Colors[0].Color.Color);
+                Assert.AreEqual(Color.FromArgb(255, Color.MediumPurple), readWS.ConditionalFormatting[0].Style.Fill.Gradient.Colors[1].Color.Color);
+            }
+        }
+
+        [TestMethod]
+        public void CF_ExpressionExtReadWrite()
+        {
+            using (var pck = OpenPackage("Cf_ExpressionExt.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ExpressionSheet");
+                var extWS = pck.Workbook.Worksheets.Add("ExtSheet");
+
+                var expression = ws.ConditionalFormatting.AddExpression(new ExcelAddress("A1:A40"));
+
+                ws.Cells["A1:A40"].Formula = "Row()";
+
+                expression.Style.Fill.BackgroundColor.Color = Color.BurlyWood;
+                expression.Formula = "A1 > ExtSheet!$A$6";
+
+                extWS.Cells["A6"].Value = 5;
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }
