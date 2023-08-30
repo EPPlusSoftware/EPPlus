@@ -16,7 +16,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal static class ColourScaleReadHandler
+    internal static class ColorScaleReadHandler
     {
         //We have no way of knowing what type of colorScale it is until we've read its first 3 nodes and xr is forward only.
         //This way we can determine type after reading the initial data.

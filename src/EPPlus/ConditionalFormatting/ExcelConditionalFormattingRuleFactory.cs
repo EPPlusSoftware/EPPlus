@@ -347,7 +347,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if(cfType == "colorScale")
             {
-                return ColourScaleReadHandler.CreateScales(address, xr, ws);
+                return ColorScaleReadHandler.CreateScales(address, xr, ws);
             }
 
             if(cfType == "iconSet")

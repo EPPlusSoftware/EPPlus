@@ -558,6 +558,8 @@ namespace EPPlusTest.ConditionalFormatting
                 greater.Style.Fill.Gradient.Colors.Add(0);
                 greater.Style.Fill.Gradient.Colors.Add(100);
 
+                greater.Style.Fill.Gradient.Degree = 90;
+
                 greater.Style.Fill.Gradient.Colors[0].Color.Color = Color.Aquamarine;
                 greater.Style.Fill.Gradient.Colors[1].Color.Color = Color.MediumPurple;
 
@@ -590,6 +592,7 @@ namespace EPPlusTest.ConditionalFormatting
                 
                 Assert.AreEqual(Color.FromArgb(255, Color.Aquamarine), readWS.ConditionalFormatting[0].Style.Fill.Gradient.Colors[0].Color.Color);
                 Assert.AreEqual(Color.FromArgb(255, Color.MediumPurple), readWS.ConditionalFormatting[0].Style.Fill.Gradient.Colors[1].Color.Color);
+                Assert.AreEqual(90, readWS.ConditionalFormatting[0].Style.Fill.Gradient.Degree);
             }
         }
 
