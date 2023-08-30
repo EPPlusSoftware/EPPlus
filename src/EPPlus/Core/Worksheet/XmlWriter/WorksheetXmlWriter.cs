@@ -1511,6 +1511,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 cache.Append($"val=\"{icon.Value}\" ");
             }
 
+            if(icon.Formula != null) 
+            {
+                cache.Append($"val=\"{icon.Formula.EncodeXMLAttribute()}\" ");
+            }
+
             if (icon.GreaterThanOrEqualTo == false && gteCheck == true)
             {
                 cache.Append("gte=\"0\"");
@@ -1600,10 +1605,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
                             else if (!string.IsNullOrEmpty(cSValue.Formula))
                             {
-                                cache.Append($"val=\"{cSValue.Formula}\"");
+                                cache.Append($"val=\"{cSValue.Formula.EncodeXMLAttribute()}\"");
                             }
 
-                            //Note: No GTE bool attribute as it is only applicable to iconsets according to documentation.
+                            //Note: No GTE bool attribute as it is only applicable to iconsets according to Microsofts documentation.
 
                             cache.Append("/>");
                         }

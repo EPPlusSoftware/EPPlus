@@ -1736,6 +1736,8 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cf = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
                 Assert.AreEqual("\"&%/Stuff���}=``#�\"<>\"An Example\"", cf.As.Expression.Formula);
+
+                //readPackage.SaveAs("C:\\Users\\OssianEdström\\Documents\\hardFormula.xlsx");
             }
         }
 
@@ -1879,6 +1881,29 @@ namespace EPPlusTest.ConditionalFormatting
                     sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
                     sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
                 }
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void TopPercentTest()
+        {
+            using (var pck = OpenPackage("topPercent.xlsx", true))
+            {
+                var worksheet = pck.Workbook.Worksheets.Add("topPercent");
+
+                var cfRule13 = worksheet.ConditionalFormatting.AddTopPercent(
+                new ExcelAddress("B11:B20"));
+
+                cfRule13.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                cfRule13.Style.Border.Left.Color.Theme = eThemeSchemeColor.Text2;
+                cfRule13.Style.Border.Bottom.Style = ExcelBorderStyle.DashDot;
+                cfRule13.Style.Border.Bottom.Color.SetColor(ExcelIndexedColor.Indexed8);
+                cfRule13.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                cfRule13.Style.Border.Right.Color.Color = Color.Blue;
+                cfRule13.Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                cfRule13.Style.Border.Top.Color.Auto = true;
 
                 SaveAndCleanup(pck);
             }

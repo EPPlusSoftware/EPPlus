@@ -4,6 +4,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -215,6 +216,36 @@ namespace EPPlusTest.ConditionalFormatting
                 colorScale.MiddleValue.Formula = "extSheet!B2";
 
                 SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void CF_ColorScaleDifficultFormula()
+        {
+            using (var pck = OpenPackage("ColScaleDifficultFormula.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("formulaColScale");
+
+                ExcelAddress cfAddress1 = new ExcelAddress("A2:A10");
+                var cfRule1 = ws.ConditionalFormatting.AddTwoColorScale(cfAddress1);
+
+                cfRule1.LowValue.Type = eExcelConditionalFormattingValueObjectType.Num;
+                cfRule1.LowValue.Value = 4;
+                cfRule1.LowValue.Color = Color.FromArgb(0xFF, 0xFF, 0xEB, 0x84);
+                cfRule1.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
+                cfRule1.HighValue.Formula = "IF($G$1=\"A</x:&'cfRule>\",1,5)";
+                cfRule1.StopIfTrue = true;
+                cfRule1.Style.Font.Bold = true;
+
+                SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("ColScaleDifficultFormula.xlsx");
+
+                var cfRule2 = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0].As.TwoColorScale;
+
+                Assert.AreEqual("IF($G$1=\"A</x:&'cfRule>\",1,5)",cfRule2.HighValue.Formula);
+
+                SaveAndCleanup(readPackage);
             }
         }
     }
