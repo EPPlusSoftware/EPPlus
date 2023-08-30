@@ -22,25 +22,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             : base(function)
         {
 
-        }
-
-        public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
+        }        
+        public override CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(context);
-            foreach (var child in children)
+            foreach (var cr in children)
             {
-                var compileResult = child.Compile();
-                if (compileResult.IsResultOfSubtotal)
-                {
-                    var arg = new FunctionArgument(compileResult.Result, compileResult.DataType);
-                    arg.SetExcelStateFlag(ExcelCellState.IsResultOfSubtotal);
-                    args.Add(arg);
-                }
-                else
-                {
-                    BuildFunctionArguments(compileResult, args);     
-                }
+                BuildFunctionArguments(cr, args);
             }
             return Function.ExecuteInternal(args, context);
         }

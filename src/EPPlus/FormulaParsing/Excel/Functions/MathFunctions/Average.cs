@@ -62,13 +62,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return;
             }
-            if (arg.Value is IEnumerable<FunctionArgument>)
-            {
-                foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
-                {
-                    Calculate(item, context, ref retVal, ref nValues, true);
-                }
-            }
+            //if (arg.Value is IEnumerable<FunctionArgument>)
+            //{
+            //    foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
+            //    {
+            //        Calculate(item, context, ref retVal, ref nValues, true);
+            //    }
+            //}
             else if (arg.IsExcelRange)
             {
                 foreach (var c in arg.ValueAsRangeInfo)

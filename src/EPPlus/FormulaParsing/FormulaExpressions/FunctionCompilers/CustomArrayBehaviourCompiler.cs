@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 
         private readonly bool _handleErrors;
 
-        public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
+        public override CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(context);
@@ -47,8 +47,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             var otherArgs = new Dictionary<int, CompileResult>();
             for(var ix = 0; ix < children.Count(); ix++)
             {
-                var child = children.ElementAt(ix);
-                var cr = child.Compile();
+                var cr = children.ElementAt(ix);
+                //var cr = child.Compile();
                 if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix))
                 {
                     var range = cr.Result as IRangeInfo;
@@ -114,7 +114,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                             if (col < range.Size.NumberOfCols && row < range.Size.NumberOfRows || (c != col) || (r != row))
                             {
                                 var argAsCompileResult = CompileResultFactory.Create(range.GetOffset(r, c));
-                                argList.Add(new FunctionArgument(argAsCompileResult.ResultValue, argAsCompileResult.DataType));
+                                argList.Add(new FunctionArgument(argAsCompileResult));
                             }
                             else
                             {
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                         else
                         {
                             var arg = otherArgs[argIx];
-                            argList.Add(new FunctionArgument(arg.ResultValue, arg.DataType));
+                            argList.Add(new FunctionArgument(arg));
                         }
                     }
                     if (!isError)

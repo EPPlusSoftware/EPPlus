@@ -148,9 +148,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="context"></param>
         public virtual void BeforeInvoke(ParsingContext context) { }
-        public virtual FormulaRangeAddress GetNewParameterAddress(FormulaRangeAddress address)
+        public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
-            return null;
+            
         }
 
         public virtual bool IsErrorHandlingFunction
@@ -661,7 +661,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var startCol = rangeInfo.Address.FromCol;
             var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
             var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
-            var funcArg = new FunctionArgument(rangeInfo);
+            var funcArg = new FunctionArgument(rangeInfo, DataType.ExcelRange);
             var result = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
             var dict = new Dictionary<int, double>();
             result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
@@ -746,20 +746,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected CompileResult CreateResult(eErrorType errorType)
         {
             return CompileResult.GetErrorResult(errorType);
-        }
-
-        /// <summary>
-        /// Use this method to apply a function on a collection of arguments. The <paramref name="result"/>
-        /// should be modifyed in the supplied <paramref name="action"/> and will contain the result
-        /// after this operation has been performed.
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="result"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        protected virtual double CalculateCollection(IEnumerable<FunctionArgument> collection, double result, Func<FunctionArgument, double, double> action)
-        {
-            return _argumentCollectionUtil.CalculateCollection(collection, result, action);
         }
 
         /// <summary>

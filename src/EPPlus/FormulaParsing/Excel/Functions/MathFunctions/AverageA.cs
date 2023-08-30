@@ -64,20 +64,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return;
             }
-            if (arg.Value is IEnumerable<FunctionArgument>)
-            {
-                foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
-                {
-                    Calculate(item, context, ref retVal, ref nValues, true);
-                }
-            }
             else if (arg.IsExcelRange)
             {
-                foreach (var c in arg.ValueAsRangeInfo)
+                var ri = arg.ValueAsRangeInfo;
+                foreach (var c in ri)
                 {
                     if(c.Value==null || ShouldIgnore(c, context)) continue;
                     CheckForAndHandleExcelError(c);
-                    if (IsBool(c.Value))
+                    if (IsBool(c.Value) && ri.IsInMemoryRange==false) //Excel has weird handling when handling of bool's that differs beteween arrays and ranges referencing cells in a worksheet.
                     {
                         nValues++;
                         retVal += (bool)c.Value ? 1d : 0d;

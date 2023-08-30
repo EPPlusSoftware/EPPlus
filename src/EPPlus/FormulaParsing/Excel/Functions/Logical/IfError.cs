@@ -22,12 +22,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
         EPPlusVersion = "4",
-        Description = "Tests if an initial supplied value (or expression) returns an error, and if so, returns a supplied value; Otherwise the function returns the initial value.")]
+        Description = "Tests if an initial supplied value (or expression) returns an error, and if so, returns a supplied value; Otherwise the function returns the initial value.",
+        SupportsArrays =true)]
     internal class IfError : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(0, 1);
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            
             var arg1 = arguments[0];
             var arg2 = arguments[1];
             if (arg1.ValueIsExcelError)

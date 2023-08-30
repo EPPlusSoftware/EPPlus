@@ -83,6 +83,7 @@ The `ExcelFunction` class has changed, now exposes new properties used to handle
 * `ReturnsReference` - If true the function can return a reference to a range. Use the `CreateAddressResult` to return the result with a reference. Returning a reference will cause the dependency chain to check the address and will allow the colon operator to be used with the function.
 * `IsVolatile` - If the function returns a different result when called with the same parameters. The default is false.
 * `ArrayBehaviour` - If the function allows arrays as input in a parameter, resulting in an array output. Also see the `GetArrayBehaviourConfig` method.
+* IFunctionModules.CustomCompilers has been removed and compilers can no longer be added. This has been replaced by ExcelFunction.ParameterInfo and ExcelFunction.ArrayBehaviour which configures the new behaviour of the formula calculation engine.
 Methods
 * `CreateAddressResult`  - Returns the result with a reference to a range.
 * `CreateDynamicArrayResult` - The result should be treated as a dynamic array.

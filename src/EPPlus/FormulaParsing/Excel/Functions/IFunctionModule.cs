@@ -25,13 +25,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         IDictionary<string, ExcelFunction> Functions { get; }
 
-        /// <summary>
-        /// Gets a dictionary of custom function compilers. A function compiler is not 
-        /// necessary for a custom function, unless the default expression evaluation is not
-        /// sufficient for the implementation of the custom function. When a FunctionCompiler instance
-        /// is created, it should be given a reference to the same function instance that exists
-        /// in the Functions collection of this module.
-        /// </summary>
-        IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
+        ///// <summary>
+        ///// Gets a dictionary of custom function compilers. A function compiler is not 
+        ///// necessary for a custom function, unless the default expression evaluation is not
+        ///// sufficient for the implementation of the custom function. When a FunctionCompiler instance
+        ///// is created, it should be given a reference to the same function instance that exists
+        ///// in the Functions collection of this module.
+        ///// </summary>
+        //IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
   }
 }

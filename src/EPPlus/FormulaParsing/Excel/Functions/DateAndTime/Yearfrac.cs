@@ -70,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
                 case 3:
                     return CreateResult(System.Math.Abs((date2 - date1).TotalDays / 365d), DataType.Decimal);
                 case 4:
-                    arguments.Add(new FunctionArgument(true));
+                    arguments.Add(new FunctionArgument(true, DataType.Boolean));
                     double? result = System.Math.Abs(func.Execute(arguments, context).ResultNumeric / 360d);
                     return CreateResult(result.Value, DataType.Decimal);
                 default:

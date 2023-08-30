@@ -32,6 +32,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace EPPlusTest.FormulaParsing.TestHelpers
 {
@@ -49,7 +50,7 @@ namespace EPPlusTest.FormulaParsing.TestHelpers
 
         public static IList<FunctionArgument> Empty()
         {
-            return new List<FunctionArgument>() {new FunctionArgument(null)};
+            return new List<FunctionArgument>() {new FunctionArgument(null, DataType.Empty)};
         }
     }
 }

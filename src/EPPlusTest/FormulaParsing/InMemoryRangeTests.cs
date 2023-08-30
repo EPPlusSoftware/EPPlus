@@ -64,7 +64,7 @@ namespace EPPlusTest.FormulaParsing
             var v1 = lst[0].Value;
             var v2 = lst[1].Value;
             var v3 = lst[2].Value;
-            var v4 = lst[3];
+            var v4 = lst[3].Value;
             Assert.AreEqual(1, v1);
             Assert.AreEqual(3, v2);
             Assert.AreEqual(2, v3);

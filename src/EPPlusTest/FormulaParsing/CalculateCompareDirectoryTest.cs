@@ -6,6 +6,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -51,8 +52,7 @@ namespace EPPlusTest.FormulaParsing
             {
                 string logFile = path + new FileInfo(xlFile).Name + ".log";
                 VerifyCalculationInPackage(xlFile, logFile);
-            }            
-        
+            }
         }
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {
@@ -98,8 +98,11 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    //p.Workbook.Calculate(x => x.CacheExpressions=true);
-                    p.Workbook.Worksheets["Components"].Cells["H2"].Calculate();
+                    p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Worksheets["Components"].Cells["H2"].Calculate();
+                    //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
+                    //p.Workbook.Worksheets["Component Failure Rates"].Cells["E2"].Calculate();                    
+                    //p.Workbook.Worksheets["FMEDA"].Cells["T3"].Calculate();
                     //p.Workbook.Worksheets["FMEDA"].Cells["K2:K11"].Calculate();
                     //p.Workbook.Worksheets["Results"].Cells["C23"].Calculate();
                     //p.Workbook.Worksheets["Component Failure Rates"].Cells["B2"].Calculate();

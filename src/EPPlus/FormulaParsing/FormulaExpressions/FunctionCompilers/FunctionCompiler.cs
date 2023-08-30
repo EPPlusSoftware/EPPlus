@@ -36,28 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 
         protected void BuildFunctionArguments(CompileResult compileResult, DataType dataType, List<FunctionArgument> args)
         {
-            if (compileResult.Result is IEnumerable<object> && !(compileResult.Result is IRangeInfo))
-            {
-                var argList = new List<FunctionArgument>();
-                var objects = compileResult.Result as IEnumerable<object>;
-                foreach (var arg in objects)
-                {
-                    var cr = CompileResultFactory.Create(arg);
-                    BuildFunctionArguments(cr, dataType, argList);
-                }
-                args.Add(new FunctionArgument(argList));
-            }
-            else
-            {
-                var funcArg = new FunctionArgument(compileResult.Result, dataType);
-                //funcArg.ExcelAddressReferenceId = compileResult.ExcelAddressReferenceId;
-                funcArg.Address = compileResult.Address;
-                if(compileResult.IsHiddenCell)
-                {
-                    funcArg.SetExcelStateFlag(Excel.ExcelCellState.HiddenCell);
-                }
-                args.Add(funcArg);
-            }
+            var funcArg = new FunctionArgument(compileResult);
+            args.Add(funcArg);
         }
 
         protected void BuildFunctionArguments(CompileResult result, List<FunctionArgument> args)
@@ -65,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             BuildFunctionArguments(result, result.DataType, args);
         }
 
-        public abstract CompileResult Compile(IEnumerable<Expression> children, ParsingContext context);
+        public abstract CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context);
 
     }
 }

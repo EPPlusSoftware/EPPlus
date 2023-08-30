@@ -21,6 +21,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
         internal bool _isDynamic = false;
+        internal FunctionExpression _currentFunction=null;
 
         public bool CanBeDynamicArray 
         {
@@ -85,6 +86,12 @@ namespace OfficeOpenXml.FormulaParsing
                     e._cachedCompileResult = null;
             }
         }
+
+        internal virtual int GetWorksheetIndex()
+        {
+            return _ws.IndexInList;
+        }
+
         internal bool IsName
         {
             get
@@ -106,6 +113,10 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 return true;
             }
+        }
+        internal override int GetWorksheetIndex()
+        {
+            return CurrentCell.WorksheetIx;
         }
     }
 }

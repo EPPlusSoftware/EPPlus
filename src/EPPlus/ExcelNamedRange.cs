@@ -295,9 +295,17 @@ namespace OfficeOpenXml
                 else
                 {
                     var values = NameValue as Dictionary<ulong, object>;                    
-                    if(values!=null && values.ContainsKey(currentCell.CellId))
+                    if(values!=null)
                     {
-                        return values[currentCell.CellId];
+                        if(values.ContainsKey(currentCell.CellId))
+                        {
+                            return values[currentCell.CellId];
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                        
                     }
                     return NameValue;
                 }
@@ -328,7 +336,10 @@ namespace OfficeOpenXml
                 {
                     values = (Dictionary<ulong, object>)NameValue;
                 }
-                values.Add(currentCell.CellId, resultValue);
+                if (values.ContainsKey(currentCell.CellId) == false)
+                {
+                    values.Add(currentCell.CellId, resultValue);
+                }
             }
             else
             {

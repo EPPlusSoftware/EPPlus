@@ -302,11 +302,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["xor"] = new Xor();
             // Reference and lookup
             Functions["address"] = new Address();
-            Functions["hlookup"] = new HLookupV2();
-            Functions["vlookup"] = new VLookupV2();
+            Functions["hlookup"] = new HLookup();
+            Functions["vlookup"] = new VLookup();
             Functions["xlookup"] = new Xlookup();
-            Functions["lookup"] = new LookupV2();
-            Functions["match"] = new MatchV2();
+            Functions["lookup"] = new Lookup();
+            Functions["match"] = new Match();
             Functions["xmatch"] = new XMatch();
             Functions["row"] = new Row();
             Functions["rows"] = new Rows();

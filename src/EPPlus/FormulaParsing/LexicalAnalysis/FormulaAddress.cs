@@ -761,6 +761,19 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             ret.FixedFlag = FixedFlag;
             return ret;
         }
+        internal FormulaRangeAddress GetOffset(int row, int column, int rows, int columns)
+        {
+            var ret = new FormulaRangeAddress(_context);
+            ret.ExternalReferenceIx = ExternalReferenceIx;
+            ret.WorksheetIx = WorksheetIx;
+
+            ret.FromRow = FromRow + row;
+            ret.ToRow = ret.FromRow + rows - 1;
+            ret.FromCol = FromCol + column;
+            ret.ToCol = ret.FromCol + columns - 1;
+            ret.FixedFlag = FixedFlag;
+            return ret;
+        }
 
         private void GetRolledValue(ref int value, int maxValue)
         {

@@ -22,16 +22,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     public class FunctionArgument
     {
-        public FunctionArgument(object val)
+        public FunctionArgument(CompileResult result)
+        {            
+            _result= result;
+            if (result.IsHiddenCell) //TODO: check if we can remove this and check result instead.
+            {
+                SetExcelStateFlag(Excel.ExcelCellState.HiddenCell);
+            }
+        }
+        internal FunctionArgument(object val)
         {
-            Value = val;
-            DataType = DataType.Unknown;
+            _result = CompileResultFactory.Create(val);
         }
 
-        public FunctionArgument(object val, DataType dataType)
-            :this(val)
+        public FunctionArgument(object val, DataType dataType)            
         {
-            DataType = dataType;
+            _result = new CompileResult(val, dataType);
         }
 
         private ExcelCellState _excelCellState;
@@ -71,29 +77,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
 
-        public object Value { get; private set; }
+        CompileResult _result;
+        public object Value { get => _result.Result; }
 
-        public DataType DataType { get; }
-
-        public Type Type
-        {
-            get { return Value != null ? Value.GetType() : null; }
-        }
-
-        public FormulaRangeAddress Address { get; set; }
+        public DataType DataType { get => _result.DataType; }
+     
+        public FormulaRangeAddress Address { get => _result.Address; } 
         public bool IsExcelRange
         {
-            get { return Value != null && Value is IRangeInfo; }
+            get => _result.DataType == DataType.ExcelRange;
         }
 
         public bool IsEnumerableOfFuncArgs
         {
-            get { return Value != null && Value is IEnumerable<FunctionArgument>; }
+            get { return _result.Result != null && _result.Result is IEnumerable<FunctionArgument>; }
         }
 
         public IEnumerable<FunctionArgument> ValueAsEnumerableOfFuncArgs
         {
-            get { return Value as IEnumerable<FunctionArgument>; }
+            get { return _result.Result as IEnumerable<FunctionArgument>; }
         }
 
         public bool ValueIsExcelError
@@ -103,7 +105,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         public ExcelErrorValue ValueAsExcelErrorValue
         {
-            get { return ExcelErrorValue.Parse(Value.ToString()); }
+            get { return ExcelErrorValue.Parse(_result.Result.ToString()); }
         }
 
         /// <summary>
@@ -113,22 +115,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public IRangeInfo ValueAsRangeInfo
         {
             get 
-            { 
-                return Value is IRangeInfo ? Value as IRangeInfo : null; 
+            {
+                return _result.Result as IRangeInfo; 
             }
         }
         public object ValueFirst
         {
             get
             {
-                if (Value is INameInfo)
+                if (_result.Result is INameInfo ni)
                 {
-                    Value = ((INameInfo)Value).Value;
+                    return ni.Value;
                 }
-                var v = Value as IRangeInfo;
-                if (v==null)
+                var v = _result.Result as IRangeInfo;
+                if (v == null)
                 {
-                    return Value;
+                    return _result.Result;
                 }
                 else
                 {
