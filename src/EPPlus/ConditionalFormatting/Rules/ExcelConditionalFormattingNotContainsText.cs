@@ -36,14 +36,14 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.NotContains;
         }
 
-        ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy) :base(copy)
+        ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy, ExcelWorksheet newWs) :base(copy, newWs)
         {
             Text = copy.Text;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingNotContainsText(this);
+            return new ExcelConditionalFormattingNotContainsText(this, newWs);
         }
 
         public string Text

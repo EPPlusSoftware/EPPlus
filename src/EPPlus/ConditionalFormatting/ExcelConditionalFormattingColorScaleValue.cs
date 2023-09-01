@@ -156,7 +156,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
                 else
                 {
-                    throw new InvalidOperationException("Cannot store formula in a percentile type");
+                    throw new InvalidOperationException("Cannot store formula in a percentile type.");
                 }
             }
         }

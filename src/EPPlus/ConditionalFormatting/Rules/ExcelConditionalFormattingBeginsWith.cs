@@ -62,15 +62,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.BeginsWith;
         }
 
-        internal ExcelConditionalFormattingBeginsWith(ExcelConditionalFormattingBeginsWith copy) : base(copy)
+        internal ExcelConditionalFormattingBeginsWith(ExcelConditionalFormattingBeginsWith copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             Operator = copy.Operator;
             Text = copy._text;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingBeginsWith(this);
+            return new ExcelConditionalFormattingBeginsWith(this, newWs);
         }
 
         internal override bool IsExtLst

@@ -13,6 +13,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
@@ -27,14 +28,16 @@ using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
+    /// <summary>
+    /// Collection of all ConditionalFormattings in the workbook
+    /// </summary>
     public class ExcelConditionalFormattingCollection : IEnumerable<IExcelConditionalFormattingRule>
     {
         List<ExcelConditionalFormattingRule> _rules = new List<ExcelConditionalFormattingRule>();
         ExcelWorksheet _ws;
         int LastPriority = 1;
-        internal Dictionary<string, ExcelConditionalFormattingRule> _extLstDict = new Dictionary<string, ExcelConditionalFormattingRule>();
-        List<ExcelConditionalFormattingRule> _dataBarStorage = new List<ExcelConditionalFormattingRule>();
-
+        //A dict for those conditionalFormattings that are Ext, have been read in locally but not yet read in their ExtLst parts.
+        internal Dictionary<string, ExcelConditionalFormattingRule> localAndExtDict = new Dictionary<string, ExcelConditionalFormattingRule>();
 
         internal ExcelConditionalFormattingCollection(ExcelWorksheet ws)
         {
@@ -42,10 +45,72 @@ namespace OfficeOpenXml.ConditionalFormatting
             _rules = new List<ExcelConditionalFormattingRule>();
         }
 
+        internal void ReadRegularConditionalFormattings(XmlReader xr)
+        {
+            string address = null;
+            while (xr.ReadUntil(1, "conditionalFormatting", "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst", "pageMargins"))
+            {
+                //string lastAddress = address.ToString();
+                address = null;
+
+                do
+                {
+                    if (xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule")
+                    {
+                        if (xr.LocalName == "conditionalFormatting")
+                        {
+                            address = xr.GetAttribute("sqref");
+
+                            //Only happens if template node by user or a new worksheet.
+                            if(address == null)
+                            {
+                                xr.Read();
+                                continue;
+                            }
+                        }
+
+                        if (address != null)
+                        {
+                            if (xr.NodeType == XmlNodeType.Element)
+                            {
+                                if (xr.LocalName == "conditionalFormatting")
+                                {
+                                    xr.Read();
+                                }
+
+                                var cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
+
+                                //If cf exists in both local and ExtLst spaces
+                                if(cf.IsExtLst)
+                                {
+                                    localAndExtDict.Add(cf._uid, cf);
+                                }
+                                else
+                                {
+                                    _rules.Add(cf);
+                                }
+                            }
+
+                            if(xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.EndElement)
+                            {
+                                xr.Read();
+                            }
+                        }
+
+                        //Handle many cfRules in one address
+                        if (xr.LocalName != "cfRule" && xr.NodeType == XmlNodeType.EndElement)
+                        {
+                            xr.Read();
+                        }
+                    }
+                } while (xr.LocalName == "cfRule");
+            }
+        }
+
         /// <summary>
         /// Read conditionalFormatting info from extLst in xml via xr reader
         /// </summary>
-        public void ReadExtConditionalFormattings(XmlReader xr)
+        internal void ReadExtConditionalFormattings(XmlReader xr)
         {
             while (xr.Read())
             {
@@ -76,15 +141,30 @@ namespace OfficeOpenXml.ConditionalFormatting
                             //cfRule->Type
                             xr.Read();
 
-                            var dataBar = (ExcelConditionalFormattingDataBar)_extLstDict[id];
+                            var dataBar = (ExcelConditionalFormattingDataBar)localAndExtDict[id];
                             dataBar.LowValue.minLength = int.Parse(xr.GetAttribute("minLength"));
                             dataBar.HighValue.maxLength = int.Parse(xr.GetAttribute("maxLength"));
 
-                            dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : true;
+                            dataBar.ShowValue = string.IsNullOrEmpty(xr.GetAttribute("showValue")) ? true : xr.GetAttribute("showValue") != "0";
+                            dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : xr.GetAttribute("border") != "0";
+                            dataBar.Gradient = string.IsNullOrEmpty(xr.GetAttribute("gradient")) ? true : xr.GetAttribute("gradient") != "0";
 
-                            dataBar.NegativeBarBorderColorSameAsPositive = string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive"));
+                            if (!string.IsNullOrEmpty(xr.GetAttribute("direction")))
+                            {
+                                dataBar.Direction = (eDatabarDirection)xr.GetAttribute("direction").ToEnum<eDatabarDirection>();   
+                            }
 
-                            if(!string.IsNullOrEmpty(xr.GetAttribute("axisPosition")))
+                            if(!string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive")))
+                            {
+                                dataBar.NegativeBarBorderColorSameAsPositive = xr.GetAttribute("negativeBarBorderColorSameAsPositive") != "0";
+                            }
+
+                            if (!string.IsNullOrEmpty(xr.GetAttribute("negativeBarColorSameAsPositive")))
+                            {
+                                dataBar.NegativeBarBorderColorSameAsPositive = xr.GetAttribute("negativeBarBorderColorSameAsPositive") != "0";
+                            }
+
+                            if (!string.IsNullOrEmpty(xr.GetAttribute("axisPosition")))
                             {
                                 dataBar.AxisPosition = (eExcelDatabarAxisPosition)xr.GetAttribute("axisPosition").ToEnum<eExcelDatabarAxisPosition>();
                             }
@@ -152,32 +232,38 @@ namespace OfficeOpenXml.ConditionalFormatting
                         }
                         else if (xr.GetAttribute("type") == "iconSet")
                         {
+                            int priority = int.Parse(xr.GetAttribute("priority"));
+
                             //cfRule->Type
                             xr.Read();
 
                             string iconSet = xr.GetAttribute("iconSet");
 
-                            int numIcons = int.Parse(iconSet[0].ToString());
+                            bool showValue = string.IsNullOrEmpty(xr.GetAttribute("showValue")) ? true : xr.GetAttribute("showValue") != "0";
+                            bool percent = string.IsNullOrEmpty(xr.GetAttribute("percent")) ? true : xr.GetAttribute("percent") != "0";
+                            bool reverse = string.IsNullOrEmpty(xr.GetAttribute("reverse")) ? false : xr.GetAttribute("reverse") != "0";
+                            bool custom = string.IsNullOrEmpty(xr.GetAttribute("custom")) ? false : xr.GetAttribute("custom") != "0";
 
-                            //iconSet -> cfvo
                             xr.Read();
 
                             var types = new List<string>();
-                            var values = new List<double>();
+                            var values = new List<string>();
 
-                            for (int i = 0; i < numIcons; i++)
+                            do
                             {
                                 types.Add(xr.GetAttribute("type"));
 
                                 xr.Read();
                                 xr.Read();
 
-                                values.Add(double.Parse(xr.Value));
+                                values.Add(xr.Value);
 
                                 xr.Read();
                                 xr.Read();
                                 xr.Read();
-                            }
+                            } while (xr.LocalName == "cfvo");
+
+                            var numIcons = types.Count();
 
                             List<string> customIconTypes = null;
                             List<int> customIconIds = null;
@@ -195,8 +281,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 }
                             }
 
-                            //var dataBar = (ExcelConditionalFormattingDataBar)_extLstDict[id];
-
                             //iconSet->cfRule->sqref
                             string address = null;
                             xr.Read();
@@ -209,11 +293,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 address = xr.ReadContentAsString();
 
                                 xr.Read();
-
-                                if (customIconTypes == null)
-                                {
-                                    xr.Read();
-                                }
                             }
 
                             ExcelAddress iconAddress = null;
@@ -224,34 +303,26 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             ExcelConditionalFormattingRule rule = null;
 
-                            switch (iconSet[0])
+                            switch (numIcons.ToString()[0])
                             {
                                 case '3':
 
                                     IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType> threeIconSet;
 
-                                    if (iconAddress != null)
-                                    {
-                                        threeIconSet = AddThreeIconSet(
-                                         iconAddress,
-                                         iconSet.Substring(1).ToEnum<eExcelconditionalFormatting3IconsSetType>().Value);
-                                    }
-                                    else
-                                    {
-                                        threeIconSet = (IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>)
-                                            AddRule(
-                                                    eExcelConditionalFormattingRuleType.ThreeIconSet,
-                                                    iconAddress, true);
+                                    threeIconSet = (IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>)
+                                        AddRule(eExcelConditionalFormattingRuleType.ThreeIconSet, iconAddress, true);
 
+                                    if (iconSet != null)
+                                    {
                                         threeIconSet.IconSet = iconSet.Substring(1).ToEnum<eExcelconditionalFormatting3IconsSetType>().Value;
-
-                                        UpdateExtDict();
                                     }
 
                                     ApplyIconSetExtValues(
                                         new ExcelConditionalFormattingIconDataBarValue[]
                                         { threeIconSet.Icon1, threeIconSet.Icon2, threeIconSet.Icon3 },
                                         types, values, customIconTypes, customIconIds);
+
+                                    ApplyIconSetAttributes(showValue, percent, reverse, threeIconSet);
 
                                     rule = (ExcelConditionalFormattingRule)threeIconSet;
 
@@ -261,22 +332,12 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                                     IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType> fourSet;
 
-                                    if (iconAddress != null)
-                                    {
-                                        fourSet = AddFourIconSet(
-                                        iconAddress,
-                                        iconSet.Substring(1).ToEnum<eExcelconditionalFormatting4IconsSetType>().Value);
-                                    }
-                                    else
-                                    {
-                                        fourSet = (IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType>)
-                                         AddRule(
-                                                 eExcelConditionalFormattingRuleType.FourIconSet,
-                                                 iconAddress, true);
+                                    fourSet = (IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType>)
+                                        AddRule(eExcelConditionalFormattingRuleType.FourIconSet, iconAddress, true);
 
+                                    if (iconSet != null)
+                                    {
                                         fourSet.IconSet = iconSet.Substring(1).ToEnum<eExcelconditionalFormatting4IconsSetType>().Value;
-
-                                        UpdateExtDict();
                                     }
 
                                     ApplyIconSetExtValues(
@@ -284,29 +345,19 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     { fourSet.Icon1, fourSet.Icon2, fourSet.Icon3, fourSet.Icon4 },
                                     types, values, customIconTypes, customIconIds);
 
+                                    ApplyIconSetAttributes(showValue, percent, reverse, fourSet);
+
                                     rule = (ExcelConditionalFormattingRule)fourSet;
 
                                     break;
 
                                 case '5':
-                                    IExcelConditionalFormattingFiveIconSet fiveSet;
+                                    var fiveSet = (IExcelConditionalFormattingFiveIconSet)
+                                        AddRule(eExcelConditionalFormattingRuleType.FiveIconSet, iconAddress, true);
 
-                                    if (iconAddress != null)
+                                    if (iconSet != null)
                                     {
-                                        fiveSet = AddFiveIconSet(
-                                         iconAddress,
-                                         iconSet.Substring(1).ToEnum<eExcelconditionalFormatting5IconsSetType>().Value);
-                                    }
-                                    else
-                                    {
-                                        fiveSet = (IExcelConditionalFormattingFiveIconSet)
-                                         AddRule(
-                                                 eExcelConditionalFormattingRuleType.FiveIconSet,
-                                                 iconAddress, true);
-
                                         fiveSet.IconSet = iconSet.Substring(1).ToEnum<eExcelconditionalFormatting5IconsSetType>().Value;
-
-                                        UpdateExtDict();
                                     }
 
                                     ApplyIconSetExtValues(
@@ -314,10 +365,13 @@ namespace OfficeOpenXml.ConditionalFormatting
                                      { fiveSet.Icon1, fiveSet.Icon2, fiveSet.Icon3, fiveSet.Icon4 , fiveSet.Icon5 },
                                      types, values, customIconTypes, customIconIds);
 
+                                    ApplyIconSetAttributes(showValue, percent, reverse, fiveSet);
+
                                     rule = (ExcelConditionalFormattingRule)fiveSet;
                                     break;
                             }
 
+                            rule.Priority = priority;
 
                             if (iconAddress == null && rule != null)
                             {
@@ -328,7 +382,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                         {
                             var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
                             _rules.Add(cf);
-                            _extLstDict.Add(cf.Uid, cf);
 
                             if (cf.Address == null)
                             {
@@ -337,9 +390,17 @@ namespace OfficeOpenXml.ConditionalFormatting
                         }
                     } while (xr.LocalName == "cfRule");
 
+                    var latestAddress = _rules.LastOrDefault().Address;
+
+                    if (xr.LocalName == "sqref" && xr.NodeType != XmlNodeType.EndElement)
+                    {
+                        xr.Read();
+                        latestAddress = new ExcelAddress(xr.ReadString());
+                    }
+
                     foreach (var cf in addresslessCFs)
                     {
-                        cf.Address = _rules.LastOrDefault().Address;
+                        cf.Address = latestAddress;
                     }
                 }
             }
@@ -375,15 +436,17 @@ namespace OfficeOpenXml.ConditionalFormatting
             return arr;
         }
 
-        void ReadExtDxf(XmlReader xr)
+        void ApplyIconSetAttributes<T>(bool showValue, bool percent, bool reverse, IExcelConditionalFormattingIconSetGroup<T> group)
         {
-
+            group.ShowValue = showValue;
+            group.IconSetPercent = percent;
+            group.Reverse = reverse;
         }
 
         void ApplyIconSetExtValues(
             ExcelConditionalFormattingIconDataBarValue[] iconArr, 
             List<string> types, 
-            List<double> values,
+            List<string> values,
             List<string> customIconTypes = null,
             List<int> customIconIds = null)
         {
@@ -392,7 +455,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                 iconArr[i].Type = types[i].ToEnum<eExcelConditionalFormattingValueObjectType>()
                     .GetValueOrDefault();
 
-                iconArr[i].Value = values[i];
+                if(double.TryParse(values[i], out double result))
+                {
+                    iconArr[i].Value = result;
+                }
+                else
+                {
+                    iconArr[i].Formula = values[i];
+                }
 
                 if(customIconTypes != null)
                 {
@@ -417,174 +487,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             return typeString.Substring(typeString.LastIndexOf("auto"));
         }
 
-
-        internal ExcelConditionalFormattingCollection(XmlReader xr, ExcelWorksheet ws)
+        internal void CopyRule(ExcelConditionalFormattingRule rule, ExcelAddress address = null)
         {
-            _ws = ws;
+            ExcelConditionalFormattingRule ruleCopy = null;
 
-            if(xr.LocalName == "conditionalFormattings")
+            if (rule._ws != _ws)
             {
-                ReadExtConditionalFormattings(xr);
+                ruleCopy = rule.Clone(_ws);
             }
             else
             {
-                while (xr.ReadUntil(1, "conditionalFormatting", "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst", "pageMargins"))
-                {
-                    do
-                    {
-                        if (xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule")
-                        {
-                            string address = null;
-
-                            if (xr.LocalName == "conditionalFormatting")
-                            {
-                                address = xr.GetAttribute("sqref");
-                            }
-                            else
-                            {
-                                if(_rules.Count == 0)
-                                {
-                                    address = _dataBarStorage[_dataBarStorage.Count - 1].Address.Address;
-                                }
-                                else
-                                {
-                                    address = _rules[_rules.Count - 1].Address.Address;
-                                }
-                            }
-
-                            if (address != null)
-                            {
-                                if (xr.NodeType == XmlNodeType.Element)
-                                {
-                                    if(xr.LocalName == "conditionalFormatting")
-                                    {
-                                        xr.Read();
-                                    }
-
-                                    var cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
-
-                                    if (cf.Type == eExcelConditionalFormattingRuleType.DataBar)
-                                    {
-                                        _dataBarStorage.Add(cf);
-                                        _extLstDict.Add(((ExcelConditionalFormattingDataBar)cf).Uid, cf);
-                                    }
-                                    else
-                                    {
-                                        _rules.Add(cf);
-                                    }
-                                }
-                                xr.Read();
-                            }
-
-                            //Handle many cfRules in one address
-                            if (xr.LocalName != "cfRule")
-                            {
-                                xr.Read();
-                            }
-                        }
-                    } while (xr.LocalName == "cfRule");
-                }
-
-                var adressLessCFs = new List<ExcelConditionalFormattingRule>();
-
-                //identify ExtLst cfRules
-                foreach (var cfRule in _rules)
-                {
-                    if (cfRule.IsExtLst)
-                    {
-                        if (cfRule.Type == eExcelConditionalFormattingRuleType.DataBar)
-                        {
-                            if(_extLstDict.ContainsKey(((ExcelConditionalFormattingDataBar)cfRule).Uid) == false)
-                            {
-                                _extLstDict.Add(((ExcelConditionalFormattingDataBar)cfRule).Uid, cfRule);
-                            }
-                        }
-                        else
-                        {
-                            switch (cfRule.Type)
-                            {
-                                case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                    _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cfRule).Uid, cfRule);
-                                    break;
-                                case eExcelConditionalFormattingRuleType.FourIconSet:
-                                    _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting4IconsSetType>)cfRule).Uid, cfRule);
-                                    break;
-                                case eExcelConditionalFormattingRuleType.FiveIconSet:
-                                    _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cfRule).Uid, cfRule);
-                                    break;
-                                default:
-                                    _extLstDict.Add(cfRule.Uid, cfRule);
-                                    break;
-                            }
-                        }
-
-                        if(string.IsNullOrEmpty(cfRule.Address.ToString()))
-                        {
-                            adressLessCFs.Add(cfRule);
-                        }
-                        else if(adressLessCFs.Count != 0)
-                        {
-                            foreach (var cf in adressLessCFs)
-                            {
-                                cf.Address = cfRule.Address;
-                            }
-                            adressLessCFs.Clear();
-                        }
-                    }
-                }
-            }
-        }
-
-        //Since a user could potentially change the type to and from an extType in iconSets?
-        internal void UpdateExtDict()
-        {
-            _extLstDict.Clear();
-
-            //identify ExtLst cfRules
-            foreach (var cfRule in _rules)
-            {
-                if (cfRule.IsExtLst)
-                {
-                    switch (cfRule.Type)
-                    {
-                        case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                            _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cfRule).Uid, cfRule);
-                            break;
-                        case eExcelConditionalFormattingRuleType.FourIconSet:
-                            _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting4IconsSetType>)cfRule).Uid, cfRule);
-                            break;
-                        case eExcelConditionalFormattingRuleType.FiveIconSet:
-                            _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cfRule).Uid, cfRule);
-                            break;
-                        case eExcelConditionalFormattingRuleType.DataBar:
-                            _extLstDict.Add(((ExcelConditionalFormattingDataBar)cfRule).Uid, cfRule);
-                            break;
-                        case eExcelConditionalFormattingRuleType.TwoColorScale:
-                            _extLstDict.Add(((ExcelConditionalFormattingTwoColorScale)cfRule).Uid, cfRule);
-                            break;
-                        default:
-                            _extLstDict.Add(cfRule.Uid, cfRule);
-                            break;
-                    }
-                }
-
-                ////TODO: the sameAddressDict MUST be updated when users add addresses and must check 
-                ////if anything outside of the dict has the address already
-                //if(rulesOfSameAddressDict.ContainsKey(cfRule.Address))
-                //{
-
-                //}
+                ruleCopy = rule.Clone();
             }
 
-            foreach(var dataBar in _dataBarStorage)
-            {
-                _extLstDict.Add(((ExcelConditionalFormattingDataBar)dataBar).Uid, dataBar);
-            }
-        }
-
-        internal void CopyRule(ExcelConditionalFormattingRule rule, ExcelAddress address = null)
-        {
-            var ruleCopy = rule.Clone();
             if (address != null)
             {
                 ruleCopy.Address = address;
@@ -694,6 +609,37 @@ namespace OfficeOpenXml.ConditionalFormatting
             return _rules.Find(x => x.Priority == priority);
         }
 
+        internal void ChangePriority(ExcelConditionalFormattingRule rule, int priorityNew)
+        {
+            if (RulesByPriority(priorityNew) != null)
+            {
+                if (rule.Priority > priorityNew)
+                {
+                    for (int i = rule.Priority - 1; i >= priorityNew; i--)
+                    {
+                        var cfRule = (ExcelConditionalFormattingRule)RulesByPriority(i);
+
+                        if (cfRule != null)
+                        {
+                            cfRule._priority++;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = rule.Priority + 1; i <= priorityNew; i++)
+                    {
+                        var cfRule = (ExcelConditionalFormattingRule)RulesByPriority(i);
+
+                        if (cfRule != null)
+                        {
+                            cfRule._priority--;
+                        }
+                    }
+                }
+            }
+        }
+
         delegate ExcelConditionalFormattingRule Rule(ExcelAddress address, int priority, ExcelWorksheet ws);
 
         /// <summary>
@@ -722,8 +668,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             // Add the newly created rule to the list
             _rules.Add(cfRule);
 
-            //UpdateExtDict();
-
             // Return the newly created rule
             return cfRule;
         }
@@ -736,11 +680,22 @@ namespace OfficeOpenXml.ConditionalFormatting
         public IExcelConditionalFormattingGreaterThan AddGreaterThan(
           ExcelAddress address)
         {
-            //var rule = new ExcelConditionalFormattingGreaterThan(address, LastPriority++, _ws);
-
             return (IExcelConditionalFormattingGreaterThan)AddRule(
               eExcelConditionalFormattingRuleType.GreaterThan,
               address);
+        }
+
+        /// <summary>
+        /// Add GreaterThan Rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public IExcelConditionalFormattingGreaterThan AddGreaterThan(
+          string address)
+        {
+            return (IExcelConditionalFormattingGreaterThan)AddRule(
+              eExcelConditionalFormattingRuleType.GreaterThan,
+              new ExcelAddress(address));
         }
 
         /// <summary>
@@ -754,6 +709,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             return (IExcelConditionalFormattingLessThan)AddRule(
               eExcelConditionalFormattingRuleType.LessThan,
               address);
+        }
+
+        /// <summary>
+        /// Add LessThan Rule
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public IExcelConditionalFormattingLessThan AddLessThan(
+            string address)
+        {
+            return (IExcelConditionalFormattingLessThan)AddRule(
+              eExcelConditionalFormattingRuleType.LessThan,
+              new ExcelAddress(address));
         }
 
         /// <summary>
@@ -1277,7 +1245,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 Address);
             icon.IconSet = IconSet;
 
-            UpdateExtDict();
             return icon;
         }
         /// <summary>
@@ -1292,7 +1259,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.FourIconSet,
                 Address);
             icon.IconSet = IconSet;
-            UpdateExtDict();
 
             return icon;
         }
@@ -1308,7 +1274,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.FiveIconSet,
                 Address);
             icon.IconSet = IconSet;
-            UpdateExtDict();
 
             return icon;
         }
@@ -1324,7 +1289,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.DataBar,
                 Address);
             dataBar.Color = color;
-            UpdateExtDict();
 
             return dataBar;
         }

@@ -24,11 +24,19 @@ using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRule,
+    /// <summary>
+    /// Direction of Databar
+    /// </summary>
+    public enum eDatabarDirection
+    {
+        Context = 0,
+        LeftToRight = 1,
+        RightToLeft = 2
+    }
+
+internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRule,
         IExcelConditionalFormattingDataBarGroup
     {
-        internal string Uid { get; set; }
-
         internal ExcelConditionalFormattingDataBar(
          ExcelAddress address,
          int priority,
@@ -107,7 +115,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             xr.Read();
             xr.Read();
 
-            Uid = xr.ReadString();
+            _uid = xr.ReadString();
 
             // /ext -> /extLst
             xr.Read();
@@ -162,9 +170,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 col.Theme = (eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
             }
 
-            if (!string.IsNullOrEmpty(xr.GetAttribute("index")))
+            if (!string.IsNullOrEmpty(xr.GetAttribute("indexed")))
             {
-                col.Index = int.Parse(xr.GetAttribute("index"));
+                col.Index = int.Parse(xr.GetAttribute("indexed"));
             }
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("rgb")))
@@ -185,7 +193,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        ExcelConditionalFormattingDataBar(ExcelConditionalFormattingDataBar copy) : base(copy)
+        ExcelConditionalFormattingDataBar(ExcelConditionalFormattingDataBar copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             Uid = copy.Uid;
             LowValue = copy.LowValue;
@@ -209,9 +217,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingDataBar(this);
+            return new ExcelConditionalFormattingDataBar(this, newWs);
         }
 
         /// <summary>
@@ -266,5 +274,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         public ExcelDxfColor NegativeFillColor { get; set; }
         public ExcelDxfColor NegativeBorderColor { get; set; }
         public ExcelDxfColor AxisColor { get; set; }
+
+        public eDatabarDirection Direction { get; set; }
     }
 }

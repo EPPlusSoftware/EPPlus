@@ -85,13 +85,16 @@ The `ExcelFunction` class has changed, now exposes new properties used to handle
 * `ArrayBehaviour` - If the function allows arrays as input in a parameter, resulting in an array output. Also see the `GetArrayBehaviourConfig` method.
 * IFunctionModules.CustomCompilers has been removed and compilers can no longer be added. This has been replaced by ExcelFunction.ParameterInfo and ExcelFunction.ArrayBehaviour which configures the new behaviour of the formula calculation engine.
 * `CalculateCollection` - Has been removed. EPPlus no long uses collections of FunctionArgument in this way. Use the `InMemoryRange` class instead.
-Methods
+#### Methods
 * `CreateAddressResult`  - Returns the result with a reference to a range.
 * `CreateDynamicArrayResult` - The result should be treated as a dynamic array.
 * `GetArrayBehaviourConfig` - Sets the index if the parameters that can be arrays. Also see the `ArrayBehaviour` property.
 Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `CalculatedColumn`
-####Tokenizer, Expressions and Compile result
+#### Tokenizer, Expressions and Compile result
 * The source code tokenizer now tokenizes in more detail, tokenizing addresses. 
 * The expression handling is totally rewritten and now uses reversed polish notation instead of an expression tree. This change affects internal classes only.
 * The `CompileResult` class has moved to a new namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
 * Adding defined names referencing addresses will now be added as fixed addresses (i.e $A$1), unless the `allowRelativeAddress` parameter of the `ExcelNamedRangeCollection.Add` method is set to true.
+#### ConditionalFormatting
+* Updating ConditionalFormatting via the XML DOM will not work as read and write is performed on load/save.
+* The base class `ConditionalFormattingRule` and all derived classes no longer contain the Node property.

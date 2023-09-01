@@ -34,8 +34,8 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         bool Gradient { get; set; }
 
         /// <summary>
-        /// Wheter there is a border colour or not. 
-        /// False by default. Is set to true if BorderColor or NegativeBorderColour is set
+        /// Wheter there is a border color or not. 
+        /// False by default. Is set to true if BorderColor or NegativeBorderColor is set
         /// </summary>
         bool Border { get; set; }
 
@@ -93,6 +93,11 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         /// Color of the axis between negative and positive values
         /// </summary>
         ExcelDxfColor AxisColor { get; set; }
+
+        /// <summary>
+        /// Direction of the Databar
+        /// </summary>
+        eDatabarDirection Direction { get; set; }
         #endregion Public Properties
     }
 }
