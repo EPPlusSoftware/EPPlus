@@ -1909,31 +1909,46 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-        //[TestMethod]
-        //public void Get_CF_FromRange()
-        //{
-        //    using (var pck = OpenPackage("performance.xlsx", true))
-        //    {
-        //        var sheet = pck.Workbook.Worksheets.Add("performanceTest");
+        [TestMethod]
+        public void EnsureCopyingBetweenSheetsCorrectPriority()
+        {
+            using (var pck = OpenPackage("sheetCopy.xlsx", true))
+            {
+                var firstSheet = pck.Workbook.Worksheets.Add("first");
+                var secondSheet = pck.Workbook.Worksheets.Add("second");
 
-        //        sheet.Hidden = eWorkSheetHidden.Hidden;
+                var cfExt = firstSheet.ConditionalFormatting.AddDatabar("A1:A5", Color.Magenta);
 
-        //        sheet.Cells["A1:C500"].ConditionalFormatting.AddDatabar(Color.Blue);
+                var cfAverage = firstSheet.ConditionalFormatting.AddAboveAverage("A1:A5");
+                var cfBetween = firstSheet.ConditionalFormatting.AddBetween("A1:A5");
+                var cfTextContains = firstSheet.ConditionalFormatting.AddTextContains("A1:B10");
 
-        //        sheet.Cells["C1:D250"].ConditionalFormatting.AddDatabar(Color.Blue);
+                cfTextContains.Priority = 1;
+                cfAverage.Priority = 2;
+                cfExt.Priority = 3;
+                cfBetween.Priority = 4;
 
-        //        for (int i = 0; i < 21000; i++)
-        //        {
-        //            //sheet.Cells[1, 1].ConditionalFormatting.getall
-        //            sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
-        //            sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
-        //            sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
-        //        }
+                Assert.AreEqual(cfTextContains.Priority, 1);
+                Assert.AreEqual(cfAverage.Priority, 2);
+                Assert.AreEqual(cfExt.Priority, 3);
+                Assert.AreEqual(cfBetween.Priority, 4);
 
-        //        //var list = sheet.Cells["A1:B200"].ConditionalFormatting.GetConditionalFormattings();
+                var copiedSheet = pck.Workbook.Worksheets.Add("copySheet", firstSheet);
 
-        //        SaveAndCleanup(pck);
-        //    }
-        //}
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
+
+
+                secondSheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cfExt);
+                secondSheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cfTextContains);
+
+                Assert.AreEqual(secondSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(secondSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }

@@ -293,11 +293,5 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <param name="color"></param>
     /// <returns></returns>
     IExcelConditionalFormattingDataBarGroup AddDatabar(Color color);
-
-        ///// <summary>
-        ///// Get dict of all CFs and their addresses in range
-        ///// </summary>
-        ///// <returns></returns>
-        //Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings();
     }
 }
