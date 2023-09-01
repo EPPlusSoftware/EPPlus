@@ -70,7 +70,7 @@ namespace EPPlusTest.FormulaParsing
                 p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulaLog.log"));
                 var values = new Dictionary<ulong, object>();
                 foreach(var ws in p.Workbook.Worksheets)
-                {
+                {                    
                     if (ws.IsChartSheet) continue;
                     var cse = new CellStoreEnumerator<object>(ws._formulas);                    
                     foreach(var f in cse)
@@ -87,7 +87,6 @@ namespace EPPlusTest.FormulaParsing
 
                 foreach (var name in p.Workbook.Names)
                 {
-                    
                     var id = ExcelCellBase.GetCellId(ushort.MaxValue, name.Index, 0);
                     values.Add(id, name.Value);
                 }
@@ -99,6 +98,9 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Worksheets["Analyses"].Cells["A5"].Calculate();
+                    //p.Workbook.Worksheets["PFD & PFH"].Cells["C2"].Calculate();
+                    //p.Workbook.Worksheets["Components"].Cells["F2"].Calculate();
                     //p.Workbook.Worksheets["Components"].Cells["H2"].Calculate();
                     //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
                     //p.Workbook.Worksheets["Component Failure Rates"].Cells["E2"].Calculate();                    

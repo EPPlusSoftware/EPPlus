@@ -330,7 +330,7 @@ namespace OfficeOpenXml
                 if(NameValue==null)
                 {
                     values = new Dictionary<ulong, object>();
-                    NameValue=values; 
+                    NameValue = values; 
                 }
                 else
                 {

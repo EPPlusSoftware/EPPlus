@@ -275,7 +275,7 @@ namespace OfficeOpenXml.FormulaParsing
             else if(f.IsName)
             {
                 var cc = ((RpnNameFormula)f).CurrentCell;
-                if (cc.Row == 0) cc = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column); //Not set, set to the name.
+                if (cc.Row == 0) cc = new FormulaCellAddress(f._ws==null ? -1 : f._ws.IndexInList, f._row, f._column); //Not set, set to the name.
                 depChain._parsingContext.CurrentCell =  cc;
             }
         }
@@ -455,7 +455,7 @@ namespace OfficeOpenXml.FormulaParsing
             NextFormula:
                 var fe = f._formulaEnumerator;
                 var row = fe.Row;
-                var col = fe.Column;
+                var col = fe.Column < 0 ? fe._startCol - 1 : fe.Column;
                 if (fe.Next())
                 {
                     if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, fe.Row, fe.Column))) goto NextFormula;
@@ -500,7 +500,7 @@ namespace OfficeOpenXml.FormulaParsing
             if (f._row >= 0)
             {
                 if (f._ws == null)
-                {
+                {                    
                     depChain._parsingContext.Package.Workbook.Names[f._row].SetValue(cr.ResultValue, depChain._parsingContext.CurrentCell);
                 }
                 else
@@ -717,7 +717,6 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static FormulaRangeAddress ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f, bool returnAddresses)
         {
-
             var s = f._expressionStack;
             while (f._tokenIndex < f._tokens.Count)
             {
@@ -779,7 +778,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 fexp._latestConitionValue = GetCondition(v);
                                 f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                             }
-                            else if (fexp._latestConitionValue!=ExpressionCondition.None)
+                            else if (fexp._latestConitionValue==ExpressionCondition.True || fexp._latestConitionValue == ExpressionCondition.False)
                             {
                                 pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                                 if ((pi == FunctionParameterInformation.UseIfConditionIsFalse && fexp._latestConitionValue == ExpressionCondition.True)
@@ -788,6 +787,12 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                                 }
+                            }
+                            else if(fexp._latestConitionValue==ExpressionCondition.Error)
+                            {
+                                f._expressionStack.Push(Expression.Empty);
+                                f._expressionStack.Push(Expression.Empty);
+                                f._tokenIndex = fexp._endPos-1;
                             }
                         }
                         break;
@@ -875,25 +880,44 @@ namespace OfficeOpenXml.FormulaParsing
                     for (int c = 0; c < ri.Size.NumberOfCols; c++)
                     {
                         var c1 = ConvertUtil.GetValueBool(ri.GetOffset(r, c));
-                        if (ret == ExpressionCondition.None)
+                        if (c1.HasValue)
                         {
-                            ret = c1 ? ExpressionCondition.True : ExpressionCondition.False;
+                            if (ret == ExpressionCondition.None)
+                            {
+                                ret = c1.Value ? ExpressionCondition.True : ExpressionCondition.False;
+                            }
+                            else
+                            {
+                                var c2 = c1.Value ? ExpressionCondition.True : ExpressionCondition.False;
+                                if (c2 != ret)
+                                {
+                                    return ExpressionCondition.Multi;
+                                }
+                            }
                         }
                         else
                         {
-                            var c2 = c1 ? ExpressionCondition.True : ExpressionCondition.False;
-                            if (c2 != ret)
+                            if(ret==ExpressionCondition.None)
                             {
-                                return ExpressionCondition.Both;
+                                ret= ExpressionCondition.Error;
                             }
-                        }                        
+                            else
+                            {
+                                return ExpressionCondition.Multi;
+                            }
+                        }
                     }
                 }
                 return ret;
             }
             else
             {
-                return ConvertUtil.GetValueBool(v.ResultValue) ? ExpressionCondition.True : ExpressionCondition.False;
+                var condition = ConvertUtil.GetValueBool(v.ResultValue);
+                if (condition.HasValue)
+                {
+                    return condition.Value ? ExpressionCondition.True : ExpressionCondition.False;
+                }
+                return ExpressionCondition.Error;
             }
         }
 

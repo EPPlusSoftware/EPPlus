@@ -85,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                         if (addresses == null) addresses = new Queue<FormulaRangeAddress>();
                         if (ix < 2)
                         {
-                            addresses.Enqueue(lookupRange.Address.GetOffset(0, 0, ix, lookupRange.Size.NumberOfCols - 1).Address);
+                            addresses.Enqueue(lookupRange.Address.GetOffset(0, 0, ix + 1, lookupRange.Size.NumberOfCols).Address);
                         }
                         else
                         {

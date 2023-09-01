@@ -27,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         None = 0xFF,
         False = 0,
         True = 1,
-        Both = 2
+        Error = 2,
+        Multi = 4
     }
     internal class FunctionExpression : Expression
     {

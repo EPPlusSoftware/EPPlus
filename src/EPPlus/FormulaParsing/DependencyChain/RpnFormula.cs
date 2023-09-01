@@ -21,9 +21,9 @@ namespace OfficeOpenXml.FormulaParsing
         internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
         internal bool _isDynamic = false;
-        internal FunctionExpression _currentFunction=null;
+        internal FunctionExpression _currentFunction = null;
 
-        public bool CanBeDynamicArray 
+        public bool CanBeDynamicArray
         {
             get
             {
@@ -42,10 +42,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal string GetAddress()
         {
-            
-            if(_ws==null)
+
+            if (_ws == null)
             {
-                if(_row>=0 && _column>=0)
+                if (_row >= 0 && _column >= 0)
                 {
                     return ExcelCellBase.GetAddress(_row, _column);
                 }
@@ -62,13 +62,13 @@ namespace OfficeOpenXml.FormulaParsing
             //depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
             _tokens = FormulaExecutor.CreateRPNTokens(
                     depChain._tokenizer.Tokenize(formula));
-            
-            _formula= formula;
+
+            _formula = formula;
             _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
         }
         public override string ToString()
         {
-            if(_ws==null)
+            if (_ws == null)
             {
                 return ExcelCellBase.GetAddress(_row, _column);
             }
@@ -80,9 +80,9 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal void ClearCache()
         {
-            foreach(var e in _expressions.Values)
+            foreach (var e in _expressions.Values)
             {
-                if(e.ExpressionType == ExpressionType.CellAddress)
+                if (e.ExpressionType == ExpressionType.CellAddress)
                     e._cachedCompileResult = null;
             }
         }
@@ -92,13 +92,13 @@ namespace OfficeOpenXml.FormulaParsing
             return _ws.IndexInList;
         }
 
-        internal bool IsName
+        internal virtual bool IsName
         {
             get
             {
                 return false;
             }
-        }
+        }        
     }
     internal class RpnNameFormula : RpnFormula
     {        
@@ -107,7 +107,7 @@ namespace OfficeOpenXml.FormulaParsing
             CurrentCell = currentCell;
         }
         internal FormulaCellAddress CurrentCell { get;  }
-        internal bool IsName
+        internal override bool IsName
         {
             get
             {

@@ -42,6 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arg = ArgToString(arguments, 0);
+            if (arg==null || arg.Trim()=="") return CreateResult(0D, DataType.Decimal);
             SetArgAndPercentage(arg);
             if(!ValidateAndSetSeparators(arguments))
             {

@@ -350,9 +350,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var arg = arguments[index];
             switch (arg.DataType)
             {
-                case DataType.ExcelError:
-                    
-                    
+                case DataType.ExcelError:                                        
                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
                 case DataType.Empty:
                     return 0;
