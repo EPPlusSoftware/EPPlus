@@ -26,45 +26,10 @@ using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class ExcelFunctionParametersInfo
-    {
-        public static ExcelFunctionParametersInfo Default 
-        { 
-            get
-            {
-                return new ExcelFunctionParametersInfo();
-            }
-        }
-        Func<int, FunctionParameterInformation> _getParameter=null;
-        private ExcelFunctionParametersInfo()
-        {
-
-        }
-        public ExcelFunctionParametersInfo(Func<int, FunctionParameterInformation> getParameter)
-        {
-            _getParameter = getParameter;
-        }
-        public bool HasNormalArguments
-        {
-            get 
-            { 
-                return _getParameter == null;
-            }
-        }
-        public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
-        {
-            if(_getParameter== null)
-            {
-                return FunctionParameterInformation.Normal;
-            }
-            return _getParameter(argumentIndex);
-        }
-    }
     /// <summary>
     /// Base class for Excel function implementations.
     /// </summary>
