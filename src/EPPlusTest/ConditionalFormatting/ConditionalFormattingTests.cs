@@ -1985,7 +1985,7 @@ namespace EPPlusTest.ConditionalFormatting
             {
                 var sheet = pck.Workbook.Worksheets.Add("NewWorksheet");
 
-                sheet.ConditionalFormatting.AddAboveAverage("HoogliBoogli");
+                sheet.ConditionalFormatting.AddAboveAverage("InvalidAddressAttempt");
             }
         }
     }
