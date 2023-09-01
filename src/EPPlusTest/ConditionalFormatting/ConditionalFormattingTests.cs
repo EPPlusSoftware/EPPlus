@@ -1940,6 +1940,10 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
 
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
 
                 secondSheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cfExt);
                 secondSheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cfTextContains);
@@ -1948,6 +1952,40 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(secondSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
 
                 SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("sheetCopy.xlsx");
+
+                var sheetRead1 = readPackage.Workbook.Worksheets[0];
+
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
+
+                var sheetRead2 = readPackage.Workbook.Worksheets[1];
+
+                Assert.AreEqual(sheetRead2.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(sheetRead2.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+
+
+                var sheetRead3 = readPackage.Workbook.Worksheets[2];
+
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ExpectExceptionWhenInvalidAddress()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("NewWorksheet");
+
+                sheet.ConditionalFormatting.AddAboveAverage("HoogliBoogli");
             }
         }
     }

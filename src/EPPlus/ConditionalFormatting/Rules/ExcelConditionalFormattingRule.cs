@@ -51,13 +51,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             set
             {
-
-                //if (value < 1)
-                //{
-                //  throw new IndexOutOfRangeException(
-                //    ExcelConditionalFormattingConstants.Errors.InvalidPriority);
-                //}
-
                 _ws.ConditionalFormatting.ChangePriority(this, value);
                 _priority = value;
             }
@@ -521,14 +514,23 @@ namespace OfficeOpenXml.ConditionalFormatting
                 _ws = newWorksheet;
             }
 
-            Rank = original.Rank;
+            if(original.Rank != 0)
+            {
+                Rank = original.Rank;
+            }
+
             _formula = original.Formula;
             _formula2 = original.Formula2;
             Operator = original.Operator;
             Type = original.Type;
             PivotTable = original.PivotTable;
             _text = original._text;
-            StdDev = original.StdDev;
+
+            if(original._stdDev != 0)
+            {
+                StdDev = original.StdDev;
+            }
+
             DxfId = original.DxfId;
             Address = original.Address;
             Priority = original.Priority;

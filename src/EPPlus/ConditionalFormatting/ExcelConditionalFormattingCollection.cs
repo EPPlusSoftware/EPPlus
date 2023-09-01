@@ -1186,7 +1186,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Add AboveAverage Rule
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="address">String must be a valid excelAddress</param>
         /// <returns></returns>
         public IExcelConditionalFormattingAverageGroup AddAboveAverage(
           string address)
