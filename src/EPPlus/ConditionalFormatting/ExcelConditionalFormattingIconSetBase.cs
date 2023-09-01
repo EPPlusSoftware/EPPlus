@@ -78,6 +78,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Icon1 = CreateIcon(0, type);
             Icon2 = CreateIcon(Math.Round(100D / symbolCount, 0), type);
             Icon3 = CreateIcon(Math.Round(100D * (2D / symbolCount), 0), type);
+            ShowValue = true;
         }
 
         protected ExcelConditionalFormattingIconDataBarValue CreateIcon(double value, eExcelConditionalFormattingRuleType type)
@@ -161,7 +162,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        internal ExcelConditionalFormattingIconSetBase(ExcelConditionalFormattingIconSetBase<T> copy) : base(copy)
+        internal ExcelConditionalFormattingIconSetBase(ExcelConditionalFormattingIconSetBase<T> copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             StopIfTrue = copy.StopIfTrue;
             ShowValue = copy.ShowValue;
@@ -176,9 +177,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             Icon3 = copy.Icon3;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingIconSetBase<T>(this);
+            return new ExcelConditionalFormattingIconSetBase<T>(this, newWs);
         }
 
         /// <summary>

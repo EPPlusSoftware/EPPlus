@@ -109,16 +109,16 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        internal ExcelConditionalFormattingTwoColorScale(ExcelConditionalFormattingTwoColorScale copy) : base(copy)
+        internal ExcelConditionalFormattingTwoColorScale(ExcelConditionalFormattingTwoColorScale copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
             LowValue = copy.LowValue;
             HighValue = copy.HighValue;
             StopIfTrue = copy.StopIfTrue;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingTwoColorScale(this);
+            return new ExcelConditionalFormattingTwoColorScale(this, newWs);
         }
 
         internal override bool IsExtLst

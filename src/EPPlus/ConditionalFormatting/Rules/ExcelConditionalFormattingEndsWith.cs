@@ -63,13 +63,13 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.EndsWith;
         }
 
-        internal ExcelConditionalFormattingEndsWith(ExcelConditionalFormattingEndsWith copy) : base(copy)
+        internal ExcelConditionalFormattingEndsWith(ExcelConditionalFormattingEndsWith copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingEndsWith(this);
+            return new ExcelConditionalFormattingEndsWith(this, newWs);
         }
 
         internal override bool IsExtLst

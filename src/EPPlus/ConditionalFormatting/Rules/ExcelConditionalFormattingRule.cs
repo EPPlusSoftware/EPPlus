@@ -36,11 +36,32 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <para>The range over which these conditional formatting rules apply.</para>
         /// </summary>
         public virtual ExcelAddress Address { get; set; }
+
+        internal int _priority = 1;
+
         /// <summary>
         /// The priority of the rule. 
         /// A lower values are higher priority than higher values, where 1 is the highest priority.
         /// </summary>
-        public int Priority { get; set; } = 1;
+        public int Priority
+        {
+            get
+            {
+                return _priority;
+            }
+            set
+            {
+
+                //if (value < 1)
+                //{
+                //  throw new IndexOutOfRangeException(
+                //    ExcelConditionalFormattingConstants.Errors.InvalidPriority);
+                //}
+
+                _ws.ConditionalFormatting.ChangePriority(this, value);
+                _priority = value;
+            }
+        }
         /// <summary>
         /// If this property is true, no rules with lower priority should be applied over this rule.
         /// </summary>
@@ -106,7 +127,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Internal worksheet reference
         /// </summary>
-        protected ExcelWorksheet _ws;
+        internal ExcelWorksheet _ws;
 
         private int _dxfId = -1;
 
@@ -190,7 +211,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 _isExtLst = true;
             }
 
-            Priority = int.Parse(xr.GetAttribute("priority"));
+            _priority = int.Parse(xr.GetAttribute("priority"));
 
             Type = type;
 
@@ -488,9 +509,18 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Copy constructor
         /// </summary>
         /// <param name="original"></param>
-        protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original)
+        /// <param name="newWorksheet">In case cloning from another worksheet</param>
+        protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original, ExcelWorksheet newWorksheet = null)
         {
-            _ws = original._ws;
+            if(newWorksheet == null)
+            {
+                _ws = original._ws;
+            }
+            else
+            {
+                _ws = newWorksheet;
+            }
+
             Rank = original.Rank;
             _formula = original.Formula;
             _formula2 = original.Formula2;
@@ -532,7 +562,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             //move writing of root node.
 
             Address = address;
-            Priority = priority;
+            _priority = priority;
             Type = type;
 
             if (DxfId >= 0 && DxfId < worksheet.Workbook.Styles.Dxfs.Count)
@@ -662,6 +692,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             return ExcelConditionalFormattingRuleType.GetAttributeByType(Type);
         }
 
-        internal abstract ExcelConditionalFormattingRule Clone();
+        internal abstract ExcelConditionalFormattingRule Clone(ExcelWorksheet sheet = null);
     }
 }

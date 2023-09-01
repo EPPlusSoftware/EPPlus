@@ -13,6 +13,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
@@ -488,7 +489,17 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal void CopyRule(ExcelConditionalFormattingRule rule, ExcelAddress address = null)
         {
-            var ruleCopy = rule.Clone();
+            ExcelConditionalFormattingRule ruleCopy = null;
+
+            if (rule._ws != _ws)
+            {
+                ruleCopy = rule.Clone(_ws);
+            }
+            else
+            {
+                ruleCopy = rule.Clone();
+            }
+
             if (address != null)
             {
                 ruleCopy.Address = address;
@@ -596,6 +607,37 @@ namespace OfficeOpenXml.ConditionalFormatting
           int priority)
         {
             return _rules.Find(x => x.Priority == priority);
+        }
+
+        internal void ChangePriority(ExcelConditionalFormattingRule rule, int priorityNew)
+        {
+            if (RulesByPriority(priorityNew) != null)
+            {
+                if (rule.Priority > priorityNew)
+                {
+                    for (int i = rule.Priority - 1; i >= priorityNew; i--)
+                    {
+                        var cfRule = (ExcelConditionalFormattingRule)RulesByPriority(i);
+
+                        if (cfRule != null)
+                        {
+                            cfRule._priority++;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = rule.Priority + 1; i <= priorityNew; i++)
+                    {
+                        var cfRule = (ExcelConditionalFormattingRule)RulesByPriority(i);
+
+                        if (cfRule != null)
+                        {
+                            cfRule._priority--;
+                        }
+                    }
+                }
+            }
         }
 
         delegate ExcelConditionalFormattingRule Rule(ExcelAddress address, int priority, ExcelWorksheet ws);

@@ -51,13 +51,13 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
         {
         }
 
-        internal ExcelConditionalFormattingExpression(ExcelConditionalFormattingExpression copy) : base(copy)
+        internal ExcelConditionalFormattingExpression(ExcelConditionalFormattingExpression copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingExpression(this);
+            return new ExcelConditionalFormattingExpression(this, newWs);
         }
     }
 }

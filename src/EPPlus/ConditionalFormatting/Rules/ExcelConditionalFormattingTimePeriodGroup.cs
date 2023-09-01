@@ -49,14 +49,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal ExcelConditionalFormattingTimePeriodGroup(ExcelConditionalFormattingTimePeriodGroup copy) : base(copy)
+        internal ExcelConditionalFormattingTimePeriodGroup(ExcelConditionalFormattingTimePeriodGroup copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             TimePeriod = copy.TimePeriod;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingTimePeriodGroup(this);
+            return new ExcelConditionalFormattingTimePeriodGroup(this, newWs);
         }
 
 

@@ -243,9 +243,69 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cfRule2 = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0].As.TwoColorScale;
 
-                Assert.AreEqual("IF($G$1=\"A</x:&'cfRule>\",1,5)",cfRule2.HighValue.Formula);
+                Assert.AreEqual("IF($G$1=\"A</x:&'cfRule>\",1,5)", cfRule2.HighValue.Formula);
 
                 SaveAndCleanup(readPackage);
+            }
+        }
+
+        [TestMethod]
+        public void CF_ColorScaleAddressChange()
+        {
+            using (var pck = OpenPackage("cf_ColorScaleAddressChange.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("addressChange");
+
+                ExcelAddress cfAddress1 = new ExcelAddress("A2:A10");
+                var cfRule1 = ws.ConditionalFormatting.AddTwoColorScale(cfAddress1);
+
+                // Now, lets change some properties:
+                cfRule1.LowValue.Type = eExcelConditionalFormattingValueObjectType.Num;
+                cfRule1.LowValue.Value = 4;
+                cfRule1.LowValue.Color = Color.FromArgb(0xFF, 0xFF, 0xEB, 0x84);
+                cfRule1.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
+                //cfRule1.HighValue.Formula = "IF($G$1=\"A</x:&'cfRule>\",1,5)";
+                cfRule1.StopIfTrue = true;
+                cfRule1.Style.Font.Bold = true;
+
+                // But others you can't (readonly)
+                // cfRule1.Type = eExcelConditionalFormattingRuleType.ThreeColorScale;
+
+                // -------------------------------------------------------------------
+                // ThreeColorScale Conditional Formatting example
+                // -------------------------------------------------------------------
+                ExcelAddress cfAddress2 = new ExcelAddress(2, 2, 10, 2);  //="B2:B10"
+                var cfRule2 = ws.ConditionalFormatting.AddThreeColorScale(cfAddress2);
+
+                // Changing some properties again
+                cfRule2.Priority = 1;
+                cfRule2.MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Percentile;
+                cfRule2.MiddleValue.Value = 30;
+                cfRule2.StopIfTrue = true;
+
+                // You can access a rule by its Priority
+                var cfRule2Priority = cfRule2.Priority;
+                var cfRule2_1 = ws.ConditionalFormatting.RulesByPriority(cfRule2Priority);
+
+                // And you can even change the rule's Address
+                cfRule2_1.Address = new ExcelAddress("Z1:Z3");
+
+                // -------------------------------------------------------------------
+                // Adding another ThreeColorScale in a different way (observe that we are
+                // pointing to the same range as the first rule we entered. Excel allows it to
+                // happen and group the rules in one <conditionalFormatting> node)
+                // -------------------------------------------------------------------
+                var cfRule3 = ws.Cells[cfAddress1.Address].ConditionalFormatting.AddThreeColorScale();
+                cfRule3.LowValue.Color = Color.LemonChiffon;
+
+                // -------------------------------------------------------------------
+                // Change the rules priorities to change their execution order
+                // -------------------------------------------------------------------
+                cfRule3.Priority = 1;
+                cfRule1.Priority = 2;
+                cfRule2.Priority = 3;
+
+                SaveAndCleanup(pck);
             }
         }
     }

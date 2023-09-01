@@ -193,7 +193,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             }
         }
 
-        ExcelConditionalFormattingDataBar(ExcelConditionalFormattingDataBar copy) : base(copy)
+        ExcelConditionalFormattingDataBar(ExcelConditionalFormattingDataBar copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             Uid = copy.Uid;
             LowValue = copy.LowValue;
@@ -217,9 +217,9 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingDataBar(this);
+            return new ExcelConditionalFormattingDataBar(this, newWs);
         }
 
         /// <summary>

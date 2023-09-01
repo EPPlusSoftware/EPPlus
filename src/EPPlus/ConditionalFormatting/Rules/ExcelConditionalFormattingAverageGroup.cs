@@ -38,7 +38,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet ws = null)
         {
             return new ExcelConditionalFormattingAverageGroup(this);
         }

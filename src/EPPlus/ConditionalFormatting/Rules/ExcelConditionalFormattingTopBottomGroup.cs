@@ -43,14 +43,14 @@ namespace OfficeOpenXml.ConditionalFormatting
             Rank = UInt16.Parse(xr.GetAttribute("rank"));
         }
 
-        internal ExcelConditionalFormattingTopBottomGroup(ExcelConditionalFormattingTopBottomGroup copy) : base(copy)
+        internal ExcelConditionalFormattingTopBottomGroup(ExcelConditionalFormattingTopBottomGroup copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
             Rank = copy.Rank;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingTopBottomGroup(this);
+            return new ExcelConditionalFormattingTopBottomGroup(this, newWs);
         }
     }
 }

@@ -227,7 +227,7 @@ namespace EPPlusTest.ConditionalFormatting
 
 
         [TestMethod]
-        public void IconSetsAreHideValueOnDefaultAndAfterSavingAndLoading()
+        public void IconSetsAreShowValueOnDefaultAndAfterSavingAndLoading()
         {
             using (var pck = OpenPackage("valueHide.xlsx", true))
             {
@@ -237,14 +237,14 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cf = sheet.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("A1:A20"), eExcelconditionalFormatting5IconsSetType.Arrows);
 
-                Assert.AreEqual(false, cf.ShowValue);
+                Assert.AreEqual(true, cf.ShowValue);
 
                 var stream = new MemoryStream();
                 pck.SaveAs(stream);
 
                 var pckRead = new ExcelPackage(stream);
 
-                Assert.AreEqual(false, pckRead.Workbook.Worksheets[0].ConditionalFormatting[0].As.FiveIconSet.ShowValue);
+                Assert.AreEqual(true, pckRead.Workbook.Worksheets[0].ConditionalFormatting[0].As.FiveIconSet.ShowValue);
 
                 SaveAndCleanup(pckRead);
             }

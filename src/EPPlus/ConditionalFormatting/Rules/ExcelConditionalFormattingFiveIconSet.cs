@@ -62,15 +62,15 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             xr.Read();
         }
 
-        internal ExcelConditionalFormattingFiveIconSet(ExcelConditionalFormattingFiveIconSet copy) : base(copy)
+        internal ExcelConditionalFormattingFiveIconSet(ExcelConditionalFormattingFiveIconSet copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             Icon4 = copy.Icon4;
             Icon5 = copy.Icon5;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingFiveIconSet(this);
+            return new ExcelConditionalFormattingFiveIconSet(this, newWs);
         }
 
         /// <summary>
