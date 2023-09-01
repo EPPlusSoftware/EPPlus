@@ -79,7 +79,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        internal ExcelConditionalFormattingThreeColorScale(ExcelConditionalFormattingThreeColorScale copy) : base(copy)
+        internal ExcelConditionalFormattingThreeColorScale(ExcelConditionalFormattingThreeColorScale copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             LowValue = copy.LowValue;
             MiddleValue = copy.MiddleValue;
@@ -87,9 +87,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             StopIfTrue = copy.StopIfTrue;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingThreeColorScale(this);
+            return new ExcelConditionalFormattingThreeColorScale(this, newWs);
         }
 
         internal override bool IsExtLst

@@ -60,13 +60,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal ExcelConditionalFormattingNotContainsBlanks(ExcelConditionalFormattingNotContainsBlanks copy) : base(copy)
+        internal ExcelConditionalFormattingNotContainsBlanks(ExcelConditionalFormattingNotContainsBlanks copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingNotContainsBlanks(this);
+            return new ExcelConditionalFormattingNotContainsBlanks(this, newWs);
         }
 
         public override ExcelAddress Address

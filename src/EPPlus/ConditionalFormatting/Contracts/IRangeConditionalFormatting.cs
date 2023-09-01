@@ -11,6 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Core.RangeQuadTree;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -291,5 +293,11 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <param name="color"></param>
     /// <returns></returns>
     IExcelConditionalFormattingDataBarGroup AddDatabar(Color color);
+
+        ///// <summary>
+        ///// Get dict of all CFs and their addresses in range
+        ///// </summary>
+        ///// <returns></returns>
+        //Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings();
     }
 }

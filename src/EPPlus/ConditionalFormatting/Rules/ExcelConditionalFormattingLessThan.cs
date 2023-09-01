@@ -34,13 +34,13 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.LessThan;
         }
 
-        internal ExcelConditionalFormattingLessThan(ExcelConditionalFormattingLessThan copy) : base(copy)
+        internal ExcelConditionalFormattingLessThan(ExcelConditionalFormattingLessThan copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingLessThan(this);
+            return new ExcelConditionalFormattingLessThan(this, newWs);
         }
     }
 }

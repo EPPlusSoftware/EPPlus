@@ -70,6 +70,7 @@ namespace OfficeOpenXml.Style.Dxf
         }
         /// <summary>
         /// Adds a RGB color at the specified position
+        /// Where position is in percent
         /// </summary>
         /// <param name="position">The position from 0 to 100%</param>
         /// <returns>The gradient color position object</returns>

@@ -45,14 +45,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal ExcelConditionalFormattingUniqueValues(ExcelConditionalFormattingUniqueValues copy) : base(copy)
+        internal ExcelConditionalFormattingUniqueValues(ExcelConditionalFormattingUniqueValues copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
             Rank = copy.Rank;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingUniqueValues(this);
+            return new ExcelConditionalFormattingUniqueValues(this, newWs);
         }
 
         #endregion Constructors

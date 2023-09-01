@@ -37,14 +37,14 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.ContainsText;
         }
 
-        ExcelConditionalFormattingContainsText(ExcelConditionalFormattingContainsText copy) :base(copy)
+        ExcelConditionalFormattingContainsText(ExcelConditionalFormattingContainsText copy, ExcelWorksheet newWs = null) :base(copy, newWs)
         {
             //Text = copy.Text;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingContainsText(this);
+            return new ExcelConditionalFormattingContainsText(this, newWs);
         }
 
         internal override bool IsExtLst {

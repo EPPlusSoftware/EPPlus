@@ -34,13 +34,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal ExcelConditionalFormattingDuplicateValues(ExcelConditionalFormattingDuplicateValues copy) : base(copy)
+        internal ExcelConditionalFormattingDuplicateValues(ExcelConditionalFormattingDuplicateValues copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingDuplicateValues(this);
+            return new ExcelConditionalFormattingDuplicateValues(this, newWs);
         }
     }
 }

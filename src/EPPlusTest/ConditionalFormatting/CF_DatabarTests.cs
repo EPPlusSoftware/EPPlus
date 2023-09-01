@@ -248,5 +248,135 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
             }
         }
+
+        [TestMethod]
+        public void CF_DatabarDirectionTest()
+        {
+            using (var pck = OpenPackage("direction.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("basicSheet");
+
+                var bar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A20"), Color.Blue);
+                var bar2 = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:B20"), Color.Red);
+                var bar3 = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("B1:B20"), Color.Yellow);
+
+                sheet.Cells["A1:B20"].Formula = "Row()";
+
+                bar.Direction = eDatabarDirection.RightToLeft;
+                bar2.Direction = eDatabarDirection.LeftToRight;
+                bar3.Direction = eDatabarDirection.Context;
+
+                SaveAndCleanup(pck);
+
+                var pck2 = OpenPackage("direction.xlsx");
+
+                var cf = pck2.Workbook.Worksheets[0].ConditionalFormatting;
+
+                Assert.AreEqual(eDatabarDirection.RightToLeft, cf[0].As.DataBar.Direction);
+                Assert.AreEqual(eDatabarDirection.LeftToRight, cf[1].As.DataBar.Direction);
+                Assert.AreEqual(eDatabarDirection.Context, cf[2].As.DataBar.Direction);
+            }
+        }
+
+        [TestMethod]
+        public void CF_DatabarReadTest()
+        {
+            using (var pck = OpenTemplatePackage("ExtremeIconSet_Databar.xlsx"))
+            {
+                var sheet1 = pck.Workbook.Worksheets[0];
+                var sheet2 = pck.Workbook.Worksheets[1];
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void CF_SameNrOfFormattings()
+        {
+            using (var pck = OpenTemplatePackage("ExtremeIconSet_Databar.xlsx"))
+            {
+                var sheet1 = pck.Workbook.Worksheets[0];
+                var sheet2 = pck.Workbook.Worksheets[1];
+
+                var numCFs = sheet1.ConditionalFormatting.Count;
+                var numCFs2 = sheet2.ConditionalFormatting.Count;
+
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var pck2 = new ExcelPackage(stream);
+
+                var readSheet1 = pck.Workbook.Worksheets[0];
+                var readSheet2 = pck.Workbook.Worksheets[1];
+
+                Assert.AreEqual(numCFs, readSheet1.ConditionalFormatting.Count);
+                Assert.AreEqual(numCFs2, readSheet2.ConditionalFormatting.Count);
+            }
+        }
+
+        [TestMethod]
+        public void CF_SolidFillForDatabars()
+        {
+            using (var pck = OpenPackage("SolidFill_Databar.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("SolidFill");
+
+                var databar = ws.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A5"), Color.Red);
+
+                ws.Cells["A1:A5"].Formula = "Row()";
+
+                databar.Gradient = false;
+
+                databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.AutoMax;
+                databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.AutoMin;
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("SolidFill_Databar.xlsx");
+                var sheet = readPck.Workbook.Worksheets[0];
+
+                var readDatabar = sheet.ConditionalFormatting[0].As.DataBar;
+
+                Assert.AreEqual(false, readDatabar.Gradient);
+                Assert.AreEqual(readDatabar.HighValue.Type, eExcelConditionalFormattingValueObjectType.AutoMax);
+                Assert.AreEqual(readDatabar.LowValue.Type, eExcelConditionalFormattingValueObjectType.AutoMin);
+            }
+        }
+
+        [TestMethod]
+        public void CF_DatabarAttributesReadWrite()
+        {
+            using (var pck = OpenPackage("Databar_Attributes.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("attributesDatabar");
+
+                var databar = ws.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A20"), Color.Blue);
+
+                ws.Cells["A1:A20"].Formula = "Row()-10";
+
+                databar.ShowValue = false;
+                databar.Gradient = false;
+                databar.Border = true;
+                databar.Direction = eDatabarDirection.RightToLeft;
+                databar.NegativeBarColorSameAsPositive = true;
+                databar.NegativeBarBorderColorSameAsPositive = false;
+                databar.AxisPosition = eExcelDatabarAxisPosition.Middle;
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("Databar_Attributes.xlsx");
+
+                var bar = readPck.Workbook.Worksheets[0].ConditionalFormatting[0].As.DataBar;
+
+                Assert.AreEqual(false, bar.ShowValue);
+                Assert.AreEqual(false, bar.Gradient);
+                Assert.AreEqual(true, bar.Border);
+                Assert.AreEqual(eDatabarDirection.RightToLeft, bar.Direction);
+                Assert.AreEqual(true, bar.NegativeBarColorSameAsPositive);
+                Assert.AreEqual(false, bar.NegativeBarBorderColorSameAsPositive);
+                Assert.AreEqual(eExcelDatabarAxisPosition.Middle, bar.AxisPosition);
+            }
+        }
     }
 }

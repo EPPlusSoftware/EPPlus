@@ -45,6 +45,7 @@ using System.Runtime.Remoting;
 using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
+using FakeItEasy;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -1735,6 +1736,8 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cf = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
                 Assert.AreEqual("\"&%/Stuff���}=``#�\"<>\"An Example\"", cf.As.Expression.Formula);
+
+                //readPackage.SaveAs("C:\\Users\\OssianEdström\\Documents\\hardFormula.xlsx");
             }
         }
 
@@ -1805,7 +1808,7 @@ namespace EPPlusTest.ConditionalFormatting
                 bar.NegativeBorderColor.SetColor(Color.MediumPurple);
                 bar.AxisPosition = eExcelDatabarAxisPosition.Middle;
 
-                for(int i = 1; i < 21; i++)
+                for (int i = 1; i < 21; i++)
                 {
                     sheet.Cells[i, 1].Value = i - 10;
                 }
@@ -1825,5 +1828,112 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, readCF.AxisPosition);
             }
         }
+
+        [TestMethod]
+        public void CF_PriorityTest()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("prioritySheet");
+
+                var lowPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
+
+                lowPriority.Priority = 500;
+
+                lowPriority.Text = "D";
+
+                lowPriority.Style.Fill.BackgroundColor.Color = Color.DarkRed;
+                lowPriority.Style.Font.Italic = true;
+
+                var highPriority = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("A1"));
+
+                var types = sheet.ConditionalFormatting.ToList().Find(x => x.As.BeginsWith != null);
+
+                highPriority.Text = "r";
+                highPriority.Priority = 2;
+
+                highPriority.Style.Fill.BackgroundColor.Color = Color.DarkBlue;
+                highPriority.Style.Font.Color.Color = Color.White;
+
+                sheet.Cells["A1"].Value = "Danger";
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var readPackage = new ExcelPackage(stream);
+                var readSheet = readPackage.Workbook.Worksheets[0];
+
+                Assert.AreEqual(500, readSheet.ConditionalFormatting[0].Priority);
+                Assert.AreEqual(2, readSheet.ConditionalFormatting[1].Priority);
+            }
+        }
+
+        [TestMethod]
+        public void CF_PerformanceTest()
+        {
+            using (var pck = OpenPackage("performance.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("performanceTest");
+
+                for (int i = 0; i < 210000; i++)
+                {
+                    sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
+                    sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
+                    sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
+                }
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void TopPercentTest()
+        {
+            using (var pck = OpenPackage("topPercent.xlsx", true))
+            {
+                var worksheet = pck.Workbook.Worksheets.Add("topPercent");
+
+                var cfRule13 = worksheet.ConditionalFormatting.AddTopPercent(
+                new ExcelAddress("B11:B20"));
+
+                cfRule13.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                cfRule13.Style.Border.Left.Color.Theme = eThemeSchemeColor.Text2;
+                cfRule13.Style.Border.Bottom.Style = ExcelBorderStyle.DashDot;
+                cfRule13.Style.Border.Bottom.Color.SetColor(ExcelIndexedColor.Indexed8);
+                cfRule13.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                cfRule13.Style.Border.Right.Color.Color = Color.Blue;
+                cfRule13.Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                cfRule13.Style.Border.Top.Color.Auto = true;
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        //[TestMethod]
+        //public void Get_CF_FromRange()
+        //{
+        //    using (var pck = OpenPackage("performance.xlsx", true))
+        //    {
+        //        var sheet = pck.Workbook.Worksheets.Add("performanceTest");
+
+        //        sheet.Hidden = eWorkSheetHidden.Hidden;
+
+        //        sheet.Cells["A1:C500"].ConditionalFormatting.AddDatabar(Color.Blue);
+
+        //        sheet.Cells["C1:D250"].ConditionalFormatting.AddDatabar(Color.Blue);
+
+        //        for (int i = 0; i < 21000; i++)
+        //        {
+        //            //sheet.Cells[1, 1].ConditionalFormatting.getall
+        //            sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
+        //            sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
+        //            sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
+        //        }
+
+        //        //var list = sheet.Cells["A1:B200"].ConditionalFormatting.GetConditionalFormattings();
+
+        //        SaveAndCleanup(pck);
+        //    }
+        //}
     }
 }

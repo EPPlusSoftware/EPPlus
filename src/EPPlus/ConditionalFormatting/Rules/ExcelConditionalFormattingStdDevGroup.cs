@@ -37,14 +37,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal ExcelConditionalFormattingStdDevGroup(ExcelConditionalFormattingStdDevGroup copy) : base(copy)
+        internal ExcelConditionalFormattingStdDevGroup(ExcelConditionalFormattingStdDevGroup copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             StdDev = copy.StdDev;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingStdDevGroup(this);
+            return new ExcelConditionalFormattingStdDevGroup(this, newWs);
         }
 
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
