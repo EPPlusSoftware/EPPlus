@@ -29,8 +29,17 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// </summary>
     public enum eDatabarDirection
     {
+        /// <summary>
+        /// Based on context
+        /// </summary>
         Context = 0,
+        /// <summary>
+        /// Databar going from left to right
+        /// </summary>
         LeftToRight = 1,
+        /// <summary>
+        /// Databar going RighToLeft
+        /// </summary>
         RightToLeft = 2
     }
 

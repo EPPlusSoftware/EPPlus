@@ -194,6 +194,9 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Initalize <see cref="ExcelConditionalFormattingRule"/> from file
         /// </summary>
         /// <param name="xr"></param>
+        /// <param name="type"></param>
+        /// <param name="address"></param>
+        /// <param name="ws"></param>
         internal ExcelConditionalFormattingRule(eExcelConditionalFormattingRuleType type, ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
         {
             _ws = ws;
