@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -24,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         private int _currentRow;
         private int _currentCol;
         private object _currentValue;
-        private RangeAddress _rangeAddress;
+        IRangeInfo _range;
         private int _index;
 
         public ExcelLookupNavigator(LookupDirection direction, LookupArguments arguments, ParsingContext parsingContext)
@@ -39,31 +40,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var factory = new RangeAddressFactory(ParsingContext.ExcelDataProvider);
             if (Arguments.RangeInfo == null)
             {
-                _rangeAddress = factory.Create(ParsingContext.Scopes.Current.Address.Worksheet, Arguments.RangeAddress);
+                _range = ParsingContext.ExcelDataProvider.GetRange(ParsingContext.Scopes.Current.Address.Worksheet, Arguments.RangeAddress);
             }
             else
             {
-                _rangeAddress = factory.Create(Arguments.RangeInfo.Address.WorkSheetName, Arguments.RangeInfo.Address.Address);
+                _range = Arguments.RangeInfo;
             }
-            _currentCol = _rangeAddress.FromCol;
-            _currentRow = _rangeAddress.FromRow;
+            _currentCol = _range.Address._fromCol;
+            _currentRow = _range.Address._fromRow;
             SetCurrentValue();
         }
 
         private void SetCurrentValue()
         {
-            _currentValue = ParsingContext.ExcelDataProvider.GetCellValue(_rangeAddress.Worksheet, _currentRow, _currentCol);
+            _currentValue = _range.GetValue(_currentRow, _currentCol);
         }
 
         private bool HasNext()
         {
             if (Direction == LookupDirection.Vertical)
             {
-                return _currentRow < _rangeAddress.ToRow;
+                return _currentRow < _range.Address._toRow;
             }
             else
             {
-                return _currentCol < _rangeAddress.ToCol;
+                return _currentCol < _range.Address._toCol;
             }
         }
 
@@ -107,7 +108,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 row += Arguments.LookupIndex - 1;
                 col += Arguments.LookupOffset;
             }
-            return ParsingContext.ExcelDataProvider.GetCellValue(_rangeAddress.Worksheet, row, col); 
+            return _range.GetValue(row, col); 
         }
     }
 }
