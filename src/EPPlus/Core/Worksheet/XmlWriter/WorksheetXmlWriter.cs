@@ -1325,7 +1325,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 for (int j = 0; j < iconList.Count; j++)
                                 {
                                     string iconType = iconList[j].CustomIcon == null ? iconSetString : iconList[j].GetCustomIconStringValue();
-                                    int iconIndex = iconList[j].CustomIcon == null ? i : iconList[j].GetCustomIconIndex();
+                                    int iconIndex = iconList[j].CustomIcon == null ? j : iconList[j].GetCustomIconIndex();
                                     cache.Append($"<{prefix}cfIcon iconSet=\"{iconType}\" iconId=\"{iconIndex}\"/>");
                                 }
                             }
