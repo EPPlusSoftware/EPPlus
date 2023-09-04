@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             if (_ws.GetNode("d:dataValidations") != null)
             {
                 FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
-                if (_ws.DataValidations.Count > 0)
+                if (_ws.DataValidations.GetNonExtLstCount() > 0)
                 {
                     sw.Write(UpdateDataValidation(prefix));
                 }
