@@ -98,6 +98,9 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Worksheets["Hallmarks To REPORT Q2"].Cells["Q7"].Calculate();
+                    //p.Workbook.Worksheets["RNPS_Product Type_Germany"].Cells["AV24"].Calculate();
+                    //p.Workbook.Worksheets["RNPS_old"].Cells["Z17"].Calculate();
                     //p.Workbook.Worksheets["Analyses"].Cells["A5"].Calculate();
                     //p.Workbook.Worksheets["PFD & PFH"].Cells["C2"].Calculate();
                     //p.Workbook.Worksheets["Components"].Cells["F2"].Calculate();

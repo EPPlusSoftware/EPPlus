@@ -668,11 +668,15 @@ namespace OfficeOpenXml
                 {
                     if (_worksheet == null)
                     {
-                        return _workbook._names[_address].NameValue;
+                        var ws = _workbook.Worksheets[_workbook.View.ActiveTab];
+                        if (ws == null) ws = _workbook.Worksheets[0];
+                        FormulaCellAddress cc = GetActiveCell(ws);
+                        return _workbook._names[_address].GetValue(cc);
                     }
                     else
                     {
-                        return _worksheet.Names[_address].NameValue;
+                        FormulaCellAddress cc = GetActiveCell(_worksheet);
+                        return _worksheet.Names[_address].GetValue(cc);
                     }
                 }
                 else
@@ -706,6 +710,17 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private static FormulaCellAddress GetActiveCell(ExcelWorksheet ws)
+        {
+            if (!ExcelCellBase.GetRowColFromAddress(ws.View.ActiveCell, out int row, out int col))
+            {
+                row = 1; col = 1;
+            }
+            var cc = new FormulaCellAddress(ws.IndexInList, row, col);
+            return cc;
+        }
+
         /// <summary>
         /// Sets the range to an Error value
         /// </summary>

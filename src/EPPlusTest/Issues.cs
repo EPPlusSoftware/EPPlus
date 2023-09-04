@@ -5254,5 +5254,16 @@ namespace EPPlusTest
 
             }
         }
+        [TestMethod]
+        public void s514()
+        {
+            using (var package = OpenTemplatePackage("ExternalVlookup.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.Calculate();
+                Assert.AreEqual(1d, ws.Cells["A1"].Value);
+            }
+        }
+
     }
 }

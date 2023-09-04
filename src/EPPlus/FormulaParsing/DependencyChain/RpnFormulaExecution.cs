@@ -945,8 +945,8 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 var fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                 while(fexp._argPos < fexp._arguments.Count && (
-                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && fexp._latestConitionValue == ExpressionCondition.False) ||
-                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && fexp._latestConitionValue == ExpressionCondition.True)
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && (fexp._latestConitionValue == ExpressionCondition.False || fexp._latestConitionValue == ExpressionCondition.Error)) ||
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && (fexp._latestConitionValue == ExpressionCondition.True || fexp._latestConitionValue == ExpressionCondition.Error))
                     ))
                 {
                     fexp._argPos++;

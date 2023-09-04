@@ -18,6 +18,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -37,12 +38,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var nItems = 0d;
-            Calculate(arguments, ref nItems, context, ItemContext.SingleArg);
-            return CreateResult(nItems, DataType.Integer);
+            Calculate(arguments, ref nItems, context, ItemContext.SingleArg, out eErrorType? error);
+            if (error.HasValue)
+            {
+                return CreateResult(nItems, DataType.Integer);
+            }
+            else
+            {
+                return CompileResult.GetErrorResult(error.Value);
+            }
         }
 
-        private void Calculate(IList<FunctionArgument> items, ref double nItems, ParsingContext context, ItemContext itemContext)
+        private void Calculate(IList<FunctionArgument> items, ref double nItems, ParsingContext context, ItemContext itemContext, out eErrorType? error)
         {
+            error = null;
             foreach (var item in items)
             {
                 var cs = item.Value as IRangeInfo;
@@ -50,7 +59,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     foreach (var c in cs)
                     {
-                        _CheckForAndHandleExcelError(c, context);
+                        if(c is ExcelErrorValue ev)
+                        {
+                            error = ev.Type;
+                            return;
+                        }
                         if (ShouldIgnore(c, context) == false && ShouldCount(c.Value, ItemContext.InRange))
                         {
                             nItems++;
@@ -59,29 +72,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    _CheckForAndHandleExcelError(item, context);
+                    if(item.DataType==DataType.ExcelError)
+                    {
+                        error = item.ValueAsExcelErrorValue.Type;
+                    }
                     if (ShouldIgnore(item, context) == false && ShouldCount(item.Value, itemContext))
                     {
                         nItems++;
                     }
                 }
             }
-        }
-
-        private void _CheckForAndHandleExcelError(FunctionArgument arg, ParsingContext context)
-        {
-            //if (context.Scopes.Current.IsSubtotal)
-            //{
-            //    CheckForAndHandleExcelError(arg);
-            //}
-        }
-
-        private void _CheckForAndHandleExcelError(ICellInfo cell, ParsingContext context)
-        {
-            //if (context.Scopes.Current.IsSubtotal)
-            //{
-            //    CheckForAndHandleExcelError(cell);
-            //}
         }
 
         private bool ShouldCount(object value, ItemContext context)
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 case ItemContext.SingleArg:
                     return IsNumeric(value) || IsNumericString(value);
                 case ItemContext.InRange:
-                    return IsNumeric(value);
+                    return ConvertUtil.IsExcelNumeric(value);
                 default:
                     throw new ArgumentException("Unknown ItemContext:" + context.ToString());
             }
