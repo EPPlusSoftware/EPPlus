@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
 
         public override CompileResult Compile(IEnumerable<Expression> children)
         {
-            if (children.Count() != 2) throw new ExcelErrorValueException(eErrorType.Value);
+            if (children.Count() != 2) return new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);
             var firstChild = children.First();

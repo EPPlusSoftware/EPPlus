@@ -75,11 +75,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _worksheet.Cells["A2"].Value = 3d;
             _worksheet.Cells["A3"].Value = 5d;
 
-            _worksheet.Cells["A4"].Formula = "INDEX(A1:A3;3)";
+            _worksheet.Cells["A4"].Formula = "INDEX(A1:A3,3)";
 
             _worksheet.Calculate();
 
             Assert.AreEqual(5d, _worksheet.Cells["A4"].Value);
+        }
+
+        [TestMethod]
+        public void Index_Should_Handle_MultiRowColRange()
+        {
+            _worksheet.Cells["A1"].Value = 1d;
+            _worksheet.Cells["A2"].Value = 3d;
+            _worksheet.Cells["A3"].Value = 5d;
+            _worksheet.Cells["B1"].Value = 2d;
+            _worksheet.Cells["B2"].Value = 4d;
+            _worksheet.Cells["B3"].Value = 6d;
+
+            _worksheet.Cells["A4"].Formula = "INDEX(A1:B3,3,2)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(6d, _worksheet.Cells["A4"].Value);
         }
 
         [TestMethod]
@@ -104,6 +121,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _worksheet.Calculate();
 
             Assert.AreEqual("value_to_match", _worksheet.Cells["B2"].Value);
+        }
+
+        [TestMethod]
+        public void ShouldUseRowIxAsColIxIfOnlyOneRow()
+        {
+            _worksheet.Cells["A1"].Value = 1;
+            _worksheet.Cells["B1"].Value = 2;
+            _worksheet.Cells["A2"].Formula = "INDEX(A1:B1,2)";
+            _worksheet.Calculate();
+            Assert.AreEqual(2, _worksheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void ShouldReturnRefIfNoColIxMoreThanOneRow()
+        {
+            _worksheet.Cells["A1"].Value = 1;
+            _worksheet.Cells["B1"].Value = 2;
+            _worksheet.Cells["A2"].Value = 3;
+            _worksheet.Cells["B2"].Value = 4;
+            _worksheet.Cells["A2"].Formula = "INDEX(A1:B2,2)";
+            _worksheet.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Ref), _worksheet.Cells["A2"].Value);
         }
     }
 }

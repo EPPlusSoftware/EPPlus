@@ -214,6 +214,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 return new Operator(Operators.Concat, PrecedenceConcat, (l, r) =>
                     {
+                        if(l.DataType == DataType.ExcelError)
+                        {
+                            return l;
+                        }
+                        else if(r.DataType == DataType.ExcelError)
+                        {
+                            return r;
+                        }
                         l = l ?? new CompileResult(string.Empty, DataType.String);
                         r = r ?? new CompileResult(string.Empty, DataType.String);
                         var lStr = l.Result != null ? CompileResultToString(l) : string.Empty;

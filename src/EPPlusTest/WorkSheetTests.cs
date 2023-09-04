@@ -58,7 +58,7 @@ namespace EPPlusTest
         {
             InitBase();
             _pck = OpenPackage("Worksheet.xlsx", true);
-        }   
+        }
         [ClassCleanup]
         public static void Cleanup()
         {
@@ -168,8 +168,8 @@ namespace EPPlusTest
                 Assert.AreEqual(ws.Cells["T20"].GetValue<string>().Substring(0, 15), 0.3961805555555.ToString(CultureInfo.CurrentCulture));
                 Assert.AreEqual(ws.Cells["T20"].GetValue<int>(), 0);
                 Assert.AreEqual(ws.Cells["T20"].GetValue<int?>(), 0);
-                Assert.AreEqual(Math.Round(ws.Cells["T20"].GetValue<double>(),15), 0.396180555555556d);
-                Assert.AreEqual(Math.Round(ws.Cells["T20"].GetValue<double?>().Value,15), 0.396180555555556d);
+                Assert.AreEqual(Math.Round(ws.Cells["T20"].GetValue<double>(), 15), 0.396180555555556d);
+                Assert.AreEqual(Math.Round(ws.Cells["T20"].GetValue<double?>().Value, 15), 0.396180555555556d);
                 Assert.AreEqual(ws.Cells["T20"].GetValue<decimal>(), 0.396180555555556m);
                 Assert.AreEqual(ws.Cells["T20"].GetValue<decimal?>(), 0.396180555555556m);
                 Assert.AreEqual(ws.Cells["T20"].GetValue<bool>(), true);
@@ -895,12 +895,12 @@ namespace EPPlusTest
 
             ws = _pck.Workbook.Worksheets.Add("LoadFromCollection_Inherited");
             List<InheritTestDTO> inhList = new List<InheritTestDTO>();
-            inhList.Add(new InheritTestDTO() { Id = 1, Name = "Item1", Boolean = false, Date = new DateTime(2011, 1, 1), dto = null, NameVar = "Field 1", InheritedProp="Inherited 1" });
+            inhList.Add(new InheritTestDTO() { Id = 1, Name = "Item1", Boolean = false, Date = new DateTime(2011, 1, 1), dto = null, NameVar = "Field 1", InheritedProp = "Inherited 1" });
             inhList.Add(new InheritTestDTO() { Id = 2, Name = "Item2", Boolean = true, Date = new DateTime(2011, 1, 15), dto = new TestDTO(), NameVar = "Field 2", InheritedProp = "Inherited 2" });
             ws.Cells["A1"].LoadFromCollection(inhList, true);
             Assert.AreEqual("Inherited 2", ws.Cells[3, 1].Value);
 
-            ws.Cells["A5"].LoadFromCollection(inhList, true, TableStyles.None, BindingFlags.Public | BindingFlags.Instance, new MemberInfo[]{typeof(InheritTestDTO).GetProperty("InheritedProp"), typeof(TestDTO).GetProperty("Name") });
+            ws.Cells["A5"].LoadFromCollection(inhList, true, TableStyles.None, BindingFlags.Public | BindingFlags.Instance, new MemberInfo[] { typeof(InheritTestDTO).GetProperty("InheritedProp"), typeof(TestDTO).GetProperty("Name") });
             Assert.AreEqual("Inherited 2", ws.Cells[7, 1].Value);
 
         }
@@ -1030,7 +1030,7 @@ namespace EPPlusTest
             Console.WriteLine(rt.Bold.ToString());
             rt.Bold = true;
             Console.WriteLine(rt.Bold.ToString());
-        }   
+        }
         [TestMethod]
         public void FormulaError()
         {
@@ -1064,14 +1064,14 @@ namespace EPPlusTest
                 new object [] { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55}
             });
             var table = ws.Tables.Add(ws.Cells["A1:D4"], "PivotData");
-            var pt=ws.PivotTables.Add(ws.Cells["G20"], ws.Cells["A1:D4"], "PivotTable1");
+            var pt = ws.PivotTables.Add(ws.Cells["G20"], ws.Cells["A1:D4"], "PivotTable1");
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.DataFields.Add(pt.Fields[3]);
             Assert.AreEqual("PivotStyleMedium9", ws.PivotTables["PivotTable1"].StyleName);
 
             _pck.Workbook.Worksheets.AddChart("PivotChartWorksheet", eChartType.Line, pt);
         }
-       [TestMethod]
+        [TestMethod]
         public void TableTest()
         {
             var ws = _pck.Workbook.Worksheets.Add("Table");
@@ -1307,7 +1307,7 @@ namespace EPPlusTest
             dt.Rows.Add(dr);
             return dt;
         }
-    
+
         [TestMethod]
         public void LoadDataTable()
         {
@@ -1408,8 +1408,8 @@ namespace EPPlusTest
             ws.Cells["A4"].LoadFromText("\"1,3\",\"\",\"12,2\",\"Test\"\"\"", new ExcelTextFormat() { TextQualifier = '"' });
 
             ws = _pck.Workbook.Worksheets.Add("File1");
-            if(File.Exists(@"c:\temp\csv\et1c1004.csv"))
-                ws.Cells["A1"].LoadFromText(new FileInfo(@"c:\temp\csv\et1c1004.csv"), new ExcelTextFormat() {SkipLinesBeginning=3,SkipLinesEnd=1, EOL="\n"});
+            if (File.Exists(@"c:\temp\csv\et1c1004.csv"))
+                ws.Cells["A1"].LoadFromText(new FileInfo(@"c:\temp\csv\et1c1004.csv"), new ExcelTextFormat() { SkipLinesBeginning = 3, SkipLinesEnd = 1, EOL = "\n" });
 
             ws = _pck.Workbook.Worksheets.Add("File2");
             if (File.Exists(@"c:\temp\csv\etiv2812.csv"))
@@ -1417,7 +1417,7 @@ namespace EPPlusTest
 
             ws = _pck.Workbook.Worksheets.Add("File3");
             if (File.Exists(@"c:\temp\csv\last_gics.txt"))
-                ws.Cells["A1"].LoadFromText(new FileInfo(@"c:\temp\csv\last_gics.txt"), new ExcelTextFormat() { SkipLinesBeginning = 1, Delimiter='|'});
+                ws.Cells["A1"].LoadFromText(new FileInfo(@"c:\temp\csv\last_gics.txt"), new ExcelTextFormat() { SkipLinesBeginning = 1, Delimiter = '|' });
 
             ws = _pck.Workbook.Worksheets.Add("File4");
 
@@ -1483,7 +1483,7 @@ namespace EPPlusTest
             ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.Png2ByteArray), ePictureType.Png);
             Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
             Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
-            
+
             ws.BackgroundImage.Remove();
             Assert.IsNull(ws.BackgroundImage.Image.Type);
             Assert.IsNull(ws.BackgroundImage.Image.ImageBytes);
@@ -1494,11 +1494,11 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("BackImg_Png");
             var wsCopy = _pck.Workbook.Worksheets.Add("BackImg_Png_Copy");
 
-            var image=ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.Png3ByteArray), ePictureType.Png);
+            var image = ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.Png3ByteArray), ePictureType.Png);
             Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
             Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
             wsCopy.BackgroundImage.Image.SetImage(image);
-            
+
             Assert.AreEqual(wsCopy.BackgroundImage.Image.Type, ws.BackgroundImage.Image.Type);
             Assert.AreEqual(wsCopy.BackgroundImage.Image.ImageBytes, ws.BackgroundImage.Image.ImageBytes);
         }
@@ -1592,7 +1592,7 @@ namespace EPPlusTest
             ws.Cells["A1:C3"].Style.Fill.Gradient.Color2.SetColor(Color.Blue);
 
             ws.Cells["J20:J23"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            ws.Cells["J20:J23"].Style.Fill.BackgroundColor.SetColor(0xFF,0x00,0XFF,0x00); //Green
+            ws.Cells["J20:J23"].Style.Fill.BackgroundColor.SetColor(0xFF, 0x00, 0XFF, 0x00); //Green
 
             ws.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.MediumGray;
             ws.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.ForestGreen);
@@ -1716,13 +1716,13 @@ namespace EPPlusTest
         }
         [TestMethod]
         public void Sort()
-        {            
+        {
             using (var package = OpenPackage("Sort.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("Sorting");
-                AddSortingData(ws,1,1);
+                AddSortingData(ws, 1, 1);
                 ws.Cells["A:C"].Sort(2, true);
-                ws.Cells["A:C"].Sort(new int[] { 2,1 }, new bool[] { true, false });
+                ws.Cells["A:C"].Sort(new int[] { 2, 1 }, new bool[] { true, false });
 
                 AddSortingData(ws, 1, 5);
                 ws.Cells["H1:H1000"].Formula = "E1*2";
@@ -1738,7 +1738,7 @@ namespace EPPlusTest
                 ws.Cells["I7"].AddComment("Comment", "Jan");
 
 
-                ws.Cells["I:I"].Sort(0,true);
+                ws.Cells["I:I"].Sort(0, true);
                 package.Save();
             }
         }
@@ -1820,18 +1820,18 @@ namespace EPPlusTest
             var addr = ExcelCellBase.GetAddress(row, col, row + 999, col);
             ws.Cells[addr].Style.Fill.PatternType = ExcelFillStyle.Solid;
             ws.Cells[addr].Style.Font.Color.SetColor(Color.White);
-            for (var r = row; r <= row+999; r++)
+            for (var r = row; r <= row + 999; r++)
             {
                 var v = rand.NextDouble() * row;
                 ws.SetValue(r, col, v);
-                ws.SetValue(r, col+1, $"Rad {r} v={v}");
-                ws.SetValue(r, col+2, $"Rad {r} v={v}");
+                ws.SetValue(r, col + 1, $"Rad {r} v={v}");
+                ws.SetValue(r, col + 2, $"Rad {r} v={v}");
                 ws.Cells[r, col].Style.Fill.BackgroundColor.SetColor(r % 3 == 0 ? Color.Red : r % 3 == 1 ? Color.Green : Color.Blue);
                 if (r % 10 == 0)
                 {
-                    ws.Cells[r, col+1, r, col+2].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    ws.Cells[r, col+1].Style.Fill.BackgroundColor.SetColor(Color.LightPink);
-                    ws.Cells[r, col+2].Style.Fill.BackgroundColor.SetColor(Color.LightCyan);
+                    ws.Cells[r, col + 1, r, col + 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    ws.Cells[r, col + 1].Style.Fill.BackgroundColor.SetColor(Color.LightPink);
+                    ws.Cells[r, col + 2].Style.Fill.BackgroundColor.SetColor(Color.LightCyan);
                 }
             }
         }
@@ -1964,6 +1964,81 @@ namespace EPPlusTest
                 Assert.IsNull(worksheet.Cells["A2"].Value);
                 Assert.IsNull(worksheet.Cells["B1"].Value);
                 Assert.IsNull(worksheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void DeletingSheetMovesSelectedSheetCorrectly()
+        {
+            using (var package = OpenPackage("deletedSheets.xlsx", true))
+            {
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("VisibleSheet2");
+                package.Workbook.Worksheets.Add("HiddenSheet2").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("HiddenSheet3").Hidden = eWorkSheetHidden.VeryHidden;
+                package.Workbook.Worksheets.Add("VisibleSheet3");
+                package.Workbook.Worksheets.Add("VisibleSheet4");
+                package.Workbook.Worksheets.Add("HiddenSheet4").Hidden = eWorkSheetHidden.Hidden;
+
+                package.Workbook.View.ActiveTab = 2;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet2");
+
+                Assert.AreEqual(4, package.Workbook.View.ActiveTab);
+
+                package.Workbook.View.ActiveTab = package.Workbook.Worksheets.GetByName("VisibleSheet4").Index;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet4");
+
+                Assert.AreEqual(package.Workbook.Worksheets.GetByName("VisibleSheet3").Index, package.Workbook.View.ActiveTab);
+
+                package.Workbook.Worksheets.Delete("HiddenSheet4");
+
+                Assert.AreEqual(package.Workbook.Worksheets.GetByName("VisibleSheet3").Index, package.Workbook.View.ActiveTab);
+
+                package.Workbook.Worksheets.Delete("VisibleSheet3");
+
+                Assert.AreEqual(0, package.Workbook.View.ActiveTab);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DeletingSheetMovesLastSelectedSheetCorrectly()
+        {
+            using (var package = OpenPackage("deletedSheets.xlsx", true))
+            {
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("VisibleSheet2");
+                var nextSheet = package.Workbook.Worksheets.Add("VisibleSheet3");
+
+                var lastSheet = package.Workbook.Worksheets.Add("VisibleSheet4");
+
+                package.Workbook.View.ActiveTab = 4;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet4");
+
+                Assert.AreEqual(nextSheet.Index, package.Workbook.View.ActiveTab);
+            }
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void NoVisibleSheetShouldThrow()
+        {
+            using (var package = new ExcelPackage("ExceptionSheet.xlsx"))
+            {
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("HiddenSheet2").Hidden = eWorkSheetHidden.Hidden;
+
+                package.Workbook.Worksheets.Delete(0);
+
+                package.Save();
             }
         }
     }

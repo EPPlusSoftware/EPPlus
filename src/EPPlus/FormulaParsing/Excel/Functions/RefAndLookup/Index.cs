@@ -52,14 +52,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (arg1.IsExcelRange)
             {
                 var row = ArgToInt(arguments, 1, RoundingMethod.Floor);                 
-                var col = arguments.Count()>2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
+                var col = arguments.Count()>2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 0;
                 var ri=arg1.ValueAsRangeInfo;
-                if (row > ri.Address._toRow - ri.Address._fromRow + 1 ||
-                    col > ri.Address._toCol - ri.Address._fromCol + 1)
+                var nRows = ri.Address._toRow - ri.Address._fromRow + 1;
+                var nCols = ri.Address._toCol - ri.Address._fromCol + 1;
+                var rowIx = row - 1;
+                var colIx = col - 1;
+                if(nRows == 1 && row <= nCols && col == 0)
                 {
-                    ThrowExcelErrorValueException(eErrorType.Ref);
+                    colIx = rowIx;
+                    rowIx = 0;
                 }
-                var candidate = ri.GetOffset(row-1, col-1);
+                else if (row >  nRows ||  col > nCols || (col == 0 && nRows > 1 && nCols > 1))
+                {
+                    return CreateResult(eErrorType.Ref);
+                }
+                var candidate = ri.GetOffset(rowIx, colIx < 0 ? 0 : colIx);
                 //Commented JK-Can be any data type
                 //if (!IsNumber(candidate.Value))   
                 //{
@@ -67,7 +75,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 //}
                 return crf.Create(candidate);
             }
-            throw new NotImplementedException();
+            else
+            {
+                // only one argument
+                if(arg1.ValueIsExcelError)
+                {
+                    return CreateResult(arg1.Value, DataType.ExcelError);
+                }
+                else if (arguments.ElementAt(1).ValueIsExcelError)
+                {
+                    return CreateResult(arguments.ElementAt(1).Value, DataType.ExcelError);
+                }
+                var index = ArgToInt(arguments, 1, RoundingMethod.Floor);
+                return index >= 0 && index <= 1 ? crf.Create(arg1.Value) : CreateResult(eErrorType.Ref);
+            }
         }
     }
 }

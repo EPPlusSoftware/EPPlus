@@ -69,7 +69,7 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var sort = false;
             var members = type.GetProperties(_bindingFlags);
-            if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
+            if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>() || type.HasMemberWithPropertyOfType<EpplusNestedTableColumnAttribute>())
             {
                 sort = true;
                 var index = 0;
