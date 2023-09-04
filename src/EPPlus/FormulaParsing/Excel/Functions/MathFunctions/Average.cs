@@ -32,10 +32,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
 
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
@@ -62,13 +62,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return;
             }
-            if (arg.Value is IEnumerable<FunctionArgument>)
-            {
-                foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
-                {
-                    Calculate(item, context, ref retVal, ref nValues, true);
-                }
-            }
+            //if (arg.Value is IEnumerable<FunctionArgument>)
+            //{
+            //    foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
+            //    {
+            //        Calculate(item, context, ref retVal, ref nValues, true);
+            //    }
+            //}
             else if (arg.IsExcelRange)
             {
                 foreach (var c in arg.ValueAsRangeInfo)

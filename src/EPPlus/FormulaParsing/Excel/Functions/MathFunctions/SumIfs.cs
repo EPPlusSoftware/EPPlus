@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
@@ -42,14 +41,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         //    return abc;
         //}
         public override int ArgumentMinLength => 3;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex % 2 == 0 && argumentIndex > 0)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             return FunctionParameterInformation.Normal;
-        }
+        }));
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
@@ -90,14 +89,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 
-            //var result = matchIndexes.Sum(index => sumRange[index]);
-            KahanSum result = 0.0;
-            foreach(var index in matchIndexes)
-            {
-                result += sumRange[index];
-            }
+            var result = matchIndexes.Sum(index => sumRange[index]);
 
-            return CreateResult(result.Get(), DataType.Decimal);
+            return CreateResult(result, DataType.Decimal);
         }
     }
 }

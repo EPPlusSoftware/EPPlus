@@ -27,12 +27,14 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 
@@ -115,18 +117,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 			var date1 = new DateTime(2013, 1, 5);
 			var date2 = new DateTime(2013, 1, 15);
 			double value = 2000;
-			var result = average.Execute(new FunctionArgument[]
+			var range = new InMemoryRange(1, 7);
+			range.SetValue(0, 0, 1000.ToString("n"));
+            range.SetValue(0, 1, value);
+            range.SetValue(0, 2, 6000.ToString("n"));
+            range.SetValue(0, 3, true);
+            range.SetValue(0, 4, date1);
+            range.SetValue(0, 5, date2.ToString("d"));
+            range.SetValue(0, 6, "test");
+            var result = average.Execute(new List<FunctionArgument>()
 			{
-				new FunctionArgument(new FunctionArgument[]
-				{
-					new FunctionArgument(1000.ToString("n")),
-					new FunctionArgument(value),
-					new FunctionArgument(6000.ToString("n")),
-					new FunctionArgument(true),
-					new FunctionArgument(date1),
-					new FunctionArgument(date2.ToString("d")),
-					new FunctionArgument("test")
-				})
+				new FunctionArgument(range, DataType.ExcelRange)
 			}, ParsingContext.Create());
 			Assert.AreEqual((2000 + date1.ToOADate()) / 2, result.Result);
 		}

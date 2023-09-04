@@ -15,7 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -36,6 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 return CompileResultFactory.Create(arguments.ElementAt(0).Value);
             }
+            
             var arg0 = arguments[0].Value;
             var arg1 = arguments[1];
             var arg2 = arguments.Count < 3 ? new FunctionArgument(false,DataType.Boolean) : arguments[2];
@@ -50,8 +53,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                     {
                         var cell = ri.GetOffset(row, col);
                         var condition = ConvertUtil.GetValueBool(cell);
-                        object v = condition ? GetArrayResult(arg1, arg1Type, row, col) : GetArrayResult(arg2, arg2Type, row, col);
-                        range.SetValue(row, col, v);
+                        if (condition.HasValue)
+                        {
+                            object v = condition.Value ? GetArrayResult(arg1, arg1Type, row, col) : GetArrayResult(arg2, arg2Type, row, col);
+                            range.SetValue(row, col, v);
+                        }
+                        else
+                        {
+                            if(cell is ExcelErrorValue error)
+                            {
+                                range.SetValue(row, col, error);
+                            }
+                            else
+                            {
+                                range.SetValue(row, col, ErrorValues.ValueError);
+                            }
+                        }
                     }
                 }
                 return new CompileResult(range, DataType.ExcelRange);
@@ -59,29 +76,42 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             else
             {
                 var condition = ConvertUtil.GetValueBool(arg0);
-                if (arguments.Count < 3)
+                if (condition.HasValue)
                 {
-                    if(arg1.Address==null)
+                    if (arguments.Count < 3)
                     {
-                        return condition ? new CompileResult(arg1.Value, arg1.DataType) : CompileResultFactory.Create(false, null);
+                        if (arg1.Address == null)
+                        {
+                            return condition.Value ? new CompileResult(arg1.Value, arg1.DataType) : CompileResultFactory.Create(false, null);
+                        }
+                        else
+                        {
+                            return condition.Value ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : CompileResultFactory.Create(false, null);
+                        }
                     }
                     else
                     {
-                        return condition ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : CompileResultFactory.Create(false, null);
+                        var secondStatement = arguments[2];
+                        return condition.Value ?
+                            arg1.Address == null ?
+                                new CompileResult(arg1.Value, arg1.DataType) :
+                                new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) :
+                            secondStatement.Address == null ?
+                                new CompileResult(secondStatement.Value, secondStatement.DataType) :
+                                new AddressCompileResult(secondStatement.Value, secondStatement.DataType, secondStatement.Address);
                     }
                 }
                 else
                 {
-                    var secondStatement = arguments[2];                    
-                    return condition ?
-                        arg1.Address==null ? 
-                            new CompileResult(arg1.Value, arg1.DataType) : 
-                            new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) :
-                        secondStatement.Address == null ? 
-                            new CompileResult(secondStatement.Value, secondStatement.DataType) : 
-                            new AddressCompileResult(secondStatement.Value, secondStatement.DataType, secondStatement.Address);
+                    if (arg0 is ExcelErrorValue error)
+                    {
+                        return CompileResult.GetErrorResult(error.Type);
+                    }
+                    else
+                    {
+                        return CompileResult.GetErrorResult(eErrorType.Value);
+                    }
                 }
-
             }
         }
         public enum ArgumentType
@@ -160,14 +190,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
 
         public override bool ReturnsReference => true;
-        public override bool HasNormalArguments => false;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if(argumentIndex==0)
+            if (argumentIndex == 0)
             {
                 return FunctionParameterInformation.Condition;
             }
-            else if(argumentIndex==1)
+            else if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.UseIfConditionIsTrue;
             }
@@ -175,6 +204,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 return FunctionParameterInformation.UseIfConditionIsFalse;
             }
-        }
+        }));
     }
 }

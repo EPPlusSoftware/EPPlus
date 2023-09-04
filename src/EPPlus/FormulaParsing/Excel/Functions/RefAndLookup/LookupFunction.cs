@@ -36,13 +36,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             _valueMatcher = valueMatcher;
         }
 
-        public override bool IsLookupFuction
-        {
-            get
-            {
-                return true;
-            }
-        }
+        //public override bool IsLookupFuction
+        //{
+        //    get
+        //    {
+        //        return true;
+        //    }
+        //}
 
         protected int IsMatch(object searchedValue, object candidate)
         {

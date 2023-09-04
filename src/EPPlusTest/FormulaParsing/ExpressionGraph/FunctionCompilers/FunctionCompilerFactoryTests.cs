@@ -97,7 +97,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
 
             private readonly ExcelFunction _function;
 
-            public override CompileResult Compile(IEnumerable<Expression> children, ParsingContext context)
+            public override CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
             {
                 return base.Compile(children, context);
             }

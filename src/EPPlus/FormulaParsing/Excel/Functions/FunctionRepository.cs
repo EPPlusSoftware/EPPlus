@@ -23,16 +23,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// </summary>
     public class FunctionRepository : IFunctionNameProvider
     {
-        private Dictionary<Type, FunctionCompiler> _customCompilers = new Dictionary<Type, FunctionCompiler>();
-
         private Dictionary<string, ExcelFunction> _functions = new Dictionary<string, ExcelFunction>(StringComparer.Ordinal);
         
-
-        internal Dictionary<Type, FunctionCompiler> CustomCompilers
-        {
-            get { return _customCompilers; }
-        }
-
         private FunctionRepository()
         {
 
@@ -57,10 +49,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 var lowerKey = key.ToLower(CultureInfo.InvariantCulture);
                 _functions[lowerKey] = module.Functions[key];
             }
-            foreach (var key in module.CustomCompilers.Keys)
-            {
-                CustomCompilers[key] = module.CustomCompilers[key];
-            }
+            //foreach (var key in module.CustomCompilers.Keys)
+            //{
+            //    CustomCompilers[key] = module.CustomCompilers[key];
+            //}
             _namespaceFunctions = null;
         }
 

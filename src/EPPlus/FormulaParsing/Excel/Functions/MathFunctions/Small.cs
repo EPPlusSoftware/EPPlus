@@ -30,17 +30,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             IgnoreHiddenValues = false;
             IgnoreErrors = false;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
-        {
-            return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
-
+        //public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
+        //{
+        //    return FunctionParameterInformation.IgnoreErrorInPreExecute;
+        //}));
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var args = arguments[0];
+            
+            
+            
             var index = ArgToInt(arguments, 1, IgnoreErrors) - 1;
-            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { args }, context);
+            var values = ArgsToDoubleEnumerable(false,new List<FunctionArgument> { args }, context, true);
             if (index < 0 || index >= values.Count()) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = values.OrderBy(x => x).ElementAt(index);
             return CreateResult(result, DataType.Decimal);

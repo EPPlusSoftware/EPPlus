@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using Newtonsoft.Json.Linq;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {

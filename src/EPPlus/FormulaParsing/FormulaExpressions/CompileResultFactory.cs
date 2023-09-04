@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -24,11 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
         public static CompileResult Create(object obj)
         {
-            if (obj is IRangeInfo)
-            {
-                obj = ((IRangeInfo)obj).GetOffset(0, 0);
-            }
-            else if ((obj is INameInfo))
+            if ((obj is INameInfo))
             {
                 obj = ((INameInfo)obj).Value;
             }
@@ -37,11 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
         public static CompileResult CreateDynamicArray(object obj, FormulaRangeAddress address=null)
         {
-            if (obj is IRangeInfo)
-            {
-                obj = ((IRangeInfo)obj).GetOffset(0, 0);
-            }
-            else if ((obj is INameInfo))
+            if ((obj is INameInfo))
             {
                 obj = ((INameInfo)obj).Value;
             }
@@ -51,11 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public static CompileResult Create(object obj, FormulaRangeAddress address)
         {
             bool isHidden = false;
-            if (obj is IRangeInfo ri)
-            {
-                obj = ri.GetOffset(0, 0);
-            }
-            else if ((obj is INameInfo ni))
+            if ((obj is INameInfo ni))
             {
                 obj = ni.Value;
             }
@@ -86,9 +75,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     obj = ((DateTime)obj).ToOADate();
                     return DataType.Date;
                 default:
-                    if (t.Equals(typeof(ExcelErrorValue)))
+                    if (obj is ExcelErrorValue)
                     {
                         return DataType.ExcelError;
+                    }
+                    else if (obj is IRangeInfo)
+                    {
+                        return DataType.ExcelRange;
                     }
                     throw new ArgumentException("Non supported type " + t.FullName);
             }

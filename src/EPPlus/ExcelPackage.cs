@@ -577,7 +577,6 @@ namespace OfficeOpenXml
             // create the relationship to the main part
             _zipPackage.CreateRelationship(UriHelper.GetRelativeUri(new Uri("/xl", UriKind.Relative), Workbook.WorkbookUri), Packaging.TargetMode.Internal, schemaRelationships + "/officeDocument");
         }
-
         PictureStore _pictureStore = null;
         internal PictureStore PictureStore
         {

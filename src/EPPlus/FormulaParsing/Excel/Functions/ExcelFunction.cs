@@ -26,7 +26,6 @@ using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -35,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// Base class for Excel function implementations.
     /// </summary>
     public abstract class ExcelFunction
-    {
+    {        
         public ExcelFunction()
             : this(new ArgumentCollectionUtil(), new ArgumentParsers(), new CompileResultValidators())
         {
@@ -80,13 +79,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
+            
             for (int i = 0; i < arguments.Count; i++)
             {
-                var pi = GetParameterInfo(i);
-                if (arguments[i].DataType == DataType.ExcelError && 
-                    (pi & FunctionParameterInformation.IgnoreErrorInPreExecute) != FunctionParameterInformation.IgnoreErrorInPreExecute)
+                if (ParametersInfo.HasNormalArguments)
                 {
-                    return CompileResult.GetErrorResult(arguments[i].ValueAsExcelErrorValue.Type);
+                    if (arguments[i].DataType == DataType.ExcelError)
+                    {
+                        return CompileResult.GetErrorResult(arguments[i].ValueAsExcelErrorValue.Type);
+                    }
+                }
+                else
+                {
+                    var pi = ParametersInfo.GetParameterInfo(i);
+                    if (arguments[i].DataType == DataType.ExcelError &&
+                        (pi & FunctionParameterInformation.IgnoreErrorInPreExecute) != FunctionParameterInformation.IgnoreErrorInPreExecute)
+                    {
+                        return CompileResult.GetErrorResult(arguments[i].ValueAsExcelErrorValue.Type);
+                    }
                 }
             }
 
@@ -103,13 +113,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="context"></param>
         public virtual void BeforeInvoke(ParsingContext context) { }
-
-        public virtual bool IsLookupFuction
+        public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
-            get
-            {
-                return false;
-            }
+            
         }
 
         public virtual bool IsErrorHandlingFunction
@@ -309,9 +315,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var arg = arguments[index];
             switch (arg.DataType)
             {
-                case DataType.ExcelError:
-                    
-                    
+                case DataType.ExcelError:                                        
                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
                 case DataType.Empty:
                     return 0;
@@ -382,6 +386,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 default:
                     return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
             }
+        }
+        /// <summary>
+        /// Returns the value of the argument att the position of the 0-based
+        /// <paramref name="index"/> as a <see cref="System.Double"/>.
+        /// If the the value is null, zero will be returned.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="index"></param>
+        /// <param name="valueIfNull"></param>
+        /// <returns>Value of the argument as an integer.</returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected double ArgToDecimal(IList<FunctionArgument> arguments, int index, double valueIfNull)
+        {
+            var arg = arguments[index];
+            if (arg.Value == null)
+            {
+                return valueIfNull;
+            }
+            if (arg.ValueIsExcelError)
+            {
+                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+            }
+            return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet);
+
         }
         /// <summary>
         /// 
@@ -596,7 +624,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var startCol = rangeInfo.Address.FromCol;
             var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
             var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
-            var funcArg = new FunctionArgument(rangeInfo);
+            var funcArg = new FunctionArgument(rangeInfo, DataType.ExcelRange);
             var result = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
             var dict = new Dictionary<int, double>();
             result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
@@ -684,20 +712,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         /// <summary>
-        /// Use this method to apply a function on a collection of arguments. The <paramref name="result"/>
-        /// should be modifyed in the supplied <paramref name="action"/> and will contain the result
-        /// after this operation has been performed.
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="result"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        protected virtual double CalculateCollection(IEnumerable<FunctionArgument> collection, double result, Func<FunctionArgument, double, double> action)
-        {
-            return _argumentCollectionUtil.CalculateCollection(collection, result, action);
-        }
-
-        /// <summary>
         /// if the supplied <paramref name="arg">argument</paramref> contains an Excel error
         /// an <see cref="ExcelErrorValueException"/> with that errorcode will be thrown
         /// </summary>
@@ -764,26 +778,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return false;
             }
         }
-
         /// <summary>
-        /// Returns true if there are no deviations 
+        /// Provides information about the functions parameters.
         /// </summary>
-        public virtual bool HasNormalArguments
+        public virtual ExcelFunctionParametersInfo ParametersInfo
         {
-            get
-            {
-                return true;
-            }
-        }
+            get;
+        } = ExcelFunctionParametersInfo.Default;
+
         /// <summary>
         /// Information of individual arguments of the function used internally by the formula parser .
         /// </summary>
         /// <param name="argumentIndex">The argument index</param>
         /// <returns>Function argument information</returns>
-        public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
-        {
-            return FunctionParameterInformation.Normal;
-        }
         public virtual string NamespacePrefix
         {
             get

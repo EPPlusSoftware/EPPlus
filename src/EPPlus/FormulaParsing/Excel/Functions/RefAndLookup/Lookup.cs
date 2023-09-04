@@ -1,95 +1,65 @@
-/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *************************************************************************************************/
+﻿using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using System.Text.RegularExpressions;
-using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Searches for a specific value in one data vector, and returns a value from the corresponding position of a second data vector")]
-    internal class Lookup : LookupFunction
+        Description = "Searches for a specific value in one data vector, and returns a value from the corresponding position of a second data vector",
+        SupportsArrays = true)]
+    internal class Lookup : ExcelFunction
     {
-        public override int ArgumentMinLength => 2;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override string NamespacePrefix => "_xlfn.";
+        public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (HaveTwoRanges(arguments))
+            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var arg2 = arguments[1];
+            if(!arg2.IsExcelRange)
             {
-                return HandleTwoRanges(arguments, context);
+                return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            return HandleSingleRange(arguments, context);
-        }
-
-        private bool HaveTwoRanges(IList<FunctionArgument> arguments)
-        {
-            if (arguments.Count < 3) return false;
-            return (arguments[2].Value is RangeInfo);
-        }
-
-        private CompileResult HandleSingleRange(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            var searchedValue = arguments[0].Value;
-            var firstAddress = ArgToAddress(arguments, 1);
-            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
-            var address = rangeAddressFactory.Create(firstAddress);
-            var nRows = address.ToRow - address.FromRow;
-            var nCols = address.ToCol - address.FromCol;
-            var lookupIndex = nCols + 1;
-            var lookupDirection = LookupDirection.Vertical;
-            if (nCols > nRows)
+            var lookupRange = arg2.ValueAsRangeInfo;
+            var returnVector = lookupRange;
+            var separateReturnVector = false;
+            if(arguments.Count > 2 && arguments[2].IsExcelRange)
             {
-                lookupIndex = nRows + 1;
-                lookupDirection = LookupDirection.Horizontal;
+                separateReturnVector = true;
+                returnVector = arguments[2].ValueAsRangeInfo;
             }
-            var lookupArgs = new LookupArguments(searchedValue, firstAddress, lookupIndex, 0, true, arguments[1].ValueAsRangeInfo);
-            var navigator = LookupNavigatorFactory.Create(lookupDirection, lookupArgs, context);
-            return Lookup(navigator, lookupArgs);
-        }
-
-        private CompileResult HandleTwoRanges(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            var arg0 = arguments[0];
-            var arg1 = arguments[1];
-            var arg2 = arguments[2];
-
-            var firstAddress = ArgToAddress(arguments, 1);
-            var secondAddress = ArgToAddress(arguments, 2);
-            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
-            var address1 = rangeAddressFactory.Create(firstAddress);
-            var address2 = rangeAddressFactory.Create(secondAddress);
-            var lookupIndex = (address2.FromCol - address1.FromCol) + 1;
-            var lookupOffset = address2.FromRow - address1.FromRow;
-            var lookupDirection = GetLookupDirection(address1);
-            if (lookupDirection == LookupDirection.Horizontal)
+            var nLookupRows = lookupRange.Size.NumberOfRows;
+            var nLookupCols = lookupRange.Size.NumberOfCols;
+            var index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, true, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller));
+            index = LookupBinarySearch.GetMatchIndex(index, returnVector, LookupMatchMode.ExactMatchReturnNextSmaller, true);
+            if(index < 0)
             {
-                lookupIndex = (address2.FromRow - address1.FromRow) + 1;
-                lookupOffset = address2.FromCol - address1.FromCol;
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
-            var lookupArgs = new LookupArguments(arg0.Value, firstAddress, lookupIndex, lookupOffset, true, arguments[1].ValueAsRangeInfo);
-            var navigator = LookupNavigatorFactory.Create(lookupDirection, lookupArgs, context);
-            return Lookup(navigator, lookupArgs);
+            var nReturnRows = returnVector.Size.NumberOfRows;
+            var nReturnCols = returnVector.Size.NumberOfCols;
+            if(nReturnRows >= nReturnCols)
+            {
+                if(separateReturnVector && nReturnCols > 1)
+                {
+                    return CompileResult.GetErrorResult(eErrorType.NA);
+                }
+                return CompileResultFactory.Create(returnVector.GetOffset(index, nReturnCols - 1));
+            }
+            else
+            {
+                if (separateReturnVector && nReturnRows > 1)
+                {
+                    return CompileResult.GetErrorResult(eErrorType.NA);
+                }
+                return CompileResultFactory.Create(returnVector.GetOffset(nReturnRows - 1, index));
+            }
         }
     }
 }

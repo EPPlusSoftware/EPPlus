@@ -30,7 +30,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         private enum ItemContext
         {
             InRange,
-            InArray,
             SingleArg
         }
 
@@ -60,18 +59,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    var value = item.Value as IList<FunctionArgument>;
-                    if (value != null)
+                    _CheckForAndHandleExcelError(item, context);
+                    if (ShouldIgnore(item, context) == false && ShouldCount(item.Value, itemContext))
                     {
-                        Calculate(value, ref nItems, context, ItemContext.InArray);
-                    }
-                    else
-                    {
-                        _CheckForAndHandleExcelError(item, context);
-                        if (ShouldIgnore(item, context) == false && ShouldCount(item.Value, itemContext))
-                        {
-                            nItems++;
-                        }
+                        nItems++;
                     }
                 }
             }
@@ -101,8 +92,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     return IsNumeric(value) || IsNumericString(value);
                 case ItemContext.InRange:
                     return IsNumeric(value);
-                case ItemContext.InArray:
-                    return IsNumeric(value) || IsNumericString(value);
                 default:
                     throw new ArgumentException("Unknown ItemContext:" + context.ToString());
             }

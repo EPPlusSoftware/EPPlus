@@ -35,6 +35,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -59,7 +60,7 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void ArgsToDoubleEnumerableShouldHandleInnerEnumerables()
         {
-            var args = FunctionsHelper.CreateArgs(1, 2, FunctionsHelper.CreateArgs(3, 4));
+            var args = FunctionsHelper.CreateArgs(1, 2, InMemoryRange.GetFromArray(3, 4));
             var tester = new ExcelFunctionTester();
             var result = tester.ArgsToDoubleEnumerableImpl(args);
             Assert.AreEqual(4, result.Count());

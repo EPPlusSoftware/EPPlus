@@ -495,15 +495,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
         public ParsingContext _context;
-        internal FormulaRangeAddress()
+        public FormulaRangeAddress()
         {
 
         }
-        internal FormulaRangeAddress(ParsingContext ctx)
+        public FormulaRangeAddress(ParsingContext ctx)
         {            
             _context = ctx;
         }
-        internal FormulaRangeAddress(ParsingContext ctx, string address) : this(ctx)
+        public FormulaRangeAddress(ParsingContext ctx, string address) : this(ctx)
         {
             int ix;
             if (address.StartsWith("["))
@@ -543,7 +543,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             FixedFlag |= fixedToRow ? FixedFlag.ToRowFixed : 0;
             FixedFlag |= fixedToCol ? FixedFlag.ToColFixed : 0;
         }
-        internal FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address) : this(ctx)
+        public FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address) : this(ctx)
         {
             FromRow = address._fromRow;
             FromCol = address._fromCol;
@@ -627,7 +627,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get
             {
-                return new ExcelAddress(FromRow, FromCol, ToRow, ToCol).Address;
+                return ExcelCellBase.GetAddress(FromRow, FromCol, ToRow, ToCol, EnumUtil.HasFlag(FixedFlag, FixedFlag.FromRowFixed), EnumUtil.HasFlag(FixedFlag, FixedFlag.FromColFixed), EnumUtil.HasFlag(FixedFlag, FixedFlag.ToRowFixed), EnumUtil.HasFlag(FixedFlag, FixedFlag.ToColFixed));
             }
         }
 
@@ -741,6 +741,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal FormulaRangeAddress GetOffset(int row, int column, bool rollIfOverflow=false)
         {
             var ret = new FormulaRangeAddress(_context);
+            ret.ExternalReferenceIx = ExternalReferenceIx;
+            ret.WorksheetIx = WorksheetIx;
             var fromRow = (FixedFlag & FixedFlag.FromRowFixed) == FixedFlag.FromRowFixed ? FromRow : FromRow + row-1;            
             var toRow = (FixedFlag & FixedFlag.ToRowFixed) == FixedFlag.ToRowFixed ? ToRow : ToRow + row-1;
             var fromCol = (FixedFlag & FixedFlag.FromColFixed) == FixedFlag.FromColFixed ? FromCol : FromCol + column-1;
@@ -756,6 +758,19 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             ret.ToRow = toRow;
             ret.FromCol = fromCol;
             ret.ToCol = toCol;
+            ret.FixedFlag = FixedFlag;
+            return ret;
+        }
+        internal FormulaRangeAddress GetOffset(int row, int column, int rows, int columns)
+        {
+            var ret = new FormulaRangeAddress(_context);
+            ret.ExternalReferenceIx = ExternalReferenceIx;
+            ret.WorksheetIx = WorksheetIx;
+
+            ret.FromRow = FromRow + row;
+            ret.ToRow = ret.FromRow + rows - 1;
+            ret.FromCol = FromCol + column;
+            ret.ToCol = ret.FromCol + columns - 1;
             ret.FixedFlag = FixedFlag;
             return ret;
         }

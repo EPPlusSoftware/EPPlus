@@ -42,6 +42,7 @@ using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -518,21 +519,32 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void SumShouldCalculateEnumerableOf2Plus5Plus3AndReturn10()
         {
-            var func = new SumSubtotal();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(2, 5), 3);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(10d, result.Result);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.SetValue(1, 1, 2);
+                ws.SetValue(2, 1, 5);
+                ws.SetValue(3, 1, 3);
+                ws.Cells[4, 1].Formula = "Subtotal(109,A1:A3)";
+                ws.Calculate();
+                Assert.AreEqual(10d, ws.GetValue(4, 1));
+            }
         }
-
         [TestMethod]
         public void SumShouldIgnoreHiddenValuesWhenIgnoreHiddenValuesIsSet()
         {
-            var func = new SumSubtotal();
-            func.IgnoreHiddenValues = true;
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(2, 5), 3, 4);
-            args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(10d, result.Result);
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.SetValue(1, 1, 2);
+                ws.SetValue(2, 1, 5);
+                ws.SetValue(3, 1, 3);
+                ws.SetValue(4, 1, 4);
+                ws.Rows[4].Hidden = true;
+                ws.Cells[5,1].Formula="Subtotal(109,A1:A4)";
+                ws.Calculate();
+                Assert.AreEqual(10d, ws.GetValue(5,1));
+            }
         }
 
         [TestMethod]
@@ -557,7 +569,11 @@ namespace EPPlusTest.Excel.Functions
         public void SumSqShouldNoCountTrueTrueInArray()
         {
             var func = new Sumsq();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(2, 4, true));
+            var range = new InMemoryRange(1, 3);
+            range.SetValue(0, 0, 2);
+            range.SetValue(0, 1, 4);
+            range.SetValue(0, 2, true);
+            var args = FunctionsHelper.CreateArgs(range);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(20d, result.Result);
         }
@@ -745,7 +761,7 @@ namespace EPPlusTest.Excel.Functions
         {
             var expectedResult = (4d + 2d + 5d + 2d + 1d) / 5d;
             var func = new Average();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4d, 2d), 5d, 2d, true);
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(4d, 2d), 5d, 2d, true);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(expectedResult, result.Result);
         }
@@ -756,7 +772,7 @@ namespace EPPlusTest.Excel.Functions
             var expectedResult = (4d + 2d + 2d + 1d) / 4d;
             var func = new Average();
             func.IgnoreHiddenValues = true;
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4d, 2d), 5d, 2d, true);
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(4d, 2d), 5d, 2d, true);
             args.ElementAt(1).SetExcelStateFlag(ExcelCellState.HiddenCell);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(expectedResult, result.Result);
@@ -804,7 +820,7 @@ namespace EPPlusTest.Excel.Functions
         public void AverageAShouldCountValueAs0IfNonNumericTextIsSuppliedInArray()
         {
             var func = new AverageA();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(1d, 2d, 3d, "ABC"));
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(1d, 2d, 3d, "ABC"));
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(1.5d, result.Result);
         }
@@ -876,12 +892,12 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
-        public void CountShouldIncludeNumericStringsAndDatesInArray()
+        public void CountShouldIncludeNotNumericStringsButDatesAndNumericInArray()
         {
             var func = new Count();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(1d, 2m, 3, new DateTime(2012, 4, 1), "4"));
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(1d, 2m, 3, new DateTime(2012, 4, 1), "4"));
             var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(5d, result.Result);
+            Assert.AreEqual(4d, result.Result);
         }
 
 
@@ -889,7 +905,7 @@ namespace EPPlusTest.Excel.Functions
         public void CountShouldIncludeEnumerableMembers()
         {
             var func = new Count();
-            var args = FunctionsHelper.CreateArgs(1d, FunctionsHelper.CreateArgs(12, 13));
+            var args = FunctionsHelper.CreateArgs(1d, InMemoryRange.GetFromArray(12, 13));
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(3d, result.Result);
         }
@@ -918,7 +934,7 @@ namespace EPPlusTest.Excel.Functions
         public void CountAShouldIncludeEnumerableMembers()
         {
             var func = new CountA();
-            var args = FunctionsHelper.CreateArgs(1d, FunctionsHelper.CreateArgs(12, 13));
+            var args = FunctionsHelper.CreateArgs(1d, InMemoryRange.GetFromArray(12, 13));
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(3d, result.Result);
         }
@@ -928,7 +944,7 @@ namespace EPPlusTest.Excel.Functions
         {
             var func = new CountA();
             func.IgnoreHiddenValues = true;
-            var args = FunctionsHelper.CreateArgs(1d, FunctionsHelper.CreateArgs(12, 13));
+            var args = FunctionsHelper.CreateArgs(1d, InMemoryRange.GetFromArray(12, 13));
             args.ElementAt(0).SetExcelStateFlag(ExcelCellState.HiddenCell);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(2d, result.Result);
@@ -947,7 +963,7 @@ namespace EPPlusTest.Excel.Functions
         public void ProductShouldHandleEnumerable()
         {
             var func = new Product();
-            var args = FunctionsHelper.CreateArgs(2d, 2d, FunctionsHelper.CreateArgs(4d, 2d));
+            var args = FunctionsHelper.CreateArgs(2d, 2d, InMemoryRange.GetFromArray(4d, 2d));
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(32d, result.Result);
         }
@@ -957,7 +973,7 @@ namespace EPPlusTest.Excel.Functions
         {
             var func = new Product();
             func.IgnoreHiddenValues = true;
-            var args = FunctionsHelper.CreateArgs(2d, 2d, FunctionsHelper.CreateArgs(4d, 2d));
+            var args = FunctionsHelper.CreateArgs(2d, 2d, InMemoryRange.GetFromArray(4d, 2d));
             args.ElementAt(1).SetExcelStateFlag(ExcelCellState.HiddenCell);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(16d, result.Result);
@@ -966,8 +982,8 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void ProductShouldHandleFirstItemIsEnumerable()
         {
-            var func = new Product();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4d, 2d), 2d, 2d);
+            var func = new Product();            
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(4d, 2d), 2d, 2d);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(32d, result.Result);
         }
@@ -1381,7 +1397,7 @@ namespace EPPlusTest.Excel.Functions
         public void LargeShouldReturnTheLargestNumberIf1()
         {
             var func = new Large();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(1, 2, 3), 1);
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(1, 2, 3), 1);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(3d, result.Result);
         }
@@ -1390,7 +1406,7 @@ namespace EPPlusTest.Excel.Functions
         public void LargeShouldReturnTheSecondLargestNumberIf2()
         {
             var func = new Large();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 2);
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(4, 1, 2, 3), 2);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(3d, result.Result);
         }
@@ -1399,7 +1415,7 @@ namespace EPPlusTest.Excel.Functions
         public void LargeShouldReturnErrorIfIndexOutOfBounds()
         {
             var func = new Large();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 6);
+            var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(4, 1, 2, 3), 6);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
@@ -1408,7 +1424,13 @@ namespace EPPlusTest.Excel.Functions
         public void SmallShouldReturnTheSmallestNumberIf1()
         {
             var func = new Small();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(1, 2, 3), 1);
+            var range = new InMemoryRange(4, 1);
+            range.SetValue(0, 0, 1);
+            range.SetValue(1, 0, 2);
+            range.SetValue(2, 0, 3);
+            var arg1 = new FunctionArgument(range, DataType.ExcelRange);
+            var arg2 = new FunctionArgument(1, DataType.Integer);
+            var args = new List<FunctionArgument> { arg1, arg2 };
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(1d, result.Result);
         }
@@ -1417,7 +1439,14 @@ namespace EPPlusTest.Excel.Functions
         public void SmallShouldReturnTheSecondSmallestNumberIf2()
         {
             var func = new Small();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 2);
+            var range = new InMemoryRange(4, 1);
+            range.SetValue(0, 0, 4);
+            range.SetValue(1, 0, 1);
+            range.SetValue(2, 0, 2);
+            range.SetValue(3, 0, 3);
+            var arg1 = new FunctionArgument(range, DataType.ExcelRange);
+            var arg2 = new FunctionArgument(2, DataType.Integer);
+            var args = new List<FunctionArgument> { arg1, arg2 };
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(2d, result.Result);
         }
@@ -1426,7 +1455,14 @@ namespace EPPlusTest.Excel.Functions
         public void SmallShouldThrowIfIndexOutOfBounds()
         {
             var func = new Small();
-            var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 6);
+            var range = new InMemoryRange(4,1);
+            range.SetValue(0, 0, 4);
+            range.SetValue(1, 0, 1);
+            range.SetValue(2, 0, 2);
+            range.SetValue(3, 0, 3);
+            var arg1 = new FunctionArgument(range, DataType.ExcelRange);
+            var arg2 = new FunctionArgument(6, DataType.Integer);
+            var args = new List<FunctionArgument> { arg1, arg2 };
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(DataType.ExcelError, result.DataType);
         }

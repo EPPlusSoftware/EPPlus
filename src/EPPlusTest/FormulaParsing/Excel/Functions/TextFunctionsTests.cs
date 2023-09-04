@@ -279,7 +279,7 @@ namespace EPPlusTest.Excel.Functions.Text
             }
             input.Append("epplus");
             var func = new Clean();
-            var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
+            var result = func.Execute(FunctionsHelper.CreateArgs(input.ToString()), _parsingContext);
             Assert.AreEqual("epplus", result.Result);
         }
 

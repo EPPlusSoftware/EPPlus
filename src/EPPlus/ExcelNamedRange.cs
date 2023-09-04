@@ -130,7 +130,7 @@ namespace OfficeOpenXml
             get; 
             set; 
         }
-        List<Token> _tokens = null;
+        IList<Token> _tokens = null;
         internal string NameFormula
         {
             get;
@@ -142,18 +142,19 @@ namespace OfficeOpenXml
             if (string.IsNullOrEmpty(_r1c1Formula) && !string.IsNullOrEmpty(NameFormula))
             {
                 if (_relativeType == NameRelativeType.RelativeTableAddress) return NameFormula;
-                
-                var tokens = SourceCodeTokenizer.Default.Tokenize(NameFormula);
-                _relativeType = HasRelativeRef(tokens);
-                if (_relativeType == 0) return NameFormula;
-                if(EnumUtil.HasFlag(_relativeType, NameRelativeType.RelativeAddress))
+
+                if (_tokens == null)
                 {
-                    _r1c1Formula = R1C1Translator.ToR1C1FromTokens(tokens, 1, 1);
-                    return GetRelativeFormula(_r1c1Formula, row, col);
+                    SetRelativeType();
+                }
+                if (_relativeType == 0) return NameFormula;
+                if((_relativeType & (NameRelativeType.RelativeAddress | NameRelativeType.RelativeTableAddress)) != 0)                   
+                {
+                    _r1c1Formula = R1C1Translator.ToR1C1FromTokens(_tokens, 1, 1);
                 }
                 else
                 {
-                    return NameFormula; 
+                    _r1c1Formula = NameFormula;
                 }
             }
             else if(IsRelative == false) 
@@ -162,6 +163,12 @@ namespace OfficeOpenXml
             }
 
             return GetRelativeFormula(_r1c1Formula, row, col);
+        }
+
+        private void SetRelativeType()
+        {
+            _tokens = SourceCodeTokenizer.Default.Tokenize(NameFormula);
+            _relativeType = HasRelativeRef(_tokens);
         }
 
         private NameRelativeType HasRelativeRef(IList<Token> tokens)
@@ -252,6 +259,11 @@ namespace OfficeOpenXml
         {
             get
             {
+                if(!string.IsNullOrEmpty(NameFormula) && _tokens==null)
+                {
+                    SetRelativeType();
+                    AllowRelativeAddress = _relativeType > 0;
+                }
                 return _relativeType > 0;
             }
         }
@@ -283,9 +295,17 @@ namespace OfficeOpenXml
                 else
                 {
                     var values = NameValue as Dictionary<ulong, object>;                    
-                    if(values!=null && values.ContainsKey(currentCell.CellId))
+                    if(values!=null)
                     {
-                        return values[currentCell.CellId];
+                        if(values.ContainsKey(currentCell.CellId))
+                        {
+                            return values[currentCell.CellId];
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                        
                     }
                     return NameValue;
                 }
@@ -310,13 +330,16 @@ namespace OfficeOpenXml
                 if(NameValue==null)
                 {
                     values = new Dictionary<ulong, object>();
-                    NameValue=values; 
+                    NameValue = values; 
                 }
                 else
                 {
                     values = (Dictionary<ulong, object>)NameValue;
                 }
-                values.Add(currentCell.CellId, resultValue);
+                if (values.ContainsKey(currentCell.CellId) == false)
+                {
+                    values.Add(currentCell.CellId, resultValue);
+                }
             }
             else
             {

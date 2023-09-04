@@ -27,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         CanCompile = 1,
         IsAddress = 2,
         OnExpressionList = 4,
-        FunctionArgument = 8
+        FunctionArgument = 8,
+        IsCached = 0x10
     }
     internal class EmptyExpression : Expression
     {
@@ -69,5 +70,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
 
         }
+
     }
 }

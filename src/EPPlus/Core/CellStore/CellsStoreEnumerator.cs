@@ -36,7 +36,6 @@ namespace OfficeOpenXml.Core.CellStore
             _endCol = EndCol;
 
             Init();
-
         }
 
         internal void Init()

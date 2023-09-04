@@ -383,6 +383,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             FixSharedFormulas(); //Fixes Issue #32
 
             var hasMd = _ws._metadataStore.HasValues || _ws.Workbook.HasMetadataPart;
+            var hasFlags = _ws._flags.HasValues;
             var hasRd = false;
             columnStyles = new Dictionary<int, int>();
             var cse = new CellStoreEnumerator<ExcelValue>(_ws._values, 1, 0, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
@@ -436,17 +437,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         var f = _ws._sharedFormulas[sfId];
 
                         //Set calc attributes for array formula. We preserve them from load only at this point.
-                        if (hasMd)
+                        if (hasFlags)
                         {
                             mdAttrForFTag = "";
-                            if (_ws._metadataStore.Exists(cse.Row, cse.Column))
-                            {
-                                MetaDataReference md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
-                                if (md.aca)
+                            if (_ws._flags.Exists(cse.Row, cse.Column))
+                            {                                
+                                if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagAlwaysCalculateArray))
                                 {
                                     mdAttrForFTag = $" aca=\"1\"";
                                 }
-                                if (md.ca)
+                                if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagCalculateCell))
                                 {
                                     mdAttrForFTag += $" ca=\"1\"";
                                 }

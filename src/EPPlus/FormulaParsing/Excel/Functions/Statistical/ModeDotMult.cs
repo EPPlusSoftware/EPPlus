@@ -50,10 +50,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         {
             IgnoreErrors = false;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        /// <summary>
+        /// Reference Parameters do not need to be follows in the dependency chain.
+        /// </summary>
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
 

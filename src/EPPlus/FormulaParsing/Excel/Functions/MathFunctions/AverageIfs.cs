@@ -33,15 +33,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         }
 
         public override int ArgumentMinLength => 3;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex % 2 == 0 && argumentIndex > 0)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             return FunctionParameterInformation.Normal;
-        }
-
+        }));
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { arguments[0] }, context).ToList();

@@ -68,12 +68,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CreateResult(address.FromRow, DataType.Integer);
             }
         }
-
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        /// <summary>
+        /// Reference Parameters do not need to be follows in the dependency chain.
+        /// </summary>
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreAddress;
-        }
-        public override bool HasNormalArguments => false;
+        }));
         public override bool IsVolatile => true; //Blank argument will return the current cells row, so set volatile
     }
 }

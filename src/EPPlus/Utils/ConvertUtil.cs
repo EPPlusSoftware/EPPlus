@@ -38,16 +38,23 @@ namespace OfficeOpenXml.Utils
         internal static bool IsNumericOrDate(object candidate)
         {
             if (candidate == null) return false;
-            if (TypeCompat.IsPrimitive(candidate)) return true;
             var t = candidate.GetType();
-            return (t == typeof(double) || t == typeof(decimal) || t == typeof(long) || t == typeof(DateTime) || t == typeof(TimeSpan));
+            if (t.IsPrimitive) return true;
+            return t == typeof(decimal) || t == typeof(DateTime) || t == typeof(TimeSpan);
         }
         internal static bool IsNumeric(object candidate)
         {
             if (candidate == null) return false;
-            if (TypeCompat.IsPrimitive(candidate)) return true;
             var t = candidate.GetType();
-            return (t == typeof(double) || t == typeof(decimal) || t == typeof(long));
+            if (t.IsPrimitive) return true;
+            return t == typeof(decimal);
+        }
+        internal static bool IsExcelNumeric(object candidate)
+        {
+            if (candidate == null) return false;
+            var t = candidate.GetType();
+            if (t.IsPrimitive && t != typeof(bool)) return true;
+            return t == typeof(decimal) || t == typeof(DateTime) || t == typeof(TimeSpan);
         }
 
         internal static bool IsNumericOrDate(object candidate, bool includeNumericString, bool includePercentageString)
@@ -301,7 +308,7 @@ namespace OfficeOpenXml.Utils
             }
             return d;
         }
-        internal static bool GetValueBool(object v)
+        internal static bool? GetValueBool(object v)
         {
             if (v is IRangeInfo)
             {
@@ -316,7 +323,7 @@ namespace OfficeOpenXml.Utils
             {
                 return result;
             }
-            return result;
+            return null;
         }
         internal static DateTime? GetValueDate(object v)
         {

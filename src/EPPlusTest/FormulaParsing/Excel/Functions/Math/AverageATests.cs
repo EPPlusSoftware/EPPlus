@@ -27,6 +27,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -128,20 +129,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 				2000,
 				0,
 				0,
+				0,
 				0
 			};
-			var result = average.Execute(new FunctionArgument[]
-			{
-				new FunctionArgument(new FunctionArgument[]
+			var range = new InMemoryRange(6, 1);
+			range.SetValue(0, 0, 1000.ToString("n"));
+			range.SetValue(1, 0, 2000);
+            range.SetValue(2, 0, 6000.ToString("n"));
+            range.SetValue(3, 0, true);
+            range.SetValue(4, 0, date.ToString("d"));
+            range.SetValue(5, 0,"test");
+            var result = average.Execute(
+				new List<FunctionArgument>()
 				{
-					new FunctionArgument(1000.ToString("n")),
-					new FunctionArgument(2000),
-					new FunctionArgument(6000.ToString("n")),
-					new FunctionArgument(true),
-					new FunctionArgument(date.ToString("d")),
-					new FunctionArgument("test")
-				})
-			}, ParsingContext.Create());
+					new FunctionArgument(range)
+				}
+			, ParsingContext.Create());
 			Assert.AreEqual(values.Average(), result.Result);
 		}
 

@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -25,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         None = 0xFF,
         False = 0,
         True = 1,
-        Both = 2
+        Error = 2,
+        Multi = 4
     }
     internal class FunctionExpression : Expression
     {
@@ -34,6 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal IList<int> _arguments;
         internal int _argPos=0;
         internal ExpressionCondition _latestConitionValue = ExpressionCondition.None;
+        internal CompileResult _cachedResult;
         int _negate = 0;
         internal FunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
@@ -60,10 +64,24 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 _negate *= -1;
             }
         }
-        IList<Expression> _args=null;
-        internal void SetArguments(IList<Expression> args)
+        IList<CompileResult> _args=null;
+        internal Queue<FormulaRangeAddress> _dependencyAddresses = null;
+        internal bool SetArguments(IList<CompileResult> argsResults)
         {
-            _args = args;
+            _args = argsResults;
+            if (_function.ParametersInfo.HasNormalArguments == false)
+            {
+                for (int i = 0; i < argsResults.Count; i++)
+                {
+                    var pi = _function.ParametersInfo.GetParameterInfo(i);
+                    if (EnumUtil.HasFlag(pi, FunctionParameterInformation.AdjustParameterAddress) && argsResults[i].Address != null)
+                    {
+                        _function.GetNewParameterAddress(argsResults, i, ref _dependencyAddresses);
+                    }
+                }
+                return _dependencyAddresses != null;
+            }
+            return false;
         }
         public override CompileResult Compile()
         {
@@ -77,7 +95,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 if(_function==null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
                 var compiler = Context.FunctionCompilerFactory.Create(_function, Context);
-                var result = compiler.Compile(_args ?? Enumerable.Empty<Expression>(), Context);
+                var result = compiler.Compile(_args ?? Enumerable.Empty<CompileResult>(), Context);
                 
                 if (_negate != 0)
                 {
@@ -108,13 +126,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal int GetTokenPosForArg(FunctionParameterInformation type)
         {
             var i = _argPos;
-            while (i < _arguments.Count && _function.GetParameterInfo(i) != type) i++;
+            while (i < _arguments.Count && _function.ParametersInfo.GetParameterInfo(i) != type) i++;
             if(i < _arguments.Count ) return _arguments[i];
             return -1;
         }
         internal override Expression CloneWithOffset(int row, int col)
         {
-            if(_function==null || _function.HasNormalArguments)
+            if(_function==null || _function.ParametersInfo.HasNormalArguments)
             {
                 return this;
             }
@@ -148,6 +166,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             var adr = ExcelCellBase.GetAddress(fa.FromRow, fa.FromCol, fa.ToRow, fa.ToCol);
                             key.Append(adr);
                         }
+                        else if(e.ExpressionType == ExpressionType.NameValue)
+                        {
+                            var ne = (NamedValueExpression)e;
+                            if(ne._name!=null && ne.IsRelative)
+                            {
+                                key.Append($"{f._tokens[i].Value},{f._ws?.IndexInList},{f._row},{f._column}");
+                            }
+                            else
+                            {
+                                key.Append(f._tokens[i].Value);
+                            }
+                        }
                         else
                         {
                             var fa = e.GetAddress();
@@ -159,7 +189,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             {
                                 var adr = fa.Address;
                                 key.Append(adr);
-
                             }
                         }
                     }
@@ -170,6 +199,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
             }
             return key.ToString();
+        }
+
+        internal bool NeedsCheckAddressAdjustment()
+        {
+            if(_function.ParametersInfo.HasNormalArguments==false)
+            {
+                
+            }
+            return false;
         }
 
         private ExpressionStatus _status= ExpressionStatus.NoSet;
