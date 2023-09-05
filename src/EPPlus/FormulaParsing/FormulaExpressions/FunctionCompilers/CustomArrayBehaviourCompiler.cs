@@ -48,7 +48,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             for(var ix = 0; ix < children.Count(); ix++)
             {
                 var cr = children.ElementAt(ix);
-                //var cr = child.Compile();
                 if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix))
                 {
                     var range = cr.Result as IRangeInfo;
