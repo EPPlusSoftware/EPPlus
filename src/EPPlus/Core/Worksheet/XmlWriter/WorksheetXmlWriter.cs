@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             if (_ws.GetNode("d:dataValidations") != null)
             {
                 FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
-                if (_ws.DataValidations.Count > 0)
+                if (_ws.DataValidations.GetNonExtLstCount() > 0)
                 {
                     sw.Write(UpdateDataValidation(prefix));
                 }
@@ -1325,7 +1325,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 for (int j = 0; j < iconList.Count; j++)
                                 {
                                     string iconType = iconList[j].CustomIcon == null ? iconSetString : iconList[j].GetCustomIconStringValue();
-                                    int iconIndex = iconList[j].CustomIcon == null ? i : iconList[j].GetCustomIconIndex();
+                                    int iconIndex = iconList[j].CustomIcon == null ? j : iconList[j].GetCustomIconIndex();
                                     cache.Append($"<{prefix}cfIcon iconSet=\"{iconType}\" iconId=\"{iconIndex}\"/>");
                                 }
                             }
@@ -1670,8 +1670,37 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 typeHigh = typeHigh.Remove(0, "auto".Length);
                             }
 
-                            cache.Append($"<cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"/>");
-                            cache.Append($"<cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"/>");
+                            cache.Append($"<cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"");
+
+                            if (dataBar.LowValue.HasValueOrFormula)
+                            {
+                                if (!string.IsNullOrEmpty(dataBar.LowValue.Formula))
+                                {
+                                    cache.Append($" val=\"{dataBar.LowValue.Formula.EncodeXMLAttribute()}\"");
+                                }
+                                else
+                                {
+                                    cache.Append($" val=\"{dataBar.LowValue.Value}\"");
+                                }
+                            }
+
+                            cache.Append("/>");
+
+                            cache.Append($"<cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"");
+
+                            if (dataBar.HighValue.HasValueOrFormula)
+                            {
+                                if (!string.IsNullOrEmpty(dataBar.HighValue.Formula))
+                                {
+                                    cache.Append($" val=\"{dataBar.HighValue.Formula.EncodeXMLAttribute()}\"");
+                                }
+                                else
+                                {
+                                    cache.Append($" val=\"{dataBar.HighValue.Value}\"");
+                                }
+                            }
+
+                            cache.Append("/>");
 
                             WriteDxfColor("", cache, dataBar.FillColor);
 

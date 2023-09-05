@@ -98,7 +98,6 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=true);
-
                     //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
                 }
                 catch (Exception ex)

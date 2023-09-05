@@ -104,7 +104,7 @@ namespace OfficeOpenXml.FormulaParsing
                 return RpnFormulaType.Formula;
             }
         }
-    }
+    }        
     internal class RpnNameFormula : RpnFormula
     {        
         internal RpnNameFormula(ExcelWorksheet ws, int row, int column, FormulaCellAddress currentCell) : base(ws, row, column)

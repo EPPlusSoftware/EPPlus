@@ -72,7 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    if(item.DataType==DataType.ExcelError)
+                    if (item.DataType == DataType.ExcelError)
                     {
                         error = item.ValueAsExcelErrorValue.Type;
                     }

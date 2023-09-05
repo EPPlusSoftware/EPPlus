@@ -34,13 +34,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal ExcelConditionalFormattingAverageGroup(ExcelConditionalFormattingAverageGroup copy): base(copy) 
+        internal ExcelConditionalFormattingAverageGroup(ExcelConditionalFormattingAverageGroup copy, ExcelWorksheet ws = null) : base(copy, ws) 
         {
         }
 
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet ws = null)
         {
-            return new ExcelConditionalFormattingAverageGroup(this);
+            return new ExcelConditionalFormattingAverageGroup(this, ws);
         }
     }
 }

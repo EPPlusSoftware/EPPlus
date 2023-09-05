@@ -507,33 +507,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         rule.Color = Color;
         return rule;
     }
-
-        //#region Public Methods
-        //public Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings()
-        //{
-        //    var conditionalFormattingRules = new QuadTree<ExcelConditionalFormattingRule>(_address);
-        //    var retDikt = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
-
-        //    foreach (var cf in _worksheet.ConditionalFormatting)
-        //    {
-        //        var intersects = conditionalFormattingRules.GetIntersectingRanges(new QuadRange(cf.Address));
-
-        //        foreach (var intersect in intersects)
-        //        {
-        //            var address = new ExcelAddress(intersect.Range.FromRow, intersect.Range.FromCol, intersect.Range.ToRow, intersect.Range.ToCol);
-
-        //            if (!retDikt.ContainsKey(address.Address))
-        //            {
-        //                retDikt.Add(address.Address, new List<ExcelConditionalFormattingRule>());
-        //            }
-
-        //            retDikt[address.Address].Add((ExcelConditionalFormattingRule)cf);
-        //        }
-        //    }
-
-        //    return retDikt;
-        //}
-        //#endregion Public Methods
         #endregion Conditional Formatting Rule Types
     }
 }

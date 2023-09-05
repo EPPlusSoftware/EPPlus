@@ -5264,6 +5264,5 @@ namespace EPPlusTest
                 Assert.AreEqual(1d, ws.Cells["A1"].Value);
             }
         }
-
     }
 }

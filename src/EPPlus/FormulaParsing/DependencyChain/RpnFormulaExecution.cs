@@ -384,6 +384,7 @@ namespace OfficeOpenXml.FormulaParsing
                             CheckCircularReferences(depChain, f, address, options);
                         }
 
+
                         if (rd.ExistsGetSpill(ref address))
                         {
                             goto FollowChain;

@@ -29,8 +29,17 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// </summary>
     public enum eDatabarDirection
     {
+        /// <summary>
+        /// Based on context
+        /// </summary>
         Context = 0,
+        /// <summary>
+        /// Databar going from left to right
+        /// </summary>
         LeftToRight = 1,
+        /// <summary>
+        /// Databar going RighToLeft
+        /// </summary>
         RightToLeft = 2
     }
 
@@ -54,6 +63,9 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             //Excel default blue?
             FillColor.Color = Color.FromArgb(int.Parse("FF638EC6", NumberStyles.HexNumber));
+
+            NegativeFillColor.Color = Color.Red;
+            NegativeBorderColor.Color = Color.Red;
         }
 
         private void InitalizeDxfColours()
@@ -92,7 +104,10 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if(!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                HighValue.Value = Double.Parse(xr.GetAttribute("val"));
+                if(highType != eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    HighValue.Value = Double.Parse(xr.GetAttribute("val"));
+                }
             }
 
             xr.Read();
@@ -101,7 +116,10 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                LowValue.Value = Double.Parse(xr.GetAttribute("val"));
+                if(lowType != eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    LowValue.Value = Double.Parse(xr.GetAttribute("val"));
+                }
             }
 
             xr.Read();
