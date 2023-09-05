@@ -1869,6 +1869,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.DataBar,
                 new ExcelAddress(Address));
             dataBar.Color = color;
+            dataBar.BorderColor.Color = color;
 
             return dataBar;
         }

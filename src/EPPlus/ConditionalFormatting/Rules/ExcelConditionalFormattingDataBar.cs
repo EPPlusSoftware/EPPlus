@@ -63,6 +63,9 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             //Excel default blue?
             FillColor.Color = Color.FromArgb(int.Parse("FF638EC6", NumberStyles.HexNumber));
+
+            NegativeFillColor.Color = Color.Red;
+            NegativeBorderColor.Color = Color.Red;
         }
 
         private void InitalizeDxfColours()
