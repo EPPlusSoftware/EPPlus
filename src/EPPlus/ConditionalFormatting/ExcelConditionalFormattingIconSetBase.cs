@@ -27,7 +27,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         IExcelConditionalFormattingThreeIconSet<T>
         where T : struct, Enum
     {
-        private string _uid = null;
+        private new string _uid = null;
 
         internal override string Uid { 
             get 

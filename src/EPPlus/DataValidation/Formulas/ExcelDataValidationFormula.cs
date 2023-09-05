@@ -50,6 +50,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// Constructor
         /// </summary>
         /// <param name="validationUid">id of the data validation containing this formula</param>
+        /// <param name="extListHandler"></param>
+        /// <param name="workSheetName"></param>
         public ExcelDataValidationFormula(string validationUid, string workSheetName, Action<OnFormulaChangedEventArgs> extListHandler)
         {
             Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
