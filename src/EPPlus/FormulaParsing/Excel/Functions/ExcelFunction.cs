@@ -454,7 +454,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <returns></returns>
         protected IRangeInfo ArgToRangeInfo(IList<FunctionArgument> arguments, int index)
         {
-            return arguments[index].Value as IRangeInfo;
+            if (arguments[index].DataType == DataType.ExcelRange)
+            {
+                return arguments[index].Value as IRangeInfo;
+            }
+            return null;
         }
 
         protected double Divide(double left, double right)

@@ -3435,6 +3435,16 @@ namespace OfficeOpenXml
         {
             _values.SetValue_Value(row, col, value);
         }
+        internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
+        {
+            for (var c = fromCol; c <= toCol; c++)
+            {
+                for (var r = fromRow; r <= toRow; r++)
+                {
+                    _values.SetValue_Value(r, c, value);
+                }
+            }
+        }
         /// <summary>
         /// Set accessor of sheet styleId
         /// </summary>

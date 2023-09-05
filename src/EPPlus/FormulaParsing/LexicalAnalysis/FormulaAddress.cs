@@ -254,6 +254,21 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 _expressions = CloneExpressions(row, col)
             };
         }
+        internal RpnFormula GetRpnArrayFormula(RpnOptimizedDependencyChain depChain, int startRow, int startCol, int endRow, int endCol)
+        {
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, startRow, startCol);
+            if (_compiledExpressions == null)
+            {
+                _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
+            }
+            return new RpnArrayFormula(_ws, startRow, startCol, endRow, endCol)
+            {
+                _tokenIndex = 0,
+                _tokens = RpnTokens,
+                _expressions = CloneExpressions(startRow, startCol)
+            };
+        }
+
         private Dictionary<int, Expression> CloneExpressions(int row, int col)
         {
             if (row == StartRow && col == StartCol) return _compiledExpressions;

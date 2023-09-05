@@ -98,7 +98,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             if (bool.TryParse(searchedValue, out bool bsv))
             {
-                return (ConvertUtil.GetValueDouble(candidate) == 1).CompareTo(bsv);
+                if(candidate is bool cb)
+                {
+                    return cb.CompareTo(bsv);
+                }                
             }
             if (DateTime.TryParse(searchedValue, out DateTime dtsv))
             {

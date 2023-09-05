@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Core.CellStore
                 if (ix < 0)
                 {
                     ix = ~ix;
-                    if (ix == rows.Count) ix--;
+                    if (ix > 0) ix--;
 
                     isAdded |= VerifyAndAddNoChange(newAddress, rowSpan, rows, ix, spillRanges);
 

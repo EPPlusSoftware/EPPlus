@@ -89,7 +89,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                         }
                         else
                         {
-                            addresses.Enqueue(lookupRange.Address.GetOffset(0, 0, 0, lookupRange.Size.NumberOfCols));
+                            addresses.Enqueue(lookupRange.Address.GetOffset(0, 0, 1, lookupRange.Size.NumberOfCols));
                             addresses.Enqueue(lookupRange.Address.GetOffset(ix, 0, 1, lookupRange.Size.NumberOfCols));
                         }
                     }

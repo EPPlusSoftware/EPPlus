@@ -98,31 +98,7 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=true);
-                    //p.Workbook.Worksheets["Hallmarks To REPORT Q2"].Cells["Q7"].Calculate();
-                    //p.Workbook.Worksheets["RNPS_Product Type_Germany"].Cells["AV24"].Calculate();
-                    //p.Workbook.Worksheets["RNPS_old"].Cells["Z17"].Calculate();
-                    //p.Workbook.Worksheets["Analyses"].Cells["A5"].Calculate();
-                    //p.Workbook.Worksheets["PFD & PFH"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["F2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["H2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Component Failure Rates"].Cells["E2"].Calculate();                    
-                    //p.Workbook.Worksheets["FMEDA"].Cells["T3"].Calculate();
-                    //p.Workbook.Worksheets["FMEDA"].Cells["K2:K11"].Calculate();
-                    //p.Workbook.Worksheets["Results"].Cells["C23"].Calculate();
-                    //p.Workbook.Worksheets["Component Failure Rates"].Cells["B2"].Calculate();
-                    //p.Workbook.Worksheets["Content - By Month"].Cells["z27"].Calculate();
-                    //p.Workbook.Worksheets["Transactions - By Month"].Cells["D5"].Calculate();
-                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["AB5"].Calculate();
-                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["B5"].Calculate();
-                    //p.Workbook.Worksheets["Content - By Month"].Cells["D24"].Calculate();
-                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Data_Elements"].Cells["W2"].Calculate();
-                    //p.Workbook.Names["Raw_BufferTypeId"].Calculate();
-                    //p.Workbook.Worksheets["RNPS_sig_sample"].Cells["C193"].Calculate();
-                    //p.Workbook.Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Summary"].Cells["G234"].Calculate(x => x.CacheExpressions = true);
+
                     //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
                 }
                 catch (Exception ex)

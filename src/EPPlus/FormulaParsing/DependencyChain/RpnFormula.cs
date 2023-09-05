@@ -7,6 +7,12 @@ using System.Security.AccessControl;
 
 namespace OfficeOpenXml.FormulaParsing
 {
+    internal enum RpnFormulaType
+    {
+        Formula,
+        NameFormula,
+        FixedArrayFormula
+    }
     internal class RpnFormula
     {
         internal ExcelWorksheet _ws;
@@ -91,14 +97,13 @@ namespace OfficeOpenXml.FormulaParsing
         {
             return _ws.IndexInList;
         }
-
-        internal virtual bool IsName
+        internal virtual RpnFormulaType Type
         {
             get
             {
-                return false;
+                return RpnFormulaType.Formula;
             }
-        }        
+        }
     }
     internal class RpnNameFormula : RpnFormula
     {        
@@ -107,16 +112,32 @@ namespace OfficeOpenXml.FormulaParsing
             CurrentCell = currentCell;
         }
         internal FormulaCellAddress CurrentCell { get;  }
-        internal override bool IsName
-        {
-            get
-            {
-                return true;
-            }
-        }
         internal override int GetWorksheetIndex()
         {
             return CurrentCell.WorksheetIx;
+        }
+        internal override RpnFormulaType Type
+        {
+            get
+            {
+                return RpnFormulaType.NameFormula;
+            }
+        }
+    }
+    internal class RpnArrayFormula : RpnFormula
+    {
+        internal RpnArrayFormula(ExcelWorksheet ws, int startRow, int startColumn, int endRow, int endCol) : base(ws, startRow, startColumn)
+        {
+            _endRow = endRow;
+            _endCol = endCol;
+        }
+        internal int _endRow, _endCol;
+        internal override RpnFormulaType Type
+        {
+            get
+            {
+                return RpnFormulaType.FixedArrayFormula;
+            }
         }
     }
 }

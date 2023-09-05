@@ -78,8 +78,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 return double.NaN;
             }
             else
-            {  
-                retVal += GetDecimalSingleArgument(arg);
+            {
+                var v = GetDecimalSingleArgument(arg);
+                if (v.HasValue)
+                {
+                    retVal += v.Value; 
+                }
             }
             return retVal.Get();
         }
