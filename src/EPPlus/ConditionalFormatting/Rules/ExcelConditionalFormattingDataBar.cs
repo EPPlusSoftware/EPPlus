@@ -104,7 +104,10 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if(!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                HighValue.Value = Double.Parse(xr.GetAttribute("val"));
+                if(highType != eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    HighValue.Value = Double.Parse(xr.GetAttribute("val"));
+                }
             }
 
             xr.Read();
@@ -113,7 +116,10 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                LowValue.Value = Double.Parse(xr.GetAttribute("val"));
+                if(lowType != eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    LowValue.Value = Double.Parse(xr.GetAttribute("val"));
+                }
             }
 
             xr.Read();

@@ -150,6 +150,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                             dataBar.Border = string.IsNullOrEmpty(xr.GetAttribute("border")) ? false : xr.GetAttribute("border") != "0";
                             dataBar.Gradient = string.IsNullOrEmpty(xr.GetAttribute("gradient")) ? true : xr.GetAttribute("gradient") != "0";
 
+                            bool? negativeBarBorderColorSameAsPositive = null;
+                            bool? negativeBarColorSameAsPositive = null;
+
+
                             if (!string.IsNullOrEmpty(xr.GetAttribute("direction")))
                             {
                                 dataBar.Direction = (eDatabarDirection)xr.GetAttribute("direction").ToEnum<eDatabarDirection>();   
@@ -157,12 +161,12 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             if(!string.IsNullOrEmpty(xr.GetAttribute("negativeBarBorderColorSameAsPositive")))
                             {
-                                dataBar.NegativeBarBorderColorSameAsPositive = xr.GetAttribute("negativeBarBorderColorSameAsPositive") != "0";
+                                negativeBarBorderColorSameAsPositive = xr.GetAttribute("negativeBarBorderColorSameAsPositive") != "0";
                             }
 
                             if (!string.IsNullOrEmpty(xr.GetAttribute("negativeBarColorSameAsPositive")))
                             {
-                                dataBar.NegativeBarBorderColorSameAsPositive = xr.GetAttribute("negativeBarBorderColorSameAsPositive") != "0";
+                                negativeBarColorSameAsPositive = xr.GetAttribute("negativeBarColorSameAsPositive") != "0";
                             }
 
                             if (!string.IsNullOrEmpty(xr.GetAttribute("axisPosition")))
@@ -227,6 +231,16 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 // textValue -> /xm:sqref -> /conditionalFormatting
                                 xr.Read();
                                 xr.Read();
+                            }
+
+                            if(negativeBarBorderColorSameAsPositive != null)
+                            {
+                                dataBar.NegativeBarBorderColorSameAsPositive = negativeBarBorderColorSameAsPositive.Value;
+                            }
+
+                            if(negativeBarColorSameAsPositive != null)
+                            {
+                                dataBar.NegativeBarColorSameAsPositive = negativeBarColorSameAsPositive.Value;
                             }
 
                             _rules.Add(dataBar);
