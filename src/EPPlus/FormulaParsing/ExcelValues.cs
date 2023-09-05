@@ -71,8 +71,11 @@ namespace OfficeOpenXml
         public static ExcelErrorValue Div0Error = ExcelErrorValue.Create(eErrorType.Div0);
         public static ExcelErrorValue RefError = ExcelErrorValue.Create(eErrorType.Ref);
         public static ExcelErrorValue CalcError = ExcelErrorValue.Create(eErrorType.Calc);
-        //public static ExcelErrorValue SpillError = ExcelErrorValue.Create(eErrorType.Spill);
     }
+    /// <summary>
+    /// Represents Excel Errors 
+    /// 
+    /// </summary>
     public class ExcelRichDataErrorValue : ExcelErrorValue
     {
         internal ExcelRichDataErrorValue(int rowOffset, int colOffset) : base(eErrorType.Spill)

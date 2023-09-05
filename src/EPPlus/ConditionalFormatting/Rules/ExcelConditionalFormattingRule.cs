@@ -28,9 +28,6 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// </summary>
     public abstract class ExcelConditionalFormattingRule : IExcelConditionalFormattingRule
     {
-        //Deprecated
-        public XmlNode Node { get; }
-
         /// <summary>
         /// The type of conditional formatting rule.
         /// </summary>
@@ -39,11 +36,25 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <para>The range over which these conditional formatting rules apply.</para>
         /// </summary>
         public virtual ExcelAddress Address { get; set; }
+
+        internal int _priority = 1;
+
         /// <summary>
         /// The priority of the rule. 
         /// A lower values are higher priority than higher values, where 1 is the highest priority.
         /// </summary>
-        public int Priority { get; set; } = 1;
+        public int Priority
+        {
+            get
+            {
+                return _priority;
+            }
+            set
+            {
+                _ws.ConditionalFormatting.ChangePriority(this, value);
+                _priority = value;
+            }
+        }
         /// <summary>
         /// If this property is true, no rules with lower priority should be applied over this rule.
         /// </summary>
@@ -109,7 +120,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Internal worksheet reference
         /// </summary>
-        protected ExcelWorksheet _ws;
+        internal ExcelWorksheet _ws;
 
         private int _dxfId = -1;
 
@@ -143,7 +154,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if (_uid == null)
                 {
-                    return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
+                    _uid = Guid.NewGuid().ToString().ToUpperInvariant();
+                    return "{" + _uid + "}";
                 }
 
                 return _uid;
@@ -182,6 +194,9 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Initalize <see cref="ExcelConditionalFormattingRule"/> from file
         /// </summary>
         /// <param name="xr"></param>
+        /// <param name="type"></param>
+        /// <param name="address"></param>
+        /// <param name="ws"></param>
         internal ExcelConditionalFormattingRule(eExcelConditionalFormattingRuleType type, ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
         {
             _ws = ws;
@@ -192,7 +207,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 _isExtLst = true;
             }
 
-            Priority = int.Parse(xr.GetAttribute("priority"));
+            _priority = int.Parse(xr.GetAttribute("priority"));
 
             Type = type;
 
@@ -354,21 +369,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                     if (xr.LocalName == "fgColor")
                     {
                         ParseColor(Style.Fill.PatternColor, xr);
-                        xr.Read();
                     }
 
                     if (xr.LocalName == "bgColor")
                     {
                         ParseColor(Style.Fill.BackgroundColor, xr);
-
-                        if(!string.IsNullOrEmpty(xr.GetAttribute("tint")))
-                        {
-                            Style.Fill.BackgroundColor.Tint = double.Parse(xr.GetAttribute("tint"));
-                        }
-                        
-                        xr.Read();
                     }
 
+                    xr.Read();
                     xr.Read();
                 }
                 else
@@ -497,17 +505,35 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Copy constructor
         /// </summary>
         /// <param name="original"></param>
-        protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original)
+        /// <param name="newWorksheet">In case cloning from another worksheet</param>
+        protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original, ExcelWorksheet newWorksheet = null)
         {
-            _ws = original._ws;
-            Rank = original.Rank;
+            if(newWorksheet == null)
+            {
+                _ws = original._ws;
+            }
+            else
+            {
+                _ws = newWorksheet;
+            }
+
+            if(original.Rank != 0)
+            {
+                Rank = original.Rank;
+            }
+
             _formula = original.Formula;
             _formula2 = original.Formula2;
             Operator = original.Operator;
             Type = original.Type;
             PivotTable = original.PivotTable;
             _text = original._text;
-            StdDev = original.StdDev;
+
+            if(original._stdDev != 0)
+            {
+                StdDev = original.StdDev;
+            }
+
             DxfId = original.DxfId;
             Address = original.Address;
             Priority = original.Priority;
@@ -541,7 +567,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             //move writing of root node.
 
             Address = address;
-            Priority = priority;
+            _priority = priority;
             Type = type;
 
             if (DxfId >= 0 && DxfId < worksheet.Workbook.Styles.Dxfs.Count)
@@ -678,6 +704,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             return ExcelConditionalFormattingRuleType.GetAttributeByType(Type);
         }
 
-        internal abstract ExcelConditionalFormattingRule Clone();
+        internal abstract ExcelConditionalFormattingRule Clone(ExcelWorksheet sheet = null);
     }
 }

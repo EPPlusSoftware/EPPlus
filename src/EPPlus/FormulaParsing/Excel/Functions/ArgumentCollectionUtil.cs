@@ -47,21 +47,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             return _objectEnumerableArgConverter.ConvertArgs(ignoreHidden, arguments, context);
         }
-
-        public virtual double CalculateCollection(IEnumerable<FunctionArgument> collection, double result, Func<FunctionArgument, double, double> action)
-        {
-            foreach (var item in collection)
-            {
-                if (item.Value is IEnumerable<FunctionArgument>)
-                {
-                    result = CalculateCollection((IEnumerable<FunctionArgument>)item.Value, result, action);
-                }
-                else
-                {
-                    result = action(item, result);
-                }
-            }
-            return result;
-        }
     }
 }

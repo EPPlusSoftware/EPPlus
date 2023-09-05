@@ -5187,6 +5187,72 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void PercentOperation()
+        {
+            using (var package = OpenPackage("PercentOper.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["A1"].Formula="10%";
+                ws.Calculate();
+                Assert.AreEqual(0.1, ws.Cells["A1"].Value);
+            }
+        }
+        [TestMethod]
+        public void s507()
+        {
+            using (var package = OpenPackage("s578.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("Fill");
 
+                var row = 0;
+                ws.Cells[++row, 1].Value = "cat";
+                ws.Cells[++row, 1].Value = "dog";
+                ws.Cells[++row, 1].Value = "mat";
+                ws.Cells[++row, 1].Value = "sat";
+                ws.Cells[++row, 1].Value = "cat";
+                ws.Cells[++row, 1].Value = "sat";
+                ws.Cells[++row, 1].Value = "cat";
+                ws.Cells[++row, 1].Value = "dog";
+                ws.Cells[++row, 1].Value = "mat";
+                ws.Cells[++row, 1].Value = "dog";
+                ws.Cells[++row, 1].Value = "cat";
+                ws.Cells[++row, 1].Value = "sat";
+                ws.Cells[++row, 1].Value = "dog";
+                ws.Cells[++row, 1].Value = "dog";
+                ws.Cells[++row, 1].Value = "mat";
+                ws.Cells[++row, 1].Value = "mat";
+                ws.Cells[++row, 1].Value = "cat";
+                ws.Cells[++row, 1].Value = "sat";
+
+                var dataRange = ws.Cells[1, 1, row, 1];
+
+
+                row += 3;
+                //Uniques
+                var uniqueRange = ws.Cells[row, 1, row, 1];
+
+                ws.Cells[uniqueRange.Address].Formula = $"UNIQUE(FILTER({dataRange.Address}, {dataRange.Address} <> \"\"))";
+                //ws.Cells[uniqueRange.Address].Formula = @$"UNIQUE({dataRange.Address})";
+
+                //ws.Calculate();
+
+                //Count of each unique
+                var unqiqueCountRange = ws.Cells[row, 2, row, 2];
+                ws.Cells[unqiqueCountRange.Address].Formula = $"COUNTIF({dataRange.Address},ANCHORARRAY({uniqueRange.Address}))";
+                ws.Calculate();
+
+
+                //Distinct Count
+                ws.Cells[row - 1, 1].Value = "Distincts: ";
+                ws.Cells[row - 1, 2].Formula = $"COUNTA(ANCHORARRAY({uniqueRange.Address}))";
+
+                SaveAndCleanup(package);
+
+                //System.Diagnostics.Process.Start(fileName);
+
+
+            }
+        }
     }
 }

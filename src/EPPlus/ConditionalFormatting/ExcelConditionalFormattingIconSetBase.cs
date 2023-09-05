@@ -27,7 +27,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         IExcelConditionalFormattingThreeIconSet<T>
         where T : struct, Enum
     {
-        private string _uid = null;
+        private new string _uid = null;
 
         internal override string Uid { 
             get 
@@ -78,6 +78,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Icon1 = CreateIcon(0, type);
             Icon2 = CreateIcon(Math.Round(100D / symbolCount, 0), type);
             Icon3 = CreateIcon(Math.Round(100D * (2D / symbolCount), 0), type);
+            ShowValue = true;
         }
 
         protected ExcelConditionalFormattingIconDataBarValue CreateIcon(double value, eExcelConditionalFormattingRuleType type)
@@ -102,11 +103,12 @@ namespace OfficeOpenXml.ConditionalFormatting
           XmlReader xr)
             :base (type, address, priority, worksheet)
         {
+
             StopIfTrue = stopIfTrue;
 
-            ShowValue = xr.GetAttribute("showValue") != "0";
-            IconSetPercent = xr.GetAttribute("percent") != "0";
-            Reverse = xr.GetAttribute("reverse") == "0";
+            ShowValue = string.IsNullOrEmpty(xr.GetAttribute("showValue")) ? true : xr.GetAttribute("showValue") != "0";
+            IconSetPercent = string.IsNullOrEmpty(xr.GetAttribute("percent")) ? true : xr.GetAttribute("percent") != "0";
+            Reverse = string.IsNullOrEmpty(xr.GetAttribute("reverse")) ? false : xr.GetAttribute("reverse") != "0";
 
             var set = xr.GetAttribute("iconSet").Substring(1);
 
@@ -160,7 +162,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        internal ExcelConditionalFormattingIconSetBase(ExcelConditionalFormattingIconSetBase<T> copy) : base(copy)
+        internal ExcelConditionalFormattingIconSetBase(ExcelConditionalFormattingIconSetBase<T> copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
             StopIfTrue = copy.StopIfTrue;
             ShowValue = copy.ShowValue;
@@ -175,9 +177,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             Icon3 = copy.Icon3;
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingIconSetBase<T>(this);
+            return new ExcelConditionalFormattingIconSetBase<T>(this, newWs);
         }
 
         /// <summary>
@@ -224,6 +226,19 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get;
             set;
+        }
+
+        public virtual bool Custom
+        {
+            get
+            {
+                if (Icon1.CustomIcon != null || Icon2.CustomIcon != null || Icon3.CustomIcon != null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         /// <summary>

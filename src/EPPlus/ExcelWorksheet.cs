@@ -59,6 +59,8 @@ namespace OfficeOpenXml
         ArrayFormula = 0x8,
         DataTableFormula = 0x10,
         CanBeDynamicArray = 0x20,
+        CellFlagCalculateCell = 0x40,
+        CellFlagAlwaysCalculateArray = 0x80
     }
     /// <summary>
 	/// Represents an Excel worksheet and provides access to its properties and methods
@@ -1618,13 +1620,8 @@ namespace OfficeOpenXml
                     //Meta data and formula settings. Meta data is only preserved by EPPlus at this point
                     if (aca != null || ca != null)
                     {
-                        var md = _metadataStore.GetValue(row, col);
-                        md.aca = aca == "1";
-                        md.ca = ca == "1";
-                        _metadataStore.SetValue(
-                            row,
-                            col,
-                            md);
+                        _flags.SetFlagValue(row, col, aca == "1", CellFlags.CellFlagAlwaysCalculateArray);
+                        _flags.SetFlagValue(row, col, ca == "1", CellFlags.CellFlagCalculateCell);
                     }
 
                     if (t == null || t=="normal")
@@ -1743,7 +1740,8 @@ namespace OfficeOpenXml
 
         private void LoadConditionalFormatting(XmlReader xr)
         {
-            _conditionalFormatting = new ExcelConditionalFormattingCollection(xr, this);
+            _conditionalFormatting = new ExcelConditionalFormattingCollection(this);
+            _conditionalFormatting.ReadRegularConditionalFormattings(xr);
         }
 
         private void WriteArrayFormulaRange(string address, int index, CellFlags type)
@@ -3100,10 +3098,12 @@ namespace OfficeOpenXml
 
                     xr.Read();
 
-                    if (_conditionalFormatting == null)
-                        _conditionalFormatting = new ExcelConditionalFormattingCollection(xr, this);
-                    else
-                        _conditionalFormatting.ReadExtConditionalFormattings(xr);
+                    if(_conditionalFormatting == null)
+                    {
+                        _conditionalFormatting = new ExcelConditionalFormattingCollection(this);
+                    }
+
+                    _conditionalFormatting.ReadExtConditionalFormattings(xr);
 
                     xr.Read();
 

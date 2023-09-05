@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                         foreach (var cell in arg.ValueAsRangeInfo)
                         {
                             if(!ignoreErrors && cell.IsExcelError) throw new ExcelErrorValueException(ExcelErrorValue.Parse(cell.Value.ToString()));
-                            if (!CellStateHelper.ShouldIgnore(ignoreHidden, ignoreNonNumeric, cell, context) && ConvertUtil.IsNumericOrDate(cell.Value))
+                            if (!CellStateHelper.ShouldIgnore(ignoreHidden, ignoreNonNumeric, cell, context) && ConvertUtil.IsExcelNumeric(cell.Value))
                             {
                                 var val = new ExcelDoubleCellValue(cell.ValueDouble, cell.Row, cell.Column);
                                 argList.Add(val);
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     else
                     {
                         if(!ignoreErrors && arg.ValueIsExcelError) throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
-                        if (ConvertUtil.IsNumericOrDate(arg.Value) && !CellStateHelper.ShouldIgnore(ignoreHidden, arg, context))
+                        if (ConvertUtil.IsExcelNumeric(arg.Value) && !CellStateHelper.ShouldIgnore(ignoreHidden, arg, context))
                         {
                             var val = new ExcelDoubleCellValue(ConvertUtil.GetValueDouble(arg.Value));
                             argList.Add(val);

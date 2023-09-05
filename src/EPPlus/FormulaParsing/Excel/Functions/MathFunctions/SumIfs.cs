@@ -26,7 +26,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         IntroducedInExcelVersion = "2007")]
     internal class SumIfs : MultipleRangeCriteriasFunction
     {
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.IgnoreNumberOfArgsFromStart = 1;
+            config.ArrayArgInterval = 1;
+        }
+        //public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        //{
+        //    var abc = new ArrayBehaviourConfig() { ArrayParameterIndexes=new List<int>() };
+        //    for(int i=1;i<=127;i++)
+        //    {
+        //        abc.ArrayParameterIndexes.Add(i);
+        //    }
+        //    return abc;
+        //}
         public override int ArgumentMinLength => 3;
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
+        {
+            if (argumentIndex % 2 == 0 && argumentIndex > 0)
+            {
+                return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            return FunctionParameterInformation.Normal;
+        }));
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var rows = new List<int>();
@@ -41,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { arguments[0] }, context).Select(x => (double)x).ToList();
             } 
             var argRanges = new List<RangeOrValue>();
-            var criterias = new List<string>();
+            var criterias = new List<object>();
             for (var ix = 1; ix < 31; ix += 2)
             {
                 if (arguments.Count <= ix) break;
@@ -55,8 +78,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                var value = arguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
-                criterias.Add(value);
+                //var value = arguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
+                criterias.Add(arguments[ix+1].ValueFirst);
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();

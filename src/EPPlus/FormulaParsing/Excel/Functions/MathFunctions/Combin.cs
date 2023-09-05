@@ -25,16 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         SupportsArrays = true)]
     internal class Combin : ExcelFunction
     {
-        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
-        {
-            ArrayParameterIndexes = new List<int> { 0, 1 }
-        };
-
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            return _arrayConfig;
+            config.SetArrayParameterIndexes(0, 1);
         }
 
         public override int ArgumentMinLength => 2;

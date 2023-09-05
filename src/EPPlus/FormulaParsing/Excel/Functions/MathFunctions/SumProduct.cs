@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Table;
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            double result = 0d;
+            KahanSum result = 0d;
             List<List<double>> results = new List<List<double>>();
             foreach(var arg in arguments)
             {
@@ -82,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 result += rowResult;
             }
-            return CreateResult(result, DataType.Decimal);
+            return CreateResult(result.Get(), DataType.Decimal);
         }
 
         private void AddValue(object convertVal, List<double> currentResult)

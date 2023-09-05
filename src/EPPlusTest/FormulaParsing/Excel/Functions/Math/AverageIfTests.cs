@@ -323,5 +323,45 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(2d, result.Result);
         }
+
+        [TestMethod]
+        public void AverageIfShouldHandleArrayCritera()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["B1"].Value = ">1";
+                sheet.Cells["B2"].Value = ">2";
+
+                sheet.Cells["A5"].Formula = "AVERAGEIF(A1:A4,B1:B2)";
+                sheet.Calculate();
+                Assert.AreEqual(3d, sheet.Cells["A5"].Value);
+                Assert.AreEqual(3.5d, sheet.Cells["A6"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void AverageIfShouldHandleArrayCritera2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["B1"].Value = "<1";
+                sheet.Cells["B2"].Value = ">2";
+
+                sheet.Cells["A5"].Formula = "AVERAGEIF(A1:A4,B1:B2)";
+                sheet.Calculate();
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Div0), sheet.Cells["A5"].Value);
+                Assert.AreEqual(3.5d, sheet.Cells["A6"].Value);
+            }
+        }
     }
 }

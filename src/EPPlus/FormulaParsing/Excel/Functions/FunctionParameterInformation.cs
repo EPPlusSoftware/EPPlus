@@ -42,9 +42,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         UseIfConditionIsFalse = 0x10,
         /// <summary>
-        /// By default errors found in parameters are returned as a compile result containing the error before calling the <see cref="ExcelFunction.Execute(IEnumerable{FunctionArgument}, ParsingContext)"/> method.
-        /// Setting this value will allow the function to receive the error as an argument.
+        /// By default errors found in parameters are returned as a compile result containing the error before calling the <see cref="ExcelFunction.Execute(IList{FunctionArgument}, ParsingContext)"/> method.
+        /// Setting this value will allow the function to receive the error as an argument and process them.
         /// </summary>
-        IgnoreErrorInPreExecute = 0x20
+        IgnoreErrorInPreExecute = 0x20,
+        /// <summary>
+        /// If the parameter is an address, call the <see cref="ExcelFunction.GetNewParameterAddress"/> to adjust the address before dependency check.
+        /// </summary>
+        AdjustParameterAddress = 0x40
     }
 }

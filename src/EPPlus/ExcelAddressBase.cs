@@ -205,6 +205,7 @@ namespace OfficeOpenXml
                         if (t.Name.Equals(Table.Name, StringComparison.OrdinalIgnoreCase))
                         {
                             _ws = ws.Name;
+                            _fromRowFixed = _fromColFixed = _toRowFixed = _toColFixed = true;
                             if (Table.IsAll)
                             {
                                 _fromRow = t.Address._fromRow;
@@ -214,6 +215,7 @@ namespace OfficeOpenXml
                             {
                                 if (Table.IsThisRow)
                                 {
+                                    _fromRowFixed = _toRowFixed = false;
                                     if (referenceAddress == null)
                                     {
                                         _fromRow = -1;

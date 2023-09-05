@@ -207,10 +207,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gamma"] = new Gamma();
             Functions["gammaln"] = new Gammaln();
             Functions["gammaln.precise"] = new GammalnPrecise();
-            Functions["gamma.dist"] = new GammaDotDist();
             Functions["gammadist"] = new GammaDist();
+            Functions["gamma.dist"] = new GammaDotDist();
             Functions["lognorm.inv"] = new LognormDotInv();
             Functions["negbinom.dist"] = new NegBinomDotDist();
+            Functions["negbinomdist"] = new NegBinomDist();
             Functions["norminv"] = new NormInv();
             Functions["norm.inv"] = new NormDotInv();
             Functions["normsinv"] = new NormsInv();
@@ -262,11 +263,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["f.inv"] = new FDotInv();
             Functions["f.inv.rt"] = new FDotInvDotRT();
 
-            Functions["poisson.dist"] = new Poisson();
-            Functions["weibull.dist"] = new WeibullDist();
+            Functions["poisson.dist"] = new PoissonDotDist();
+            Functions["weibull.dist"] = new WeibullDotDist();
             Functions["weibull"] = new WeibullDist();
             Functions["t.test"] = new TTest();
             Functions["trimmean"] = new Trimmean();
+            Functions["ztest"] = new Ztest();
             Functions["z.test"] = new ZDotTest();
             // Information
             Functions["isblank"] = new IsBlank();
@@ -300,11 +302,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["xor"] = new Xor();
             // Reference and lookup
             Functions["address"] = new Address();
-            Functions["hlookup"] = new HLookupV2();
-            Functions["vlookup"] = new VLookupV2();
+            Functions["hlookup"] = new HLookup();
+            Functions["vlookup"] = new VLookup();
             Functions["xlookup"] = new Xlookup();
-            Functions["lookup"] = new LookupV2();
-            Functions["match"] = new MatchV2();
+            Functions["lookup"] = new Lookup();
+            Functions["match"] = new Match();
             Functions["xmatch"] = new XMatch();
             Functions["row"] = new Row();
             Functions["rows"] = new Rows();
@@ -416,6 +418,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["tbillprice"] = new TbillPrice();
             Functions["tbillyield"] = new TbillYield();
             Functions["pricedisc"] = new PriceDisc();
+            Functions["vdb"] = new Vdb();
+            Functions["received"] = new Received();
+            Functions["pricemat"] = new Pricemat();
+            
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();

@@ -23,18 +23,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         Category = ExcelFunctionCategory.Logical,
         EPPlusVersion = "4",
         Description = "Tests if an expression returns the #N/A error and if so, returns an alternative specified value; Otherwise the function returns the value of the supplied expression. ",
-        IntroducedInExcelVersion = "2019")]
+        IntroducedInExcelVersion = "2019",
+        SupportsArrays = true)]
     internal class IfNa : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            return GetResultByObject(arguments[0].Value);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
+            if(arg1.ValueIsExcelError && arg1.ValueAsExcelErrorValue.Type == eErrorType.NA)
+            {
+                return GetResultByObject(arg2.Value);
+            }
+            return GetResultByObject(arg1.Value);
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
     }
 }

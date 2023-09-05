@@ -1266,6 +1266,7 @@ namespace EPPlusTest.Core.Range.Delete
             using (var p = OpenTemplatePackage("InsertDeleteTemplate.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["C3R"];
+
                 var ws2 = ws.Workbook.Worksheets.Add("C3R-2", ws);
                 ws.Cells["G49:G52"].Delete(eShiftTypeDelete.Up);
                 ws2.Cells["G49:G52"].Delete(eShiftTypeDelete.Left);

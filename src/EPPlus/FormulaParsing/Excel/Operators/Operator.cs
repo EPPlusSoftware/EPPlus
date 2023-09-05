@@ -284,18 +284,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                           {
                               return new AddressCompileResult(eErrorType.Value);
                           }
-                          //else
-                          //{
-                          //    if (l.Result is IRangeInfo lri)
-                          //    {
-                          //        result = new FormulaRangeAddress(ctx);
-                          //        result.WorksheetIx = lri.Address.WorksheetIx < -1 ? (short)ctx.CurrentCell.WorksheetIx : lri.Address.WorksheetIx;
-                          //        result.FromRow = lri.Address.FromRow;
-                          //        result.FromCol = lri.Address.FromCol;
-                          //        result.ToRow = lri.Address.ToRow;
-                          //        result.ToCol = lri.Address.ToCol;
-                          //    }
-                          //}
                           
                           if (r.Address != null)
                           {
@@ -316,20 +304,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                           {
                                   return new AddressCompileResult(eErrorType.Value);
                           }
-                          //else if(r.Address!=null)
-                          //{
-                          //    if (result.WorksheetIx != r.Address.WorksheetIx && r.Address.WorksheetIx!=short.MinValue)
-                          //    {
-                          //        result.WorksheetIx = -1;
-                          //    }
-                          //    else
-                          //    {
-                          //        result.FromRow = result.FromRow < r.Address.FromRow ? result.FromRow : r.Address.FromRow;
-                          //        result.FromCol = result.FromCol < r.Address.FromCol ? result.FromCol : r.Address.FromCol;
-                          //        result.ToRow = result.ToRow > r.Address.ToRow ? result.ToRow : r.Address.ToRow;
-                          //        result.ToCol = result.ToCol > r.Address.ToCol ? result.ToCol : r.Address.ToCol;
-                          //    }
-                          //}
 
                           return new AddressCompileResult(new RangeInfo(result, ctx), DataType.ExcelRange,result);
                           throw new ExcelErrorValueException(eErrorType.Ref);
@@ -338,45 +312,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 return _colon;
             }
         }
-        //static IOperator _exclamation = null;
-        //public static IOperator Exclamation
-        //{
-        //    get
-        //    {
-        //        if(_exclamation==null)
-        //        {
-        //            _exclamation = new Operator(Operators.Exclamation, PrecedenceExclamation,
-        //                           (l, r, ctx) => 
-        //                           {
-        //                               if(l.DataType == DataType.WorksheetName && r.DataType == DataType.ExcelCellAddress)
-        //                               {
-        //                                   var wsName = l.Result?.ToString();
-        //                                   var cellAddress = r.Result as FormulaCellAddress;
-        //                                   if(cellAddress != null)
-        //                                   {
-        //                                       var wsIndex = ctx.Package.Workbook.Worksheets[wsName]?.PositionId;
-        //                                       cellAddress.WorksheetIx = (short)(wsIndex.HasValue ? wsIndex.Value : -1);
-        //                                       return new CompileResult(cellAddress, DataType.ExcelCellAddress);
-        //                                   }
-        //                               }
-        //                               else if (l.DataType == DataType.WorksheetName && r.DataType == DataType.Enumerable)
-        //                               {
-        //                                   var wsName = l.Result?.ToString();
-        //                                   var rangeInfo = r.Result as IRangeInfo;
-        //                                   if (rangeInfo != null)
-        //                                   {
-        //                                       rangeInfo.Address._ws = wsName;                                               
-        //                                       var wsIndex = ctx.Package.Workbook.Worksheets[wsName]?.PositionId;
-        //                                       rangeInfo.RangeNew.WorksheetIx = (short)(wsIndex.HasValue ? wsIndex.Value : -1);
-        //                                       return new CompileResult(rangeInfo, DataType.ExcelRange);
-        //                                   }
-        //                               }
-        //                               return new CompileResult(eErrorType.Ref);
-        //                           });
-        //        }
-        //        return _exclamation;
-        //    }
-        //}
 
         static IOperator _intersect = null;
         /// <summary>
@@ -485,9 +420,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             get
             {
                 return _notEqualsTo ??
-                       (_notEqualsTo =
-                           new Operator(Operators.NotEqualTo, PrecedenceComparison,
-                               (l, r, ctx) => Compare(l, r, (compRes) => compRes != 0)));
+                    (_notEqualsTo =
+                           new Operator(Operators.NotEqualTo, PrecedenceComparison, (l, r, ctx) =>
+                           {
+                               if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
+                               {
+                                   return RangeOperationsOperator.Apply(l, r, Operators.NotEqualTo, ctx);
+                               }
+                               return Compare(l, r, (compRes) => compRes != 0);
+
+                           }));
             }
         }
 
@@ -545,31 +487,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
         }
 
-        private static IOperator _percent;
-        public static IOperator Percent
-        {
-            get
-            {
-                if (_percent == null)
-                {
-                    _percent = new Operator(Operators.Percent, PrecedencePercent, (l, r, ctx) =>
-                        {
-                            l = l ?? CompileResult.ZeroInt;
-                            r = r ?? CompileResult.ZeroInt;
-                            if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
-                            {
-                                return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Integer);
-                            }
-                            else if (CanDoNumericOperation(l, r))
-                            {
-                                return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
-                            }
-                            return new CompileResult(eErrorType.Value);
-                        });
-                }
-                return _percent;
-            }
-        }
+        //private static IOperator _percent;
+        //public static IOperator Percent
+        //{
+        //    get
+        //    {
+        //        if (_percent == null)
+        //        {
+        //            _percent = new Operator(Operators.Percent, PrecedencePercent, (l, r, ctx) =>
+        //                {
+        //                    l = l ?? CompileResult.ZeroInt;
+        //                    r = r ?? CompileResult.ZeroInt;
+        //                    if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
+        //                    {
+        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Integer);
+        //                    }
+        //                    else if (CanDoNumericOperation(l, r))
+        //                    {
+        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
+        //                    }
+        //                    return new CompileResult(eErrorType.Value);
+        //                });
+        //        }
+        //        return _percent;
+        //    }
+        //}
 
         private static object GetObjFromOther(CompileResult obj, CompileResult other)
         {

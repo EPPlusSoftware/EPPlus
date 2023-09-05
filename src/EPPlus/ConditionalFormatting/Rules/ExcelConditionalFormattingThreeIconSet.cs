@@ -47,13 +47,13 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             xr.Read();
         }
 
-        internal ExcelConditionalFormattingThreeIconSet(ExcelConditionalFormattingThreeIconSet copy) : base(copy)
+        internal ExcelConditionalFormattingThreeIconSet(ExcelConditionalFormattingThreeIconSet copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingThreeIconSet(this);
+            return new ExcelConditionalFormattingThreeIconSet(this, newWs);
         }
 
         internal override bool IsExtLst

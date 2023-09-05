@@ -197,8 +197,6 @@ namespace EPPlusTest.Excel
 			Assert.AreEqual(number1 - number2, operatorResult.Result);
 			operatorResult = Operator.Multiply.Apply(result1, result2, ctx);
 			Assert.AreEqual(number1 * number2, operatorResult.Result);
-			operatorResult = Operator.Percent.Apply(result1, result2, ctx);
-			Assert.AreEqual(number1 * number2, operatorResult.Result);
 			operatorResult = Operator.Plus.Apply(result1, result2, ctx);
 			Assert.AreEqual(number1 + number2, operatorResult.Result);
 			// Comparison operators always compare string-wise and don't parse out the actual numbers.
@@ -237,8 +235,6 @@ namespace EPPlusTest.Excel
             operatorResult = Operator.Minus.Apply(result1, result2, ctx);
 			Assert.AreEqual(numericDate1 - numericDate2, operatorResult.Result);
 			operatorResult = Operator.Multiply.Apply(result1, result2, ctx);
-			Assert.AreEqual(numericDate1 * numericDate2, operatorResult.Result);
-			operatorResult = Operator.Percent.Apply(result1, result2, ctx);
 			Assert.AreEqual(numericDate1 * numericDate2, operatorResult.Result);
 			operatorResult = Operator.Plus.Apply(result1, result2, ctx);
 			Assert.AreEqual(numericDate1 + numericDate2, operatorResult.Result);

@@ -47,13 +47,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             Operator = eExcelConditionalFormattingOperatorType.Equal;
         }
-        internal ExcelConditionalFormattingEqual(ExcelConditionalFormattingEqual copy) : base(copy)
+        internal ExcelConditionalFormattingEqual(ExcelConditionalFormattingEqual copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingEqual(this);
+            return new ExcelConditionalFormattingEqual(this, newWs);
         }
 
 

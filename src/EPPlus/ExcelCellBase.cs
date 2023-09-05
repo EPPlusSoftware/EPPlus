@@ -1299,7 +1299,7 @@ namespace OfficeOpenXml
 
             foreach(var c in value)
             {
-                if(c < 'A' || c > 'X')
+                if(c < 'A' || c > 'Z')
                 {
                     return false;
                 }

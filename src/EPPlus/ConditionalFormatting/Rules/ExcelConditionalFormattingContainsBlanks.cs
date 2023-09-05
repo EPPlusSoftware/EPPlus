@@ -44,13 +44,13 @@ namespace OfficeOpenXml.ConditionalFormatting
               Address.Start.Address);
         }
 
-        internal ExcelConditionalFormattingContainsBlanks(ExcelConditionalFormattingContainsBlanks copy) : base(copy)
+        internal ExcelConditionalFormattingContainsBlanks(ExcelConditionalFormattingContainsBlanks copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingContainsBlanks(this);
+            return new ExcelConditionalFormattingContainsBlanks(this, newWs);
         }
 
 

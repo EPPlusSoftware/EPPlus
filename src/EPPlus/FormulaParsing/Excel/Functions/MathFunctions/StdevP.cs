@@ -17,6 +17,7 @@ using System.Text;
 using MathObj = System.Math;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -31,10 +32,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
 
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
@@ -45,8 +46,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         internal static double StandardDeviation(IEnumerable<double> values)
         {
-            double avg = values.Average();
-            return MathObj.Sqrt(values.Average(v => MathObj.Pow(v - avg, 2)));
+            double avg = values.AverageKahan();
+            return MathObj.Sqrt(values.AverageKahan(v => MathObj.Pow(v - avg, 2)));
         }
     }
 }

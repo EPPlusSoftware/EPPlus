@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
 
@@ -31,21 +32,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
 
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            double nValues = 0d, result = 0d;
+            double nValues = 0d;
+            KahanSum result = 0d;
             foreach (var arg in arguments)
             {
                 if (ShouldIgnore(arg, context)) continue;
                 Calculate(arg, context, ref result, ref nValues);
             }
-            var div = Divide(result, nValues);
+            var div = Divide(result.Get(), nValues);
             if (double.IsPositiveInfinity(div))
             {
                 return CompileResult.GetErrorResult(eErrorType.Div0);
@@ -54,19 +56,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return CreateResult(div, DataType.Decimal);
         }
 
-        private void Calculate(FunctionArgument arg, ParsingContext context, ref double retVal, ref double nValues, bool isInArray = false)
+        private void Calculate(FunctionArgument arg, ParsingContext context, ref KahanSum retVal, ref double nValues, bool isInArray = false)
         {
             if (ShouldIgnore(arg, context))
             {
                 return;
             }
-            if (arg.Value is IEnumerable<FunctionArgument>)
-            {
-                foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
-                {
-                    Calculate(item, context, ref retVal, ref nValues, true);
-                }
-            }
+            //if (arg.Value is IEnumerable<FunctionArgument>)
+            //{
+            //    foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
+            //    {
+            //        Calculate(item, context, ref retVal, ref nValues, true);
+            //    }
+            //}
             else if (arg.IsExcelRange)
             {
                 foreach (var c in arg.ValueAsRangeInfo)

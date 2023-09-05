@@ -31,9 +31,9 @@ namespace OfficeOpenXml.FormulaParsing
 
         public object Value => _value;
 
-        public double ValueDouble => ConvertUtil.IsNumeric(_value) ? ConvertUtil.GetValueDouble(_value, true) : 0;
+        public double ValueDouble => ConvertUtil.GetValueDouble(_value, true);
 
-        public double ValueDoubleLogical => ConvertUtil.IsNumeric(_value) ? ConvertUtil.GetValueDouble(_value, false) : 0;
+        public double ValueDoubleLogical => ConvertUtil.GetValueDouble(_value, false);
 
         public bool IsHiddenRow => false;
 

@@ -34,8 +34,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
             var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
-            var significance = (arguments.Count > 1) ? ArgToDecimal(arguments, 1) : 1;
-            var mode = (arguments.Count > 2) ? ArgToDecimal(arguments, 2) : 0d;
+            var significance = (arguments.Count > 1) ? ArgToDecimal(arguments, 1, 1d) : 1;
+            var mode = (arguments.Count > 2) ? ArgToDecimal(arguments, 2, 0d) : 0;
             if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CreateResult(eErrorType.Num);
             return CreateResult(RoundingHelper.Round(number, significance, mode != 0d ? RoundingHelper.Direction.Up : RoundingHelper.Direction.AlwaysUp), DataType.Decimal);
         }

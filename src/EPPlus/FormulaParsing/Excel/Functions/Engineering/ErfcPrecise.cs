@@ -23,5 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     Description = "Returns the complementary error function integrated between a supplied lower limit and infinity")]
     internal class ErfcPrecise : Erfc
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

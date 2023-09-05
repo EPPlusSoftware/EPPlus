@@ -24,9 +24,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Category = ExcelFunctionCategory.Engineering,
         EPPlusVersion = "5.2",
         Description = "Returns the complementary error function integrated between a supplied lower limit and infinity")]
-    public class Erfc : ExcelFunction
+    internal class Erfc : ExcelFunction
     {
-        public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

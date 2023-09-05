@@ -119,7 +119,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get
             {
-                return _cells[_rowIndex, _colIx];
+                return _cells[_rowIndex, _colIx] ?? new InMemoryCellInfo(null);
             }
         }
 
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get
             {
-                return _cells[_rowIndex, _colIx];
+                return _cells[_rowIndex, _colIx] ?? new InMemoryCellInfo(null);
             }
         }
 
@@ -189,6 +189,8 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 var c = _cells[row, col];
                 if (c == null) return null;
                 return c.Value;
+
+
             }
             else
             {
@@ -242,6 +244,17 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 }
             }
             return ret;
+        }
+
+        internal static InMemoryRange GetFromArray(params object[] values)
+        {
+            var rows = values.GetUpperBound(0) + 1;
+            var ir = new InMemoryRange(rows, 1);
+            for(int r=0;r < rows;r++)
+            {
+                ir.SetValue(r, 0, values[r]);
+            }
+            return ir;
         }
     }
 }

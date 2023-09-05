@@ -65,25 +65,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             _functions[funcNum] = func;
         }
 
-        public override void BeforeInvoke(ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            base.BeforeInvoke(context);
+            var funcNum = ArgToInt(arguments, 0);
+
             var cellId = ExcelCellBase.GetCellId(context.CurrentCell.WorksheetIx, context.CurrentCell.Row, context.CurrentCell.Column);
             if (!context.SubtotalAddresses.Contains(cellId))
             {
                 context.SubtotalAddresses.Add(cellId);
             }
-        }
-
-        public override int ArgumentMinLength => 2;
-        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            var funcNum = ArgToInt(arguments, 0);
-            //if (context.Scopes.Current.Parent != null && context.Scopes.Current.Parent.IsSubtotal)
-            //{
-            //    return CreateResult(0d, DataType.Empty);
-            //}
             context.IsSubtotal = true;
+
             var actualArgs = arguments.Skip(1);
             var function = GetFunctionByCalcType(funcNum);
             var compileResult = function.Execute(actualArgs.ToList(), context);

@@ -49,13 +49,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return retVal;
             }
-            if (arg.Value is IEnumerable<FunctionArgument>)
-            {
-                foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
-                {
-                    retVal += Calculate(item, context, true);
-                }
-            }
             else
             {
                 var cs = arg.Value as IRangeInfo;

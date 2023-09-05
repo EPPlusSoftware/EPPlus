@@ -67,11 +67,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CreateResult(address.FromCol, DataType.Integer);
             }
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreAddress;
-        }
-        public override bool HasNormalArguments => false;
+        }));
         public override int ArgumentMinLength => 0;
         public override bool IsVolatile => true; //Blank argument will return the current cells column, so set volatile
     }

@@ -197,19 +197,19 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 return new SimpleAddress[0];
             }
+            else if(prevToRow != toRow && prevToCol != toCol)
+            {
+                var a1 = new SimpleAddress(fromRow, Math.Min(prevToCol+1, toCol), Math.Min(prevToRow, toRow), Math.Max(prevToCol, toCol));
+                var a2 = new SimpleAddress(Math.Min(prevToRow+1, toRow), fromCol, Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol));
+                return new SimpleAddress[] { a1, a2 };
+            }
             else if(prevToRow != toRow)
             {
-                return new SimpleAddress[] { new SimpleAddress(Math.Min(prevToRow+1, toRow), fromCol, Math.Max(prevToRow+1, toRow), toCol) };
+                return new SimpleAddress[] { new SimpleAddress(Math.Min(prevToRow+1, toRow), fromCol, Math.Max(prevToRow, toRow), Math.Max(prevToCol,toCol)) };
             }            
-            else if (prevToCol != toCol)
-            {
-                return new SimpleAddress[] { new SimpleAddress(fromRow, Math.Min(prevToCol+1, toCol), toRow, Math.Max(prevToCol+1, toCol)) };
-            }
             else
             {
-                var a1 = new SimpleAddress(Math.Min(prevToRow, toRow), fromCol, Math.Max(prevToRow, toRow), toCol);
-                var a2 = new SimpleAddress(fromRow, Math.Min(prevToCol, toCol), toRow, Math.Max(prevToCol, toCol));
-                return new SimpleAddress[] { a1, a2 };
+                return new SimpleAddress[] { new SimpleAddress(fromRow, Math.Min(prevToCol+1, toCol), Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol)) };
             }
         }
 

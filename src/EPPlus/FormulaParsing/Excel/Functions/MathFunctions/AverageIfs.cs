@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
@@ -26,17 +27,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         IntroducedInExcelVersion = "2007")]
     internal class AverageIfs : MultipleRangeCriteriasFunction
     {
-        private string GetCriteraFromArgsByIndex(IList<FunctionArgument> arguments, int index)
+        private object GetCriteraFromArgsByIndex(IList<FunctionArgument> arguments, int index)
         {
             return arguments[index + 1].Value != null ? arguments[index + 1].Value.ToString() : null;
         }
 
         public override int ArgumentMinLength => 3;
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
+        {
+            if (argumentIndex % 2 == 0 && argumentIndex > 0)
+            {
+                return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            return FunctionParameterInformation.Normal;
+        }));
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { arguments[0] }, context).ToList();
             var argRanges = new List<RangeOrValue>();
-            var criterias = new List<string>();
+            var criterias = new List<object>();
             for (var ix = 1; ix < 31; ix += 2)
             {
                 if (arguments.Count <= ix) break;
@@ -50,8 +59,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                var v = GetCriteraFromArgsByIndex(arguments, ix);
-                criterias.Add(v);
+                //var v = GetCriteraFromArgsByIndex(arguments, ix);
+                criterias.Add(arguments[ix+1].ValueFirst);
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
@@ -62,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
 
             if (matchIndexes.Count() == 0) return CreateResult(eErrorType.Div0);
-            var result = matchIndexes.Average(index => sumRange[index]);
+            var result = matchIndexes.AverageKahan(index => sumRange[index]);
 
             return CreateResult(result, DataType.Decimal);
         }

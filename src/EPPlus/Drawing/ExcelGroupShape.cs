@@ -11,10 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -154,18 +156,32 @@ namespace OfficeOpenXml.Drawing
             }
             d.AdjustXPathsForGrouping(false);
             d.TopNode = drawingNode;
+            d.SetCellAnchorFromNode();
             d.SetPosition(top, left);
             d.SetSize((int)width, (int)height);
         }
 
         private XmlNode CreateAnchorNode(XmlNode drawingNode)
         {
-            var topNode = _parent.TopNode.CloneNode(false);
-            topNode.AppendChild(_parent.TopNode.GetChildAtPosition(0).CloneNode(true));
-            topNode.AppendChild(_parent.TopNode.GetChildAtPosition(1).CloneNode(true));
+            XmlNode topNode;
+            if(drawingNode.LocalName=="AlternateContent")
+            {
+                var xmlDoc = _topNode.OwnerDocument;
+                topNode = _topNode.OwnerDocument.CreateElement("xdr", "twoCellAnchor", ExcelPackage.schemaSheetDrawings);
+                var from = _topNode.OwnerDocument.CreateElement("xdr", "from", ExcelPackage.schemaSheetDrawings);
+                var to = _topNode.OwnerDocument.CreateElement("xdr", "to", ExcelPackage.schemaSheetDrawings);
+                topNode.AppendChild(from);
+                topNode.AppendChild(to);
+            }
+            else
+            {
+                topNode = _parent.TopNode.CloneNode(false);
+                topNode.AppendChild(_parent.TopNode.GetChildAtPosition(0).CloneNode(true));
+                topNode.AppendChild(_parent.TopNode.GetChildAtPosition(1).CloneNode(true));
+            }
             topNode.AppendChild(drawingNode);
             var ix = 3;
-            while(ix< _parent.TopNode.ChildNodes.Count)
+            while (ix < _parent.TopNode.ChildNodes.Count)
             {
                 topNode.AppendChild(_parent.TopNode.ChildNodes[ix].CloneNode(true));
                 ix++;
@@ -257,7 +273,8 @@ namespace OfficeOpenXml.Drawing
             //Remove 
             if (_parent.Drawings.Count == 0)
             {
-                _parent._drawings.Remove(_parent);
+                _parent._drawings._drawingsList.Remove(_parent);
+                _parent._drawings._drawingNames.Remove(_parent.Name);
             }
             _parent._drawings.ReIndexNames(ix, 1);
             drawing._parent = null;

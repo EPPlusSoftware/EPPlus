@@ -127,7 +127,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     if (l != null && r == null)
                     {
-                        return true;
+                        return false;
                     }
                     if (l == null && r == null)
                         return true;

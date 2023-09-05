@@ -51,13 +51,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        internal ExcelConditionalFormattingLastMonth(ExcelConditionalFormattingLastMonth copy) : base(copy)
+        internal ExcelConditionalFormattingLastMonth(ExcelConditionalFormattingLastMonth copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
+        internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
-            return new ExcelConditionalFormattingLastMonth(this);
+            return new ExcelConditionalFormattingLastMonth(this, newWs);
         }
         #endregion
     }

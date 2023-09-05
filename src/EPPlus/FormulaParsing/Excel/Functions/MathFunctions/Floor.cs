@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
+            if (arguments[0].Value == null || arguments[1].Value == null) return CreateResult(0d, DataType.Decimal);
             var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
             var significance = ArgToDecimal(arguments, 1);
             if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CompileResult.GetErrorResult(eErrorType.Num);

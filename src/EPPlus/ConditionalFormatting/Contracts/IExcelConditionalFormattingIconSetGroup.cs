@@ -32,6 +32,16 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     bool ShowValue { get; set; }
 
     /// <summary>
+    /// True if percent based
+    /// </summary>
+    bool IconSetPercent { get; set; }
+
+    /// <summary>
+    /// True if the Iconset has custom icons
+    /// </summary>
+    bool Custom { get; }
+
+    /// <summary>
     /// IconSet (3, 4 ou 5 IconSet)
     /// </summary>
     T IconSet { get; set; }

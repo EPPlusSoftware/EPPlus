@@ -18,6 +18,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using MathObj = System.Math;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -31,10 +32,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
-        }
+        }));
 
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
@@ -50,8 +51,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 var nValues = values.Count();
                 if(nValues == 1) throw new ExcelErrorValueException(eErrorType.Div0);      
-                double avg = values.Average();    
-                double sum = values.Sum(d => MathObj.Pow(d - avg, 2));
+                double avg = values.AverageKahan();    
+                double sum = values.SumKahan(d => MathObj.Pow(d - avg, 2));
                 var div = Divide(sum, (values.Count() - 1));
                 if (double.IsPositiveInfinity(div))
                 {

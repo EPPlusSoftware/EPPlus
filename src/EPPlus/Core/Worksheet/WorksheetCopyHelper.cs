@@ -110,9 +110,9 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             if(copy.ConditionalFormatting.Count > 0)
             {
-                foreach (ExcelConditionalFormattingRule cf in copy.ConditionalFormatting)
+                for (int i = 0; i < copy.ConditionalFormatting.Count; i++)
                 {
-                    added.ConditionalFormatting.CopyRule(cf);
+                    added.ConditionalFormatting.CopyRule(copy.ConditionalFormatting[i]);
                 }
             }
 

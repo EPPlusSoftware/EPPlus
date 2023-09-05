@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,86 +8,63 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Finds the relative position of a value in a supplied array")]
-    internal class Match : LookupFunction
+        Description = "Finds the relative position of a value in a supplied array",
+        SupportsArrays = true)]
+    internal class Match : ExcelFunction
     {
-        private enum MatchType
-        {
-            ClosestAbove = -1,
-            ExactMatch = 0,
-            ClosestBelow = 1
-        }
-
-        public Match()
-            : base(new WildCardValueMatcher2())
-        {
-
-        }
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var searchedValue = arguments[0].Value;
-            if (searchedValue == null) return CompileResult.GetErrorResult(eErrorType.NA);
-            var address =  ArgToAddress(arguments,1); 
-            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
-            var rangeAddress = rangeAddressFactory.Create(address);
-            var matchType = GetMatchType(arguments);
-            var args = new LookupArguments(searchedValue, address, 0, 0, false, arguments[1].ValueAsRangeInfo);
-            var lookupDirection = GetLookupDirection(rangeAddress);
-            var navigator = LookupNavigatorFactory.Create(lookupDirection, args, context);
-            int? lastValidIndex = null;
-            do
+
+            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var arg2 = arguments[1];
+            if (!arg2.IsExcelRange) return CreateResult(eErrorType.Value);
+            var lookupRange = arg2.ValueAsRangeInfo;
+            var matchType = 1;
+            if(arguments.Count() > 2)
             {
-                var matchResult = IsMatch(searchedValue, navigator.CurrentValue);
-
-                // For all match types, if the match result indicated equality, return the index (1 based)
-                if (searchedValue != null && matchResult == 0)
-                {
-                    return CreateResult(navigator.Index + 1, DataType.Integer);
-                }
-
-                if ((matchType == MatchType.ClosestBelow && matchResult < 0) || (matchType == MatchType.ClosestAbove && matchResult > 0))
-                {
-                    lastValidIndex = navigator.Index + 1;
-                }
-                // If matchType is ClosestBelow or ClosestAbove and the match result test failed, no more searching is required
-                else if (matchType == MatchType.ClosestBelow || matchType == MatchType.ClosestAbove)
-                {
-                    break;
-                }
+                matchType = ArgToInt(arguments, 2);
+                if (matchType > 1 || matchType < -1) return CreateResult(eErrorType.Value);
             }
-            while (navigator.MoveNext());
-
-            if (matchType == MatchType.ExactMatch && !lastValidIndex.HasValue)
+            int index;
+            if(matchType == 1)
+            {
+                index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, true, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller));
+                index = LookupBinarySearch.GetMatchIndex(index, lookupRange, LookupMatchMode.ExactMatchReturnNextSmaller, true);
+            }
+            else if(matchType == -1)
+            {
+                index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, false, new LookupComparer(LookupMatchMode.ExactMatchReturnNextLarger));
+                index = LookupBinarySearch.GetMatchIndex(index, lookupRange, LookupMatchMode.ExactMatchReturnNextLarger, false);
+            }
+            else
+            {
+                // matchType == 0...
+                var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatchWithWildcard);
+                index = scanner.FindIndex();
+            }
+            if(index < 0)
+            {
                 return CompileResult.GetErrorResult(eErrorType.NA);
-
-            return CreateResult(lastValidIndex, DataType.Integer);
-        }
-
-        private MatchType GetMatchType(IList<FunctionArgument> arguments)
-        {
-            var matchType = MatchType.ClosestBelow;
-            if (arguments.Count > 2)
-            {
-                matchType = (MatchType)ArgToInt(arguments, 2);
             }
-            return matchType;
+            return CreateResult(index + 1, DataType.Integer);
         }
     }
 }

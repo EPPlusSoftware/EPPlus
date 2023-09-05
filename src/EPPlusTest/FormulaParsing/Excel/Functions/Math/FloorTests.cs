@@ -67,7 +67,33 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(expectedValue, result.Result);
         }
+        [TestMethod]
+        public void FloorPreciseFunctionsShouldHandeNullArgs()
+        {
+            var func = new FloorPrecise();
 
+            var args = FunctionsHelper.CreateArgs(6.1, null);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(6d, result.Result);
+        }
+        [TestMethod]
+        public void FloorFunctionsShouldHandeNullArgs()
+        {
+            var func = new Floor();
+
+            var args = FunctionsHelper.CreateArgs(6.1, null, null);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(0d, result.Result);
+        }
+        [TestMethod]
+        public void FloorMathFunctionsShouldHandeNullArgs()
+        {
+            var func = new FloorMath();
+
+            var args = FunctionsHelper.CreateArgs(6.1, null);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(6d, result.Result);
+        }
         [TestMethod]
         public void FloorMathShouldReturnCorrectResult()
         {

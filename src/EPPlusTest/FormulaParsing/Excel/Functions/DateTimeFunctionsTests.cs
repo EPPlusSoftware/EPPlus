@@ -39,6 +39,7 @@ using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -529,7 +530,7 @@ namespace EPPlusTest.Excel.Functions
             var expectedDate = new DateTime(2016, 6, 13).ToOADate();
 
             var func = new Workday();
-            var args = FunctionsHelper.CreateArgs(inputDate, -30, FunctionsHelper.CreateArgs(holidayDate1, holidayDate2));
+            var args = FunctionsHelper.CreateArgs(inputDate, -30, InMemoryRange.GetFromArray(holidayDate1, holidayDate2));
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(expectedDate, result.Result);
         }

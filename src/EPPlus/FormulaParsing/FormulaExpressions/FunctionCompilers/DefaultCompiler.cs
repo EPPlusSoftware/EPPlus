@@ -18,35 +18,19 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
     internal class DefaultCompiler : FunctionCompiler
     {
-        public DefaultCompiler(ExcelFunction function, ParsingContext context)
-            : base(function, context)
+        public DefaultCompiler(ExcelFunction function)
+            : base(function)
         {
 
-        }
-
-        public override CompileResult Compile(IEnumerable<Expression> children)
+        }        
+        public override CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(Context);
-            foreach (var child in children)
+            foreach (var cr in children)
             {
-                var compileResult = child.Compile();
-                if(compileResult.DataType == DataType.ExcelRange)
-                {
-
-                }
-                if (compileResult.IsResultOfSubtotal)
-                {
-                    var arg = new FunctionArgument(compileResult.Result, compileResult.DataType);
-                    arg.SetExcelStateFlag(ExcelCellState.IsResultOfSubtotal);
-                    args.Add(arg);
-                }
-                else
-                {
-                    BuildFunctionArguments(compileResult, args);     
-                }
+                BuildFunctionArguments(cr, args);
             }
-            return Function.ExecuteInternal(args, Context);
+            return Function.ExecuteInternal(args, context);
         }
     }
 }

@@ -25,5 +25,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the natural logarithm of the gamma function for a supplied value")]
     internal class GammalnPrecise : Gammaln
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

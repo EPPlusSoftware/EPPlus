@@ -113,7 +113,33 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(7d, result.Result);
         }
+        [TestMethod]
+        public void CeilingPreciseFunctionsShouldHandeNullArgs()
+        {
+            var func = new CeilingPrecise();
 
+            var args = FunctionsHelper.CreateArgs(6.1, null);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(7d, result.Result);
+        }
+        [TestMethod]
+        public void CeilingFunctionsShouldHandeNullArgs()
+        {
+            var func = new Ceiling();
+
+            var args = FunctionsHelper.CreateArgs(6.1, null, null);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(0d, result.Result);
+        }
+        [TestMethod]
+        public void CeilingMathFunctionsShouldHandeNullArgs()
+        {
+            var func = new CeilingMath();
+
+            var args = FunctionsHelper.CreateArgs(6.1, null);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(7d, result.Result);
+        }
         [TestMethod]
         public void CeilingMathShouldReturnCorrectResult()
         {

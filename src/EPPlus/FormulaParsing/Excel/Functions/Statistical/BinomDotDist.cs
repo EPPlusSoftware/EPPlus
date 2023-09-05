@@ -26,5 +26,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
     internal class BinomDotDist : BinomDist
     {
+        public override string NamespacePrefix => "_xlfn.";
     }
 }

@@ -19,9 +19,9 @@ namespace OfficeOpenXml.Core.CellStore
     {
         CellStore<T> _cellStore;
         int row, colPos;
-        int[] pagePos, cellPos;
         internal int _startRow, _startCol, _endRow, _endCol;
         int minRow, minColPos, maxRow, maxColPos;
+        int lastColCount;
         public CellStoreEnumerator(CellStore<T> cellStore) :
             this(cellStore, 0, 0, ExcelPackage.MaxRows, ExcelPackage.MaxColumns)
         {
@@ -36,7 +36,6 @@ namespace OfficeOpenXml.Core.CellStore
             _endCol = EndCol;
 
             Init();
-
         }
 
         internal void Init()
@@ -44,22 +43,21 @@ namespace OfficeOpenXml.Core.CellStore
             minRow = _startRow;
             maxRow = _endRow;
 
+            UpdateMinMaxColPos();
+            lastColCount = _cellStore.ColumnCount;
+            row = minRow;
+            colPos = minColPos - 1;
+        }
+
+        private void UpdateMinMaxColPos()
+        {
             minColPos = _cellStore.GetColumnPosition(_startCol);
             if (minColPos < 0) minColPos = ~minColPos;
             maxColPos = _cellStore.GetColumnPosition(_endCol);
             if (maxColPos < 0) maxColPos = ~maxColPos - 1;
-            row = minRow;
-            colPos = minColPos - 1;
-
-            var cols = maxColPos - minColPos + 1;
-            pagePos = new int[cols];
-            cellPos = new int[cols];
-            for (int i = 0; i < cols; i++)
-            {
-                pagePos[i] = -1;
-                cellPos[i] = -1;
-            }
+            lastColCount = _cellStore.ColumnCount;  
         }
+
         internal int Row
         {
             get
@@ -97,12 +95,14 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal bool Next()
         {
+            if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
             return _cellStore.GetNextCell(ref row, ref colPos, minColPos, maxRow, maxColPos);
         }
         internal bool Previous()
         {
             lock (_cellStore)
             {
+                if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
                 return _cellStore.GetPrevCell(ref row, ref colPos, minRow, minColPos, maxColPos);
             }
         }

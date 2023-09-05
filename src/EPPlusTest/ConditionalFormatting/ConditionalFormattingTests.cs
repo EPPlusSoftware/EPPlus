@@ -45,6 +45,7 @@ using System.Runtime.Remoting;
 using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
+using FakeItEasy;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -1735,6 +1736,8 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cf = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
                 Assert.AreEqual("\"&%/Stuff���}=``#�\"<>\"An Example\"", cf.As.Expression.Formula);
+
+                //readPackage.SaveAs("C:\\Users\\OssianEdström\\Documents\\hardFormula.xlsx");
             }
         }
 
@@ -1844,6 +1847,166 @@ namespace EPPlusTest.ConditionalFormatting
 
                 Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()["A1"][0].Type, 
                     eExcelConditionalFormattingRuleType.ContainsBlanks);
+            }
+        }
+
+        [TestMethod]
+        public void CF_PriorityTest()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("prioritySheet");
+
+                var lowPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
+
+                lowPriority.Priority = 500;
+
+                lowPriority.Text = "D";
+
+                lowPriority.Style.Fill.BackgroundColor.Color = Color.DarkRed;
+                lowPriority.Style.Font.Italic = true;
+
+                var highPriority = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("A1"));
+
+                var types = sheet.ConditionalFormatting.ToList().Find(x => x.As.BeginsWith != null);
+
+                highPriority.Text = "r";
+                highPriority.Priority = 2;
+
+                highPriority.Style.Fill.BackgroundColor.Color = Color.DarkBlue;
+                highPriority.Style.Font.Color.Color = Color.White;
+
+                sheet.Cells["A1"].Value = "Danger";
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var readPackage = new ExcelPackage(stream);
+                var readSheet = readPackage.Workbook.Worksheets[0];
+
+                Assert.AreEqual(500, readSheet.ConditionalFormatting[0].Priority);
+                Assert.AreEqual(2, readSheet.ConditionalFormatting[1].Priority);
+            }
+        }
+
+        [TestMethod]
+        public void CF_PerformanceTest()
+        {
+            using (var pck = OpenPackage("performance.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("performanceTest");
+
+                for (int i = 0; i < 210000; i++)
+                {
+                    sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
+                    sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
+                    sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 3, i, 3), Color.DarkGreen);
+                }
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void TopPercentTest()
+        {
+            using (var pck = OpenPackage("topPercent.xlsx", true))
+            {
+                var worksheet = pck.Workbook.Worksheets.Add("topPercent");
+
+                var cfRule13 = worksheet.ConditionalFormatting.AddTopPercent(
+                new ExcelAddress("B11:B20"));
+
+                cfRule13.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                cfRule13.Style.Border.Left.Color.Theme = eThemeSchemeColor.Text2;
+                cfRule13.Style.Border.Bottom.Style = ExcelBorderStyle.DashDot;
+                cfRule13.Style.Border.Bottom.Color.SetColor(ExcelIndexedColor.Indexed8);
+                cfRule13.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                cfRule13.Style.Border.Right.Color.Color = Color.Blue;
+                cfRule13.Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                cfRule13.Style.Border.Top.Color.Auto = true;
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void EnsureCopyingBetweenSheetsCorrectPriority()
+        {
+            using (var pck = OpenPackage("sheetCopy.xlsx", true))
+            {
+                var firstSheet = pck.Workbook.Worksheets.Add("first");
+                var secondSheet = pck.Workbook.Worksheets.Add("second");
+
+                var cfExt = firstSheet.ConditionalFormatting.AddDatabar("A1:A5", Color.Magenta);
+
+                var cfAverage = firstSheet.ConditionalFormatting.AddAboveAverage("A1:A5");
+                var cfBetween = firstSheet.ConditionalFormatting.AddBetween("A1:A5");
+                var cfTextContains = firstSheet.ConditionalFormatting.AddTextContains("A1:B10");
+
+                cfTextContains.Priority = 1;
+                cfAverage.Priority = 2;
+                cfExt.Priority = 3;
+                cfBetween.Priority = 4;
+
+                Assert.AreEqual(cfTextContains.Priority, 1);
+                Assert.AreEqual(cfAverage.Priority, 2);
+                Assert.AreEqual(cfExt.Priority, 3);
+                Assert.AreEqual(cfBetween.Priority, 4);
+
+                var copiedSheet = pck.Workbook.Worksheets.Add("copySheet", firstSheet);
+
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
+
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(firstSheet.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
+
+                secondSheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cfExt);
+                secondSheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cfTextContains);
+
+                Assert.AreEqual(secondSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(secondSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+
+                SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("sheetCopy.xlsx");
+
+                var sheetRead1 = readPackage.Workbook.Worksheets[0];
+
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(sheetRead1.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
+
+                var sheetRead2 = readPackage.Workbook.Worksheets[1];
+
+                Assert.AreEqual(sheetRead2.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(sheetRead2.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+
+
+                var sheetRead3 = readPackage.Workbook.Worksheets[2];
+
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);
+                Assert.AreEqual(sheetRead3.ConditionalFormatting.RulesByPriority(4).Type, eExcelConditionalFormattingRuleType.Between);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ExpectExceptionWhenInvalidAddress()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("NewWorksheet");
+
+                sheet.ConditionalFormatting.AddAboveAverage("InvalidAddressAttempt");
             }
         }
     }
