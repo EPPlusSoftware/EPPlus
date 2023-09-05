@@ -1670,8 +1670,37 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 typeHigh = typeHigh.Remove(0, "auto".Length);
                             }
 
-                            cache.Append($"<cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"/>");
-                            cache.Append($"<cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"/>");
+                            cache.Append($"<cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"");
+
+                            if (dataBar.LowValue.HasValueOrFormula)
+                            {
+                                if (!string.IsNullOrEmpty(dataBar.LowValue.Formula))
+                                {
+                                    cache.Append($" val=\"{dataBar.LowValue.Formula.EncodeXMLAttribute()}\"");
+                                }
+                                else
+                                {
+                                    cache.Append($" val=\"{dataBar.LowValue.Value}\"");
+                                }
+                            }
+
+                            cache.Append("/>");
+
+                            cache.Append($"<cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"");
+
+                            if (dataBar.HighValue.HasValueOrFormula)
+                            {
+                                if (!string.IsNullOrEmpty(dataBar.HighValue.Formula))
+                                {
+                                    cache.Append($" val=\"{dataBar.HighValue.Formula.EncodeXMLAttribute()}\"");
+                                }
+                                else
+                                {
+                                    cache.Append($" val=\"{dataBar.HighValue.Value}\"");
+                                }
+                            }
+
+                            cache.Append("/>");
 
                             WriteDxfColor("", cache, dataBar.FillColor);
 
