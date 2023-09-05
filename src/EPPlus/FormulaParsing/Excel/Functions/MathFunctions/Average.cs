@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 if (ShouldIgnore(arg, context)) continue;
                 Calculate(arg, context, ref result, ref nValues, out eErrorType? error);
-                if(error.HasValue)
+                if(error.HasValue && IgnoreErrors == false)
                 {
                     return CompileResult.GetErrorResult(error.Value);
                 }
@@ -90,12 +90,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     return;
                 }
                 if (arg.Value != null)
-                {
+                {                    
                     var numericValue = GetDecimalSingleArgument(arg);
                     if (numericValue.HasValue)
                     {
                         nValues++;
                         retVal += numericValue.Value;
+                    }
+                    else if(arg.Address==null)
+                    {
+                        error = eErrorType.Value;
+                        return;
                     }
                 }
             }

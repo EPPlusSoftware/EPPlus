@@ -39,13 +39,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             var nItems = 0d;
             Calculate(arguments, ref nItems, context, ItemContext.SingleArg, out eErrorType? error);
-            if (error.HasValue)
+            if (error.HasValue && IgnoreErrors==false)
             {
-                return CreateResult(nItems, DataType.Integer);
+                return CompileResult.GetErrorResult(error.Value);
             }
             else
             {
-                return CompileResult.GetErrorResult(error.Value);
+                return CreateResult(nItems, DataType.Integer);
             }
         }
 

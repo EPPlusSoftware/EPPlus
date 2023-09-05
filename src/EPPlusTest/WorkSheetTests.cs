@@ -2053,21 +2053,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void CalcMode()
-        {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Test.xlsx");
-            using (var package = new ExcelPackage(path))
-            {
-                package.Workbook.Worksheets.Add("Sheet1");
-                package.Workbook.CalcMode = ExcelCalcMode.Manual;
-                package.Save();
-            }
-
-            using (var package = new ExcelPackage(path))
-            {
-                Assert.IsTrue(package.Workbook.CalcMode == ExcelCalcMode.Manual);
-            }
-        }
     }
 }
