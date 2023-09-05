@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -30,14 +31,48 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class Index : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(1, 2);
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arg1 = arguments[0];
-            var row = ArgToInt(arguments, 1, RoundingMethod.Floor);
-            var col = arguments.Count > 2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
+            var arg2 = arguments[1];
+            int? row = default;
+            if (arg2.Value != null)
+            {
+                row = ArgToInt(arguments, 1, RoundingMethod.Floor);
+            }
+            int? col = default;
+            var colGivenButEmpty = false;
+            if(arguments.Count > 2)
+            {
+                col = ArgToInt(arguments, 2, RoundingMethod.Floor);
+                colGivenButEmpty = (arguments[2].Value == null);
+            }
+            if (!row.HasValue && !col.HasValue) return CreateResult(eErrorType.Value);
             if (arg1.IsExcelRange)
             {
                 var ri = arg1.ValueAsRangeInfo;
+                if(!colGivenButEmpty && !col.HasValue && ri.Size.NumberOfRows > 1 && ri.Size.NumberOfCols > 1)
+                {
+                    return CreateResult(eErrorType.Ref);
+                }
+                else if(colGivenButEmpty && row.HasValue)
+                {
+                    var returnRange = ri.GetOffset(row.Value - 1, 0, row.Value - 1, ri.Size.NumberOfCols - 1);
+                    return CreateAddressResult(returnRange, DataType.ExcelRange);
+                }
+                else if(!row.HasValue && col.HasValue)
+                {
+                    var returnRange = ri.GetOffset(0, col.Value - 1, ri.Size.NumberOfRows - 1, col.Value - 1);
+                    return CreateAddressResult(returnRange, DataType.ExcelRange);
+                }
+                
                 if(ri.Size.NumberOfRows==1 && arguments.Count < 3)
                 {
                     var t = row;
@@ -46,12 +81,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 if(row==0 || col==0)
                 {
-                    var range = GetResultRange(row, col, ri);
+                    var range = GetResultRange(row.Value, col.Value, ri);
                     return CreateAddressResult(range, DataType.ExcelRange);
                 }
                 else
                 {
-                    return GetResultSingleCell(row, col, ri);
+                    return GetResultSingleCell(row != null ? row.Value : 1, col != null ? col.Value : 1, ri);
                 }
             }            
             if (arg1.ValueIsExcelError)
@@ -96,7 +131,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             else
             {
                 var newRange = ri.GetOffset(r, c, r, c);
-                return CreateAddressResult(newRange, DataType.ExcelRange);
+                var v = newRange.GetOffset(0, 0);
+                return CompileResultFactory.Create(v, newRange.Address);
             }
         }
 
