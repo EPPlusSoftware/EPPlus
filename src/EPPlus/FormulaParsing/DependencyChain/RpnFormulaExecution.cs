@@ -793,20 +793,20 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 var v = s.Pop().Compile();
                                 PushResult(depChain._parsingContext, f, v);
-                                fexp._latestConitionValue = GetCondition(v);
+                                fexp._latestConditionValue = GetCondition(v);
                                 f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                             }
-                            else if (fexp._latestConitionValue==ExpressionCondition.True || fexp._latestConitionValue == ExpressionCondition.False)
+                            else if (fexp._latestConditionValue==ExpressionCondition.True || fexp._latestConditionValue == ExpressionCondition.False)
                             {
                                 pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
-                                if ((pi == FunctionParameterInformation.UseIfConditionIsFalse && fexp._latestConitionValue == ExpressionCondition.True)
+                                if ((pi == FunctionParameterInformation.UseIfConditionIsFalse && fexp._latestConditionValue == ExpressionCondition.True)
                                    ||
-                                   (pi == FunctionParameterInformation.UseIfConditionIsTrue && fexp._latestConitionValue == ExpressionCondition.False))
+                                   (pi == FunctionParameterInformation.UseIfConditionIsTrue && fexp._latestConditionValue == ExpressionCondition.False))
                                 {
                                     f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                                 }
                             }
-                            else if(fexp._latestConitionValue==ExpressionCondition.Error)
+                            else if(fexp._latestConditionValue==ExpressionCondition.Error)
                             {
                                 f._expressionStack.Push(Expression.Empty);
                                 f._expressionStack.Push(Expression.Empty);
@@ -963,8 +963,8 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 var fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                 while(fexp._argPos < fexp._arguments.Count && (
-                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && (fexp._latestConitionValue == ExpressionCondition.False || fexp._latestConitionValue == ExpressionCondition.Error)) ||
-                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && (fexp._latestConitionValue == ExpressionCondition.True || fexp._latestConitionValue == ExpressionCondition.Error))
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && (fexp._latestConditionValue == ExpressionCondition.False || fexp._latestConditionValue == ExpressionCondition.Error)) ||
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && (fexp._latestConditionValue == ExpressionCondition.True || fexp._latestConditionValue == ExpressionCondition.Error))
                     ))
                 {
                     fexp._argPos++;
