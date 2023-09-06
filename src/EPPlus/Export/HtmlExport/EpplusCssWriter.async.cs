@@ -202,14 +202,22 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting Dxfs, string styleClassPrefix, string cellStyleClassName, int priorityID)
+        internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting Dxfs, string styleClassPrefix, string cellStyleClassName, int priorityID, string uid)
         {
-            await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf{priorityID}{{", _settings.Minify);
-            if (Dxfs.Fill != null)
+            if(Dxfs != null)
             {
-                await WriteFillStylesAsync(Dxfs.Fill);
+                if(IsAddedToCache(Dxfs, out int id) || _addedToCssCf.Contains(id) == false)
+                {
+                    _addedToCssCf.Add(id);
+                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf-{id}{{", _settings.Minify);
+
+                    if (Dxfs.Fill != null)
+                    {
+                        await WriteFillStylesAsync(Dxfs.Fill);
+                    }
+                    await WriteClassEndAsync(_settings.Minify);
+                }
             }
-            await WriteClassEndAsync(_settings.Minify);
         }
 
         internal async Task AddToCssAsync(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName)
@@ -385,9 +393,12 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (_cssExclude.Fill) return;
 
-            if (f.PatternType == ExcelFillStyle.Solid)
+            if (f.PatternType == ExcelFillStyle.Solid || f.PatternType == null)
             {
-                await WriteCssItemAsync($"background-color:{GetDxfColor(f.BackgroundColor)};", _settings.Minify);
+                if(f.BackgroundColor != null)
+                {
+                    await WriteCssItemAsync($"background-color:{GetDxfColor(f.BackgroundColor)};", _settings.Minify);
+                }
             }
         }
 

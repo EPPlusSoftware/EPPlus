@@ -40,6 +40,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal eFontExclude _fontExclude;
         internal eBorderExclude _borderExclude;
         internal HashSet<int> _addedToCss=new HashSet<int>();
+        internal HashSet<int> _addedToCssCf = new HashSet<int>();
+
         internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude, Dictionary<string, int> styleCache) : base(writer, styleCache) 
         {
             _settings = settings;
@@ -326,6 +328,23 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 id = _styleCache.Count+1;
                 _styleCache.Add(key, id);
+                return false;
+            }
+        }
+
+        private bool IsAddedToCache(ExcelDxfStyleConditionalFormatting dxf, out int id)
+        {
+            var key = dxf.Id;
+
+            if (_dxfStyleCache.ContainsKey(key))
+            {
+                id = _dxfStyleCache[key];
+                return true;
+            }
+            else
+            {
+                id = _dxfStyleCache.Count + 1;
+                _dxfStyleCache.Add(key, id);
                 return false;
             }
         }

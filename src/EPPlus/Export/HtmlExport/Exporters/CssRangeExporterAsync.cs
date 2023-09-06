@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                                     var cfList = _cfAtAddresses[ce.CellAddress];
                                     foreach (var cf in cfList)
                                     {
-                                        await styleWriter.AddToCssAsyncCF(cf.Style, Settings.StyleClassPrefix, Settings.CellStyleClassName, cf.Priority);
+                                        await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, cf.Priority, cf.Uid);
                                     }
                                 }
                             }

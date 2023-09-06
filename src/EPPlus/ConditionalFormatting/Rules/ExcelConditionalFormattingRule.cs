@@ -64,7 +64,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public bool PivotTable { get; set; }
 
-        ExcelDxfStyleConditionalFormatting _style = null;
+        internal ExcelDxfStyleConditionalFormatting _style = null;
 
         /// <summary>
         /// The style
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 if (_uid == null)
                 {
                     _uid = Guid.NewGuid().ToString().ToUpperInvariant();
-                    return "{" + _uid + "}";
+                    return _uid;
                 }
 
                 return _uid;

@@ -29,17 +29,21 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal protected HashSet<string> _images=new HashSet<string>();
         protected Dictionary<string, int> _styleCache;
+        protected Dictionary<string, int> _dxfStyleCache;
+
         internal HtmlWriterBase(Stream stream, Encoding encoding, Dictionary<string, int> styleCache)
         {
             _stream = stream;
             _writer = new StreamWriter(stream, encoding);
             _styleCache = styleCache;
+            _dxfStyleCache = new Dictionary<string, int>();
         }
         public HtmlWriterBase(StreamWriter writer, Dictionary<string, int> styleCache)
         {
             _stream = writer.BaseStream;
             _writer = writer;
             _styleCache = styleCache;
+            _dxfStyleCache = new Dictionary<string, int>();
         }
         internal int Indent { get; set; }
 

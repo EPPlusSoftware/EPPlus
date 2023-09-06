@@ -22,6 +22,78 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
     internal static class HtmlExporterFactory
     {
+        internal static CssRangeExporterAsync CssRangeExporterAsync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static CssRangeExporterSync CssRangeExporterSync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static CssTableExporterAsync CssTableExporterAsync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static CssTableExporterSync CssTableExporterSync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static HtmlRangeExporterAsync HtmlRangeExporterAsync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static HtmlRangeExporterSync HtmlRangeExporterSync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static HtmlTableExporterAsync HtmlTableExporterAsync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static HtmlTableExporterSync HtmlTableExporterSync
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static ExcelHtmlRangeExporter ExcelHtmlRangeExporter
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public static HtmlRangeExporterSync CreateHtmlExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range, Dictionary<string, int> styleCache)
         {
             var exporter = new HtmlRangeExporterSync(settings, range);

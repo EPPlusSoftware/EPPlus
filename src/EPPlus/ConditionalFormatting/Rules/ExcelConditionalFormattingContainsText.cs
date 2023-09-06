@@ -115,6 +115,23 @@ namespace OfficeOpenXml.ConditionalFormatting
                 Formula = Formula2;
             }
         }
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if(Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                //Formula2 only filled if there's a cell or formula to cond
+                if(Formula2 != null)
+                {
+                    return _ws.Cells[Address.Start.Address].Formula.Contains(Formula2);
+                }
+                else
+                {
+                    return _ws.Cells[Address.Start.Address].Formula.Contains(_text);
+                }
+            }
+
+            return false;
+        }
 
         public override ExcelAddress Address
         {

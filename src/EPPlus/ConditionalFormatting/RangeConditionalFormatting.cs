@@ -536,6 +536,5 @@ namespace OfficeOpenXml.ConditionalFormatting
             return retDikt;
         }
         #endregion Public Methods
-        #endregion Conditional Formatting Rule Types
     }
 }

@@ -137,11 +137,26 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if(cfCollection.ContainsKey(cell.Address))
             {
+                int dxfId;
+                string dxfKey;
+
                 for (int i = 0; i < cfCollection[cell.Address].Count(); i++)
                 {
                     if (cfCollection[cell.Address][i].ShouldApplyToCell(cell))
                     {
-                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf{i + 1}";
+                        dxfKey = cfCollection[cell.Address][i].Style.Id;
+
+                        if (_dxfStyleCache.ContainsKey(dxfKey))
+                        {
+                            dxfId = _dxfStyleCache[dxfKey];
+                        }
+                        else
+                        {
+                            dxfId = _dxfStyleCache.Count + 1;
+                            _dxfStyleCache.Add(dxfKey, id);
+                        }
+
+                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf-{dxfId}";
                     }
                 }
             }
