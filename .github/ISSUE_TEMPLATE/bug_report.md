@@ -29,4 +29,4 @@ Replace this text with the version number in format Major.Minor.Revision (ex. 6.
  
 You must provide enough information for us to be able to understand and replicate the issue. 
 The better and more detailed the issue is described the more likely it is that we can fix it.
-A combination of a sample workbook and code that replicates the issue seems to be a winning concept.
+Unit tests or a combination of a sample workbook and code that replicates the issue seems to be a winning concept.
