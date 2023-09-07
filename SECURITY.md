@@ -8,7 +8,7 @@ EPPlus 5 and 6 are automatically scanned for vulnerabilities and static code ana
 | ------- | ------------------ | ------------------ |
 | 6.x.x   | :white_check_mark: |                    |
 | 5.x.x   | :white_check_mark: |                    |
-| < 4.0   | :x:                |Deprecated/unsupported versions|
+| < 4.3   | :x:                |Deprecated/unsupported versions|
 
 ## Reporting a Vulnerability
 
