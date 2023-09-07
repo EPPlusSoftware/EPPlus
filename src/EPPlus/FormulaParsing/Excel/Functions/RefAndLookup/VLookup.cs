@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var lookupRange = arg1.GetAsRangeInfo(context);
             var lookupIndex = ArgToInt(arguments, 2);
             var rangeLookup = true;
-            if(arguments.Count() > 3)
+            if(arguments.Count > 3)
             {
                 rangeLookup = ArgToBool(arguments, 3);
             }

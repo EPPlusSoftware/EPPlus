@@ -27,6 +27,7 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Runtime.CompilerServices;
+using Utils = OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -412,6 +413,40 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         }
         /// <summary>
+        /// Returns the value as if the 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        protected double? GetDecimalSingleArgument(FunctionArgument arg)
+        {
+            if (arg.DataType == DataType.Boolean)
+            {
+                return arg.Address == null ? Utils.ConvertUtil.GetValueDouble(arg.Value) : default;
+            }
+            else if (arg.DataType == DataType.String || arg.DataType == DataType.Unknown)
+            {
+                if (arg.Address != null) return default; //If the value reference a cell address, we ignore strings.
+                if (Utils.ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double number))
+                {
+                    return number;
+                }
+                else if (Utils.ConvertUtil.TryParseDateString(arg.Value.ToString(), out DateTime date))
+                {
+                    return date.ToOADate();
+                }
+                else
+                {
+                    return default;
+                }
+            }
+            else
+            {
+                return Utils.ConvertUtil.GetValueDouble(arg.Value);
+            }
+
+            return default;
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="arguments"></param>
@@ -419,7 +454,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <returns></returns>
         protected IRangeInfo ArgToRangeInfo(IList<FunctionArgument> arguments, int index)
         {
-            return arguments[index].Value as IRangeInfo;
+            if (arguments[index].DataType == DataType.ExcelRange)
+            {
+                return arguments[index].Value as IRangeInfo;
+            }
+            return null;
         }
 
         protected double Divide(double left, double right)
@@ -451,9 +490,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        protected bool ArgToBool(IEnumerable<FunctionArgument> arguments, int index)
+        protected bool ArgToBool(IList<FunctionArgument> arguments, int index)
         {
-            var obj = arguments.ElementAt(index).Value ?? string.Empty;
+            var obj = arguments[index].Value ?? string.Empty;
             return (bool)_argumentParsers.GetParser(DataType.Boolean).Parse(obj);
         }
 

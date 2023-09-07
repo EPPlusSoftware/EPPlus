@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal int _startPos, _endPos;
         internal IList<int> _arguments;
         internal int _argPos=0;
-        internal ExpressionCondition _latestConitionValue = ExpressionCondition.None;
+        internal ExpressionCondition _latestConditionValue = ExpressionCondition.None;
         internal CompileResult _cachedResult;
         int _negate = 0;
         internal FunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)

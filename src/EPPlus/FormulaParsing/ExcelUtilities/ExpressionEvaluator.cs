@@ -188,6 +188,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     }
                 }
             }
+            
             return _wildCardValueMatcher.IsMatch(expression, left) == 0;
         }
 

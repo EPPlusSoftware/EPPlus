@@ -234,17 +234,23 @@ namespace OfficeOpenXml.FormulaParsing
                 var sf = ws._sharedFormulas[ix];
                 if (sf.FormulaType==FormulaType.Array)
                 {
-                    f = ws._sharedFormulas[ix].GetRpnFormula(depChain, sf.StartRow, sf.StartCol);
-                    f._arrayIndex = ix;
-                    MetaDataReference md=default;
-                    if (ws._metadataStore.Exists(sf.StartRow, sf.StartCol, ref md) && md.cm>0)
+                    MetaDataReference md = default;
+                    bool isDynamic = false;
+                    if (ws._metadataStore.Exists(sf.StartRow, sf.StartCol, ref md) && md.cm > 0)
                     {
-                        f._isDynamic = ws.Workbook.Metadata.IsFormulaDynamic(md.cm);
+                        isDynamic = ws.Workbook.Metadata.IsFormulaDynamic(md.cm);
+                    }
+
+                    if (isDynamic)
+                    {
+                        f = ws._sharedFormulas[ix].GetRpnFormula(depChain, sf.StartRow, sf.StartCol);
+                        f._isDynamic = true;
                     }
                     else
                     {
-                        f._isDynamic = false;
+                        f = ws._sharedFormulas[ix].GetRpnArrayFormula(depChain, sf.StartRow, sf.StartCol, sf.EndRow, sf.EndCol);
                     }
+                    f._arrayIndex = ix;
                 }
                 else
                 {
@@ -272,7 +278,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 depChain._parsingContext.CurrentCell = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column);
             }
-            else if(f.IsName)
+            else if(f.Type == RpnFormulaType.NameFormula)
             {
                 var cc = ((RpnNameFormula)f).CurrentCell;
                 if (cc.Row == 0) cc = new FormulaCellAddress(f._ws==null ? -1 : f._ws.IndexInList, f._row, f._column); //Not set, set to the name.
@@ -426,7 +432,6 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return cr.ResultValue;
             FollowChain:
-
                 ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
                 if (ws == null)
                 {
@@ -458,7 +463,12 @@ namespace OfficeOpenXml.FormulaParsing
                 var col = fe.Column < 0 ? fe._startCol - 1 : fe.Column;
                 if (fe.Next())
                 {
-                    if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, fe.Row, fe.Column))) goto NextFormula;
+                    if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, fe.Row, fe.Column)))
+                    {
+                        MergeToRd(rd, row, col, fe, false);
+                        goto NextFormula;
+                    }
+
                     depChain._formulaStack.Push(f);
                     MergeToRd(rd, row, col, fe, false);
                     if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
@@ -547,7 +557,15 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         else
                         {
-                            f._ws.SetValueInner(f._row, f._column, cr.ResultValue ?? 0D);
+                            if(f._arrayIndex!=-1)
+                            {
+                                var sf = f._ws._sharedFormulas[f._arrayIndex];
+                                f._ws.SetValueInner(sf.StartRow, sf.StartCol, sf.EndRow, sf.EndCol, cr.ResultValue ?? 0D);
+                            }
+                            else
+                            {
+                                f._ws.SetValueInner(f._row, f._column, cr.ResultValue ?? 0D);
+                            }
                         }
                     }
                 }
@@ -775,20 +793,20 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 var v = s.Pop().Compile();
                                 PushResult(depChain._parsingContext, f, v);
-                                fexp._latestConitionValue = GetCondition(v);
+                                fexp._latestConditionValue = GetCondition(v);
                                 f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                             }
-                            else if (fexp._latestConitionValue==ExpressionCondition.True || fexp._latestConitionValue == ExpressionCondition.False)
+                            else if (fexp._latestConditionValue==ExpressionCondition.True || fexp._latestConditionValue == ExpressionCondition.False)
                             {
                                 pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
-                                if ((pi == FunctionParameterInformation.UseIfConditionIsFalse && fexp._latestConitionValue == ExpressionCondition.True)
+                                if ((pi == FunctionParameterInformation.UseIfConditionIsFalse && fexp._latestConditionValue == ExpressionCondition.True)
                                    ||
-                                   (pi == FunctionParameterInformation.UseIfConditionIsTrue && fexp._latestConitionValue == ExpressionCondition.False))
+                                   (pi == FunctionParameterInformation.UseIfConditionIsTrue && fexp._latestConditionValue == ExpressionCondition.False))
                                 {
                                     f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                                 }
                             }
-                            else if(fexp._latestConitionValue==ExpressionCondition.Error)
+                            else if(fexp._latestConditionValue==ExpressionCondition.Error)
                             {
                                 f._expressionStack.Push(Expression.Empty);
                                 f._expressionStack.Push(Expression.Empty);
@@ -945,8 +963,8 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 var fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                 while(fexp._argPos < fexp._arguments.Count && (
-                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && fexp._latestConitionValue == ExpressionCondition.False) ||
-                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && fexp._latestConitionValue == ExpressionCondition.True)
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && (fexp._latestConditionValue == ExpressionCondition.False || fexp._latestConditionValue == ExpressionCondition.Error)) ||
+                    (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && (fexp._latestConditionValue == ExpressionCondition.True || fexp._latestConditionValue == ExpressionCondition.Error))
                     ))
                 {
                     fexp._argPos++;

@@ -45,7 +45,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             foreach (var arg in arguments)
             {
                 if (ShouldIgnore(arg, context)) continue;
-                Calculate(arg, context, ref result, ref nValues);
+                Calculate(arg, context, ref result, ref nValues, out eErrorType? error);
+                if(error.HasValue && IgnoreErrors == false)
+                {
+                    return CompileResult.GetErrorResult(error.Value);
+                }
             }
             var div = Divide(result.Get(), nValues);
             if (double.IsPositiveInfinity(div))
@@ -54,27 +58,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             
             return CreateResult(div, DataType.Decimal);
-        }
+            }
 
-        private void Calculate(FunctionArgument arg, ParsingContext context, ref KahanSum retVal, ref double nValues, bool isInArray = false)
+        private void Calculate(FunctionArgument arg, ParsingContext context, ref KahanSum retVal, ref double nValues, out eErrorType? error)
         {
+            error = null;
             if (ShouldIgnore(arg, context))
             {
                 return;
             }
-            //if (arg.Value is IEnumerable<FunctionArgument>)
-            //{
-            //    foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
-            //    {
-            //        Calculate(item, context, ref retVal, ref nValues, true);
-            //    }
-            //}
             else if (arg.IsExcelRange)
             {
                 foreach (var c in arg.ValueAsRangeInfo)
                 {
                     if (ShouldIgnore(c, context)) continue;
-                    CheckForAndHandleExcelError(c);
+                    if (c.Value is ExcelErrorValue ev)
+                    {
+                        error = ev.Type;
+                        return;
+                    }
                     if (!IsNumeric(c.Value) || IsBool(c.Value)) continue;
                     nValues++;
                     retVal += c.ValueDouble;
@@ -82,42 +84,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             else
             {
-                var numericValue = GetNumericValue(arg.Value, isInArray);
-				if (numericValue.HasValue)
-				{
-					nValues++;
-					retVal += numericValue.Value;
-				}
-				else if (IsString(arg.Value) && !isInArray)
-				{
-					ThrowExcelErrorValueException(eErrorType.Value);
-				}
-            }
-            CheckForAndHandleExcelError(arg);
-        }
-
-        private double? GetNumericValue(object obj, bool isInArray)
-        {
-            if (IsNumeric(obj) && !(IsBool(obj)))
-            {
-                return ConvertUtil.GetValueDouble(obj);
-            }
-			if (!isInArray)
-			{
-                if (IsBool(obj))
+                if (arg.DataType==DataType.ExcelError)
                 {
-                    return ConvertUtil.GetValueDouble(obj);
+                    error = arg.ValueAsExcelErrorValue.Type;
+                    return;
                 }
-                else if (IsString(obj, false) && ConvertUtil.TryParseNumericString(obj.ToString(), out double number))
-                {
-                    return number;
-                }
-                else if (IsString(obj, false) && ConvertUtil.TryParseDateString(obj.ToString(), out DateTime date))
-                {
-                    return date.ToOADate();
+                if (arg.Value != null)
+                {                    
+                    var numericValue = GetDecimalSingleArgument(arg);
+                    if (numericValue.HasValue)
+                    {
+                        nValues++;
+                        retVal += numericValue.Value;
+                    }
+                    else if(arg.Address==null)
+                    {
+                        error = eErrorType.Value;
+                        return;
+                    }
                 }
             }
-            return default;
         }
     }
 }

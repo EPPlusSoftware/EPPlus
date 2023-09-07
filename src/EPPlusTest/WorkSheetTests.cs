@@ -2043,5 +2043,15 @@ namespace EPPlusTest
                 package.Save();
             }
         }
+        [TestMethod]
+        public void ValidateCalcMode()
+        {
+            using (var p = OpenTemplatePackage("CalcMode.xlsx"))
+            {
+                Assert.AreEqual(ExcelCalcMode.Manual, p.Workbook.CalcMode);
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
