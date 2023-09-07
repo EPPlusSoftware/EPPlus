@@ -1,0 +1,49 @@
+name: Bug Report
+description: File a bug report
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    id: usage
+    attributes:
+      label: EPPlus usage
+      description: If you have a commercial license, please log in to our [support portal](https://epplussoftware.com) and create an empty ticket with a reference to this issue.
+      options:
+        - label: I use EPPlus in a commercial company and have a commercial license
+        - label: I use EPPlus in a noncommercial organization
+        - label: I use EPPlus for personal use
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: What kind of environment do you run EPPlus in?
+      placeholder: ex. Windows
+    validations:
+      required: true
+  - type: input
+    id: eppVersion
+    attributes:
+      label: Epplus version
+      description: What version of EPPlus are you using?
+      placeholder: ex. 6.2.7
+    validations:
+      required: true
+  - type: input
+    id: spreadsheetApp
+    attributes:
+      label: Spreadsheet application
+      description: What kind of spreadsheet application (if any) are you using?
+      placeholder: ex. Excel
+    validations:
+      required: false
+  - type: textarea
+    id: issueDescription
+    attributes:
+      label: Description
+      description: You must provide enough information for us to be able to understand and replicate the issue. The better and more detailed the issue is described the more likely it is that we can fix it. Unit tests or a combination of a sample workbook and code that replicates the issue seems to be a winning concept.
+      placeholder: detailed description of the bug/issue
+    validations:
+      required: true
