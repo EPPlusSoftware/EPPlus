@@ -10,7 +10,7 @@ body:
     id: usage
     attributes:
       label: EPPlus usage
-      description: EPPlus is distributed under the [Polyform Noncommercial 1.0.0 license](https://polyformproject.org/licenses/noncommercial/1.0.0/). If you have a commercial license, please log in to our [support portal](https://epplussoftware.com) and create an empty ticket with a reference to this issue for higher priority.
+      description: EPPlus is distributed under the [Polyform Noncommercial 1.0.0 license](https://polyformproject.org/licenses/noncommercial/1.0.0/) and requires a commercial license for use in commercial companies (see definition in the license text). Commercial licenses can be purchased via [our website](https://epplussoftware.com). If you have a commercial license, please log in to our [support portal](https://epplussoftware.com) and create an empty ticket with a reference to this issue for higher priority.
       options:
         - Commercial use (I have a commercial license)
         - Noncommercial use
