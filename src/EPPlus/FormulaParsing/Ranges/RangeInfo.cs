@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         internal ExcelWorksheet _ws;
         CellStoreEnumerator<ExcelValue> _values = null;
         private RangeDefinition _size;
-        ParsingContext _context;
+        //ParsingContext _context;
         //int _fromRow, _toRow, _fromCol, _toCol;
         int _cellCount = 0;
         FormulaRangeAddress _address;
@@ -36,14 +36,14 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <summary>
         /// Constructor
         /// </summary>
-        public RangeInfo(FormulaRangeAddress address, ParsingContext ctx)
+        public RangeInfo(FormulaRangeAddress address)
         {
-            _context = ctx;
             _address = address;
             if(address.WorksheetIx==-1)
             {
                 return;
             }
+            var ctx = address._context;
             var wsIx = address.WorksheetIx >= 0 ? address.WorksheetIx : ctx.CurrentCell.WorksheetIx;
             if (wsIx >= 0 && wsIx < ctx.Package.Workbook.Worksheets.Count)
             {
@@ -62,12 +62,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             /// <param name="toRow"></param>
             /// <param name="toCol"></param>
             /// <param name="ctx">Parsing context</param>
-            public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
+            /// <param name="extRef">External reference id</param>
+        public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
         {
-            _context = ctx;
             var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
             address._ws = ws.Name;
-            SetAddress(ws, address);
+            SetAddress(ws, address, ctx);
             _address.ExternalReferenceIx = extRef;
         }
 
@@ -77,7 +77,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="ws">The worksheet</param>
         public RangeInfo(ExcelWorksheet ws, ParsingContext ctx)
         {
-            _context = ctx;
             _address = new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.PositionId };
         }
 
@@ -88,14 +87,13 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="address"></param>
         public RangeInfo(ExcelWorksheet ws, ExcelAddressBase address, ParsingContext ctx=null)
         {
-            _context = ctx;
-            SetAddress(ws, address);
+            SetAddress(ws, address, ctx);
         }
 
-        private void SetAddress(ExcelWorksheet ws, ExcelAddressBase address)
+        private void SetAddress(ExcelWorksheet ws, ExcelAddressBase address, ParsingContext ctx)
         {
             _ws = ws;
-            _address = new FormulaRangeAddress(_context, address) 
+            _address = new FormulaRangeAddress(ctx, address) 
             { 
                 WorksheetIx = (short)ws.PositionId,
             };
@@ -351,13 +349,13 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             {
                 var sr = _address.FromRow;
                 var sc = _address.FromCol;
-                return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _context, _address.ExternalReferenceIx);
+                return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _address._context, _address.ExternalReferenceIx);
             }
             else
             {
                 var sr = _values.Row;
                 var sc = _values.Column;
-                return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _context, _address.ExternalReferenceIx);
+                return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _address._context, _address.ExternalReferenceIx);
             }
         }
 

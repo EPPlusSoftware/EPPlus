@@ -31,9 +31,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _size = rangeDef;
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = rangeDef.NumberOfRows - 1, ToCol = rangeDef.NumberOfCols - 1 };
         }
-        public InMemoryRange(FormulaRangeAddress address, RangeDefinition rangeDef, ParsingContext ctx)
+        public InMemoryRange(FormulaRangeAddress address, RangeDefinition rangeDef)
         {
-            _ws = ctx.Package.Workbook.Worksheets[ctx.CurrentCell.WorksheetIx];
+            if (address?._context != null)
+            {
+                _ws = address._context.Package.Workbook.Worksheets[address._context.CurrentCell.WorksheetIx];
+            }
             _address = address;
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];
             _size = rangeDef;

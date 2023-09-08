@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                             ToRow = sf.EndRow,
                             ToCol = sf.EndCol,
                         };
-                        var ri = new RangeInfo(rangeAddress, context);
+                        var ri = new RangeInfo(rangeAddress);
                         return new DynamicArrayCompileResult(ri, DataType.ExcelRange, rangeAddress);
                     }
                 }

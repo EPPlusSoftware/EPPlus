@@ -82,7 +82,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 else
                 {
-                    var address = new FormulaRangeAddress(context, fromRow, fromCol, toRow, toCol);
+                    var address = new FormulaRangeAddress(context, r.Worksheet.IndexInList, fromRow, fromCol, toRow, toCol);
                     retRange = new RangeInfo(r.Worksheet, fromRow, fromCol, toRow, toCol, context, r.Address.ExternalReferenceIx); //External references must be check how they work.
                     return CreateDynamicArrayResult(retRange, DataType.ExcelRange, address);
                 }

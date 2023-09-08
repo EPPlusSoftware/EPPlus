@@ -319,7 +319,7 @@ namespace OfficeOpenXml
         internal RangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
         {
             var address = ri.Address.GetOffset(currentCell.Row, currentCell.Column, true);
-            return new RangeInfo(address, address._context);
+            return new RangeInfo(address);
         }
 
         internal void SetValue(object resultValue, FormulaCellAddress currentCell)

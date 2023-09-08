@@ -97,8 +97,13 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate(x => x.CacheExpressions=true);
-                    //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
+                    p.Workbook.Calculate(x => x.CacheExpressions=false);
+                    //p.Workbook.Worksheets["Data_Elements"].Cells["U3000"].Calculate(x => x.CacheExpressions = true);
+                    //p.Workbook.Worksheets["Final Form"].Cells["N1"].Calculate(x => x.CacheExpressions = true);
+                    //p.Workbook.Worksheets["Calculations"].Cells["J8"].Calculate(x => x.CacheExpressions = true);
+                    //p.Workbook.Worksheets["Data_Elements"].Cells["F2"].Calculate(x => x.CacheExpressions = true);
+                    //p.Workbook.Worksheets["Final Form"].Cells["Q11"].Calculate(x => x.CacheExpressions = true);
+                    //p.Workbook.Worksheets["DSCR Calculation"].Cells["C24"].Calculate(x => x.CacheExpressions = true);
                 }
                 catch (Exception ex)
                 {

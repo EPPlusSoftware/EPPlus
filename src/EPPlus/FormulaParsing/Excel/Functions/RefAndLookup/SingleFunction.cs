@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     return CreateResult(arg1.Value, arg1.DataType);
                 }
-                range = new RangeInfo(arg1.Address, context);
+                range = new RangeInfo(arg1.Address);
             }
             return ImplicitIntersectionUtil.GetResult(range, context.CurrentCell, context);
         }

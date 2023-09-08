@@ -98,9 +98,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get { return _zeroInt; }
         }
+        /// <summary>
+        /// Returns a CompileResult instance with a boolean value of false.
+        /// </summary>
+        public static CompileResult False { get; } = new CompileResult(false, DataType.Boolean);
+        /// <summary>
+        /// Returns a CompileResult instance with a boolean value of true.
+        /// </summary>
+        public static CompileResult True { get; } = new CompileResult(true, DataType.Boolean);
 
         private double? _resultNumeric;
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="result">The result.</param>
+        /// <param name="dataType">The data type of the result.</param>
         public CompileResult(object result, DataType dataType)
         {
             if(result is ExcelDoubleCellValue v)

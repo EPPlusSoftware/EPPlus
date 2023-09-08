@@ -3,8 +3,6 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-
-
 namespace OfficeOpenXml.Core.CellStore
 {
     /// <summary>

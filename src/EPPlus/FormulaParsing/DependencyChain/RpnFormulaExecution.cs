@@ -316,10 +316,13 @@ namespace OfficeOpenXml.FormulaParsing
             try
             {
                 SetCurrentCell(depChain, f);
-                var ws = f._ws; 
+                var ws = f._ws;
+                //if (f._ws != null && f._ws.IndexInList == 1 && f._row == 3000 && f._column == 21)
+                //{
+                //    ws = f._ws;
+                //}
                 if (f._tokenIndex < f._tokens.Count)
-                {
-                    
+                {                    
                     address = ExecuteNextToken(depChain, f, true);
                     if (f._tokenIndex < f._tokens.Count)
                     {
@@ -332,7 +335,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                                 if (ne.IsRelative || rd.Merge(ExcelCellBase.GetRowFromCellId(ne._name.Id), 0))
                                 {
-                                    depChain._formulaStack.Push(f);
+                                    depChain._formulaStack.Push(f); 
                                     ws = ne._worksheetIx < 0 ? null : depChain._parsingContext.Package.Workbook._worksheets[ne._worksheetIx];
                                     
                                     f = GetNameFormula(depChain, ws, ((NamedValueExpression)f._expressions[f._tokenIndex])._name, f._row, f._column);
@@ -406,8 +409,10 @@ namespace OfficeOpenXml.FormulaParsing
 
                 SetValueToWorkbook(depChain, f, rd, cr);
 
-                //var id = ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, f._row, f._column);
-                //depChain.processedCells.Add(id);
+                if (depChain._parsingContext.Parser.Logger != null)
+                {
+                    depChain._parsingContext.Parser.Logger.Log($"Set value in Cell\t{f.GetAddress()}\t{cr.ResultValue}\t{cr.DataType}");
+                }
 
                 depChain.AddFormulaToChain(f);
                 if (depChain._formulaStack.Count > 0)
@@ -482,7 +487,9 @@ namespace OfficeOpenXml.FormulaParsing
                 }
 
                 MergeToRd(rd, row, col, fe, true);
+                f._formulaEnumerator = null;
                 f._tokenIndex++;
+
                 goto ExecuteFormula;
             }
             catch (CircularReferenceException)
@@ -757,7 +764,7 @@ namespace OfficeOpenXml.FormulaParsing
                         s.Push(e);
                         if(returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek())==false))
                         {
-                            return e.GetAddress();
+                                return e.GetAddress();
                         }
                         break;
                     case TokenType.NameValue:
@@ -841,7 +848,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
-                            if (r.DataType == DataType.ExcelRange && returnAddresses)
+                            if (r.Address!=null && returnAddresses)
                             {
                                 if ((f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && r.Address != null)
                                 {
@@ -1054,7 +1061,14 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 result = funcExp.Compile();
             }
-            PushResult(depChain._parsingContext, f, result);
+            if(funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null)
+            {
+                f._expressionStack.Push(new RangeExpression(result.Address, funcExp._negate));
+            }
+            else
+            {
+                PushResult(depChain._parsingContext, f, result);
+            }
             return result;
         }
         private static void PushResult(ParsingContext context, RpnFormula f, CompileResult result)
