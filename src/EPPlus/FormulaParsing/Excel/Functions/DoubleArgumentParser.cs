@@ -41,7 +41,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 if (double.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out d))
                     return d;
 
-                return DateTime.Parse(str, CultureInfo.CurrentCulture, DateTimeStyles.None).ToOADate();
+                if(DateTime.TryParse(str, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime dt))
+                {
+                    return dt.ToOADate();
+                }
+                return ErrorValues.ValueError;
             }
             catch// (Exception e)
             {

@@ -309,7 +309,7 @@ namespace OfficeOpenXml.FormulaParsing
             FormulaRangeAddress address = null;
             RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);
             object v=null;
-
+            bool hasLogger = depChain._parsingContext.Parser.Logger != null;
             rd?.Merge(f._row, f._column);
             depChain.StartOfChain();
         ExecuteFormula:
@@ -317,10 +317,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 SetCurrentCell(depChain, f);
                 var ws = f._ws;
-                //if (f._ws != null && f._ws.IndexInList == 1 && f._row == 3000 && f._column == 21)
-                //{
-                //    ws = f._ws;
-                //}
+
                 if (f._tokenIndex < f._tokens.Count)
                 {                    
                     address = ExecuteNextToken(depChain, f, true);
@@ -409,7 +406,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                 SetValueToWorkbook(depChain, f, rd, cr);
 
-                if (depChain._parsingContext.Parser.Logger != null)
+                if (hasLogger)
                 {
                     depChain._parsingContext.Parser.Logger.Log($"Set value in Cell\t{f.GetAddress()}\t{cr.ResultValue}\t{cr.DataType}");
                 }

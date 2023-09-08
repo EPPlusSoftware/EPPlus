@@ -67,7 +67,7 @@ namespace EPPlusTest.FormulaParsing
             logWriter.WriteLine($"File {xlFile} starting");
             using(var p = new ExcelPackage(xlFile))
             {
-                p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulaLog.log"));
+                //p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulaLog.log"));
                 var values = new Dictionary<ulong, object>();
                 foreach(var ws in p.Workbook.Worksheets)
                 {                    
@@ -98,12 +98,6 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=false);
-                    //p.Workbook.Worksheets["Data_Elements"].Cells["U3000"].Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Final Form"].Cells["N1"].Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Calculations"].Cells["J8"].Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Data_Elements"].Cells["F2"].Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Final Form"].Cells["Q11"].Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["DSCR Calculation"].Cells["C24"].Calculate(x => x.CacheExpressions = true);
                 }
                 catch (Exception ex)
                 {
@@ -115,7 +109,7 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Differences:");
                 logWriter.WriteLine($"Formula values to compare: {values.Count}");
                 logWriter.WriteLine($"Worksheet\tCell\tValue Excel\tValue EPPlus");
-                foreach (var value in values)
+                foreach (var value in values)   
                 {
                     ExcelCellBase.SplitCellId(value.Key, out int wsIndex, out int row, out int col);
                     object v;
