@@ -1,4 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.9
+### Fixed issue
+* Fixed an issue where empty DataValidationnodes caused a corrupt workbook.
+* Ungrouping drawings put the drawings in the wrong position and sometimes caused the workbook to become corrupt.
+* VLOOKUP / HLOOKUP and MATCH did not work with external ranges.
+* The INDEX function handled row_no as col_no when the argument was only one row.
+* Deleting a worksheet that was selected sometimes caused a hidden worksheet to become visible.
+* The CEILING and FLOOR functions did not handle null values correctly in the second parameter.
+* Fix for loading classes with only EPPlusNestedTableColumn attributes in ExcelRangeBase.LoadFromCollection.
+* Fixed an issue when using concat operator with Excel errors.
+
 ## Version 6.2.8
 ### Fixed issues
 * Boolean style xml elements (like b, i or strike),  with attribute 'val' set to 'false' or 'true' did not work.
