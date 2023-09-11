@@ -124,7 +124,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                return new RangeInfo(range, ParsingContext);
+                return new RangeInfo(range);
             }
         }
 
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.FormulaParsing
         public override IRangeInfo GetRange(int wsIx, int row, int column)
         {
             if (wsIx < -1) wsIx = ParsingContext.CurrentCell.WorksheetIx;
-            return new RangeInfo(new FormulaRangeAddress(_context) { WorksheetIx = wsIx, FromRow = row, FromCol = column, ToRow=row, ToCol=column }, _context);
+            return new RangeInfo(new FormulaRangeAddress(_context) { WorksheetIx = wsIx, FromRow = row, FromCol = column, ToRow=row, ToCol=column });
         }
         public override IRangeInfo GetRange(string worksheet, string address)
         {

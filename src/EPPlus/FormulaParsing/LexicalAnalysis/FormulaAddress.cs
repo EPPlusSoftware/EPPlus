@@ -574,8 +574,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 WorksheetIx = ctx.GetWorksheetIndex(address.WorkSheetName);
             }
         }
-        public FormulaRangeAddress(ParsingContext context, int fromRow, int fromCol, int toRow, int toCol) : this(context)
+        public FormulaRangeAddress(ParsingContext context,int wsIx, int fromRow, int fromCol, int toRow, int toCol) : this(context)
         {
+            WorksheetIx= wsIx;
             FromRow = fromRow;
             FromCol = fromCol;
             ToRow = toRow;
@@ -806,11 +807,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     }
     public class FormulaTableAddress : FormulaRangeAddress
     {
-        public FormulaTableAddress(ParsingContext ctx) 
+        public FormulaTableAddress(ParsingContext ctx) : base(ctx)
         {
-            _context = ctx;
+            
         }
-        public FormulaTableAddress(ParsingContext ctx, string tableAddress)
+        public FormulaTableAddress(ParsingContext ctx, string tableAddress) : base(ctx)
         {
             foreach (var t in SourceCodeTokenizer.Default.Tokenize(tableAddress))
             {

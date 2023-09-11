@@ -4,6 +4,7 @@ using OfficeOpenXml.Packaging.Ionic.Crc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace EPPlusTest.FormulaParsing
@@ -206,6 +207,26 @@ namespace EPPlusTest.FormulaParsing
                     Assert.AreEqual(ErrorValues.ValueError, sheet2.Cells["C4"].Value);
                 }
 
+            }
+        }
+        [TestMethod]
+        public void ImplicitIntersectionInCalculationTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["A6"].Value = 2;
+                sheet.Cells["A7"].Value = 3;
+                sheet.Cells["B5"].Value = "A";
+                sheet.Cells["B6"].Value = "B";
+                sheet.Cells["B7"].Value = "C";
+                sheet.Cells["C5:C7"].Formula = "If(B$5:B$7=\"B\",A$5:A$7,\"Not B\")";
+                sheet.Calculate();
+
+                Assert.AreEqual("Not B", sheet.Cells["C5"].Value);
+                Assert.AreEqual(2, sheet.Cells["C6"].Value);
+                Assert.AreEqual("Not B", sheet.Cells["C7"].Value);
             }
         }
     }

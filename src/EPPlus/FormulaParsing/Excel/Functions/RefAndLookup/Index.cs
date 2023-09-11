@@ -42,11 +42,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             var arg1 = arguments[0];
             var arg2 = arguments[1];
+            if (arg2.DataType == DataType.ExcelError)
+            {
+                return CompileResult.GetErrorResult(((ExcelErrorValue)arg2.Value).Type);
+            }
+
             int? row = default;
+
             if (arg2.Value != null)
             {
                 row = ArgToInt(arguments, 1, RoundingMethod.Floor);
             }
+
             int? col = default;
             var colGivenButEmpty = false;
             if(arguments.Count > 2)
@@ -55,7 +62,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 colGivenButEmpty = (arguments[2].Value == null);
             }
             if (!row.HasValue && !col.HasValue) return CreateResult(eErrorType.Value);
-            if (arg1.IsExcelRange)
+            if (arg1.IsExcelRangeOrSingleCell)
             {
                 var ri = arg1.ValueAsRangeInfo;
                 if(!colGivenButEmpty && !col.HasValue && ri.Size.NumberOfRows > 1 && ri.Size.NumberOfCols > 1)

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else
                     {
-                        _cachedCompileResult = new AddressCompileResult(new RangeInfo(_addressInfo, Context), DataType.ExcelRange, _addressInfo);
+                        _cachedCompileResult = new AddressCompileResult(new RangeInfo(_addressInfo), DataType.ExcelRange, _addressInfo);
                     }
                 }
                 else

@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 var arg1Type = GetType(arg1.Value);
                 var arg2Type = GetType(arg2.Value);
-                var range = new InMemoryRange(ri.Size);
+                var range = new InMemoryRange(ri.Address, ri.Size);
                 for (var row = 0; row < ri.Size.NumberOfRows; row++)
                 {
                     for (var col = 0; col < ri.Size.NumberOfCols; col++)

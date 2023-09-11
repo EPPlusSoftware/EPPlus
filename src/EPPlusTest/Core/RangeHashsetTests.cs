@@ -102,8 +102,6 @@ namespace EPPlusTest.Core
 
             Assert.IsTrue(rd.Exists(1, 1));
         }
-
-
         [TestMethod]
         public void VerifySpillRangesMergeFrom()
         {

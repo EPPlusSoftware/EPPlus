@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
+using System.Runtime.Serialization.Formatters;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -38,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal int _argPos=0;
         internal ExpressionCondition _latestConditionValue = ExpressionCondition.None;
         internal CompileResult _cachedResult;
-        int _negate = 0;
+        internal int _negate = 0;
         internal FunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
 

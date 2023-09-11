@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (!arg2.IsExcelRange) return CreateResult(eErrorType.Value);
             var lookupRange = arg2.ValueAsRangeInfo;
             var matchType = 1;
-            if(arguments.Count() > 2)
+            if(arguments.Count > 2)
             {
                 matchType = ArgToInt(arguments, 2);
                 if (matchType > 1 || matchType < -1) return CreateResult(eErrorType.Value);

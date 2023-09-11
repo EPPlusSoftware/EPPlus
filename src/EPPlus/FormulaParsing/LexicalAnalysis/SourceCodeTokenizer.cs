@@ -3,6 +3,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -396,6 +397,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 i--;
             return l[i];
         }
+        private Token GetLastTokenIgnore(List<Token> l,out int i, params TokenType[] ignoreTokens)
+        {
+            i = l.Count - 1;
+            while (i >= 0 && ignoreTokens.Contains(l[i].TokenType))
+                i--;
+            return l[i];
+        }
+
 
         private void SetRangeOffsetToken(List<Token> l)
         {
@@ -408,6 +417,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     p--;
                 }
                 else if((l[i].TokenType & TokenType.ClosingParenthesis) == TokenType.ClosingParenthesis)
+
                 {
                     p++;
                 }
@@ -422,7 +432,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         private void HandleToken(List<Token> l,char c, StringBuilder current, ref statFlags flags)
         {
             if ((flags & statFlags.isNegator) == statFlags.isNegator)
-            {
+            {                
                 if (l.Count == 0)
                 {
                     if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
@@ -436,11 +446,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
                 else
                 {
-                    var pt = GetLastToken(l);
-                    //if((pt.TokenTypeIsSet(TokenType.Operator) && pt.Value == "+"))  //Replace + by -
-                    //{
-                    //    l[l.Count - 1] = _charTokens['-'];
-                    //}
+                    var pt = GetLastTokenIgnore(l, out int index, TokenType.SingleQuote, TokenType.WorksheetNameContent, TokenType.ExternalReference, TokenType.OpeningBracket, TokenType.ClosingBracket, TokenType.WhiteSpace);
                     if (pt.TokenType==TokenType.Operator
                         ||
                         pt.TokenType == TokenType.Negator
@@ -459,7 +465,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         }
                         else
                         {
-                            l.Add(new Token("-", TokenType.Negator));
+                            if (pt != l[l.Count - 1])
+                            {
+                                l.Insert(index+1, new Token("-", TokenType.Negator));
+                            }
+                            else
+                            {
+                                l.Add(new Token("-", TokenType.Negator));
+                            }
                         }
                     }
                     else

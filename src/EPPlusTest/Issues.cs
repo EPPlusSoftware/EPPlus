@@ -1521,7 +1521,6 @@ namespace EPPlusTest
         [TestMethod]
         public void IssueCommentInsert()
         {
-
             using (var p = OpenPackage("CommentInsert.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("CommentInsert");
