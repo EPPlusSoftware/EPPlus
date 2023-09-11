@@ -155,11 +155,6 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return null;
             }
-        }       
-        public bool IsSubtotal  //Used in CountA via the aggregate function.
-        {
-            get;
-            set;
         }
     }
 }

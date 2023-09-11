@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
+namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
     [TestClass]
     public class FloorTests

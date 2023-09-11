@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public HiddenValuesHandlingFunction()
         {
             IgnoreErrors = true;
+            IgnoreNestedSubtotalsAndAggregates = true;
         }
         /// <summary>
         /// Set to true or false to indicate whether the function should ignore hidden values.
@@ -45,6 +46,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             get; set;
         }
 
+        /// <summary>
+        /// Set to true to indicate whether the function should ignore nested SUBTOTAL and AGGREGATE functions
+        /// </summary>
+        public bool IgnoreNestedSubtotalsAndAggregates { get; set; }
+
         protected override IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             return ArgsToDoubleEnumerable(arguments, context, IgnoreErrors, false);
@@ -61,12 +67,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 var nonHidden = arguments.Where(x => !x.ExcelStateFlagIsSet(ExcelCellState.HiddenCell));
                 return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, nonHidden, context);
             }
-            return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, ignoreErrors, arguments, context, ignoreNonNumeric);
+            return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, ignoreErrors, IgnoreNestedSubtotalsAndAggregates, arguments, context, ignoreNonNumeric);
         }
 
         protected bool ShouldIgnore(ICellInfo c, ParsingContext context)
         {
-            if(CellStateHelper.ShouldIgnore(IgnoreHiddenValues, c, context))
+            if(CellStateHelper.ShouldIgnore(IgnoreHiddenValues, IgnoreNestedSubtotalsAndAggregates, c, context))
             {
                 return true;
             }
@@ -78,7 +84,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
         protected bool ShouldIgnore(FunctionArgument arg, ParsingContext context)
         {
-            if (CellStateHelper.ShouldIgnore(IgnoreHiddenValues, arg, context))
+            if (CellStateHelper.ShouldIgnore(IgnoreHiddenValues, IgnoreNestedSubtotalsAndAggregates, arg, context))
             {
                 return true;
             }

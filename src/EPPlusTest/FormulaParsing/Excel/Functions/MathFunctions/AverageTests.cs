@@ -38,7 +38,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 
-namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
+namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
 	[TestClass]
 	public class AverageTests

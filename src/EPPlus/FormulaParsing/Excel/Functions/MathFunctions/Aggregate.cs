@@ -40,11 +40,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 context.SubtotalAddresses.Add(cellId);
             }
-            
-            if (IgnoreNestedSubtotalAndAggregate(options))
-            {
-                context.IsSubtotal = true;
-            }
 
             CompileResult result = null;
             switch(funcNum)
@@ -53,7 +48,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f1 = new Average()
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f1.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -61,7 +57,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f2 = new Count()
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f2.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -69,7 +66,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f3 = new CountA
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f3.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -77,7 +75,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f4 = new Max 
                     { 
                         IgnoreHiddenValues = IgnoreHidden(options), 
-                        IgnoreErrors = IgnoreErrors(options) 
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f4.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -85,7 +84,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f5 = new Min
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f5.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -93,7 +93,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f6 = new Product
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f6.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -101,7 +102,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f7 = new StdevDotS
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f7.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -109,7 +111,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f8 = new StdevDotP
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f8.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -117,7 +120,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f9 = new SumSubtotal
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f9.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -125,7 +129,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     VarDotS f10 = new VarDotS
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f10.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -133,7 +138,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f11 = new VarDotP
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f11.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -141,7 +147,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f12 = new Median
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f12.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -149,7 +156,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f13 = new ModeSngl
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f13.Execute(arguments.Skip(nToSkip).ToList(), context);
                     break;
@@ -157,7 +165,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f14 = new Large
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     var a141 = arguments.ElementAt(nToSkip);
                     var a142 = arguments.ElementAt(nToSkip + 1);
@@ -167,7 +176,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f15 = new Small
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f15.Execute(new List<FunctionArgument> { arguments.ElementAt(nToSkip), arguments.ElementAt(nToSkip + 1) }, context);
                     break;
@@ -175,7 +185,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f16 = new PercentileInc
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f16.Execute(new List<FunctionArgument> { arguments.ElementAt(nToSkip), arguments.ElementAt(nToSkip + 1) }, context);
                     break;
@@ -183,7 +194,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f17 = new QuartileInc
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f17.Execute(new List<FunctionArgument> { arguments.ElementAt(nToSkip), arguments.ElementAt(nToSkip + 1) }, context);
                     break;
@@ -191,7 +203,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f18 = new PercentileExc
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f18.Execute(new List<FunctionArgument> { arguments.ElementAt(nToSkip), arguments.ElementAt(nToSkip + 1) }, context);
                     break;
@@ -199,7 +212,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var f19 = new QuartileExc
                     {
                         IgnoreHiddenValues = IgnoreHidden(options),
-                        IgnoreErrors = IgnoreErrors(options)
+                        IgnoreErrors = IgnoreErrors(options),
+                        IgnoreNestedSubtotalsAndAggregates = IgnoreNestedSubtotalAndAggregate(options)
                     };
                     result = f19.Execute(new List<FunctionArgument> { arguments.ElementAt(nToSkip), arguments.ElementAt(nToSkip + 1) }, context);
                     break;

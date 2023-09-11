@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
+namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
     [TestClass]
     public class ArabicTest : TestBase

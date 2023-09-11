@@ -36,7 +36,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 
-namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
+namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
 	[TestClass]
 	public class RoundTests
