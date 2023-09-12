@@ -2904,7 +2904,7 @@ namespace OfficeOpenXml
             else
             {
 
-                if (_autoFilter != null)
+                if (_autoFilter != null && AutoFilterAddress != null)
                 {
                     _autoFilter.Save();
                 }
