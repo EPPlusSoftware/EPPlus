@@ -36,16 +36,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             _objectEnumerableArgConverter = objectEnumerableArgConverter;
         }
 
-        public virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric = false)
+        public virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHidden, bool ignoreErrors, bool ignoreSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric = false)
         {
-            return _doubleEnumerableArgConverter.ConvertArgs(ignoreHidden, ignoreErrors, arguments, context, ignoreNonNumeric);
+            return _doubleEnumerableArgConverter.ConvertArgs(ignoreHidden, ignoreErrors, ignoreSubtotalAggregate, arguments, context, ignoreNonNumeric);
         }
 
         public virtual IEnumerable<object> ArgsToObjectEnumerable(bool ignoreHidden,
+                                                                  bool ignoreErrors,
+                                                                  bool ignoreNestedSubtotalAggregate,
                                                                   IEnumerable<FunctionArgument> arguments,
                                                                   ParsingContext context)
         {
-            return _objectEnumerableArgConverter.ConvertArgs(ignoreHidden, arguments, context);
+            return _objectEnumerableArgConverter.ConvertArgs(ignoreHidden, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context);
+        }
+
+        public virtual IEnumerable<object> ArgsToObjectEnumerable(bool ignoreHidden,
+                                                                  bool ignoreErrors,
+                                                                  IEnumerable<FunctionArgument> arguments,
+                                                                  ParsingContext context)
+        {
+            return _objectEnumerableArgConverter.ConvertArgs(ignoreHidden, ignoreErrors, arguments, context);
         }
     }
 }

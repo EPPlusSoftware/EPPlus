@@ -60,33 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         private object Calculate(FunctionArgument arg, ParsingContext context)
         {
             KahanSum retVal = 0d;
-            if (ShouldIgnore(arg, context))
-            {
-                return retVal.Get();
-            }
-            if (arg.DataType == DataType.ExcelError)
-            {
-                return arg.Value;
-            }
-            if (arg.Value is IEnumerable<FunctionArgument> args)
-            {
-                foreach (var item in args)
-                {
-                    if(!ShouldIgnore(arg, context))
-                    {
-                        var c = Calculate(item, context);
-                        if (c is ExcelErrorValue e)
-                        {
-                            return e;
-                        }
-                        else
-                        {
-                            retVal += (double)c;
-                        }
-                    }
-                }
-            }
-            else if (arg.Value is IRangeInfo ri)
+            if (arg.Value is IRangeInfo ri)
             {
                 foreach (var c in ri)
                 {
@@ -100,7 +74,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             else
             {
-                //CheckForAndHandleExcelError(arg);
+                if(arg.Address != null && ShouldIgnore(arg, context))
+                {
+                    return retVal.Get();
+                }
                 retVal += ConvertUtil.GetValueDouble(arg.Value, true);
             }
             return retVal.Get();

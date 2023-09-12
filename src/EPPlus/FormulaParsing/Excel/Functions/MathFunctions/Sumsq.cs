@@ -35,15 +35,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 foreach (var arg in arguments)
                 {
-                    retVal += Calculate(arg, context);
+                    retVal += Calculate(arg, context, out ExcelErrorValue err);
+                    if(err != null)
+                    {
+                        return CreateResult(err.Type);
+                    }
                 }
             }
             return CreateResult(retVal, DataType.Decimal);
         }
 
 
-        private double Calculate(FunctionArgument arg, ParsingContext context, bool isInArray = false)
+        private double Calculate(FunctionArgument arg, ParsingContext context, out ExcelErrorValue err, bool isInArray = false)
         {
+            err = default;
             var retVal = 0d;
             if (ShouldIgnore(arg, context))
             {
@@ -58,14 +63,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     {
                         if (ShouldIgnore(c, context) == false)
                         {
-                            CheckForAndHandleExcelError(c);
+                            CheckForAndHandleExcelError(c, out ExcelErrorValue e);
+                            if(e != null)
+                            {
+                                err = e;
+                                return double.NaN;
+                            }
                             retVal += Math.Pow(c.ValueDouble, 2);
                         }
                     }
                 }
                 else
                 {
-                    CheckForAndHandleExcelError(arg);
+                    CheckForAndHandleExcelError(arg, out ExcelErrorValue e);
+                    if (e != null)
+                    {
+                        err = e;
+                        return double.NaN;
+                    }
                     if (IsNumericString(arg.Value) && !isInArray)
                     {
                         var value = ConvertUtil.GetValueDouble(arg.Value);

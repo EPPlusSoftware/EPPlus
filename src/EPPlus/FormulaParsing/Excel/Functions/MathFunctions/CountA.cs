@@ -40,12 +40,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var nItems = 0d;
-            Calculate(arguments, context, ref nItems);
+            Calculate(arguments, context, ref nItems, out ExcelErrorValue e);
+            if(e != null)
+            {
+                return CreateResult(e.Type);
+            }
             return CreateResult(nItems, DataType.Integer);
         }
 
-        private void Calculate(IEnumerable<FunctionArgument> items, ParsingContext context, ref double nItems)
+        private void Calculate(IEnumerable<FunctionArgument> items, ParsingContext context, ref double nItems, out ExcelErrorValue err)
         {
+            err = default;
             foreach (var item in items)
             {
                 var cs = item.Value as IRangeInfo;
@@ -53,7 +58,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     foreach (var c in cs)
                     {
-                        _CheckForAndHandleExcelError(c, context);
                         if (!ShouldIgnore(c, context) && ShouldCount(c.Value))
                         {
                             nItems++;
@@ -62,33 +66,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else if (item.Value is IEnumerable<FunctionArgument>)
                 {
-                    Calculate((IEnumerable<FunctionArgument>)item.Value, context, ref nItems);
+                    Calculate((IEnumerable<FunctionArgument>)item.Value, context, ref nItems, out ExcelErrorValue e);
+                    if(e != null)
+                    {
+                        err = e;
+                        return;
+                    }
                 }
                 else
                 {
-                    _CheckForAndHandleExcelError(item, context);
                     if (!ShouldIgnore(item, context) && ShouldCount(item.Value))
                     {
                         nItems++;
                     }
                 }
-
-            }
-        }
-
-        private void _CheckForAndHandleExcelError(FunctionArgument arg, ParsingContext context)
-        {
-            if (context.IsSubtotal)
-            {
-                CheckForAndHandleExcelError(arg);
-            }
-        }
-
-        private void _CheckForAndHandleExcelError(ICellInfo cell, ParsingContext context)
-        {
-            if (context.IsSubtotal)
-            {
-                CheckForAndHandleExcelError(cell);
             }
         }
 

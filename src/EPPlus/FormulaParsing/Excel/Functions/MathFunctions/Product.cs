@@ -28,6 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public Product()
         {
             IgnoreErrors = false;
+            IgnoreHiddenValues = false;
         }
 
         public override int ArgumentMinLength => 1;
@@ -39,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             ((List<FunctionArgument>)arguments).RemoveAll(x => ShouldIgnore(x, context));
             var result = 1d;
-            var values = ArgsToObjectEnumerable(true, arguments, context);
+            var values = ArgsToObjectEnumerable(IgnoreHiddenValues, IgnoreErrors, IgnoreNestedSubtotalsAndAggregates, arguments, context);
             foreach (var obj in values.Where(x => x != null && IsNumeric(x)))
             {
                 result *= Convert.ToDouble(obj);

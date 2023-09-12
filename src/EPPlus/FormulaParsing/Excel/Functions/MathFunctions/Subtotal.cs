@@ -75,7 +75,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 context.SubtotalAddresses.Add(cellId);
             }
-            context.IsSubtotal = true;
 
             var actualArgs = arguments.Skip(1);
             var function = GetFunctionByCalcType(funcNum);

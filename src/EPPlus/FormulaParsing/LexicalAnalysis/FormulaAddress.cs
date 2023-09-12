@@ -803,6 +803,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }            
         }
 
+        internal ulong GetTopLeftCellId()
+        {
+            return ExcelCellBase.GetCellId(WorksheetIx, FromRow, FromCol);
+        }
+
         public FormulaRangeAddress Address => this;
     }
     public class FormulaTableAddress : FormulaRangeAddress

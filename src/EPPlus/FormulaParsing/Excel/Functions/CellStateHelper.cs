@@ -19,9 +19,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     internal static class CellStateHelper
     {
-        private static bool IsSubTotal(ICellInfo c, ParsingContext context)
+        private static bool ShouldIgnoreNestedSubtotal(bool ignoreNestedSubtotalAndAggregate, ulong cellId, ParsingContext context)
         {
-            return context.IsSubtotal && context.SubtotalAddresses.Contains(c.Id);
+            if (!ignoreNestedSubtotalAndAggregate) return false;
+            return context.SubtotalAddresses.Contains(cellId);
+        }
+
+        internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNestedSubtotalAndAggregate, ICellInfo c, ParsingContext context)
+        {
+            return ShouldIgnore(ignoreHiddenValues, false, c, context, ignoreNestedSubtotalAndAggregate);
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, ICellInfo c, ParsingContext context)
@@ -29,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return ShouldIgnore(ignoreHiddenValues, false, c, context);
         }
 
-        internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ICellInfo c, ParsingContext context)
+        internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ICellInfo c, ParsingContext context, bool ignoreNestedSubtotalAndAggregate = true)
         {
             if(c.Address==null) return false;
             if (ignoreNonNumeric && !ConvertUtil.IsNumericOrDate(c.Value)) return true;
@@ -38,17 +44,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 hasFilter = context.Parser.FilterInfo.WorksheetHasFilter(context.Package.Workbook.Worksheets[c.WorksheetName].IndexInList);
             }
-            return ((ignoreHiddenValues || hasFilter) && c.IsHiddenRow) || IsSubTotal(c, context);
+            return ((ignoreHiddenValues || hasFilter) && c.IsHiddenRow) || ShouldIgnoreNestedSubtotal(ignoreNestedSubtotalAndAggregate, c.Id, context);
         }
 
-        internal static bool ShouldIgnore(bool ignoreHiddenValues, FunctionArgument arg, ParsingContext context)
+        internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNestedSubtotalAndAggregate, FunctionArgument arg, ParsingContext context)
         {
             var hasFilter = false;
             if (context.Parser != null && context.Parser.FilterInfo != null && context.Parser.FilterInfo.WorksheetHasFilter(context.CurrentCell.WorksheetIx))
             {
                 hasFilter = true;
             }
-            return (ignoreHiddenValues || hasFilter) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell);
+            var include = true;
+            if(ignoreNestedSubtotalAndAggregate && arg.Address != null)
+            {
+                var cellId = arg.Address.GetTopLeftCellId();
+                include = !ShouldIgnoreNestedSubtotal(ignoreNestedSubtotalAndAggregate, cellId, context);
+            }
+            return (ignoreHiddenValues || hasFilter) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell) && include;
         }
     }
 }

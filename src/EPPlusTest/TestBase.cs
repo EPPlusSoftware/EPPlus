@@ -100,6 +100,7 @@ namespace EPPlusTest
             var di=new DirectoryInfo(_worksheetPath);            
             _worksheetPath = di.FullName + "\\";
         }
+
         /// <summary>
         /// Saves and disposes a package
         /// </summary>
