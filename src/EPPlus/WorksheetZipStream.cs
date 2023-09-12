@@ -19,7 +19,7 @@ namespace OfficeOpenXml
 {
     internal class WorksheetZipStream : Stream
     {
-        RollingBuffer _rollingBuffer = new RollingBuffer(8192);
+        RollingBuffer _rollingBuffer = new RollingBuffer(8192 * 2);
         private Stream _stream;
         //private long _size;
         //private long _bytesRead;
