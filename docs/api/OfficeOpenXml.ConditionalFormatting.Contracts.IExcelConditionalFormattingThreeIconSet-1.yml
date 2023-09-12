@@ -22,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingThreeIconSet
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingThreeIconSet.cs
-    startLine: 24
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -38,8 +38,9 @@ items:
   inheritedMembers:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.Reverse
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.ShowValue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.IconSetPercent
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.Custom
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.IconSet
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
@@ -74,11 +75,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon1
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingThreeIconSet.cs
-    startLine: 31
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nIcon1 (part of the 3, 4 ou 5 Icon Set)\n"
+  summary: "\nIcon1 (part of the 3, 4 or 5 Icon Set)\n"
   example: []
   syntax:
     content: ExcelConditionalFormattingIconDataBarValue Icon1 { get; }
@@ -111,11 +112,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon2
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingThreeIconSet.cs
-    startLine: 36
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nIcon2 (part of the 3, 4 ou 5 Icon Set)\n"
+  summary: "\nIcon2 (part of the 3, 4 or 5 Icon Set)\n"
   example: []
   syntax:
     content: ExcelConditionalFormattingIconDataBarValue Icon2 { get; }
@@ -148,11 +149,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon3
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingThreeIconSet.cs
-    startLine: 41
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nIcon3 (part of the 3, 4 ou 5 Icon Set)\n"
+  summary: "\nIcon3 (part of the 3, 4 or 5 Icon Set)\n"
   example: []
   syntax:
     content: ExcelConditionalFormattingIconDataBarValue Icon3 { get; }
@@ -191,6 +192,24 @@ references:
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.ShowValue
   nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
   fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.IconSetPercent
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{`0}.IconSetPercent
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}
+  definition: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSetPercent
+  name: IconSetPercent
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.IconSetPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.IconSetPercent
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).IconSetPercent
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).IconSetPercent
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.Custom
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{`0}.Custom
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}
+  definition: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Custom
+  name: Custom
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.Custom
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.Custom
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).Custom
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).Custom
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}.IconSet
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{`0}.IconSet
   parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup{{T}}
@@ -200,12 +219,6 @@ references:
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.IconSet
   nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).IconSet
   fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).IconSet
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
@@ -300,6 +313,20 @@ references:
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.ShowValue
   nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
   fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSetPercent
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSetPercent
+  name: IconSetPercent
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.IconSetPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.IconSetPercent
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).IconSetPercent
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).IconSetPercent
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Custom
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Custom
+  name: Custom
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.Custom
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.Custom
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).Custom
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).Custom
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet
   name: IconSet

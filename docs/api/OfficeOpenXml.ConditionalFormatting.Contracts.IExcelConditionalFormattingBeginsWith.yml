@@ -31,7 +31,6 @@ items:
       Public Interface IExcelConditionalFormattingBeginsWith
           Inherits IExcelConditionalFormattingRule, IExcelConditionalFormattingWithText
   inheritedMembers:
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
@@ -40,6 +39,7 @@ items:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Formula
   modifiers.csharp:
   - public
   - interface
@@ -52,12 +52,6 @@ references:
   name: OfficeOpenXml.ConditionalFormatting.Contracts
   nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
@@ -106,6 +100,12 @@ references:
   name: Text
   nameWithType: IExcelConditionalFormattingWithText.Text
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Formula
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Formula
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  name: Formula
+  nameWithType: IExcelConditionalFormattingWithText.Formula
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Formula
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
   commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
   parent: OfficeOpenXml.ConditionalFormatting.Contracts

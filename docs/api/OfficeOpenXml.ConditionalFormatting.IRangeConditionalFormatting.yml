@@ -64,7 +64,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IRangeConditionalFormatting
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 21
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -97,7 +97,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAboveAverage
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 27
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -128,7 +128,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAboveOrEqualAverage
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 33
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -159,7 +159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBelowAverage
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 39
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -190,7 +190,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBelowOrEqualAverage
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 45
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -221,7 +221,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAboveStdDev
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 51
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -252,7 +252,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBelowStdDev
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 57
+    startLine: 59
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -283,7 +283,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBottom
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 63
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -314,7 +314,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBottomPercent
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 69
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -345,7 +345,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 75
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -376,7 +376,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTopPercent
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 81
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -407,7 +407,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLast7Days
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 87
+    startLine: 89
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -438,7 +438,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLastMonth
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 93
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -469,7 +469,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLastWeek
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 99
+    startLine: 101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -500,7 +500,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNextMonth
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 105
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -531,7 +531,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNextWeek
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 111
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -562,7 +562,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThisMonth
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 117
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -593,7 +593,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThisWeek
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 123
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -624,7 +624,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddToday
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 129
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -655,7 +655,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTomorrow
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 135
+    startLine: 137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -686,7 +686,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddYesterday
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 141
+    startLine: 143
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -717,7 +717,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBeginsWith
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 147
+    startLine: 149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -748,7 +748,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBetween
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 153
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -779,7 +779,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddContainsBlanks
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 159
+    startLine: 161
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -810,7 +810,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddContainsErrors
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 165
+    startLine: 167
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -841,7 +841,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddContainsText
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 171
+    startLine: 173
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -872,7 +872,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDuplicateValues
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 177
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -903,7 +903,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddEndsWith
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 183
+    startLine: 185
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -934,7 +934,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddEqual
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 189
+    startLine: 191
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -965,7 +965,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExpression
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 195
+    startLine: 197
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -996,7 +996,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGreaterThan
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 201
+    startLine: 203
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1027,7 +1027,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGreaterThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 207
+    startLine: 209
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1058,7 +1058,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLessThan
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 213
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1089,7 +1089,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLessThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 219
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1120,7 +1120,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotBetween
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 225
+    startLine: 227
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1151,7 +1151,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotContainsBlanks
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 231
+    startLine: 233
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1182,7 +1182,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotContainsErrors
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 237
+    startLine: 239
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1213,7 +1213,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotContainsText
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 243
+    startLine: 245
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1244,7 +1244,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotEqual
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 249
+    startLine: 251
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1275,7 +1275,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddUniqueValues
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 255
+    startLine: 257
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1306,7 +1306,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThreeColorScale
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 261
+    startLine: 263
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1337,7 +1337,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTwoColorScale
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 267
+    startLine: 269
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1368,7 +1368,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThreeIconSet
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 274
+    startLine: 276
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1403,7 +1403,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFourIconSet
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 280
+    startLine: 282
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1438,7 +1438,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFiveIconSet
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 286
+    startLine: 288
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1473,7 +1473,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDatabar
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 292
+    startLine: 294
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -1863,6 +1863,7 @@ references:
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting
   name: ExcelConditionalFormattingTwoColorScale
   nameWithType: ExcelConditionalFormattingTwoColorScale
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale

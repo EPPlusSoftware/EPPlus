@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     [FunctionMetadata(
        Category = ExcelFunctionCategory.Engineering,
        EPPlusVersion = "7.0",
-       Description = "")]
+       Description = "Returns the absolute value of a complex number in x + yi or x + yj text format.")]
     internal class ImAbs : ImFunctionBase
     {
         public override int ArgumentMinLength => 1;

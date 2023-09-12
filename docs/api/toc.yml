@@ -219,12 +219,16 @@
 - uid: OfficeOpenXml.ConditionalFormatting
   name: OfficeOpenXml.ConditionalFormatting
   items:
+  - uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+    name: eDatabarDirection
   - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
     name: eExcelconditionalFormatting3IconsSetType
   - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
     name: eExcelconditionalFormatting4IconsSetType
   - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
     name: eExcelconditionalFormatting5IconsSetType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+    name: eExcelconditionalFormattingCustomIcon
   - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingIconsSetType
     name: eExcelconditionalFormattingIconsSetType
   - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
@@ -239,87 +243,26 @@
     name: eExcelConditionalFormattingValueObjectPosition
   - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
     name: eExcelConditionalFormattingValueObjectType
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveAverage
-    name: ExcelConditionalFormattingAboveAverage
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveOrEqualAverage
-    name: ExcelConditionalFormattingAboveOrEqualAverage
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveStdDev
-    name: ExcelConditionalFormattingAboveStdDev
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+    name: eExcelDatabarAxisPosition
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAsType
     name: ExcelConditionalFormattingAsType
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAverageGroup
-    name: ExcelConditionalFormattingAverageGroup
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBeginsWith
-    name: ExcelConditionalFormattingBeginsWith
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowAverage
-    name: ExcelConditionalFormattingBelowAverage
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowOrEqualAverage
-    name: ExcelConditionalFormattingBelowOrEqualAverage
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowStdDev
-    name: ExcelConditionalFormattingBelowStdDev
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBetween
-    name: ExcelConditionalFormattingBetween
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottom
-    name: ExcelConditionalFormattingBottom
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottomPercent
-    name: ExcelConditionalFormattingBottomPercent
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
     name: ExcelConditionalFormattingCollection
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
     name: ExcelConditionalFormattingColorScaleValue
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsBlanks
-    name: ExcelConditionalFormattingContainsBlanks
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsErrors
-    name: ExcelConditionalFormattingContainsErrors
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsText
-    name: ExcelConditionalFormattingContainsText
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDataBar
-    name: ExcelConditionalFormattingDataBar
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDuplicateValues
-    name: ExcelConditionalFormattingDuplicateValues
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEndsWith
-    name: ExcelConditionalFormattingEndsWith
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEqual
-    name: ExcelConditionalFormattingEqual
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingExpression
-    name: ExcelConditionalFormattingExpression
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFiveIconSet
-    name: ExcelConditionalFormattingFiveIconSet
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFourIconSet
-    name: ExcelConditionalFormattingFourIconSet
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThan
-    name: ExcelConditionalFormattingGreaterThan
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThanOrEqual
-    name: ExcelConditionalFormattingGreaterThanOrEqual
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
     name: ExcelConditionalFormattingIconDataBarValue
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
-    name: ExcelConditionalFormattingIconSetBase<T>
-    name.vb: ExcelConditionalFormattingIconSetBase(Of T)
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
     name: ExcelConditionalFormattingLast7Days
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
     name: ExcelConditionalFormattingLastMonth
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
     name: ExcelConditionalFormattingLastWeek
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThan
-    name: ExcelConditionalFormattingLessThan
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThanOrEqual
-    name: ExcelConditionalFormattingLessThanOrEqual
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
     name: ExcelConditionalFormattingNextMonth
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
     name: ExcelConditionalFormattingNextWeek
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotBetween
-    name: ExcelConditionalFormattingNotBetween
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsBlanks
-    name: ExcelConditionalFormattingNotContainsBlanks
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsErrors
-    name: ExcelConditionalFormattingNotContainsErrors
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsText
-    name: ExcelConditionalFormattingNotContainsText
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotEqual
-    name: ExcelConditionalFormattingNotEqual
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
     name: ExcelConditionalFormattingRule
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
@@ -328,22 +271,14 @@
     name: ExcelConditionalFormattingThisWeek
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
     name: ExcelConditionalFormattingThreeColorScale
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeIconSet
-    name: ExcelConditionalFormattingThreeIconSet
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
     name: ExcelConditionalFormattingTimePeriodGroup
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
     name: ExcelConditionalFormattingToday
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
     name: ExcelConditionalFormattingTomorrow
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTop
-    name: ExcelConditionalFormattingTop
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTopPercent
-    name: ExcelConditionalFormattingTopPercent
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
     name: ExcelConditionalFormattingTwoColorScale
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingUniqueValues
-    name: ExcelConditionalFormattingUniqueValues
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
     name: ExcelConditionalFormattingYesterday
   - uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
@@ -1562,6 +1497,8 @@
     name: ExcelFunction
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
     name: ExcelFunctionArrayBehaviour
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionParametersInfo
+    name: ExcelFunctionParametersInfo
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
     name: FunctionArgument
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
@@ -1593,23 +1530,18 @@
     name: ExcelDatabaseField
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database.ExcelDatabaseRow
     name: ExcelDatabaseRow
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Days
-    name: Days
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.AdditionalHolidayDays
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.AdditionalHolidayDays
     name: AdditionalHolidayDays
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
     name: HolidayWeekdays
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory
     name: HolidayWeekdaysFactory
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection
     name: WorkdayCalculationDirection
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculatorResult
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculatorResult
     name: WorkdayCalculatorResult
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
   name: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
@@ -1618,8 +1550,6 @@
     name: ConvertFunction
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
     name: Erf
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
-    name: Erfc
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
   name: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
   items:
@@ -1758,8 +1688,6 @@
   items:
   - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
     name: FunctionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
-    name: FunctionCompilerFactory
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   items:
@@ -1799,6 +1727,8 @@
     name: ExternalCellInfo
   - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
     name: NameInfo
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
+    name: NameInfoWithValue
   - uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
     name: RangeDefinition
   - uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo

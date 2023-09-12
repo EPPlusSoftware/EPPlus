@@ -124,8 +124,6 @@ items:
       type: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
     content.vb: Public ReadOnly Property CustomCompilers As IDictionary(Of Type, FunctionCompiler)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule.CustomCompilers*
-  implements:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
   modifiers.csharp:
   - public
   - get
@@ -567,12 +565,6 @@ references:
   name: CustomCompilers
   nameWithType: FunctionsModule.CustomCompilers
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule.CustomCompilers
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
-  name: CustomCompilers
-  nameWithType: IFunctionModule.CustomCompilers
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
 - uid: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
   commentId: T:System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
   parent: System.Collections.Generic

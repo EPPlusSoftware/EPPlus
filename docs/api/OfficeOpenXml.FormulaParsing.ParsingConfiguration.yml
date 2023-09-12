@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.AllowCircularReferences
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
+  - OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.DetachLogger
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.FunctionRepository
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
@@ -89,6 +90,41 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
+  commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
+  id: CacheExpressions
+  parent: OfficeOpenXml.FormulaParsing.ParsingConfiguration
+  langs:
+  - csharp
+  - vb
+  name: CacheExpressions
+  nameWithType: ParsingConfiguration.CacheExpressions
+  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheExpressions
+    path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: public bool CacheExpressions { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property CacheExpressions As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.PrecisionAndRoundingStrategy
   commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.PrecisionAndRoundingStrategy
   id: PrecisionAndRoundingStrategy
@@ -107,7 +143,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 37
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -144,7 +180,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Lexer
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 41
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -183,7 +219,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 46
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -220,7 +256,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionRepository
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 61
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -257,7 +293,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetLexer
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 85
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -296,7 +332,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AttachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 118
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -335,7 +371,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DetachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 129
+    startLine: 130
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -668,6 +704,11 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
+  name: CacheExpressions
+  nameWithType: ParsingConfiguration.CacheExpressions
+  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.PrecisionAndRoundingStrategy*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.PrecisionAndRoundingStrategy
   name: PrecisionAndRoundingStrategy

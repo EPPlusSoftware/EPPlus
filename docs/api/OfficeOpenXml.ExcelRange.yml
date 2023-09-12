@@ -187,6 +187,7 @@ items:
   - OfficeOpenXml.ExcelAddressBase.End
   - OfficeOpenXml.ExcelAddressBase.ExternalReferenceIndex
   - OfficeOpenXml.ExcelAddressBase.Table
+  - OfficeOpenXml.ExcelAddressBase.AddressAbsolute
   - OfficeOpenXml.ExcelAddressBase.IsName
   - OfficeOpenXml.ExcelAddressBase.ToString
   - OfficeOpenXml.ExcelAddressBase.GetHashCode
@@ -7120,6 +7121,12 @@ references:
   name: Table
   nameWithType: ExcelAddressBase.Table
   fullName: OfficeOpenXml.ExcelAddressBase.Table
+- uid: OfficeOpenXml.ExcelAddressBase.AddressAbsolute
+  commentId: P:OfficeOpenXml.ExcelAddressBase.AddressAbsolute
+  parent: OfficeOpenXml.ExcelAddressBase
+  name: AddressAbsolute
+  nameWithType: ExcelAddressBase.AddressAbsolute
+  fullName: OfficeOpenXml.ExcelAddressBase.AddressAbsolute
 - uid: OfficeOpenXml.ExcelAddressBase.IsName
   commentId: P:OfficeOpenXml.ExcelAddressBase.IsName
   parent: OfficeOpenXml.ExcelAddressBase

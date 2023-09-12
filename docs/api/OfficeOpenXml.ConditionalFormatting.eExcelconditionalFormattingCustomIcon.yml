@@ -1,0 +1,1903 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  id: eExcelconditionalFormattingCustomIcon
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithOneWhiteQuarter
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithThreeWhiteQuarters
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithTwoWhiteQuarters
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.FourFilledBoxes
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GoldStar
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayCircle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GraySideArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpInclineArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheck
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheckSymbol
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCircle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenFlag
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenTrafficLight
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpTriangle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.HalfGoldStar
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.NoIcon
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.OneFilledBox
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.PinkCircle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircleWithBorder
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCross
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCrossSymbol
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDiamond
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownTriangle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedFlag
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedTrafficLight
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithTwoFilledBars
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SilverStar
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ThreeFilledBoxes
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.TwoFilledBoxes
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.WhiteCircle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowCircle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDash
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDownInclineArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamation
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowFlag
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowSideArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTrafficLight
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTriangle
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowUpInclineArrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ZeroFilledBoxes
+  langs:
+  - csharp
+  - vb
+  name: eExcelconditionalFormattingCustomIcon
+  nameWithType: eExcelconditionalFormattingCustomIcon
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelconditionalFormattingCustomIcon
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 767
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEnum of all icons for custom iconsets\n"
+  example: []
+  syntax:
+    content: public enum eExcelconditionalFormattingCustomIcon
+    content.vb: Public Enum eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownArrow
+  id: RedDownArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedDownArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedDownArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedDownArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 772
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed down arrow.\n"
+  example: []
+  syntax:
+    content: RedDownArrow = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowSideArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowSideArrow
+  id: YellowSideArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowSideArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowSideArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowSideArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowSideArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 777
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow side arrow.\n"
+  example: []
+  syntax:
+    content: YellowSideArrow = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpArrow
+  id: GreenUpArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GreenUpArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.GreenUpArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenUpArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 782
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreen up arrow.\n"
+  example: []
+  syntax:
+    content: GreenUpArrow = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownArrow
+  id: GrayDownArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GrayDownArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.GrayDownArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrayDownArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 787
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGray down arrow.\n"
+  example: []
+  syntax:
+    content: GrayDownArrow = 16
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GraySideArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GraySideArrow
+  id: GraySideArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GraySideArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.GraySideArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GraySideArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GraySideArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 792
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGray side arrow.\n"
+  example: []
+  syntax:
+    content: GraySideArrow = 17
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpArrow
+  id: GrayUpArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GrayUpArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.GrayUpArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrayUpArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 797
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGray up arrow.\n"
+  example: []
+  syntax:
+    content: GrayUpArrow = 18
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedFlag
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedFlag
+  id: RedFlag
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedFlag
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedFlag
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedFlag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedFlag
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 802
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed flag.\n"
+  example: []
+  syntax:
+    content: RedFlag = 32
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowFlag
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowFlag
+  id: YellowFlag
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowFlag
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowFlag
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowFlag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowFlag
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 807
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow flag.\n"
+  example: []
+  syntax:
+    content: YellowFlag = 33
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenFlag
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenFlag
+  id: GreenFlag
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GreenFlag
+  nameWithType: eExcelconditionalFormattingCustomIcon.GreenFlag
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenFlag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenFlag
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 812
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreen flag.\n"
+  example: []
+  syntax:
+    content: GreenFlag = 34
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircleWithBorder
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircleWithBorder
+  id: RedCircleWithBorder
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedCircleWithBorder
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedCircleWithBorder
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircleWithBorder
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedCircleWithBorder
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 817
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed Circle.\n"
+  example: []
+  syntax:
+    content: RedCircleWithBorder = 48
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowCircle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowCircle
+  id: YellowCircle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowCircle
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowCircle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowCircle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowCircle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 822
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow Circle.\n"
+  example: []
+  syntax:
+    content: YellowCircle = 49
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCircle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCircle
+  id: GreenCircle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GreenCircle
+  nameWithType: eExcelconditionalFormattingCustomIcon.GreenCircle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCircle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenCircle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 827
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreen Circle.\n"
+  example: []
+  syntax:
+    content: GreenCircle = 50
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedTrafficLight
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedTrafficLight
+  id: RedTrafficLight
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedTrafficLight
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedTrafficLight
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedTrafficLight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedTrafficLight
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 832
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed Traffic Light.\n"
+  example: []
+  syntax:
+    content: RedTrafficLight = 64
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTrafficLight
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTrafficLight
+  id: YellowTrafficLight
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowTrafficLight
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowTrafficLight
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTrafficLight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowTrafficLight
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 837
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow Traffic Light.\n"
+  example: []
+  syntax:
+    content: YellowTrafficLight = 65
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenTrafficLight
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenTrafficLight
+  id: GreenTrafficLight
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GreenTrafficLight
+  nameWithType: eExcelconditionalFormattingCustomIcon.GreenTrafficLight
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenTrafficLight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenTrafficLight
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 842
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreen Traffic Light.\n"
+  example: []
+  syntax:
+    content: GreenTrafficLight = 66
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDiamond
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDiamond
+  id: RedDiamond
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedDiamond
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedDiamond
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDiamond
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedDiamond
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 850
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed Diamond\n"
+  example: []
+  syntax:
+    content: RedDiamond = 80
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTriangle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTriangle
+  id: YellowTriangle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowTriangle
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowTriangle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowTriangle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowTriangle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 855
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow Triangle.\n"
+  example: []
+  syntax:
+    content: YellowTriangle = 81
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCrossSymbol
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCrossSymbol
+  id: RedCrossSymbol
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedCrossSymbol
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedCrossSymbol
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCrossSymbol
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedCrossSymbol
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 863
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed Cross Symbol\n"
+  example: []
+  syntax:
+    content: RedCrossSymbol = 96
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol
+  id: YellowExclamationSymbol
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowExclamationSymbol
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowExclamationSymbol
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 868
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow Exclamation Symbol\n"
+  example: []
+  syntax:
+    content: YellowExclamationSymbol = 97
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheckSymbol
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheckSymbol
+  id: GreenCheckSymbol
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GreenCheckSymbol
+  nameWithType: eExcelconditionalFormattingCustomIcon.GreenCheckSymbol
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheckSymbol
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenCheckSymbol
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 873
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreen Check Symbol\n"
+  example: []
+  syntax:
+    content: GreenCheckSymbol = 98
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCross
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCross
+  id: RedCross
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedCross
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedCross
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCross
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedCross
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 881
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed Cross\n"
+  example: []
+  syntax:
+    content: RedCross = 112
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamation
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamation
+  id: YellowExclamation
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowExclamation
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowExclamation
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowExclamation
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowExclamation
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 886
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow Exclamation\n"
+  example: []
+  syntax:
+    content: YellowExclamation = 113
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheck
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheck
+  id: GreenCheck
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GreenCheck
+  nameWithType: eExcelconditionalFormattingCustomIcon.GreenCheck
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenCheck
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenCheck
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 891
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreen Check\n"
+  example: []
+  syntax:
+    content: GreenCheck = 114
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SilverStar
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SilverStar
+  id: SilverStar
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: SilverStar
+  nameWithType: eExcelconditionalFormattingCustomIcon.SilverStar
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SilverStar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SilverStar
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 899
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEmpty/Silver Star\n"
+  example: []
+  syntax:
+    content: SilverStar = 128
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.HalfGoldStar
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.HalfGoldStar
+  id: HalfGoldStar
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: HalfGoldStar
+  nameWithType: eExcelconditionalFormattingCustomIcon.HalfGoldStar
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.HalfGoldStar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HalfGoldStar
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 904
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHalf-Filled Gold Star\n"
+  example: []
+  syntax:
+    content: HalfGoldStar = 129
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GoldStar
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GoldStar
+  id: GoldStar
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GoldStar
+  nameWithType: eExcelconditionalFormattingCustomIcon.GoldStar
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GoldStar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GoldStar
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 909
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGold Star\n"
+  example: []
+  syntax:
+    content: GoldStar = 130
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownTriangle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownTriangle
+  id: RedDownTriangle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedDownTriangle
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedDownTriangle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedDownTriangle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedDownTriangle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 917
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed Down Triangle\n"
+  example: []
+  syntax:
+    content: RedDownTriangle = 144
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDash
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDash
+  id: YellowDash
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowDash
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowDash
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowDash
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 922
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow Dash\n"
+  example: []
+  syntax:
+    content: YellowDash = 145
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpTriangle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpTriangle
+  id: GreenUpTriangle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GreenUpTriangle
+  nameWithType: eExcelconditionalFormattingCustomIcon.GreenUpTriangle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GreenUpTriangle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenUpTriangle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 927
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreen Up Triangle\n"
+  example: []
+  syntax:
+    content: GreenUpTriangle = 146
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDownInclineArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDownInclineArrow
+  id: YellowDownInclineArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowDownInclineArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowDownInclineArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowDownInclineArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowDownInclineArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 941
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow down incline arrow\n"
+  example: []
+  syntax:
+    content: YellowDownInclineArrow = 161
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowUpInclineArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowUpInclineArrow
+  id: YellowUpInclineArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: YellowUpInclineArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.YellowUpInclineArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.YellowUpInclineArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowUpInclineArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 946
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYellow up incline arrow\n"
+  example: []
+  syntax:
+    content: YellowUpInclineArrow = 162
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow
+  id: GrayDownInclineArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GrayDownInclineArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrayDownInclineArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 954
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGray down incline arrow\n"
+  example: []
+  syntax:
+    content: GrayDownInclineArrow = 177
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpInclineArrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpInclineArrow
+  id: GrayUpInclineArrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GrayUpInclineArrow
+  nameWithType: eExcelconditionalFormattingCustomIcon.GrayUpInclineArrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayUpInclineArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrayUpInclineArrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 959
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGray up incline arrow\n"
+  example: []
+  syntax:
+    content: GrayUpInclineArrow = 178
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircle
+  id: BlackCircle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: BlackCircle
+  nameWithType: eExcelconditionalFormattingCustomIcon.BlackCircle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlackCircle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 968
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nBlack circle\n"
+  example: []
+  syntax:
+    content: BlackCircle = 192
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayCircle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayCircle
+  id: GrayCircle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: GrayCircle
+  nameWithType: eExcelconditionalFormattingCustomIcon.GrayCircle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.GrayCircle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrayCircle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 973
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGray circle\n"
+  example: []
+  syntax:
+    content: GrayCircle = 193
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.PinkCircle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.PinkCircle
+  id: PinkCircle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: PinkCircle
+  nameWithType: eExcelconditionalFormattingCustomIcon.PinkCircle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.PinkCircle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PinkCircle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 978
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nPink circle\n"
+  example: []
+  syntax:
+    content: PinkCircle = 194
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircle
+  id: RedCircle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: RedCircle
+  nameWithType: eExcelconditionalFormattingCustomIcon.RedCircle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.RedCircle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedCircle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 983
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRed circle\n"
+  example: []
+  syntax:
+    content: RedCircle = 195
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar
+  id: SignalMeterWithOneFilledBar
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: SignalMeterWithOneFilledBar
+  nameWithType: eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignalMeterWithOneFilledBar
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 991
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nSigmal icon with 1 blue bar\n"
+  example: []
+  syntax:
+    content: SignalMeterWithOneFilledBar = 208
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithTwoFilledBars
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithTwoFilledBars
+  id: SignalMeterWithTwoFilledBars
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: SignalMeterWithTwoFilledBars
+  nameWithType: eExcelconditionalFormattingCustomIcon.SignalMeterWithTwoFilledBars
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithTwoFilledBars
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignalMeterWithTwoFilledBars
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 995
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nSigmal icon with 2 blue bars\n"
+  example: []
+  syntax:
+    content: SignalMeterWithTwoFilledBars = 209
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars
+  id: SignalMeterWithThreeFilledBars
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: SignalMeterWithThreeFilledBars
+  nameWithType: eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignalMeterWithThreeFilledBars
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 999
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nSigmal icon with 3 blue bars\n"
+  example: []
+  syntax:
+    content: SignalMeterWithThreeFilledBars = 210
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars
+  id: SignalMeterWithFourFilledBars
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: SignalMeterWithFourFilledBars
+  nameWithType: eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignalMeterWithFourFilledBars
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1003
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nSigmal icon with 4 blue bars\n"
+  example: []
+  syntax:
+    content: SignalMeterWithFourFilledBars = 211
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder
+  id: BlackCircleWithBorder
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: BlackCircleWithBorder
+  nameWithType: eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlackCircleWithBorder
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1011
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nBlack Circle from 4TrafficLights\n"
+  example: []
+  syntax:
+    content: BlackCircleWithBorder = 224
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars
+  id: SignalMeterWithNoFilledBars
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: SignalMeterWithNoFilledBars
+  nameWithType: eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignalMeterWithNoFilledBars
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1023
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEmpty Signal Meter\n"
+  example: []
+  syntax:
+    content: SignalMeterWithNoFilledBars = 240
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.WhiteCircle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.WhiteCircle
+  id: WhiteCircle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: WhiteCircle
+  nameWithType: eExcelconditionalFormattingCustomIcon.WhiteCircle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.WhiteCircle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WhiteCircle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1031
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nWhite Circle (All White Quarters)\n"
+  example: []
+  syntax:
+    content: WhiteCircle = 256
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithThreeWhiteQuarters
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithThreeWhiteQuarters
+  id: CircleWithThreeWhiteQuarters
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: CircleWithThreeWhiteQuarters
+  nameWithType: eExcelconditionalFormattingCustomIcon.CircleWithThreeWhiteQuarters
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithThreeWhiteQuarters
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CircleWithThreeWhiteQuarters
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1035
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nCircle with three white quarters\n"
+  example: []
+  syntax:
+    content: CircleWithThreeWhiteQuarters = 257
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithTwoWhiteQuarters
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithTwoWhiteQuarters
+  id: CircleWithTwoWhiteQuarters
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: CircleWithTwoWhiteQuarters
+  nameWithType: eExcelconditionalFormattingCustomIcon.CircleWithTwoWhiteQuarters
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithTwoWhiteQuarters
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CircleWithTwoWhiteQuarters
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1039
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nCircle with two white quarters\n"
+  example: []
+  syntax:
+    content: CircleWithTwoWhiteQuarters = 258
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithOneWhiteQuarter
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithOneWhiteQuarter
+  id: CircleWithOneWhiteQuarter
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: CircleWithOneWhiteQuarter
+  nameWithType: eExcelconditionalFormattingCustomIcon.CircleWithOneWhiteQuarter
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.CircleWithOneWhiteQuarter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CircleWithOneWhiteQuarter
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1043
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nCircle with one white quarter\n"
+  example: []
+  syntax:
+    content: CircleWithOneWhiteQuarter = 259
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ZeroFilledBoxes
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ZeroFilledBoxes
+  id: ZeroFilledBoxes
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: ZeroFilledBoxes
+  nameWithType: eExcelconditionalFormattingCustomIcon.ZeroFilledBoxes
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ZeroFilledBoxes
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZeroFilledBoxes
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1051
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nZero filled boxes\n"
+  example: []
+  syntax:
+    content: ZeroFilledBoxes = 272
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.OneFilledBox
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.OneFilledBox
+  id: OneFilledBox
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: OneFilledBox
+  nameWithType: eExcelconditionalFormattingCustomIcon.OneFilledBox
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.OneFilledBox
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OneFilledBox
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1056
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nOne filled box\n"
+  example: []
+  syntax:
+    content: OneFilledBox = 273
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.TwoFilledBoxes
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.TwoFilledBoxes
+  id: TwoFilledBoxes
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: TwoFilledBoxes
+  nameWithType: eExcelconditionalFormattingCustomIcon.TwoFilledBoxes
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.TwoFilledBoxes
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TwoFilledBoxes
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1061
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nTwo filled boxes\n"
+  example: []
+  syntax:
+    content: TwoFilledBoxes = 274
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ThreeFilledBoxes
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ThreeFilledBoxes
+  id: ThreeFilledBoxes
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: ThreeFilledBoxes
+  nameWithType: eExcelconditionalFormattingCustomIcon.ThreeFilledBoxes
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.ThreeFilledBoxes
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreeFilledBoxes
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1066
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThree filled boxes\n"
+  example: []
+  syntax:
+    content: ThreeFilledBoxes = 275
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.FourFilledBoxes
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.FourFilledBoxes
+  id: FourFilledBoxes
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: FourFilledBoxes
+  nameWithType: eExcelconditionalFormattingCustomIcon.FourFilledBoxes
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.FourFilledBoxes
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FourFilledBoxes
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1071
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nFour filled boxes\n"
+  example: []
+  syntax:
+    content: FourFilledBoxes = 276
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.NoIcon
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.NoIcon
+  id: NoIcon
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  langs:
+  - csharp
+  - vb
+  name: NoIcon
+  nameWithType: eExcelconditionalFormattingCustomIcon.NoIcon
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon.NoIcon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoIcon
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1078
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nNo/Invisible Icon\n"
+  example: []
+  syntax:
+    content: NoIcon = 288
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormattingCustomIcon
+  nameWithType: eExcelconditionalFormattingCustomIcon
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon

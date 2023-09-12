@@ -5,9 +5,20 @@ items:
   id: IExcelConditionalFormattingDataBarGroup
   parent: OfficeOpenXml.ConditionalFormatting.Contracts
   children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue
   langs:
   - csharp
@@ -23,7 +34,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingDataBarGroup
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-    startLine: 25
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -35,7 +46,6 @@ items:
       Public Interface IExcelConditionalFormattingDataBarGroup
           Inherits IExcelConditionalFormattingRule
   inheritedMembers:
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
@@ -67,7 +77,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-    startLine: 32
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -80,6 +90,176 @@ items:
       type: System.Boolean
     content.vb: Property ShowValue As Boolean
   overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient
+  id: Gradient
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: Gradient
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Gradient
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gradient
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIf the databar should be a gradient. True by default\n"
+  example: []
+  syntax:
+    content: bool Gradient { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property Gradient As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border
+  id: Border
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: Border
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Border
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Border
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nWheter there is a border color or not. \nFalse by default. Is set to true if BorderColor or NegativeBorderColor is set\n"
+  example: []
+  syntax:
+    content: bool Border { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property Border As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+  id: NegativeBarColorSameAsPositive
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: NegativeBarColorSameAsPositive
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NegativeBarColorSameAsPositive
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nWheter negative and positive values should have the same colour. \nFalse by default. Is set to true if NegativeFillColor is set.\n"
+  example: []
+  syntax:
+    content: bool NegativeBarColorSameAsPositive { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property NegativeBarColorSameAsPositive As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+  id: NegativeBarBorderColorSameAsPositive
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: NegativeBarBorderColorSameAsPositive
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NegativeBarBorderColorSameAsPositive
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nWheter negative and positive values should have the same border colour. \nFalse by default. Is set to true if NegativeBorderColor is set.\n"
+  example: []
+  syntax:
+    content: bool NegativeBarBorderColorSameAsPositive { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property NegativeBarBorderColorSameAsPositive As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition
+  id: AxisPosition
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: AxisPosition
+  nameWithType: IExcelConditionalFormattingDataBarGroup.AxisPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AxisPosition
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nWhat position the axis between positive and negative values is to be put at.\n"
+  example: []
+  syntax:
+    content: eExcelDatabarAxisPosition AxisPosition { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+    content.vb: Property AxisPosition As eExcelDatabarAxisPosition
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition*
   modifiers.csharp:
   - get
   - set
@@ -101,7 +281,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LowValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-    startLine: 36
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -136,7 +316,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HighValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-    startLine: 41
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -171,11 +351,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-    startLine: 45
+    startLine: 70
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nThe color of the databar\n"
+  summary: "\nThe color of the databar. ShortHand for FillColor.Color\n"
   example: []
   syntax:
     content: Color Color { get; set; }
@@ -187,18 +367,216 @@ items:
   modifiers.csharp:
   - get
   - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor
+  id: FillColor
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: FillColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.FillColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FillColor
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nFill color of Databar\n"
+  example: []
+  syntax:
+    content: ExcelDxfColor FillColor { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    content.vb: Property FillColor As ExcelDxfColor
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
+  id: BorderColor
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: BorderColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.BorderColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BorderColor
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nBorder color of databar. \nSetting any property sets Border to true\n"
+  example: []
+  syntax:
+    content: ExcelDxfColor BorderColor { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    content.vb: Property BorderColor As ExcelDxfColor
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
+  id: NegativeFillColor
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: NegativeFillColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeFillColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NegativeFillColor
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 85
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nFill color for negative values\nSetting any property sets NegativeBarColorSameAsPositive to false\n"
+  example: []
+  syntax:
+    content: ExcelDxfColor NegativeFillColor { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    content.vb: Property NegativeFillColor As ExcelDxfColor
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+  id: NegativeBorderColor
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: NegativeBorderColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NegativeBorderColor
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nBorder color for negative values\nSetting any property sets NegativeBarBorderColorSameAsPositive to false\n"
+  example: []
+  syntax:
+    content: ExcelDxfColor NegativeBorderColor { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    content.vb: Property NegativeBorderColor As ExcelDxfColor
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
+  id: AxisColor
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: AxisColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.AxisColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AxisColor
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nColor of the axis between negative and positive values\n"
+  example: []
+  syntax:
+    content: ExcelDxfColor AxisColor { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    content.vb: Property AxisColor As ExcelDxfColor
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
+  id: Direction
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: Direction
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Direction
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Direction
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nDirection of the Databar\n"
+  example: []
+  syntax:
+    content: eDatabarDirection Direction { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+    content.vb: Property Direction As eDatabarDirection
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction*
+  modifiers.csharp:
+  - get
+  - set
 references:
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts
   commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
   name: OfficeOpenXml.ConditionalFormatting.Contracts
   nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
@@ -265,6 +643,42 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient
+  name: Gradient
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Gradient
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Gradient
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border
+  name: Border
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Border
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Border
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+  name: NegativeBarColorSameAsPositive
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarColorSameAsPositive
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+  name: NegativeBarBorderColorSameAsPositive
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBarBorderColorSameAsPositive
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition
+  name: AxisPosition
+  nameWithType: IExcelConditionalFormattingDataBarGroup.AxisPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisPosition
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelDatabarAxisPosition
+  nameWithType: eExcelDatabarAxisPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
   name: LowValue
@@ -276,11 +690,6 @@ references:
   name: ExcelConditionalFormattingIconDataBarValue
   nameWithType: ExcelConditionalFormattingIconDataBarValue
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
-- uid: OfficeOpenXml.ConditionalFormatting
-  commentId: N:OfficeOpenXml.ConditionalFormatting
-  name: OfficeOpenXml.ConditionalFormatting
-  nameWithType: OfficeOpenXml.ConditionalFormatting
-  fullName: OfficeOpenXml.ConditionalFormatting
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
   name: HighValue
@@ -304,3 +713,50 @@ references:
   name: System.Drawing
   nameWithType: System.Drawing
   fullName: System.Drawing
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor
+  name: FillColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.FillColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfColor
+  nameWithType: ExcelDxfColor
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
+  name: BorderColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.BorderColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
+  name: NegativeFillColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeFillColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+  name: NegativeBorderColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
+  name: AxisColor
+  nameWithType: IExcelConditionalFormattingDataBarGroup.AxisColor
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
+  name: Direction
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Direction
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
+- uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eDatabarDirection
+  nameWithType: eDatabarDirection
+  fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection

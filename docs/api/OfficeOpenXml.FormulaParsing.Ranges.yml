@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
   - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  - OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
   - OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
   - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
   langs:
@@ -40,6 +41,11 @@ references:
   name: NameInfo
   nameWithType: NameInfo
   fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
+  name: NameInfoWithValue
+  nameWithType: NameInfoWithValue
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
 - uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
   commentId: T:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
   parent: OfficeOpenXml.FormulaParsing.Ranges

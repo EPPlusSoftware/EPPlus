@@ -5,7 +5,11 @@ items:
   id: FormulaRangeAddress
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   children:
-  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,OfficeOpenXml.ExcelAddressBase)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress._context
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Address
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Clone
@@ -33,7 +37,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaRangeAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 474
+    startLine: 509
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -84,7 +88,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _context
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 476
+    startLine: 511
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -97,16 +101,79 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32)
-  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32)
-  id: '#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32)'
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor
+  id: '#ctor'
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
   langs:
   - csharp
   - vb
-  name: FormulaRangeAddress(ParsingContext, Int32, Int32, Int32, Int32)
-  nameWithType: FormulaRangeAddress.FormulaRangeAddress(ParsingContext, Int32, Int32, Int32, Int32)
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FormulaRangeAddress(OfficeOpenXml.FormulaParsing.ParsingContext, System.Int32, System.Int32, System.Int32, System.Int32)
+  name: FormulaRangeAddress()
+  nameWithType: FormulaRangeAddress.FormulaRangeAddress()
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FormulaRangeAddress()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 512
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public FormulaRangeAddress()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  langs:
+  - csharp
+  - vb
+  name: FormulaRangeAddress(ParsingContext)
+  nameWithType: FormulaRangeAddress.FormulaRangeAddress(ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FormulaRangeAddress(OfficeOpenXml.FormulaParsing.ParsingContext)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 516
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public FormulaRangeAddress(ParsingContext ctx)
+    parameters:
+    - id: ctx
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+    content.vb: Public Sub New(ctx As ParsingContext)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  langs:
+  - csharp
+  - vb
+  name: FormulaRangeAddress(ParsingContext, String)
+  nameWithType: FormulaRangeAddress.FormulaRangeAddress(ParsingContext, String)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FormulaRangeAddress(OfficeOpenXml.FormulaParsing.ParsingContext, System.String)
   type: Constructor
   source:
     remote:
@@ -120,10 +187,82 @@ items:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   syntax:
-    content: public FormulaRangeAddress(ParsingContext context, int fromRow, int fromCol, int toRow, int toCol)
+    content: public FormulaRangeAddress(ParsingContext ctx, string address)
+    parameters:
+    - id: ctx
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+    - id: address
+      type: System.String
+    content.vb: Public Sub New(ctx As ParsingContext, address As String)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,OfficeOpenXml.ExcelAddressBase)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,OfficeOpenXml.ExcelAddressBase)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,OfficeOpenXml.ExcelAddressBase)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  langs:
+  - csharp
+  - vb
+  name: FormulaRangeAddress(ParsingContext, ExcelAddressBase)
+  nameWithType: FormulaRangeAddress.FormulaRangeAddress(ParsingContext, ExcelAddressBase)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FormulaRangeAddress(OfficeOpenXml.FormulaParsing.ParsingContext, OfficeOpenXml.ExcelAddressBase)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 560
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address)
+    parameters:
+    - id: ctx
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+    - id: address
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public Sub New(ctx As ParsingContext, address As ExcelAddressBase)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  langs:
+  - csharp
+  - vb
+  name: FormulaRangeAddress(ParsingContext, Int32, Int32, Int32, Int32, Int32)
+  nameWithType: FormulaRangeAddress.FormulaRangeAddress(ParsingContext, Int32, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FormulaRangeAddress(OfficeOpenXml.FormulaParsing.ParsingContext, System.Int32, System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 576
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public FormulaRangeAddress(ParsingContext context, int wsIx, int fromRow, int fromCol, int toRow, int toCol)
     parameters:
     - id: context
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+    - id: wsIx
+      type: System.Int32
     - id: fromRow
       type: System.Int32
     - id: fromCol
@@ -132,7 +271,7 @@ items:
       type: System.Int32
     - id: toCol
       type: System.Int32
-    content.vb: Public Sub New(context As ParsingContext, fromRow As Integer, fromCol As Integer, toRow As Integer, toCol As Integer)
+    content.vb: Public Sub New(context As ParsingContext, wsIx As Integer, fromRow As Integer, fromCol As Integer, toRow As Integer, toCol As Integer)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor*
   modifiers.csharp:
   - public
@@ -156,7 +295,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromRow
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 528
+    startLine: 585
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -187,7 +326,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromCol
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 528
+    startLine: 585
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -218,7 +357,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToRow
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 528
+    startLine: 585
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -249,7 +388,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCol
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 528
+    startLine: 585
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -280,7 +419,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsSingleCell
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 531
+    startLine: 588
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -315,7 +454,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 538
+    startLine: 595
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -352,7 +491,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 571
+    startLine: 628
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -390,7 +529,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 584
+    startLine: 641
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -427,7 +566,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetName
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 595
+    startLine: 652
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -464,7 +603,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareTo
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 658
+    startLine: 715
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -501,7 +640,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clone
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 681
+    startLine: 738
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -535,7 +674,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 698
+    startLine: 810
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -942,6 +1081,24 @@ references:
   name: FormulaRangeAddress
   nameWithType: FormulaRangeAddress.FormulaRangeAddress
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FormulaRangeAddress
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
@@ -1008,13 +1165,6 @@ references:
   name: ToString
   nameWithType: FormulaRangeAddress.ToString
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetAddress*
   commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetAddress
   name: WorksheetAddress

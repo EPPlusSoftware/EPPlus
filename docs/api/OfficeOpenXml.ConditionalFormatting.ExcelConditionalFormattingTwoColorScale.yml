@@ -21,11 +21,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingTwoColorScale
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
-    startLine: 25
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nExcelConditionalFormattingTwoColorScale\n"
+  summary: "\nTwo Colour Scale class\n"
   example: []
   syntax:
     content: 'public class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule, IExcelConditionalFormattingTwoColorScale, IExcelConditionalFormattingColorScaleGroup, IExcelConditionalFormattingRule'
@@ -35,19 +35,19 @@ items:
           Implements IExcelConditionalFormattingTwoColorScale, IExcelConditionalFormattingColorScaleGroup, IExcelConditionalFormattingRule
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  derivedClasses:
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
   implements:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
   inheritedMembers:
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.StopIfTrue
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.StdDev
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Rank
@@ -91,7 +91,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LowValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
-    startLine: 153
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -130,7 +130,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HighValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
-    startLine: 162
+    startLine: 201
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -164,12 +164,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   parent: OfficeOpenXml.ConditionalFormatting
@@ -194,30 +188,18 @@ references:
   name: IExcelConditionalFormattingRule
   nameWithType: IExcelConditionalFormattingRule
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  name: Node
-  nameWithType: ExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  name: Address
-  nameWithType: ExcelConditionalFormattingRule.Address
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  name: PivotTable
-  nameWithType: ExcelConditionalFormattingRule.PivotTable
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
   parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   name: Type
   nameWithType: ExcelConditionalFormattingRule.Type
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  name: Address
+  nameWithType: ExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
@@ -230,6 +212,12 @@ references:
   name: StopIfTrue
   nameWithType: ExcelConditionalFormattingRule.StopIfTrue
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.StopIfTrue
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  name: PivotTable
+  nameWithType: ExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style
   parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
@@ -587,11 +575,6 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts
   commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
   name: OfficeOpenXml.ConditionalFormatting.Contracts

@@ -1367,7 +1367,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Filters
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 995
+    startLine: 993
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

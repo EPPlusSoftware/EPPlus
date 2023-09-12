@@ -5,7 +5,6 @@ items:
   id: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   children:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
-  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
   langs:
   - csharp
   - vb
@@ -21,8 +20,3 @@ references:
   name: FunctionCompiler
   nameWithType: FunctionCompiler
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
-  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
-  name: FunctionCompilerFactory
-  nameWithType: FunctionCompilerFactory
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory

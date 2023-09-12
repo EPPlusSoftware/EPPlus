@@ -5,6 +5,7 @@ items:
   id: ExcelConditionalFormattingIconDataBarValue
   parent: OfficeOpenXml.ConditionalFormatting
   children:
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
@@ -23,20 +24,17 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingIconDataBarValue
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 29
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
   summary: "\n18.3.1.11 cfvo (Conditional Format Value Object)\nDescribes the values of the interpolation points in a gradient scale.\n"
   example: []
   syntax:
-    content: 'public class ExcelConditionalFormattingIconDataBarValue : XmlHelper'
-    content.vb: >-
-      Public Class ExcelConditionalFormattingIconDataBarValue
-          Inherits XmlHelper
+    content: public class ExcelConditionalFormattingIconDataBarValue
+    content.vb: Public Class ExcelConditionalFormattingIconDataBarValue
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -51,6 +49,43 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon
+  id: CustomIcon
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  langs:
+  - csharp
+  - vb
+  name: CustomIcon
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.CustomIcon
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CustomIcon
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nIf not custom is null. If user assigns to it holds icon value.\n"
+  example: []
+  syntax:
+    content: public eExcelconditionalFormattingCustomIcon? CustomIcon { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon}
+    content.vb: Public Property CustomIcon As eExcelconditionalFormattingCustomIcon?
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
   id: Type
@@ -69,7 +104,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 254
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -106,11 +141,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqualTo
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 276
+    startLine: 151
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nGreater Than Or Equal \n"
+  summary: "\nGreater Than Or Equal To\nSet to false to only apply an icon when greaterThan\n"
   example: []
   syntax:
     content: public bool GreaterThanOrEqualTo { get; set; }
@@ -143,7 +178,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 297
+    startLine: 158
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -180,11 +215,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 331
+    startLine: 201
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nThe Formula of the Object Value (uses the same attribute as the Value)\n"
+  summary: "\n<p> The Formula of the Object Value </p>\nKeep in mind that Addresses in this property should be Absolute not relative  \n<p> Yes: $A$1 </p> \n<p> No: A1 </p>\n"
   example: []
   syntax:
     content: public string Formula { get; set; }
@@ -212,12 +247,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -503,11 +532,92 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon
+  name: CustomIcon
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.CustomIcon
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.CustomIcon
+- uid: System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon}
+  commentId: T:System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eExcelconditionalFormattingCustomIcon>
+  nameWithType: Nullable<eExcelconditionalFormattingCustomIcon>
+  fullName: System.Nullable<OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon>
+  nameWithType.vb: Nullable(Of eExcelconditionalFormattingCustomIcon)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon)
+  name.vb: Nullable(Of eExcelconditionalFormattingCustomIcon)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+    name: eExcelconditionalFormattingCustomIcon
+    nameWithType: eExcelconditionalFormattingCustomIcon
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+    name: eExcelconditionalFormattingCustomIcon
+    nameWithType: eExcelconditionalFormattingCustomIcon
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
   name: Type

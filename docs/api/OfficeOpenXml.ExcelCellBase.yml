@@ -829,7 +829,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidCellAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 898
+    startLine: 903
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

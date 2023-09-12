@@ -7,9 +7,9 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.#ctor
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter,OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   langs:
   - csharp
   - vb
@@ -112,16 +112,16 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
-  id: ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  id: ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
   langs:
   - csharp
   - vb
-  name: ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
-  nameWithType: ArgumentCollectionUtil.ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
+  name: ArgsToDoubleEnumerable(Boolean, Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
+  nameWithType: ArgumentCollectionUtil.ArgsToDoubleEnumerable(Boolean, Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
   type: Method
   source:
     remote:
@@ -135,11 +135,13 @@ items:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   syntax:
-    content: public virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric = false)
+    content: public virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHidden, bool ignoreErrors, bool ignoreSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric = false)
     parameters:
     - id: ignoreHidden
       type: System.Boolean
     - id: ignoreErrors
+      type: System.Boolean
+    - id: ignoreSubtotalAggregate
       type: System.Boolean
     - id: arguments
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
@@ -149,27 +151,27 @@ items:
       type: System.Boolean
     return:
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue}
-    content.vb: Public Overridable Function ArgsToDoubleEnumerable(ignoreHidden As Boolean, ignoreErrors As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext, ignoreNonNumeric As Boolean = False) As IEnumerable(Of ExcelDoubleCellValue)
+    content.vb: Public Overridable Function ArgsToDoubleEnumerable(ignoreHidden As Boolean, ignoreErrors As Boolean, ignoreSubtotalAggregate As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext, ignoreNonNumeric As Boolean = False) As IEnumerable(Of ExcelDoubleCellValue)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable*
-  nameWithType.vb: ArgumentCollectionUtil.ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
+  nameWithType.vb: ArgumentCollectionUtil.ArgsToDoubleEnumerable(Boolean, Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
-  name.vb: ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
-  id: ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
+  name.vb: ArgsToDoubleEnumerable(Boolean, Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
   langs:
   - csharp
   - vb
-  name: ArgsToObjectEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
-  nameWithType: ArgumentCollectionUtil.ArgsToObjectEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  name: ArgsToObjectEnumerable(Boolean, Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ArgumentCollectionUtil.ArgsToObjectEnumerable(Boolean, Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean, System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
   type: Method
   source:
     remote:
@@ -183,9 +185,13 @@ items:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   syntax:
-    content: public virtual IEnumerable<object> ArgsToObjectEnumerable(bool ignoreHidden, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+    content: public virtual IEnumerable<object> ArgsToObjectEnumerable(bool ignoreHidden, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
     parameters:
     - id: ignoreHidden
+      type: System.Boolean
+    - id: ignoreErrors
+      type: System.Boolean
+    - id: ignoreNestedSubtotalAggregate
       type: System.Boolean
     - id: arguments
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
@@ -193,61 +199,63 @@ items:
       type: OfficeOpenXml.FormulaParsing.ParsingContext
     return:
       type: System.Collections.Generic.IEnumerable{System.Object}
-    content.vb: Public Overridable Function ArgsToObjectEnumerable(ignoreHidden As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext) As IEnumerable(Of Object)
+    content.vb: Public Overridable Function ArgsToObjectEnumerable(ignoreHidden As Boolean, ignoreErrors As Boolean, ignoreNestedSubtotalAggregate As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext) As IEnumerable(Of Object)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable*
-  nameWithType.vb: ArgumentCollectionUtil.ArgsToObjectEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  nameWithType.vb: ArgumentCollectionUtil.ArgsToObjectEnumerable(Boolean, Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
-  name.vb: ArgsToObjectEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
-  id: CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean, System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ArgsToObjectEnumerable(Boolean, Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: ArgsToObjectEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
   langs:
   - csharp
   - vb
-  name: CalculateCollection(IEnumerable<FunctionArgument>, Double, Func<FunctionArgument, Double, Double>)
-  nameWithType: ArgumentCollectionUtil.CalculateCollection(IEnumerable<FunctionArgument>, Double, Func<FunctionArgument, Double, Double>)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Double, System.Func<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument, System.Double, System.Double>)
+  name: ArgsToObjectEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ArgumentCollectionUtil.ArgsToObjectEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
   type: Method
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArgumentCollectionUtil.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: CalculateCollection
+    id: ArgsToObjectEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArgumentCollectionUtil.cs
-    startLine: 50
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   syntax:
-    content: public virtual double CalculateCollection(IEnumerable<FunctionArgument> collection, double result, Func<FunctionArgument, double, double> action)
+    content: public virtual IEnumerable<object> ArgsToObjectEnumerable(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context)
     parameters:
-    - id: collection
+    - id: ignoreHidden
+      type: System.Boolean
+    - id: ignoreErrors
+      type: System.Boolean
+    - id: arguments
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
-    - id: result
-      type: System.Double
-    - id: action
-      type: System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double}
+    - id: context
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
     return:
-      type: System.Double
-    content.vb: Public Overridable Function CalculateCollection(collection As IEnumerable(Of FunctionArgument), result As Double, action As Func(Of FunctionArgument, Double, Double)) As Double
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection*
-  nameWithType.vb: ArgumentCollectionUtil.CalculateCollection(IEnumerable(Of FunctionArgument), Double, Func(Of FunctionArgument, Double, Double))
+      type: System.Collections.Generic.IEnumerable{System.Object}
+    content.vb: Public Overridable Function ArgsToObjectEnumerable(ignoreHidden As Boolean, ignoreErrors As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext) As IEnumerable(Of Object)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable*
+  nameWithType.vb: ArgumentCollectionUtil.ArgsToObjectEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Double, System.Func(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument, System.Double, System.Double))
-  name.vb: CalculateCollection(IEnumerable(Of FunctionArgument), Double, Func(Of FunctionArgument, Double, Double))
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.ArgsToObjectEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ArgsToObjectEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
 references:
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -755,155 +763,6 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection
-  name: CalculateCollection
-  nameWithType: ArgumentCollectionUtil.CalculateCollection
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil.CalculateCollection
-- uid: System.Double
-  commentId: T:System.Double
-  parent: System
-  isExternal: true
-  name: Double
-  nameWithType: Double
-  fullName: System.Double
-- uid: System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double}
-  commentId: T:System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double}
-  parent: System
-  definition: System.Func`3
-  name: Func<FunctionArgument, Double, Double>
-  nameWithType: Func<FunctionArgument, Double, Double>
-  fullName: System.Func<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument, System.Double, System.Double>
-  nameWithType.vb: Func(Of FunctionArgument, Double, Double)
-  fullName.vb: System.Func(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument, System.Double, System.Double)
-  name.vb: Func(Of FunctionArgument, Double, Double)
-  spec.csharp:
-  - uid: System.Func`3
-    name: Func
-    nameWithType: Func
-    fullName: System.Func
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Double
-    name: Double
-    nameWithType: Double
-    fullName: System.Double
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Double
-    name: Double
-    nameWithType: Double
-    fullName: System.Double
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Func`3
-    name: Func
-    nameWithType: Func
-    fullName: System.Func
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Double
-    name: Double
-    nameWithType: Double
-    fullName: System.Double
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Double
-    name: Double
-    nameWithType: Double
-    fullName: System.Double
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Func`3
-  commentId: T:System.Func`3
-  isExternal: true
-  name: Func<T1, T2, TResult>
-  nameWithType: Func<T1, T2, TResult>
-  fullName: System.Func<T1, T2, TResult>
-  nameWithType.vb: Func(Of T1, T2, TResult)
-  fullName.vb: System.Func(Of T1, T2, TResult)
-  name.vb: Func(Of T1, T2, TResult)
-  spec.csharp:
-  - uid: System.Func`3
-    name: Func
-    nameWithType: Func
-    fullName: System.Func
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T1
-    nameWithType: T1
-    fullName: T1
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: T2
-    nameWithType: T2
-    fullName: T2
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: TResult
-    nameWithType: TResult
-    fullName: TResult
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Func`3
-    name: Func
-    nameWithType: Func
-    fullName: System.Func
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T1
-    nameWithType: T1
-    fullName: T1
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: T2
-    nameWithType: T2
-    fullName: T2
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: TResult
-    nameWithType: TResult
-    fullName: TResult
   - name: )
     nameWithType: )
     fullName: )

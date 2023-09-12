@@ -16,9 +16,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+     Category = ExcelFunctionCategory.Engineering,
+     EPPlusVersion = "7.0",
+     Description = "Returns the difference of two complex numbers in x + yi or x + yj text format.")]
     internal class ImSub : ImFunctionBase
     {
         public override int ArgumentMinLength => 2;

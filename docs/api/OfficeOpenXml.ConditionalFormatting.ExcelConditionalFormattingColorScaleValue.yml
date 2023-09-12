@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.ConditionalFormatting
   children:
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Color
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Formula
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Type
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Value
@@ -23,20 +24,15 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingColorScaleValue
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 29
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\n18.3.1.11 cfvo (Conditional Format Value Object)\nDescribes the values of the interpolation points in a gradient scale.\n"
-  example: []
   syntax:
-    content: 'public class ExcelConditionalFormattingColorScaleValue : XmlHelper'
-    content.vb: >-
-      Public Class ExcelConditionalFormattingColorScaleValue
-          Inherits XmlHelper
+    content: public class ExcelConditionalFormattingColorScaleValue
+    content.vb: Public Class ExcelConditionalFormattingColorScaleValue
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -69,7 +65,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 334
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -88,6 +84,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings
+  id: ColorSettings
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+  langs:
+  - csharp
+  - vb
+  name: ColorSettings
+  nameWithType: ExcelConditionalFormattingColorScaleValue.ColorSettings
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorSettings
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nUsed to set color or theme color, index, auto and tint\n"
+  example: []
+  syntax:
+    content: public ExcelDxfColor ColorSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    content.vb: Public ReadOnly Property ColorSettings As ExcelDxfColor
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Color
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Color
   id: Color
@@ -106,7 +139,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 394
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -143,7 +176,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 424
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -180,11 +213,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 460
+    startLine: 135
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nThe Formula of the Object Value (uses the same attribute as the Value)\n"
+  summary: "\n<p> The Formula of the Object Value </p>\nKeep in mind that Addresses in this property should be Absolute not relative  \n<p> Yes: $A$1 </p> \n<p> No: A1 </p>\n"
   example: []
   syntax:
     content: public string Formula { get; set; }
@@ -212,12 +245,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -503,11 +530,6 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Type*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Type
   name: Type
@@ -519,6 +541,22 @@ references:
   name: eExcelConditionalFormattingValueObjectType
   nameWithType: eExcelConditionalFormattingValueObjectType
   fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings
+  name: ColorSettings
+  nameWithType: ExcelConditionalFormattingColorScaleValue.ColorSettings
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.ColorSettings
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfColor
+  nameWithType: ExcelDxfColor
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Color*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue.Color
   name: Color

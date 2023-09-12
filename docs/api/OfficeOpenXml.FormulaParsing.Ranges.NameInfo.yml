@@ -5,8 +5,13 @@ items:
   id: NameInfo
   parent: OfficeOpenXml.FormulaParsing.Ranges
   children:
+  - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.#ctor(OfficeOpenXml.ExcelNamedRange)
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Formula
+  - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula(System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Id
+  - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Name
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Tokens
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Value
@@ -54,6 +59,39 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.#ctor(OfficeOpenXml.ExcelNamedRange)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.#ctor(OfficeOpenXml.ExcelNamedRange)
+  id: '#ctor(OfficeOpenXml.ExcelNamedRange)'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  langs:
+  - csharp
+  - vb
+  name: NameInfo(ExcelNamedRange)
+  nameWithType: NameInfo.NameInfo(ExcelNamedRange)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.NameInfo(OfficeOpenXml.ExcelNamedRange)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: public NameInfo(ExcelNamedRange nameItem)
+    parameters:
+    - id: nameItem
+      type: OfficeOpenXml.ExcelNamedRange
+    content.vb: Public Sub New(nameItem As ExcelNamedRange)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Id
   commentId: P:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Id
   id: Id
@@ -72,27 +110,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 28
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
   summary: "\nId\n"
   example: []
   syntax:
-    content: public ulong Id { get; set; }
+    content: public ulong Id { get; }
     parameters: []
     return:
       type: System.UInt64
-    content.vb: Public Property Id As ULong
+    content.vb: Public ReadOnly Property Id As ULong
   overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Id*
   implements:
   - OfficeOpenXml.FormulaParsing.INameInfo.Id
   modifiers.csharp:
   - public
   - get
-  - set
   modifiers.vb:
   - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.wsIx
   commentId: P:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.wsIx
   id: wsIx
@@ -111,27 +149,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: wsIx
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 32
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
   summary: "\nWorksheet name\n"
   example: []
   syntax:
-    content: public int wsIx { get; set; }
+    content: public int wsIx { get; }
     parameters: []
     return:
       type: System.Int32
-    content.vb: Public Property wsIx As Integer
+    content.vb: Public ReadOnly Property wsIx As Integer
   overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.wsIx*
   implements:
   - OfficeOpenXml.FormulaParsing.INameInfo.wsIx
   modifiers.csharp:
   - public
   - get
-  - set
   modifiers.vb:
   - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Name
   commentId: P:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Name
   id: Name
@@ -150,27 +188,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 36
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
   summary: "\nThe name\n"
   example: []
   syntax:
-    content: public string Name { get; set; }
+    content: public string Name { get; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public Property Name As String
+    content.vb: Public ReadOnly Property Name As String
   overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Name*
   implements:
   - OfficeOpenXml.FormulaParsing.INameInfo.Name
   modifiers.csharp:
   - public
   - get
-  - set
   modifiers.vb:
   - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Formula
   commentId: P:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Formula
   id: Formula
@@ -189,27 +227,195 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 40
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
   summary: "\nFormula of the name\n"
   example: []
   syntax:
-    content: public string Formula { get; set; }
+    content: public string Formula { get; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public Property Formula As String
+    content.vb: Public ReadOnly Property Formula As String
   overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Formula*
   implements:
   - OfficeOpenXml.FormulaParsing.INameInfo.Formula
   modifiers.csharp:
   - public
   - get
-  - set
   modifiers.vb:
   - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula(System.Int32,System.Int32)
+  id: GetRelativeFormula(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  langs:
+  - csharp
+  - vb
+  name: GetRelativeFormula(Int32, Int32)
+  nameWithType: NameInfo.GetRelativeFormula(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetRelativeFormula
+    path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGets the forumla relative to a row and column.\n"
+  example: []
+  syntax:
+    content: public string GetRelativeFormula(int row, int col)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: 'The row '
+    - id: col
+      type: System.Int32
+      description: The column
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function GetRelativeFormula(row As Integer, col As Integer) As String
+  overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula*
+  implements:
+  - OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula(System.Int32,System.Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  id: GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  langs:
+  - csharp
+  - vb
+  name: GetRelativeRange(IRangeInfo, FormulaCellAddress)
+  nameWithType: NameInfo.GetRelativeRange(IRangeInfo, FormulaCellAddress)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo, OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetRelativeRange
+    path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nReturns the range relative to the cell for a named range with a relative address.\n"
+  example: []
+  syntax:
+    content: public IRangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
+    parameters:
+    - id: ri
+      type: OfficeOpenXml.FormulaParsing.IRangeInfo
+      description: ''
+    - id: currentCell
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.FormulaParsing.IRangeInfo
+      description: ''
+    content.vb: Public Function GetRelativeRange(ri As IRangeInfo, currentCell As FormulaCellAddress) As IRangeInfo
+  overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange*
+  implements:
+  - OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  id: GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  langs:
+  - csharp
+  - vb
+  name: GetValue(FormulaCellAddress)
+  nameWithType: NameInfo.GetValue(FormulaCellAddress)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+    startLine: 100
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGet the value relative to the current cell.\n"
+  example: []
+  syntax:
+    content: public object GetValue(FormulaCellAddress currentCell)
+    parameters:
+    - id: currentCell
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+      description: ''
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Function GetValue(currentCell As FormulaCellAddress) As Object
+  overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue*
+  implements:
+  - OfficeOpenXml.FormulaParsing.INameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative
+  id: IsRelative
+  parent: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  langs:
+  - csharp
+  - vb
+  name: IsRelative
+  nameWithType: NameInfo.IsRelative
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsRelative
+    path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public bool IsRelative { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsRelative As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative*
+  implements:
+  - OfficeOpenXml.FormulaParsing.INameInfo.IsRelative
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Tokens
   commentId: P:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Tokens
   id: Tokens
@@ -228,7 +434,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokens
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 44
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -241,8 +447,6 @@ items:
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
     content.vb: Public ReadOnly Property Tokens As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Tokens*
-  implements:
-  - OfficeOpenXml.FormulaParsing.INameInfo.Tokens
   modifiers.csharp:
   - public
   - get
@@ -267,7 +471,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 48
+    startLine: 121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -597,6 +801,22 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.#ctor
+  name: NameInfo
+  nameWithType: NameInfo.NameInfo
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.NameInfo
+- uid: OfficeOpenXml.ExcelNamedRange
+  commentId: T:OfficeOpenXml.ExcelNamedRange
+  parent: OfficeOpenXml
+  name: ExcelNamedRange
+  nameWithType: ExcelNamedRange
+  fullName: OfficeOpenXml.ExcelNamedRange
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Id*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Id
   name: Id
@@ -662,17 +882,202 @@ references:
   name: Formula
   nameWithType: INameInfo.Formula
   fullName: OfficeOpenXml.FormulaParsing.INameInfo.Formula
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula
+  name: GetRelativeFormula
+  nameWithType: NameInfo.GetRelativeFormula
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeFormula
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  isExternal: true
+  name: GetRelativeFormula(Int32, Int32)
+  nameWithType: INameInfo.GetRelativeFormula(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula(System.Int32,System.Int32)
+    name: GetRelativeFormula
+    nameWithType: INameInfo.GetRelativeFormula
+    fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula(System.Int32,System.Int32)
+    name: GetRelativeFormula
+    nameWithType: INameInfo.GetRelativeFormula
+    fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange
+  name: GetRelativeRange
+  nameWithType: NameInfo.GetRelativeRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetRelativeRange
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  name: GetRelativeRange(IRangeInfo, FormulaCellAddress)
+  nameWithType: INameInfo.GetRelativeRange(IRangeInfo, FormulaCellAddress)
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo, OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+    name: GetRelativeRange
+    nameWithType: INameInfo.GetRelativeRange
+    fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+    name: IRangeInfo
+    nameWithType: IRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+    name: FormulaCellAddress
+    nameWithType: FormulaCellAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+    name: GetRelativeRange
+    nameWithType: INameInfo.GetRelativeRange
+    fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+    name: IRangeInfo
+    nameWithType: IRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+    name: FormulaCellAddress
+    nameWithType: FormulaCellAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IRangeInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IRangeInfo
+  nameWithType: IRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaCellAddress
+  nameWithType: FormulaCellAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue
+  name: GetValue
+  nameWithType: NameInfo.GetValue
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.GetValue
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.INameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  name: GetValue(FormulaCellAddress)
+  nameWithType: INameInfo.GetValue(FormulaCellAddress)
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+    name: GetValue
+    nameWithType: INameInfo.GetValue
+    fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+    name: FormulaCellAddress
+    nameWithType: FormulaCellAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
+    name: GetValue
+    nameWithType: INameInfo.GetValue
+    fullName: OfficeOpenXml.FormulaParsing.INameInfo.GetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+    name: FormulaCellAddress
+    nameWithType: FormulaCellAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative
+  name: IsRelative
+  nameWithType: NameInfo.IsRelative
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.IsRelative
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.IsRelative
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.IsRelative
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  name: IsRelative
+  nameWithType: INameInfo.IsRelative
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.IsRelative
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Tokens*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Tokens
   name: Tokens
   nameWithType: NameInfo.Tokens
   fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.Tokens
-- uid: OfficeOpenXml.FormulaParsing.INameInfo.Tokens
-  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Tokens
-  parent: OfficeOpenXml.FormulaParsing.INameInfo
-  name: Tokens
-  nameWithType: INameInfo.Tokens
-  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Tokens
 - uid: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
   commentId: T:System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
   parent: System.Collections.Generic

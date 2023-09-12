@@ -5,7 +5,8 @@ items:
   id: ObjectEnumerableArgConverter
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   langs:
   - csharp
   - vb
@@ -20,7 +21,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObjectEnumerableArgConverter
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ObjectEnumerableArgConverter.cs
-    startLine: 21
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -47,16 +48,16 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
-  id: ConvertArgs(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: ConvertArgs(System.Boolean,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
   langs:
   - csharp
   - vb
-  name: ConvertArgs(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
-  nameWithType: ObjectEnumerableArgConverter.ConvertArgs(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  name: ConvertArgs(Boolean, Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ObjectEnumerableArgConverter.ConvertArgs(Boolean, Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean, System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
   type: Method
   source:
     remote:
@@ -65,14 +66,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConvertArgs
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ObjectEnumerableArgConverter.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   syntax:
-    content: public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+    content: public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
     parameters:
     - id: ignoreHidden
+      type: System.Boolean
+    - id: ignoreErrors
+      type: System.Boolean
+    - id: ignoreNestedSubtotalAggregate
       type: System.Boolean
     - id: arguments
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
@@ -80,17 +85,63 @@ items:
       type: OfficeOpenXml.FormulaParsing.ParsingContext
     return:
       type: System.Collections.Generic.IEnumerable{System.Object}
-    content.vb: Public Overridable Function ConvertArgs(ignoreHidden As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext) As IEnumerable(Of Object)
+    content.vb: Public Overridable Function ConvertArgs(ignoreHidden As Boolean, ignoreErrors As Boolean, ignoreNestedSubtotalAggregate As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext) As IEnumerable(Of Object)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs*
-  nameWithType.vb: ObjectEnumerableArgConverter.ConvertArgs(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  nameWithType.vb: ObjectEnumerableArgConverter.ConvertArgs(Boolean, Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
-  name.vb: ConvertArgs(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean, System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ConvertArgs(Boolean, Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: ConvertArgs(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
+  langs:
+  - csharp
+  - vb
+  name: ConvertArgs(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ObjectEnumerableArgConverter.ConvertArgs(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ObjectEnumerableArgConverter.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConvertArgs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ObjectEnumerableArgConverter.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+    parameters:
+    - id: ignoreHidden
+      type: System.Boolean
+    - id: ignoreErrors
+      type: System.Boolean
+    - id: arguments
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+    - id: context
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+    return:
+      type: System.Collections.Generic.IEnumerable{System.Object}
+    content.vb: Public Overridable Function ConvertArgs(ignoreHidden As Boolean, ignoreErrors As Boolean, arguments As IEnumerable(Of FunctionArgument), context As ParsingContext) As IEnumerable(Of Object)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs*
+  nameWithType.vb: ObjectEnumerableArgConverter.ConvertArgs(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter.ConvertArgs(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ConvertArgs(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
 references:
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions

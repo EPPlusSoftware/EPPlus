@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.Attributes
   children:
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Header
+  - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormat
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Order
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFormula
@@ -205,6 +206,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
+  commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: EpplusTableColumnAttributeBase.Hidden
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Attributes
+  summary: "\nIf true, the entire column will be hidden.\n"
+  example: []
+  syntax:
+    content: public bool Hidden { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Hidden As Boolean
+  overload: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   id: TotalsRowFunction
@@ -223,7 +261,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 56
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -260,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 65
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -297,7 +335,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowNumberFormat
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 74
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -334,7 +372,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 83
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -2777,6 +2815,18 @@ references:
   name: NumberFormat
   nameWithType: EpplusTableColumnAttributeBase.NumberFormat
   fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormat
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden*
+  commentId: Overload:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
+  name: Hidden
+  nameWithType: EpplusTableColumnAttributeBase.Hidden
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
 - uid: OfficeOpenXml.Table.RowFunctions.None
   commentId: F:OfficeOpenXml.Table.RowFunctions.None
   isExternal: true

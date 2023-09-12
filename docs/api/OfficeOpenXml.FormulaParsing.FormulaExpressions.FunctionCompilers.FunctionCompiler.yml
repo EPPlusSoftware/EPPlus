@@ -5,11 +5,10 @@ items:
   id: FunctionCompiler
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   children:
-  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
-  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression})
-  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Function
   langs:
   - csharp
@@ -85,51 +84,16 @@ items:
   modifiers.vb:
   - Protected
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context
-  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context
-  id: Context
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)'
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
   langs:
   - csharp
   - vb
-  name: Context
-  nameWithType: FunctionCompiler.Context
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Context
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 30
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
-  syntax:
-    content: protected ParsingContext Context { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.FormulaParsing.ParsingContext
-    content.vb: Protected ReadOnly Property Context As ParsingContext
-  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context*
-  modifiers.csharp:
-  - protected
-  - get
-  modifiers.vb:
-  - Protected
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)
-  id: '#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)'
-  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
-  langs:
-  - csharp
-  - vb
-  name: FunctionCompiler(ExcelFunction, ParsingContext)
-  nameWithType: FunctionCompiler.FunctionCompiler(ExcelFunction, ParsingContext)
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.FunctionCompiler(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction, OfficeOpenXml.FormulaParsing.ParsingContext)
+  name: FunctionCompiler(ExcelFunction)
+  nameWithType: FunctionCompiler.FunctionCompiler(ExcelFunction)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.FunctionCompiler(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
   type: Constructor
   source:
     remote:
@@ -138,18 +102,16 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 36
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   syntax:
-    content: public FunctionCompiler(ExcelFunction function, ParsingContext context)
+    content: public FunctionCompiler(ExcelFunction function)
     parameters:
     - id: function
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-    - id: context
-      type: OfficeOpenXml.FormulaParsing.ParsingContext
-    content.vb: Public Sub New(function As ExcelFunction, context As ParsingContext)
+    content.vb: Public Sub New(function As ExcelFunction)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor*
   modifiers.csharp:
   - public
@@ -173,7 +135,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildFunctionArguments
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 44
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
@@ -213,7 +175,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildFunctionArguments
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 70
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
@@ -233,16 +195,16 @@ items:
   - Protected
   fullName.vb: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult, System.Collections.Generic.List(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument))
   name.vb: BuildFunctionArguments(CompileResult, List(Of FunctionArgument))
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression})
-  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression})
-  id: Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression})
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},OfficeOpenXml.FormulaParsing.ParsingContext)
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
   langs:
   - csharp
   - vb
-  name: Compile(IEnumerable<Expression>)
-  nameWithType: FunctionCompiler.Compile(IEnumerable<Expression>)
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression>)
+  name: Compile(IEnumerable<CompileResult>, ParsingContext)
+  nameWithType: FunctionCompiler.Compile(IEnumerable<CompileResult>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult>, OfficeOpenXml.FormulaParsing.ParsingContext)
   type: Method
   source:
     remote:
@@ -251,28 +213,30 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compile
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 75
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   syntax:
-    content: public abstract CompileResult Compile(IEnumerable<Expression> children)
+    content: public abstract CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
     parameters:
     - id: children
-      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression}
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult}
+    - id: context
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
     return:
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-    content.vb: Public MustOverride Function Compile(children As IEnumerable(Of Expression)) As CompileResult
+    content.vb: Public MustOverride Function Compile(children As IEnumerable(Of CompileResult), context As ParsingContext) As CompileResult
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile*
-  nameWithType.vb: FunctionCompiler.Compile(IEnumerable(Of Expression))
+  nameWithType.vb: FunctionCompiler.Compile(IEnumerable(Of CompileResult), ParsingContext)
   modifiers.csharp:
   - public
   - abstract
   modifiers.vb:
   - Public
   - MustOverride
-  fullName.vb: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression))
-  name.vb: Compile(IEnumerable(Of Expression))
+  fullName.vb: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: Compile(IEnumerable(Of CompileResult), ParsingContext)
 references:
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
@@ -587,22 +551,6 @@ references:
   name: OfficeOpenXml.FormulaParsing.Excel.Functions
   nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context
-  name: Context
-  nameWithType: FunctionCompiler.Context
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Context
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext
-  commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
-  parent: OfficeOpenXml.FormulaParsing
-  name: ParsingContext
-  nameWithType: ParsingContext
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext
-- uid: OfficeOpenXml.FormulaParsing
-  commentId: N:OfficeOpenXml.FormulaParsing
-  name: OfficeOpenXml.FormulaParsing
-  nameWithType: OfficeOpenXml.FormulaParsing
-  fullName: OfficeOpenXml.FormulaParsing
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor*
   commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor
   name: FunctionCompiler
@@ -722,16 +670,16 @@ references:
   name: Compile
   nameWithType: FunctionCompiler.Compile
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile
-- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression}
-  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression}
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<Expression>
-  nameWithType: IEnumerable<Expression>
-  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression>
-  nameWithType.vb: IEnumerable(Of Expression)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression)
-  name.vb: IEnumerable(Of Expression)
+  name: IEnumerable<CompileResult>
+  nameWithType: IEnumerable<CompileResult>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult>
+  nameWithType.vb: IEnumerable(Of CompileResult)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult)
+  name.vb: IEnumerable(Of CompileResult)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
@@ -741,10 +689,10 @@ references:
   - name: <
     nameWithType: <
     fullName: <
-  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
-    name: Expression
-    nameWithType: Expression
-    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
   - name: '>'
     nameWithType: '>'
     fullName: '>'
@@ -757,13 +705,19 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
-    name: Expression
-    nameWithType: Expression
-    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext
+  commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
+  parent: OfficeOpenXml.FormulaParsing
+  name: ParsingContext
+  nameWithType: ParsingContext
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext
 - uid: System.Collections.Generic.IEnumerable`1
   commentId: T:System.Collections.Generic.IEnumerable`1
   isExternal: true
@@ -803,3 +757,8 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing

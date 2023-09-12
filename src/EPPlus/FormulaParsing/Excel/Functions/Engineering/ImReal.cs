@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+       Category = ExcelFunctionCategory.Engineering,
+       EPPlusVersion = "7.0",
+       Description = "Returns the real coefficient of a complex number in x + yi or x + yj text format.")]
     internal class ImReal : ImFunctionBase
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

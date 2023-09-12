@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.#ctor(System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Column
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Row
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.WorksheetIx
@@ -24,7 +25,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaCellAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 421
+    startLine: 444
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -62,7 +63,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 423
+    startLine: 446
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -99,7 +100,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetIx
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 434
+    startLine: 457
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -132,7 +133,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 435
+    startLine: 458
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -163,7 +164,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 435
+    startLine: 458
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -194,7 +195,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 436
+    startLine: 459
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -205,6 +206,44 @@ items:
       type: System.String
     content.vb: Public ReadOnly Property Address As String
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address*
+  modifiers.csharp:
+  - public
+  - readonly
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId
+  id: CellId
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  langs:
+  - csharp
+  - vb
+  name: CellId
+  nameWithType: FormulaCellAddress.CellId
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellId
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 475
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nThe cell id for the address. \nThe cell Id is an ulong with the worksheet shifted as <pre><code>((ushort)sheetId) | (((ulong)col) &lt;&lt; 16) | (((ulong)row) &lt;&lt; 30)</code></pre>\n"
+  example: []
+  syntax:
+    content: public readonly ulong CellId { get; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public ReadOnly Property CellId As ULong
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId*
   modifiers.csharp:
   - public
   - readonly
@@ -510,3 +549,15 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId
+  name: CellId
+  nameWithType: FormulaCellAddress.CellId
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.CellId
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  name: UInt64
+  nameWithType: UInt64
+  fullName: System.UInt64

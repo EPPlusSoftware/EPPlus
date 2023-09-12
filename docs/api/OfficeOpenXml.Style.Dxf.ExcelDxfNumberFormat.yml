@@ -74,7 +74,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
-  summary: "\nId for number format\n\nBuild in ID&apos;s\n\n0   General \n1   0 \n2   0.00 \n3   #,##0 \n4   #,##0.00 \n9   0% \n10  0.00% \n11  0.00E+00 \n12  # ?/? \n13  # ??/?? \n14  mm-dd-yy \n15  d-mmm-yy \n16  d-mmm \n17  mmm-yy \n18  h:mm AM/PM \n19  h:mm:ss AM/PM \n20  h:mm \n21  h:mm:ss \n22  m/d/yy h:mm \n37  #,##0 ;(#,##0) \n38  #,##0 ;[Red](#,##0) \n39  #,##0.00;(#,##0.00) \n40  #,##0.00;[Red](#,##0.00) \n45  mm:ss \n46  [h]:mm:ss \n47  mmss.0 \n48  ##0.0E+0 \n49  @\n"
+  summary: "\nId for number format\n<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>\n"
   example: []
   syntax:
     content: public int NumFmtID { get; }

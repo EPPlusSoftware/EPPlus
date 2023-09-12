@@ -28,7 +28,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingsGroup
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 24
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -77,7 +77,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 57
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -113,7 +113,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 187
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -147,7 +147,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 195
+    startLine: 214
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -184,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 201
+    startLine: 220
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -228,7 +228,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 213
+    startLine: 232
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -272,7 +272,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 231
+    startLine: 250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -310,7 +310,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 236
+    startLine: 255
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -342,7 +342,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 245
+    startLine: 264
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -378,7 +378,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 264
+    startLine: 284
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

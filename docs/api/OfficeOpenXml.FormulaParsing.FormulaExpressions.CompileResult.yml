@@ -8,10 +8,10 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
-  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
@@ -23,6 +23,7 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
   langs:
@@ -184,6 +185,84 @@ items:
   - Public
   - Shared
   - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+  id: "False"
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: "False"
+  nameWithType: CompileResult.False
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: "False"
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nReturns a CompileResult instance with a boolean value of false.\n"
+  example: []
+  syntax:
+    content: public static CompileResult False { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    content.vb: Public Shared ReadOnly Property False As CompileResult
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+  id: "True"
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: "True"
+  nameWithType: CompileResult.True
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: "True"
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nReturns a CompileResult instance with a boolean value of true.\n"
+  example: []
+  syntax:
+    content: public static CompileResult True { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    content.vb: Public Shared ReadOnly Property True As CompileResult
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)'
@@ -202,55 +281,22 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 103
+    startLine: 115
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nConstructor\n"
+  example: []
   syntax:
     content: public CompileResult(object result, DataType dataType)
     parameters:
     - id: result
       type: System.Object
+      description: The result.
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: The data type of the result.
     content.vb: Public Sub New(result As Object, dataType As DataType)
-  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)
-  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)
-  id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)'
-  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-  langs:
-  - csharp
-  - vb
-  name: CompileResult(Object, DataType, Int32)
-  nameWithType: CompileResult.CompileResult(Object, DataType, Int32)
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.CompileResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType, System.Int32)
-  type: Constructor
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 108
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  syntax:
-    content: public CompileResult(object result, DataType dataType, int excelAddressReferenceId)
-    parameters:
-    - id: result
-      type: System.Object
-    - id: dataType
-      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
-    - id: excelAddressReferenceId
-      type: System.Int32
-    content.vb: Public Sub New(result As Object, dataType As DataType, excelAddressReferenceId As Integer)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
   modifiers.csharp:
   - public
@@ -274,7 +320,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 179
+    startLine: 186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -307,7 +353,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 185
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -340,7 +386,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Result
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 192
+    startLine: 199
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -375,7 +421,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultValue
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 198
+    startLine: 205
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -410,7 +456,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultNumeric
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 221
+    startLine: 228
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -445,7 +491,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 267
+    startLine: 274
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -480,7 +526,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumeric
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 273
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -515,7 +561,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumericString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 281
+    startLine: 288
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -550,7 +596,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsPercentageString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 294
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -585,7 +631,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsDateString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 308
+    startLine: 315
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -620,7 +666,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResultOfSubtotal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 321
+    startLine: 328
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -655,7 +701,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHiddenCell
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 323
+    startLine: 330
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -690,7 +736,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResultOfResolvedExcelRange
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 327
+    startLine: 334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -725,7 +771,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 331
+    startLine: 338
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -762,7 +808,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 338
+    startLine: 345
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -1107,6 +1153,16 @@ references:
   name: ZeroInt
   nameWithType: CompileResult.ZeroInt
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+  name: "False"
+  nameWithType: CompileResult.False
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+  name: "True"
+  nameWithType: CompileResult.True
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
   commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor
   name: CompileResult
@@ -1118,13 +1174,6 @@ references:
   name: DataType
   nameWithType: DataType
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
 - uid: OfficeOpenXml.eErrorType
   commentId: T:OfficeOpenXml.eErrorType
   parent: OfficeOpenXml

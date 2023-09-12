@@ -20,7 +20,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingWithShowValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithShowValue.cs
-    startLine: 24
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -53,7 +53,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithShowValue.cs
-    startLine: 30
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts

@@ -1,34 +1,34 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   id: HolidayWeekdays
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor(System.DayOfWeek[])
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor(System.DayOfWeek[])
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
   langs:
   - csharp
   - vb
   name: HolidayWeekdays
   nameWithType: HolidayWeekdays
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HolidayWeekdays
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
     startLine: 21
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public class HolidayWeekdays
     content.vb: Public Class HolidayWeekdays
@@ -48,129 +48,129 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor
   id: '#ctor'
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   langs:
   - csharp
   - vb
   name: HolidayWeekdays()
   nameWithType: HolidayWeekdays.HolidayWeekdays()
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.HolidayWeekdays()
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.HolidayWeekdays()
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
     startLine: 25
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public HolidayWeekdays()
     content.vb: Public Sub New
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
   id: NumberOfWorkdaysPerWeek
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   langs:
   - csharp
   - vb
   name: NumberOfWorkdaysPerWeek
   nameWithType: HolidayWeekdays.NumberOfWorkdaysPerWeek
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
   type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfWorkdaysPerWeek
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
     startLine: 31
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public int NumberOfWorkdaysPerWeek { get; }
     parameters: []
     return:
       type: System.Int32
     content.vb: Public ReadOnly Property NumberOfWorkdaysPerWeek As Integer
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek*
   modifiers.csharp:
   - public
   - get
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor(System.DayOfWeek[])
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor(System.DayOfWeek[])
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor(System.DayOfWeek[])
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor(System.DayOfWeek[])
   id: '#ctor(System.DayOfWeek[])'
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   langs:
   - csharp
   - vb
   name: HolidayWeekdays(DayOfWeek[])
   nameWithType: HolidayWeekdays.HolidayWeekdays(DayOfWeek[])
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.HolidayWeekdays(System.DayOfWeek[])
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.HolidayWeekdays(System.DayOfWeek[])
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
     startLine: 33
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public HolidayWeekdays(params DayOfWeek[] holidayDays)
     parameters:
     - id: holidayDays
       type: System.DayOfWeek[]
     content.vb: Public Sub New(ParamArray holidayDays As DayOfWeek())
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor*
   nameWithType.vb: HolidayWeekdays.HolidayWeekdays(DayOfWeek())
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.HolidayWeekdays(System.DayOfWeek())
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.HolidayWeekdays(System.DayOfWeek())
   name.vb: HolidayWeekdays(DayOfWeek())
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
   id: IsHolidayWeekday(System.DateTime)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   langs:
   - csharp
   - vb
   name: IsHolidayWeekday(DateTime)
   nameWithType: HolidayWeekdays.IsHolidayWeekday(DateTime)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday(System.DateTime)
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHolidayWeekday
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
     startLine: 41
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public bool IsHolidayWeekday(DateTime dateTime)
     parameters:
@@ -179,33 +179,33 @@ items:
     return:
       type: System.Boolean
     content.vb: Public Function IsHolidayWeekday(dateTime As Date) As Boolean
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   id: AdjustResultWithHolidays(System.DateTime,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   langs:
   - csharp
   - vb
   name: AdjustResultWithHolidays(DateTime, IEnumerable<FunctionArgument>)
   nameWithType: HolidayWeekdays.AdjustResultWithHolidays(DateTime, IEnumerable<FunctionArgument>)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>)
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdjustResultWithHolidays
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
     startLine: 46
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public DateTime AdjustResultWithHolidays(DateTime resultDate, IEnumerable<FunctionArgument> arguments)
     parameters:
@@ -216,57 +216,57 @@ items:
     return:
       type: System.DateTime
     content.vb: Public Function AdjustResultWithHolidays(resultDate As Date, arguments As IEnumerable(Of FunctionArgument)) As Date
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays*
   nameWithType.vb: HolidayWeekdays.AdjustResultWithHolidays(DateTime, IEnumerable(Of FunctionArgument))
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument))
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays(System.DateTime, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument))
   name.vb: AdjustResultWithHolidays(DateTime, IEnumerable(Of FunctionArgument))
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection)
-  id: GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection)
+  id: GetNextWorkday(System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
   langs:
   - csharp
   - vb
   name: GetNextWorkday(DateTime, WorkdayCalculationDirection)
   nameWithType: HolidayWeekdays.GetNextWorkday(DateTime, WorkdayCalculationDirection)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime, OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday(System.DateTime, OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection)
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNextWorkday
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdays.cs
     startLine: 88
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public DateTime GetNextWorkday(DateTime date, WorkdayCalculationDirection direction = WorkdayCalculationDirection.Forward)
     parameters:
     - id: date
       type: System.DateTime
     - id: direction
-      type: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection
     return:
       type: System.DateTime
     content.vb: Public Function GetNextWorkday(date As Date, direction As WorkdayCalculationDirection = WorkdayCalculationDirection.Forward) As Date
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
 references:
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -559,16 +559,16 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.#ctor
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.#ctor
   name: HolidayWeekdays
   nameWithType: HolidayWeekdays.HolidayWeekdays
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.HolidayWeekdays
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.HolidayWeekdays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
   name: NumberOfWorkdaysPerWeek
   nameWithType: HolidayWeekdays.NumberOfWorkdaysPerWeek
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.NumberOfWorkdaysPerWeek
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
@@ -602,11 +602,11 @@ references:
   - name: ()
     nameWithType: ()
     fullName: ()
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday
   name: IsHolidayWeekday
   nameWithType: HolidayWeekdays.IsHolidayWeekday
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.IsHolidayWeekday
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.IsHolidayWeekday
 - uid: System.DateTime
   commentId: T:System.DateTime
   parent: System
@@ -621,11 +621,11 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays
   name: AdjustResultWithHolidays
   nameWithType: HolidayWeekdays.AdjustResultWithHolidays
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.AdjustResultWithHolidays
 - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
   commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
   parent: System.Collections.Generic
@@ -713,14 +713,14 @@ references:
   name: System.Collections.Generic
   nameWithType: System.Collections.Generic
   fullName: System.Collections.Generic
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday
   name: GetNextWorkday
   nameWithType: HolidayWeekdays.GetNextWorkday
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays.GetNextWorkday
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays.GetNextWorkday
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   name: WorkdayCalculationDirection
   nameWithType: WorkdayCalculationDirection
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection

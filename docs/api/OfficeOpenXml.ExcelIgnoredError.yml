@@ -6,7 +6,7 @@ items:
   parent: OfficeOpenXml
   children:
   - OfficeOpenXml.ExcelIgnoredError.Address
-  - OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+  - OfficeOpenXml.ExcelIgnoredError.CalculatedColumn
   - OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
   - OfficeOpenXml.ExcelIgnoredError.EvaluationError
   - OfficeOpenXml.ExcelIgnoredError.Formula
@@ -94,23 +94,23 @@ items:
   - set
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
-  commentId: P:OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
-  id: CalculatedColumm
+- uid: OfficeOpenXml.ExcelIgnoredError.CalculatedColumn
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.CalculatedColumn
+  id: CalculatedColumn
   parent: OfficeOpenXml.ExcelIgnoredError
   langs:
   - csharp
   - vb
-  name: CalculatedColumm
-  nameWithType: ExcelIgnoredError.CalculatedColumm
-  fullName: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+  name: CalculatedColumn
+  nameWithType: ExcelIgnoredError.CalculatedColumn
+  fullName: OfficeOpenXml.ExcelIgnoredError.CalculatedColumn
   type: Property
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: CalculatedColumm
+    id: CalculatedColumn
     path: ../src/EPPlus/ExcelIgnoredError.cs
     startLine: 45
   assemblies:
@@ -119,12 +119,12 @@ items:
   summary: "\nCalculated Column\n"
   example: []
   syntax:
-    content: public bool CalculatedColumm { get; set; }
+    content: public bool CalculatedColumn { get; set; }
     parameters: []
     return:
       type: System.Boolean
-    content.vb: Public Property CalculatedColumm As Boolean
-  overload: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm*
+    content.vb: Public Property CalculatedColumn As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.CalculatedColumn*
   modifiers.csharp:
   - public
   - get
@@ -743,11 +743,11 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm*
-  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
-  name: CalculatedColumm
-  nameWithType: ExcelIgnoredError.CalculatedColumm
-  fullName: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+- uid: OfficeOpenXml.ExcelIgnoredError.CalculatedColumn*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.CalculatedColumn
+  name: CalculatedColumn
+  nameWithType: ExcelIgnoredError.CalculatedColumn
+  fullName: OfficeOpenXml.ExcelIgnoredError.CalculatedColumn
 - uid: OfficeOpenXml.ExcelIgnoredError.EmptyCellReference*
   commentId: Overload:OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
   name: EmptyCellReference

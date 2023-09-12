@@ -1,30 +1,30 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory
   id: HolidayWeekdaysFactory
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
   langs:
   - csharp
   - vb
   name: HolidayWeekdaysFactory
   nameWithType: HolidayWeekdaysFactory
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdaysFactory.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdaysFactory.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HolidayWeekdaysFactory
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdaysFactory.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdaysFactory.cs
     startLine: 19
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public class HolidayWeekdaysFactory
     content.vb: Public Class HolidayWeekdaysFactory
@@ -44,82 +44,82 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
   id: Create(System.String)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory
   langs:
   - csharp
   - vb
   name: Create(String)
   nameWithType: HolidayWeekdaysFactory.Create(String)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.String)
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdaysFactory.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdaysFactory.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdaysFactory.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdaysFactory.cs
     startLine: 32
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public HolidayWeekdays Create(string weekdays)
     parameters:
     - id: weekdays
       type: System.String
     return:
-      type: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
     content.vb: Public Function Create(weekdays As String) As HolidayWeekdays
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
   id: Create(System.Int32)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory
   langs:
   - csharp
   - vb
   name: Create(Int32)
   nameWithType: HolidayWeekdaysFactory.Create(Int32)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create(System.Int32)
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdaysFactory.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdaysFactory.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdaysFactory.cs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateAndTime/Workdays/HolidayWeekdaysFactory.cs
     startLine: 50
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   syntax:
     content: public HolidayWeekdays Create(int code)
     parameters:
     - id: code
       type: System.Int32
     return:
-      type: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
     content.vb: Public Function Create(code As Integer) As HolidayWeekdays
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create*
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
 references:
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -412,11 +412,11 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create
   name: Create
   nameWithType: HolidayWeekdaysFactory.Create
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory.Create
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory.Create
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -424,12 +424,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
   name: HolidayWeekdays
   nameWithType: HolidayWeekdays
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System

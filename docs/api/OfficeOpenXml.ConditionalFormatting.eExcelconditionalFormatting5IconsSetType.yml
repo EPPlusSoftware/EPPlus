@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.Arrows
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.ArrowsGray
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.Boxes
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.Quarters
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.Rating
   langs:
@@ -23,7 +24,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExcelconditionalFormatting5IconsSetType
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 627
+    startLine: 644
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -56,7 +57,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Arrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 632
+    startLine: 649
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -90,7 +91,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 637
+    startLine: 654
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -124,7 +125,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Quarters
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 642
+    startLine: 659
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -158,7 +159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rating
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 647
+    startLine: 664
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -166,6 +167,40 @@ items:
   example: []
   syntax:
     content: Rating = 3
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.Boxes
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.Boxes
+  id: Boxes
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+  langs:
+  - csharp
+  - vb
+  name: Boxes
+  nameWithType: eExcelconditionalFormatting5IconsSetType.Boxes
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType.Boxes
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Boxes
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 671
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n5 rating icon set.\n"
+  example: []
+  syntax:
+    content: Boxes = 4
     return:
       type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
   modifiers.csharp:

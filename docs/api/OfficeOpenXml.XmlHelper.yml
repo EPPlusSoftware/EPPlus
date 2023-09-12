@@ -31,10 +31,6 @@ items:
   inheritance:
   - System.Object
   derivedClasses:
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
