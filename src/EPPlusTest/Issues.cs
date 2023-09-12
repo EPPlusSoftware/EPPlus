@@ -5230,8 +5230,6 @@ namespace EPPlusTest
                 filter1.Filters.Add("Async");
                 filter1.Filters.Add("Sync");
 
-                var item = ws.AutoFilter.Columns;
-
                 for (int i = 1; i < 10; i++)
                 {
                     ws.Cells[i, 1].Value = "Await";
