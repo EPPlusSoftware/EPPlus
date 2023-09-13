@@ -5263,5 +5263,53 @@ namespace EPPlusTest
                 Assert.AreEqual(1d, ws.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void i519()
+        {
+            using (var package = OpenPackage("AutoFilterErasing.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("WorkSheet1");
+
+                ws.Cells["B1:D35"].AutoFilter = true;
+
+
+                var filter1 = ws.AutoFilter.Columns.AddValueFilterColumn(2);
+                filter1.Filters.Add("Await");
+                filter1.Filters.Add("Async");
+                filter1.Filters.Add("Sync");
+
+                var item = ws.AutoFilter.Columns;
+
+                for (int i = 1; i < 10; i++)
+                {
+                    ws.Cells[i, 1].Value = "Await";
+                    ws.Cells[i + 10, 1].Value = "Async";
+                    ws.Cells[i + 20, 1].Value = "Sync";
+                    ws.Cells[i + 30, 1].Value = "Non-filtered value";
+                }
+
+                Assert.AreEqual(false, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(false, ws.Rows[10].Hidden);
+
+                ws.AutoFilter.ApplyFilter();
+
+                ws.AutoFilter.ClearAll();
+
+                //ws.Cells["B1:D35"].AutoFilter = false;
+
+                //ws.AutoFilter.Columns.Remove(filter1);
+
+                //Assert.AreEqual(true, ws.Cells["B10"].EntireRow.Hidden);
+                //Assert.AreEqual(true, ws.Rows[10].Hidden);
+
+                Assert.AreEqual(false, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(false, ws.Rows[10].Hidden);
+
+                //note that rows stay hidden even after the filter is removed
+
+                package.Save();
+            }
+        }
     }
 }

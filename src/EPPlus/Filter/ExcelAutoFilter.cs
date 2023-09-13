@@ -112,5 +112,17 @@ namespace OfficeOpenXml.Filter
                 return _columns;
             }
         }
+
+        /// <summary>
+        /// Clear all columns Unhide all affected cells, nullify address and table.
+        /// </summary>
+        public void ClearAll()
+        {
+            _worksheet.Cells[_address.Address].EntireRow.Hidden = false;
+            //_columns.Clear();
+            //_table = null;
+            //_address = null;
+            _worksheet.AutoFilterAddress = null;
+        }
     }
 }

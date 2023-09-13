@@ -489,6 +489,7 @@ namespace OfficeOpenXml
                 if (value == null)
                 {
                     DeleteAllNode($"{AutoFilterPath}/@ref");
+                    _autoFilter = null;
                 }
                 else
                 {
