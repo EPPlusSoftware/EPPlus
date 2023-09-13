@@ -5296,6 +5296,10 @@ namespace EPPlusTest
 
                 ws.AutoFilter.ClearAll();
 
+                ws.Cells["E1:F35"].AutoFilter = true;
+
+                var address = ws.AutoFilter.Address;
+
                 //ws.Cells["B1:D35"].AutoFilter = false;
 
                 //ws.AutoFilter.Columns.Remove(filter1);
