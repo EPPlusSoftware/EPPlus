@@ -474,30 +474,10 @@ namespace OfficeOpenXml
             get
             {
                 return AutoFilter.Address;
-                //CheckSheetTypeAndNotDisposed();
-                //string address = GetXmlNodeString($"{AutoFilterPath}/@ref");
-                //if (address == "")
-                //{
-                //    return null;
-                //}
-                //else
-                //{
-                //    return new ExcelAddressBase(address);
-                //}
             }
             internal set
             {
                 AutoFilter.Address = value;
-                //CheckSheetTypeAndNotDisposed();
-                //if (value == null)
-                //{
-                //    DeleteAllNode($"{AutoFilterPath}/@ref");
-                //    _autoFilter = null;
-                //}
-                //else
-                //{
-                //    SetXmlNodeString($"{AutoFilterPath}/@ref", value.Address);
-                //}
             }
         }
         ExcelAutoFilter _autoFilter = null;
