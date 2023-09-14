@@ -46,40 +46,29 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 SortOrderProperties = classSortOrderAttr.Properties.ToList();
             }
+            LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
             {
-                var cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 SetHiddenColumns();
             }
             else
             {
-                _columns = parameters.Members.Select(x => new ColumnInfo { MemberInfo = x }).ToArray();
-                if (_columns.Length == 0)   //Fixes issue 15555
+                if (parameters.Members.Length == 0)   //Fixes issue 15555
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
-                var colIx = 0;
-                foreach (var columnInfo in _columns)
+                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties, parameters.Members);
+                var columns = cols.Setup();
+                _columns = columns.ToArray();
+                // the ValidateType method will throw an InvalidCastException
+                // if parameters.Members contains a MemberInfo that is not declared
+                // by any of the types used.
+                foreach(var member in parameters.Members )
                 {
-                    if (columnInfo.MemberInfo == null) continue;
-                    if(columnInfo.Hidden)
-                    {
-                        Range.Worksheet.Column(Range._fromCol + colIx).Hidden = true;
-                    }
-                    colIx++;
-                    var member = columnInfo.MemberInfo;
-                    if (member.DeclaringType != null && member.DeclaringType != type)
-                    {
-                        _isSameType = false;
-                    }
-
-                    //Fixing inverted check for IsSubclassOf / Pullrequest from tom dam
-                    if (member.DeclaringType != null && member.DeclaringType != type && !TypeCompat.IsSubclassOf(type, member.DeclaringType) && !TypeCompat.IsSubclassOf(member.DeclaringType, type))
-                    {
-                        throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
-                    }
+                    cols.ValidateType(member);
                 }
             }
         }
@@ -145,7 +134,7 @@ namespace OfficeOpenXml.LoadFunctions
             int col = 0, row = 0;
             columnFormats = new Dictionary<int, string>();
             formulaCells = new Dictionary<int, FormulaCell>();
-            if (_columns.Length > 0 && PrintHeaders)
+            if (_columns.Length > 0 && (PrintHeaders ?? false))
             {
                 SetHeaders(values, columnFormats, ref col, ref row);
             }

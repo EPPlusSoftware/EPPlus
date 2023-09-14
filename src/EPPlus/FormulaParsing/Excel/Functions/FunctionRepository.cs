@@ -57,9 +57,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="module">A <see cref="IFunctionModule"/> that can be used for adding functions and custom function compilers.</param>
         public virtual void LoadModule(IFunctionModule module)
         {
+            LoadModule(module, false);
+        }
+
+        /// <summary>
+        /// Loads a module of <see cref="ExcelFunction"/>s to the function repository.
+        /// </summary>
+        /// <param name="module">A <see cref="IFunctionModule"/> that can be used for adding functions and custom function compilers.</param>
+        /// <param name="replaceExistingFunction">If true, any existing function will be replaced by the function from the supplied module</param>
+        public virtual void LoadModule(IFunctionModule module, bool replaceExistingFunction)
+        {
             foreach (var key in module.Functions.Keys)
             {
                 var lowerKey = key.ToLower(CultureInfo.InvariantCulture);
+                if(replaceExistingFunction && _functions.ContainsKey(lowerKey))
+                {
+                    _functions.Remove(lowerKey);
+                }
                 _functions[lowerKey] = module.Functions[key];
             }
             foreach (var key in module.CustomCompilers.Keys)
@@ -68,6 +82,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
 
+        /// <summary>
+        /// Returns a function by its name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public virtual ExcelFunction GetFunction(string name)
         {
             if(!_functions.ContainsKey(name.ToLower(CultureInfo.InvariantCulture)))

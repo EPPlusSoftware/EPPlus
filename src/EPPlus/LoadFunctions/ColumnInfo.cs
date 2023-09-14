@@ -55,6 +55,8 @@ namespace OfficeOpenXml.LoadFunctions
 
         internal string Path { get; set; }
 
+        internal bool IsNestedClass { get; set; }
+
         public override string ToString()
         {
             if(!string.IsNullOrEmpty(Header))

@@ -318,18 +318,18 @@ namespace OfficeOpenXml
         /// <param name="memberFlags">Property flags to use</param>
         /// <param name="Members">The properties to output. Must be of type T</param>
         /// <returns>The filled range</returns>
-        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
+        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool? PrintHeaders, TableStyles? TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
         {
             return LoadFromCollectionInternal(Collection, PrintHeaders, TableStyle, memberFlags, Members);
         }
 
-        private ExcelRangeBase LoadFromCollectionInternal<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
+        private ExcelRangeBase LoadFromCollectionInternal<T>(IEnumerable<T> Collection, bool? PrintHeaders, TableStyles? TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
         {
             if (Collection is IEnumerable<IDictionary<string, object>>)
             {
                 if (Members == null)
-                    return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle);
-                return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle, Members.Select(x => x.Name));
+                    return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders ?? false, TableStyle);
+                return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders ?? false, TableStyle, Members.Select(x => x.Name));
             }
             var param = new LoadFromCollectionParams
             {
@@ -365,8 +365,8 @@ namespace OfficeOpenXml
             if (collection is IEnumerable<IDictionary<string, object>>)
             {
                 if (param.Members == null)
-                    return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle);
-                return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle, param.Members.Select(x => x.Name));
+                    return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders ?? false, param.TableStyle);
+                return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders ?? false, param.TableStyle, param.Members.Select(x => x.Name));
             }
             var func = new LoadFromCollection<T>(this, collection, param);
             return func.Load();
