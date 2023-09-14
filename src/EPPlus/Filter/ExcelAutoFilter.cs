@@ -27,8 +27,6 @@ namespace OfficeOpenXml.Filter
 
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelWorksheet worksheet) : base(namespaceManager, topNode)
         {
-            //var node =_worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
-            //if (node == null) return null;
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = worksheet;
             if (GetXmlNodeString("@ref") != "")
@@ -91,6 +89,7 @@ namespace OfficeOpenXml.Filter
 
         /// <summary>
         /// The range of the autofilter
+        /// Autofilter with address "" or null indicates empty autofilter.
         /// </summary>
         public ExcelAddressBase Address
         {

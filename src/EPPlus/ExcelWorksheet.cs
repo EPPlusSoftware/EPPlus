@@ -469,6 +469,7 @@ namespace OfficeOpenXml
         /// The auto filter address. 
         /// null means no auto filter.
         /// </summary>
+        [Obsolete("AutoFilterAddress is deprecated please use AutoFilter.Address instead.")]
         public ExcelAddressBase AutoFilterAddress
         {
             get
