@@ -5273,7 +5273,6 @@ namespace EPPlusTest
 
                 ws.Cells["B1:D35"].AutoFilter = true;
 
-
                 var filter1 = ws.AutoFilter.Columns.AddValueFilterColumn(2);
                 filter1.Filters.Add("Await");
                 filter1.Filters.Add("Async");
@@ -5283,34 +5282,46 @@ namespace EPPlusTest
 
                 for (int i = 1; i < 10; i++)
                 {
-                    ws.Cells[i, 1].Value = "Await";
-                    ws.Cells[i + 10, 1].Value = "Async";
-                    ws.Cells[i + 20, 1].Value = "Sync";
-                    ws.Cells[i + 30, 1].Value = "Non-filtered value";
+                    ws.Cells[i, 2].Value = "Await";
+                    ws.Cells[i + 10, 2].Value = "Async";
+                    ws.Cells[i + 20, 2].Value = "Sync";
+                    ws.Cells[i + 30, 2].Value = "Non-filtered value";
                 }
-
-                Assert.AreEqual(false, ws.Cells["B10"].EntireRow.Hidden);
-                Assert.AreEqual(false, ws.Rows[10].Hidden);
 
                 ws.AutoFilter.ApplyFilter();
 
+                Assert.AreEqual(true, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(true, ws.Rows[20].Hidden);
+
                 ws.AutoFilter.ClearAll();
+
+                Assert.AreEqual(false, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(false, ws.Rows[20].Hidden);
 
                 ws.Cells["E1:F35"].AutoFilter = true;
 
-                var address = ws.AutoFilter.Address;
+                var filter2 = ws.AutoFilter.Columns.AddValueFilterColumn(1);
+                filter2.Filters.Add("Await");
+                filter2.Filters.Add("Async");
+                filter2.Filters.Add("Sync");
 
-                //ws.Cells["B1:D35"].AutoFilter = false;
+                ws.AutoFilter.ApplyFilter();
 
-                //ws.AutoFilter.Columns.Remove(filter1);
+                ws.Cells["E1:F35"].AutoFilter = false;
 
-                //Assert.AreEqual(true, ws.Cells["B10"].EntireRow.Hidden);
-                //Assert.AreEqual(true, ws.Rows[10].Hidden);
+                Assert.AreEqual(true, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(true, ws.Rows[20].Hidden);
 
-                Assert.AreEqual(false, ws.Cells["B10"].EntireRow.Hidden);
-                Assert.AreEqual(false, ws.Rows[10].Hidden);
+                ws.Cells["A1:Z35"].AutoFilter = true;
 
-                //note that rows stay hidden even after the filter is removed
+                var filter3 = ws.AutoFilter.Columns.AddValueFilterColumn(5);
+                filter3.Filters.Add("Await");
+                filter3.Filters.Add("Async");
+                filter3.Filters.Add("Sync");
+
+                ws.AutoFilter.ApplyFilter();
+
+                ws.Cells["A1:Z35"].AutoFilter = false;
 
                 package.Save();
             }
