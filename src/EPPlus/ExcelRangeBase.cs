@@ -1208,7 +1208,7 @@ namespace OfficeOpenXml
             get
             {
                 IsRangeValid("autofilter");
-                ExcelAddressBase address = _worksheet.AutoFilterAddress;
+                ExcelAddressBase address = _worksheet.AutoFilter.Address;
                 if (address == null) return false;
                 if (_fromRow >= address.Start.Row
                         &&
@@ -1225,9 +1225,9 @@ namespace OfficeOpenXml
             set
             {
                 IsRangeValid("autofilter");
-                if (_worksheet.AutoFilterAddress != null)
+                if (_worksheet.AutoFilter.Address != null)
                 {
-                    var c = this.Collide(_worksheet.AutoFilterAddress);
+                    var c = this.Collide(_worksheet.AutoFilter.Address);
                     if (value == false && (c == eAddressCollition.Partly || c == eAddressCollition.No))
                     {
                         throw (new InvalidOperationException("Can't remove Autofilter. The current autofilter does not match selected range."));
@@ -1243,7 +1243,7 @@ namespace OfficeOpenXml
                     var tbl = _worksheet.Tables.GetFromRange(this);
                     if (tbl == null)
                     {
-                        _worksheet.AutoFilterAddress = this;
+                        _worksheet.AutoFilter.Address = this;
                         var result = _worksheet.Names.AddName("_xlnm._FilterDatabase", this);
                         result.IsNameHidden = true;
                     }
@@ -1254,7 +1254,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _worksheet.AutoFilterAddress = null;
+                    _worksheet.AutoFilter.Address = null;
                 }
             }
         }

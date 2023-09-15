@@ -228,5 +228,13 @@ namespace OfficeOpenXml.Filter
             node.ParentNode.RemoveChild(node);
             _columns.Remove(column.Position);
         }
+        /// <summary>
+        /// Clear all columns
+        /// </summary>
+        public void Clear()
+        {
+            _columns.Clear();
+        }
+
     }
 }
