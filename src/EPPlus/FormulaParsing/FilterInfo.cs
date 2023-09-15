@@ -10,6 +10,9 @@
  *************************************************************************************************
   01/18/2021         EPPlus Software AB       Improved handling of hidden cells for SUBTOTAL and AGGREGATE.
  *************************************************************************************************/
+using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System;
 using System.Collections.Generic;
 
@@ -30,40 +33,82 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         private readonly ExcelWorkbook _workbook;
-        private readonly HashSet<int> _worksheetFilters = new HashSet<int>();
+        private readonly Dictionary<int, QuadTree<ExcelAutoFilter>> _worksheetFilters = new Dictionary<int, QuadTree<ExcelAutoFilter>>();
 
         private void Initialize()
         {
             foreach(var worksheet in _workbook.Worksheets)
             {
                 if (worksheet.IsChartSheet) continue;
-                if(worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
+                var endRow = 1;
+                var endCol = 1;
+                if(worksheet.Dimension != null && worksheet.Dimension.Start != null && worksheet.Dimension.End != null)
                 {
-                    _worksheetFilters.Add(worksheet.IndexInList);
-                    continue;
+                    endRow = worksheet.Dimension.End.Row;
+                    endCol = worksheet.Dimension.End.Column;
+                }
+                var qt = new QuadTree<ExcelAutoFilter>(1, 1, endRow, endCol);
+                if(worksheet.AutoFilter != null)
+                {
+                    var r = new QuadRange(worksheet.AutoFilter.Address);
+                    qt.Add(r, worksheet.AutoFilter);
                 }
                 foreach(var table in worksheet.Tables)
-                {                    
-                    if(table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
+                {
+                    if (table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
                     {
-                        if(!_worksheetFilters.Contains(worksheet.IndexInList))
-                        {
-                            _worksheetFilters.Add(worksheet.IndexInList);
-                            continue;
-                        }
+                        var r = new QuadRange(table.Address);
+                        qt.Add(r, table.AutoFilter);
                     }
                 }
+                _worksheetFilters.Add(worksheet.IndexInList, qt);
+                //if(worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
+                //{
+                //    _worksheetFilters.Add(worksheet.IndexInList);
+                //    continue;
+                //}
+                //foreach(var table in worksheet.Tables)
+                //{                    
+                //    if(table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
+                //    {
+                //        if(!_worksheetFilters.Contains(worksheet.IndexInList))
+                //        {
+                //            _worksheetFilters.Add(worksheet.IndexInList);
+                //            continue;
+                //        }
+                //    }
+                //}
             }
         }
 
         /// <summary>
         /// Returns true if there is an Autofilter with at least one column on the requested worksheet.
         /// </summary>
-        /// <param name="wsIx"></param>
+        /// <param name="wsIx">Worksheet index</param>
+        /// <param name="cell">Cell to check</param>
         /// <returns></returns>
-        public bool WorksheetHasFilter(int wsIx)
+        public bool CellIsCoveredByFilter(int wsIx, ICellInfo cell)
         {
-            return _worksheetFilters.Contains(wsIx);
+            if (!_worksheetFilters.ContainsKey(wsIx) || cell.Address == null) return false;
+            var qt = _worksheetFilters[wsIx];
+            var qr = new QuadRange(cell.Row, cell.Column, cell.Row, cell.Column);
+            var ir = qt.GetIntersectingRanges(qr);
+            return ir.Count > 0;
+        }
+
+        /// <summary>
+        /// Returns true if there is an Autofilter with at least one column on the requested worksheet.
+        /// </summary>
+        /// <param name="wsIx">Worksheet index</param>
+        /// <param name="cell">Cell to check</param>
+        /// <returns></returns>
+        public bool CellIsCoveredByFilter(int wsIx, FunctionArgument arg)
+        {
+            if (!_worksheetFilters.ContainsKey(wsIx) || arg.Address == null) return false;
+            var qt = _worksheetFilters[wsIx];
+            var qr = new QuadRange(arg.Address.FromRow, arg.Address.FromCol, arg.Address.ToRow, arg.Address.ToCol);
+            var ir = qt.GetIntersectingRanges(qr);
+            return ir.Count > 0;
         }
     }
 }

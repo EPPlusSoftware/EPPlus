@@ -29,6 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            context.HiddenCellBehaviour = HiddenCellHandlingCategory.Aggregate;
             var funcNum = ArgToInt(arguments, 0);
             var nToSkip = IsNumeric(arguments.ElementAt(1).Value) ? 2 : 1;  
             var options = nToSkip == 1 ? 0 : ArgToInt(arguments, 1);
