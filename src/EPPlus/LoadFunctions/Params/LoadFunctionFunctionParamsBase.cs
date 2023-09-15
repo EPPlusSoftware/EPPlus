@@ -25,7 +25,7 @@ namespace OfficeOpenXml.LoadFunctions
         /// <summary>
         /// If true a row with headers will be added above the data
         /// </summary>
-        public bool PrintHeaders
+        public bool? PrintHeaders
         {
             get; set;
         }
