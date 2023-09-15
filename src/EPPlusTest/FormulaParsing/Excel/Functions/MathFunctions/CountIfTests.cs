@@ -164,6 +164,42 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(2d, result.Result);
         }
+        [TestMethod]
+        public void CountIfEqualToNull()
+        {
+            _worksheet.Cells["A1"].Value = null;
+            _worksheet.Cells["A2"].Value = string.Empty;
+            _worksheet.Cells["A3"].Value = 0d;
+            var func = new CountIf();
+            IRangeInfo range = _provider.GetRange(_worksheet.Name, 1, 1, 3, 1);
+            var args = FunctionsHelper.CreateArgs(range, "=");
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1d, result.Result);
+        }
+        [TestMethod]
+        public void CountIfNotEqualToNullWithOperator()
+        {
+            _worksheet.Cells["A1"].Value = null;
+            _worksheet.Cells["A2"].Value = string.Empty;
+            _worksheet.Cells["A3"].Value = 0d;
+            var func = new CountIf();
+            IRangeInfo range = _provider.GetRange(_worksheet.Name, 1, 1, 3, 1);
+            var args = FunctionsHelper.CreateArgs(range, "<>");
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(2d, result.Result);
+        }
+        [TestMethod]
+        public void CountIfEqualTo0CriteriaNull()
+        {
+            _worksheet.Cells["A1"].Value = null;
+            _worksheet.Cells["A2"].Value = string.Empty;
+            _worksheet.Cells["A3"].Value = 0d;
+            var func = new CountIf();
+            IRangeInfo range = _provider.GetRange(_worksheet.Name, 1, 1, 3, 1);
+            var args = FunctionsHelper.CreateArgs(range, null);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1d, result.Result);
+        }
 
         [TestMethod]
         public void CountIfGreaterThanZero()

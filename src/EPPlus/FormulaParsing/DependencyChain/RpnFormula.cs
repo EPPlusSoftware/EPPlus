@@ -21,6 +21,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal string _formula;
         internal IList<Token> _tokens;
         internal Dictionary<int, Expression> _expressions;
+        internal int _enumeratorWorksheetIx;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal int _tokenIndex = 0;
         internal Stack<Expression> _expressionStack;

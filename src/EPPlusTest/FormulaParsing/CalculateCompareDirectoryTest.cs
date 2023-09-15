@@ -67,7 +67,7 @@ namespace EPPlusTest.FormulaParsing
             logWriter.WriteLine($"File {xlFile} starting");
             using(var p = new ExcelPackage(xlFile))
             {
-                //p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulaLog.log"));
+                p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulaLog.log"));
                 var values = new Dictionary<ulong, object>();
                 foreach(var ws in p.Workbook.Worksheets)
                 {                    
@@ -98,6 +98,7 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=false);
+                    //p.Workbook.Worksheets["CELP"].Cells["L45"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
                 {

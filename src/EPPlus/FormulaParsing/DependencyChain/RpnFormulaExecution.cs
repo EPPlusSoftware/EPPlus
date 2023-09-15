@@ -384,7 +384,6 @@ namespace OfficeOpenXml.FormulaParsing
                             CheckCircularReferences(depChain, f, address, options);
                         }
 
-
                         if (rd.ExistsGetSpill(ref address))
                         {
                             goto FollowChain;
@@ -427,9 +426,8 @@ namespace OfficeOpenXml.FormulaParsing
                     else
                     {
                         address = f._expressionStack.Peek().GetAddress();
-                    }
-                    var wsIx = address?.WorksheetIx ?? -1;
-                    rd = AddAddressToRD(depChain, wsIx < 0 ? f.GetWorksheetIndex() : wsIx);
+                    }                    
+                    rd = AddAddressToRD(depChain, f._enumeratorWorksheetIx);
                     goto NextFormula;
                 }
                 return cr.ResultValue;
@@ -457,6 +455,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
+                    f._enumeratorWorksheetIx = ws.IndexInList;
                     f._formulaEnumerator = new CellStoreEnumerator<object>(ws._formulas, address.FromRow, address.FromCol, address.ToRow, address.ToCol);
                 }
             NextFormula:
@@ -465,7 +464,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var col = fe.Column < 0 ? fe._startCol - 1 : fe.Column;
                 if (fe.Next())
                 {
-                    if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, fe.Row, fe.Column)))
+                    if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(f._enumeratorWorksheetIx, fe.Row, fe.Column)))
                     {
                         MergeToRd(rd, row, col, fe, false);
                         goto NextFormula;
@@ -473,6 +472,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                     depChain._formulaStack.Push(f);
                     MergeToRd(rd, row, col, fe, false);
+
                     if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
                     {
                         goto ExecuteFormula;
@@ -484,6 +484,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
 
                 MergeToRd(rd, row, col, fe, true);
+
                 f._formulaEnumerator = null;
                 f._tokenIndex++;
 

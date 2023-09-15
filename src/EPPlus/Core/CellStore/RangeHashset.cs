@@ -38,6 +38,16 @@ namespace OfficeOpenXml.Core.CellStore
                                 return true;
                             }
                         }
+                        if(ix>0)
+                        {
+                            var r = rows[ix-1];
+                            var fr = (int)(r >> 20) + 1;
+                            var tr = (int)(r & 0xFFFFF) + 1;
+                            if (fr <= newAddress.ToRow && tr >= newAddress.FromRow)
+                            {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
