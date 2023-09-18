@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 && context.Parser != null 
                 && context.Parser.FilterInfo != null)
             {
-                filterExists = context.Parser.FilterInfo.CellIsCoveredByFilter(context.Package.Workbook.Worksheets[c.WorksheetName].IndexInList, c);
+                filterExists = context.Parser.FilterInfo.WorksheetHasActiveFilter(context.Package.Workbook.Worksheets[c.WorksheetName].IndexInList);
             }
             return ((ignoreHiddenValues || filterExists) && c.IsHiddenRow) || ShouldIgnoreNestedSubtotal(ignoreNestedSubtotalAndAggregate, c.Id, context);
         }
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             if (context.HiddenCellBehaviour == HiddenCellHandlingCategory.Subtotal
                 && context.Parser != null 
                 && context.Parser.FilterInfo != null 
-                && context.Parser.FilterInfo.CellIsCoveredByFilter(context.CurrentCell.WorksheetIx, arg))
+                && context.Parser.FilterInfo.WorksheetHasActiveFilter(context.CurrentCell.WorksheetIx))
             {
                 filterExists = true;
             }

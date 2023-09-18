@@ -33,51 +33,29 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         private readonly ExcelWorkbook _workbook;
-        private readonly Dictionary<int, QuadTree<ExcelAutoFilter>> _worksheetFilters = new Dictionary<int, QuadTree<ExcelAutoFilter>>();
+        private readonly HashSet<int> _activeWorksheetFilters = new HashSet<int>();
 
         private void Initialize()
         {
             foreach(var worksheet in _workbook.Worksheets)
             {
                 if (worksheet.IsChartSheet) continue;
-                var endRow = 1;
-                var endCol = 1;
-                if(worksheet.Dimension != null && worksheet.Dimension.Start != null && worksheet.Dimension.End != null)
+                if (worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
                 {
-                    endRow = worksheet.Dimension.End.Row;
-                    endCol = worksheet.Dimension.End.Column;
+                    _activeWorksheetFilters.Add(worksheet.IndexInList);
+                    continue;
                 }
-                var qt = new QuadTree<ExcelAutoFilter>(1, 1, endRow, endCol);
-                if(worksheet.AutoFilter != null)
-                {
-                    var r = new QuadRange(worksheet.AutoFilter.Address);
-                    qt.Add(r, worksheet.AutoFilter);
-                }
-                foreach(var table in worksheet.Tables)
+                foreach (var table in worksheet.Tables)
                 {
                     if (table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
                     {
-                        var r = new QuadRange(table.Address);
-                        qt.Add(r, table.AutoFilter);
+                        if (!_activeWorksheetFilters.Contains(worksheet.IndexInList))
+                        {
+                            _activeWorksheetFilters.Add(worksheet.IndexInList);
+                            continue;
+                        }
                     }
                 }
-                _worksheetFilters.Add(worksheet.IndexInList, qt);
-                //if(worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
-                //{
-                //    _worksheetFilters.Add(worksheet.IndexInList);
-                //    continue;
-                //}
-                //foreach(var table in worksheet.Tables)
-                //{                    
-                //    if(table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
-                //    {
-                //        if(!_worksheetFilters.Contains(worksheet.IndexInList))
-                //        {
-                //            _worksheetFilters.Add(worksheet.IndexInList);
-                //            continue;
-                //        }
-                //    }
-                //}
             }
         }
 
@@ -85,30 +63,10 @@ namespace OfficeOpenXml.FormulaParsing
         /// Returns true if there is an Autofilter with at least one column on the requested worksheet.
         /// </summary>
         /// <param name="wsIx">Worksheet index</param>
-        /// <param name="cell">Cell to check</param>
         /// <returns></returns>
-        public bool CellIsCoveredByFilter(int wsIx, ICellInfo cell)
+        public bool WorksheetHasActiveFilter(int wsIx)
         {
-            if (!_worksheetFilters.ContainsKey(wsIx) || cell.Address == null) return false;
-            var qt = _worksheetFilters[wsIx];
-            var qr = new QuadRange(cell.Row, cell.Column, cell.Row, cell.Column);
-            var ir = qt.GetIntersectingRanges(qr);
-            return ir.Count > 0;
-        }
-
-        /// <summary>
-        /// Returns true if there is an Autofilter with at least one column on the requested worksheet.
-        /// </summary>
-        /// <param name="wsIx">Worksheet index</param>
-        /// <param name="cell">Cell to check</param>
-        /// <returns></returns>
-        public bool CellIsCoveredByFilter(int wsIx, FunctionArgument arg)
-        {
-            if (!_worksheetFilters.ContainsKey(wsIx) || arg.Address == null) return false;
-            var qt = _worksheetFilters[wsIx];
-            var qr = new QuadRange(arg.Address.FromRow, arg.Address.FromCol, arg.Address.ToRow, arg.Address.ToCol);
-            var ir = qt.GetIntersectingRanges(qr);
-            return ir.Count > 0;
+            return _activeWorksheetFilters.Contains(wsIx);
         }
     }
 }
