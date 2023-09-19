@@ -32,22 +32,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ICellInfo c, ParsingContext context)
         {
             if (ignoreNonNumeric && !ConvertUtil.IsNumericOrDate(c.Value)) return true;
-            var hasFilter = false;
-            if (context.Parser != null && context.Parser.FilterInfo != null)
+            var filterExists = false;
+            if(context.HiddenCellBehaviour == HiddenCellHandlingCategory.Subtotal
+                && context.Parser != null
+                && context.Parser.FilterInfo != null)
             {
-                hasFilter = context.Parser.FilterInfo.WorksheetHasFilter(c.WorksheetName);
+                filterExists = context.Parser.FilterInfo.WorksheetHasFilter(c.WorksheetName);
             }
-            return ((ignoreHiddenValues || hasFilter) && c.IsHiddenRow) || IsSubTotal(c, context);
+            return ((ignoreHiddenValues || filterExists) && c.IsHiddenRow) || IsSubTotal(c, context);
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, FunctionArgument arg, ParsingContext context)
         {
-            var hasFilter = false;
-            if (context.Parser != null && context.Parser.FilterInfo != null && context.Parser.FilterInfo.WorksheetHasFilter(context.Scopes.Current.Address.Worksheet))
+            var filterExists = false;
+            if (context.HiddenCellBehaviour == HiddenCellHandlingCategory.Subtotal
+                && context.Parser != null
+                && context.Parser.FilterInfo != null)
             {
-                hasFilter = true;
+                filterExists = context.Parser.FilterInfo.WorksheetHasFilter(context.Scopes.Current.Address.Worksheet);
             }
-            return (ignoreHiddenValues || hasFilter) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell);
+            return (ignoreHiddenValues || filterExists) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell);
         }
     }
 }

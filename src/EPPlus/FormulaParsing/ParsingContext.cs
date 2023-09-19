@@ -20,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Logging;
 using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
+using OfficeOpenXml.FormulaParsing.Excel;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -52,6 +53,15 @@ namespace OfficeOpenXml.FormulaParsing
         /// <see cref="INameValueProvider"/> of the current context
         /// </summary>
         public INameValueProvider NameValueProvider { get; set; }
+
+        /// <summary>
+        /// Indicates how hidden cells should be handled by the currently
+        /// executing function.
+        /// </summary>
+        internal HiddenCellHandlingCategory HiddenCellBehaviour
+        {
+            get; set;
+        }
 
         /// <summary>
         /// Configuration
