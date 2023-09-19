@@ -153,6 +153,28 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                if(_ws.Cells[Address.Start.Address].Value != null)
+                {
+                    var cellString = _ws.Cells[Address.Start.Address].Value.ToString();
+
+                    if (Formula2 != null)
+                    {
+                        return cellString.EndsWith(Formula2) ? true : false;
+                    }
+                    else
+                    {
+                        return cellString.EndsWith(_text) ? true : false;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         #endregion Constructors
 
         /****************************************************************************************/
