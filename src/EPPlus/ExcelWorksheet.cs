@@ -47,6 +47,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace OfficeOpenXml
 {
@@ -468,32 +469,16 @@ namespace OfficeOpenXml
         /// The auto filter address. 
         /// null means no auto filter.
         /// </summary>
+        [Obsolete("AutoFilterAddress is deprecated please use AutoFilter.Address instead.")]
         public ExcelAddressBase AutoFilterAddress
         {
             get
             {
-                CheckSheetTypeAndNotDisposed();
-                string address = GetXmlNodeString($"{AutoFilterPath}/@ref");
-                if (address == "")
-                {
-                    return null;
-                }
-                else
-                {
-                    return new ExcelAddressBase(address);
-                }
+                return AutoFilter.Address;
             }
             internal set
             {
-                CheckSheetTypeAndNotDisposed();
-                if (value == null)
-                {
-                    DeleteAllNode($"{AutoFilterPath}/@ref");
-                }
-                else
-                {
-                    SetXmlNodeString($"{AutoFilterPath}/@ref", value.Address);
-                }
+                AutoFilter.Address = value;
             }
         }
         ExcelAutoFilter _autoFilter = null;
@@ -507,8 +492,12 @@ namespace OfficeOpenXml
                 if (_autoFilter == null)
                 {
                     CheckSheetTypeAndNotDisposed();
-                    var node =_worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
-                    if (node == null) return null;
+                    if(GetXmlNodeString($"{AutoFilterPath}/@ref") == "")
+                    {
+                        SetXmlNodeString($"{AutoFilterPath}/@ref", "");
+                    }
+
+                    var node = _worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
                     _autoFilter = new ExcelAutoFilter(NameSpaceManager, node, this);
                 }
                 return _autoFilter;
@@ -2808,7 +2797,7 @@ namespace OfficeOpenXml
             else
             {
 
-                if (_autoFilter != null)
+                if (_autoFilter != null && _autoFilter.Address != null)
                 {
                     _autoFilter.Save();
                 }
