@@ -120,8 +120,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             {
                                 if (_cfAtAddresses.ContainsKey(ce.CellAddress))
                                 {
-                                    var cfList = _cfAtAddresses[ce.CellAddress];
-                                    foreach (var cf in cfList)
+                                    foreach (var cf in _cfAtAddresses[ce.CellAddress])
                                     {
                                         await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, cf.Priority, cf.Uid);
                                     }

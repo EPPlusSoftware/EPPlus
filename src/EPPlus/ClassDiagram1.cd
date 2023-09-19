@@ -28,8 +28,8 @@
       <Field Name="_styleCache" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusHtmlWriter">
-    <Position X="39" Y="13.25" Width="2.75" />
+  <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusHtmlWriter" Collapsed="true">
+    <Position X="39" Y="16" Width="2.75" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAACABAAAACAAAAQAAAAAABAAEAAAAA=</HashCode>
       <FileName>Export\HtmlExport\EpplusHtmlWriter.async.cs</FileName>
@@ -44,49 +44,10 @@
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlExporterFactory">
     <Position X="19" Y="19.25" Width="5" />
-    <AssociationLine Name="HtmlRangeExporterSync" Type="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterSync" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="24" Y="21.25" />
-        <Point X="33.375" Y="21.25" />
-        <Point X="33.375" Y="14.191" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="HtmlTableExporterAsync" Type="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlTableExporterAsync" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="24" Y="20.875" />
-        <Point X="30.25" Y="20.875" />
-        <Point X="30.25" Y="14.191" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="HtmlTableExporterSync" Type="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlTableExporterSync" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="24" Y="21.5" />
-        <Point X="36.625" Y="21.5" />
-        <Point X="36.625" Y="14.191" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="HtmlRangeExporterAsync" Type="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterAsync" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="24" Y="20.75" />
-        <Point X="27.375" Y="20.75" />
-        <Point X="27.375" Y="15.761" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAJMBAAAQAAAAAAAIIBBRCAEAAAAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAIAAAAQAAAAAAAIABABAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\HtmlExporterFactory.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="CssRangeExporterAsync" />
-      <Property Name="CssRangeExporterSync" />
-      <Property Name="CssTableExporterAsync" />
-      <Property Name="CssTableExporterSync" />
-      <Property Name="HtmlRangeExporterAsync" />
-      <Property Name="HtmlRangeExporterSync" />
-      <Property Name="HtmlTableExporterAsync" />
-      <Property Name="HtmlTableExporterSync" />
-      <Property Name="ExcelHtmlRangeExporter" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.AbstractHtmlExporter">
     <Position X="26.25" Y="3.5" Width="1.5" />
@@ -99,14 +60,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterBase" Collapsed="true">
-    <Position X="19.75" Y="7.5" Width="2.75" />
+    <Position X="19.75" Y="8.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAgAAAAAAkAAA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\CssRangeExporterBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterBase" Collapsed="true">
-    <Position X="33.75" Y="7.5" Width="3" />
+    <Position X="33.5" Y="8.25" Width="3" />
     <TypeIdentifier>
       <HashCode>AABAAwAEAAEAQAQAAQAAAAAAggAAgIAAgQAAAIAkIKA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\HtmlRangeExporterBase.cs</FileName>
@@ -126,7 +87,7 @@
       <FileName>Export\HtmlExport\Exporters\HtmlRangeExporterSyncBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterAsync" Collapsed="true">
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterAsync">
     <Position X="16.25" Y="11" Width="2.5" />
     <TypeIdentifier>
       <HashCode>CAAAAAAAAAAAAAAAgIAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
@@ -154,7 +115,7 @@
       <FileName>Export\HtmlExport\Exporters\CssTableExporterSync.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterAsync">
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterAsync" Collapsed="true">
     <Position X="26.25" Y="13.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAgAAAEAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
