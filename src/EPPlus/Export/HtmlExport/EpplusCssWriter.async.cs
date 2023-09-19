@@ -407,6 +407,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         private async Task WriteFontStylesAsync(ExcelDxfFontBase f)
         {
 
+            bool hasDecoration = false;
+
             if (f.Color.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color))
             {
                 await WriteCssItemAsync($"color:{GetDxfColor(f.Color)};", _settings.Minify);
@@ -421,20 +423,30 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             if (f.Strike.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Strike))
             {
-                await WriteCssItemAsync("text-decoration:line-through solid;", _settings.Minify);
+                await WriteCssItemAsync("text-decoration:line-through", _settings.Minify);
+                hasDecoration = true;
             }
             if (f.Underline.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Underline))
             {
+                if (!hasDecoration)
+                {
+                    await WriteCssItemAsync("text-decoration:", _settings.Minify);
+                }
+
                 switch (f.Underline.Value)
                 {
                     case ExcelUnderLineType.Double:
                     case ExcelUnderLineType.DoubleAccounting:
-                        await WriteCssItemAsync("text-decoration:underline double;", _settings.Minify);
+                        await WriteCssItemAsync(" underline double;", _settings.Minify);
                         break;
                     default:
-                        await WriteCssItemAsync("text-decoration:underline solid;", _settings.Minify);
+                        await WriteCssItemAsync(" underline;", _settings.Minify);
                         break;
                 }
+            }
+            else if (hasDecoration)
+            {
+                await WriteCssItemAsync(";", _settings.Minify);
             }
         }
 
