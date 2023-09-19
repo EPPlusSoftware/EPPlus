@@ -202,19 +202,30 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting Dxfs, string styleClassPrefix, string cellStyleClassName, int priorityID, string uid)
+        internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting dxfs, string styleClassPrefix, string cellStyleClassName, int priorityID, string uid)
         {
-            if(Dxfs != null)
+            if(dxfs != null)
             {
-                if(IsAddedToCache(Dxfs, out int id) || _addedToCssCf.Contains(id) == false)
+                if(IsAddedToCache(dxfs, out int id) || _addedToCssCf.Contains(id) == false)
                 {
                     _addedToCssCf.Add(id);
                     await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf-{id}{{", _settings.Minify);
 
-                    if (Dxfs.Fill != null)
+                    if (dxfs.Fill != null)
                     {
-                        await WriteFillStylesAsync(Dxfs.Fill);
+                        await WriteFillStylesAsync(dxfs.Fill);
                     }
+
+                    if(dxfs.Font != null)
+                    {
+                        await WriteFontStylesAsync(dxfs.Font);
+                    }
+
+                    if (dxfs.Border != null)
+                    {
+                        await WriteBorderStylesAsync(dxfs.Border.Top, dxfs.Border.Bottom, dxfs.Border.Left, dxfs.Border.Right);
+                    }
+
                     await WriteClassEndAsync(_settings.Minify);
                 }
             }
@@ -312,6 +323,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             //WriteBorderItem(b.DiagonalUp, "right");
         }
 
+        private async Task WriteBorderStylesAsync(ExcelDxfBorderItem top, ExcelDxfBorderItem bottom, ExcelDxfBorderItem left, ExcelDxfBorderItem right)
+        {
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Top)) await WriteBorderItemAsync(top, "top");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Bottom)) await WriteBorderItemAsync(bottom, "bottom");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Left)) await WriteBorderItemAsync(left, "left");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Right)) await WriteBorderItemAsync(right, "right");
+        }
+
         private async Task WriteBorderItemAsync(ExcelBorderItemXml bi, string suffix)
         {
             if (bi.Style != ExcelBorderStyle.None)
@@ -321,6 +340,22 @@ namespace OfficeOpenXml.Export.HtmlExport
                 if (bi.Color!=null && bi.Color.Exists)
                 {
                     sb.Append($" {GetColor(bi.Color)}");
+                }
+                sb.Append(";");
+
+                await WriteCssItemAsync(sb.ToString(), _settings.Minify);
+            }
+        }
+
+        private async Task WriteBorderItemAsync(ExcelDxfBorderItem bi, string suffix)
+        {
+            if (bi.Style != ExcelBorderStyle.None && bi.Style.HasValue)
+            {
+                var sb = new StringBuilder();
+                sb.Append(GetBorderItemLine(bi.Style.Value, suffix));
+                if (bi.Color != null && bi.Color.HasValue)
+                {
+                    sb.Append($" {GetDxfColor(bi.Color)}");
                 }
                 sb.Append(";");
 
@@ -369,6 +404,40 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
+        private async Task WriteFontStylesAsync(ExcelDxfFontBase f)
+        {
+
+            if (f.Color.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color))
+            {
+                await WriteCssItemAsync($"color:{GetDxfColor(f.Color)};", _settings.Minify);
+            }
+            if (f.Bold.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Bold))
+            {
+                await WriteCssItemAsync("font-weight:bolder;", _settings.Minify);
+            }
+            if (f.Italic.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Italic))
+            {
+                await WriteCssItemAsync("font-style:italic;", _settings.Minify);
+            }
+            if (f.Strike.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Strike))
+            {
+                await WriteCssItemAsync("text-decoration:line-through solid;", _settings.Minify);
+            }
+            if (f.Underline.HasValue && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Underline))
+            {
+                switch (f.Underline.Value)
+                {
+                    case ExcelUnderLineType.Double:
+                    case ExcelUnderLineType.DoubleAccounting:
+                        await WriteCssItemAsync("text-decoration:underline double;", _settings.Minify);
+                        break;
+                    default:
+                        await WriteCssItemAsync("text-decoration:underline solid;", _settings.Minify);
+                        break;
+                }
+            }
+        }
+
         private async Task WriteFillStylesAsync(ExcelFillXml f)
         {
             if (_cssExclude.Fill) return;
@@ -395,7 +464,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (f.PatternType == ExcelFillStyle.Solid || f.PatternType == null)
             {
-                if(f.BackgroundColor != null)
+                if(f.BackgroundColor.Color != null)
                 {
                     await WriteCssItemAsync($"background-color:{GetDxfColor(f.BackgroundColor)};", _settings.Minify);
                 }

@@ -12,14 +12,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusCssWriter" Collapsed="true">
-    <Position X="39" Y="17.25" Width="2.75" />
+    <Position X="39.5" Y="5.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAIgQgAArAUgEGAJgQACAAAAQwBAEICAYAESICAGAwA=</HashCode>
       <FileName>Export\HtmlExport\EpplusCssWriter.async.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.HtmlWriterBase">
-    <Position X="45" Y="14.75" Width="1.5" />
+    <Position X="45.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAARASEGCDCIgAAQACAAAAAQIAAAAAkACAdgAJA=</HashCode>
       <FileName>Export\HtmlExport\HtmlWriterBase.async.cs</FileName>
@@ -29,14 +29,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusHtmlWriter" Collapsed="true">
-    <Position X="39" Y="16" Width="2.75" />
+    <Position X="39.5" Y="4.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAACABAAAACAAAAQAAAAAABAAEAAAAA=</HashCode>
       <FileName>Export\HtmlExport\EpplusHtmlWriter.async.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusTableCssWriter" Collapsed="true">
-    <Position X="39" Y="18.5" Width="2.75" />
+    <Position X="39.5" Y="6.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAIgAAAAJAQgAiAqgAAAAACAQQBAMQAAIgkGIABAQAA=</HashCode>
       <FileName>Export\HtmlExport\EpplusTableCssWriter.async.cs</FileName>
@@ -87,7 +87,7 @@
       <FileName>Export\HtmlExport\Exporters\HtmlRangeExporterSyncBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterAsync">
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterAsync" Collapsed="true">
     <Position X="16.25" Y="11" Width="2.5" />
     <TypeIdentifier>
       <HashCode>CAAAAAAAAAAAAAAAgIAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
@@ -144,7 +144,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;">
-    <Position X="12.5" Y="2.75" Width="1.5" />
+    <Position X="12.5" Y="2.75" Width="3.25" />
     <NestedTypes>
       <Class Name="System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;.Enumerator" Collapsed="true">
         <TypeIdentifier />
