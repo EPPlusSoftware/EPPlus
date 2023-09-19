@@ -85,6 +85,8 @@ The `ExcelFunction` class has changed, now exposes new properties used to handle
 * `ArrayBehaviour` - If the function allows arrays as input in a parameter, resulting in an array output. Also see the `GetArrayBehaviourConfig` method.
 * IFunctionModules.CustomCompilers has been removed and compilers can no longer be added. This has been replaced by ExcelFunction.ParameterInfo and ExcelFunction.ArrayBehaviour which configures the new behaviour of the formula calculation engine.
 * `CalculateCollection` - Has been removed. EPPlus no long uses collections of FunctionArgument in this way. Use the `InMemoryRange` class instead.
+* Converting double's from strings in the formula parser will now use try to parse the string using the the CurrentCulture before trying the InvariantCulture.
+* The default value of `ExcelCalculationOption.PrecisionAndRoundingStrategy` in the formula calculation has been changed from `DotNet` to `Excel`
 #### Methods
 * `CreateAddressResult`  - Returns the result with a reference to a range.
 * `CreateDynamicArrayResult` - The result should be treated as a dynamic array.

@@ -34,6 +34,8 @@ using System.Reflection;
 using OfficeOpenXml.Drawing;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -464,6 +466,21 @@ namespace EPPlusTest
             }
             Assert.Inconclusive($"Image file {imageFile} does not exist");
             return null;
+        }
+        CultureInfo _savedCurrentCulture=null;
+        protected void SwitchToCulture(string cultureCode = "en-US")
+        {
+            _savedCurrentCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureCode);
+        }
+        protected void SwitchBackToCurrentCulture()
+        {
+            if(_savedCurrentCulture==null)
+            {
+                throw new InvalidOperationException("Current Culture is not saved. Please use method SwitchToCulture() before using this method.");
+            }
+            Thread.CurrentThread.CurrentCulture = _savedCurrentCulture;
+
         }
     }
 }

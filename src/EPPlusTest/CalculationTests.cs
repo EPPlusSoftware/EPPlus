@@ -41,7 +41,7 @@ namespace EPPlusTest
 {
     //[DeploymentItem("Workbooks", "targetFolder")]
     [TestClass]
-    public class CalculationTests
+    public class CalculationTests : TestBase
     {
         //[TestMethod]
         //public void Calulation()
@@ -294,6 +294,7 @@ namespace EPPlusTest
         [TestMethod]
         public void INTFunctionTest()
         {
+            SwitchToCulture();
             var pck = new ExcelPackage();
             var ws = pck.Workbook.Worksheets.Add("CalcTest");
             var currentDate = DateTime.UtcNow.Date;
@@ -311,6 +312,9 @@ namespace EPPlusTest
             Assert.AreEqual((int)currentDate.ToOADate(), ws.Cells["A6"].Value);
             Assert.AreEqual(31, ws.Cells["A7"].Value);
             Assert.AreEqual(31, ws.Cells["A8"].Value);
+
+            SwitchBackToCurrentCulture();
+
         }
 
 

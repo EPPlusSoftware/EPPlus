@@ -55,7 +55,7 @@ namespace EPPlusTest.Core
             sw.Restart();
             
             var r1 = new QuadRange(5000, 200, 10000, 300);
-            var ir1 = qt.GetIntersectingRanges(r1);
+            var ir1 = qt.GetIntersectingRangeItems(r1);
             foreach(var r in ir1)
             {
                 if(r.Range.Intersect(r1)==IntersectType.OutSide)

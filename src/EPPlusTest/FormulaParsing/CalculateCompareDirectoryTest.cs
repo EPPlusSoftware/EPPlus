@@ -72,11 +72,11 @@ namespace EPPlusTest.FormulaParsing
                 foreach(var ws in p.Workbook.Worksheets)
                 {                    
                     if (ws.IsChartSheet) continue;
-                    var cse = new CellStoreEnumerator<object>(ws._formulas);                    
+                    var cse = new CellStoreEnumerator<object>(ws._formulas);
                     foreach(var f in cse)
                     {
                         var id = ExcelCellBase.GetCellId(ws.IndexInList, cse.Row, cse.Column);
-                        values.Add(id, ws.GetValue(cse.Row,cse.Column));
+                        values.Add(id, ws.GetValue(cse.Row, cse.Column));
                     }
                     foreach(var name in ws.Names)
                     {                        
@@ -98,7 +98,7 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=false);
-                    //p.Workbook.Worksheets["CELP"].Cells["L45"].Calculate(x => x.CacheExpressions = false);
+                    //p.Workbook.Worksheets["1"].Cells["H4"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
                 {
