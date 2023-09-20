@@ -413,6 +413,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <param name="valueIfNull"></param>
+        /// <param name="error">Will be set if an error occurs during conversion</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
         protected double ArgToDecimal(IList<FunctionArgument> arguments, int index, double valueIfNull, out ExcelErrorValue error)
@@ -425,7 +426,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             if (arg.ValueIsExcelError)
             {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                error = arg.ValueAsExcelErrorValue;
+                return double.NaN;
             }
             return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet, out error);
         }
