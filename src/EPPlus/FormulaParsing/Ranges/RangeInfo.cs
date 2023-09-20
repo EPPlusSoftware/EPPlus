@@ -324,14 +324,14 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public object GetOffset(int rowOffset, int colOffset)
         {
             if (_values == null) return null;
-            if (_values.Row < _address.FromRow || _values.Column < _address.FromCol)
-            {
+            //if (_values.Row < _address.FromRow || _values.Column < _address.FromCol)
+            //{
                 return _ws.GetValue(_address.FromRow + rowOffset, _address.FromCol + colOffset);
-            }
-            else
-            {
-                return _ws.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
-            }
+            //}
+            //else
+            //{
+            //    return _ws.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
+            //}
         }
 
         /// <summary>
@@ -345,18 +345,18 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
         {
             if (_values == null) return null;
-            if (_values.Row < _address.FromRow || _values.Column < _address.FromCol)
-            {
+            //if (_values.Row < _address.FromRow || _values.Column < _address.FromCol)
+            //{
                 var sr = _address.FromRow;
                 var sc = _address.FromCol;
                 return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _address._context, _address.ExternalReferenceIx);
-            }
-            else
-            {
-                var sr = _values.Row;
-                var sc = _values.Column;
-                return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _address._context, _address.ExternalReferenceIx);
-            }
+            //}
+            //else
+            //{
+            //    var sr = _values.Row;
+            //    var sc = _values.Column;
+            //    return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _address._context, _address.ExternalReferenceIx);
+            //}
         }
 
         public bool IsHidden(int rowOffset, int colOffset)

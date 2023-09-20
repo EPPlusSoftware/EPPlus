@@ -56,7 +56,7 @@ namespace EPPlusTest.FormulaParsing
         }
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new Stopwatch(); 
             sw.Start();            
             if(File.Exists(logFile))    
             {
@@ -98,7 +98,7 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=false);
-                    //p.Workbook.Worksheets["1"].Cells["H4"].Calculate(x => x.CacheExpressions = false);
+                    //p.Workbook.Worksheets["Data_Elements"].Cells["J3"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
                 {
@@ -110,7 +110,7 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Differences:");
                 logWriter.WriteLine($"Formula values to compare: {values.Count}");
                 logWriter.WriteLine($"Worksheet\tCell\tValue Excel\tValue EPPlus");
-                foreach (var value in values)   
+                foreach (var value in values)
                 {
                     ExcelCellBase.SplitCellId(value.Key, out int wsIndex, out int row, out int col);
                     object v;

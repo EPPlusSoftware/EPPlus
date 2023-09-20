@@ -741,10 +741,6 @@ namespace OfficeOpenXml.FormulaParsing
         private static FormulaRangeAddress ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f, bool returnAddresses)
         {
             var s = f._expressionStack;
-            if (f._row == 4 && f._column == 8)
-            {
-                f._row = f._row;
-            }
             while (f._tokenIndex < f._tokens.Count)
             {
                 var t = f._tokens[f._tokenIndex];
