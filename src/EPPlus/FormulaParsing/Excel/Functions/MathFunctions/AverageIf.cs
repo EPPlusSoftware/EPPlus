@@ -111,7 +111,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     var rowOffset = cell.Row - argRange.Address.FromRow;
                     var columnOffset = cell.Column - argRange.Address.FromCol;
-                    if (sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
+                    if(sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
                        sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
                     {
                         var val = sumRange.GetOffset(rowOffset, columnOffset);
