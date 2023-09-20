@@ -31,8 +31,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var n1 = ArgToDecimal(arguments, 0);
-            var n2 = ArgToDecimal(arguments, 1);
+            var n1 = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var n2 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
             return new CompileResult(n1 % n2, DataType.Decimal);
         }
     }

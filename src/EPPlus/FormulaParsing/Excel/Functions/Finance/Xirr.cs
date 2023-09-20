@@ -34,7 +34,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var guess = 0.1;
             if(arguments.Count > 2)
             {
-                guess = ArgToDecimal(arguments, 2);
+                guess = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             }
             var result = XirrImpl.GetXirr(values, dates, guess);
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);

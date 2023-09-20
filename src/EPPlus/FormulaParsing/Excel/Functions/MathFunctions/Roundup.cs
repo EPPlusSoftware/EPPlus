@@ -32,7 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
-            var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
+            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var nDigits = ArgToInt(arguments, 1);
             double result = (number >= 0) 
                 ? System.Math.Ceiling(number * System.Math.Pow(10, nDigits)) / System.Math.Pow(10, nDigits)

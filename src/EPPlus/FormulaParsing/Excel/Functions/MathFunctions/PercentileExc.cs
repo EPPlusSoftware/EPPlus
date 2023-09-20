@@ -31,7 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arr = ArgsToDoubleEnumerable(arguments.Take(1), context).Select(x => (double)x).ToList();
-            var k = ArgToDecimal(arguments, 1);
+            
+            var k = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
             if (k <= 0 || k >= 1) return CreateResult(eErrorType.Num);
             var n = arr.Count;
             if (k < 1d / (n + 1d) || k > 1 - 1d / (n + 1d)) return CompileResult.GetErrorResult(eErrorType.Num);

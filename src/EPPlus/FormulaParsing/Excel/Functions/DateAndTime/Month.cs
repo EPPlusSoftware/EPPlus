@@ -32,7 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var dateObj = arguments[0].Value;
-            var date = ParseDate(arguments, dateObj);
+            var date = ParseDate(arguments, dateObj, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
 
             var aoDate = date.ToOADate();
             if (aoDate < 0)

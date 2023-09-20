@@ -21,8 +21,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
 {
     internal abstract class DateParsingFunction : ExcelFunction
     {
-        protected DateTime ParseDate(IList<FunctionArgument> arguments, object dateObj, int argIndex)
+        protected DateTime ParseDate(IList<FunctionArgument> arguments, object dateObj, int argIndex, out ExcelErrorValue error)
         {
+            error = null;
             DateTime date = DateTime.MinValue;
             if (dateObj is string)
             {
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             }
             else
             {
-                var d = ArgToDecimal(arguments, argIndex);
+                var d = ArgToDecimal(arguments, argIndex, out error);
                 if (d >= 0)
                 {
                     date = ConvertUtil.FromOADateExcel(d);
@@ -39,9 +40,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             return date;
         }
 
-        protected DateTime ParseDate(IList<FunctionArgument> arguments, object dateObj)
+        protected DateTime ParseDate(IList<FunctionArgument> arguments, object dateObj, out ExcelErrorValue error)
         {
-            return ParseDate(arguments, dateObj, 0);
+            return ParseDate(arguments, dateObj, 0, out error);
         }
     }
 }

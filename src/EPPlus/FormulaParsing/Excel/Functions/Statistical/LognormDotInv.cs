@@ -39,9 +39,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var p = ArgToDecimal(arguments, 0);
-            var mean = ArgToDecimal(arguments, 1);
-            var stdev = ArgToDecimal(arguments, 2);
+            var p = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            
+            var mean = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            var stdev = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
             if (p <= 0|| p>=1||stdev<=0)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);

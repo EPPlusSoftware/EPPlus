@@ -34,8 +34,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var issueDate = DateTime.FromOADate(ArgToInt(arguments, 0));
             var firstInterestDate = DateTime.FromOADate(ArgToInt(arguments, 1));
             var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 2));
-            var rate = ArgToDecimal(arguments, 3);
-            var par = ArgToDecimal(arguments, 4);
+            var rate = ArgToDecimal(arguments, 3, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
+            var par = ArgToDecimal(arguments, 4, out ExcelErrorValue e2);
+            if(e2 != null) return CreateResult(e2.Type);
             var frequency = ArgToInt(arguments, 5);
             var basis = 0;
             if(arguments.Count >= 7)

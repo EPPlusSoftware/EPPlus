@@ -29,9 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 6;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var rate = ArgToDecimal(arguments, 0);
+            var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var nper = ArgToInt(arguments, 1);
-            var pv = ArgToDecimal(arguments, 2);
+            var pv = ArgToDecimal(arguments, 2, out ExcelErrorValue e2);
+            if (e2 != null) return CreateResult(e2.Type);
             var startPeriod = ArgToInt(arguments, 3);
             var endPeriod = ArgToInt(arguments, 4);
             var type = ArgToInt(arguments, 5);

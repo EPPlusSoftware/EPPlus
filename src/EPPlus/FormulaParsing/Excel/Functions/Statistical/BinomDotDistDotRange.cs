@@ -44,10 +44,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         {
             if (arguments.Count > 4) return CompileResult.GetErrorResult(eErrorType.Value); 
 
-            var trails = ArgToDecimal(arguments, 0);
+            var trails = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             trails = Math.Floor(trails);
-            var probS = ArgToDecimal(arguments, 1);
-            var numS = ArgToDecimal(arguments, 2);
+            var probS = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var numS = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if(e3 != null) return CompileResult.GetErrorResult(e3.Type);
             numS = Math.Floor(numS);
             
             if (trails < 0 || probS < 0 || probS > 1|| numS<0|| numS>trails) return CompileResult.GetErrorResult(eErrorType.Num);
@@ -55,7 +58,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var result = 0d;
             if (arguments.Count > 3)
             {
-                var numS2 = ArgToDecimal(arguments, 3);
+                var numS2 = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+                if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
+
                 numS2 = Math.Floor(numS2);
                 if (numS2 < numS || numS2 > trails) return CompileResult.GetErrorResult(eErrorType.Num);
 

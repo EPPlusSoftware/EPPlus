@@ -30,8 +30,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var durationResult = base.Execute(arguments, context);
             if (durationResult.DataType == DataType.ExcelError) return durationResult;
             var dur = durationResult.ResultNumeric;
-            var yield = ArgToDecimal(arguments, 3);
-            var frequency = ArgToDecimal(arguments, 4);
+            var yield = ArgToDecimal(arguments, 3, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var frequency = ArgToDecimal(arguments, 4, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var result = dur / (1d + (yield / frequency));
             return CreateResult(result, DataType.Decimal);
         }

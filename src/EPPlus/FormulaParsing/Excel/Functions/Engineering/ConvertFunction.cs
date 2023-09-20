@@ -27,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var number = ArgToDecimal(arguments, 0);
+            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var fromUnit = ArgToString(arguments, 1);
             var toUnit = ArgToString(arguments, 2);
             if (!Conversions.IsValidUnit(fromUnit)) return CompileResult.GetErrorResult(eErrorType.NA);

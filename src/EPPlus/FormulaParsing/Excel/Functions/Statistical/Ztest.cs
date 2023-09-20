@@ -39,7 +39,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
                 var r1 = arguments[0].ValueAsRangeInfo;
                 var numbers = RangeFlattener.FlattenRange(r1, false);
-                var value = ArgToDecimal(arguments[1].Value);
+                var value = ArgToDecimal(arguments[1].Value, out ExcelErrorValue error);
+                if(error != null)
+                {
+                    return CreateResult(error.Type);
+                }
                 var stdev = new Stdev().StandardDeviation(numbers.Select(x => x.Value));
                 var result = 0d;
                 if (stdev.Result is ExcelErrorValue)
@@ -54,7 +58,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 }
                 else
                 {
-                    var sigma = ArgToDecimal(arguments[2].Value);
+                    var sigma = ArgToDecimal(arguments[2].Value, out ExcelErrorValue e);
+                    if(e != null)
+                    {
+                        return CreateResult(e.Type);
+                    }
                     if (sigma <= 0)
                     {
                         return CompileResult.GetErrorResult(eErrorType.Num);

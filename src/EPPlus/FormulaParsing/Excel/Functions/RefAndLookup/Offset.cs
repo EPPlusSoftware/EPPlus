@@ -28,8 +28,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {           
             var arg0 = arguments[0];
-            var rowOffset = ArgToDecimal(arguments, 1);
-            var colOffset = ArgToDecimal(arguments, 2);
+            var rowOffset = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var colOffset = ArgToDecimal(arguments, 2, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
             var startRange = ArgToAddress(arguments, 0);
             
             int width = 0, height = 0;

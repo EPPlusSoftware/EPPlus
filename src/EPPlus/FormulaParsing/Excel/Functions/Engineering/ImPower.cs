@@ -36,7 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var comp = ArgToString(arguments, 0);
-            var power = ArgToDecimal(arguments, 1);
+            var power = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             if (double.IsNaN(power))
             {     
                 return CompileResult.GetErrorResult(eErrorType.Value);

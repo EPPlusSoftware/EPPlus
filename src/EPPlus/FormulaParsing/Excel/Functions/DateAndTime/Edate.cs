@@ -34,7 +34,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var dateSerial = ArgToDecimal(arguments, 0);
+            var dateSerial = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var date = DateTime.FromOADate(dateSerial);
             var nMonthsToAdd = ArgToInt(arguments, 1);
             var resultDate = date.AddMonths(nMonthsToAdd);
