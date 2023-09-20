@@ -48,6 +48,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml
 {
@@ -2766,9 +2767,10 @@ namespace OfficeOpenXml
         internal void SetFormula(int row, int col, object value)
         {
             _formulas.SetValue(row, col, value);
+            _flags.SetFlagValue(row, col, true, CellFlags.CanBeDynamicArray);
             if (!ExistsValueInner(row, col)) SetValueInner(row, col, null);
         }
-        
+
         private void SavePivotTables()
         {
             foreach (var pt in PivotTables)
@@ -3626,6 +3628,37 @@ namespace OfficeOpenXml
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Gets the address for the formula in the top-left cell.
+        /// If you want the address of a dynamic array formula, you must calculate the formula first.
+        /// </summary>
+        /// <param name="row">The row of cell containing the formula.</param>
+        /// <param name="column">the column of cell containing  the formula.</param>
+        /// <returns>The address the formula spans</returns>
+        public ExcelAddressBase GetFormulaAddress(int row, int column)
+        {
+            var f=_formulas.GetValue(row, column);
+            if(f==null)
+            {
+                return null;
+            }
+            else if(f is int sfIx)
+            {
+                if(_sharedFormulas.TryGetValue(sfIx, out SharedFormula sf))
+                {
+                    return new ExcelAddressBase(sf.Address)
+                    {
+                        _ws = Name
+                    };
+                }
+                return null;
+            }
+            else
+            {
+                return new ExcelAddressBase(Name, row, column, row, column);
+            }
         }
         #endregion
     }  // END class Worksheet

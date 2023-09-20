@@ -316,9 +316,6 @@ namespace EPPlusTest
             SwitchBackToCurrentCulture();
 
         }
-
-
-
         public void TestAllWorkbooks()
         {
             StringBuilder sb=new StringBuilder();
@@ -368,7 +365,6 @@ namespace EPPlusTest
 				Assert.AreEqual(expectedDateWithMath, formulaCell.Value);
 			}
 		}
-
         [TestMethod]
         public void TestValueFunction()
         {
@@ -411,7 +407,6 @@ namespace EPPlusTest
                 expectedResult = -0.108;
                 result = worksheet.Cells[2, 3];
                 Assert.AreEqual(expectedResult, Math.Round((double)result.Value, 3));
-
             }
         }
         private string GetOutput(string file)
