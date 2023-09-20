@@ -68,7 +68,18 @@ namespace OfficeOpenXml
             Index = index;
             if(allowRelativeAddress && _fromRow>0)
             {                
-                _relativeType = (_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed) ? 0 : NameRelativeType.RelativeAddress;
+                if(IsFullColumn)
+                {
+                    _relativeType = (_fromColFixed && _toColFixed) ? 0 : NameRelativeType.RelativeAddress;
+                }
+                else if(IsFullRow)
+                {
+                    _relativeType = (_fromRowFixed && _toRowFixed) ? 0 : NameRelativeType.RelativeAddress;
+                }
+                else
+                {
+                    _relativeType = (_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed) ? 0 : NameRelativeType.RelativeAddress;
+                }
             }
             else if(_fromRow>0 && !(_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed))
             {

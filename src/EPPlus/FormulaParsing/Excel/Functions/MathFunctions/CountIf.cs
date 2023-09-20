@@ -37,8 +37,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         private ExpressionEvaluator _expressionEvaluator;
         private bool Evaluate(object obj, string expression)
         {
-            if (IsNumeric(obj))
+            if(expression==null)
             {
+                expression = "0";
+            }
+            if (IsNumeric(obj))
+            {                
                 return _expressionEvaluator.Evaluate(ConvertUtil.GetValueDouble(obj), expression, false);
             }
             return _expressionEvaluator.Evaluate(obj, expression, false);
@@ -73,7 +77,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     for (int col = fromCol; col <= toCol; col++)
                     {
-                        if (criteria != null && Evaluate(rangeInfo.GetValue(row, col), criteria))
+                        var v = rangeInfo.GetValue(row, col);
+                        if (Evaluate(v, criteria))
                         {
                             result++;
                         }

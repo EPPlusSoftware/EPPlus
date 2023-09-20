@@ -22,41 +22,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Information,
-        EPPlusVersion = "4",
-        Description = "Tests if a supplied cell is blank (empty), and if so, returns TRUE; Otherwise, returns FALSE",
-        SupportsArrays = true)]
-    internal class IsBlank : ExcelFunction
+        EPPlusVersion = "7",
+        Description = "Tests if the supplied value is a reference, and if so, returns TRUE; Otherwise, returns FALSE")]
+    internal class IsRef : ExcelFunction
     {
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var result = true;
-            foreach (var arg in arguments)
+            if (arguments[0].DataType==DataType.ExcelRange)
             {
-                if (arg.Value is IRangeInfo)
-                {                    
-                    var r=(IRangeInfo)arg.Value;
-                    if (r.GetValue(r.Address.FromRow, r.Address.FromCol) != null)
-                    {
-                        result = false;
-                    }
-                }
-                else
+                var ri = arguments[0].ValueAsRangeInfo;
+                if(ri != null && ri.IsInMemoryRange == false)
                 {
-                    if (arg.Value != null && (arg.Value.ToString() != string.Empty))
-                    {
-                        result = false;
-                        break;
-                    }
+                    return CompileResult.True; 
                 }
             }
-            return CreateResult(result, DataType.Boolean);
+            return CompileResult.False;
         }
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            return FunctionParameterInformation.IgnoreErrorInPreExecute | FunctionParameterInformation.IgnoreAddress;
         }));
     }
 }

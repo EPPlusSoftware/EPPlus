@@ -133,10 +133,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 Result = RangeOperationsOperator.Negate(ri);
             }
 
-            else if (ResultNumeric != 0)
+            else if (IsNumeric)
             {
-                _resultNumeric *= -1;
-                Result = _resultNumeric;
+                if (_resultNumeric.HasValue)
+                {
+                    _resultNumeric *= -1;
+                }
+                else 
+                {
+                    _resultNumeric = ResultNumeric * -1; 
+                }
+                Result = ResultNumeric;
+            }
+            else
+            {
+                Result = ErrorValues.ValueError;
             }
         }
         internal static CompileResult GetDynamicArrayResultError(eErrorType errorType)

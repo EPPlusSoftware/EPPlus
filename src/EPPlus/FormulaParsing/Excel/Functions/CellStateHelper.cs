@@ -39,20 +39,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             if(c.Address==null) return false;
             if (ignoreNonNumeric && !ConvertUtil.IsNumericOrDate(c.Value)) return true;
-            var hasFilter = false;
-            if (context.Parser != null && context.Parser.FilterInfo != null)
+            var filterExists = false;
+            if (context.HiddenCellBehaviour == HiddenCellHandlingCategory.Subtotal 
+                && context.Parser != null 
+                && context.Parser.FilterInfo != null)
             {
-                hasFilter = context.Parser.FilterInfo.WorksheetHasFilter(context.Package.Workbook.Worksheets[c.WorksheetName].IndexInList);
+                filterExists = context.Parser.FilterInfo.WorksheetHasActiveFilter(context.Package.Workbook.Worksheets[c.WorksheetName].IndexInList);
             }
-            return ((ignoreHiddenValues || hasFilter) && c.IsHiddenRow) || ShouldIgnoreNestedSubtotal(ignoreNestedSubtotalAndAggregate, c.Id, context);
+            return ((ignoreHiddenValues || filterExists) && c.IsHiddenRow) || ShouldIgnoreNestedSubtotal(ignoreNestedSubtotalAndAggregate, c.Id, context);
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNestedSubtotalAndAggregate, FunctionArgument arg, ParsingContext context)
         {
-            var hasFilter = false;
-            if (context.Parser != null && context.Parser.FilterInfo != null && context.Parser.FilterInfo.WorksheetHasFilter(context.CurrentCell.WorksheetIx))
+            var filterExists = false;
+            if (context.HiddenCellBehaviour == HiddenCellHandlingCategory.Subtotal
+                && context.Parser != null 
+                && context.Parser.FilterInfo != null 
+                && context.Parser.FilterInfo.WorksheetHasActiveFilter(context.CurrentCell.WorksheetIx))
             {
-                hasFilter = true;
+                filterExists = true;
             }
             var include = true;
             if(ignoreNestedSubtotalAndAggregate && arg.Address != null)
@@ -60,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 var cellId = arg.Address.GetTopLeftCellId();
                 include = !ShouldIgnoreNestedSubtotal(ignoreNestedSubtotalAndAggregate, cellId, context);
             }
-            return (ignoreHiddenValues || hasFilter) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell) && include;
+            return (ignoreHiddenValues || filterExists) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell) && include;
         }
     }
 }

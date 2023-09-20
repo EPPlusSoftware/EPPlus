@@ -76,6 +76,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         internal CompileResult ExecuteInternal(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            context.HiddenCellBehaviour = HiddenCellHandlingCategory.Default;
             if(arguments==null || arguments.Count < ArgumentMinLength)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
