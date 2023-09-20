@@ -13,6 +13,7 @@
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
 using System;
@@ -82,7 +83,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
+            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, writer._styleCache, writer._dxfStyleCache);
+
+            if (!string.IsNullOrEmpty(classString))
+            {
+                writer.AddAttribute("class", classString.Trim());
+            }
+            //writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
             HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)

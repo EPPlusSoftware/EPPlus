@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -95,7 +96,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     else
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _styleCache, writer._dxfStyleCache);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            writer.AddAttribute("class", classString.Trim());
+                        }
+                        //writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
                         await AddImageAsync(writer, Settings, image, cell.Value);
                         await RenderHyperlinkAsync(writer, cell, Settings);
@@ -161,7 +168,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses);
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, _styleCache, writer._dxfStyleCache);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            writer.AddAttribute("class", classString.Trim());
+                        }
+                        //writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses);
                     }
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {

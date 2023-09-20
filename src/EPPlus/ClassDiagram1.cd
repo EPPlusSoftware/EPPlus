@@ -12,7 +12,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusCssWriter" Collapsed="true">
-    <Position X="39.5" Y="5.5" Width="2.75" />
+    <Position X="41.25" Y="5.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAIgQgAArAUgEGAJgQACAAAAQwBAEICAYAESICAGAwA=</HashCode>
       <FileName>Export\HtmlExport\EpplusCssWriter.async.cs</FileName>
@@ -29,14 +29,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusHtmlWriter" Collapsed="true">
-    <Position X="39.5" Y="4.25" Width="2.75" />
+    <Position X="41.25" Y="4.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAACABAAAACAAAAQAAAAAABAAEAAAAA=</HashCode>
       <FileName>Export\HtmlExport\EpplusHtmlWriter.async.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusTableCssWriter" Collapsed="true">
-    <Position X="39.5" Y="6.75" Width="2.75" />
+    <Position X="41.25" Y="6.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAIgAAAAJAQgAiAqgAAAAACAQQBAMQAAIgkGIABAQAA=</HashCode>
       <FileName>Export\HtmlExport\EpplusTableCssWriter.async.cs</FileName>
@@ -53,7 +53,7 @@
     <Position X="26.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgBQAABAAAAAAAAAgAUQAQAAAAAAAAAAAgQAAAA=</HashCode>
-      <FileName>Export\HtmlExport\Exporters\AbstractHtmlExporter.cs</FileName>
+      <FileName>Export\HtmlExport\Exporters\AbstractRangeExporter.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="_styleCache" />

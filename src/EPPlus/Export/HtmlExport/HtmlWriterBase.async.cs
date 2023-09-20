@@ -28,8 +28,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         protected bool _newLine;
 
         internal protected HashSet<string> _images=new HashSet<string>();
-        protected Dictionary<string, int> _styleCache;
-        protected Dictionary<string, int> _dxfStyleCache;
+        internal Dictionary<string, int> _styleCache;
+        internal Dictionary<string, int> _dxfStyleCache;
 
         internal HtmlWriterBase(Stream stream, Encoding encoding, Dictionary<string, int> styleCache)
         {
