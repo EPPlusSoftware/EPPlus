@@ -83,6 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     _parsingContext.Configuration.Logger.LogFunction(funcName);
                 }
                 var compiler = _functionCompilerFactory.Create(function);
+                _parsingContext.HiddenCellBehaviour = HiddenCellHandlingCategory.Default;
                 var result = compiler.Compile(HasChildren ? Children : Enumerable.Empty<Expression>());
                 if (_isNegated)
                 {

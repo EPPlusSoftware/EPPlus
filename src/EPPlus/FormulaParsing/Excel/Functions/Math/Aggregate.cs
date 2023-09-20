@@ -33,6 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 context.SubtotalAddresses.Add(cellId);
             }
+            context.HiddenCellBehaviour = HiddenCellHandlingCategory.Aggregate;
         }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {

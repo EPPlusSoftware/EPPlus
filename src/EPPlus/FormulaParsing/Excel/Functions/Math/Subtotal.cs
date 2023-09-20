@@ -69,6 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             base.BeforeInvoke(context);
             context.Scopes.Current.IsSubtotal = true;
+            context.HiddenCellBehaviour = HiddenCellHandlingCategory.Subtotal;
             var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.Worksheet, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
             if (!context.SubtotalAddresses.Contains(cellId))
             {
