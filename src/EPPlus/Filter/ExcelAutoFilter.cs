@@ -24,16 +24,25 @@ namespace OfficeOpenXml.Filter
         private const string AutoFilterGuid= "71E0E44A-7884-43F4-9E11-E314B2584A5E";
         private ExcelWorksheet _worksheet;
         private ExcelTable _table;
+
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelWorksheet worksheet) : base(namespaceManager, topNode)
         {
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = worksheet;
+            if (GetXmlNodeString("@ref") != "")
+            {
+                Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
+            }
         }
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelTable table) : base(namespaceManager, topNode)
         {
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = table.WorkSheet;
             _table = table;
+            if(GetXmlNodeString("@ref") != "")
+            {
+                Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
+            }
         }
 
         internal void Save()
@@ -77,26 +86,53 @@ namespace OfficeOpenXml.Filter
         }
 
         ExcelAddressBase _address = null;
+
         /// <summary>
         /// The range of the autofilter
+        /// Autofilter with address "" or null indicates empty autofilter.
         /// </summary>
         public ExcelAddressBase Address
         {
             get
             {
-                if (_address == null)
+                _worksheet.CheckSheetTypeAndNotDisposed();
+                if(_address == null)
                 {
-                    _address = new ExcelAddressBase(GetXmlNodeString("@ref"));
+                    string address = GetXmlNodeString("@ref");
+                    if (address == "")
+                    {
+                        _address = null;
+                    }
+                    else
+                    {
+                        if(_address.Address != address)
+                        {
+                            _address = new ExcelAddressBase(address);
+                        }
+                    }
                 }
+
                 return _address;
             }
             internal set
-            {                
-                if (value._fromCol != Address._fromCol || value._toCol != Address._toCol || value._fromRow!=Address._fromRow) //Allow different _toRow
+            {
+                _worksheet.CheckSheetTypeAndNotDisposed();
+
+                if (value == null)
                 {
-                    _columns = new ExcelFilterColumnCollection(NameSpaceManager, TopNode, this);
+                    DeleteAllNode($"@ref");
+                    _columns = null;
                 }
-                SetXmlNodeString("@ref", value.Address);
+                else
+                {
+                    if (_address == null || value._fromCol != Address._fromCol || value._toCol != Address._toCol || value._fromRow != Address._fromRow) //Allow different _toRow
+                    {
+                        _columns = new ExcelFilterColumnCollection(NameSpaceManager, TopNode, this);
+                    }
+
+                    SetXmlNodeString($"@ref", value.Address);
+                }
+
                 _address = value;
             }
         }
@@ -111,6 +147,17 @@ namespace OfficeOpenXml.Filter
             {
                 return _columns;
             }
+        }
+
+        /// <summary>
+        /// Clear all columns Unhide all affected cells, nullify address and table.
+        /// </summary>
+        public void ClearAll()
+        {
+            _worksheet.Cells[_address.Address].EntireRow.Hidden = false;
+            _columns.Clear();
+            _table = null;
+            Address = null;
         }
     }
 }
