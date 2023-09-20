@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             var numDate1 = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CreateResult(e1.Type);
             var numDate2 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
-            if (e1 != null) return CreateResult(e2.Type);
+            if (e2 != null) return CreateResult(e2.Type);
             var endDate = DateTime.FromOADate(numDate1);
             var startDate = DateTime.FromOADate(numDate2);
             return CreateResult(endDate.Subtract(startDate).TotalDays, DataType.Date);

@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var tails = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var type = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
-            if (e1 != null) return CompileResult.GetErrorResult(e2.Type);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
 
             if ((array1.Size.NumberOfRows * array1.Size.NumberOfCols != array2.Size.NumberOfRows * array2.Size.NumberOfCols)
                 && (type == 1))

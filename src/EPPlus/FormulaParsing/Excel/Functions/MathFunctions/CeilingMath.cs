@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (arguments.Count > 1)
             {
                 significance = ArgToDecimal(arguments, 1, 1d, out ExcelErrorValue e2);
-                if (e1 != null) return CreateResult(e2.Type);
+                if (e2 != null) return CreateResult(e2.Type);
             }
             var mode = 0d;
             if(arguments.Count > 2)
