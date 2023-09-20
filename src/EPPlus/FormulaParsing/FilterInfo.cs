@@ -10,6 +10,9 @@
  *************************************************************************************************
   01/18/2021         EPPlus Software AB       Improved handling of hidden cells for SUBTOTAL and AGGREGATE.
  *************************************************************************************************/
+using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System;
 using System.Collections.Generic;
 
@@ -30,25 +33,25 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         private readonly ExcelWorkbook _workbook;
-        private readonly HashSet<int> _worksheetFilters = new HashSet<int>();
+        private readonly HashSet<int> _activeWorksheetFilters = new HashSet<int>();
 
         private void Initialize()
         {
             foreach(var worksheet in _workbook.Worksheets)
             {
                 if (worksheet.IsChartSheet) continue;
-                if(worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
+                if (worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
                 {
-                    _worksheetFilters.Add(worksheet.IndexInList);
+                    _activeWorksheetFilters.Add(worksheet.IndexInList);
                     continue;
                 }
-                foreach(var table in worksheet.Tables)
-                {                    
-                    if(table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
+                foreach (var table in worksheet.Tables)
+                {
+                    if (table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
                     {
-                        if(!_worksheetFilters.Contains(worksheet.IndexInList))
+                        if (!_activeWorksheetFilters.Contains(worksheet.IndexInList))
                         {
-                            _worksheetFilters.Add(worksheet.IndexInList);
+                            _activeWorksheetFilters.Add(worksheet.IndexInList);
                             continue;
                         }
                     }
@@ -59,11 +62,11 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// Returns true if there is an Autofilter with at least one column on the requested worksheet.
         /// </summary>
-        /// <param name="wsIx"></param>
+        /// <param name="wsIx">Worksheet index</param>
         /// <returns></returns>
-        public bool WorksheetHasFilter(int wsIx)
+        public bool WorksheetHasActiveFilter(int wsIx)
         {
-            return _worksheetFilters.Contains(wsIx);
+            return _activeWorksheetFilters.Contains(wsIx);
         }
     }
 }
