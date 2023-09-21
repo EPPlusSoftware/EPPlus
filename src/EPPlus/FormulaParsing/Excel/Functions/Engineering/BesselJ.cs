@@ -28,7 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var n = ArgToInt(arguments, 1);
             var result = new BesselJImpl().BesselJ(x, n);
             return CreateResult(result.Result, DataType.Decimal);

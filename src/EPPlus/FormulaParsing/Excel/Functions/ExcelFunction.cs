@@ -76,6 +76,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         internal CompileResult ExecuteInternal(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            context.HiddenCellBehaviour = HiddenCellHandlingCategory.Default;
             if(arguments==null || arguments.Count < ArgumentMinLength)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
@@ -343,11 +344,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// Returns the value of the argument att the position of the 0-based
         /// </summary>
         /// <param name="obj"></param>
+        /// <param name="error">Will be set if the conversion generated an error</param>
         /// <returns>Value of the argument as a double.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(object obj)
+        protected double ArgToDecimal(object obj, out ExcelErrorValue error)
         {
-            return (double)_argumentParsers.GetParser(DataType.Decimal).Parse(obj);
+            return DoubleArgParser.Parse(obj, out error);
         }
 
         /// <summary>
@@ -357,12 +359,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
         /// <returns>Value of the argument as a double.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(object obj, PrecisionAndRoundingStrategy precisionAndRoundingStrategy)
+        protected double ArgToDecimal(object obj, PrecisionAndRoundingStrategy precisionAndRoundingStrategy, out ExcelErrorValue error)
         {
-            var result = ArgToDecimal(obj);
-            if (precisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel && result is double d)
+            var result = ArgToDecimal(obj, out error);
+            if(error != null)
             {
-                result = RoundingHelper.RoundToSignificantFig(d, NumberOfSignificantFigures);
+                return double.NaN;
+            }
+            if (precisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel && result != double.NaN)
+            {
+                result = RoundingHelper.RoundToSignificantFig(result, NumberOfSignificantFigures);
             }
             return result;
         }
@@ -373,19 +379,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
+        /// <param name="error">Will be set if an error occurs during conversion</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(IList<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet)
+        protected double ArgToDecimal(
+            IList<FunctionArgument> arguments, 
+            int index,
+            out ExcelErrorValue error,
+            PrecisionAndRoundingStrategy precisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet
+            )
         {
             var arg = arguments[index];
-            switch (arg.DataType)
+            if(arg.DataType == DataType.ExcelError)
             {
-                case DataType.ExcelError:
-                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
-                case DataType.Empty:
-                    return 0D;
-                default:
-                    return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
+                error = arg.ValueAsExcelErrorValue;
+                return double.NaN;
+            }
+            else if(arg.DataType == DataType.Empty)
+            {
+                error = null;
+                return 0D;
+            }
+            else
+            {
+                return ArgToDecimal(arg.Value, precisionAndRoundingStrategy, out error);
             }
         }
         /// <summary>
@@ -396,10 +413,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <param name="valueIfNull"></param>
+        /// <param name="error">Will be set if an error occurs during conversion</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(IList<FunctionArgument> arguments, int index, double valueIfNull)
+        protected double ArgToDecimal(IList<FunctionArgument> arguments, int index, double valueIfNull, out ExcelErrorValue error)
         {
+            error = null;
             var arg = arguments[index];
             if (arg.Value == null)
             {
@@ -407,10 +426,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             if (arg.ValueIsExcelError)
             {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                error = arg.ValueAsExcelErrorValue;
+                return double.NaN;
             }
-            return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet);
-
+            return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet, out error);
         }
         /// <summary>
         /// Returns the value as if the 

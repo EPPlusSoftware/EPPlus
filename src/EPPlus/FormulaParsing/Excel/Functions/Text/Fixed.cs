@@ -29,7 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var number = ArgToDecimal(arguments, 0);
+            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var nDecimals = 2;
             var noCommas = false;
             if (arguments.Count > 1)

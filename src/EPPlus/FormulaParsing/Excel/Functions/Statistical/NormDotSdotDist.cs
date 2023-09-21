@@ -36,7 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var z = ArgToDecimal(arguments, 0);
+            var z = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var cumulative = ArgToBool(arguments, 1);
             double result;
             if (cumulative)

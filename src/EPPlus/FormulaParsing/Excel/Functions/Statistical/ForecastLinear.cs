@@ -28,7 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
             var arg1 = arguments[1];
             var arg2 = arguments[2];
             var arrayY = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).Select(a => a.Value).ToArray();

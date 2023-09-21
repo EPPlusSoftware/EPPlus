@@ -30,8 +30,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(0) }, context);
-            var financeRate = ArgToDecimal(arguments, 1);
-            var reinvestState = ArgToDecimal(arguments, 2);
+            
+            var financeRate = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var reinvestState = ArgToDecimal(arguments, 2, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
             var result = MirrImpl.MIRR(values.Select(x => (double)x).ToArray(), financeRate, reinvestState);
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             return CreateResult(result.Result, DataType.Decimal);

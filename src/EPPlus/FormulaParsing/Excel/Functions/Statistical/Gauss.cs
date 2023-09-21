@@ -31,7 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var z = ArgToDecimal(arguments, 0);
+            var z = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var result = CumulativeDistribution(z, 0, 1) - 0.5;
             return CreateResult(result, DataType.Decimal);
         }

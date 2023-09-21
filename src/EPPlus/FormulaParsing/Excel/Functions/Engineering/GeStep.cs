@@ -18,11 +18,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var arg1 = ArgToDecimal(arguments, 0);
+            var arg1 = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var arg2 = 0d;
             if (arguments.Count > 1)
             {
-                arg2 = ArgToDecimal(arguments, 1);
+                arg2 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CreateResult(e2.Type);
             }
             
             if (arg1 >= arg2)

@@ -40,11 +40,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         {
             if (arguments.Count > 4) return CompileResult.GetErrorResult(eErrorType.Value);
 
-            var numberS = ArgToDecimal(arguments, 0);
+            var numberS = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             numberS = Math.Floor(numberS);
-            var trails = ArgToDecimal(arguments, 1);
+
+            var trails = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             trails = Math.Floor(trails);
-            var probabilityS = ArgToDecimal(arguments, 2);
+
+            var probabilityS = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
             var cumulative = ArgToBool(arguments, 3);
 
             if (numberS < 0 || numberS > trails || probabilityS < 0 || probabilityS > 1) return CompileResult.GetErrorResult(eErrorType.Num);

@@ -36,8 +36,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var arg1 = ArgToDecimal(arguments, 0);
-            var arg2 = ArgToDecimal(arguments, 1);
+            var arg1 = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var arg2 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             // Had to switch order of the arguments to get the same result as in excel /MA
             return CreateResult(System.Math.Atan2(arg2, arg1), DataType.Decimal);
         }

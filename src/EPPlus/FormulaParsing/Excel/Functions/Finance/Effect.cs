@@ -27,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var nominalRate = ArgToDecimal(arguments, 0);
+            var nominalRate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var npery = ArgToInt(arguments, 1);
             if (nominalRate <= 0 || npery < 1)
                 return CompileResult.GetErrorResult(eErrorType.Num);

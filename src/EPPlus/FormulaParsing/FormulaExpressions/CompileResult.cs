@@ -172,6 +172,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     return _arrayErrorValue;
             }
         }
+
         internal static CompileResult GetErrorResult(eErrorType errorType)
         {
             switch (errorType)

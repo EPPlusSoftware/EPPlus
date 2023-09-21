@@ -29,7 +29,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = DateTime.FromOADate(ArgToInt(arguments, 1));
-            var discount = ArgToDecimal(arguments, 2);
+            
+            var discount = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
             if (settlementDate >= maturityDate) return CompileResult.GetErrorResult(eErrorType.Num);
             if (maturityDate.Subtract(settlementDate).TotalDays > 365) return CompileResult.GetErrorResult(eErrorType.Num);
             if (discount <= 0d) return CompileResult.GetErrorResult(eErrorType.Num); 

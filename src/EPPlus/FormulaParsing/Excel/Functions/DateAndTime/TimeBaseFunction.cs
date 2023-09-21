@@ -37,11 +37,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             private set;
         }
 
-        public void ValidateAndInitSerialNumber(IEnumerable<FunctionArgument> arguments)
-        {
-            SerialNumber = (double)ArgToDecimal(arguments, 0);
-        }
-
         protected double SecondsInADay
         {
             get{ return 24 * 60 * 60; }

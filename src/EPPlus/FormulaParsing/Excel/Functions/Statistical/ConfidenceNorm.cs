@@ -31,8 +31,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var alpha = ArgToDecimal(arguments, 0);
-            var sigma = ArgToDecimal(arguments, 1);
+            var alpha = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            
+            var sigma = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
             var size = ArgToInt(arguments, 2);
 
             if (alpha <= 0d || alpha >= 1d) return CompileResult.GetErrorResult(eErrorType.Num);

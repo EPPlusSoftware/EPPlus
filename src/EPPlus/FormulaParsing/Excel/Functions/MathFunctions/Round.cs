@@ -35,7 +35,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var nDigits = ArgToInt(arguments, 1);
             var positivDigits = nDigits * -1;
             
-            var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
+            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (nDigits < 0)
             {
                 return CreateResult(System.Math.Round(number / System.Math.Pow(10, positivDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, positivDigits), DataType.Integer);

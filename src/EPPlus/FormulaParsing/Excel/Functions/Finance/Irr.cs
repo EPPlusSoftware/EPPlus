@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             }
             else
             {
-                var guess = ArgToDecimal(arguments, 1);
+                var guess = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 result = IrrImpl.Irr(values.Select(x => (double)x).ToArray(), guess);
             }
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);

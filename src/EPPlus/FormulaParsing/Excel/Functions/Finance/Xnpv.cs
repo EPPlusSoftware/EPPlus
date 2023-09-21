@@ -29,7 +29,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var rate = ArgToDecimal(arguments, 0);
+            var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
             var arg2 = new List<FunctionArgument> { arguments.ElementAt(1) };
             var values = ArgsToDoubleEnumerable(arg2, context);
             var dates = GetDates(arguments.ElementAt(2), context);

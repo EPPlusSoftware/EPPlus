@@ -28,10 +28,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 4;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var rate = ArgToDecimal(arguments, 0);
+            var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var per = ArgToInt(arguments, 1);
             var nper = ArgToInt(arguments, 2);
-            var pv = ArgToDecimal(arguments, 3);
+            var pv = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var result = -pv * rate;
             result = result - result / nper * per;
             return CreateResult(result, DataType.Decimal);

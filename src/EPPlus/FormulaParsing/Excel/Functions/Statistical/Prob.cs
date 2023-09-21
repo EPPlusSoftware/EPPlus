@@ -43,7 +43,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             }
             else
             {
-                xRange = new List<double?> { ArgToDecimal(arguments, 0) };
+                var a1a = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+                xRange = new List<double?> { a1a };
             }
             List<double?> probRange;
             if (arguments[1].IsExcelRange)
@@ -52,7 +54,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             }
             else
             {
-                probRange = new List<double?> { ArgToDecimal(arguments, 1) };
+                var a1b = ArgToDecimal(arguments, 1, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+                probRange = new List<double?> { a1b };
             }
 
             if (xRange.Count != probRange.Count)
@@ -64,7 +68,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
 
-            var lowerLimit = ArgToDecimal(arguments, 2);
+            var lowerLimit = ArgToDecimal(arguments, 2, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             double upperLimit;
             if (arguments.Count < 4)
             {
@@ -72,7 +77,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             }
             else
             {
-                upperLimit = ArgToDecimal(arguments, 3);
+                upperLimit = ArgToDecimal(arguments, 3, out ExcelErrorValue e5);
+                if(e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
 
             var result = 0d;

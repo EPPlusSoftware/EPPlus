@@ -33,9 +33,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
-            var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
-            var significance = (arguments.Count > 1) ? ArgToDecimal(arguments, 1, 1d) : 1;
-            var mode = (arguments.Count > 2) ? ArgToDecimal(arguments, 2, 0d) : 0d;
+            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var significance = 1d;
+            if(arguments.Count > 1)
+            {
+                significance = ArgToDecimal(arguments, 1, 1d, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            }
+            var mode = 0d;
+            if(arguments.Count > 2)
+            {
+                mode = ArgToDecimal(arguments, 2, 0d, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            }
             if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CreateResult(eErrorType.Num);
             return CreateResult(RoundingHelper.Round(number, significance, mode != 0d ? RoundingHelper.Direction.Down : RoundingHelper.Direction.AlwaysDown), DataType.Decimal);
         }

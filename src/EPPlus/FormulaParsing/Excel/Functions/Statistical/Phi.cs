@@ -30,7 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var n = ArgToDecimal(arguments, 0);
+            var n = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var result = Math.Exp(-0.5 * Math.Pow(n, 2)) / Math.Sqrt(System.Math.PI * 2);
             return CreateResult(result, DataType.Decimal);
         }

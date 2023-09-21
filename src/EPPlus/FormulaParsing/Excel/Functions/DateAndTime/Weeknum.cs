@@ -29,7 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var dateSerial = ArgToDecimal(arguments, 0);
+            var dateSerial = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var date = DateTime.FromOADate(dateSerial);
             var startDay = DayOfWeek.Sunday;
             if (arguments.Count() > 1)

@@ -31,8 +31,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override string NamespacePrefix => "_xlfn.";
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
-            var lambda = ArgToDecimal(arguments, 1);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var lambda = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
             var cumulative = ArgToBool(arguments, 2);
             if (lambda <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);
             if (x < 0d) return CompileResult.GetErrorResult(eErrorType.Num);

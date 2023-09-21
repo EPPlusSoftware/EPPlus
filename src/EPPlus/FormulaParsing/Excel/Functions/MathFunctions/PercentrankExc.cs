@@ -31,7 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1);
+            var number = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (number < array.First() || number > array.Last()) return CompileResult.GetErrorResult(eErrorType.NA);
             var significance = 3;
             if (arguments.Count() > 2)

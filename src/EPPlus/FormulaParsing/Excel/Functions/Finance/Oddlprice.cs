@@ -35,9 +35,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var lastInterestDate = System.DateTime.FromOADate(ArgToInt(arguments, 2));
-            var rate = ArgToDecimal(arguments, 3);
-            var yield = ArgToDecimal(arguments, 4);
-            var redemption = ArgToDecimal(arguments, 5);
+            var rate = ArgToDecimal(arguments, 3, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var yield = ArgToDecimal(arguments, 4, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var redemption = ArgToDecimal(arguments, 5, out ExcelErrorValue e3);
+            if(e3 != null) return CompileResult.GetErrorResult(e3.Type);
             var frequency = ArgToInt(arguments, 6);
             var b = 0;
             if (arguments.Count > 7)

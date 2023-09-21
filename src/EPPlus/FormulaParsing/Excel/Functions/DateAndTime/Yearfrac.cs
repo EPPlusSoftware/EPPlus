@@ -30,8 +30,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var date1Num = ArgToDecimal(arguments, 0);
-            var date2Num = ArgToDecimal(arguments, 1);
+            var date1Num = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
+            var date2Num = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CreateResult(e2.Type);
             if (date1Num > date2Num) //Switch to make date1 the lowest date
             {
                 var t = date1Num;

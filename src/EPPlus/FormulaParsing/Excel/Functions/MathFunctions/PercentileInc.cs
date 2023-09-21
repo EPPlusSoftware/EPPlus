@@ -30,7 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arr = ArgsToDoubleEnumerable(arguments.Take(1), context).Select(x => (double)x).ToList();
-            var percentile = ArgToDecimal(arguments, 1);
+            var percentile = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (percentile < 0 || percentile > 1) return CompileResult.GetErrorResult(eErrorType.Num);
             arr.Sort();
             var nElements = arr.Count;
