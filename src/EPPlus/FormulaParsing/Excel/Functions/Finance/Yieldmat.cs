@@ -36,10 +36,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 
             var issueDate = DateTime.FromOADate(ArgToInt(arguments, 2));
             
-            var rate = ArgToDecimal(arguments, 3);
+            var rate = ArgToDecimal(arguments, 3, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (rate < 0) return CompileResult.GetErrorResult(eErrorType.Num);
             
-            var price = ArgToDecimal(arguments, 4);
+            var price = ArgToDecimal(arguments, 4, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (price <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
             
             var basis = 0;

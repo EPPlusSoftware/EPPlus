@@ -29,7 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var rate = ArgToDecimal(arguments, 0);
+            var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var args = ArgsToDoubleEnumerable(false, true, arguments, context).ToList();
             var retVal = CashFlowHelper.Npv(rate, args.Skip(1).Select(x => (double)x));
             return CreateResult(retVal, DataType.Decimal);

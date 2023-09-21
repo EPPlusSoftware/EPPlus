@@ -36,10 +36,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         {
             if (arguments.Count > 3) return CompileResult.GetErrorResult(eErrorType.Value);
 
-            var trails = ArgToDecimal(arguments, 0);
+            var trails = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             trails = Math.Floor(trails);
-            var probS = ArgToDecimal(arguments, 1);
-            var alpha = ArgToDecimal(arguments, 2);
+
+            var probS = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            var alpha = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
 
             if (trails < 0 || probS <= 0 || probS >= 1 || alpha <= 0 || alpha >= 1) return CompileResult.GetErrorResult(eErrorType.Num);
 

@@ -29,7 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var retVal = ErfHelper.Erfc(x);
             return CreateResult(retVal, DataType.Decimal);
         }

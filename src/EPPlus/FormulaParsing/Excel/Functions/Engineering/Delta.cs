@@ -28,11 +28,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var n1 = ArgToDecimal(arguments, 0);
+            var n1 = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             var n2 = 0d;
             if(arguments.Count > 1)
             {
-                n2 = ArgToDecimal(arguments, 1);
+                n2 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+                if(e2 != null) return CreateResult(e2.Type);
             }
             if (n1.CompareTo(n2) == 0) return CreateResult(1, DataType.Integer);
             return CreateResult(0, DataType.Integer);

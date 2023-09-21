@@ -33,7 +33,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var arg = ArgToDecimal(arguments, 0);
+            var arg = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (arg >= -1 && arg <= 1) return CreateResult(eErrorType.Num);
             return CreateResult(MathHelper.HArccotan(arg), DataType.Decimal);
         }

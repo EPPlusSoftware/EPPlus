@@ -30,14 +30,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var maxArgs = arguments.Count < (127 * 2) ? arguments.Count : 127 * 2; 
+            var maxArgs = arguments.Count < 254 ? arguments.Count : 254; 
             if(maxArgs % 2 != 0) 
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
             for(var x = 0; x < maxArgs; x += 2)
             {
-                if (System.Math.Round(ArgToDecimal(arguments, x), 15) != 0d)
+                var argResult = ArgToDecimal(arguments, x, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                if (System.Math.Round(argResult, 15) != 0d)
                 {
                     var arg = arguments.ElementAt(x + 1);
                     if(arg.DataType==DataType.ExcelRange)

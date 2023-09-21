@@ -47,12 +47,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ExcelErrorValueException))]
         public void SequenceInvalidStep()
         {
             var func = new Sequence();
             var args = FunctionsHelper.CreateArgs(1, 1,1,"error string");
             var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), result.Result);
         }
 
         [TestMethod]

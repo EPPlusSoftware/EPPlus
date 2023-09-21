@@ -28,8 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var low = ArgToDecimal(arguments, 0);
-            var high = ArgToDecimal(arguments, 1);
+            var low = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var high = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var rand = new Rand().Execute(new FunctionArgument[0], context).Result;
             var randPart = (CalulateDiff(high, low) * (double)rand) + 1;
             randPart = System.Math.Floor(randPart);

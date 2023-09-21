@@ -31,9 +31,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
-            var alpha = ArgToDecimal(arguments, 1);
-            var beta = ArgToDecimal(arguments, 2);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var alpha = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
+            var beta = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            
             var cumulative = ArgToBool(arguments, 3);
             var weibull = 0d;
             

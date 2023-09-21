@@ -29,12 +29,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var rate = ArgToDecimal(arguments, 0);
+            var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var nPer = ArgToInt(arguments, 1);
-            var presentValue = ArgToDecimal(arguments, 2);
+            var presentValue = ArgToDecimal(arguments, 2, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var payEndOfPeriod = 0;
             var futureValue = 0d;
-            if (arguments.Count > 3) futureValue = ArgToDecimal(arguments, 3);
+            if (arguments.Count > 3)
+            {
+                futureValue = ArgToDecimal(arguments, 3, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            }
+            
             if (arguments.Count > 4) payEndOfPeriod = ArgToInt(arguments, 4);
             var result = InternalMethods.PMT_Internal(rate, nPer, presentValue, futureValue, payEndOfPeriod == 0 ? PmtDue.EndOfPeriod : PmtDue.BeginningOfPeriod);
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);

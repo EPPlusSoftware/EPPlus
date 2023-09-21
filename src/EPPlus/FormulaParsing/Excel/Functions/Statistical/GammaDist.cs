@@ -41,9 +41,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            var z = ArgToDecimal(arguments, 0);
-            var alpha = ArgToDecimal(arguments, 1);
-            var beta = ArgToDecimal(arguments, 2);
+            var z = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var alpha = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            var beta = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
             var cumulative = ArgToBool(arguments, 3);
             if (z < 0 || alpha<=0 || beta<=0)
             {

@@ -29,13 +29,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var rate = ArgToDecimal(arguments, 0);
-            var pmt = ArgToDecimal(arguments, 1);
-            var pv = ArgToDecimal(arguments, 2);
+            var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var pmt = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var pv = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             var fv = 0d;
             if (arguments.Count >= 4)
             {
-                fv = ArgToDecimal(arguments, 3);
+                fv = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+                if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             }
             var type = 0;
             if (arguments.Count >= 5)

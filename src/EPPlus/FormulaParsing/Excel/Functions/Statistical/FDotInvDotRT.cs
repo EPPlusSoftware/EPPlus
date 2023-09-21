@@ -32,11 +32,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var probability = ArgToDecimal(arguments, 0);
-            var degreeOfFreedom1 = ArgToDecimal(arguments, 1);
-            var degreeOfFreedom2 = ArgToDecimal(arguments, 2);
+            var probability = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
 
+            var degreeOfFreedom1 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
 
+            var degreeOfFreedom2 = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
 
             degreeOfFreedom1 = System.Math.Floor(degreeOfFreedom1);
             degreeOfFreedom2 = System.Math.Floor(degreeOfFreedom2);
