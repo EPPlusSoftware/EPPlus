@@ -47,7 +47,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
+            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, writer._styleCache, writer._dxfStyleCache);
+
+            if (!string.IsNullOrEmpty(classString))
+            {
+                writer.AddAttribute("class", classString);
+            }
+
             writer.RenderBeginTag(HtmlElements.TableData);
             HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
@@ -83,12 +89,14 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
+            
             var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, writer._styleCache, writer._dxfStyleCache);
 
             if (!string.IsNullOrEmpty(classString))
             {
-                writer.AddAttribute("class", classString.Trim());
+                writer.AddAttribute("class", classString);
             }
+
             //writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
             HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -139,7 +140,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 table = range.GetTable();
             }
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _exporterContext._styleCache);
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
@@ -202,7 +203,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString();
-            var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, _ranges, _styleCache);
+            var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, _ranges, _exporterContext);
             var css = exporter.GetCssString();
             return string.Format(htmlDocument, html, css);
         }
@@ -263,7 +264,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     else
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
+    
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            writer.AddAttribute("class", classString);
+                        }
+
                         writer.RenderBeginTag(HtmlElements.TableData);
                         AddImage(writer, Settings, image, cell.Value);
                         RenderHyperlink(writer, cell, Settings);
@@ -328,7 +336,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses);
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            writer.AddAttribute("class", classString);
+                        }
                     }
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {

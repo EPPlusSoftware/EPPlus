@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -102,7 +103,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     {
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
+
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            writer.AddAttribute("class", classString);
+                        }
+
                         await RenderHyperlinkAsync(writer, cell, Settings);
                         await writer.RenderEndTagAsync();
                         await writer.ApplyFormatAsync(Settings.Minify);
@@ -151,7 +159,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
 
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
-                writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses);
+
+                var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+
+                if (!string.IsNullOrEmpty(classString))
+                {
+                    writer.AddAttribute("class", classString);
+                }
+
                 if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TableHeaderCellRole))
                 {
                     writer.AddAttribute("role", accessibilitySettings.TableSettings.TableHeaderCellRole);
@@ -225,7 +240,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     writer.AddAttribute("role", "cell");
                 }
                 var imageCellClassName = GetImageCellClassName(image, Settings);
-                writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
+                var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+
+                if (!string.IsNullOrEmpty(classString))
+                {
+                    writer.AddAttribute("class", classString);
+                }
+
                 await writer.RenderBeginTagAsync(HtmlElements.TableData);
                 await AddImageAsync(writer, Settings, image, cell.Value);
                 await writer.WriteAsync(GetCellText(cell, Settings));
@@ -268,7 +289,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
             GetDataTypes(_table.Address, _table);
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _exporterContext._dxfStyleCache);
             HtmlExportTableUtil.AddClassesAttributes(writer, _table, _settings);
             AddTableAccessibilityAttributes(Settings.Accessibility, writer);
             await writer.RenderBeginTagAsync(HtmlElements.Table);
@@ -303,7 +324,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();
-            var cssExporter = HtmlExporterFactory.CreateCssExporterTableAsync(_settings, _table, _styleCache);
+            var cssExporter = HtmlExporterFactory.CreateCssExporterTableAsync(_settings, _table, _exporterContext);
             var css = await cssExporter.GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }

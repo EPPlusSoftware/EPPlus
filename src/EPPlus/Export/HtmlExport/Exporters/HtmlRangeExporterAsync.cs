@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 table = range.GetTable();
             }
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _exporterContext._styleCache);
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();
-            var cssExporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _ranges, _styleCache);
+            var cssExporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _ranges, _exporterContext);
             var css = await cssExporter.GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }

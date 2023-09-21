@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private async Task RenderCellCssAsync(StreamWriter sw)
         {
-            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude, _styleCache);
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude, _exporterContext._styleCache);
 
             await styleWriter.RenderAdditionalAndFontCssAsync(TableClass);
             var addedTableStyles = new HashSet<TableStyles>();
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                        addedTableStyles.Contains(table.TableStyle) == false)
                     {
                         var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                        await HtmlExportTableUtil.RenderTableCssAsync(sw, table, settings, _styleCache, _dataTypes);
+                        await HtmlExportTableUtil.RenderTableCssAsync(sw, table, settings, _exporterContext._styleCache, _dataTypes);
                         addedTableStyles.Add(table.TableStyle);
                     }
                 }

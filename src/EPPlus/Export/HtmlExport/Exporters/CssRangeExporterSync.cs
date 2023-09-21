@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void RenderCellCss(StreamWriter sw)
         {
-            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude, _styleCache);
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude, _exporterContext._styleCache);
 
             styleWriter.RenderAdditionalAndFontCss(TableClass);
             var addedTableStyles = new HashSet<TableStyles>();
@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                        addedTableStyles.Contains(table.TableStyle) == false)
                     {
                         var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                        HtmlExportTableUtil.RenderTableCss(sw, table, settings, _styleCache, _dataTypes);
+                        HtmlExportTableUtil.RenderTableCss(sw, table, settings, _exporterContext._styleCache, _dataTypes);
                         addedTableStyles.Add(table.TableStyle);
                     }
                 }

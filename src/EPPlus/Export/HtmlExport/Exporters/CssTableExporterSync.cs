@@ -142,9 +142,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var sw = new StreamWriter(stream);
 
             var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _styleCache);
+            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _exporterContext._styleCache);
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
-            if (_tableSettings.Css.IncludeTableStyles) RenderTableCss(sw, _table, _tableSettings, _styleCache, _dataTypes);
+            if (_tableSettings.Css.IncludeTableStyles) RenderTableCss(sw, _table, _tableSettings, _exporterContext._styleCache, _dataTypes);
             if (_tableSettings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
             if (_tableSettings.Pictures.Include == ePictureInclude.Include)
             {

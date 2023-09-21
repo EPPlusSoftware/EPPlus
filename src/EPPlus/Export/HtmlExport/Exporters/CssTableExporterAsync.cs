@@ -70,9 +70,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (_dataTypes.Count == 0) GetDataTypes(_table.Address, _table);
             var sw = new StreamWriter(stream);
             var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _styleCache);
+            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _exporterContext._styleCache);
             await cellCssWriter.RenderAdditionalAndFontCssAsync(TableClass);
-            if (_tableSettings.Css.IncludeTableStyles) await RenderTableCssAsync(sw, _table, _tableSettings, _styleCache, _dataTypes);
+            if (_tableSettings.Css.IncludeTableStyles) await RenderTableCssAsync(sw, _table, _tableSettings, _exporterContext._styleCache, _dataTypes);
             if (_tableSettings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
 
             if (Settings.Pictures.Include == ePictureInclude.Include)
@@ -89,7 +89,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         private async Task RenderCellCssAsync(StreamWriter sw)
         {
             var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var styleWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _styleCache);
+            var styleWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _exporterContext._styleCache);
 
             var r = _table.Range;
             var styles = r.Worksheet.Workbook.Styles;

@@ -23,88 +23,88 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
     internal static class HtmlExporterFactory
     {
 
-        public static HtmlRangeExporterSync CreateHtmlExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range, Dictionary<string, int> styleCache)
+        public static HtmlRangeExporterSync CreateHtmlExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range, ExporterContext context)
         {
             var exporter = new HtmlRangeExporterSync(settings, range);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static HtmlRangeExporterSync CreateHtmlExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, Dictionary<string, int> styleCache)
+        public static HtmlRangeExporterSync CreateHtmlExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, ExporterContext context)
         {
             var exporter = new HtmlRangeExporterSync(settings, ranges);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static HtmlTableExporterSync CreateHtmlTableExporterSync(HtmlTableExportSettings settings, ExcelTable table, Dictionary<string, int> styleCache)
+        public static HtmlTableExporterSync CreateHtmlTableExporterSync(HtmlTableExportSettings settings, ExcelTable table, ExporterContext context)
         {
             var exporter = new HtmlTableExporterSync(settings, table);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static CssRangeExporterSync CreateCssExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range, Dictionary<string, int> styleCache)
+        public static CssRangeExporterSync CreateCssExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range, ExporterContext context)
         {
             var exporter = new CssRangeExporterSync(settings, range);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static CssRangeExporterSync CreateCssExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, Dictionary<string, int> styleCache)
+        public static CssRangeExporterSync CreateCssExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, ExporterContext context)
         {
             var exporter = new CssRangeExporterSync(settings, ranges);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static CssTableExporterSync CreateCssExporterTableSync(HtmlTableExportSettings settings, ExcelTable table, Dictionary<string, int> styleCache)
+        public static CssTableExporterSync CreateCssExporterTableSync(HtmlTableExportSettings settings, ExcelTable table, ExporterContext context)
         {
             var exporter = new CssTableExporterSync(settings, table);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
 #if !NET35 && !NET40
-        public static HtmlRangeExporterAsync CreateHtmlExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase range, Dictionary<string, int> styleCache)
+        public static HtmlRangeExporterAsync CreateHtmlExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase range, ExporterContext context)
         {
             var exporter = new HtmlRangeExporterAsync(settings, range);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static HtmlRangeExporterAsync CreateHtmlExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, Dictionary<string, int> styleCache)
+        public static HtmlRangeExporterAsync CreateHtmlExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, ExporterContext context)
         {
             var exporter = new HtmlRangeExporterAsync(settings, ranges);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static HtmlTableExporterAsync CreateHtmlTableExporterAsync(HtmlTableExportSettings settings, ExcelTable table, Dictionary<string, int> styleCache)
+        public static HtmlTableExporterAsync CreateHtmlTableExporterAsync(HtmlTableExportSettings settings, ExcelTable table, ExporterContext context)
         {
             var exporter = new HtmlTableExporterAsync(settings, table);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static CssRangeExporterAsync CreateCssExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase range, Dictionary<string, int> styleCache)
+        public static CssRangeExporterAsync CreateCssExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase range, ExporterContext context)
         {
             var exporter = new CssRangeExporterAsync(settings, range);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static CssRangeExporterAsync CreateCssExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, Dictionary<string, int> styleCache)
+        public static CssRangeExporterAsync CreateCssExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges, ExporterContext context)
         {
             var exporter = new CssRangeExporterAsync(settings, ranges);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 
-        public static CssTableExporterAsync CreateCssExporterTableAsync(HtmlTableExportSettings settings, ExcelTable table, Dictionary<string, int> styleCache)
+        public static CssTableExporterAsync CreateCssExporterTableAsync(HtmlTableExportSettings settings, ExcelTable table, ExporterContext context)
         {
             var exporter = new CssTableExporterAsync(settings, table);
-            exporter.SetStyleCache(styleCache);
+            exporter.SetExporterContext(context);
             return exporter;
         }
 #endif

@@ -96,12 +96,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     else
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _styleCache, writer._dxfStyleCache);
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, writer._dxfStyleCache);
 
                         if (!string.IsNullOrEmpty(classString))
                         {
-                            writer.AddAttribute("class", classString.Trim());
+                            writer.AddAttribute("class", classString);
                         }
+
                         //writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses);
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
                         await AddImageAsync(writer, Settings, image, cell.Value);
@@ -168,7 +169,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, _styleCache, writer._dxfStyleCache);
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, writer._dxfStyleCache);
 
                         if (!string.IsNullOrEmpty(classString))
                         {

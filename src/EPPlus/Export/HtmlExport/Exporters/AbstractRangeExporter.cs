@@ -32,11 +32,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         internal List<HtmlImage> _rangePictures = null;
         protected List<string> _dataTypes = new List<string>();
         protected readonly CellDataWriter _cellDataWriter = new CellDataWriter();
-        protected Dictionary<string, int> _styleCache;
+        protected ExporterContext _exporterContext;
 
-        internal void SetStyleCache(Dictionary<string, int> styleCache)
+        internal void SetExporterContext(ExporterContext context)
         {
-            _styleCache = styleCache;
+            _exporterContext = context;
         }
 
         protected void GetDataTypes(ExcelAddressBase adr, ExcelTable table)

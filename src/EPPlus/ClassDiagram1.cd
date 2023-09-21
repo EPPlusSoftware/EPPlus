@@ -3,12 +3,9 @@
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlRangeExporter">
     <Position X="11" Y="19" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>CAICAAAAAAIAAAABgIAAEAAAAEAAAAAAgIAQAAQAAAA=</HashCode>
+      <HashCode>CAICAAAAAAIAAAABgIAAEAAAAEAAAAAAgIAQAAAAAAA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\ExcelHtmlRangeExporter.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_styleCache" />
-    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusCssWriter" Collapsed="true">
@@ -31,7 +28,7 @@
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusHtmlWriter" Collapsed="true">
     <Position X="41.25" Y="4.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAAAAACABAAAACAAAAQAAAAAABAAEAAAAA=</HashCode>
+      <HashCode>gAAAAAAAAAAAAAACABAAAACAAAAAAAAAAABAAEAAAAA=</HashCode>
       <FileName>Export\HtmlExport\EpplusHtmlWriter.async.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -52,12 +49,9 @@
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.AbstractHtmlExporter">
     <Position X="26.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgBQAABAAAAAAAAAgAUQAQAAAAAAAAAAAgQAAAA=</HashCode>
+      <HashCode>CAAAAgBQAABAAAAAAAAAgAUQAQAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\AbstractRangeExporter.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_styleCache" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterBase" Collapsed="true">
     <Position X="19.75" Y="8.25" Width="2.75" />
