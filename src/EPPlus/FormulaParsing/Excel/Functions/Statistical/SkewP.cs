@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var numbers = ArgsToDoubleEnumerable(arguments, context).Select(x => x.Value).ToArray();
+            var numbers = ArgsToDoubleEnumerable(arguments, context).ToArray();
             var n = numbers.Length;
             var avg = numbers.Average();
             var sd = CalcStandardDev(numbers, avg);

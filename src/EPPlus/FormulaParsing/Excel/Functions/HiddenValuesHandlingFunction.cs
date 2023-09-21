@@ -51,16 +51,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         public bool IgnoreNestedSubtotalsAndAggregates { get; set; }
 
-        protected override IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected override IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             return ArgsToDoubleEnumerable(arguments, context, IgnoreErrors, false);
         }
 
-        protected IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreErrors, bool ignoreNonNumeric)
+        protected IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreErrors, bool ignoreNonNumeric)
         {
             if (!arguments.Any())
             {
-                return Enumerable.Empty<ExcelDoubleCellValue>();
+                return new List<double>();
             }
             if (IgnoreHiddenValues)
             {

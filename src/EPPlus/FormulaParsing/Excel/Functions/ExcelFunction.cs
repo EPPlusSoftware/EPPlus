@@ -616,7 +616,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments,
+        protected virtual IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments,
                                                                      ParsingContext context)
         {
             return ArgsToDoubleEnumerable(false, arguments, context);
@@ -644,9 +644,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context, false);
+            //return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context, false);
+            var options = new DoubleEnumerableParseOptions
+            {
+                IgnoreHiddenCells = ignoreHiddenCells,
+                IgnoreErrors = ignoreErrors,
+                IgnoreNestedSubtotalAggregate = ignoreNestedSubtotalAggregate,
+                IgnoreNonNumeric = false
+            };
+            var parser = new DoubleEnumerableArgParser(arguments, context, options);
+            var result = parser.GetResult(out ExcelErrorValue error);
+            if (error != null)
+            {
+                throw new ExcelErrorValueException(error);
+            }
+            return result;
         }
 
 
@@ -660,9 +674,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="context"></param>
         /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
+        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
         {
-            return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context, ignoreNonNumeric);
+            //return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context, ignoreNonNumeric);
+            var options = new DoubleEnumerableParseOptions
+            {
+                IgnoreHiddenCells = ignoreHiddenCells,
+                IgnoreErrors = ignoreErrors,
+                IgnoreNestedSubtotalAggregate = ignoreNestedSubtotalAggregate,
+                IgnoreNonNumeric = ignoreNonNumeric
+            };
+            var parser = new DoubleEnumerableArgParser(arguments, context, options);
+            var result = parser.GetResult(out ExcelErrorValue error);
+            if(error != null)
+            {
+                throw new ExcelErrorValueException(error);
+            }
+            return result;
         }
 
         /// <summary>
@@ -674,7 +702,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="context"></param>
         /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
+        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
         {
             return ArgsToDoubleEnumerable(ignoreHiddenCells, true, ignoreNestedSubtotalAggregate, arguments, context, ignoreNonNumeric);
         }
@@ -687,7 +715,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="context"></param>
         /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
+        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
         {
             return ArgsToDoubleEnumerable(ignoreHiddenCells, true, false, arguments, context, ignoreNonNumeric);
         }
@@ -700,7 +728,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="context"></param>        
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             return ArgsToDoubleEnumerable(ignoreHiddenCells, true, arguments, context, false);
         }
@@ -713,7 +741,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
             var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
             var funcArg = new FunctionArgument(rangeInfo, DataType.ExcelRange);
-            var result = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
+            var dResult = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
+            var result = dResult.Select(x => new ExcelDoubleCellValue(x));
             var dict = new Dictionary<int, double>();
             result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
             var resultList = new List<double>();
