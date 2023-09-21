@@ -26,7 +26,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNamedRange
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 21
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -191,6 +191,7 @@ items:
   - OfficeOpenXml.ExcelAddressBase.End
   - OfficeOpenXml.ExcelAddressBase.ExternalReferenceIndex
   - OfficeOpenXml.ExcelAddressBase.Table
+  - OfficeOpenXml.ExcelAddressBase.AddressAbsolute
   - OfficeOpenXml.ExcelAddressBase.IsName
   - OfficeOpenXml.ExcelAddressBase.Validate
   - OfficeOpenXml.ExcelAddressBase.Rows
@@ -250,7 +251,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 53
+    startLine: 82
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -287,7 +288,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LocalSheetId
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 61
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -324,7 +325,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNameHidden
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 85
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -361,7 +362,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameComment
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 93
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -398,7 +399,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 104
+    startLine: 225
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -436,7 +437,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 113
+    startLine: 234
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -478,7 +479,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/ExcelNamedRange.cs
-    startLine: 139
+    startLine: 273
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -7245,6 +7246,12 @@ references:
   name: Table
   nameWithType: ExcelAddressBase.Table
   fullName: OfficeOpenXml.ExcelAddressBase.Table
+- uid: OfficeOpenXml.ExcelAddressBase.AddressAbsolute
+  commentId: P:OfficeOpenXml.ExcelAddressBase.AddressAbsolute
+  parent: OfficeOpenXml.ExcelAddressBase
+  name: AddressAbsolute
+  nameWithType: ExcelAddressBase.AddressAbsolute
+  fullName: OfficeOpenXml.ExcelAddressBase.AddressAbsolute
 - uid: OfficeOpenXml.ExcelAddressBase.IsName
   commentId: P:OfficeOpenXml.ExcelAddressBase.IsName
   parent: OfficeOpenXml.ExcelAddressBase

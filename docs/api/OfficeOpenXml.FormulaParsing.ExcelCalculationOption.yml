@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+  - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
   langs:
   - csharp
@@ -116,6 +117,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
+  id: CacheExpressions
+  parent: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  langs:
+  - csharp
+  - vb
+  name: CacheExpressions
+  nameWithType: ExcelCalculationOption.CacheExpressions
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheExpressions
+    path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nExpressions in the formula calculation will be cached, to be resused. \nThis increases speed, if having multiple formulas using the same expressions. \nCanching increases memory consumtion on calculate.\n"
+  example: []
+  syntax:
+    content: public bool CacheExpressions { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CacheExpressions As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
   commentId: P:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
   id: PrecisionAndRoundingStrategy
@@ -134,7 +172,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-    startLine: 85
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -468,6 +506,11 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
+  name: CacheExpressions
+  nameWithType: ExcelCalculationOption.CacheExpressions
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
 - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
   name: PrecisionAndRoundingStrategy

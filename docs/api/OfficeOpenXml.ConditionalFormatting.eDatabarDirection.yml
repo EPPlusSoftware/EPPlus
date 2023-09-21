@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  id: eDatabarDirection
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eDatabarDirection.Context
+  - OfficeOpenXml.ConditionalFormatting.eDatabarDirection.LeftToRight
+  - OfficeOpenXml.ConditionalFormatting.eDatabarDirection.RightToLeft
+  langs:
+  - csharp
+  - vb
+  name: eDatabarDirection
+  nameWithType: eDatabarDirection
+  fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDatabarDirection
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nDirection of Databar\n"
+  example: []
+  syntax:
+    content: public enum eDatabarDirection
+    content.vb: Public Enum eDatabarDirection
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection.Context
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eDatabarDirection.Context
+  id: Context
+  parent: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  langs:
+  - csharp
+  - vb
+  name: Context
+  nameWithType: eDatabarDirection.Context
+  fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection.Context
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Context
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nBased on context\n"
+  example: []
+  syntax:
+    content: Context = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection.LeftToRight
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eDatabarDirection.LeftToRight
+  id: LeftToRight
+  parent: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  langs:
+  - csharp
+  - vb
+  name: LeftToRight
+  nameWithType: eDatabarDirection.LeftToRight
+  fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection.LeftToRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftToRight
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nDatabar going from left to right\n"
+  example: []
+  syntax:
+    content: LeftToRight = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection.RightToLeft
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eDatabarDirection.RightToLeft
+  id: RightToLeft
+  parent: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  langs:
+  - csharp
+  - vb
+  name: RightToLeft
+  nameWithType: eDatabarDirection.RightToLeft
+  fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection.RightToLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightToLeft
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nDatabar going RighToLeft\n"
+  example: []
+  syntax:
+    content: RightToLeft = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eDatabarDirection
+  nameWithType: eDatabarDirection
+  fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection

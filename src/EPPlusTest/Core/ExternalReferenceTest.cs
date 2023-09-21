@@ -445,5 +445,30 @@ namespace EPPlusTest.Core
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void ReferencingWorkbookTest()
+        {
+            using (var package = OpenTemplatePackage("WorkbookCallingReferenceWorkbook.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                package.Workbook.ExternalLinks[0].As.ExternalWorkbook.Load();
+
+                var f1 = ws.Cells["A1"].Formula;
+                var f2 = ws.Cells["B2"].Formula;
+                var f3 = ws.Cells["C3"].Formula;
+
+                ws.Calculate();
+
+                Assert.AreEqual(-7d, ws.Cells["A1"].Value);
+                Assert.AreEqual("Larger", ws.Cells["B2"].Value);
+                Assert.AreEqual("Column1", ws.Cells["C3"].Value);
+                Assert.AreEqual("Column1", ws.Cells["D4"].Value);
+                Assert.AreEqual("Column3", ws.Cells["F4"].Value);
+
+                SaveWorkbook("WorkBookCalculated.xlsx", package);
+            }
+        }
     }
 }

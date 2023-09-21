@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+     Category = ExcelFunctionCategory.Engineering,
+     EPPlusVersion = "7.0",
+     Description = "Returns the quotient of two complex numbers in x + yi or x + yj text format.")]
     internal class ImDiv : ImFunctionBase
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

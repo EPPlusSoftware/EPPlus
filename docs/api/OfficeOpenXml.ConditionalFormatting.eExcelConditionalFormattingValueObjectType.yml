@@ -5,6 +5,8 @@ items:
   id: eExcelConditionalFormattingValueObjectType
   parent: OfficeOpenXml.ConditionalFormatting
   children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMax
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMin
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Formula
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Max
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Min
@@ -25,7 +27,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExcelConditionalFormattingValueObjectType
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 355
+    startLine: 351
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -58,7 +60,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 360
+    startLine: 356
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -92,7 +94,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Max
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 365
+    startLine: 361
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -126,7 +128,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Min
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 370
+    startLine: 366
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -160,7 +162,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Num
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 375
+    startLine: 371
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -194,7 +196,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 380
+    startLine: 376
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -228,7 +230,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percentile
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 385
+    startLine: 381
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -236,6 +238,74 @@ items:
   example: []
   syntax:
     content: Percentile = 5
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMin
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMin
+  id: AutoMin
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: AutoMin
+  nameWithType: eExcelConditionalFormattingValueObjectType.AutoMin
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoMin
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 386
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAuto minimal value\n"
+  example: []
+  syntax:
+    content: AutoMin = 6
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMax
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMax
+  id: AutoMax
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: AutoMax
+  nameWithType: eExcelConditionalFormattingValueObjectType.AutoMax
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.AutoMax
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoMax
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 390
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAuto Maximum value\n"
+  example: []
+  syntax:
+    content: AutoMax = 7
     return:
       type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
   modifiers.csharp:

@@ -6,7 +6,6 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.ConvertFunction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
   langs:
   - csharp
   - vb
@@ -27,8 +26,3 @@ references:
   name: Erf
   nameWithType: Erf
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
-  name: Erfc
-  nameWithType: Erfc
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc

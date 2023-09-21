@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     [FunctionMetadata(
      Category = ExcelFunctionCategory.Engineering,
      EPPlusVersion = "7.0",
-     Description = "Returns the cosecant of a complex number in x+yi or x+yj text format.")]
+     Description = "Returns the hyperbolic cosecant of a complex number in x+yi or x+yj text format.")]
     internal class ImCsch : ImFunctionBase
     {
         public override string NamespacePrefix => "_xlfn.";

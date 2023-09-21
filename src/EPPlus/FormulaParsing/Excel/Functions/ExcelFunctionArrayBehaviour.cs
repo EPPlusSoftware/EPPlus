@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         None = 0,
         /// <summary>
         /// The function supports arrays, but not according to any of the options in this enum. If a function returns this value
-        /// it should also implement the <see cref="ExcelFunction.GetArrayBehaviourConfig"/> function.
+        /// it should also implement the <see cref="ExcelFunction.ConfigureArrayBehaviour(ArrayBehaviourConfig)"/> function.
         /// </summary>
         Custom = 1,
         /// <summary>

@@ -668,11 +668,15 @@ namespace OfficeOpenXml
                 {
                     if (_worksheet == null)
                     {
-                        return _workbook._names[_address].NameValue;
+                        var ws = _workbook.Worksheets[_workbook.View.ActiveTab];
+                        if (ws == null) ws = _workbook.Worksheets[0];
+                        FormulaCellAddress cc = GetActiveCell(ws);
+                        return _workbook._names[_address].GetValue(cc);
                     }
                     else
                     {
-                        return _worksheet.Names[_address].NameValue;
+                        FormulaCellAddress cc = GetActiveCell(_worksheet);
+                        return _worksheet.Names[_address].GetValue(cc);
                     }
                 }
                 else
@@ -706,6 +710,17 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private static FormulaCellAddress GetActiveCell(ExcelWorksheet ws)
+        {
+            if (!ExcelCellBase.GetRowColFromAddress(ws.View.ActiveCell, out int row, out int col))
+            {
+                row = 1; col = 1;
+            }
+            var cc = new FormulaCellAddress(ws.IndexInList, row, col);
+            return cc;
+        }
+
         /// <summary>
         /// Sets the range to an Error value
         /// </summary>
@@ -1193,7 +1208,7 @@ namespace OfficeOpenXml
             get
             {
                 IsRangeValid("autofilter");
-                ExcelAddressBase address = _worksheet.AutoFilterAddress;
+                ExcelAddressBase address = _worksheet.AutoFilter.Address;
                 if (address == null) return false;
                 if (_fromRow >= address.Start.Row
                         &&
@@ -1210,9 +1225,9 @@ namespace OfficeOpenXml
             set
             {
                 IsRangeValid("autofilter");
-                if (_worksheet.AutoFilterAddress != null)
+                if (_worksheet.AutoFilter.Address != null)
                 {
-                    var c = this.Collide(_worksheet.AutoFilterAddress);
+                    var c = this.Collide(_worksheet.AutoFilter.Address);
                     if (value == false && (c == eAddressCollition.Partly || c == eAddressCollition.No))
                     {
                         throw (new InvalidOperationException("Can't remove Autofilter. The current autofilter does not match selected range."));
@@ -1228,7 +1243,7 @@ namespace OfficeOpenXml
                     var tbl = _worksheet.Tables.GetFromRange(this);
                     if (tbl == null)
                     {
-                        _worksheet.AutoFilterAddress = this;
+                        _worksheet.AutoFilter.Address = this;
                         var result = _worksheet.Names.AddName("_xlnm._FilterDatabase", this);
                         result.IsNameHidden = true;
                     }
@@ -1239,7 +1254,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _worksheet.AutoFilterAddress = null;
+                    _worksheet.AutoFilter.Address = null;
                 }
             }
         }
@@ -2011,6 +2026,19 @@ namespace OfficeOpenXml
                 throw (new Exception("An array formula cannot have more than one address"));
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
+        }
+        /// <summary>
+        /// The address of the formula in the top-left cell of the range.
+        /// A shared formula or array formula will return the address for the entire series.
+        /// If you want the address of a dynamic array formula, you must calculate the formula first.
+        /// </summary>
+        /// <returns>The address the formula spans</returns>
+        public ExcelAddressBase FormulaAddress
+        {
+            get
+            {
+                return _worksheet.GetFormulaAddress(_fromRow, _fromCol);
+            }
         }
         internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true, bool clearStyles = true)
         {

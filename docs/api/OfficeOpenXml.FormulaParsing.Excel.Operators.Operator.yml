@@ -21,7 +21,6 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.NotEqualsTo
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.OfficeOpenXml#FormulaParsing#Excel#Operators#IOperator#Operator
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.OfficeOpenXml#FormulaParsing#Excel#Operators#IOperator#Precedence
-  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Plus
   langs:
   - csharp
@@ -460,7 +459,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Intersect
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 384
+    startLine: 319
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -499,7 +498,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 442
+    startLine: 377
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -538,7 +537,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Eq
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 463
+    startLine: 398
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -577,7 +576,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotEqualsTo
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 482
+    startLine: 417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -614,7 +613,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 494
+    startLine: 436
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -651,7 +650,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 512
+    startLine: 454
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -688,7 +687,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 530
+    startLine: 472
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -699,43 +698,6 @@ items:
       type: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
     content.vb: Public Shared ReadOnly Property LessThanOrEqual As IOperator
   overload: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.LessThanOrEqual*
-  modifiers.csharp:
-  - public
-  - static
-  - get
-  modifiers.vb:
-  - Public
-  - Shared
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent
-  id: Percent
-  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
-  langs:
-  - csharp
-  - vb
-  name: Percent
-  nameWithType: Operator.Percent
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Percent
-    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 548
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
-  syntax:
-    content: public static IOperator Percent { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
-    content.vb: Public Shared ReadOnly Property Percent As IOperator
-  overload: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent*
   modifiers.csharp:
   - public
   - static
@@ -1248,8 +1210,3 @@ references:
   name: LessThanOrEqual
   nameWithType: Operator.LessThanOrEqual
   fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.LessThanOrEqual
-- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent
-  name: Percent
-  nameWithType: Operator.Percent
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Percent

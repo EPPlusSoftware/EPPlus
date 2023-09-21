@@ -39,7 +39,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             }
             else
             {
-                var d = ArgToDecimal(arguments, 0);
+                var d = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+                if (e1 != null) return CreateResult(e1.Type);
                 date = DateTime.FromOADate(d);
             }
             return CreateResult(date.Minute, DataType.Integer);

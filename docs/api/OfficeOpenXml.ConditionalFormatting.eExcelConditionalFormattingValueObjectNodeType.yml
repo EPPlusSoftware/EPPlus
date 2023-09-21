@@ -21,7 +21,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExcelConditionalFormattingValueObjectNodeType
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 412
+    startLine: 417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -54,7 +54,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cfvo
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 417
+    startLine: 422
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -88,7 +88,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 422
+    startLine: 427
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting

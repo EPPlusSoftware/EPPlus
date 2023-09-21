@@ -5,8 +5,10 @@ items:
   id: FunctionParameterInformation
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.AdjustParameterAddress
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreAddress
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreErrorInPreExecute
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Normal
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsFalse
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsTrue
@@ -19,20 +21,30 @@ items:
   type: Enum
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionParameterInformation
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 35
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   summary: "\nInformation about an argument passed to a function used in the formula parser. \n"
   example: []
   syntax:
-    content: public enum FunctionParameterInformation
-    content.vb: Public Enum FunctionParameterInformation
+    content: >-
+      [Flags]
+
+      public enum FunctionParameterInformation
+    content.vb: >-
+      <Flags>
+
+      Public Enum FunctionParameterInformation
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - enum
@@ -52,19 +64,19 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Normal
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 40
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   summary: "\nThe argument will be handled as a normally.\n"
   example: []
   syntax:
-    content: Normal = 0
+    content: Normal = 1
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
   modifiers.csharp:
@@ -86,19 +98,19 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreAddress
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 44
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   summary: "\nIf the argument is an address this address will be ignored in the dependency chain.\n"
   example: []
   syntax:
-    content: IgnoreAddress = 1
+    content: IgnoreAddress = 2
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
   modifiers.csharp:
@@ -120,19 +132,19 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Condition
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 48
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   summary: "\nThis argument is a condition returning a boolean expression\n"
   example: []
   syntax:
-    content: Condition = 2
+    content: Condition = 4
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
   modifiers.csharp:
@@ -154,19 +166,19 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseIfConditionIsTrue
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 52
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   summary: "\nUse this argument if the condtion is true. Requires a previous parameter to be <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: UseIfConditionIsTrue = 3
+    content: UseIfConditionIsTrue = 8
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
   modifiers.csharp:
@@ -188,19 +200,87 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseIfConditionIsFalse
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 56
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
   summary: "\nUse this argument if the condtion is false. Requires a previous parameter to be <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: UseIfConditionIsFalse = 4
+    content: UseIfConditionIsFalse = 16
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreErrorInPreExecute
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreErrorInPreExecute
+  id: IgnoreErrorInPreExecute
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: IgnoreErrorInPreExecute
+  nameWithType: FunctionParameterInformation.IgnoreErrorInPreExecute
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreErrorInPreExecute
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreErrorInPreExecute
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nBy default errors found in parameters are returned as a compile result containing the error before calling the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList%7bOfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument%7d%2cOfficeOpenXml.FormulaParsing.ParsingContext)\" data-throw-if-not-resolved=\"false\"></xref> method.\nSetting this value will allow the function to receive the error as an argument and process them.\n"
+  example: []
+  syntax:
+    content: IgnoreErrorInPreExecute = 32
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.AdjustParameterAddress
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.AdjustParameterAddress
+  id: AdjustParameterAddress
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: AdjustParameterAddress
+  nameWithType: FunctionParameterInformation.AdjustParameterAddress
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.AdjustParameterAddress
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AdjustParameterAddress
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIf the parameter is an address, call the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList%7bOfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult%7d%2cSystem.Int32%2cSystem.Collections.Generic.Queue%7bOfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress%7d%40)\" data-throw-if-not-resolved=\"false\"></xref> to adjust the address before dependency check.\n"
+  example: []
+  syntax:
+    content: AdjustParameterAddress = 64
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
   modifiers.csharp:
@@ -224,3 +304,199 @@ references:
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
   commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
   isExternal: true
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: Execute(IList<FunctionArgument>, ParsingContext)
+  nameWithType: ExcelFunction.Execute(IList<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.Execute(IList(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: Execute(IList(Of FunctionArgument), ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: Execute
+    nameWithType: ExcelFunction.Execute
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: Execute
+    nameWithType: ExcelFunction.Execute
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunction
+  nameWithType: ExcelFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: GetNewParameterAddress(IList<CompileResult>, Int32, Queue<FormulaRangeAddress>)
+  nameWithType: ExcelFunction.GetNewParameterAddress(IList<CompileResult>, Int32, Queue<FormulaRangeAddress>)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult>, System.Int32, System.Collections.Generic.Queue<OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress>)
+  nameWithType.vb: ExcelFunction.GetNewParameterAddress(IList(Of CompileResult), Int32, Queue(Of FormulaRangeAddress))
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult), System.Int32, System.Collections.Generic.Queue(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress))
+  name.vb: GetNewParameterAddress(IList(Of CompileResult), Int32, Queue(Of FormulaRangeAddress))
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
+    name: GetNewParameterAddress
+    nameWithType: ExcelFunction.GetNewParameterAddress
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.Queue`1
+    name: Queue
+    nameWithType: Queue
+    fullName: System.Collections.Generic.Queue
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
+    name: GetNewParameterAddress
+    nameWithType: ExcelFunction.GetNewParameterAddress
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.Queue`1
+    name: Queue
+    nameWithType: Queue
+    fullName: System.Collections.Generic.Queue
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )

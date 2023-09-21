@@ -72,7 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 }
                 else
                 {
-                    return new RangeInfo(Address, context);
+                    return new RangeInfo(Address);
                 }
             }
         }
@@ -86,6 +86,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public bool IsExcelRange
         {
             get => _result.DataType == DataType.ExcelRange;
+        }
+        public bool IsExcelRangeOrSingleCell
+        {
+            get => _result.DataType == DataType.ExcelRange || _result.Address != null;
         }
 
         public bool IsEnumerableOfFuncArgs
@@ -116,7 +120,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             get 
             {
-                return _result.Result as IRangeInfo; 
+                if(_result.Result is IRangeInfo ri)
+                {
+                    return ri;
+                }
+                else
+                {
+                    if(_result.Address!=null)
+                    {
+                        return new RangeInfo(_result.Address);
+                    }
+                    return null;
+                }
             }
         }
         public object ValueFirst

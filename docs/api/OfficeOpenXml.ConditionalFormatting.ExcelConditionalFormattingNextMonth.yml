@@ -4,7 +4,8 @@ items:
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
   id: ExcelConditionalFormattingNextMonth
   parent: OfficeOpenXml.ConditionalFormatting
-  children: []
+  children:
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.#ctor(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ExcelWorksheet,System.Xml.XmlReader)
   langs:
   - csharp
   - vb
@@ -19,11 +20,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingNextMonth
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingNextMonth.cs
-    startLine: 25
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nExcelConditionalFormattingNextMonth\n"
+  summary: "\nExcelConditionalFormattingLast7Days\n"
   example: []
   syntax:
     content: 'public class ExcelConditionalFormattingNextMonth : ExcelConditionalFormattingTimePeriodGroup, IExcelConditionalFormattingTimePeriodGroup, IExcelConditionalFormattingRule'
@@ -33,19 +34,17 @@ items:
           Implements IExcelConditionalFormattingTimePeriodGroup, IExcelConditionalFormattingRule
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
   implements:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
   inheritedMembers:
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.StopIfTrue
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.StdDev
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Rank
@@ -71,6 +70,48 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.#ctor(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ExcelWorksheet,System.Xml.XmlReader)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.#ctor(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ExcelWorksheet,System.Xml.XmlReader)
+  id: '#ctor(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ExcelWorksheet,System.Xml.XmlReader)'
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
+  langs:
+  - csharp
+  - vb
+  name: ExcelConditionalFormattingNextMonth(ExcelAddress, ExcelWorksheet, XmlReader)
+  nameWithType: ExcelConditionalFormattingNextMonth.ExcelConditionalFormattingNextMonth(ExcelAddress, ExcelWorksheet, XmlReader)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.ExcelConditionalFormattingNextMonth(OfficeOpenXml.ExcelAddress, OfficeOpenXml.ExcelWorksheet, System.Xml.XmlReader)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingNextMonth.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingNextMonth.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public ExcelConditionalFormattingNextMonth(ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    - id: ws
+      type: OfficeOpenXml.ExcelWorksheet
+      description: ''
+    - id: xr
+      type: System.Xml.XmlReader
+      description: ''
+    content.vb: Public Sub New(address As ExcelAddress, ws As ExcelWorksheet, xr As XmlReader)
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.ConditionalFormatting
   commentId: N:OfficeOpenXml.ConditionalFormatting
@@ -84,12 +125,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   parent: OfficeOpenXml.ConditionalFormatting
@@ -114,30 +149,18 @@ references:
   name: IExcelConditionalFormattingRule
   nameWithType: IExcelConditionalFormattingRule
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  name: Node
-  nameWithType: ExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  name: Address
-  nameWithType: ExcelConditionalFormattingRule.Address
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  name: PivotTable
-  nameWithType: ExcelConditionalFormattingRule.PivotTable
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
   parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   name: Type
   nameWithType: ExcelConditionalFormattingRule.Type
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  name: Address
+  nameWithType: ExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
@@ -150,6 +173,12 @@ references:
   name: StopIfTrue
   nameWithType: ExcelConditionalFormattingRule.StopIfTrue
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.StopIfTrue
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  name: PivotTable
+  nameWithType: ExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style
   parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
@@ -507,13 +536,43 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts
   commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
   name: OfficeOpenXml.ConditionalFormatting.Contracts
   nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.#ctor*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.#ctor
+  name: ExcelConditionalFormattingNextMonth
+  nameWithType: ExcelConditionalFormattingNextMonth.ExcelConditionalFormattingNextMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth.ExcelConditionalFormattingNextMonth
+- uid: OfficeOpenXml.ExcelAddress
+  commentId: T:OfficeOpenXml.ExcelAddress
+  parent: OfficeOpenXml
+  name: ExcelAddress
+  nameWithType: ExcelAddress
+  fullName: OfficeOpenXml.ExcelAddress
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: System.Xml.XmlReader
+  commentId: T:System.Xml.XmlReader
+  parent: System.Xml
+  isExternal: true
+  name: XmlReader
+  nameWithType: XmlReader
+  fullName: System.Xml.XmlReader
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml

@@ -68,7 +68,18 @@ namespace OfficeOpenXml
             Index = index;
             if(allowRelativeAddress && _fromRow>0)
             {                
-                _relativeType = (_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed) ? 0 : NameRelativeType.RelativeAddress;
+                if(IsFullColumn)
+                {
+                    _relativeType = (_fromColFixed && _toColFixed) ? 0 : NameRelativeType.RelativeAddress;
+                }
+                else if(IsFullRow)
+                {
+                    _relativeType = (_fromRowFixed && _toRowFixed) ? 0 : NameRelativeType.RelativeAddress;
+                }
+                else
+                {
+                    _relativeType = (_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed) ? 0 : NameRelativeType.RelativeAddress;
+                }
             }
             else if(_fromRow>0 && !(_fromRowFixed && _toRowFixed && _fromColFixed && _toColFixed))
             {
@@ -319,7 +330,7 @@ namespace OfficeOpenXml
         internal RangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
         {
             var address = ri.Address.GetOffset(currentCell.Row, currentCell.Column, true);
-            return new RangeInfo(address, address._context);
+            return new RangeInfo(address);
         }
 
         internal void SetValue(object resultValue, FormulaCellAddress currentCell)

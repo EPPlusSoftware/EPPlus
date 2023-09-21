@@ -20,7 +20,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingThreeColorScale
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingThreeColorScale.cs
-    startLine: 24
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -34,7 +34,6 @@ items:
   inheritedMembers:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
@@ -66,7 +65,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MiddleValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingThreeColorScale.cs
-    startLine: 31
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -100,12 +99,6 @@ references:
   name: HighValue
   nameWithType: IExcelConditionalFormattingTwoColorScale.HighValue
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule

@@ -191,7 +191,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 96
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -228,7 +228,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 113
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -265,7 +265,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 146
+    startLine: 149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -302,7 +302,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 167
+    startLine: 170
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -339,7 +339,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 198
+    startLine: 201
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -376,7 +376,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSlicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 231
+    startLine: 234
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -411,7 +411,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculatedColumnFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 244
+    startLine: 247
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -448,7 +448,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 277
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table

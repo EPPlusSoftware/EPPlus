@@ -27,7 +27,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 94
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -72,7 +72,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 195
+    startLine: 198
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -113,7 +113,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 208
+    startLine: 211
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -164,7 +164,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 231
+    startLine: 234
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -201,7 +201,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 237
+    startLine: 240
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -239,7 +239,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 269
+    startLine: 272
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -283,7 +283,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 279
+    startLine: 282
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -327,7 +327,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 288
+    startLine: 291
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -365,7 +365,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 297
+    startLine: 300
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

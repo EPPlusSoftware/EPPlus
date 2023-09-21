@@ -31,22 +31,17 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             Root.Add(quadRange, item);
         }
 
-        internal List<QuadRangeItem<T>> GetIntersectingRanges(QuadRange range)
+        internal List<QuadRangeItem<T>> GetIntersectingRangeItems(QuadRange range)
         {
             var ranges = new List<QuadRangeItem<T>>();
-            Root.GetIntersectingRanges(range, ref ranges);
+            Root.GetIntersectingRangeItems(range, ref ranges);
             return ranges;
         }
-        internal List<QuadRange> GetIntersectRanges(QuadRange range)
+        internal List<QuadRange> GetIntersectingRanges(QuadRange range)
         {
-            var intersectRanges = GetIntersectingRanges(range);
-            if (intersectRanges.Count == 0) return new List<QuadRange> { range };
-            var ret = new List<QuadRange>();
-            foreach(var r in intersectRanges)
-            {
-                
-            }
-            return ret;
+            var ranges = new List<QuadRange>();
+            Root.GetIntersectingRanges(range, ref ranges);
+            return ranges;
         }
     }
 }

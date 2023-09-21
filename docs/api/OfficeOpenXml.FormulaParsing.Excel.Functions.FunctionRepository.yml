@@ -74,7 +74,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 40
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -108,7 +108,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadModule
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 52
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -146,7 +146,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 66
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -183,7 +183,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 80
+    startLine: 72
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -217,7 +217,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFunctionName
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 91
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -258,7 +258,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionNames
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 99
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -295,7 +295,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOrReplaceFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 109
+    startLine: 101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -334,7 +334,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NamespaceFunctions
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 125
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions

@@ -38,6 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             try
             {
                 double d;
+                if (double.TryParse(str, NumberStyles.Any, CultureInfo.CurrentCulture, out d))
+                    return d;
+
                 if (double.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out d))
                     return d;
 

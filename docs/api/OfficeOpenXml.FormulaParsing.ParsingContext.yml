@@ -9,7 +9,6 @@ items:
   - OfficeOpenXml.FormulaParsing.ParsingContext.Create
   - OfficeOpenXml.FormulaParsing.ParsingContext.Create(OfficeOpenXml.ExcelPackage)
   - OfficeOpenXml.FormulaParsing.ParsingContext.Debug
-  - OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
   - OfficeOpenXml.FormulaParsing.ParsingContext.NameValueProvider
   - OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
   - OfficeOpenXml.FormulaParsing.ParsingContext.Parser
@@ -27,7 +26,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingContext
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -74,7 +73,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parser
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 35
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -111,7 +110,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValueProvider
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 56
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -148,7 +147,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configuration
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 61
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -185,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Debug
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 77
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -222,7 +221,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 87
+    startLine: 93
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -263,14 +262,17 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 97
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nFactory method\n"
+  example: []
   syntax:
     content: public static ParsingContext Create()
     return:
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     content.vb: Public Shared Function Create As ParsingContext
   overload: OfficeOpenXml.FormulaParsing.ParsingContext.Create*
   modifiers.csharp:
@@ -298,7 +300,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 102
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -310,41 +312,6 @@ items:
   - OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
   nameWithType.vb: ParsingContext.OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
   name.vb: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
-  commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
-  id: IsSubtotal
-  parent: OfficeOpenXml.FormulaParsing.ParsingContext
-  langs:
-  - csharp
-  - vb
-  name: IsSubtotal
-  nameWithType: ParsingContext.IsSubtotal
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: IsSubtotal
-    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 146
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  syntax:
-    content: public bool IsSubtotal { get; set; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: Public Property IsSubtotal As Boolean
-  overload: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 references:
 - uid: OfficeOpenXml.FormulaParsing
   commentId: N:OfficeOpenXml.FormulaParsing
@@ -762,8 +729,3 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
-  name: IsSubtotal
-  nameWithType: ParsingContext.IsSubtotal
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal

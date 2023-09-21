@@ -19,10 +19,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichDataErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 75
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
+  summary: "\nRepresents Excel Errors \n\n"
+  example: []
   syntax:
     content: 'public class ExcelRichDataErrorValue : ExcelErrorValue'
     content.vb: >-

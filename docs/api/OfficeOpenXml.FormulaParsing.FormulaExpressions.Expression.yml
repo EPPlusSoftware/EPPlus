@@ -24,7 +24,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Expression
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/Expression.cs
-    startLine: 40
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -67,7 +67,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Context
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/Expression.cs
-    startLine: 46
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -102,7 +102,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/Expression.cs
-    startLine: 51
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -135,7 +135,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compile
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/Expression.cs
-    startLine: 55
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -169,7 +169,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Negate
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/Expression.cs
-    startLine: 56
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -201,7 +201,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/Expression.cs
-    startLine: 66
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

@@ -32,11 +32,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml;
 
 namespace EPPlusTest.Excel.Functions
 {
     [TestClass]
-    public class ArgumentParsersImplementationsTests
+    public class ArgumentParsersImplementationsTests : TestBase
     {
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void IntParserShouldThrowIfArgumentIsNull()
@@ -104,40 +105,45 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void DoubleParserShouldConvertDoubleToDouble()
         {
-            var parser = new DoubleArgumentParser();
-            var result = parser.Parse(3d);
+            var result = DoubleArgParser.Parse(3d, out ExcelErrorValue error);
             Assert.AreEqual(3d, result);
+            Assert.IsNull(error);
         }
 
         [TestMethod]
         public void DoubleParserShouldConvertIntToDouble()
         {
-            var parser = new DoubleArgumentParser();
-            var result = parser.Parse(3);
+            var result = DoubleArgParser.Parse(3, out ExcelErrorValue error);
             Assert.AreEqual(3d, result);
+            Assert.IsNull(error);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void DoubleParserShouldThrowIfArgumentIsNull()
         {
-            var parser = new DoubleArgumentParser();
-            parser.Parse(null);
+            var result = DoubleArgParser.Parse(null, out ExcelErrorValue error);
+            Assert.IsNotNull(error);
+            Assert.AreEqual(eErrorType.Value, error.Type);
         }
 
         [TestMethod]
         public void DoubleParserConvertStringToDoubleWithDotSeparator()
         {
-            var parser = new DoubleArgumentParser();
-            var result = parser.Parse("3.3");
+            SwitchToCulture();
+            var result = DoubleArgParser.Parse("3.3", out ExcelErrorValue error);
             Assert.AreEqual(3.3d, result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void DoubleParserConvertDateStringToDouble()
         {
+            SwitchToCulture();
             var parser = new DoubleArgumentParser();
-            var result = parser.Parse("3.3.2015");
+            var result = DoubleArgParser.Parse("3.3.2015", out ExcelErrorValue error);
             Assert.AreEqual(new DateTime(2015,3,3).ToOADate(), result);
+            Assert.IsNull(error);
+            SwitchBackToCurrentCulture();
         }
     }
 }

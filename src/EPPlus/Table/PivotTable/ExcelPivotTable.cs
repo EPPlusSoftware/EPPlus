@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Table.PivotTable
             TopNode = PivotTableXml.DocumentElement;
             Init();
             Address = new ExcelAddressBase(GetXmlNodeString("d:location/@ref"));
-
+            
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this);
             LoadFields();
 

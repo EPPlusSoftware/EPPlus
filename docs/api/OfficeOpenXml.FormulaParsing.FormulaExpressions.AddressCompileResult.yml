@@ -25,7 +25,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressCompileResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 347
+    startLine: 354
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -44,6 +44,8 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
@@ -86,7 +88,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 349
+    startLine: 356
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -123,7 +125,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 353
+    startLine: 360
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -158,7 +160,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 357
+    startLine: 364
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -191,7 +193,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 361
+    startLine: 368
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -224,7 +226,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 365
+    startLine: 372
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -262,7 +264,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 369
+    startLine: 376
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -325,6 +327,18 @@ references:
   name: ZeroInt
   nameWithType: CompileResult.ZeroInt
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: "False"
+  nameWithType: CompileResult.False
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: "True"
+  nameWithType: CompileResult.True
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
   commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult

@@ -18,6 +18,7 @@ using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
 using System;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.Excel;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -51,6 +52,15 @@ namespace OfficeOpenXml.FormulaParsing
         /// The <see cref="ExcelPackage"/> where the calculation is done.
         /// </summary>
         internal ExcelPackage Package { get; private set; }
+
+        /// <summary>
+        /// Indicates how hidden cells should be handled by the currently
+        /// executing function.
+        /// </summary>
+        internal HiddenCellHandlingCategory HiddenCellBehaviour
+        {
+            get; set;
+        }
 
         /// <summary>
         /// Utility for handling addresses
@@ -155,11 +165,6 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return null;
             }
-        }       
-        public bool IsSubtotal  //Used in CountA via the aggregate function.
-        {
-            get;
-            set;
         }
     }
 }

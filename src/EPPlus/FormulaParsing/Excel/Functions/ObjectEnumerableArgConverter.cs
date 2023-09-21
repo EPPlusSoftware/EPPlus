@@ -16,12 +16,13 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     public class ObjectEnumerableArgConverter : CollectionFlattener<object>
     {
-        public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>
                 {
@@ -29,7 +30,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     {
                         foreach (var cell in (IRangeInfo)arg.Value)
                         {
-                            if (!CellStateHelper.ShouldIgnore(ignoreHidden, cell, context))
+                            if(cell.Value is ExcelErrorValue eev && !ignoreErrors)
+                            {
+                                throw new ExcelErrorValueException(eev.Type);
+                            }
+                            else if (!CellStateHelper.ShouldIgnore(ignoreHidden, ignoreNestedSubtotalAggregate, cell, context))
                             {
                                 argList.Add(cell.Value);
                             }
@@ -39,9 +44,32 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     {
                        argList.Add(arg.Value);
                     }
-                })
-            ;
+                });
+        }
 
+        public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        {
+            return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>
+            {
+                if (arg.Value is IRangeInfo)
+                {
+                    foreach (var cell in (IRangeInfo)arg.Value)
+                    {
+                        if (cell.Value is ExcelErrorValue eev && !ignoreErrors)
+                        {
+                            throw new ExcelErrorValueException(eev.Type);
+                        }
+                        else if (!CellStateHelper.ShouldIgnore(ignoreHidden, cell, context))
+                        {
+                            argList.Add(cell.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    argList.Add(arg.Value);
+                }
+            });
         }
     }
 }

@@ -1521,7 +1521,6 @@ namespace EPPlusTest
         [TestMethod]
         public void IssueCommentInsert()
         {
-
             using (var p = OpenPackage("CommentInsert.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("CommentInsert");
@@ -5252,6 +5251,79 @@ namespace EPPlusTest
                 //System.Diagnostics.Process.Start(fileName);
 
 
+            }
+        }
+        [TestMethod]
+        public void s514()
+        {
+            using (var package = OpenTemplatePackage("ExternalVlookup.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.Calculate();
+                Assert.AreEqual(1d, ws.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void i519()
+        {
+            using (var package = OpenPackage("AutoFilterErasing.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("WorkSheet1");
+
+                ws.Cells["B1:D35"].AutoFilter = true;
+
+                var filter1 = ws.AutoFilter.Columns.AddValueFilterColumn(2);
+                filter1.Filters.Add("Await");
+                filter1.Filters.Add("Async");
+                filter1.Filters.Add("Sync");
+
+                var item = ws.AutoFilter.Columns;
+
+                for (int i = 1; i < 10; i++)
+                {
+                    ws.Cells[i, 2].Value = "Await";
+                    ws.Cells[i + 10, 2].Value = "Async";
+                    ws.Cells[i + 20, 2].Value = "Sync";
+                    ws.Cells[i + 30, 2].Value = "Non-filtered value";
+                }
+
+                ws.AutoFilter.ApplyFilter();
+
+                Assert.AreEqual(true, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(true, ws.Rows[20].Hidden);
+
+                ws.AutoFilter.ClearAll();
+
+                Assert.AreEqual(false, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(false, ws.Rows[20].Hidden);
+
+                ws.Cells["E1:F35"].AutoFilter = true;
+
+                var filter2 = ws.AutoFilter.Columns.AddValueFilterColumn(1);
+                filter2.Filters.Add("Await");
+                filter2.Filters.Add("Async");
+                filter2.Filters.Add("Sync");
+
+                ws.AutoFilter.ApplyFilter();
+
+                ws.Cells["E1:F35"].AutoFilter = false;
+
+                Assert.AreEqual(true, ws.Cells["B10"].EntireRow.Hidden);
+                Assert.AreEqual(true, ws.Rows[20].Hidden);
+
+                ws.Cells["A1:Z35"].AutoFilter = true;
+
+                var filter3 = ws.AutoFilter.Columns.AddValueFilterColumn(5);
+                filter3.Filters.Add("Await");
+                filter3.Filters.Add("Async");
+                filter3.Filters.Add("Sync");
+
+                ws.AutoFilter.ApplyFilter();
+
+                ws.Cells["A1:Z35"].AutoFilter = false;
+
+                package.Save();
             }
         }
     }

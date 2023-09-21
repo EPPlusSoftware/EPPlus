@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             if (fr == tr && fc == tc) 
             {
                 result = range.GetValue(fr, fc);
-                addr = new FormulaRangeAddress(context, fr, fc, tr, tc);
+                addr = new FormulaRangeAddress(context, range.Address.WorksheetIx, fr, fc, tr, tc);
                 return CompileResultFactory.Create(result, addr);
             }
 
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 if (ccr < fr || ccr > tr) return CompileResult.GetErrorResult(eErrorType.Value);
                 // use row of the current cell
                 result = range.GetValue(ccr, tc);
-                addr = new FormulaRangeAddress(context, ccr, tc, ccr, tc);
+                addr = new FormulaRangeAddress(context, range.Address.WorksheetIx, ccr, tc, ccr, tc);
             }
             // horizontal direction
             else
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 if (ccc < fc || ccc > tc) return CompileResult.GetErrorResult(eErrorType.Value);
                 // use col of the current cell
                 result = range.GetValue(tr, ccc);
-                addr = new FormulaRangeAddress(context, tr, ccc, tr, ccc);
+                addr = new FormulaRangeAddress(context, range.Address.WorksheetIx, tr, ccc, tr, ccc);
             }
 
             return CompileResultFactory.Create(result, addr);

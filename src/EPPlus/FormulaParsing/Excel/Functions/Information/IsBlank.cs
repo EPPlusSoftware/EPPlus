@@ -29,13 +29,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override int ArgumentMinLength => 0;
+        public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments == null || arguments.Count == 0)
-            {
-                return CreateResult(true, DataType.Boolean);
-            }
             var result = true;
             foreach (var arg in arguments)
             {

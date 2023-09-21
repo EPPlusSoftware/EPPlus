@@ -39,6 +39,9 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(10D, _ws.GetValue(2, 6));
             Assert.AreEqual(10D, _ws.GetValue(1, 6));
             Assert.AreEqual(110D, _ws.GetValue(1, 5));
+
+            Assert.AreEqual("F2:F11", _ws.Cells["F2"].FormulaAddress.Address);
+            Assert.AreEqual("F2:F11", _ws.GetFormulaAddress(2,6).Address);
         }
         [TestMethod]
         public void DynamicArrayFormulaReferencedBySharedFormula()
@@ -52,6 +55,9 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(_ws.GetValue(5, 1), ws.GetValue(2, 9));
             Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 9)), ConvertUtil.GetValueDouble(ws.GetValue(2, 9)));
             Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 14)), ConvertUtil.GetValueDouble(ws.GetValue(2, 14)));
+
+            Assert.AreEqual("F2:N2", ws.Cells["F2"].FormulaAddress.Address);
+            Assert.AreEqual("F2:N2", ws.GetFormulaAddress(2, 6).Address);
         }
 
         [TestMethod]
@@ -73,6 +79,12 @@ namespace EPPlusTest.FormulaParsing
             _ws.Cells["F100"].Formula = "AnchorArray(F20)"; //F20# in Excel GUI
 
             _ws.Calculate();
+
+            Assert.AreEqual("F20:I59", _ws.Cells["F20"].FormulaAddress.Address);
+            Assert.AreEqual("F20:I59", _ws.GetFormulaAddress(20, 6).Address);
+            Assert.AreEqual("F100:I139", _ws.Cells["F100"].FormulaAddress.Address);
+            Assert.AreEqual("F100:I139", _ws.GetFormulaAddress(100, 6).Address);
+
         }
 
         [TestMethod]
@@ -174,6 +186,23 @@ namespace EPPlusTest.FormulaParsing
                 SaveWorkbook("ArrayFormulas_Deleted.xlsx", p);
             }
         }
+        [TestMethod]
+        public void DynamicFunctionWithChart()
+        {
+            _ws.Cells[20, 20].Formula = "RandArray(5,5)";
+            _ws.Calculate();
 
+            var chart = _ws.Drawings.AddBarChart("Dynamic Chart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
+            chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.ColumnChartStyle9);
+
+            var address = _ws.Cells[20, 20].FormulaAddress;
+            for (var c = address.Start.Column; c <= address.End.Column; c++)
+            {
+                chart.Series.Add(_ws.Cells[address.Start.Row, c, address.End.Row, c]);
+            }
+
+            chart.SetPosition(10, 0, 25, 0);
+
+        }
     }
 }

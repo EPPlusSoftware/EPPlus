@@ -37,9 +37,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var startDateObj = arguments[0].Value;
-            var startDate = ParseDate(arguments, startDateObj);
+            var startDate = ParseDate(arguments, startDateObj, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
             var endDateObj = arguments.ElementAt(1).Value;
-            var endDate = ParseDate(arguments, endDateObj, 1);
+            var endDate = ParseDate(arguments, endDateObj, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
             if (startDate > endDate) return CreateResult(eErrorType.Num);
             var unit = ArgToString(arguments, 2);
             switch(unit.ToLower())

@@ -21,6 +21,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionParametersInfo
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
@@ -157,12 +158,6 @@ references:
   name: ExcelDoubleCellValue
   nameWithType: ExcelDoubleCellValue
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
-  name: FunctionParameterInformation
-  nameWithType: FunctionParameterInformation
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -175,6 +170,12 @@ references:
   name: ExcelFunctionArrayBehaviour
   nameWithType: ExcelFunctionArrayBehaviour
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionParametersInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionParametersInfo
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunctionParametersInfo
+  nameWithType: ExcelFunctionParametersInfo
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionParametersInfo
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -187,6 +188,12 @@ references:
   name: FunctionNameProvider
   nameWithType: FunctionNameProvider
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: FunctionParameterInformation
+  nameWithType: FunctionParameterInformation
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions

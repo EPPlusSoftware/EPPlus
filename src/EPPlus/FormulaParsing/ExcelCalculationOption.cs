@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing
         public ExcelCalculationOption()
         {
             AllowCircularReferences = false;
-            PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
+            PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel;
             var initErrors = new List<ExcelInitializationError>();
 
 #if (Core)
@@ -69,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing
                         PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel;
                         break;
                     default:
-                        PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
+                        PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel;
                         break;
                 }
             }

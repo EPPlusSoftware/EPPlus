@@ -128,7 +128,9 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var readPackage = new ExcelPackage(stream);
 
-                var readBar = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
+                var ws = readPackage.Workbook.Worksheets[0];
+
+                var readBar = ws.ConditionalFormatting[0];
                 Assert.AreEqual(readBar.As.DataBar.LowValue.Formula, "10");
                 Assert.AreEqual(readBar.As.DataBar.HighValue.Formula, "20");
             }
@@ -359,6 +361,10 @@ namespace EPPlusTest.ConditionalFormatting
                 databar.Gradient = false;
                 databar.Border = true;
                 databar.Direction = eDatabarDirection.RightToLeft;
+
+                //Ensure we read and write the color even if its not currently applied
+                databar.NegativeFillColor.Color = Color.DarkBlue;
+
                 databar.NegativeBarColorSameAsPositive = true;
                 databar.NegativeBarBorderColorSameAsPositive = false;
                 databar.AxisPosition = eExcelDatabarAxisPosition.Middle;
@@ -376,6 +382,8 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(true, bar.NegativeBarColorSameAsPositive);
                 Assert.AreEqual(false, bar.NegativeBarBorderColorSameAsPositive);
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, bar.AxisPosition);
+                //Ensure we read and write the color even if its not currently applied
+                Assert.AreEqual(Color.FromArgb(255, Color.DarkBlue), bar.NegativeFillColor.Color);
             }
         }
     }

@@ -34,13 +34,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 
             var settlement = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturity = System.DateTime.FromOADate(ArgToInt(arguments, 1));
-            var discount = ArgToDecimal(arguments, 2);
-            var redemption = ArgToDecimal(arguments, 3);
+            var discount = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var redemption = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var b = 0d;
 
             if (arguments.Count > 4) 
             {
-                b = ArgToDecimal(arguments, 4);
+                b = ArgToDecimal(arguments, 4, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
                 b = Math.Floor(b);
             }
 

@@ -28,8 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var real = ArgToDecimal(arguments, 0);
-            var img = ArgToDecimal(arguments, 1);
+            var real = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
+            var img = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if(e2 != null) return CreateResult(e2.Type);
             var suffix = "i";
             if(arguments.Count > 2)
             {

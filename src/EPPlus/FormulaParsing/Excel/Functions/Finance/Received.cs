@@ -33,10 +33,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var settlement = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturity = System.DateTime.FromOADate(ArgToInt(arguments, 1));
-            var investments = ArgToDecimal(arguments, 2);
-            var discount = ArgToDecimal(arguments, 3);
+            
+            var investments = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            
+            var discount = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
             var basis = 0d;
-            if (arguments.Count() > 4) basis = ArgToDecimal(arguments, 4);
+            if (arguments.Count() > 4)
+            {
+                basis = ArgToDecimal(arguments, 4, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            }
             basis = Math.Floor(basis);
             if (investments <= 0 || discount <= 0) return CreateResult(eErrorType.Num);
             if (basis < 0 || basis > 4) return CreateResult(eErrorType.Num);

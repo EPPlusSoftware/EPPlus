@@ -31,9 +31,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var nper = ArgToDecimal(arguments, 0);
-            var pv = ArgToDecimal(arguments, 1);
-            var fv = ArgToDecimal(arguments, 2);
+            var nper = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            
+            var pv = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            var fv = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
             if (nper <= 0d || pv <= 0d || fv < 0d) return CompileResult.GetErrorResult(eErrorType.Num);
             var retVal = (Math.Pow(fv / pv, 1 / nper)) - 1;
             return CreateResult(retVal, DataType.Decimal);

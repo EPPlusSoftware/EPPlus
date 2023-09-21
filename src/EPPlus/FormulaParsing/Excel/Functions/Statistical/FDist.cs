@@ -32,9 +32,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
-            var deg_freedom1 = ArgToDecimal(arguments, 1);
-            var deg_freedom2 = ArgToDecimal(arguments, 2);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var deg_freedom1 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            var deg_freedom2 = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
             var cumulative = ArgToBool(arguments, 3);
 
             deg_freedom1 = Math.Floor(deg_freedom1);

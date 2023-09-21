@@ -5,6 +5,7 @@ items:
   id: ExcelConditionalFormattingRule
   parent: OfficeOpenXml.ConditionalFormatting
   children:
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.#ctor(OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule,OfficeOpenXml.ExcelWorksheet)
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.AboveAverage
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.As
@@ -12,7 +13,6 @@ items:
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.EqualAverage
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula2
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Operator
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Percent
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
@@ -41,49 +41,18 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\n\n"
+  summary: "\nAbstract base class for all ConditionalFormattingRules\n"
   example: []
   syntax:
-    content: 'public abstract class ExcelConditionalFormattingRule : XmlHelper, IExcelConditionalFormattingRule'
+    content: 'public abstract class ExcelConditionalFormattingRule : IExcelConditionalFormattingRule'
     content.vb: >-
       Public MustInherit Class ExcelConditionalFormattingRule
-          Inherits XmlHelper
           Implements IExcelConditionalFormattingRule
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   derivedClasses:
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveStdDev
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAverageGroup
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBeginsWith
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowStdDev
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBetween
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottom
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottomPercent
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsBlanks
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsErrors
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsText
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDataBar
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDuplicateValues
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEndsWith
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEqual
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingExpression
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThan
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThanOrEqual
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThan
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThanOrEqual
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotBetween
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsBlanks
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsErrors
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsText
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotEqual
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTop
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTopPercent
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingUniqueValues
   implements:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
   inheritedMembers:
@@ -102,124 +71,6 @@ items:
   - Public
   - MustInherit
   - Class
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  id: Node
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  langs:
-  - csharp
-  - vb
-  name: Node
-  nameWithType: ExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Node
-    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 145
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nGet the &lt;cfRule> node\n"
-  example: []
-  syntax:
-    content: public XmlNode Node { get; }
-    parameters: []
-    return:
-      type: System.Xml.XmlNode
-    content.vb: Public ReadOnly Property Node As XmlNode
-  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node*
-  implements:
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  id: Address
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  langs:
-  - csharp
-  - vb
-  name: Address
-  nameWithType: ExcelConditionalFormattingRule.Address
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Address
-    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 157
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nThe address of the conditional formatting rule\n"
-  remarks: "\nThe address is stored in a parent node called &lt;conditionalFormatting> in the\n@sqref attribute. Excel groups rules that have the same address inside one node.\n"
-  example: []
-  syntax:
-    content: public ExcelAddress Address { get; set; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.ExcelAddress
-    content.vb: Public Property Address As ExcelAddress
-  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address*
-  implements:
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  id: PivotTable
-  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  langs:
-  - csharp
-  - vb
-  name: PivotTable
-  nameWithType: ExcelConditionalFormattingRule.PivotTable
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: PivotTable
-    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 200
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nIndicates that the conditional formatting is associated with a PivotTable\n"
-  example: []
-  syntax:
-    content: public bool PivotTable { get; set; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: Public Property PivotTable As Boolean
-  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable*
-  implements:
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
   id: Type
@@ -238,27 +89,68 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 214
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nType of conditional formatting rule.\n"
+  summary: "\nThe type of conditional formatting rule.\n"
   example: []
   syntax:
-    content: public eExcelConditionalFormattingRuleType Type { get; }
+    content: public eExcelConditionalFormattingRuleType Type { get; set; }
     parameters: []
     return:
       type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingRuleType
-    content.vb: Public ReadOnly Property Type As eExcelConditionalFormattingRuleType
+    content.vb: Public Property Type As eExcelConditionalFormattingRuleType
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type*
   implements:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   modifiers.csharp:
   - public
   - get
+  - set
   modifiers.vb:
   - Public
-  - ReadOnly
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  id: Address
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n<p>The range over which these conditional formatting rules apply.</p>\n"
+  example: []
+  syntax:
+    content: public virtual ExcelAddress Address { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddress
+    content.vb: Public Overridable Property Address As ExcelAddress
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address*
+  implements:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overridable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   id: Priority
@@ -277,7 +169,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Priority
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 243
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -316,11 +208,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StopIfTrue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 313
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nIf this property is true, no rules with lower priority shall be applied over this rule,\nwhen this rule evaluates to true.\n"
+  summary: "\nIf this property is true, no rules with lower priority should be applied over this rule.\n"
   example: []
   syntax:
     content: public bool StopIfTrue { get; set; }
@@ -331,6 +223,45 @@ items:
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.StopIfTrue*
   implements:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  id: PivotTable
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  langs:
+  - csharp
+  - vb
+  name: PivotTable
+  nameWithType: ExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTable
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nIndicates that the conditional formatting is associated with a PivotTable\n"
+  example: []
+  syntax:
+    content: public bool PivotTable { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PivotTable As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable*
+  implements:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
   modifiers.csharp:
   - public
   - get
@@ -355,7 +286,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 351
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -394,11 +325,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDev
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 365
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nStdDev (zero is not allowed and will be converted to 1)\n"
+  summary: "\n0 is not allowed and will be converted to 1\n"
   example: []
   syntax:
     content: public ushort StdDev { get; set; }
@@ -431,7 +362,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rank
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 384
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -450,6 +381,45 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.#ctor(OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule,OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.#ctor(OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule,OfficeOpenXml.ExcelWorksheet)
+  id: '#ctor(OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule,OfficeOpenXml.ExcelWorksheet)'
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  langs:
+  - csharp
+  - vb
+  name: ExcelConditionalFormattingRule(ExcelConditionalFormattingRule, ExcelWorksheet)
+  nameWithType: ExcelConditionalFormattingRule.ExcelConditionalFormattingRule(ExcelConditionalFormattingRule, ExcelWorksheet)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.ExcelConditionalFormattingRule(OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule, OfficeOpenXml.ExcelWorksheet)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
+    startLine: 508
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nCopy constructor\n"
+  example: []
+  syntax:
+    content: protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original, ExcelWorksheet newWorksheet = null)
+    parameters:
+    - id: original
+      type: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+      description: ''
+    - id: newWorksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: In case cloning from another worksheet
+    content.vb: Protected Sub New(original As ExcelConditionalFormattingRule, newWorksheet As ExcelWorksheet = Nothing)
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.#ctor*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.AboveAverage
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.AboveAverage
   id: AboveAverage
@@ -468,25 +438,25 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AboveAverage
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 407
+    startLine: 584
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nAbove average\n"
+  summary: "\nAbove average\nIn Excel: Default:True, use=optional\n"
   example: []
   syntax:
-    content: protected bool? AboveAverage { get; set; }
+    content: protected bool? AboveAverage { get; }
     parameters: []
     return:
       type: System.Nullable{System.Boolean}
-    content.vb: Protected Property AboveAverage As Boolean?
+    content.vb: Protected ReadOnly Property AboveAverage As Boolean?
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.AboveAverage*
   modifiers.csharp:
   - protected
   - get
-  - set
   modifiers.vb:
   - Protected
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.EqualAverage
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.EqualAverage
   id: EqualAverage
@@ -505,25 +475,25 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EqualAverage
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 439
+    startLine: 598
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
   summary: "\nEqualAverage\n"
   example: []
   syntax:
-    content: protected bool? EqualAverage { get; set; }
+    content: protected bool? EqualAverage { get; }
     parameters: []
     return:
       type: System.Nullable{System.Boolean}
-    content.vb: Protected Property EqualAverage As Boolean?
+    content.vb: Protected ReadOnly Property EqualAverage As Boolean?
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.EqualAverage*
   modifiers.csharp:
   - protected
   - get
-  - set
   modifiers.vb:
   - Protected
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Bottom
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Bottom
   id: Bottom
@@ -542,25 +512,25 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 470
+    startLine: 612
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
   summary: "\nBottom attribute\n"
   example: []
   syntax:
-    content: protected bool? Bottom { get; set; }
+    content: protected bool? Bottom { get; }
     parameters: []
     return:
       type: System.Nullable{System.Boolean}
-    content.vb: Protected Property Bottom As Boolean?
+    content.vb: Protected ReadOnly Property Bottom As Boolean?
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Bottom*
   modifiers.csharp:
   - protected
   - get
-  - set
   modifiers.vb:
   - Protected
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Percent
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Percent
   id: Percent
@@ -579,25 +549,25 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 501
+    startLine: 625
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
   summary: "\nPercent attribute\n"
   example: []
   syntax:
-    content: protected bool? Percent { get; set; }
+    content: protected bool? Percent { get; }
     parameters: []
     return:
       type: System.Nullable{System.Boolean}
-    content.vb: Protected Property Percent As Boolean?
+    content.vb: Protected ReadOnly Property Percent As Boolean?
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Percent*
   modifiers.csharp:
   - protected
   - get
-  - set
   modifiers.vb:
   - Protected
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.TimePeriod
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.TimePeriod
   id: TimePeriod
@@ -616,18 +586,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TimePeriod
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 532
+    startLine: 638
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
   summary: "\nTimePeriod\n"
   example: []
   syntax:
-    content: protected eExcelConditionalFormattingTimePeriodType TimePeriod { get; set; }
+    content: protected eExcelConditionalFormattingTimePeriodType? TimePeriod { get; set; }
     parameters: []
     return:
-      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
-    content.vb: Protected Property TimePeriod As eExcelConditionalFormattingTimePeriodType
+      type: System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType}
+    content.vb: Protected Property TimePeriod As eExcelConditionalFormattingTimePeriodType?
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.TimePeriod*
   modifiers.csharp:
   - protected
@@ -653,18 +623,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 551
+    startLine: 643
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
   summary: "\nOperator\n"
   example: []
   syntax:
-    content: protected eExcelConditionalFormattingOperatorType Operator { get; set; }
+    content: protected eExcelConditionalFormattingOperatorType? Operator { get; set; }
     parameters: []
     return:
-      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
-    content.vb: Protected Property Operator As eExcelConditionalFormattingOperatorType
+      type: System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType}
+    content.vb: Protected Property Operator As eExcelConditionalFormattingOperatorType?
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Operator*
   modifiers.csharp:
   - protected
@@ -690,25 +660,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 570
+    startLine: 651
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
   summary: "\nFormula\n"
   example: []
   syntax:
-    content: public string Formula { get; set; }
+    content: public virtual string Formula { get; set; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public Property Formula As String
+    content.vb: Public Overridable Property Formula As String
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula*
   modifiers.csharp:
   - public
+  - virtual
   - get
   - set
   modifiers.vb:
   - Public
+  - Overridable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula2
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula2
   id: Formula2
@@ -727,25 +699,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula2
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 588
+    startLine: 665
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nFormula2\n"
+  summary: "\nFormula2\nNote, no longer Requires Formula to be set before it.\nBut will still throw error if both formulas not filled at save time.\n"
   example: []
   syntax:
-    content: public string Formula2 { get; set; }
+    content: public virtual string Formula2 { get; set; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public Property Formula2 As String
+    content.vb: Public Overridable Property Formula2 As String
   overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula2*
   modifiers.csharp:
   - public
+  - virtual
   - get
   - set
   modifiers.vb:
   - Public
+  - Overridable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.As
   commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.As
   id: As
@@ -764,7 +738,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 625
+    startLine: 677
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -798,12 +772,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
   commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
   parent: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -1095,75 +1063,11 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts
   commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
   name: OfficeOpenXml.ConditionalFormatting.Contracts
   nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node*
-  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-  name: Node
-  nameWithType: ExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Node
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-- uid: System.Xml.XmlNode
-  commentId: T:System.Xml.XmlNode
-  parent: System.Xml
-  isExternal: true
-  name: XmlNode
-  nameWithType: XmlNode
-  fullName: System.Xml.XmlNode
-- uid: System.Xml
-  commentId: N:System.Xml
-  isExternal: true
-  name: System.Xml
-  nameWithType: System.Xml
-  fullName: System.Xml
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address*
-  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-  name: Address
-  nameWithType: ExcelConditionalFormattingRule.Address
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: Address
-  nameWithType: IExcelConditionalFormattingRule.Address
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
-- uid: OfficeOpenXml.ExcelAddress
-  commentId: T:OfficeOpenXml.ExcelAddress
-  parent: OfficeOpenXml
-  name: ExcelAddress
-  nameWithType: ExcelAddress
-  fullName: OfficeOpenXml.ExcelAddress
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable*
-  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-  name: PivotTable
-  nameWithType: ExcelConditionalFormattingRule.PivotTable
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: PivotTable
-  nameWithType: IExcelConditionalFormattingRule.PivotTable
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Type
   name: Type
@@ -1181,6 +1085,28 @@ references:
   name: eExcelConditionalFormattingRuleType
   nameWithType: eExcelConditionalFormattingRuleType
   fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingRuleType
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+  name: Address
+  nameWithType: ExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Address
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Address
+  nameWithType: IExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+- uid: OfficeOpenXml.ExcelAddress
+  commentId: T:OfficeOpenXml.ExcelAddress
+  parent: OfficeOpenXml
+  name: ExcelAddress
+  nameWithType: ExcelAddress
+  fullName: OfficeOpenXml.ExcelAddress
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Priority
   name: Priority
@@ -1210,6 +1136,24 @@ references:
   name: StopIfTrue
   nameWithType: IExcelConditionalFormattingRule.StopIfTrue
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+  name: PivotTable
+  nameWithType: ExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.PivotTable
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: PivotTable
+  nameWithType: IExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Style
   name: Style
@@ -1249,6 +1193,23 @@ references:
   name: Rank
   nameWithType: ExcelConditionalFormattingRule.Rank
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Rank
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.#ctor*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.#ctor
+  name: ExcelConditionalFormattingRule
+  nameWithType: ExcelConditionalFormattingRule.ExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.ExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: ExcelConditionalFormattingRule
+  nameWithType: ExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.AboveAverage*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.AboveAverage
   name: AboveAverage
@@ -1357,23 +1318,95 @@ references:
   name: TimePeriod
   nameWithType: ExcelConditionalFormattingRule.TimePeriod
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.TimePeriod
-- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
-  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
-  parent: OfficeOpenXml.ConditionalFormatting
-  name: eExcelConditionalFormattingTimePeriodType
-  nameWithType: eExcelConditionalFormattingTimePeriodType
-  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+- uid: System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType}
+  commentId: T:System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eExcelConditionalFormattingTimePeriodType>
+  nameWithType: Nullable<eExcelConditionalFormattingTimePeriodType>
+  fullName: System.Nullable<OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType>
+  nameWithType.vb: Nullable(Of eExcelConditionalFormattingTimePeriodType)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType)
+  name.vb: Nullable(Of eExcelConditionalFormattingTimePeriodType)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+    name: eExcelConditionalFormattingTimePeriodType
+    nameWithType: eExcelConditionalFormattingTimePeriodType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+    name: eExcelConditionalFormattingTimePeriodType
+    nameWithType: eExcelConditionalFormattingTimePeriodType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Operator*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Operator
   name: Operator
   nameWithType: ExcelConditionalFormattingRule.Operator
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Operator
-- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
-  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
-  parent: OfficeOpenXml.ConditionalFormatting
-  name: eExcelConditionalFormattingOperatorType
-  nameWithType: eExcelConditionalFormattingOperatorType
-  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+- uid: System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType}
+  commentId: T:System.Nullable{OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eExcelConditionalFormattingOperatorType>
+  nameWithType: Nullable<eExcelConditionalFormattingOperatorType>
+  fullName: System.Nullable<OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType>
+  nameWithType.vb: Nullable(Of eExcelConditionalFormattingOperatorType)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType)
+  name.vb: Nullable(Of eExcelConditionalFormattingOperatorType)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+    name: eExcelConditionalFormattingOperatorType
+    nameWithType: eExcelConditionalFormattingOperatorType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+    name: eExcelConditionalFormattingOperatorType
+    nameWithType: eExcelConditionalFormattingOperatorType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule.Formula
   name: Formula

@@ -64,9 +64,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 foreach (var c in ri)
                 {
-                    if (c.IsExcelError)
+                    if (c.Value is ExcelErrorValue ev)
                     {
-                        errType = ((ExcelErrorValue)c.Value).Type;
+                        errType = ev.Type;
                         return double.NaN;
                     }
                     retVal += c.ValueDouble;
@@ -77,20 +77,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 errType = arg.ValueAsExcelErrorValue.Type;
                 return double.NaN;
             }
-            else if (arg.DataType == DataType.Boolean && arg.Address != null)
-            {
-                return 0d;
-            }
-            else if(arg.DataType == DataType.String && arg.Address == null && arg.Value != null)
-            {
-                if(ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double numArg, CultureInfo.InvariantCulture))
-                {
-                    retVal += numArg;
-                }
-            }
             else
-            {  
-                retVal += ConvertUtil.GetValueDouble(arg.Value);
+            {
+                var v = GetDecimalSingleArgument(arg);
+                if (v.HasValue)
+                {
+                    retVal += v.Value; 
+                }
             }
             return retVal.Get();
         }

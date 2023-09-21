@@ -93,7 +93,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  summary: "\nThe function supports arrays, but not according to any of the options in this enum. If a function returns this value\nit should also implement the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig\" data-throw-if-not-resolved=\"false\"></xref> function.\n"
+  summary: "\nThe function supports arrays, but not according to any of the options in this enum. If a function returns this value\nit should also implement the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)\" data-throw-if-not-resolved=\"false\"></xref> function.\n"
   example: []
   syntax:
     content: Custom = 1
@@ -151,31 +151,39 @@ references:
   name: ExcelFunctionArrayBehaviour
   nameWithType: ExcelFunctionArrayBehaviour
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-  name: GetArrayBehaviourConfig()
-  nameWithType: ExcelFunction.GetArrayBehaviourConfig()
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig()
+  name: ConfigureArrayBehaviour(ArrayBehaviourConfig)
+  nameWithType: ExcelFunction.ConfigureArrayBehaviour(ArrayBehaviourConfig)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
   spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
-    name: GetArrayBehaviourConfig
-    nameWithType: ExcelFunction.GetArrayBehaviourConfig
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
+    name: ConfigureArrayBehaviour
+    nameWithType: ExcelFunction.ConfigureArrayBehaviour
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour
   - name: (
     nameWithType: (
     fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
+    name: ArrayBehaviourConfig
+    nameWithType: ArrayBehaviourConfig
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
-    name: GetArrayBehaviourConfig
-    nameWithType: ExcelFunction.GetArrayBehaviourConfig
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
+    name: ConfigureArrayBehaviour
+    nameWithType: ExcelFunction.ConfigureArrayBehaviour
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour
   - name: (
     nameWithType: (
     fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
+    name: ArrayBehaviourConfig
+    nameWithType: ArrayBehaviourConfig
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
   - name: )
     nameWithType: )
     fullName: )

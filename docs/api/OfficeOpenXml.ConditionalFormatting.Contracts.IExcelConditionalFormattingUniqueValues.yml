@@ -19,7 +19,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingUniqueValues
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingUniqueValues.cs
-    startLine: 24
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -31,7 +31,6 @@ items:
       Public Interface IExcelConditionalFormattingUniqueValues
           Inherits IExcelConditionalFormattingRule
   inheritedMembers:
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
@@ -51,12 +50,6 @@ references:
   name: OfficeOpenXml.ConditionalFormatting.Contracts
   nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule

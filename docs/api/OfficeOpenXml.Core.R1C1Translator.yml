@@ -5,8 +5,8 @@ items:
   id: R1C1Translator
   parent: OfficeOpenXml.Core
   children:
-  - OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String,System.Int32,System.Int32)
-  - OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String,System.Int32,System.Int32)
+  - OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String,System.Int32,System.Int32,System.Boolean)
+  - OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String,System.Int32,System.Int32,System.Boolean)
   - OfficeOpenXml.Core.R1C1Translator.ToR1C1(OfficeOpenXml.ExcelAddressBase,System.Int32,System.Int32)
   - OfficeOpenXml.Core.R1C1Translator.ToR1C1Formula(System.String,System.Int32,System.Int32)
   langs:
@@ -23,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: R1C1Translator
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
@@ -49,16 +49,16 @@ items:
   modifiers.vb:
   - Public
   - Module
-- uid: OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String,System.Int32,System.Int32)
-  commentId: M:OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String,System.Int32,System.Int32)
-  id: FromR1C1Formula(System.String,System.Int32,System.Int32)
+- uid: OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String,System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String,System.Int32,System.Int32,System.Boolean)
+  id: FromR1C1Formula(System.String,System.Int32,System.Int32,System.Boolean)
   parent: OfficeOpenXml.Core.R1C1Translator
   langs:
   - csharp
   - vb
-  name: FromR1C1Formula(String, Int32, Int32)
-  nameWithType: R1C1Translator.FromR1C1Formula(String, Int32, Int32)
-  fullName: OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String, System.Int32, System.Int32)
+  name: FromR1C1Formula(String, Int32, Int32, Boolean)
+  nameWithType: R1C1Translator.FromR1C1Formula(String, Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(System.String, System.Int32, System.Int32, System.Boolean)
   type: Method
   source:
     remote:
@@ -67,14 +67,14 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromR1C1Formula
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 40
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
   summary: "\nTranslate addresses in a formula from R1C1 to A1\n"
   example: []
   syntax:
-    content: public static string FromR1C1Formula(string formula, int row, int col)
+    content: public static string FromR1C1Formula(string formula, int row, int col, bool rollIfOverflow = false)
     parameters:
     - id: formula
       type: System.String
@@ -85,10 +85,13 @@ items:
     - id: col
       type: System.Int32
       description: The column of the cell to calculate from
+    - id: rollIfOverflow
+      type: System.Boolean
+      description: If row or col exceeds the maximum value the row/col will start over from 1
     return:
       type: System.String
       description: The formula in A1 notation
-    content.vb: Public Shared Function FromR1C1Formula(formula As String, row As Integer, col As Integer) As String
+    content.vb: Public Shared Function FromR1C1Formula(formula As String, row As Integer, col As Integer, rollIfOverflow As Boolean = False) As String
   overload: OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula*
   modifiers.csharp:
   - public
@@ -114,7 +117,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToR1C1Formula
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 92
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
@@ -143,16 +146,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String,System.Int32,System.Int32)
-  commentId: M:OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String,System.Int32,System.Int32)
-  id: FromR1C1(System.String,System.Int32,System.Int32)
+- uid: OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String,System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String,System.Int32,System.Int32,System.Boolean)
+  id: FromR1C1(System.String,System.Int32,System.Int32,System.Boolean)
   parent: OfficeOpenXml.Core.R1C1Translator
   langs:
   - csharp
   - vb
-  name: FromR1C1(String, Int32, Int32)
-  nameWithType: R1C1Translator.FromR1C1(String, Int32, Int32)
-  fullName: OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String, System.Int32, System.Int32)
+  name: FromR1C1(String, Int32, Int32, Boolean)
+  nameWithType: R1C1Translator.FromR1C1(String, Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.Core.R1C1Translator.FromR1C1(System.String, System.Int32, System.Int32, System.Boolean)
   type: Method
   source:
     remote:
@@ -161,14 +164,14 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromR1C1
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 140
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
   summary: "\nTranslate an address from R1C1 to A1\n"
   example: []
   syntax:
-    content: public static string FromR1C1(string r1C1Address, int row, int col)
+    content: public static string FromR1C1(string r1C1Address, int row, int col, bool rollIfOverflow = false)
     parameters:
     - id: r1C1Address
       type: System.String
@@ -179,10 +182,13 @@ items:
     - id: col
       type: System.Int32
       description: The column of the cell to calculate from
+    - id: rollIfOverflow
+      type: System.Boolean
+      description: If row or col exceeds the maximum value the row/col will start over from 1
     return:
       type: System.String
       description: The address in A1 notation
-    content.vb: Public Shared Function FromR1C1(r1C1Address As String, row As Integer, col As Integer) As String
+    content.vb: Public Shared Function FromR1C1(r1C1Address As String, row As Integer, col As Integer, rollIfOverflow As Boolean = False) As String
   overload: OfficeOpenXml.Core.R1C1Translator.FromR1C1*
   modifiers.csharp:
   - public
@@ -208,7 +214,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToR1C1
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 259
+    startLine: 267
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
@@ -554,6 +560,13 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
 - uid: OfficeOpenXml.Core.R1C1Translator.ToR1C1Formula*
   commentId: Overload:OfficeOpenXml.Core.R1C1Translator.ToR1C1Formula
   name: ToR1C1Formula

@@ -41,8 +41,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         {
             if (arguments.Count > 3) return CompileResult.GetErrorResult(eErrorType.Value);
 
-            var x = ArgToDecimal(arguments, 0);
-            var degFreedom = ArgToDecimal(arguments, 1);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var degFreedom = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
             degFreedom = Math.Floor(degFreedom);
             var cumulative = ArgToBool(arguments, 2);
 

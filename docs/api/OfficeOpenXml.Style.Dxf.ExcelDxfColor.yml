@@ -155,7 +155,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
-  summary: "\nGets or sets the color to automativ\n"
+  summary: "\nGets or sets the color to automatic\n"
   example: []
   syntax:
     content: public bool? Auto { get; set; }

@@ -305,7 +305,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                                   return new AddressCompileResult(eErrorType.Value);
                           }
 
-                          return new AddressCompileResult(new RangeInfo(result, ctx), DataType.ExcelRange,result);
+                          return new AddressCompileResult(new RangeInfo(result), DataType.ExcelRange,result);
                           throw new ExcelErrorValueException(eErrorType.Ref);
                       });
                 }
@@ -331,9 +331,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                                        {
                                            la = left.Address;
                                        }
-                                       else if (l.Result is FormulaRangeAddress lfra)
+                                       else if (l.Address != null)
                                        {
-                                           la = lfra;
+                                           la = l.Address;
                                        }
                                        else
                                        {
@@ -344,9 +344,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                                        {
                                            ra = right.Address;
                                        }
-                                       else if (r.Result is FormulaRangeAddress rfra)
+                                       else if (r.Address != null)
                                        {
-                                           ra = rfra;
+                                           ra = r.Address;
                                        }
                                        else
                                        {
@@ -361,7 +361,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                                                return new CompileResult(eErrorType.Null);
                                            }
                                            var intersectRange = ctx.ExcelDataProvider.GetRange(iA);
-                                           return new CompileResult(intersectRange, DataType.ExcelRange);
+                                           return new AddressCompileResult(intersectRange, DataType.ExcelRange, iA);
                                            
                                        }
                                        return new CompileResult(eErrorType.Value);
@@ -533,7 +533,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             object left, right;
             left = GetObjFromOther(l, r);
             right = GetObjFromOther(r, l);
-            if (ConvertUtil.IsNumericOrDate(left) && ConvertUtil.IsNumericOrDate(right))
+            var isNumL = ConvertUtil.IsNumericOrDate(left);
+            var isNumR = ConvertUtil.IsNumericOrDate(right);
+            if (isNumL && isNumR)
             {
                 var lnum = ConvertUtil.GetValueDouble(left);
                 var rnum = ConvertUtil.GetValueDouble(right);
@@ -542,6 +544,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     return new CompileResult(comparison(0), DataType.Boolean);
                 }
                 var comparisonResult = lnum.CompareTo(rnum);
+                return new CompileResult(comparison(comparisonResult), DataType.Boolean);
+            }
+            else if(isNumL || isNumR)
+            {
+                var comparisonResult = isNumL ? -1 : 1;
                 return new CompileResult(comparison(comparisonResult), DataType.Boolean);
             }
             else

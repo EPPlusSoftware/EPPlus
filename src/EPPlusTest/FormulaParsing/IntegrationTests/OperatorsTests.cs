@@ -78,5 +78,18 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
             _ws.Calculate();
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Ref), _ws.Cells["A2"].Value);
         }
+        [TestMethod]
+        public void StringIsLargerThanNumberLeft()
+        {
+            var result = _ws.Calculate("\"1\" > 1");
+            Assert.IsTrue((bool)result);
+        }
+        [TestMethod]
+        public void StringIsLargerThanNumberRight()
+        {
+            var result = _ws.Calculate("500 < \"1\"");
+            Assert.IsTrue((bool)result);
+        }
+
     }
 }

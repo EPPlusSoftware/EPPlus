@@ -7,7 +7,6 @@ items:
   children:
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
-  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
   - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
@@ -27,7 +26,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingRule
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 24
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -42,41 +41,6 @@ items:
   modifiers.vb:
   - Public
   - Interface
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  id: Node
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
-  langs:
-  - csharp
-  - vb
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Node
-    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 29
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nThe &apos;cfRule&apos; XML node\n"
-  example: []
-  syntax:
-    content: XmlNode Node { get; }
-    parameters: []
-    return:
-      type: System.Xml.XmlNode
-    content.vb: ReadOnly Property Node As XmlNode
-  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node*
-  modifiers.csharp:
-  - get
-  modifiers.vb:
-  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   id: Type
@@ -95,7 +59,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 34
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -130,7 +94,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 39
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -164,11 +128,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Priority
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 45
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nThe priority of the rule. \nA lower values are higher priority than higher values, where 1 is the highest priority.\n"
+  summary: "\nThe priority of the rule. \nPriority for the rule gets lower the higher this number is. 1 is the highest priority.\n"
   example: []
   syntax:
     content: int Priority { get; set; }
@@ -198,11 +162,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StopIfTrue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 51
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nIf this property is true, no rules with lower priority should be applied over this rule,\nwhen this rule evaluates to true.\n"
+  summary: "\nIf this property is true, no rules with lower priority should be applied over this rule.\n"
   example: []
   syntax:
     content: bool StopIfTrue { get; set; }
@@ -232,7 +196,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 56
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -267,7 +231,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTable
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 61
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -301,7 +265,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-    startLine: 65
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -324,24 +288,6 @@ references:
   name: OfficeOpenXml.ConditionalFormatting.Contracts
   nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts
-- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node*
-  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-  name: Node
-  nameWithType: IExcelConditionalFormattingRule.Node
-  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
-- uid: System.Xml.XmlNode
-  commentId: T:System.Xml.XmlNode
-  parent: System.Xml
-  isExternal: true
-  name: XmlNode
-  nameWithType: XmlNode
-  fullName: System.Xml.XmlNode
-- uid: System.Xml
-  commentId: N:System.Xml
-  isExternal: true
-  name: System.Xml
-  nameWithType: System.Xml
-  fullName: System.Xml
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type*
   commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
   name: Type

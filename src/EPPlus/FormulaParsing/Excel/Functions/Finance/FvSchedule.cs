@@ -28,7 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var principal = ArgToDecimal(arguments, 0);
+            var principal = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
             var scheduleArg = new List<FunctionArgument> { arguments[1] };
             var schedule = ArgsToDoubleEnumerable(scheduleArg, context);
             var result = principal;

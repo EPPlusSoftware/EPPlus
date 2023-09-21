@@ -67,11 +67,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             double returnValue;
             if (argRange == null)
             {
-                var val = arguments.ElementAt(0).Value;
+                var val = arguments[0].Value;
                 if (criteria != null && Evaluate(val, criteria))
                 {
                     var lookupRange = ArgToRangeInfo(arguments, 2);
-                    returnValue = arguments.Count() > 2
+                    returnValue = arguments.Count > 2
                         ? lookupRange.First().ValueDouble
                         : ConvertUtil.GetValueDouble(val, true);
                 }
@@ -80,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     return CompileResult.GetErrorResult(eErrorType.Div0);
                 }
             }
-            else if (arguments.Count() > 2)
+            else if (arguments.Count > 2)
             {
                 var lookupRange = ArgToRangeInfo(arguments, 2);
                 returnValue = CalculateWithLookupRange(argRange, criteria, lookupRange, context, out ExcelErrorValue eev);
@@ -111,7 +111,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     var rowOffset = cell.Row - argRange.Address.FromRow;
                     var columnOffset = cell.Column - argRange.Address.FromCol;
-                    if (sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
+                    if(sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
                        sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
                     {
                         var val = sumRange.GetOffset(rowOffset, columnOffset);
@@ -120,8 +120,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                             error = eev;
                             return double.NaN;
                         }
-                        nMatches++;
-                        returnValue += ConvertUtil.GetValueDouble(val, true);
+                        if (ConvertUtil.IsExcelNumeric(val))
+                        {
+                            nMatches++;
+                            returnValue += ConvertUtil.GetValueDouble(val, true);
+                        }
                     }
                 }
             }
@@ -144,8 +147,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         error = (ExcelErrorValue)candidate.Value;
                         return double.NaN;
                     }
-                    returnValue += candidate.ValueDouble;
-                    nMatches++;
+                    if (ConvertUtil.IsExcelNumeric(candidate.Value))
+                    {
+                        returnValue += candidate.ValueDouble;
+                        nMatches++;
+                    }
                 }
             }
             var div = Divide(returnValue.Get(), nMatches);

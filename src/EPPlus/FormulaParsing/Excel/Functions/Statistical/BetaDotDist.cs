@@ -30,19 +30,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 4;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var x = ArgToDecimal(arguments, 0);
-            var alpha = ArgToDecimal(arguments, 1);
-            var beta = ArgToDecimal(arguments, 2);
+            var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            var alpha = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            var beta = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
             var cumulative = ArgToBool(arguments, 3);
             var A = 0d;
             var B = 1d;
             if (arguments.Count > 4)
             {
-                A = ArgToDecimal(arguments, 4);
+                A = ArgToDecimal(arguments, 4, out ExcelErrorValue e4);
+                if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             }
             if (arguments.Count > 5)
             {
-                B = ArgToDecimal(arguments, 5);
+                B = ArgToDecimal(arguments, 5, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
             // validate
             if (alpha <= 0 || beta <= 0) return CreateResult(eErrorType.Num);

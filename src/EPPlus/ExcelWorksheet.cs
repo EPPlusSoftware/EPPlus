@@ -47,6 +47,8 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml
 {
@@ -468,32 +470,16 @@ namespace OfficeOpenXml
         /// The auto filter address. 
         /// null means no auto filter.
         /// </summary>
+        [Obsolete("AutoFilterAddress is deprecated please use AutoFilter.Address instead.")]
         public ExcelAddressBase AutoFilterAddress
         {
             get
             {
-                CheckSheetTypeAndNotDisposed();
-                string address = GetXmlNodeString($"{AutoFilterPath}/@ref");
-                if (address == "")
-                {
-                    return null;
-                }
-                else
-                {
-                    return new ExcelAddressBase(address);
-                }
+                return AutoFilter.Address;
             }
             internal set
             {
-                CheckSheetTypeAndNotDisposed();
-                if (value == null)
-                {
-                    DeleteAllNode($"{AutoFilterPath}/@ref");
-                }
-                else
-                {
-                    SetXmlNodeString($"{AutoFilterPath}/@ref", value.Address);
-                }
+                AutoFilter.Address = value;
             }
         }
         ExcelAutoFilter _autoFilter = null;
@@ -507,8 +493,12 @@ namespace OfficeOpenXml
                 if (_autoFilter == null)
                 {
                     CheckSheetTypeAndNotDisposed();
-                    var node =_worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
-                    if (node == null) return null;
+                    if(GetXmlNodeString($"{AutoFilterPath}/@ref") == "")
+                    {
+                        SetXmlNodeString($"{AutoFilterPath}/@ref", "");
+                    }
+
+                    var node = _worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
                     _autoFilter = new ExcelAutoFilter(NameSpaceManager, node, this);
                 }
                 return _autoFilter;
@@ -2777,9 +2767,10 @@ namespace OfficeOpenXml
         internal void SetFormula(int row, int col, object value)
         {
             _formulas.SetValue(row, col, value);
+            _flags.SetFlagValue(row, col, true, CellFlags.CanBeDynamicArray);
             if (!ExistsValueInner(row, col)) SetValueInner(row, col, null);
         }
-        
+
         private void SavePivotTables()
         {
             foreach (var pt in PivotTables)
@@ -2808,7 +2799,7 @@ namespace OfficeOpenXml
             else
             {
 
-                if (_autoFilter != null)
+                if (_autoFilter != null && _autoFilter.Address != null)
                 {
                     _autoFilter.Save();
                 }
@@ -3435,6 +3426,16 @@ namespace OfficeOpenXml
         {
             _values.SetValue_Value(row, col, value);
         }
+        internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
+        {
+            for (var c = fromCol; c <= toCol; c++)
+            {
+                for (var r = fromRow; r <= toRow; r++)
+                {
+                    _values.SetValue_Value(r, c, value);
+                }
+            }
+        }
         /// <summary>
         /// Set accessor of sheet styleId
         /// </summary>
@@ -3627,6 +3628,37 @@ namespace OfficeOpenXml
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Gets the address for the formula in the top-left cell.
+        /// If you want the address of a dynamic array formula, you must calculate the formula first.
+        /// </summary>
+        /// <param name="row">The row of cell containing the formula.</param>
+        /// <param name="column">the column of cell containing  the formula.</param>
+        /// <returns>The address the formula spans</returns>
+        public ExcelAddressBase GetFormulaAddress(int row, int column)
+        {
+            var f=_formulas.GetValue(row, column);
+            if(f==null)
+            {
+                return null;
+            }
+            else if(f is int sfIx)
+            {
+                if(_sharedFormulas.TryGetValue(sfIx, out SharedFormula sf))
+                {
+                    return new ExcelAddressBase(sf.Address)
+                    {
+                        _ws = Name
+                    };
+                }
+                return null;
+            }
+            else
+            {
+                return new ExcelAddressBase(Name, row, column, row, column);
+            }
         }
         #endregion
     }  // END class Worksheet

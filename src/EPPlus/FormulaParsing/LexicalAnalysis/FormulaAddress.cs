@@ -254,6 +254,21 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 _expressions = CloneExpressions(row, col)
             };
         }
+        internal RpnFormula GetRpnArrayFormula(RpnOptimizedDependencyChain depChain, int startRow, int startCol, int endRow, int endCol)
+        {
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, startRow, startCol);
+            if (_compiledExpressions == null)
+            {
+                _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
+            }
+            return new RpnArrayFormula(_ws, startRow, startCol, endRow, endCol)
+            {
+                _tokenIndex = 0,
+                _tokens = RpnTokens,
+                _expressions = CloneExpressions(startRow, startCol)
+            };
+        }
+
         private Dictionary<int, Expression> CloneExpressions(int row, int col)
         {
             if (row == StartRow && col == StartCol) return _compiledExpressions;
@@ -559,8 +574,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 WorksheetIx = ctx.GetWorksheetIndex(address.WorkSheetName);
             }
         }
-        public FormulaRangeAddress(ParsingContext context, int fromRow, int fromCol, int toRow, int toCol) : this(context)
+        public FormulaRangeAddress(ParsingContext context,int wsIx, int fromRow, int fromCol, int toRow, int toCol) : this(context)
         {
+            WorksheetIx= wsIx;
             FromRow = fromRow;
             FromCol = fromCol;
             ToRow = toRow;
@@ -787,15 +803,20 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }            
         }
 
+        internal ulong GetTopLeftCellId()
+        {
+            return ExcelCellBase.GetCellId(WorksheetIx, FromRow, FromCol);
+        }
+
         public FormulaRangeAddress Address => this;
     }
     public class FormulaTableAddress : FormulaRangeAddress
     {
-        public FormulaTableAddress(ParsingContext ctx) 
+        public FormulaTableAddress(ParsingContext ctx) : base(ctx)
         {
-            _context = ctx;
+            
         }
-        public FormulaTableAddress(ParsingContext ctx, string tableAddress)
+        public FormulaTableAddress(ParsingContext ctx, string tableAddress) : base(ctx)
         {
             foreach (var t in SourceCodeTokenizer.Default.Tokenize(tableAddress))
             {

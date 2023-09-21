@@ -36,7 +36,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExcelconditionalFormattingIconsSetType
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 652
+    startLine: 676
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -69,7 +69,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeArrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 657
+    startLine: 681
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -103,7 +103,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 662
+    startLine: 686
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -137,7 +137,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeFlags
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 667
+    startLine: 691
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -171,7 +171,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeSigns
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 672
+    startLine: 696
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -205,7 +205,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeSymbols
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 677
+    startLine: 701
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -239,7 +239,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeSymbols2
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 682
+    startLine: 706
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -273,7 +273,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeTrafficLights1
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 687
+    startLine: 711
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -307,7 +307,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeTrafficLights2
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 692
+    startLine: 716
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -341,7 +341,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourArrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 697
+    startLine: 721
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -375,7 +375,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 702
+    startLine: 726
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -409,7 +409,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourRating
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 707
+    startLine: 731
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -443,7 +443,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourRedToBlack
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 712
+    startLine: 736
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -477,7 +477,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourTrafficLights
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 717
+    startLine: 741
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -511,7 +511,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveArrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 722
+    startLine: 746
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -545,7 +545,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 727
+    startLine: 751
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -579,7 +579,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveQuarters
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 732
+    startLine: 756
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -613,7 +613,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveRating
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-    startLine: 737
+    startLine: 761
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting

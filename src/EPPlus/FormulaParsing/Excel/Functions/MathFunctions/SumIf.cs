@@ -119,7 +119,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         if (val is ExcelErrorValue)
                         {
                             ThrowExcelErrorValueException((ExcelErrorValue)val);
-                        }
+                        }                        
                         retVal += ConvertUtil.GetValueDouble(val, true);
                     }
                 }

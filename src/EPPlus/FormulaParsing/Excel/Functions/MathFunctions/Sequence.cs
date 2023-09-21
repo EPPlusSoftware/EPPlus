@@ -36,8 +36,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var rows = ArgToInt(arguments, 0); 
             var argCount = arguments.Count;
             var columns = argCount > 1 ? ArgToInt(arguments, 1) : 1;
-            var start = argCount > 2 ? ArgToDecimal(arguments, 2) : 1;
-            var step = argCount > 3 ? ArgToDecimal(arguments, 3) : 1;
+            var start = 1d;
+            if(argCount > 2)
+            {
+                start = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            }
+            var step = 1d;
+            if(argCount > 3)
+            {
+                step = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            } 
             
             if (rows<0 || columns < 0)
             {

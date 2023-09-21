@@ -37,9 +37,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var number = ArgToDecimal(arguments, 0);
+            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             number = System.Math.Floor(number);
-            var numberChosen = ArgToDecimal(arguments, 1);
+            var numberChosen = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (number <= 0d || numberChosen <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
 
             var result = MathHelper.Factorial(number + numberChosen - 1) / (MathHelper.Factorial(number - 1) * MathHelper.Factorial(numberChosen));

@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            var serialNumber = ArgToDecimal(arguments, 0);
+            var serialNumber = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CreateResult(e1.Type);
             if (IsValidSerialNumber(serialNumber) == false) return CompileResult.GetErrorResult(eErrorType.Num);
             var returnType = arguments.Count > 1 ? ArgToInt(arguments, 1) : 1;
             return CreateResult(CalculateDayOfWeek(DateTime.FromOADate(serialNumber), returnType), DataType.Integer);

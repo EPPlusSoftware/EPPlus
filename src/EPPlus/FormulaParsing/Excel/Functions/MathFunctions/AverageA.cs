@@ -44,7 +44,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             KahanSum result = 0d;
             foreach (var arg in arguments)
             {
-                Calculate(arg, context, ref result, ref nValues);
+                var inArr = arg.IsExcelRange && arg.ValueAsRangeInfo.IsInMemoryRange;
+                Calculate(arg, context, ref result, ref nValues, out ExcelErrorValue err, inArr);
+                if(err != null)
+                {
+                    return CreateResult(err.Type);
+                }
             }
             if(nValues == 0)
             {
@@ -58,8 +63,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return CreateResult(div, DataType.Decimal);
         }
 
-        private void Calculate(FunctionArgument arg, ParsingContext context, ref KahanSum retVal, ref double nValues, bool isInArray = false)
+        private void Calculate(FunctionArgument arg, ParsingContext context, ref KahanSum retVal, ref double nValues, out ExcelErrorValue err, bool isInArray = false)
         {
+            err = default;
             if (ShouldIgnore(arg, context))
             {
                 return;
@@ -70,7 +76,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 foreach (var c in ri)
                 {
                     if(c.Value==null || ShouldIgnore(c, context)) continue;
-                    CheckForAndHandleExcelError(c);
+                    CheckForAndHandleExcelError(c, out ExcelErrorValue e2);
+                    if(e2 != null)
+                    {
+                        err = e2;
+                        return;
+                    }
                     if (IsBool(c.Value) && ri.IsInMemoryRange==false) //Excel has weird handling when handling of bool's that differs beteween arrays and ranges referencing cells in a worksheet.
                     {
                         nValues++;
@@ -107,7 +118,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                 }
             }
-            CheckForAndHandleExcelError(arg);
+            CheckForAndHandleExcelError(arg, out ExcelErrorValue e);
+            if(e != null)
+            {
+                err = e;
+                return;
+            }
         }
 
         private double? GetNumericValue(object obj, bool isInArray)

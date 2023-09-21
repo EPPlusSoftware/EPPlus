@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WildCardValueMatcher
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/WildCardValueMatcher.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nCompares values against wildcard strings\n"
+  example: []
   syntax:
     content: 'public class WildCardValueMatcher : ValueMatcher'
     content.vb: >-
@@ -68,19 +70,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/WildCardValueMatcher.cs
-    startLine: 22
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nCompares two strings\n"
+  example: []
   syntax:
     content: protected override int CompareStringToString(string searchedValue, string candidate)
     parameters:
     - id: searchedValue
       type: System.String
+      description: The searched value, might contain wildcard characters
     - id: candidate
       type: System.String
+      description: The candidate to compare
     return:
       type: System.Int32
+      description: 0 if match, otherwise -1 or 1
     content.vb: Protected Overrides Function CompareStringToString(searchedValue As String, candidate As String) As Integer
   overridden: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString(System.String,System.String)
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.WildCardValueMatcher.CompareStringToString*

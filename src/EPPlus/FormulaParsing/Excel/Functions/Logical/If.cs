@@ -46,21 +46,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 var arg1Type = GetType(arg1.Value);
                 var arg2Type = GetType(arg2.Value);
-                var range = new InMemoryRange(ri.Size);
-                for (var row = 0; row < ri.Size.NumberOfRows; row++)
+                var range = new InMemoryRange(ri.Address, GetSizeForArray(ri, arg1, arg2));
+                var isConditionSingleRow = ri.Size.NumberOfRows == 1;
+                var isConditionSingleCol = ri.Size.NumberOfCols == 1;
+                for (var row = 0; row < range.Size.NumberOfRows; row++)
                 {
-                    for (var col = 0; col < ri.Size.NumberOfCols; col++)
+                    for (var col = 0; col < range.Size.NumberOfCols; col++)
                     {
-                        var cell = ri.GetOffset(row, col);
-                        var condition = ConvertUtil.GetValueBool(cell);
+                        var cellValue = ri.GetOffset(isConditionSingleRow ? 0 : row, isConditionSingleCol ? 0 : col);
+                        var condition = ConvertUtil.GetValueBool(cellValue);
                         if (condition.HasValue)
                         {
                             object v = condition.Value ? GetArrayResult(arg1, arg1Type, row, col) : GetArrayResult(arg2, arg2Type, row, col);
+
                             range.SetValue(row, col, v);
                         }
                         else
                         {
-                            if(cell is ExcelErrorValue error)
+                            if(cellValue is ExcelErrorValue error)
                             {
                                 range.SetValue(row, col, error);
                             }
@@ -114,6 +117,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 }
             }
         }
+
+        private RangeDefinition GetSizeForArray(IRangeInfo ri, FunctionArgument arg1, FunctionArgument arg2)
+        {
+            var rows = ri.Size.NumberOfRows;
+            var cols = ri.Size.NumberOfCols;
+
+            SetRowsColsFromSize(arg1, ref rows, ref cols);
+            SetRowsColsFromSize(arg2, ref rows, ref cols);
+
+            return new RangeDefinition(rows, cols); 
+        }
+
+        private static void SetRowsColsFromSize(FunctionArgument arg1, ref int rows, ref short cols)
+        {
+            if (arg1.DataType == DataType.ExcelRange)
+            {
+                var ri1 = arg1.Value as IRangeInfo;
+                if (ri1 != null)
+                {
+                    rows = Math.Max(ri1.Size.NumberOfRows, rows);
+                    cols = Math.Max(ri1.Size.NumberOfCols, cols);
+                }
+            }
+        }
+
         public enum ArgumentType
         {
             Null,

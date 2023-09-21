@@ -5,7 +5,6 @@ items:
   id: IFunctionModule
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
   - OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions
   langs:
   - csharp
@@ -65,41 +64,6 @@ items:
       type: System.Collections.Generic.IDictionary{System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction}
     content.vb: ReadOnly Property Functions As IDictionary(Of String, ExcelFunction)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions*
-  modifiers.csharp:
-  - get
-  modifiers.vb:
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-  id: CustomCompilers
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
-  langs:
-  - csharp
-  - vb
-  name: CustomCompilers
-  nameWithType: IFunctionModule.CustomCompilers
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: CustomCompilers
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
-    startLine: 34
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  summary: "\nGets a dictionary of custom function compilers. A function compiler is not \nnecessary for a custom function, unless the default expression evaluation is not\nsufficient for the implementation of the custom function. When a FunctionCompiler instance\nis created, it should be given a reference to the same function instance that exists\nin the Functions collection of this module.\n"
-  example: []
-  syntax:
-    content: IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
-    parameters: []
-    return:
-      type: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
-    content.vb: ReadOnly Property CustomCompilers As IDictionary(Of Type, FunctionCompiler)
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers*
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -230,66 +194,3 @@ references:
   name: System.Collections.Generic
   nameWithType: System.Collections.Generic
   fullName: System.Collections.Generic
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-  name: CustomCompilers
-  nameWithType: IFunctionModule.CustomCompilers
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-- uid: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
-  commentId: T:System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IDictionary`2
-  name: IDictionary<Type, FunctionCompiler>
-  nameWithType: IDictionary<Type, FunctionCompiler>
-  fullName: System.Collections.Generic.IDictionary<System.Type, OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler>
-  nameWithType.vb: IDictionary(Of Type, FunctionCompiler)
-  fullName.vb: System.Collections.Generic.IDictionary(Of System.Type, OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler)
-  name.vb: IDictionary(Of Type, FunctionCompiler)
-  spec.csharp:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
-    nameWithType: IDictionary
-    fullName: System.Collections.Generic.IDictionary
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Type
-    name: Type
-    nameWithType: Type
-    fullName: System.Type
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
-    name: FunctionCompiler
-    nameWithType: FunctionCompiler
-    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
-    nameWithType: IDictionary
-    fullName: System.Collections.Generic.IDictionary
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Type
-    name: Type
-    nameWithType: Type
-    fullName: System.Type
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
-    name: FunctionCompiler
-    nameWithType: FunctionCompiler
-    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
-  - name: )
-    nameWithType: )
-    fullName: )

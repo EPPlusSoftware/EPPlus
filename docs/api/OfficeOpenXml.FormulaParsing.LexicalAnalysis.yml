@@ -25,6 +25,7 @@ items:
 references:
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
   commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   name: FormulaCellAddress
   nameWithType: FormulaCellAddress
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress

@@ -4,9 +4,11 @@ items:
   commentId: N:OfficeOpenXml.ConditionalFormatting
   id: OfficeOpenXml.ConditionalFormatting
   children:
+  - OfficeOpenXml.ConditionalFormatting.eDatabarDirection
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
   - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingIconsSetType
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingRuleType
@@ -14,58 +16,24 @@ items:
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveAverage
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveOrEqualAverage
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveStdDev
+  - OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAsType
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAverageGroup
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBeginsWith
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowAverage
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowOrEqualAverage
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowStdDev
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBetween
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottom
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottomPercent
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsBlanks
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsErrors
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsText
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDataBar
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDuplicateValues
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEndsWith
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEqual
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingExpression
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFiveIconSet
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFourIconSet
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThan
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThanOrEqual
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThan
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThanOrEqual
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotBetween
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsBlanks
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsErrors
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsText
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotEqual
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeIconSet
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTop
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTopPercent
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingUniqueValues
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
   - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
   langs:
@@ -162,128 +130,30 @@ references:
   name: eExcelconditionalFormattingIconsSetType
   nameWithType: eExcelconditionalFormattingIconsSetType
   fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingIconsSetType
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormattingCustomIcon
+  nameWithType: eExcelconditionalFormattingCustomIcon
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingCustomIcon
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelDatabarAxisPosition
+  nameWithType: eExcelDatabarAxisPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
   parent: OfficeOpenXml.ConditionalFormatting
   name: ExcelConditionalFormattingIconDataBarValue
   nameWithType: ExcelConditionalFormattingIconDataBarValue
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveAverage
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveAverage
-  name: ExcelConditionalFormattingAboveAverage
-  nameWithType: ExcelConditionalFormattingAboveAverage
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveAverage
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveOrEqualAverage
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveOrEqualAverage
-  name: ExcelConditionalFormattingAboveOrEqualAverage
-  nameWithType: ExcelConditionalFormattingAboveOrEqualAverage
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveOrEqualAverage
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveStdDev
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveStdDev
-  name: ExcelConditionalFormattingAboveStdDev
-  nameWithType: ExcelConditionalFormattingAboveStdDev
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveStdDev
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAverageGroup
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAverageGroup
+- uid: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eDatabarDirection
   parent: OfficeOpenXml.ConditionalFormatting
-  name: ExcelConditionalFormattingAverageGroup
-  nameWithType: ExcelConditionalFormattingAverageGroup
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAverageGroup
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBeginsWith
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBeginsWith
-  name: ExcelConditionalFormattingBeginsWith
-  nameWithType: ExcelConditionalFormattingBeginsWith
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBeginsWith
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowAverage
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowAverage
-  name: ExcelConditionalFormattingBelowAverage
-  nameWithType: ExcelConditionalFormattingBelowAverage
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowAverage
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowOrEqualAverage
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowOrEqualAverage
-  name: ExcelConditionalFormattingBelowOrEqualAverage
-  nameWithType: ExcelConditionalFormattingBelowOrEqualAverage
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowOrEqualAverage
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowStdDev
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowStdDev
-  name: ExcelConditionalFormattingBelowStdDev
-  nameWithType: ExcelConditionalFormattingBelowStdDev
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowStdDev
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBetween
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBetween
-  name: ExcelConditionalFormattingBetween
-  nameWithType: ExcelConditionalFormattingBetween
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBetween
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottom
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottom
-  name: ExcelConditionalFormattingBottom
-  nameWithType: ExcelConditionalFormattingBottom
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottom
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottomPercent
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottomPercent
-  name: ExcelConditionalFormattingBottomPercent
-  nameWithType: ExcelConditionalFormattingBottomPercent
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottomPercent
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsBlanks
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsBlanks
-  name: ExcelConditionalFormattingContainsBlanks
-  nameWithType: ExcelConditionalFormattingContainsBlanks
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsBlanks
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsErrors
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsErrors
-  name: ExcelConditionalFormattingContainsErrors
-  nameWithType: ExcelConditionalFormattingContainsErrors
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsErrors
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsText
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsText
-  name: ExcelConditionalFormattingContainsText
-  nameWithType: ExcelConditionalFormattingContainsText
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsText
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDataBar
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDataBar
-  name: ExcelConditionalFormattingDataBar
-  nameWithType: ExcelConditionalFormattingDataBar
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDataBar
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDuplicateValues
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDuplicateValues
-  name: ExcelConditionalFormattingDuplicateValues
-  nameWithType: ExcelConditionalFormattingDuplicateValues
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDuplicateValues
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEndsWith
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEndsWith
-  name: ExcelConditionalFormattingEndsWith
-  nameWithType: ExcelConditionalFormattingEndsWith
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEndsWith
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEqual
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEqual
-  name: ExcelConditionalFormattingEqual
-  nameWithType: ExcelConditionalFormattingEqual
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEqual
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingExpression
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingExpression
-  name: ExcelConditionalFormattingExpression
-  nameWithType: ExcelConditionalFormattingExpression
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingExpression
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFiveIconSet
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFiveIconSet
-  name: ExcelConditionalFormattingFiveIconSet
-  nameWithType: ExcelConditionalFormattingFiveIconSet
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFiveIconSet
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFourIconSet
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFourIconSet
-  name: ExcelConditionalFormattingFourIconSet
-  nameWithType: ExcelConditionalFormattingFourIconSet
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFourIconSet
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThan
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThan
-  name: ExcelConditionalFormattingGreaterThan
-  nameWithType: ExcelConditionalFormattingGreaterThan
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThan
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThanOrEqual
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThanOrEqual
-  name: ExcelConditionalFormattingGreaterThanOrEqual
-  nameWithType: ExcelConditionalFormattingGreaterThanOrEqual
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThanOrEqual
+  name: eDatabarDirection
+  nameWithType: eDatabarDirection
+  fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
   name: ExcelConditionalFormattingLast7Days
@@ -299,16 +169,6 @@ references:
   name: ExcelConditionalFormattingLastWeek
   nameWithType: ExcelConditionalFormattingLastWeek
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThan
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThan
-  name: ExcelConditionalFormattingLessThan
-  nameWithType: ExcelConditionalFormattingLessThan
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThan
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThanOrEqual
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThanOrEqual
-  name: ExcelConditionalFormattingLessThanOrEqual
-  nameWithType: ExcelConditionalFormattingLessThanOrEqual
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThanOrEqual
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
   name: ExcelConditionalFormattingNextMonth
@@ -319,31 +179,6 @@ references:
   name: ExcelConditionalFormattingNextWeek
   nameWithType: ExcelConditionalFormattingNextWeek
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotBetween
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotBetween
-  name: ExcelConditionalFormattingNotBetween
-  nameWithType: ExcelConditionalFormattingNotBetween
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotBetween
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsBlanks
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsBlanks
-  name: ExcelConditionalFormattingNotContainsBlanks
-  nameWithType: ExcelConditionalFormattingNotContainsBlanks
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsBlanks
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsErrors
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsErrors
-  name: ExcelConditionalFormattingNotContainsErrors
-  nameWithType: ExcelConditionalFormattingNotContainsErrors
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsErrors
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsText
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsText
-  name: ExcelConditionalFormattingNotContainsText
-  nameWithType: ExcelConditionalFormattingNotContainsText
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsText
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotEqual
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotEqual
-  name: ExcelConditionalFormattingNotEqual
-  nameWithType: ExcelConditionalFormattingNotEqual
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotEqual
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   parent: OfficeOpenXml.ConditionalFormatting
@@ -365,47 +200,6 @@ references:
   name: ExcelConditionalFormattingThreeColorScale
   nameWithType: ExcelConditionalFormattingThreeColorScale
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeIconSet
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeIconSet
-  name: ExcelConditionalFormattingThreeIconSet
-  nameWithType: ExcelConditionalFormattingThreeIconSet
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeIconSet
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
-  name: ExcelConditionalFormattingIconSetBase<T>
-  nameWithType: ExcelConditionalFormattingIconSetBase<T>
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase<T>
-  nameWithType.vb: ExcelConditionalFormattingIconSetBase(Of T)
-  fullName.vb: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase(Of T)
-  name.vb: ExcelConditionalFormattingIconSetBase(Of T)
-  spec.csharp:
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
-    name: ExcelConditionalFormattingIconSetBase
-    nameWithType: ExcelConditionalFormattingIconSetBase
-    fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
-    name: ExcelConditionalFormattingIconSetBase
-    nameWithType: ExcelConditionalFormattingIconSetBase
-    fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
   parent: OfficeOpenXml.ConditionalFormatting
@@ -422,26 +216,12 @@ references:
   name: ExcelConditionalFormattingTomorrow
   nameWithType: ExcelConditionalFormattingTomorrow
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTop
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTop
-  name: ExcelConditionalFormattingTop
-  nameWithType: ExcelConditionalFormattingTop
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTop
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTopPercent
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTopPercent
-  name: ExcelConditionalFormattingTopPercent
-  nameWithType: ExcelConditionalFormattingTopPercent
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTopPercent
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting
   name: ExcelConditionalFormattingTwoColorScale
   nameWithType: ExcelConditionalFormattingTwoColorScale
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingUniqueValues
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingUniqueValues
-  name: ExcelConditionalFormattingUniqueValues
-  nameWithType: ExcelConditionalFormattingUniqueValues
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingUniqueValues
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
   name: ExcelConditionalFormattingYesterday

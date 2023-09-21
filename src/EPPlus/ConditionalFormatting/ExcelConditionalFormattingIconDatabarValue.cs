@@ -186,7 +186,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 else
                 {
                     throw new InvalidOperationException("Value can only be changed if Type is Num, Percent or Percentile." +
-                        $"Current Type is \"{Type}\"");
+                        $" Current Type is \"{Type}\"");
                 }
             }
         }

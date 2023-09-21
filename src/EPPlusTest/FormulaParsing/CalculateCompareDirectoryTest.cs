@@ -56,7 +56,7 @@ namespace EPPlusTest.FormulaParsing
         }
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new Stopwatch(); 
             sw.Start();            
             if(File.Exists(logFile))    
             {
@@ -72,11 +72,11 @@ namespace EPPlusTest.FormulaParsing
                 foreach(var ws in p.Workbook.Worksheets)
                 {                    
                     if (ws.IsChartSheet) continue;
-                    var cse = new CellStoreEnumerator<object>(ws._formulas);                    
+                    var cse = new CellStoreEnumerator<object>(ws._formulas);
                     foreach(var f in cse)
                     {
                         var id = ExcelCellBase.GetCellId(ws.IndexInList, cse.Row, cse.Column);
-                        values.Add(id, ws.GetValue(cse.Row,cse.Column));
+                        values.Add(id, ws.GetValue(cse.Row, cse.Column));
                     }
                     foreach(var name in ws.Names)
                     {                        
@@ -97,30 +97,8 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate(x => x.CacheExpressions=true);
-                    //p.Workbook.Worksheets["Analyses"].Cells["A5"].Calculate();
-                    //p.Workbook.Worksheets["PFD & PFH"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["F2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["H2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Component Failure Rates"].Cells["E2"].Calculate();                    
-                    //p.Workbook.Worksheets["FMEDA"].Cells["T3"].Calculate();
-                    //p.Workbook.Worksheets["FMEDA"].Cells["K2:K11"].Calculate();
-                    //p.Workbook.Worksheets["Results"].Cells["C23"].Calculate();
-                    //p.Workbook.Worksheets["Component Failure Rates"].Cells["B2"].Calculate();
-                    //p.Workbook.Worksheets["Content - By Month"].Cells["z27"].Calculate();
-                    //p.Workbook.Worksheets["Transactions - By Month"].Cells["D5"].Calculate();
-                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["AB5"].Calculate();
-                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["B5"].Calculate();
-                    //p.Workbook.Worksheets["Content - By Month"].Cells["D24"].Calculate();
-                    //p.Workbook.Worksheets["Content Categories ByMonth"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Components"].Cells["C2"].Calculate();
-                    //p.Workbook.Worksheets["Data_Elements"].Cells["W2"].Calculate();
-                    //p.Workbook.Names["Raw_BufferTypeId"].Calculate();
-                    //p.Workbook.Worksheets["RNPS_sig_sample"].Cells["C193"].Calculate();
-                    //p.Workbook.Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Summary"].Cells["G234"].Calculate(x => x.CacheExpressions = true);
-                    //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
+                    p.Workbook.Calculate(x => x.CacheExpressions=false);
+                    //p.Workbook.Worksheets["Data_Elements"].Cells["J3"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
                 {

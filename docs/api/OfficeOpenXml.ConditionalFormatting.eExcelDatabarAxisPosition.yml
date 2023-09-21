@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  id: eExcelDatabarAxisPosition
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Automatic
+  - OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Middle
+  - OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.None
+  langs:
+  - csharp
+  - vb
+  name: eExcelDatabarAxisPosition
+  nameWithType: eExcelDatabarAxisPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelDatabarAxisPosition
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1084
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThe position of the axis between positive and negative numbers on databar\n"
+  example: []
+  syntax:
+    content: public enum eExcelDatabarAxisPosition
+    content.vb: Public Enum eExcelDatabarAxisPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Automatic
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Automatic
+  id: Automatic
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  langs:
+  - csharp
+  - vb
+  name: Automatic
+  nameWithType: eExcelDatabarAxisPosition.Automatic
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Automatic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Automatic
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1090
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n(Display at a variable position based on negative values.)\nThis is the default.\n"
+  example: []
+  syntax:
+    content: Automatic = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Middle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Middle
+  id: Middle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  langs:
+  - csharp
+  - vb
+  name: Middle
+  nameWithType: eExcelDatabarAxisPosition.Middle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.Middle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Middle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1094
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAlways put the axis at the cell midpoint.\n"
+  example: []
+  syntax:
+    content: Middle = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.None
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.None
+  id: None
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eExcelDatabarAxisPosition.None
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1098
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nShow negative values bars in the same direction as positive.\n"
+  example: []
+  syntax:
+    content: None = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelDatabarAxisPosition
+  nameWithType: eExcelDatabarAxisPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition

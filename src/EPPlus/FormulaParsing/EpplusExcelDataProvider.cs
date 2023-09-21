@@ -119,12 +119,21 @@ namespace OfficeOpenXml.FormulaParsing
         internal override IRangeInfo GetRange(FormulaRangeAddress range)
         {
             if(range.ExternalReferenceIx > 0)
-            {                 
-                return new EpplusExcelExternalRangeInfo(range.ExternalReferenceIx, range.WorksheetIx, range.FromRow, range.FromCol, range.ToRow, range.ToCol, ParsingContext);
+            {
+                var wb = ParsingContext.GetExternalWoorkbook(range.ExternalReferenceIx);
+                if (wb?.Package != null)
+                {
+                    var ws = wb?.Package.Workbook.GetWorksheetByIndexInList(range.WorksheetIx);
+                    return new RangeInfo(ws, range.FromRow, range.FromCol, range.ToRow, range.ToCol, ParsingContext);
+                }
+                else
+                {
+                    return new EpplusExcelExternalRangeInfo(wb, range, ParsingContext);
+                }
             }
             else
             {
-                return new RangeInfo(range, ParsingContext);
+                return new RangeInfo(range);
             }
         }
 
@@ -155,7 +164,7 @@ namespace OfficeOpenXml.FormulaParsing
         public override IRangeInfo GetRange(int wsIx, int row, int column)
         {
             if (wsIx < -1) wsIx = ParsingContext.CurrentCell.WorksheetIx;
-            return new RangeInfo(new FormulaRangeAddress(_context) { WorksheetIx = wsIx, FromRow = row, FromCol = column, ToRow=row, ToCol=column }, _context);
+            return new RangeInfo(new FormulaRangeAddress(_context) { WorksheetIx = wsIx, FromRow = row, FromCol = column, ToRow=row, ToCol=column });
         }
         public override IRangeInfo GetRange(string worksheet, string address)
         {

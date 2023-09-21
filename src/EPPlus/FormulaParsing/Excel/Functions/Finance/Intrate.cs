@@ -32,8 +32,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = DateTime.FromOADate(ArgToInt(arguments, 1));
-            var investment = ArgToDecimal(arguments, 2);
-            var redemption = ArgToDecimal(arguments, 3);
+            var investment = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var redemption = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var basis = 0;
             if (arguments.Count() >= 5)
             {

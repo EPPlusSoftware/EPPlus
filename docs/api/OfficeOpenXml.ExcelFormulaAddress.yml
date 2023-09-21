@@ -46,6 +46,7 @@ items:
   - OfficeOpenXml.ExcelAddressBase.End
   - OfficeOpenXml.ExcelAddressBase.ExternalReferenceIndex
   - OfficeOpenXml.ExcelAddressBase.Table
+  - OfficeOpenXml.ExcelAddressBase.AddressAbsolute
   - OfficeOpenXml.ExcelAddressBase.FullAddress
   - OfficeOpenXml.ExcelAddressBase.IsName
   - OfficeOpenXml.ExcelAddressBase.ToString
@@ -418,6 +419,12 @@ references:
   name: Table
   nameWithType: ExcelAddressBase.Table
   fullName: OfficeOpenXml.ExcelAddressBase.Table
+- uid: OfficeOpenXml.ExcelAddressBase.AddressAbsolute
+  commentId: P:OfficeOpenXml.ExcelAddressBase.AddressAbsolute
+  parent: OfficeOpenXml.ExcelAddressBase
+  name: AddressAbsolute
+  nameWithType: ExcelAddressBase.AddressAbsolute
+  fullName: OfficeOpenXml.ExcelAddressBase.AddressAbsolute
 - uid: OfficeOpenXml.ExcelAddressBase.FullAddress
   commentId: P:OfficeOpenXml.ExcelAddressBase.FullAddress
   parent: OfficeOpenXml.ExcelAddressBase

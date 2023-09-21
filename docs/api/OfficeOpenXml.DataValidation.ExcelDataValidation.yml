@@ -883,7 +883,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OnFormulaChanged
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 285
+    startLine: 297
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
