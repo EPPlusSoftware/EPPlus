@@ -2028,7 +2028,7 @@ namespace OfficeOpenXml
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
         /// <summary>
-        /// The address of the formula in the top-left cell.
+        /// The address of the formula in the top-left cell of the range.
         /// A shared formula or array formula will return the address for the entire series.
         /// If you want the address of a dynamic array formula, you must calculate the formula first.
         /// </summary>
