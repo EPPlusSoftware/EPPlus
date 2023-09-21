@@ -1423,7 +1423,8 @@ namespace OfficeOpenXml
 		{
 			try
 			{
-				XmlNode top = WorkbookXml.SelectSingleNode("//d:definedNames", NameSpaceManager);
+				Dictionary<string, string> nsf;
+                XmlNode top = WorkbookXml.SelectSingleNode("//d:definedNames", NameSpaceManager);
 				if (!ExistsNames())
 				{
 					if (top != null) TopNode.RemoveChild(top);
@@ -1431,7 +1432,8 @@ namespace OfficeOpenXml
 				}
 				else
 				{
-					if (top == null)
+                    nsf = FormulaParser.ParsingContext.Configuration.FunctionRepository.NamespaceFunctions;
+                    if (top == null)
 					{
 						CreateNode("d:definedNames");
 						top = WorkbookXml.SelectSingleNode("//d:definedNames", NameSpaceManager);
@@ -1448,7 +1450,7 @@ namespace OfficeOpenXml
 						elem.SetAttribute("name", name.Name);
 						if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
 						if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
-						SetNameElement(name, elem);
+						SetNameElement(name, elem, nsf);
 					}
 				}
 				foreach (ExcelWorksheet ws in _worksheets)
@@ -1463,7 +1465,7 @@ namespace OfficeOpenXml
 							elem.SetAttribute("localSheetId", name.LocalSheetId.ToString());
 							if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
 							if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
-							SetNameElement(name, elem);
+							SetNameElement(name, elem, nsf);
 						}
 					}
 				}
@@ -1474,7 +1476,7 @@ namespace OfficeOpenXml
 			}
 		}
 
-		private void SetNameElement(ExcelNamedRange name, XmlElement elem)
+		private void SetNameElement(ExcelNamedRange name, XmlElement elem, Dictionary<string,string> nsd)
 		{
 			if (name.IsName)
 			{
@@ -1499,7 +1501,7 @@ namespace OfficeOpenXml
 				}
 				else
 				{
-					elem.InnerText = name.NameFormula;
+					elem.InnerText = SharedFormula.UpdateFormulaNamespaces(name.NameFormula, nsd);
 				}
 			}
 			else
@@ -1508,14 +1510,10 @@ namespace OfficeOpenXml
                 {
                     elem.InnerText = name.Address;
                 }
-                else// if(name.AllowRelativeAddress)
+                else
                 {
 					elem.InnerText = name.FullAddress;
                 }
-				//else
-    //            {
-				//	elem.InnerText = name.FullAddressAbsolute;
-				//}
 			}
 		}
 		/// <summary>

@@ -56,7 +56,7 @@ namespace EPPlusTest.FormulaParsing
         }
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new Stopwatch(); 
             sw.Start();            
             if(File.Exists(logFile))    
             {
@@ -72,11 +72,11 @@ namespace EPPlusTest.FormulaParsing
                 foreach(var ws in p.Workbook.Worksheets)
                 {                    
                     if (ws.IsChartSheet) continue;
-                    var cse = new CellStoreEnumerator<object>(ws._formulas);                    
+                    var cse = new CellStoreEnumerator<object>(ws._formulas);
                     foreach(var f in cse)
                     {
                         var id = ExcelCellBase.GetCellId(ws.IndexInList, cse.Row, cse.Column);
-                        values.Add(id, ws.GetValue(cse.Row,cse.Column));
+                        values.Add(id, ws.GetValue(cse.Row, cse.Column));
                     }
                     foreach(var name in ws.Names)
                     {                        
@@ -98,7 +98,7 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=false);
-                    //p.Workbook.Worksheets["CELP"].Cells["L45"].Calculate(x => x.CacheExpressions = false);
+                    //p.Workbook.Worksheets["Data_Elements"].Cells["J3"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
                 {
@@ -110,7 +110,7 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Differences:");
                 logWriter.WriteLine($"Formula values to compare: {values.Count}");
                 logWriter.WriteLine($"Worksheet\tCell\tValue Excel\tValue EPPlus");
-                foreach (var value in values)   
+                foreach (var value in values)
                 {
                     ExcelCellBase.SplitCellId(value.Key, out int wsIndex, out int row, out int col);
                     object v;

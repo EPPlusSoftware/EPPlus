@@ -145,7 +145,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
                 Result = ResultNumeric;
             }
-            else
+            else if (DataType != DataType.ExcelError)
             {
                 Result = ErrorValues.ValueError;
             }

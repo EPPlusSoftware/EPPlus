@@ -37,7 +37,7 @@ using OfficeOpenXml;
 namespace EPPlusTest.Excel.Functions
 {
     [TestClass]
-    public class ArgumentParsersImplementationsTests
+    public class ArgumentParsersImplementationsTests : TestBase
     {
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void IntParserShouldThrowIfArgumentIsNull()
@@ -129,17 +129,21 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void DoubleParserConvertStringToDoubleWithDotSeparator()
         {
+            SwitchToCulture();
             var result = DoubleArgParser.Parse("3.3", out ExcelErrorValue error);
             Assert.AreEqual(3.3d, result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void DoubleParserConvertDateStringToDouble()
         {
+            SwitchToCulture();
             var parser = new DoubleArgumentParser();
             var result = DoubleArgParser.Parse("3.3.2015", out ExcelErrorValue error);
             Assert.AreEqual(new DateTime(2015,3,3).ToOADate(), result);
             Assert.IsNull(error);
+            SwitchBackToCurrentCulture();
         }
     }
 }

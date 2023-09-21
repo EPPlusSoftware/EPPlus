@@ -2027,6 +2027,19 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
+        /// <summary>
+        /// The address of the formula in the top-left cell of the range.
+        /// A shared formula or array formula will return the address for the entire series.
+        /// If you want the address of a dynamic array formula, you must calculate the formula first.
+        /// </summary>
+        /// <returns>The address the formula spans</returns>
+        public ExcelAddressBase FormulaAddress
+        {
+            get
+            {
+                return _worksheet.GetFormulaAddress(_fromRow, _fromCol);
+            }
+        }
         internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true, bool clearStyles = true)
         {
 

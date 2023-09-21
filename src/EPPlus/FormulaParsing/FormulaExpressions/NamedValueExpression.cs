@@ -92,6 +92,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 return CompileResultFactory.Create(value, address);
             }
+            else if(value is ExcelErrorValue e)
+            {
+                return CompileResult.GetErrorResult(e.Type);
+            }
             else
             {
                 var d = ConvertUtil.GetValueDouble(value, false, true);

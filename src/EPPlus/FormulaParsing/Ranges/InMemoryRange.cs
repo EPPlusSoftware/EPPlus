@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     /// <summary>
     /// EPPlus implementation of a range that keeps its data in memory
     /// </summary>
-    internal class InMemoryRange : IRangeInfo
+    public class InMemoryRange : IRangeInfo
     {
         public InMemoryRange(RangeDefinition rangeDef)
         {
@@ -79,8 +79,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         private readonly ICellInfo[,] _cells;
         private int _colIx = -1;
         private int _rowIndex = 0;
-        //private readonly short _nCols;
-        //private readonly int _nRows;
 
         private static InMemoryRange _empty = new InMemoryRange(new RangeDefinition(0, 0));
         

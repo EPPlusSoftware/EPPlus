@@ -762,7 +762,7 @@ namespace OfficeOpenXml.FormulaParsing
                         s.Push(e);
                         if(returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek())==false))
                         {
-                                return e.GetAddress();
+                           return e.GetAddress();
                         }
                         break;
                     case TokenType.NameValue:

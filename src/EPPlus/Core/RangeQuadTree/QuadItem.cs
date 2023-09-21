@@ -5,13 +5,6 @@ using System.Diagnostics;
 
 namespace OfficeOpenXml.Core.RangeQuadTree
 {
-    internal enum IntersectType
-    {
-        OutSide = 0,
-        Inside = 1,
-        Partial = 2,
-    }
-
     internal class QuadItem<T>
     {
         public QuadItem(QuadItem<T> parent, QuadRange dimension)
@@ -98,7 +91,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             return Dimension.ToString();
         }
 
-        internal void GetIntersectingRanges(QuadRange range, ref List<QuadRangeItem<T>> ranges)
+        internal void GetIntersectingRangeItems(QuadRange range, ref List<QuadRangeItem<T>> ranges)
         {
             if (Quads != null)
             {
@@ -106,7 +99,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                 {
                     if (q.Intersect(range) != IntersectType.OutSide)
                     {
-                        q.GetIntersectingRanges(range, ref ranges);
+                        q.GetIntersectingRangeItems(range, ref ranges);
                     }
                 }
             }
@@ -118,5 +111,26 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                 }
             }
         }
+        internal void GetIntersectingRanges(QuadRange range, ref List<QuadRange> ranges)
+        {
+            if (Quads != null)
+            {
+                foreach (var q in Quads)
+                {
+                    if (q.Intersect(range) != IntersectType.OutSide)
+                    {
+                        q.GetIntersectingRanges(range, ref ranges);
+                    }
+                }
+            }
+            foreach (var r in Ranges)
+            {
+                if (r.Range.Intersect(range) != IntersectType.OutSide)
+                {
+                    ranges.Add(r.Range);
+                }
+            }
+        }
+
     }
 }

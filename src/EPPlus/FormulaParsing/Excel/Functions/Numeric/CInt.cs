@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
         Description = "Rounds a number down to the next integer")]
-    internal class CInt : ExcelFunction
+    internal class IntFunction : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
