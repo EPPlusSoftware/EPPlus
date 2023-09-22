@@ -615,11 +615,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
         protected virtual IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments,
-                                                                     ParsingContext context)
+                                                                     ParsingContext context, out ExcelErrorValue error)
         {
-            return ArgsToDoubleEnumerable(false, arguments, context);
+            error = null;
+            return ArgsToDoubleEnumerable(arguments, context, x => { }, out error);
         }
 
         /// <summary>
@@ -644,7 +646,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected virtual IList<double> ArgsToDoubleEnumerable(
+            bool ignoreHiddenCells, 
+            bool ignoreErrors, 
+            bool ignoreNestedSubtotalAggregate, 
+            IEnumerable<FunctionArgument> arguments, 
+            ParsingContext context)
         {
             //return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context, false);
             var options = new DoubleEnumerableParseOptions
@@ -696,42 +703,93 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// Will return the arguments as an enumerable of doubles.
         /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <param name="configHandler"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected virtual IList<double> ArgsToDoubleEnumerable(
+            IEnumerable<FunctionArgument> arguments, 
+            ParsingContext context, 
+            Action<DoubleEnumerableParseOptions> configHandler, 
+            out ExcelErrorValue error)
+        {
+            error = null;
+            var options = new DoubleEnumerableParseOptions();
+            configHandler(options);
+            var parser = new DoubleEnumerableArgParser(arguments, context, options);
+            var result = parser.GetResult(out error);
+            if (error != null)
+            {
+                throw new ExcelErrorValueException(error);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Will return the arguments as an enumerable of doubles.
+        /// </summary>
+        /// <param name="argument"></param>
+        /// <param name="context"></param>
+        /// <param name="configHandler"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        protected virtual IList<double> ArgsToDoubleEnumerable(FunctionArgument argument, ParsingContext context, Action<DoubleEnumerableParseOptions> configHandler, out ExcelErrorValue error)
+        {
+            return ArgsToDoubleEnumerable(new List<FunctionArgument> { argument }, context, configHandler, out error);
+        }
+
+        /// <summary>
+        /// Will return the arguments as an enumerable of doubles using default parameters
+        /// </summary>
+        /// <param name="argument"></param>
+        /// <param name="context"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        protected virtual IList<double> ArgsToDoubleEnumerable(FunctionArgument argument, ParsingContext context, out ExcelErrorValue error)
+        {
+            return ArgsToDoubleEnumerable(argument, context, x => { }, out error);
+        }
+        /// <summary>
+        /// Will return the arguments as an enumerable of doubles.
+        /// </summary>
         /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
         /// <param name="ignoreNestedSubtotalAggregate">If cells which value comes from the calculation of a SUBTOTAL or an AGGREGATE function should be ignored, set this to true</param>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
         /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
-        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
-        {
-            return ArgsToDoubleEnumerable(ignoreHiddenCells, true, ignoreNestedSubtotalAggregate, arguments, context, ignoreNonNumeric);
-        }
+            //protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
+            //{
+            //    return ArgsToDoubleEnumerable(ignoreHiddenCells, true, ignoreNestedSubtotalAggregate, arguments, context, ignoreNonNumeric);
+            //}
 
-        /// <summary>
-        /// Will return the arguments as an enumerable of doubles.
-        /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="arguments"></param>
-        /// <param name="context"></param>
-        /// <param name="ignoreNonNumeric"></param>
-        /// <returns></returns>
-        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
-        {
-            return ArgsToDoubleEnumerable(ignoreHiddenCells, true, false, arguments, context, ignoreNonNumeric);
-        }
+            /// <summary>
+            /// Will return the arguments as an enumerable of doubles.
+            /// </summary>
+            /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
+            /// <param name="arguments"></param>
+            /// <param name="context"></param>
+            /// <param name="ignoreNonNumeric"></param>
+            /// <returns></returns>
+            //protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
+            //{
+            //    return ArgsToDoubleEnumerable(ignoreHiddenCells, true, false, arguments, context, ignoreNonNumeric);
+            //}
 
 
-        /// <summary>
-        /// Will return the arguments as an enumerable of doubles.
-        /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="arguments"></param>
-        /// <param name="context"></param>        
-        /// <returns></returns>
-        protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            return ArgsToDoubleEnumerable(ignoreHiddenCells, true, arguments, context, false);
-        }
+            /// <summary>
+            /// Will return the arguments as an enumerable of doubles.
+            /// </summary>
+            /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
+            /// <param name="arguments"></param>
+            /// <param name="context"></param>        
+            /// <returns></returns>
+            //protected virtual IList<double> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+            //{
+            //    return ArgsToDoubleEnumerable(ignoreHiddenCells, true, arguments, context, false);
+            //}
 
         protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, IRangeInfo rangeInfo, ParsingContext context)
         {
@@ -741,8 +799,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
             var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
             var funcArg = new FunctionArgument(rangeInfo, DataType.ExcelRange);
-            var dResult = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
-            var result = dResult.Select(x => new ExcelDoubleCellValue(x));
+            //var dResult = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
+            var result = _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, false, false, new List<FunctionArgument> { funcArg }, context);
+            //var result = dResult.Select(x => new ExcelDoubleCellValue(x));
             var dict = new Dictionary<int, double>();
             result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
             var resultList = new List<double>();

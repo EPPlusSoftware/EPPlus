@@ -27,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             _context = context;
             var arg1 = arguments[0];
             var arg2 = arguments[1];
-            CreateSets(arg1, arg2, out double[] set1, out double[] set2);
+            CreateSets(arg1, arg2, out double[] set1, out double[] set2, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (set1.Length != set2.Length) return CreateResult(eErrorType.NA);
             var result = Calculate(set1.ToArray(), set2.ToArray());
             return CreateResult(result, DataType.Decimal);
@@ -35,10 +36,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         public abstract double Calculate(double[] set1, double[] set2);
 
-        private void CreateSets(FunctionArgument arg1, FunctionArgument arg2, out double[] set1, out double[] set2)
+        private void CreateSets(FunctionArgument arg1, FunctionArgument arg2, out double[] set1, out double[] set2, out ExcelErrorValue error)
         {
-            var list1 = CreateSet(arg1);
-            var list2 = CreateSet(arg2);
+            set1 = new double[0];
+            set2 = new double[0];
+            var list1 = CreateSet(arg1, out error);
+            if (error != null) return;
+            var list2 = CreateSet(arg2, out error);
+            if(error != null) return;
             if(list1.Count == list2.Count)
             {
                 var r1 = new List<double>();
@@ -61,8 +66,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
         }
 
-        public List<double> CreateSet(FunctionArgument arg)
+        public List<double> CreateSet(FunctionArgument arg, out ExcelErrorValue error)
         {
+            error = null;
             List<double> result = new List<double>();
             if (arg.IsExcelRange)
             {
@@ -82,7 +88,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             else
             {
-                result = ArgsToDoubleEnumerable(new List<FunctionArgument> { arg }, _context).Select(x => Convert.ToDouble(x)).ToList();
+                result = ArgsToDoubleEnumerable(arg, _context, out error).ToList();
             }
             return result;
         }

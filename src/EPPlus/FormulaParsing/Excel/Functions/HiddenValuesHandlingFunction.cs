@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -51,8 +52,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         public bool IgnoreNestedSubtotalsAndAggregates { get; set; }
 
-        protected override IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected override IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, out ExcelErrorValue error)
         {
+            error = null;
             return ArgsToDoubleEnumerable(arguments, context, IgnoreErrors, false);
         }
 
@@ -65,7 +67,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             if (IgnoreHiddenValues)
             {
                 var nonHidden = arguments.Where(x => !x.ExcelStateFlagIsSet(ExcelCellState.HiddenCell));
-                return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, nonHidden, context);
+                var res = base.ArgsToDoubleEnumerable(nonHidden, context, x => x.IgnoreHiddenCells = IgnoreHiddenValues, out ExcelErrorValue e1);
+                if (e1 != null) throw new ExcelErrorValueException(e1.Type);
             }
             return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, ignoreErrors, IgnoreNestedSubtotalsAndAggregates, arguments, context, ignoreNonNumeric);
         }

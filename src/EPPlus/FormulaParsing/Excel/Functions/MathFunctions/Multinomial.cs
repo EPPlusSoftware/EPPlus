@@ -28,7 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var numbers = ArgsToDoubleEnumerable(arguments, context);
+            var numbers = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var part1 = 0d;
             var part2 = 1d;
             foreach(var number in numbers)

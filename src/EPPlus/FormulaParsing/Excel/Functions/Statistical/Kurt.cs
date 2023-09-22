@@ -29,7 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var numbers = ArgsToDoubleEnumerable(true, arguments, context, true);
+            var numbers = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var n = (double)numbers.Count();
             if (n < 4) return CompileResult.GetErrorResult(eErrorType.Div0);
             var stdev = new Stdev().StandardDeviation(numbers);

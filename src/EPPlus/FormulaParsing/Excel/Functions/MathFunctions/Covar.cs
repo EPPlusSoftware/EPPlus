@@ -28,18 +28,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var array1 = ArgsToDoubleEnumerable(arguments.Take(1), context).ToArray();
-            var array2 = ArgsToDoubleEnumerable(arguments.Skip(1).Take(1), context).ToArray();
-            if (array1.Length != array2.Length) return CreateResult(eErrorType.NA);
-            if (array1.Length == 0) return CreateResult(eErrorType.Div0);
-            var avg1 = array1.Select(x => x.Value).Average();
-            var avg2 = array2.Select(x => x.Value).Average();
+            var array1 = ArgsToDoubleEnumerable(arguments.Take(1), context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var array2 = ArgsToDoubleEnumerable(arguments.Skip(1).Take(1), context, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            if (array1.Count != array2.Count) return CreateResult(eErrorType.NA);
+            if (array1.Count == 0) return CreateResult(eErrorType.Div0);
+            var avg1 = array1.Average();
+            var avg2 = array2.Average();
             var result = 0d;
-            for(var x = 0; x < array1.Length; x++)
+            for(var x = 0; x < array1.Count; x++)
             {
                 result += (array1[x] - avg1) * (array2[x] - avg2);
             }
-            result /= array1.Length;
+            result /= array1.Count;
             return CreateResult(result, DataType.Decimal);
         }
     }

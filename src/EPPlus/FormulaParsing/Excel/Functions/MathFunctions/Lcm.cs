@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var numbers = ArgsToDoubleEnumerable(arguments, context).Select(x => (int)x);
+            var numbers = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1).Select(x => (int)x);
             foreach (var number in numbers) if (number < 0) return CompileResult.GetErrorResult(eErrorType.Num);
             return CreateResult(MathHelper.LeastCommonMultiple(numbers.ToArray()), DataType.Integer);
         }

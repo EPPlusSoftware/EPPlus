@@ -29,7 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments[0] }, context);
+            var values = ArgsToDoubleEnumerable(arguments[0], context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var result = default(FinanceCalcResult<double>);
             if(arguments.Count == 1)
             {
@@ -37,8 +38,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             }
             else
             {
-                var guess = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
-                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                var guess = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
                 result = IrrImpl.Irr(values.Select(x => (double)x).ToArray(), guess);
             }
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);

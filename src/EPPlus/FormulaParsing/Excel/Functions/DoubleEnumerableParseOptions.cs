@@ -17,23 +17,38 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    internal class DoubleEnumerableParseOptions
+    /// <summary>
+    /// Options for parsing function arguments to a list of doubles
+    /// </summary>
+    public class DoubleEnumerableParseOptions
     {
+        /// <summary>
+        /// Ignore errors in cells
+        /// </summary>
         public bool IgnoreErrors
         {
             get; set;
         }
 
+        /// <summary>
+        /// Ignore hidden cells
+        /// </summary>
         public bool IgnoreHiddenCells
         {
             get; set;
         }
 
+        /// <summary>
+        /// Ignore results from underlying SUBTOTAL or AGGREGATE functions
+        /// </summary>
         public bool IgnoreNestedSubtotalAggregate
         {
             get; set;
         }
 
+        /// <summary>
+        /// Ignore cells with non-numeric values
+        /// </summary>
         public bool IgnoreNonNumeric
         {
             get; set;
