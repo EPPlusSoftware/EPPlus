@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                     {
                         type = _dataTable.Columns[mapping.DataColumnName].DataType;
                     }
-                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, type);
+                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, type, mapping.AllowNull);
                 }
                 if(rowIsEmpty)
                 {
@@ -130,10 +130,11 @@ namespace OfficeOpenXml.Export.ToDataTable
         }
 
 
-        private object CastToColumnDataType(object val, Type dataColumnType)
+        private object CastToColumnDataType(object val, Type dataColumnType, bool allowNull)
         {
             if (val == null)
             {
+                if (allowNull) return DBNull.Value;
                 if (dataColumnType.IsValueType)
                 {
                     return Activator.CreateInstance(dataColumnType);
