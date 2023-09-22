@@ -259,7 +259,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, false, image, _cfAtAddresses);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, false, image, _cfAtAddresses, _exporterContext);
                     }
                     else
                     {

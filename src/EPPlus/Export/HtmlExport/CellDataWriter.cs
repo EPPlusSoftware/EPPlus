@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal class CellDataWriter
     {
         public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 
-            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, Dictionary<string, List<ExcelConditionalFormattingRule>> cfRules)
+            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, Dictionary<string, List<ExcelConditionalFormattingRule>> cfRules, ExporterContext content)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, writer._styleCache, writer._dxfStyleCache);
+            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, content._styleCache, content._dxfStyleCache);
 
             if (!string.IsNullOrEmpty(classString))
             {
@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
 #if !NET35
         public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 
-            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, Dictionary<string, List<ExcelConditionalFormattingRule>> cfRules)
+            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, Dictionary<string, List<ExcelConditionalFormattingRule>> cfRules, ExporterContext content)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
             
-            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, writer._styleCache, writer._dxfStyleCache);
+            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, content._styleCache, content._dxfStyleCache);
 
             if (!string.IsNullOrEmpty(classString))
             {

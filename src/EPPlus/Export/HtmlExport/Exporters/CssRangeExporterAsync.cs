@@ -13,6 +13,7 @@
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Style.Dxf;
@@ -122,7 +123,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                                 {
                                     foreach (var cf in _cfAtAddresses[ce.CellAddress])
                                     {
-                                        await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, cf.Priority, cf.Uid);
+                                        var id = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
+                                        if(id != -1)
+                                        {
+                                            await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                        }
                                     }
                                 }
                             }

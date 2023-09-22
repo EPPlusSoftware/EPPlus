@@ -514,15 +514,18 @@ namespace OfficeOpenXml.ConditionalFormatting
         public Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings()
         {
             var conditionalFormattingRules = new QuadTree<ExcelConditionalFormattingRule>(_address);
+            
             var retDikt = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
 
-            foreach (var cf in _worksheet.ConditionalFormatting)
+            foreach (ExcelConditionalFormattingRule cf in _worksheet.ConditionalFormatting)
             {
-                var intersects = conditionalFormattingRules.GetIntersectRanges(new QuadRange(cf.Address));
+                conditionalFormattingRules.Add(new QuadRange(cf.Address), cf);
+
+                var intersects = conditionalFormattingRules.GetIntersectingRangeItems(new QuadRange(cf.Address));
 
                 foreach (var intersect in intersects)
                 {
-                    var address = new ExcelAddress(intersect.FromRow, intersect.FromCol, intersect.ToRow, intersect.ToCol);
+                    var address = new ExcelAddress(intersect.Range.FromRow, intersect.Range.FromCol, intersect.Range.ToRow, intersect.Range.ToCol);
 
                     if (!retDikt.ContainsKey(address.Address))
                     {

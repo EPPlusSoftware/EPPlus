@@ -36,14 +36,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             _stream = stream;
             _writer = new StreamWriter(stream, encoding);
             _styleCache = styleCache;
-            _dxfStyleCache = new Dictionary<string, int>();
         }
         public HtmlWriterBase(StreamWriter writer, Dictionary<string, int> styleCache)
         {
             _stream = writer.BaseStream;
             _writer = writer;
             _styleCache = styleCache;
-            _dxfStyleCache = new Dictionary<string, int>();
         }
         internal int Indent { get; set; }
 

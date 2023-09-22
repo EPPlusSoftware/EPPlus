@@ -21,8 +21,6 @@ using System.Text;
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
     internal abstract class AbstractHtmlExporter
-
-
     {
         public AbstractHtmlExporter()
         {

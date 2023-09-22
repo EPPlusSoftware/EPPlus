@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             _dxfStyleCache.Add(dxfKey, id);
                         }
 
-                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf-{dxfId}";
+                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}dxf id{dxfId}";
                     }
                 }
             }

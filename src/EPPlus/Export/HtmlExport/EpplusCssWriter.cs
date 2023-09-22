@@ -39,7 +39,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         ExcelTheme _theme;
         internal eFontExclude _fontExclude;
         internal eBorderExclude _borderExclude;
-        internal HashSet<int> _addedToCss=new HashSet<int>();
         internal HashSet<int> _addedToCssCf = new HashSet<int>();
 
         internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude, Dictionary<string, int> styleCache) : base(writer, styleCache) 
@@ -262,9 +261,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             var xfs = styles.CellXfs[styleId];
             if (HasStyle(xfs))
             {
-                if (IsAddedToCache(xfs, out int id)==false || _addedToCss.Contains(id) == false)
+                if (IsAddedToCache(xfs, out int id)==false)
                 {
-                    _addedToCss.Add(id);
                     WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {
@@ -292,9 +290,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             var rXfs = styles.CellXfs[rightStyleId];
             if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
             {
-                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false || _addedToCss.Contains(id) == false)
+                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false)
                 {
-                    _addedToCss.Add(id);
                     WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {

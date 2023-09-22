@@ -179,9 +179,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             var xfs = styles.CellXfs[styleId];
             if (HasStyle(xfs))
             {
-                if (IsAddedToCache(xfs, out int id)== false || _addedToCss.Contains(id) == false)
+                if (IsAddedToCache(xfs, out int id) == false)
                 {
-                    _addedToCss.Add(id);
                     await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {
@@ -202,14 +201,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting dxfs, string styleClassPrefix, string cellStyleClassName, int priorityID, string uid)
+        internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting dxfs, string styleClassPrefix, string cellStyleClassName, int id)
         {
-            if(dxfs != null)
-            {
-                if(IsAddedToCache(dxfs, out int id) || _addedToCssCf.Contains(id) == false)
-                {
-                    _addedToCssCf.Add(id);
-                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf-{id}{{", _settings.Minify);
+            //if(dxfs != null)
+            //{
+            //    if(IsAddedToCache(dxfs, out int id) || _addedToCssCf.Contains(id) == false)
+            //    {
+            //        _addedToCssCf.Add(id);
+                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}dxf.id{id}{{", _settings.Minify);
 
                     if (dxfs.Fill != null)
                     {
@@ -227,8 +226,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
 
                     await WriteClassEndAsync(_settings.Minify);
-                }
-            }
+            //    }
+            //}
         }
 
         internal async Task AddToCssAsync(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName)
@@ -238,9 +237,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             var rXfs = styles.CellXfs[rightStyleId];
             if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
             {
-                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false || _addedToCss.Contains(id) == false)
+                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false)
                 {
-                    _addedToCss.Add(id);
                     await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {

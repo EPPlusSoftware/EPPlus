@@ -179,7 +179,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image, _cfAtAddresses);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image, _cfAtAddresses, _exporterContext);
                     }
                     else
                     {
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         AddImage(writer, Settings, image, cell.Value);
                         var imageCellClassName = GetImageCellClassName(image, Settings);
 
-                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
 
                         if (!string.IsNullOrEmpty(classString))
                         {
