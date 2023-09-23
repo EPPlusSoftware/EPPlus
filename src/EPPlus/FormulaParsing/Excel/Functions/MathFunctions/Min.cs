@@ -37,7 +37,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var values = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, IgnoreNestedSubtotalsAndAggregates, arguments, context, true);
+            var values = ArgsToDoubleEnumerable(arguments, context, x =>
+            {
+                x.IgnoreHiddenCells = IgnoreHiddenValues;
+                x.IgnoreErrors = IgnoreErrors;
+                x.IgnoreNestedSubtotalAggregate = IgnoreNestedSubtotalsAndAggregates;
+                x.IgnoreNonNumeric = true;
+            }, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if(!values.Any())
             {
                 return CreateResult(0d, DataType.Decimal);

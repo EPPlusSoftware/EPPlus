@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -39,13 +40,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 return stdev;
             }
             var part1 = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-            var avg = numbers.Average();
+            var avg = numbers.AverageKahan();
             var part2 = 0d;
             for(var x = 0; x < n; x++)
             {
-                part2 += System.Math.Pow((numbers.ElementAt(x) - avg), 4);
+                part2 += Math.Pow((numbers.ElementAt(x) - avg), 4);
             }
-            part2 /= System.Math.Pow((double)stdev.Result, 4);
+            part2 /= Math.Pow((double)stdev.Result, 4);
             var result = part1 * part2 - (3 * System.Math.Pow(n - 1, 2)) / ((n - 2) * (n - 3));
             return CreateResult(result, DataType.Decimal);
         }

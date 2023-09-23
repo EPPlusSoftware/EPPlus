@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -31,9 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var arr = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (!arr.Any()) return CreateResult(eErrorType.Div0);
-            var dArr = arr.Select(x => (double)x);
-            var mean = dArr.Average();
-            var result = dArr.Aggregate(0d, (val, x) => val += System.Math.Abs(x - mean)) / dArr.Count();
+            var mean = arr.AverageKahan();
+            var result = arr.AggregateKahan(0d, (val, x) => val += System.Math.Abs(x - mean)) / arr.Count;
             return CreateResult(result, DataType.Decimal);
         }
     }

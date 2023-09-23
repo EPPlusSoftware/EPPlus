@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -33,12 +34,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var numbers = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var n = numbers.Count;
-            var avg = numbers.Average();
+            var avg = numbers.AverageKahan();
             var sd = CalcStandardDev(numbers, avg);
             var i = 0d;
             foreach(var number in numbers)
             {
-                i += System.Math.Pow((number - avg)/sd, 3);
+                i += Math.Pow((number - avg)/sd, 3);
             }
             var result = i / n;
             return CreateResult(result, DataType.Decimal);

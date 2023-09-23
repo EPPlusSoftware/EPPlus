@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
             List<double> trimmedValues = values.Skip(excludeCount).Take(values.Count - 2 * excludeCount).ToList();
 
-            double mean = trimmedValues.Average();
+            double mean = trimmedValues.AverageKahan();
 
             return mean;
         }

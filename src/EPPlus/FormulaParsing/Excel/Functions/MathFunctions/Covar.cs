@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/12/2020         EPPlus Software AB       Version 5.5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -34,8 +35,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (array1.Count != array2.Count) return CreateResult(eErrorType.NA);
             if (array1.Count == 0) return CreateResult(eErrorType.Div0);
-            var avg1 = array1.Average();
-            var avg2 = array2.Average();
+            var avg1 = array1.AverageKahan();
+            var avg2 = array2.AverageKahan();
             var result = 0d;
             for(var x = 0; x < array1.Count; x++)
             {

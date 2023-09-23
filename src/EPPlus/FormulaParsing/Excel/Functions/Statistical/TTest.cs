@@ -79,7 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 }
 
                 var differenceSD = StandardDeviation(differenceList);
-                tStat = differenceList.Average() / (differenceSD / Math.Sqrt(differenceList.Count()));
+                tStat = differenceList.AverageKahan() / (differenceSD / Math.Sqrt(differenceList.Count()));
                 tStat = Math.Abs(tStat);
 
                 var result = 1 - StudenttHelper.CumulativeDistributionFunction(tStat, differenceList.Count() - 1);
@@ -91,12 +91,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 var sX = StandardDeviation(list1);
                 var sY = StandardDeviation(list2);
 
-                var sXY = Math.Sqrt(((list1.Count() - 1) * Math.Pow(sX, 2) + (list2.Count() - 1) * Math.Pow(sY, 2))
+                var sXY = Math.Sqrt(((list1.Count() - 1) * Math.Pow(sX, 2) + (list2.Count - 1) * Math.Pow(sY, 2))
                     / (list1.Count() + list2.Count() - 2));
 
-                tStat = (Math.Abs(list1.Average() - list2.Average())) / (sXY * Math.Sqrt(1d / list1.Count() + 1d / list2.Count()));
+                tStat = (Math.Abs(list1.AverageKahan() - list2.AverageKahan())) / (sXY * Math.Sqrt(1d / list1.Count + 1d / list2.Count));
 
-                var result = 1 - StudenttHelper.CumulativeDistributionFunction(tStat, list1.Count() + list2.Count() - 2);
+                var result = 1 - StudenttHelper.CumulativeDistributionFunction(tStat, list1.Count + list2.Count - 2);
                 return CreateResult(tails == 1 ? result : 2 * result, DataType.Decimal);
 
             }
@@ -111,18 +111,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 var varX = Math.Pow(sX, 2);
                 var varY = Math.Pow(sY, 2);
 
-                var meanX = list1.Average();
-                var meanY = list2.Average();
+                var meanX = list1.AverageKahan();
+                var meanY = list2.AverageKahan();
 
                 //For type = 3 (Welsh-test), the degrees of freedom is calculated differently. Degrees of freedom calculated with Welch-Sattherwaite equation.
 
-                var numerator = Math.Pow(varX / list1.Count() + varY / list2.Count(), 2);
+                var numerator = Math.Pow(varX / list1.Count + varY / list2.Count, 2);
 
-                var denominator = Math.Pow(varX / list1.Count(), 2) / (list1.Count() - 1) + Math.Pow(varY / list2.Count(), 2) / (list2.Count() - 1);
+                var denominator = Math.Pow(varX / list1.Count, 2) / (list1.Count - 1) + Math.Pow(varY / list2.Count, 2) / (list2.Count - 1);
 
                 var degreesOfFreedom = numerator/ denominator; //We do not truncate here for excel compliance.
 
-                tStat = (meanX - meanY) / Math.Sqrt(varX / list1.Count() + varY/ list2.Count());
+                tStat = (meanX - meanY) / Math.Sqrt(varX / list1.Count + varY/ list2.Count);
 
                 tStat = Math.Abs(tStat);
 
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             //Returns the standard deviation of a list
 
             var std = 0d;
-            var mean = values.Average();
+            var mean = values.AverageKahan();
 
             for (var i = 0; i < values.Count; i++)
             {

@@ -31,10 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
 
-            var arg1 = arguments[1];
-            var arg2 = arguments[2];
-            var arrayY = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).Select(a => a.Value).ToArray();
-            var arrayX = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg2 }, context).Select(b => b.Value).ToArray();
+            var arrayY = ArgsToDoubleEnumerable(arguments[1], context, out ExcelErrorValue e2).ToArray();
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var arrayX = ArgsToDoubleEnumerable(arguments[2], context, out ExcelErrorValue e3).ToArray();
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             if (arrayY.Count() != arrayX.Count()) return CompileResult.GetErrorResult(eErrorType.NA);
             if (!arrayY.Any()) return CompileResult.GetErrorResult(eErrorType.NA);
             var result = Forecast.ForecastImpl(x, arrayY, arrayX);

@@ -31,7 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var args = ArgsToDoubleEnumerable(false, true, arguments, context).ToList();
+            var args = ArgsToDoubleEnumerable(arguments, context, x => x.IgnoreErrors = true, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var retVal = CashFlowHelper.Npv(rate, args.Skip(1).Select(x => (double)x));
             return CreateResult(retVal, DataType.Decimal);
         }
