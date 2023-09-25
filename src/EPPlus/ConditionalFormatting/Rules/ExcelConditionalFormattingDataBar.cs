@@ -287,11 +287,11 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             }
         }
 
-        public ExcelDxfColor FillColor { get; set; }
-        public ExcelDxfColor BorderColor { get; set; }
-        public ExcelDxfColor NegativeFillColor { get; set; }
-        public ExcelDxfColor NegativeBorderColor { get; set; }
-        public ExcelDxfColor AxisColor { get; set; }
+        public ExcelDxfColor FillColor { get; private set; }
+        public ExcelDxfColor BorderColor { get; private set; }
+        public ExcelDxfColor NegativeFillColor { get; private set; }
+        public ExcelDxfColor NegativeBorderColor { get; private set; }
+        public ExcelDxfColor AxisColor { get; private set; }
 
         public eDatabarDirection Direction { get; set; }
     }

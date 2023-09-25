@@ -73,26 +73,26 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         /// <summary>
         /// Fill color of Databar
         /// </summary>
-        ExcelDxfColor FillColor { get; set; }
+        ExcelDxfColor FillColor { get; }
         /// <summary>
         /// Border color of databar. 
         /// Setting any property sets Border to true
         /// </summary>
-        ExcelDxfColor BorderColor { get; set; }
+        ExcelDxfColor BorderColor { get; }
         /// <summary>
         /// Fill color for negative values
         /// Setting any property sets NegativeBarColorSameAsPositive to false
         /// </summary>
-        ExcelDxfColor NegativeFillColor { get; set; }
+        ExcelDxfColor NegativeFillColor { get;  }
         /// <summary>
         /// Border color for negative values
         /// Setting any property sets NegativeBarBorderColorSameAsPositive to false
         /// </summary>
-        ExcelDxfColor NegativeBorderColor { get; set; }
+        ExcelDxfColor NegativeBorderColor { get; }
         /// <summary>
         /// Color of the axis between negative and positive values
         /// </summary>
-        ExcelDxfColor AxisColor { get; set; }
+        ExcelDxfColor AxisColor { get; }
 
         /// <summary>
         /// Direction of the Databar
