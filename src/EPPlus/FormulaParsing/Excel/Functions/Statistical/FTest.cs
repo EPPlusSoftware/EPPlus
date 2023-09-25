@@ -54,8 +54,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         internal static double VarianceCalc(List<double> values)
         {
-            var mean = values.Average();
-            var sumOfSquares = values.Sum(val => Math.Pow(val - mean, 2));
+            var mean = values.AverageKahan();
+            var sumOfSquares = values.SumKahan(val => Math.Pow(val - mean, 2));
             var setVariance = sumOfSquares / (values.Count() - 1);
             return setVariance;
         }

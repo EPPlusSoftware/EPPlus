@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -30,30 +31,33 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         {
             var arg1 = arguments[0];
             var arg2 = arguments[1];
-            var arr1 = ArgsToDoubleEnumerable(new FunctionArgument[] { arg1 }, context).ToArray();
-            var arr2 = ArgsToDoubleEnumerable(new FunctionArgument[] { arg2 }, context).ToArray();
-            if (arr2.Count() != arr1.Count()) return CreateResult(eErrorType.NA);
-            if (arr1.Sum(x => x.Value) == 0 || arr2.Sum(x => x.Value) == 0) return CreateResult(eErrorType.Div0);
-            var result = Covar(arr1, arr2) / StandardDeviation(arr1) / StandardDeviation(arr2);
+            var list1 = ArgsToDoubleEnumerable(arg1, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var list2 = ArgsToDoubleEnumerable(arg2, context, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            if (list2.Count != list1.Count) return CreateResult(eErrorType.NA);
+            if (list1.SumKahan() == 0 || list2.SumKahan() == 0) return CreateResult(eErrorType.Div0);
+            var result = Covar(list1, list2) / StandardDeviation(list1) / StandardDeviation(list2);
             return CreateResult(result, DataType.Decimal);
         }
 
-        private double StandardDeviation(ExcelDoubleCellValue[] values)
+        private static double StandardDeviation(IList<double> values)
         {
-            double avg = values.Average(x => x.Value);
-            return MathObj.Sqrt(values.Average(v => MathObj.Pow(v - avg, 2)));
+            double avg = values.AverageKahan();
+            return MathObj.Sqrt(values.AverageKahan(v => MathObj.Pow(v - avg, 2)));
         }
 
-        private double Covar(ExcelDoubleCellValue[] array1, ExcelDoubleCellValue[] array2)
+        private static double Covar(IList<double> array1, IList<double> array2)
         {
-            var avg1 = array1.Select(x => x.Value).Average();
-            var avg2 = array2.Select(x => x.Value).Average();
+            var avg1 = array1.AverageKahan();
+            var avg2 = array2.AverageKahan();
             var result = 0d;
-            for (var x = 0; x < array1.Length; x++)
+            for (var x = 0; x < array1.Count; x++)
             {
                 result += (array1[x] - avg1) * (array2[x] - avg2);
             }
-            result /= array1.Length;
+            result /= array1.Count;
             return result;
         }
     }

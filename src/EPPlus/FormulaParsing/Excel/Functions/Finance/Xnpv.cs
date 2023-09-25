@@ -33,13 +33,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
 
             var arg2 = new List<FunctionArgument> { arguments.ElementAt(1) };
-            var values = ArgsToDoubleEnumerable(arg2, context);
-            var dates = GetDates(arguments.ElementAt(2), context);
-            if (values.Count() != dates.Count())
+            var values = ArgsToDoubleEnumerable(arg2, context, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var dates = GetDates(arguments.ElementAt(2));
+            if (values.Count != dates.Count())
                 return CreateResult(eErrorType.Num);
             var firstDate = dates.First();
             var result = 0d;
-            for(var i = 0; i < values.Count(); i++)
+            for(var i = 0; i < values.Count; i++)
             {
                 var dt = dates.ElementAt(i);
                 var val = values.ElementAt(i);
@@ -49,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             return CreateResult(result, DataType.Decimal);
         }
 
-        private IEnumerable<DateTime> GetDates(FunctionArgument arg, ParsingContext context)
+        private static IEnumerable<DateTime> GetDates(FunctionArgument arg)
         {
             var dates = new List<DateTime>();
             if(arg.Value is IEnumerable<FunctionArgument>)

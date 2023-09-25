@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
@@ -30,18 +31,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments[0] }, context);
-            var percentage = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            var values = ArgsToDoubleEnumerable(arguments[0], context, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var percentage = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
 
             if (percentage < 0 || percentage >= 1)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
-
-            // cast ExcelDoubleValue to double
-            var doubleValues = values.Select(x => (double)x);   
-            var result = TrimMean(doubleValues.ToList(), percentage);
+ 
+            var result = TrimMean(values.ToList(), percentage);
             return CreateResult(result, DataType.Decimal);
         }
         public static double TrimMean(List<double> values, double percentage)
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
             List<double> trimmedValues = values.Skip(excludeCount).Take(values.Count - 2 * excludeCount).ToList();
 
-            double mean = trimmedValues.Average();
+            double mean = trimmedValues.AverageKahan();
 
             return mean;
         }

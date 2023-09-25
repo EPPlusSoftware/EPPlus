@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         {
             var values = GetMatchingValues(arguments, context);
             if (!values.Any()) return CreateResult(0d, DataType.Integer);
-            return CreateResult(values.Sum(), DataType.Integer);
+            return CreateResult(values.SumKahan(), DataType.Integer);
         }
     }
 }

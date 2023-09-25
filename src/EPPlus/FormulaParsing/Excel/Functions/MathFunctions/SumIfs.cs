@@ -54,14 +54,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             var rows = new List<int>();
             var valueRange = arguments[0].ValueAsRangeInfo;
-            List<double> sumRange;
+            IList<double> sumRange;
             if(valueRange != null)
             {
                 sumRange = ArgsToDoubleEnumerableZeroPadded(false, valueRange, context).ToList();
             }
             else
             {
-                sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { arguments[0] }, context).Select(x => (double)x).ToList();
+                //sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { arguments[0] }, context).Select(x => (double)x).ToList();
+                sumRange = ArgsToDoubleEnumerable(arguments[0], context, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             } 
             var argRanges = new List<RangeOrValue>();
             var criterias = new List<object>();

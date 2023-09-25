@@ -40,8 +40,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var args = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, IgnoreNestedSubtotalsAndAggregates, arguments, context);
-            return CreateResult(StandardDeviation(args.Select(x => (double)x)), DataType.Decimal);
+            var args = ArgsToDoubleEnumerable(arguments, context, x =>
+            {
+                x.IgnoreHiddenCells = IgnoreHiddenValues;
+                x.IgnoreErrors = IgnoreErrors;
+                x.IgnoreNestedSubtotalAggregate = IgnoreNestedSubtotalsAndAggregates;
+            }, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            return CreateResult(StandardDeviation(args), DataType.Decimal);
         }
 
         internal static double StandardDeviation(IEnumerable<double> values)

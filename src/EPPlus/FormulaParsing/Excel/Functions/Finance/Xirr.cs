@@ -29,13 +29,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(0) }, context).Select(x => (double)x);
-            var dates = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(1) }, context).Select(x => DateTime.FromOADate(x));
+            var values = ArgsToDoubleEnumerable(arguments.ElementAt(0), context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var dates = ArgsToDoubleEnumerable(arguments.ElementAt(1), context, out ExcelErrorValue e2).Select(x => DateTime.FromOADate(x));
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var guess = 0.1;
             if(arguments.Count > 2)
             {
-                guess = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
-                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                guess = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             }
             var result = XirrImpl.GetXirr(values, dates, guess);
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);

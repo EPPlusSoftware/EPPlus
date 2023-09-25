@@ -37,8 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
        
         public static double Var(IEnumerable<double> args)
         {
-            double avg = args.Select(x => (double)x).Average();
-            double d1 = args.Aggregate(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
+            double avg = args.AverageKahan();
             double d = args.AggregateKahan(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
             return Divide(d, (args.Count() - 1));
         }
@@ -50,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         public static double VarP(IEnumerable<double> args)
         {
-            double avg = args.Select(x => (double)x).Average();
+            double avg = args.AverageKahan();
             double d = args.AggregateKahan(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
             return Divide(d, args.Count()); 
         }

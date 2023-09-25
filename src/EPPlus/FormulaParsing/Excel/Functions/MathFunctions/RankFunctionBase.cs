@@ -37,9 +37,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return numbers;
         }
 
-        protected double[] GetNumbersFromArgs(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
+        protected double[] GetNumbersFromArgs(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context, out ExcelErrorValue error)
         {
-            var array = ArgsToDoubleEnumerable(new FunctionArgument[] { arguments.ElementAt(index) }, context)
+            var array = ArgsToDoubleEnumerable(arguments.ElementAt(index), context, out error)
                 .Select(x => (double)x)
                 .OrderBy(x => x)
                 .ToArray();

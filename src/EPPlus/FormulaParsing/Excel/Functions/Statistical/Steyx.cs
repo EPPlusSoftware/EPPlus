@@ -10,6 +10,7 @@
  *************************************************************************************************
   20/06/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
@@ -72,8 +73,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
 
 
-            double yMean = yValues.Average();
-            double xMean = xValues.Average();
+            double yMean = yValues.AverageKahan();
+            double xMean = xValues.AverageKahan();
             int sampleSize = yValues.Count;
             var p1 = 0d;
             var numerator = 0d;

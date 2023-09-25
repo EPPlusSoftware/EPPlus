@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -43,8 +44,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
             RangeFlattener.GetNumericPairLists(r1, r2, true, out List<double> yValuesFinal, out List<double> xValuesFinal);
 
-            double yMean = yValuesFinal.Select(y => (double)y).Average();
-            double xMean = xValuesFinal.Select(x => (double)x).Average();
+            double yMean = yValuesFinal.AverageKahan();
+            double xMean = xValuesFinal.AverageKahan();
 
             var nominator = 0d;
             var denominator = 0d;

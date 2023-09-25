@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
@@ -47,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 {
                     return stdev;
                 }
-                double numbersMean = numbers.Select(i => (double)i).Average();
+                double numbersMean = numbers.AverageKahan();
                 var z = (numbersMean - value) / (stdev.ResultNumeric / Math.Sqrt(numbers.Count));
                 if (arguments.Count < 3)
                 {
