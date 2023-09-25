@@ -3622,7 +3622,7 @@ namespace OfficeOpenXml
             _defaultRowHeight = double.NaN;            
         }
 
-        internal bool IsCellHidden(int row, int col)
+        internal bool IsRowHidden(int row)
         {
             var r = _values.GetValue(row, 0)._value as RowInternal;
             if (r != null && (r.Hidden || r.Height == 0))

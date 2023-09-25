@@ -251,7 +251,7 @@ namespace EPPlusTest.Excel.Functions
         {
             var func = new Subtotal();
             var args = FunctionsHelper.CreateArgs(110, 10, 20, 30, 40, 50, 51);
-            args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.Last().IsHiddenCell = true;
             var result = func.Execute(args, _context);
             Assert.AreEqual(250d, result.Result);
         }

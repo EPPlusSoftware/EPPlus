@@ -52,11 +52,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// If the compile result has a function that handles hidden cells.
         /// </summary>
-        internal bool IsHiddenCell 
+        public bool IsHiddenCell 
         {
             get
             {
                 return _result.IsHiddenCell;
+            }
+            internal set 
+            {
+                _result.IsHiddenCell = value;
             }
         }
         CompileResult _result;
