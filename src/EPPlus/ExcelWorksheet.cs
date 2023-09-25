@@ -49,6 +49,8 @@ using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml
 {
@@ -3639,26 +3641,37 @@ namespace OfficeOpenXml
         /// <returns>The address the formula spans</returns>
         public ExcelAddressBase GetFormulaAddress(int row, int column)
         {
-            var f=_formulas.GetValue(row, column);
-            if(f==null)
+            if (row > 0)
             {
-                return null;
-            }
-            else if(f is int sfIx)
-            {
-                if(_sharedFormulas.TryGetValue(sfIx, out SharedFormula sf))
+                var f = _formulas.GetValue(row, column);
+                if (f == null)
                 {
-                    return new ExcelAddressBase(sf.Address)
-                    {
-                        _ws = Name
-                    };
+                    return null;
                 }
-                return null;
+                else if (f is int sfIx)
+                {
+                    if (_sharedFormulas.TryGetValue(sfIx, out SharedFormula sf))
+                    {
+                        return new ExcelAddressBase(sf.Address)
+                        {
+                            _ws = Name
+                        };
+                    }
+                }
+                else
+                {
+                    return new ExcelAddressBase(Name, row, column, row, column);
+                }
             }
-            else
+            else if(column > 0 && column < Names.Count)
             {
-                return new ExcelAddressBase(Name, row, column, row, column);
+                var name = Names[column];
+                if(name.NameValue is IRangeInfo ri && ri.Address!=null)
+                {
+                    return ri.Address.ToExcelAddressBase();
+                }
             }
+            return null;
         }
         #endregion
     }  // END class Worksheet

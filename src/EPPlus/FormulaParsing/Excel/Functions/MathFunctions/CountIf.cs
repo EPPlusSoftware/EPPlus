@@ -47,14 +47,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return _expressionEvaluator.Evaluate(obj, expression, false);
         }
-
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             
             _expressionEvaluator = new ExpressionEvaluator(context);
             var range = arguments[0];
-            var criteria = arguments[1].ValueFirstString;
+            var criteria = arguments[1].ValueFirst?.ToString() ?? default;
             double result = 0d;
             if (range.IsExcelRange)
             {
@@ -104,5 +103,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return CreateResult(result, DataType.Integer);
         }
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
+        {
+            if (argumentIndex == 1)
+            {
+                return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            return FunctionParameterInformation.Normal;
+        }));
     }
 }

@@ -115,11 +115,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="context"></param>
         public virtual void BeforeInvoke(ParsingContext context) { }
+        /// <summary>
+        /// If overridden, this method will be called before the <see cref="Execute" /> method is called with the arguments for any parameter having 
+        /// <see cref="ParametersInfo"/> set to <see cref="FunctionParameterInformation.AdjustParameterAddress" /> and that argument is a range with an address. 
+        /// It can be used to narrow the dependency check for the function returning a queue with addresses to check dependency before executing.
+        /// </summary>
+        /// <param name="args">The function arguments that will be supplied to the execute method.</param>
+        /// <param name="index">The index of the argument that should be adjusted.</param>
+        /// <param name="addresses">A queue of addresses that will be calculated before calling the Execute function.</param>
         public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
             
         }
-
+        /// <summary>
+        /// If the function handles errors
+        /// </summary>
         public virtual bool IsErrorHandlingFunction
         {
             get

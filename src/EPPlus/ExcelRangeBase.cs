@@ -45,6 +45,7 @@ using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -2037,7 +2038,22 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _worksheet.GetFormulaAddress(_fromRow, _fromCol);
+                if (Worksheet == null)
+                {
+                    if (_fromRow == 0 && _fromCol < _workbook.Names.Count)
+                    {
+                        var name = _workbook.Names[_fromCol];
+                        if (name.NameValue is IRangeInfo ri && ri.Address != null)
+                        {
+                            return ri.Address.ToExcelAddressBase();
+                        }
+                    }
+                    return null;
+                }
+                else
+                {
+                    return _worksheet.GetFormulaAddress(_fromRow, _fromCol);
+                }
             }
         }
         internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true, bool clearStyles = true)

@@ -20,101 +20,92 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Represents a function argument passed to the Execute method of a <see cref="ExcelFunction"/> class.
+    /// <see cref="ExcelFunction.Execute(IList{FunctionArgument}, ParsingContext)"/>
+    /// </summary>
     public class FunctionArgument
     {
-        public FunctionArgument(CompileResult result)
+        internal FunctionArgument(CompileResult result)
         {            
             _result= result;
-            if (result.IsHiddenCell) //TODO: check if we can remove this and check result instead.
-            {
-                SetExcelStateFlag(Excel.ExcelCellState.HiddenCell);
-            }
         }
-        internal FunctionArgument(object val)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="val">The value of the function argument.</param>
+        public FunctionArgument(object val)
         {
             _result = CompileResultFactory.Create(val);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="val">The value of the function argument.</param>
+        /// <param name="dataType">The data type of the <paramref name="val"/>. The data type should match the values .NET data type</param>
         public FunctionArgument(object val, DataType dataType)            
         {
             _result = new CompileResult(val, dataType);
         }
 
-        private ExcelCellState _excelCellState;
-
-        public void SetExcelStateFlag(ExcelCellState state)
-        {
-            _excelCellState |= state;
-        }
-
-        public bool ExcelStateFlagIsSet(ExcelCellState state)
-        {
-            return (_excelCellState & state) != 0;
-        }
-
         /// <summary>
-        /// Always a IRangeInfo, even if the cell is a single cell. 
-        /// <seealso cref="ValueAsRangeInfo"/>
+        /// If the compile result has a function that handles hidden cells.
         /// </summary>
-        /// <param name="context">The parsing context</param>
-        /// <returns>A <see cref="RangeInfo"/> if the argument is a range otherwise null</returns>
-        public IRangeInfo GetAsRangeInfo(ParsingContext context)
+        internal bool IsHiddenCell 
         {
-            if(Value is IRangeInfo ri)
+            get
             {
-                return ri;
-            }
-            else
-            {
-                if(Address==null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return new RangeInfo(Address);
-                }
+                return _result.IsHiddenCell;
             }
         }
-
         CompileResult _result;
+        /// <summary>
+        /// The value of the function argument
+        /// </summary>
         public object Value { get => _result.Result; }
-
+        /// <summary>
+        /// The data type of the <see cref="Value"/>.
+        /// </summary>
         public DataType DataType { get => _result.DataType; }
-     
+        /// <summary>
+        /// The address for function parameter 
+        /// </summary>
         public FormulaRangeAddress Address { get => _result.Address; } 
+        /// <summary>
+        /// If the <see cref="Value"/> is a range with more than one cell.
+        /// </summary>
         public bool IsExcelRange
         {
             get => _result.DataType == DataType.ExcelRange;
         }
+        /// <summary>
+        /// If the <see cref="Value"/> is a range.
+        /// </summary>
         public bool IsExcelRangeOrSingleCell
         {
             get => _result.DataType == DataType.ExcelRange || _result.Address != null;
         }
 
-        public bool IsEnumerableOfFuncArgs
-        {
-            get { return _result.Result != null && _result.Result is IEnumerable<FunctionArgument>; }
-        }
-
-        public IEnumerable<FunctionArgument> ValueAsEnumerableOfFuncArgs
-        {
-            get { return _result.Result as IEnumerable<FunctionArgument>; }
-        }
-
+        /// <summary>
+        /// Returns true if the <see cref="Value"/> is an <see cref="ExcelErrorValue"/>
+        /// </summary>
         public bool ValueIsExcelError
         {
             get { return ExcelErrorValue.Values.IsErrorValue(Value); }
         }
 
+        /// <summary>
+        /// Tries to parse <see cref="Value"/> as <see cref="ExcelErrorValue"/>
+        /// </summary>
         public ExcelErrorValue ValueAsExcelErrorValue
         {
             get { return ExcelErrorValue.Parse(_result.Result.ToString()); }
         }
 
         /// <summary>
-        /// If <see cref="Value"/> is an instance of <see cref="IRangeInfo"/> this will return a typed instance. If not null will be returned.
-        /// <seealso cref="GetAsRangeInfo(ParsingContext)"/>
+        /// If <see cref="Value"/> is an instance of <see cref="IRangeInfo"/> or has <see cref="Address"/> set to a valid address
+        /// this property will return a <see cref="IRangeInfo"/>. If not null will be returned.
         /// </summary>
         public IRangeInfo ValueAsRangeInfo
         {
@@ -134,6 +125,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 }
             }
         }
+        /// <summary>
+        /// If the value is a <see cref="IRangeInfo"/> the value will return the value of the first cell, otherwise the <see cref="Value"/> will be returned.
+        ///
+        /// </summary>
         public object ValueFirst
         {
             get
@@ -161,15 +156,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
 
-        public string ValueFirstString
-        {
-            get
-            {
-                var v = ValueFirst;
-                if (v == null) return default;
-                return ValueFirst.ToString();
-            }
-        }
-
+        //public string ValueFirstString
+        //{
+        //    get
+        //    {
+        //        var v = ValueFirst;
+        //        if (v == null) return default;
+        //        return ValueFirst.ToString();
+        //    }
+        //}
     }
 }
