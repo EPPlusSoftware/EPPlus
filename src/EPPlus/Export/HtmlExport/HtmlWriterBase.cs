@@ -10,94 +10,198 @@
  *************************************************************************************************
   11/07/2021         EPPlus Software AB       Added Html Export
  *************************************************************************************************/
-#if !NET35 && !NET40
-using System.Threading.Tasks;
-#endif
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-#if !NET35 && !NET40
     internal abstract partial class HtmlWriterBase
     {
-        public async Task WriteLineAsync()
+        protected readonly Stream _stream;
+        protected readonly StreamWriter _writer;
+
+        protected const string IndentWhiteSpace = "  ";
+        protected bool _newLine;
+
+        internal protected HashSet<string> _images=new HashSet<string>();
+
+        internal HtmlWriterBase(Stream stream, Encoding encoding)
+        {
+            _stream = stream;
+            _writer = new StreamWriter(stream, encoding);
+        }
+        public HtmlWriterBase(StreamWriter writer)
+        {
+            _stream = writer.BaseStream;
+            _writer = writer;
+        }
+        internal int Indent { get; set; }
+
+        //protected internal static bool HasStyle(ExcelXfs xfs)
+        //{
+        //    return xfs.FontId > 0 ||
+        //           xfs.FillId > 0 ||
+        //           xfs.BorderId > 0 ||
+        //           xfs.HorizontalAlignment != ExcelHorizontalAlignment.General ||
+        //           xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom ||
+        //           xfs.TextRotation != 0 ||
+        //           xfs.Indent > 0 ||
+        //           xfs.WrapText;
+        //}
+        //protected internal static string GetStyleKey(ExcelXfs xfs)
+        //{
+        //    var fbfKey = ((ulong)(uint)xfs.FontId << 32 | (uint)xfs.BorderId << 16 | (uint)xfs.FillId);
+        //    return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0");
+        //}
+
+        protected static string GetBorderItemLine(ExcelBorderStyle style, string suffix)
+        {
+            var lineStyle = $"border-{suffix}:";
+            switch (style)
+            {
+                case ExcelBorderStyle.Hair:
+                    lineStyle += "1px solid";
+                    break;
+                case ExcelBorderStyle.Thin:
+                    lineStyle += $"thin solid";
+                    break;
+                case ExcelBorderStyle.Medium:
+                    lineStyle += $"medium solid";
+                    break;
+                case ExcelBorderStyle.Thick:
+                    lineStyle += $"thick solid";
+                    break;
+                case ExcelBorderStyle.Double:
+                    lineStyle += $"double";
+                    break;
+                case ExcelBorderStyle.Dotted:
+                    lineStyle += $"dotted";
+                    break;
+                case ExcelBorderStyle.Dashed:
+                case ExcelBorderStyle.DashDot:
+                case ExcelBorderStyle.DashDotDot:
+                    lineStyle += $"dashed";
+                    break;
+                case ExcelBorderStyle.MediumDashed:
+                case ExcelBorderStyle.MediumDashDot:
+                case ExcelBorderStyle.MediumDashDotDot:
+                    lineStyle += $"medium dashed";
+                    break;
+            }
+            return lineStyle;
+        }
+        protected static string GetVerticalAlignment(ExcelXfs xfs)
+        {
+            switch (xfs.VerticalAlignment)
+            {
+                case ExcelVerticalAlignment.Top:
+                    return "top";
+                case ExcelVerticalAlignment.Center:
+                    return "middle";
+                case ExcelVerticalAlignment.Bottom:
+                    return "bottom";
+            }
+
+            return "";
+        }
+
+        protected static string GetHorizontalAlignment(ExcelXfs xfs)
+        {
+            switch (xfs.HorizontalAlignment)
+            {
+                case ExcelHorizontalAlignment.Right:
+                    return "right";
+                case ExcelHorizontalAlignment.Center:
+                case ExcelHorizontalAlignment.CenterContinuous:
+                    return "center";
+                case ExcelHorizontalAlignment.Left:
+                    return "left";
+            }
+
+            return "";
+        }
+        public void WriteLine()
         {
             _newLine = true;
-            await _writer.WriteLineAsync();
+            _writer.WriteLine();
         }
 
-        public async Task WriteAsync(string text)
+        public void Write(string text)
         {
-            await _writer.WriteAsync(text);
+            _writer.Write(text);
         }
 
-        internal protected async Task WriteIndentAsync()
+        internal protected void WriteIndent()
         {
             for (var x = 0; x < Indent; x++)
             {
-                await _writer.WriteAsync(IndentWhiteSpace);
+                _writer.Write(IndentWhiteSpace);
             }
         }
-        internal async Task ApplyFormatAsync(bool minify)
+        internal void ApplyFormat(bool minify)
         {
             if (minify == false)
             {
-                await WriteLineAsync();
+                WriteLine();
             }
         }
 
-        internal async Task ApplyFormatIncreaseIndentAsync(bool minify)
+        internal void ApplyFormatIncreaseIndent(bool minify)
         {
             if (minify == false)
             {
-                await WriteLineAsync();
+                WriteLine();
                 Indent++;
             }
         }
 
-        internal async Task ApplyFormatDecreaseIndentAsync(bool minify)
+        internal void ApplyFormatDecreaseIndent(bool minify)
         {
             if (minify == false)
             {
-                await WriteLineAsync();
+                WriteLine();
                 Indent--;
             }
         }
-        internal async Task WriteClassAsync(string value, bool minify)
+        internal void WriteClass(string value, bool minify)
         {
             if (minify)
             {
-                await _writer.WriteAsync(value);
+                _writer.Write(value);
             }
             else
             {
-                await _writer.WriteLineAsync(value);
+                _writer.WriteLine(value);
                 Indent = 1;
             }
         }
-        internal async Task WriteClassEndAsync(bool minify)
+        internal void WriteClassEnd(bool minify)
         {
             if (minify)
             {
-                await _writer.WriteAsync("}");
+                _writer.Write("}");
             }
             else
             {
-                await _writer.WriteLineAsync("}");
+                _writer.WriteLine("}");
                 Indent = 0;
             }
         }
-        internal async Task WriteCssItemAsync(string value, bool minify)
+        internal void WriteCssItem(string value, bool minify)
         {
             if (minify)
             {
-                await _writer.WriteAsync(value);
+                _writer.Write(value);
             }
             else
             {
-                await WriteIndentAsync();
+                WriteIndent();
                 _writer.WriteLine(value);
             }
         }
     }
-#endif
 }

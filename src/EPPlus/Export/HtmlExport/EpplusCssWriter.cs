@@ -26,6 +26,8 @@ using OfficeOpenXml.Drawing.Interfaces;
 using System.Linq;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Export.HtmlExport.Writers;
+using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -86,6 +88,45 @@ namespace OfficeOpenXml.Export.HtmlExport
                 WriteCssItem($"{item.Key}:{item.Value};", _settings.Minify);
             }
             WriteClassEnd(_settings.Minify);
+
+            var tWriter = new CssTrueWriter(_writer);
+
+            var hiddenClass = new CssRule($".{_settings.StyleClassPrefix}hidden")
+            {
+                Declarations =
+                {
+                    new Declaration("display", "none"),
+                }
+            };
+
+            var alignLeft = new CssRule($".{_settings.StyleClassPrefix}al")
+            {
+                Declarations =
+                {
+                    new Declaration("text-align", "left"),
+                }
+            };
+
+            var alignRight = new CssRule($".{_settings.StyleClassPrefix}ar")
+            {
+                Declarations =
+                {
+                    new Declaration("text-align", "left"),
+                }
+            };
+
+            tWriter.WriteRule(hiddenClass, _settings.Minify);
+            tWriter.WriteRule(alignLeft, _settings.Minify);
+            tWriter.WriteRule(alignRight, _settings.Minify);
+
+
+            //tWriter.WriteRule()
+            //tWriter.WriteRule(s2, _settings.Minify);
+
+            //display.AddValues("none");
+            //selector.Declarations.Add(display);
+
+            //tWriter.WriteRule()
 
             //Class for hidden rows.
             WriteClass($".{_settings.StyleClassPrefix}hidden {{", _settings.Minify);

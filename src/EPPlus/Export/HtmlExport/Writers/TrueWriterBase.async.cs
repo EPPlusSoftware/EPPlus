@@ -1,23 +1,16 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  11/07/2021         EPPlus Software AB       Added Html Export
- *************************************************************************************************/
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
 
-namespace OfficeOpenXml.Export.HtmlExport
+namespace OfficeOpenXml.Export.HtmlExport.Writers
 {
 #if !NET35 && !NET40
-    internal abstract partial class HtmlWriterBase
+    internal abstract partial class TrueWriterBase
     {
         public async Task WriteLineAsync()
         {
@@ -74,6 +67,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 Indent = 1;
             }
         }
+
         internal async Task WriteClassEndAsync(bool minify)
         {
             if (minify)
@@ -86,6 +80,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                 Indent = 0;
             }
         }
+
+        //---
+
         internal async Task WriteCssItemAsync(string value, bool minify)
         {
             if (minify)
