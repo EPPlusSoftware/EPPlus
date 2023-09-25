@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
 
-                var classString = AttributeParser.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+                var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
 
                 if (!string.IsNullOrEmpty(classString))
                 {
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         AddImage(writer, Settings, image, cell.Value);
                         var imageCellClassName = GetImageCellClassName(image, Settings);
 
-                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
 
                         if (!string.IsNullOrEmpty(classString))
                         {
@@ -241,7 +241,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
                 var imageCellClassName = GetImageCellClassName(image, Settings);
 
-                var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+                var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
 
                 if (!string.IsNullOrEmpty(classString))
                 {
@@ -291,7 +291,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             GetDataTypes(_table.Address, _table);
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _exporterContext._styleCache);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             HtmlExportTableUtil.AddClassesAttributes(writer, _table, _tableExportSettings);
             AddTableAccessibilityAttributes(Settings.Accessibility, writer);
             writer.RenderBeginTag(HtmlElements.Table);

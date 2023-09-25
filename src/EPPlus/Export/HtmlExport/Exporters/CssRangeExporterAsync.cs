@@ -17,6 +17,7 @@ using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -81,7 +82,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private async Task RenderCellCssAsync(StreamWriter sw)
         {
-            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude, _exporterContext._styleCache);
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude);
 
             await styleWriter.RenderAdditionalAndFontCssAsync(TableClass);
             var addedTableStyles = new HashSet<TableStyles>();
@@ -111,22 +112,40 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             var mAdr = new ExcelAddressBase(ma);
                             var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
                             var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
-                            await styleWriter.AddToCssAsync(styles, ce.Value._styleId, bottomStyleId, rightStyleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+
+
+                            var stylesList = new List<ExcelXfs>
+                            {
+                                styles.CellXfs[ce.Value._styleId],
+                                styles.CellXfs[bottomStyleId],
+                                styles.CellXfs[rightStyleId]
+                            };
+
+                            if (!StyleToCss.IsAddedToCache(stylesList[0], _exporterContext._dxfStyleCache, out int id))
+                            {
+                                if (AttributeTranslator.HasStyle(stylesList[0]))
+                                    styleWriter.AddToCss(stylesList, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                            }
                         }
                         else
                         {
-                            await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                            var xfs = styles.CellXfs[ce.Value._styleId];
+                            if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._styleCache, out int id))
+                            {
+                                if (AttributeTranslator.HasStyle(xfs))
+                                    await styleWriter.AddToCssAsync(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                            }
 
-                            if(ce.CellAddress != null)
+                            if (ce.CellAddress != null)
                             {
                                 if (_cfAtAddresses.ContainsKey(ce.CellAddress))
                                 {
                                     foreach (var cf in _cfAtAddresses[ce.CellAddress])
                                     {
-                                        var id = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
-                                        if(id != -1)
+                                        var idDxf = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
+                                        if(idDxf != -1)
                                         {
-                                            await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                            await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
                                         }
                                     }
                                 }

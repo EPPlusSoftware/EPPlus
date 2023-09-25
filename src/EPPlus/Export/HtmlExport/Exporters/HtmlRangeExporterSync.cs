@@ -140,7 +140,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 table = range.GetTable();
             }
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _exporterContext._styleCache);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
@@ -265,7 +265,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
     
-                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
 
                         if (!string.IsNullOrEmpty(classString))
                         {
@@ -336,7 +336,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        var classString = AttributeParser.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, writer._styleCache, writer._dxfStyleCache);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
 
                         if (!string.IsNullOrEmpty(classString))
                         {

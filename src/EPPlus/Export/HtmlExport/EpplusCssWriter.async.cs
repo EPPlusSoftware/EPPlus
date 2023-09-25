@@ -25,6 +25,7 @@ using System.Linq;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 #if !NET35
 using System.Threading.Tasks;
 #endif
@@ -174,88 +175,70 @@ namespace OfficeOpenXml.Export.HtmlExport
             await WriteClassEndAsync(_settings.Minify);
         }
 
-        internal async Task AddToCssAsync(ExcelStyles styles, int styleId, string styleClassPrefix, string cellStyleClassName)
+        internal async Task AddToCssAsync(ExcelXfs xfs, ExcelNamedStyleXml ns, string styleClassPrefix, string cellStyleClassName, int id)
         {
-            var xfs = styles.CellXfs[styleId];
-            if (HasStyle(xfs))
+            await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
+            if (xfs.FillId > 0)
             {
-                if (IsAddedToCache(xfs, out int id) == false)
-                {
-                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
-                    if (xfs.FillId > 0)
-                    {
-                        await WriteFillStylesAsync(xfs.Fill);
-                    }
-                    if (xfs.FontId > 0)
-                    {
-                        var ns = styles.GetNormalStyle();
-                        await WriteFontStylesAsync(xfs.Font, ns.Style.Font);
-                    }
-                    if (xfs.BorderId > 0)
-                    {
-                        await WriteBorderStylesAsync(xfs.Border.Top, xfs.Border.Bottom, xfs.Border.Left, xfs.Border.Right);
-                    }
-                    await WriteStylesAsync(xfs);
-                    await WriteClassEndAsync(_settings.Minify);
-                }
+                await WriteFillStylesAsync(xfs.Fill);
             }
+            if (xfs.FontId > 0)
+            {
+                await WriteFontStylesAsync(xfs.Font, ns.Style.Font);
+            }
+            if (xfs.BorderId > 0)
+            {
+                await WriteBorderStylesAsync(xfs.Border.Top, xfs.Border.Bottom, xfs.Border.Left, xfs.Border.Right);
+            }
+            await WriteStylesAsync(xfs);
+            await WriteClassEndAsync(_settings.Minify);
         }
 
         internal async Task AddToCssAsyncCF(ExcelDxfStyleConditionalFormatting dxfs, string styleClassPrefix, string cellStyleClassName, int id)
         {
-            //if(dxfs != null)
-            //{
-            //    if(IsAddedToCache(dxfs, out int id) || _addedToCssCf.Contains(id) == false)
-            //    {
-            //        _addedToCssCf.Add(id);
-                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}dxf.id{id}{{", _settings.Minify);
+                await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf.id{id}{{", _settings.Minify);
 
-                    if (dxfs.Fill != null)
-                    {
-                        await WriteFillStylesAsync(dxfs.Fill);
-                    }
+                if (dxfs.Fill != null)
+                {
+                    await WriteFillStylesAsync(dxfs.Fill);
+                }
 
-                    if(dxfs.Font != null)
-                    {
-                        await WriteFontStylesAsync(dxfs.Font);
-                    }
+                if(dxfs.Font != null)
+                {
+                    await WriteFontStylesAsync(dxfs.Font);
+                }
 
-                    if (dxfs.Border != null)
-                    {
-                        await WriteBorderStylesAsync(dxfs.Border.Top, dxfs.Border.Bottom, dxfs.Border.Left, dxfs.Border.Right);
-                    }
+                if (dxfs.Border != null)
+                {
+                    await WriteBorderStylesAsync(dxfs.Border.Top, dxfs.Border.Bottom, dxfs.Border.Left, dxfs.Border.Right);
+                }
 
-                    await WriteClassEndAsync(_settings.Minify);
-            //    }
-            //}
+                await WriteClassEndAsync(_settings.Minify);
         }
 
-        internal async Task AddToCssAsync(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName)
+        internal async Task AddToCssAsync(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName, int id)
         {
             var xfs = styles.CellXfs[styleId];
             var bXfs = styles.CellXfs[bottomStyleId];
             var rXfs = styles.CellXfs[rightStyleId];
-            if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+            if (/*HasStyle(xfs) || */bXfs.BorderId > 0 || rXfs.BorderId > 0)
             {
-                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false)
+                await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
+                if (xfs.FillId > 0)
                 {
-                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
-                    if (xfs.FillId > 0)
-                    {
-                        WriteFillStyles(xfs.Fill);
-                    }
-                    if (xfs.FontId > 0)
-                    {
-                        var ns = styles.GetNormalStyle();
-                        await WriteFontStylesAsync(xfs.Font, ns.Style.Font);
-                    }
-                    if (xfs.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
-                    {
-                        await WriteBorderStylesAsync(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right);
-                    }
-                    await WriteStylesAsync(xfs);
-                    await WriteClassEndAsync(_settings.Minify);
+                    WriteFillStyles(xfs.Fill);
                 }
+                if (xfs.FontId > 0)
+                {
+                    var ns = styles.GetNormalStyle();
+                    await WriteFontStylesAsync(xfs.Font, ns.Style.Font);
+                }
+                if (xfs.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+                {
+                    await WriteBorderStylesAsync(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right);
+                }
+                await WriteStylesAsync(xfs);
+                await WriteClassEndAsync(_settings.Minify);
             }
         }
 
@@ -480,6 +463,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+
+        //private async Task WriteAttribute(string attributeName, Enum gradientType, int value)
+        //{
+
+        //}
+
 
         private async Task WriteGradientAsync(ExcelGradientFillXml gradient)
         {

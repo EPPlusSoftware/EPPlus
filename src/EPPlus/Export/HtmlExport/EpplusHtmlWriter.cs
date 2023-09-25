@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal partial class EpplusHtmlWriter : HtmlWriterBase
     {
-        internal EpplusHtmlWriter(Stream stream, Encoding encoding, Dictionary<string, int> styleCache) : base(stream, encoding, styleCache)
+        internal EpplusHtmlWriter(Stream stream, Encoding encoding) : base(stream, encoding)
         {
         }
 

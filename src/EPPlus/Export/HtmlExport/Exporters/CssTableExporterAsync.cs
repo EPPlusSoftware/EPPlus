@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
@@ -70,7 +71,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (_dataTypes.Count == 0) GetDataTypes(_table.Address, _table);
             var sw = new StreamWriter(stream);
             var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _exporterContext._styleCache);
+            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle);
             await cellCssWriter.RenderAdditionalAndFontCssAsync(TableClass);
             if (_tableSettings.Css.IncludeTableStyles) await RenderTableCssAsync(sw, _table, _tableSettings, _exporterContext._styleCache, _dataTypes);
             if (_tableSettings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
@@ -89,7 +90,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         private async Task RenderCellCssAsync(StreamWriter sw)
         {
             var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var styleWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _exporterContext._styleCache);
+            var styleWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle);
 
             var r = _table.Range;
             var styles = r.Worksheet.Workbook.Styles;
@@ -98,7 +99,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                    var xfs = styles.CellXfs[ce.Value._styleId];
+                    if(!StyleToCss.IsAddedToCache(xfs, _exporterContext._dxfStyleCache, out int id))
+                    {
+                        if (AttributeTranslator.HasStyle(xfs))
+                            await styleWriter.AddToCssAsync(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                    }
                 }
             }
             await styleWriter.FlushStreamAsync();
@@ -106,7 +112,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         internal async Task RenderTableCssAsync(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, Dictionary<string, int> styleCache, List<string> datatypes)
         {
-            var styleWriter = new EpplusTableCssWriter(sw, table, settings, styleCache);
+            var styleWriter = new EpplusTableCssWriter(sw, table, settings);
             if (settings.Minify == false) await styleWriter.WriteLineAsync();
             ExcelTableNamedStyle tblStyle;
             if (table.TableStyle == TableStyles.Custom)

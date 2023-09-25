@@ -41,14 +41,14 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal eBorderExclude _borderExclude;
         internal HashSet<int> _addedToCssCf = new HashSet<int>();
 
-        internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude, Dictionary<string, int> styleCache) : base(writer, styleCache) 
+        internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(writer) 
         {
             _settings = settings;
             _cssSettings = cssSettings;
             _cssExclude = cssExclude;
             Init(ranges);
         }
-        internal EpplusCssWriter(Stream stream, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude, Dictionary<string, int> styleCache) : base(stream, settings.Encoding, styleCache)
+        internal EpplusCssWriter(Stream stream, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(stream, settings.Encoding)
         {
             _settings = settings;
             _cssSettings = cssSettings;
@@ -256,95 +256,70 @@ namespace OfficeOpenXml.Export.HtmlExport
                     return $"image/{type}";
             }
         }
-        internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix, string cellStyleClassName)
+        internal void AddToCss(ExcelXfs xfs, ExcelNamedStyleXml ns, string styleClassPrefix, string cellStyleClassName, int id)
         {
-            var xfs = styles.CellXfs[styleId];
-            if (HasStyle(xfs))
-            {
-                if (IsAddedToCache(xfs, out int id)==false)
+            //if (IsAddedToCache(xfs, out int id)==false)
+            //{
+                WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
+                if (xfs.FillId > 0)
                 {
-                    WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
-                    if (xfs.FillId > 0)
-                    {
-                        WriteFillStyles(xfs.Fill);
-                    }
-                    if (xfs.FontId > 0)
-                    {
-                        var ns = styles.GetNormalStyle();
-                        WriteFontStyles(xfs.Font, ns.Style.Font);
-                    }
-                    if (xfs.BorderId > 0)
-                    {
-                        WriteBorderStyles(xfs.Border.Top, xfs.Border.Bottom, xfs.Border.Left, xfs.Border.Right);
-                    }
-                    WriteStyles(xfs);
-                    WriteClassEnd(_settings.Minify);
+                    WriteFillStyles(xfs.Fill);
                 }
-            }
-        }
-
-        internal void AddToCss(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName)
-        {
-            var xfs = styles.CellXfs[styleId];
-            var bXfs = styles.CellXfs[bottomStyleId];
-            var rXfs = styles.CellXfs[rightStyleId];
-            if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
-            {
-                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false)
+                if (xfs.FontId > 0)
                 {
-                    WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
-                    if (xfs.FillId > 0)
-                    {
-                        WriteFillStyles(xfs.Fill);
-                    }
-                    if (xfs.FontId > 0)
-                    {
-                        var ns = styles.GetNormalStyle();
-                        WriteFontStyles(xfs.Font, ns.Style.Font);
-                    }
-                    if (xfs.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
-                    {
-                        WriteBorderStyles(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right);
-                    }
-                    WriteStyles(xfs);
-                    WriteClassEnd(_settings.Minify);
+                    WriteFontStyles(xfs.Font, ns.Style.Font);
                 }
-            }
+                if (xfs.BorderId > 0)
+                {
+                    WriteBorderStyles(xfs.Border.Top, xfs.Border.Bottom, xfs.Border.Left, xfs.Border.Right);
+                }
+                WriteStyles(xfs);
+                WriteClassEnd(_settings.Minify);
+            //}
         }
 
-        private bool IsAddedToCache(ExcelXfs xfs, out int id, int bottomStyleId = -1, int rightStyleId = -1)
+        internal void AddToCss(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, string styleClassPrefix, string cellStyleClassName, int id)
         {
-            var key = GetStyleKey(xfs);
-            if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
-            if (_styleCache.ContainsKey(key))
+            var xfs = xfsList[0];
+            var bXfs = xfsList[1];
+            var rXfs = xfsList[2];
+
+            if (/*HasStyle(xfs) ||*/ bXfs.BorderId > 0 || rXfs.BorderId > 0)
             {
-                id = _styleCache[key];
-                return true;
-            }
-            else
-            {
-                id = _styleCache.Count+1;
-                _styleCache.Add(key, id);
-                return false;
+                WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
+                if (xfs.FillId > 0)
+                {
+                    WriteFillStyles(xfs.Fill);
+                }
+                if (xfs.FontId > 0)
+                {
+                    WriteFontStyles(xfs.Font, ns.Style.Font);
+                }
+                if (xfs.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+                {
+                    WriteBorderStyles(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right);
+                }
+                WriteStyles(xfs);
+                WriteClassEnd(_settings.Minify);
             }
         }
 
-        private bool IsAddedToCache(ExcelDxfStyleConditionalFormatting dxf, out int id)
-        {
-            var key = dxf.Id;
-
-            if (_dxfStyleCache.ContainsKey(key))
-            {
-                id = _dxfStyleCache[key];
-                return true;
-            }
-            else
-            {
-                id = _dxfStyleCache.Count + 1;
-                _dxfStyleCache.Add(key, id);
-                return false;
-            }
-        }
+        //private bool IsAddedToCache(ExcelXfs xfs, out int id, int bottomStyleId = -1, int rightStyleId = -1)
+        //{
+        //    var key = GetStyleKey(xfs);
+        //    if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
+        //    if (_styleCache.ContainsKey(key))
+        //    {
+        //        id = _styleCache[key];
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        id = _styleCache.Count+1;
+        //        _styleCache.Add(key, id);
+        //        return false;
+        //    }
+        //}
 
         private void WriteStyles(ExcelXfs xfs)
         {

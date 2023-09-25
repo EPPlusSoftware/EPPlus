@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, content._styleCache, content._dxfStyleCache);
+            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, content._styleCache, content._dxfStyleCache);
 
             if (!string.IsNullOrEmpty(classString))
             {
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
             
-            var classString = AttributeParser.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, content._styleCache, content._dxfStyleCache);
+            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules, content._styleCache, content._dxfStyleCache);
 
             if (!string.IsNullOrEmpty(classString))
             {

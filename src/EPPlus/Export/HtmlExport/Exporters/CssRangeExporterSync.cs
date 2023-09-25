@@ -12,7 +12,10 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -73,7 +76,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void RenderCellCss(StreamWriter sw)
         {
-            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude, _exporterContext._styleCache);
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude);
 
             styleWriter.RenderAdditionalAndFontCss(TableClass);
             var addedTableStyles = new HashSet<TableStyles>();
@@ -103,11 +106,29 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             var mAdr = new ExcelAddressBase(ma);
                             var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
                             var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
-                            styleWriter.AddToCss(styles, ce.Value._styleId, bottomStyleId, rightStyleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+
+                            var stylesList = new List<ExcelXfs>
+                            {
+                                styles.CellXfs[ce.Value._styleId],
+                                styles.CellXfs[bottomStyleId],
+                                styles.CellXfs[rightStyleId]
+                            };
+
+                            if (!StyleToCss.IsAddedToCache(stylesList[0], _exporterContext._dxfStyleCache, out int id))
+                            {
+                                if (AttributeTranslator.HasStyle(stylesList[0]))
+                                    styleWriter.AddToCss(stylesList, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                            }
                         }
                         else
                         {
-                            styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                            var xfs = styles.CellXfs[ce.Value._styleId];
+
+                            if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._dxfStyleCache, out int id))
+                            {
+                                if (AttributeTranslator.HasStyle(xfs))
+                                    styleWriter.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                            }
                         }
                     }
                 }

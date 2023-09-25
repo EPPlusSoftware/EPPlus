@@ -30,9 +30,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
         }
 
-        private static bool IsAddedToCache(ExcelXfs xfs, Dictionary<string, int> styleCache, out int id, int bottomStyleId = -1, int rightStyleId = -1)
+        internal static bool IsAddedToCache(ExcelXfs xfs, Dictionary<string, int> styleCache, out int id, int bottomStyleId = -1, int rightStyleId = -1)
         {
-            var key = AttributeParser.GetStyleKey(xfs);
+            var key = AttributeTranslator.GetStyleKey(xfs);
             if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
             if (styleCache.ContainsKey(key))
             {

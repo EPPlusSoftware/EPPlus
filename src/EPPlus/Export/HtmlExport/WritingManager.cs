@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         public WritingManager(EPPlusReadOnlyList<ExcelRangeBase> ranges, HtmlRangeExportSettings settings) 
         {
 
-            cssWriter = new EpplusCssWriter(RecyclableMemory.GetStream(), ranges._list, settings, settings.Css, settings.Css.CssExclude, _styleCache);
+            cssWriter = new EpplusCssWriter(RecyclableMemory.GetStream(), ranges._list, settings, settings.Css, settings.Css.CssExclude);
             //htmlwriter = new EpplusHtmlWriter(
 
 

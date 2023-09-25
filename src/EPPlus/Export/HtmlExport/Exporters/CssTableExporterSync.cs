@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
@@ -36,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void RenderTableCss(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, Dictionary<string, int> styleCache, List<string> datatypes)
         {
-            var styleWriter = new EpplusTableCssWriter(sw, table, settings, styleCache);
+            var styleWriter = new EpplusTableCssWriter(sw, table, settings);
             if (settings.Minify == false) styleWriter.WriteLine();
             ExcelTableNamedStyle tblStyle;
             if (table.TableStyle == TableStyles.Custom)
@@ -101,7 +102,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                    var xfs = styles.CellXfs[ce.Value._styleId];
+                    if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._dxfStyleCache, out int id))
+                    {
+                        if (AttributeTranslator.HasStyle(xfs))
+                            styleWriter.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                    }
                 }
             }
             styleWriter.FlushStream();
@@ -142,7 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var sw = new StreamWriter(stream);
 
             var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle, _exporterContext._styleCache);
+            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle);
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
             if (_tableSettings.Css.IncludeTableStyles) RenderTableCss(sw, _table, _tableSettings, _exporterContext._styleCache, _dataTypes);
             if (_tableSettings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);

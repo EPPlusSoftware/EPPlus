@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
-    internal static class AttributeParser
+    internal static class AttributeTranslator
     {
         internal static bool HasStyle(ExcelXfs xfs)
         {
@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             _dxfStyleCache.Add(dxfKey, id);
                         }
 
-                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}dxf id{dxfId}";
+                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
                     }
                 }
             }

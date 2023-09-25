@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 table = range.GetTable();
             }
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _exporterContext._styleCache);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
