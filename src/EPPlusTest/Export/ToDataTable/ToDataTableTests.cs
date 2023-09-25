@@ -412,5 +412,30 @@ namespace EPPlusTest.Export.ToDataTable
                 
             }
         }
+
+        [TestMethod]
+        public void ShouldHandleDatesWithNullValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var date = DateTime.UtcNow;
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["C1"].Value = "Date";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = "Bob";
+                sheet.Cells["C2"].Value = date;
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["B3"].Value = "Rob";
+                // C3 is null
+
+
+                var dt = sheet.Cells["A1:C3"].ToDataTable(o => o.Mappings.Add(2, "Date", true));
+                Assert.AreEqual(date, dt.Rows[0]["Date"]);
+                Assert.AreEqual(DBNull.Value, dt.Rows[1]["Date"]);
+
+            }
+        }
     }
 }
