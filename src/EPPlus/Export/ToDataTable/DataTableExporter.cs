@@ -48,6 +48,7 @@ namespace OfficeOpenXml.Export.ToDataTable
             while (row <= (_range.End.Row - _options.SkipNumberOfRowsEnd))
             {
                 var dataRow = _dataTable.NewRow();
+                dataRow.BeginEdit();
                 var ignoreRow = false;
                 var rowIsEmpty = true;
                 var rowErrorMsg = string.Empty;
@@ -85,7 +86,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                     {
                         type = _dataTable.Columns[mapping.DataColumnName].DataType;
                     }
-                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, type);
+                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, type, mapping.AllowNull);
                 }
                 if(rowIsEmpty)
                 {
@@ -107,6 +108,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                     }
                 }
                 row++;
+                dataRow.EndEdit();
             }
         }
 
@@ -128,10 +130,11 @@ namespace OfficeOpenXml.Export.ToDataTable
         }
 
 
-        private object CastToColumnDataType(object val, Type dataColumnType)
+        private object CastToColumnDataType(object val, Type dataColumnType, bool allowNull)
         {
             if (val == null)
             {
+                if (allowNull) return DBNull.Value;
                 if (dataColumnType.IsValueType)
                 {
                     return Activator.CreateInstance(dataColumnType);
@@ -144,7 +147,9 @@ namespace OfficeOpenXml.Export.ToDataTable
             }
             else if (dataColumnType == typeof(DateTime))
             {
-                return ConvertUtility.GetValueDate(val);
+                var date = ConvertUtility.GetValueDate(val);
+                if(!date.HasValue) return DBNull.Value;
+                return date.Value;
             }
             else if (dataColumnType == typeof(double))
             {
