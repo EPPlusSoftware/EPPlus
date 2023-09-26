@@ -88,6 +88,12 @@ namespace EPPlusTest.LoadFunctions
             public int Number { get; set; }
         }
 
+        internal class CClass
+        {
+            [DisplayName("Another property")]
+            public string AnotherProperty { get; set; }
+        }
+
         internal class CamelCasedClass
         {
             public string IdOfThisInstance { get; set; }
@@ -268,6 +274,24 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("MyName", sheet.Cells["D1"].Value);
             }
         }
+
+#if !NET35
+        [TestMethod]
+        public void ShouldUseDisplayAttribute()
+        {
+            var items = new List<CClass>()
+            {
+                new CClass(){ AnotherProperty = "asdjfklö "}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1);
+
+                Assert.AreEqual("Another property", sheet.Cells["C1"].Value);
+            }
+        }
+#endif
 
         [TestMethod]
         public void ShouldUseBaseClassProperties()
