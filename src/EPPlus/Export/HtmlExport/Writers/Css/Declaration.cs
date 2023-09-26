@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
         {
             string res = "";
 
-            for (int i = 0; i <= Values.Count(); i++)
+            for (int i = 0; i < Values.Count(); i++)
             {
                 res += $"{Values[i]} ";
             }

@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
 
         internal void WriteSelectorOpening(string selector, bool minify)
         {
-            WriteClass($"{selector} {{", minify);
+            WriteClass($"{selector}{{", minify);
         }
 
         internal void WritePropertyDeclaration(Declaration declaration, bool minify)
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
         {
             WriteSelectorOpening(rule.Selector, minify);
 
-            for (int i = 0; i <= rule.Declarations.Count; i++)
+            for (int i = 0; i < rule.Declarations.Count; i++)
             {
                 WritePropertyDeclaration(rule.Declarations[i], minify);
             }

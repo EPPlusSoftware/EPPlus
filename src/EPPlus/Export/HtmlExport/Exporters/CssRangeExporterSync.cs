@@ -14,6 +14,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
@@ -41,6 +42,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         }
 
         private readonly HtmlRangeExportSettings _settings;
+
+        //public HtmlRangeExportSettings Settings => _settings;
+
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
@@ -79,6 +83,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude);
 
             styleWriter.RenderAdditionalAndFontCss(TableClass);
+
+            var cssTranslator = new CssRangeTranslator(_ranges._list, _settings);
+            var trueWriter = new CssTrueWriter(sw);
+
             var addedTableStyles = new HashSet<TableStyles>();
             foreach (var range in _ranges._list)
             {
@@ -117,7 +125,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             if (!StyleToCss.IsAddedToCache(stylesList[0], _exporterContext._dxfStyleCache, out int id))
                             {
                                 if (AttributeTranslator.HasStyle(stylesList[0]))
-                                    styleWriter.AddToCss(stylesList, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                {
+                                    //styleWriter.AddToCss(stylesList, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                    cssTranslator.AddToCss(stylesList, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                }
                             }
                         }
                         else
@@ -127,10 +138,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._dxfStyleCache, out int id))
                             {
                                 if (AttributeTranslator.HasStyle(xfs))
-                                    styleWriter.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                {
+                                    //styleWriter.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                    cssTranslator.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                }
                             }
                         }
                     }
+                }
+
+                //Write all collected rules.
+                for(int i = 0; i < cssTranslator.RuleCollection.Count(); i++)
+                {
+                    trueWriter.WriteRule(cssTranslator.RuleCollection[i], _settings.Minify);
                 }
 
                 if (Settings.TableStyle == eHtmlRangeTableInclude.Include)

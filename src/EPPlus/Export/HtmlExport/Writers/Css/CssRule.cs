@@ -19,6 +19,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
             Declarations = new List<Declaration>();
         }
 
+        /// <summary>
+        /// Shorthand for ".Declarations.Add(new Declaration(name, values))"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="values"></param>
+        internal void AddDeclaration(string name, params string[] values)
+        {
+            Declarations.Add(new Declaration(name, values));
+        }
+
         //internal string GetSelector()
         //{
         //    string selector = "";

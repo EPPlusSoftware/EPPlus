@@ -8,22 +8,19 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusCssWriter" Collapsed="true">
-    <Position X="41.25" Y="5.5" Width="2.75" />
+  <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusCssWriter">
+    <Position X="55" Y="9.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAIgQgAArAUgEGAJgQACAAAAQwBAEICAYAESICAGAwA=</HashCode>
+      <HashCode>AAIgQgAArAUgEGAJgQACAAAAQwBAEICAYAESICACAQA=</HashCode>
       <FileName>Export\HtmlExport\EpplusCssWriter.async.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.HtmlWriterBase">
     <Position X="45.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAARASEGCDCIgAAQACAAAAAQIAAAAAkACAdgAJA=</HashCode>
+      <HashCode>AAABAAARACEGCDCIgAAQAAAAAAAQIAAAAAkACANgAJA=</HashCode>
       <FileName>Export\HtmlExport\HtmlWriterBase.async.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_styleCache" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.EpplusHtmlWriter" Collapsed="true">
     <Position X="41.25" Y="4.25" Width="2.75" />
@@ -47,34 +44,34 @@
     </TypeIdentifier>
   </Class>
   <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.AbstractHtmlExporter">
-    <Position X="26.25" Y="3.5" Width="1.5" />
+    <Position X="26.25" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>CAAAAgBQAABAAAAAAAAAgAUQAQAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\AbstractRangeExporter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterBase" Collapsed="true">
-    <Position X="19.75" Y="8.25" Width="2.75" />
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterBase">
+    <Position X="19.75" Y="6.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAgAAAAAAkAAA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\CssRangeExporterBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterBase" Collapsed="true">
-    <Position X="33.5" Y="8.25" Width="3" />
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterBase">
+    <Position X="33.75" Y="4" Width="3" />
     <TypeIdentifier>
       <HashCode>AABAAwAEAAEAQAQAAQAAAAAAggAAgIAAgQAAAIAkIKA=</HashCode>
       <FileName>Export\HtmlExport\Exporters\HtmlRangeExporterBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterAsyncBase" Collapsed="true">
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterAsyncBase">
     <Position X="32" Y="10.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAgABAABAAAAAAAIAAAAAAAAAAAAE=</HashCode>
       <FileName>Export\HtmlExport\Exporters\HtmlRangeExporterAsyncBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterSyncBase" Collapsed="true">
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.HtmlRangeExporterSyncBase">
     <Position X="35.5" Y="10.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAAAAAAAABAAAAAAAAAAAAAACAAA=</HashCode>
@@ -88,7 +85,7 @@
       <FileName>Export\HtmlExport\Exporters\CssRangeExporterAsync.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterSync" Collapsed="true">
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Exporters.CssRangeExporterSync">
     <Position X="19.5" Y="11" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAABgAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
@@ -155,6 +152,83 @@
     </NestedTypes>
     <TypeIdentifier />
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.CssExclude">
+    <Position X="49.5" Y="28.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAEAAgAgEAAAAAAAgAACAAAAAAAABACAQA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\CssExclude.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.CssExcludeStyle">
+    <Position X="44.75" Y="29.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\CssExcludeStyle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.CssExportSettings">
+    <Position X="48" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAACAAAEAQAAAAgABAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\CssExportSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.CssRangeExportSettings">
+    <Position X="49.25" Y="26.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAQA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\CssRangeExportSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.CssTableExportSettings">
+    <Position X="44.75" Y="26.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAgAAAACAAAAAAAAIAQA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\CssTableExportSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings">
+    <Position X="59.75" Y="19.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAECAAAAAQACAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\ExcelHtmlOverrideExportSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.HtmlExportSettings">
+    <Position X="48.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQIAEDiAAIAAAAASAAAAAQAgQCAAAAAQAAgIAAQAAA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\HtmlExportSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings">
+    <Position X="59.75" Y="21.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAgAAAACAAAAgAAAAAAAEACAAAAAwE=</HashCode>
+      <FileName>Export\HtmlExport\Settings\HtmlPictureSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.HtmlRangeExportSettings">
+    <Position X="50.75" Y="20.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAACgAAEAAAAAAAAEAAAQA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\HtmlRangeExportSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.PictureCssExclude">
+    <Position X="56.75" Y="21.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAGAAAAAAAgAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\PictureCssExclude.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings">
+    <Position X="44.75" Y="20.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAgAAEAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Export\HtmlExport\Settings\ExcelHtmlTableExportSetting.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

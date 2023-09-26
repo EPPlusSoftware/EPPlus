@@ -149,6 +149,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             var ranges = new List<ExcelRangeBase>() { _table.Range };
             var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle);
+
+
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
             if (_tableSettings.Css.IncludeTableStyles) RenderTableCss(sw, _table, _tableSettings, _exporterContext._styleCache, _dataTypes);
             if (_tableSettings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
