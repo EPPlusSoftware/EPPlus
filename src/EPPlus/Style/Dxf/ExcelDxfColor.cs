@@ -119,7 +119,9 @@ namespace OfficeOpenXml.Style.Dxf
             get { return GetAsString(Theme) + "|" + GetAsString(Index) + "|" + GetAsString(Auto) + "|" + GetAsString(Tint) + "|" + GetAsString(Color==null ? "" : Color.Value.ToArgb().ToString("x")); }
         }
         /// <summary>
-        /// Set the color of the drawing
+        /// Set the color of the drawing based on an RGB color. This method will remove any previous 
+        /// <see cref="eThemeSchemeColor">ThemeSchemeColor</see>, <see cref="ExcelIndexedColor">IndexedColor</see> 
+        /// or Automatic color used.
         /// </summary>
         /// <param name="color">The color</param>
         public void SetColor(Color color)
@@ -129,8 +131,11 @@ namespace OfficeOpenXml.Style.Dxf
             Index = null;
             Color = color;
         }
+
         /// <summary>
-        /// Set the color of the drawing
+        /// Set the color of the drawing based on an <see cref="eThemeSchemeColor"/> color. 
+        /// This method will remove any previous <see cref="System.Drawing.Color"/>, 
+        /// <see cref="ExcelIndexedColor">IndexedColor</see> or Automatic color used.
         /// </summary>
         /// <param name="color">The color</param>
         public void SetColor(eThemeSchemeColor color)
@@ -141,7 +146,9 @@ namespace OfficeOpenXml.Style.Dxf
             Theme = color;
         }
         /// <summary>
-        /// Set the color of the drawing
+        /// Set the color of the drawing based on an <see cref="ExcelIndexedColor"/> color. 
+        /// This method will remove any previous <see cref="System.Drawing.Color">Color</see>, 
+        /// <see cref="eThemeSchemeColor">ThemeSchemeColor</see> or Automatic color used.
         /// </summary>
         /// <param name="color">The color</param>
         public void SetColor(ExcelIndexedColor color)
