@@ -98,7 +98,7 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate(x => x.CacheExpressions=false);
-                    //p.Workbook.Worksheets["Data_Elements"].Cells["J3"].Calculate(x => x.CacheExpressions = false);
+                    //p.Workbook.Worksheets["Data_Elements"].Cells["AS2"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
                 {

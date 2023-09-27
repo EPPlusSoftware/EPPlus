@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
                         var v = ws.GetValue(_addressInfo.FromRow, _addressInfo.FromCol); //Use GetValue to get richtext values.
                         _cachedCompileResult = GetNegatedValue(v, _addressInfo);                       
-                        _cachedCompileResult.IsHiddenCell = ws.IsCellHidden(_addressInfo.FromRow, _addressInfo.FromCol);
+                        _cachedCompileResult.IsHiddenCell = ws.IsRowHidden(_addressInfo.FromRow);
                     }
                     else
                     {

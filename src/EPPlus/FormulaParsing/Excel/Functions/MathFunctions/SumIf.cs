@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing;
@@ -79,14 +80,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         internal static IEnumerable<string> GetCriteria(FunctionArgument criteriaArg)
         {
             var criteria = new List<string>();
-            if (criteriaArg.IsEnumerableOfFuncArgs)
-            {
-                foreach (var arg in criteriaArg.ValueAsEnumerableOfFuncArgs)
-                {
-                    criteria.Add(arg.ValueFirstString);
-                }
-            }
-            else if (criteriaArg.IsExcelRange)
+            //if (criteriaArg.IsEnumerableOfFuncArgs)
+            //{
+            //    foreach (var arg in criteriaArg.ValueAsEnumerableOfFuncArgs)
+            //    {
+            //        criteria.Add(arg.ValueFirstString);
+            //    }
+            //}
+            //else if (criteriaArg.IsExcelRange)
+            if (criteriaArg.IsExcelRange)
             {
                 foreach (var cell in criteriaArg.ValueAsRangeInfo)
                 {
@@ -143,6 +145,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return retVal.Get();
         }
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
+        {
+            if (argumentIndex == 1)
+            {
+                return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            return FunctionParameterInformation.Normal;
+        }));
         public override bool IsVolatile => true;
     }
 }

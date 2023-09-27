@@ -619,7 +619,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Stdev();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(1, 3, 5, 6);
-            args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.Last().IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(2d, result.Result);
         }
@@ -639,7 +639,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new StdevP();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(2, 3, 4, 165);
-            args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.Last().IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(0.8165d, Math.Round((double)result.Result, 5));
         }
@@ -668,7 +668,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Max();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(4, 2, 5, 2);
-            args.ElementAt(2).SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.ElementAt(2).IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(4d, result.Result);
         }
@@ -728,7 +728,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Min();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(4, 2, 5, 3);
-            args.ElementAt(1).SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.ElementAt(1).IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(3d, result.Result);
         }
@@ -773,7 +773,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Average();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(InMemoryRange.GetFromArray(4d, 2d), 5d, 2d, true);
-            args.ElementAt(1).SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.ElementAt(1).IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(expectedResult, result.Result);
         }
@@ -916,7 +916,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Count();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(1d, FunctionsHelper.CreateArgs(12, 13));
-            args.ElementAt(0).SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.Last().IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(2d, result.Result);
         }
@@ -945,7 +945,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new CountA();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(1d, InMemoryRange.GetFromArray(12, 13));
-            args.ElementAt(0).SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.ElementAt(0).IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(2d, result.Result);
         }
@@ -974,7 +974,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Product();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(2d, 2d, InMemoryRange.GetFromArray(4d, 2d));
-            args.ElementAt(1).SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.ElementAt(1).IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(16d, result.Result);
         }
@@ -1038,7 +1038,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Var();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(1, 2, 3, 4, 9);
-            args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.Last().IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(1.6667d, System.Math.Round((double)result.Result, 4));
         }
@@ -1067,7 +1067,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new VarP();
             func.IgnoreHiddenValues = true;
             var args = FunctionsHelper.CreateArgs(1, 2, 3, 4, 9);
-            args.Last().SetExcelStateFlag(ExcelCellState.HiddenCell);
+            args.Last().IsHiddenCell = true;
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(1.25d, result.Result);
         }
