@@ -42,16 +42,15 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void ShouldSetExcelState()
         {
-            var arg = new FunctionArgument(2);
-            arg.SetExcelStateFlag(ExcelCellState.HiddenCell);
-            Assert.IsTrue(arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell));
+            var arg = new FunctionArgument(new OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult(2, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Integer) { IsHiddenCell=true});
+            Assert.IsTrue(arg.IsHiddenCell);
         }
 
         [TestMethod]
         public void ExcelStateFlagIsSetShouldReturnFalseWhenNotSet()
         {
             var arg = new FunctionArgument(2);
-            Assert.IsFalse(arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell));
+            Assert.IsFalse(arg.IsHiddenCell);
         }
     }
 }

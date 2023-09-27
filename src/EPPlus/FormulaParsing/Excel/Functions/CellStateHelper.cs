@@ -65,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 var cellId = arg.Address.GetTopLeftCellId();
                 include = !ShouldIgnoreNestedSubtotal(ignoreNestedSubtotalAndAggregate, cellId, context);
             }
-            return (ignoreHiddenValues || filterExists) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell) && include;
+            return (ignoreHiddenValues || filterExists) && arg.IsHiddenCell && include;
         }
     }
 }
