@@ -23,6 +23,9 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Utils;
+#if !NET35
+using System.ComponentModel.DataAnnotations;
+#endif
 
 namespace OfficeOpenXml.LoadFunctions
 {
@@ -331,31 +334,20 @@ namespace OfficeOpenXml.LoadFunctions
                             columnFormats.Add(col, epplusColumnAttribute.NumberFormat);
                         }
                     }
-                    else if(!useExistingHeader)
+                    else if (!useExistingHeader)
                     {
-                        var descriptionAttribute = member.GetFirstAttributeOfType<DescriptionAttribute>();
-                        if (descriptionAttribute != null)
+                        var dotNetHeader = GetHeaderFromDotNetAttributes(member);
+                        if (!string.IsNullOrEmpty(dotNetHeader))
                         {
-                            header = descriptionAttribute.Description;
+                            header = dotNetHeader;
+                        }
+                        else if(!string.IsNullOrEmpty(colInfo.Header) && colInfo.Header != member.Name)
+                        {
+                            header = colInfo.Header;
                         }
                         else
                         {
-                            var displayNameAttribute = member.GetFirstAttributeOfType<DisplayNameAttribute>();
-                            if (displayNameAttribute != null)
-                            {
-                                header = displayNameAttribute.DisplayName;
-                            }
-                            else
-                            {
-                                if(!string.IsNullOrEmpty(colInfo.Header) && colInfo.Header != member.Name)
-                                {
-                                    header = colInfo.Header;
-                                }
-                                else
-                                {
-                                    header = ParseHeader(member.Name);
-                                }
-                            }
+                            header = ParseHeader(member.Name);
                         }
                     }
                 }
@@ -370,6 +362,29 @@ namespace OfficeOpenXml.LoadFunctions
             }
             row++;
         }
+
+        private string GetHeaderFromDotNetAttributes(MemberInfo member)
+        {
+            var descriptionAttribute = member.GetFirstAttributeOfType<DescriptionAttribute>();
+            if (descriptionAttribute != null)
+            {
+                return descriptionAttribute.Description;
+            }
+            var displayNameAttribute = member.GetFirstAttributeOfType<DisplayNameAttribute>();
+            if (displayNameAttribute != null)
+            {
+                return displayNameAttribute.DisplayName;
+            }
+#if !NET35
+            var displayAttribute = member.GetFirstAttributeOfType<DisplayAttribute>();
+            if (displayAttribute != null)
+            {
+                return displayAttribute.Name;
+            }
+#endif
+            return default;
+        }
+
 
         private string ParseHeader(string header)
         {
