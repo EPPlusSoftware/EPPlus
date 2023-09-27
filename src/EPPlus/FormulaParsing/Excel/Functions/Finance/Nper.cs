@@ -31,8 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            
             var pmt = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
             var pv = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
             if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             var fv = 0d;
@@ -44,7 +46,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var type = 0;
             if (arguments.Count >= 5)
             {
-                type = ArgToInt(arguments, 4);
+                type = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
             var retVal = NperImpl.NPer(rate, pmt, pv, fv, (PmtDue)type);
             if (retVal.HasError) return CompileResult.GetErrorResult(retVal.ExcelErrorType);

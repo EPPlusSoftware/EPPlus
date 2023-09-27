@@ -30,14 +30,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var row = ArgToInt(arguments, 0);
-            var col = ArgToInt(arguments, 1);
+            var row = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var col = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (row < 0 && col < 0) return CreateResult(eErrorType.Value);
             var referenceType = ExcelReferenceType.AbsoluteRowAndColumn;
             var worksheetSpec = string.Empty;
             if (arguments.Count > 2)
             {
-                var arg3 = ArgToInt(arguments, 2);
+                var arg3 = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
                 if (arg3 < 1 || arg3 > 4) return CreateResult(eErrorType.Value);
                 referenceType = (ExcelReferenceType)arg3;
             }

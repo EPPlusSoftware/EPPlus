@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             var dateSerial = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CreateResult(e1.Type);
             var date = DateTime.FromOADate(dateSerial);
-            var nMonthsToAdd = ArgToInt(arguments, 1);
+            var nMonthsToAdd = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if(e2 != null) return CreateResult(e2.Type);
             var resultDate = date.AddMonths(nMonthsToAdd);
             return CreateResult(resultDate.ToOADate(), DataType.Date);
         }

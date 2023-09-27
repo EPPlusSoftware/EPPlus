@@ -25,14 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var rowsArg = arguments[1];
             if(rowsArg.Value != null) 
             {
-                rowsParam = ArgToInt(arguments, 1);
+                rowsParam = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             }
             
             if (arguments.Count > 2)
             {
                 if(arguments[2].Value != null)
                 {
-                    colsParam = ArgToInt(arguments, 2);
+                    colsParam = ArgToInt(arguments, 2, out ExcelErrorValue e2);
+                    if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
                 }
             }
 

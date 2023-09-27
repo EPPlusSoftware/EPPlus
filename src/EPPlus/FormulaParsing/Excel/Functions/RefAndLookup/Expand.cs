@@ -47,7 +47,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var secondArg = arguments[1];
             if(secondArg.Value != null)
             {
-                rows = ArgToInt(arguments, 1);
+                rows = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 if(rows < range.Size.NumberOfRows)
                 {
                     return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
@@ -56,7 +57,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var cols = range.Size.NumberOfCols;
             if(arguments.Count > 2 && arguments[2] != null)
             {
-                cols = (short)ArgToInt(arguments, 2);
+                cols = (short)ArgToInt(arguments, 2, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
                 if(cols < range.Size.NumberOfCols)
                 {
                     return CompileResult.GetDynamicArrayResultError(eErrorType.Value);

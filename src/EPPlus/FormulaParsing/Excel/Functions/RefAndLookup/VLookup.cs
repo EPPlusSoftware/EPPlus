@@ -47,7 +47,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var arg1 = arguments[1];
             if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
             var lookupRange = arg1.GetAsRangeInfo(context);
-            var lookupIndex = ArgToInt(arguments, 2);
+            var lookupIndex = ArgToInt(arguments, 2, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var rangeLookup = true;
             if(arguments.Count > 3)
             {

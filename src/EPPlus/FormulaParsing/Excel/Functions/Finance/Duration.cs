@@ -49,7 +49,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
-            var frequency = ArgToInt(arguments, 4);
+            var frequency = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+            if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             if(frequency != 1 && frequency != 2 && frequency != 4)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
@@ -57,7 +58,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var basis = 0;
             if(arguments.Count > 5)
             {
-                basis = ArgToInt(arguments, 5);
+                basis = ArgToInt(arguments, 5, out ExcelErrorValue e6);
+                if (e6 != null) return CompileResult.GetErrorResult(e6.Type);
             }
             if(basis < 0 || basis > 4)
             {

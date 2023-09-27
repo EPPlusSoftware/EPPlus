@@ -34,7 +34,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var cols = new List<int>();
             for(var x = 1; x < arguments.Count(); x++)
             {
-                var c = ArgToInt(arguments, x);
+                var c = ArgToInt(arguments, x, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 cols.Add(c);
             }
             if(firstArg.IsExcelRange)

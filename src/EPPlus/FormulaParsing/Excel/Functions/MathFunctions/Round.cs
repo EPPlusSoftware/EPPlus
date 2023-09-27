@@ -32,11 +32,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             var arg1 = arguments[0];
             if (arg1.Value == null) return CreateResult(0d, DataType.Decimal);
-            var nDigits = ArgToInt(arguments, 1);
+            var nDigits = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var positivDigits = nDigits * -1;
             
-            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
-            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e2, context.Configuration.PrecisionAndRoundingStrategy);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (nDigits < 0)
             {
                 return CreateResult(System.Math.Round(number / System.Math.Pow(10, positivDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, positivDigits), DataType.Integer);

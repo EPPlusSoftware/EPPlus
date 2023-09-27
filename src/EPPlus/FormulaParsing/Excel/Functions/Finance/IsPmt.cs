@@ -30,10 +30,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var per = ArgToInt(arguments, 1);
-            var nper = ArgToInt(arguments, 2);
-            var pv = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            
+            var per = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
+            var nper = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            
+            var pv = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
+            
             var result = -pv * rate;
             result = result - result / nper * per;
             return CreateResult(result, DataType.Decimal);

@@ -32,10 +32,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             var firstArg = arguments[0];
             int rows, cols;
-            rows = ArgToInt(arguments, 1);
+            rows = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (arguments.Count > 2)
             {
-                cols = ArgToInt(arguments, 2);
+                cols = ArgToInt(arguments, 2, out ExcelErrorValue e2);
+                if(e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
             else
             {

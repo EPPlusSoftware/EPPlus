@@ -40,7 +40,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var matchType = 1;
             if(arguments.Count > 2)
             {
-                matchType = ArgToInt(arguments, 2);
+                matchType = ArgToInt(arguments, 2, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 if (matchType > 1 || matchType < -1) return CreateResult(eErrorType.Value);
             }
             int index;
