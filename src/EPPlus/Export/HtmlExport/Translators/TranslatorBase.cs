@@ -13,16 +13,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     abstract internal class TranslatorBase
     {
-        //TranslatorContext _context;
         protected List<Declaration> declarations;
 
-        public TranslatorBase(/*TranslatorContext context*/) 
+        internal TranslatorBase() 
         {
             declarations = new List<Declaration>();
-            //_context = context;
         }
 
-        public abstract List<Declaration> GenerateDeclarationList(TranslatorContext context);
+        internal abstract List<Declaration> GenerateDeclarationList(TranslatorContext context);
 
         protected void AddDeclaration(string name, params string[] values) 
         {

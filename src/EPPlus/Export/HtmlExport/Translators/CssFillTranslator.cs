@@ -15,16 +15,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         ExcelFillXml _fill;
         ExcelTheme _theme;
 
-        internal CssFillTranslator(ExcelFillXml fill) 
+        internal CssFillTranslator(ExcelFillXml fill)
         {
             _fill = fill;
         }
 
-        public override List<Declaration> GenerateDeclarationList(TranslatorContext context)
+        internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
             _theme = context.Theme;
 
-            if (context.FillExclude) return null;
+            if (context.Exclude.Fill) return null;
             if (_fill is ExcelGradientFillXml gf && gf.Type != ExcelFillGradientType.None)
             {
                 AddGradient(gf);

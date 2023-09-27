@@ -13,10 +13,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         //ExcelXfs _xfs;
         //ExcelNamedStyleXml _ns;
         internal ExcelTheme Theme;
-        internal eBorderExclude BorderExclude;
-        internal eFontExclude FontExclude;
-        internal bool FillExclude;
+        //internal eBorderExclude BorderExclude;
+        //internal eFontExclude FontExclude;
+        //internal bool FillExclude;
+        //internal bool WrapTextExclude;
 
+        internal float IndentValue;
+        internal string IndentUnit;
+
+        internal CssExclude Exclude;
 
         //internal ExcelXfs Xfs => _xfs;
         //internal ExcelNamedStyleXml Ns => _ns;
@@ -27,12 +32,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         private TranslatorBase strategy;
 
-
-        public TranslatorContext() 
-        { }
-
-        public TranslatorContext(TranslatorBase concreteStrategy)
+        public TranslatorContext(CssExclude exclude) 
         {
+            Exclude = exclude;
+        }
+
+        public TranslatorContext(CssExclude exclude, TranslatorBase concreteStrategy)
+        { 
+            Exclude = exclude;
             strategy = concreteStrategy;
         }
 

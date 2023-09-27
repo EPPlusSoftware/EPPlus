@@ -125,9 +125,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                             if (!StyleToCss.IsAddedToCache(stylesList[0], _exporterContext._dxfStyleCache, out int id))
                             {
-                                if (AttributeTranslator.HasStyle(stylesList[0]))
+                                if (AttributeTranslator.HasStyle(stylesList[0]) || stylesList[1].BorderId > 0 || stylesList[2].BorderId > 0)
                                 {
-                                    cssTranslator.AddToCss(stylesList, styles.GetNormalStyle(), id);
+                                    cssTranslator.AddToCollection(stylesList, styles.GetNormalStyle(), id);
                                 }
                             }
                         }
@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             {
                                 if (AttributeTranslator.HasStyle(xfs))
                                 {
-                                    cssTranslator.AddToCss(xfs, styles.GetNormalStyle(), id);
+                                    cssTranslator.AddToCollection(xfs, styles.GetNormalStyle(), id);
                                 }
                             }
                         }

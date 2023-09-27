@@ -97,20 +97,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
                 Indent = 0;
             }
         }
-
-        ////---
-
-        //internal void WriteCssItem(string value, bool minify)
-        //{
-        //    if (minify)
-        //    {
-        //        _writer.Write(value);
-        //    }
-        //    else
-        //    {
-        //        WriteIndent();
-        //        _writer.WriteLine(value);
-        //    }
-        //}
     }
 }

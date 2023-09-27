@@ -94,7 +94,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void RenderCellCss(EpplusCssWriter styleWriter)
         {
-
             var r = _table.Range;
             var styles = r.Worksheet.Workbook.Styles;
             var ce = new CellStoreEnumerator<ExcelValue>(r.Worksheet._values, r._fromRow, r._fromCol, r._toRow, r._toCol);

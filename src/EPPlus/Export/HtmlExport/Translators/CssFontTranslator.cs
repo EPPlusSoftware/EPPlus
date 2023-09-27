@@ -26,12 +26,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         }
 
 
-        public override List<Declaration> GenerateDeclarationList(TranslatorContext context)
+        internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
             //ExcelFontXml f, FontDeclarationRules rules, ExcelFont nf, eFontExclude fontExclude, ExcelTheme theme
 
             var declarations = new List<Declaration>();
-            var fontExclude = context.FontExclude;
+            var fontExclude = context.Exclude.Font;
             var fontRules = new FontDeclarationRules(_f, _nf, context);
 
             if (fontRules.HasFamily)

@@ -15,7 +15,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             _f = f;
             _nf = nf;
-            _fontExclude = context.FontExclude;
+            _fontExclude = context.Exclude.Font;
             _theme = context.Theme;
         }
 
