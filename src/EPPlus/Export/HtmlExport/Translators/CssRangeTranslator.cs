@@ -13,6 +13,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime;
 using System.Text;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Export.HtmlExport.Translators;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
@@ -32,6 +34,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
         internal CssRuleCollection RuleCollection => _ruleCollection;
 
+        TranslatorContext _context;
+
 
         internal CssRangeTranslator(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
         {
@@ -40,6 +44,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             _cssExclude = settings.Css.CssExclude;
             Init(ranges);
             _ruleCollection = new CssRuleCollection();
+
+            _context = new TranslatorContext();
+            _context.FontExclude = _cssExclude.Font;
+            _context.BorderExclude = _cssExclude.Border;
+            _context.FillExclude = _cssExclude.Fill;
+            _context.Theme = _theme;
         }
 
         private void Init(List<ExcelRangeBase> ranges)
@@ -55,18 +65,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             _fontExclude = _cssExclude.Font;
         }
 
-        internal void AddRuleToList(List<CssRule> list, string ruleName, string declarationName, params string[] declarationValues)
-        {
-            var toBeAdded = new CssRule(ruleName)
-            {
-                Declarations =
-                {
-                    new Declaration(declarationName, declarationValues),
-                }
-            };
+        //internal void AddRuleToList(List<CssRule> list, string ruleName, string declarationName, params string[] declarationValues)
+        //{
+        //    var toBeAdded = new CssRule(ruleName)
+        //    {
+        //        Declarations =
+        //        {
+        //            new Declaration(declarationName, declarationValues),
+        //        }
+        //    };
 
-            list.Add(toBeAdded);
-        }
+        //    list.Add(toBeAdded);
+        //}
 
         //internal void WriteRulesList(List<CssRule> rules) 
         //{
@@ -143,34 +153,34 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             //_cssTrueWriter.WriteRule(alignRight, _settings.Minify);
         }
 
-        internal void AddToCss(ExcelXfs xfs, ExcelNamedStyleXml ns, string styleClassPrefix, string cellStyleClassName, int id)
+        internal void AddToCss(ExcelXfs xfs, ExcelNamedStyleXml ns, int id)
         {
-            //if (IsAddedToCache(xfs, out int id)==false)
-            //{
-            // WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
-            var styleClass = new CssRule($".{styleClassPrefix}{cellStyleClassName}{id}");
+            var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
+
+            var translators = new List<TranslatorBase>();
 
             if (xfs.FillId > 0)
             {
-                WriteFillStyles(xfs.Fill, styleClass);
+                translators.Add(new CssFillTranslator(xfs.Fill));
             }
-            //if (xfs.FontId > 0)
-            //{
-            //    WriteFontStyles(xfs.Font, ns.Style.Font);
-            //}
-            //if (xfs.BorderId > 0)
-            //{
-            //    WriteBorderStyles(xfs.Border.Top, xfs.Border.Bottom, xfs.Border.Left, xfs.Border.Right);
-            //}
-            //WriteStyles(xfs);
-            //WriteClassEnd(_settings.Minify);
-            //}
+            if (xfs.FontId > 0)
+            {
+                translators.Add(new CssFontTranslator(xfs.Font, ns.Style.Font));
+            }
+
+            foreach(var translator in translators) 
+            {
+                _context.SetTranslator(translator);
+                _context.AddDeclarations(styleClass);
+            }
+
             AddGenericStyleDeclarations(xfs, styleClass);
             _ruleCollection.CssRules.Add(styleClass);
-            //_cssTrueWriter.WriteRule(styleClass, _settings.Minify);
         }
 
-        internal void AddToCss(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, string styleClassPrefix, string cellStyleClassName, int id)
+
+
+        internal void AddToCss(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, int id)
         {
             var xfs = xfsList[0];
             var bXfs = xfsList[1];
@@ -178,10 +188,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
             if (/*HasStyle(xfs) ||*/ bXfs.BorderId > 0 || rXfs.BorderId > 0)
             {
-                var styleClass = new CssRule($".{styleClassPrefix}{cellStyleClassName}{id}");
+                var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
                 if (xfs.FillId > 0)
                 {
-                    WriteFillStyles(xfs.Fill, styleClass);
+                    AddFillDeclarations(xfs.Fill, styleClass);
                 }
 
                 //if (xfs.FontId > 0)
@@ -202,7 +212,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
         }
 
-        private void WriteFillStyles(ExcelFillXml f, CssRule rule)
+        private void AddFillDeclarations(ExcelFillXml f, CssRule rule)
         {
             if (_cssExclude.Fill) return;
             if (f is ExcelGradientFillXml gf && gf.Type != ExcelFillGradientType.None)
@@ -218,7 +228,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 }
                 else
                 {
-                    rule.AddDeclaration("background-color", "ERROR: SVG NOT IMPLEMENTED");
+                    var svg = PatternFills.GetPatternSvgConvertedOnly(f.PatternType, GetColor(f.BackgroundColor), GetColor(f.PatternColor));
+                    rule.AddDeclaration("background-repeat", "repeat");
+                    //arguably some of the values should be its own declaration...Should still work though.
+                    rule.AddDeclaration("background", $"url(data:image/svg+xml;base64,{svg})");
+
                     //WriteCssItem($"{PatternFills.GetPatternSvg(f.PatternType, GetColor(f.BackgroundColor), GetColor(f.PatternColor))}", _settings.Minify);
                 }
             }
@@ -344,6 +358,68 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             if (xfs.Indent > 0 && _cssExclude.Indent == false)
             {
                 rule.AddDeclaration("transform", $"padding-left:{xfs.Indent * _cssSettings.IndentValue}{_cssSettings.IndentUnit}");
+            }
+        }
+
+        private void AddFontDeclarations(ExcelFontXml f, ExcelFont nf, CssRule rule)
+        {
+            if (string.IsNullOrEmpty(f.Name) == false && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Name) && f.Name.Equals(nf.Name) == false)
+            {
+                rule.AddDeclaration("font-family", f.Name);
+            }
+            if (f.Size > 0 && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Size) && f.Size != nf.Size)
+            {
+                rule.AddDeclaration("font-size", $"{f.Size.ToString("g", CultureInfo.InvariantCulture)}pt");
+            }
+            if (f.Color != null && f.Color.Exists && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color) && AreColorEqual(f.Color, nf.Color) == false)
+            {
+                rule.AddDeclaration("color", GetColor(f.Color));
+            }
+            if (f.Bold && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Bold) && nf.Bold != f.Bold)
+            {
+                rule.AddDeclaration("font-weight", "bolder");
+            }
+            if (f.Italic && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Italic) && nf.Italic != f.Italic)
+            {
+                rule.AddDeclaration("font-style", "italic");
+            }
+            if (f.Strike && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Strike) && nf.Strike != f.Strike)
+            {
+                rule.AddDeclaration("text-decoration", "line-through", "solid");
+            }
+            if (f.UnderLineType != ExcelUnderLineType.None && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Underline) && f.UnderLineType != nf.UnderLineType)
+            {
+                switch (f.UnderLineType)
+                {
+                    case ExcelUnderLineType.Double:
+                    case ExcelUnderLineType.DoubleAccounting:
+                        rule.AddDeclaration("text-decoration", "underline", "double");
+                        break;
+                    default:
+                        rule.AddDeclaration("text-decoration", "underline", "solid");
+                        break;
+                }
+            }
+        }
+
+        private bool AreColorEqual(ExcelColorXml c1, ExcelColor c2)
+        {
+            if (c1.Tint != c2.Tint) return false;
+            if (c1.Indexed >= 0)
+            {
+                return c1.Indexed == c2.Indexed;
+            }
+            else if (string.IsNullOrEmpty(c1.Rgb) == false)
+            {
+                return c1.Rgb == c2.Rgb;
+            }
+            else if (c1.Theme != null)
+            {
+                return c1.Theme == c2.Theme;
+            }
+            else
+            {
+                return c1.Auto == c2.Auto;
             }
         }
 

@@ -15,6 +15,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.Writers;
+using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
@@ -126,8 +127,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             {
                                 if (AttributeTranslator.HasStyle(stylesList[0]))
                                 {
-                                    //styleWriter.AddToCss(stylesList, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
-                                    cssTranslator.AddToCss(stylesList, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                    cssTranslator.AddToCss(stylesList, styles.GetNormalStyle(), id);
                                 }
                             }
                         }
@@ -139,19 +139,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             {
                                 if (AttributeTranslator.HasStyle(xfs))
                                 {
-                                    //styleWriter.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
-                                    cssTranslator.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
+                                    cssTranslator.AddToCss(xfs, styles.GetNormalStyle(), id);
                                 }
                             }
                         }
                     }
                 }
 
-                //Write all collected rules.
-                for(int i = 0; i < cssTranslator.RuleCollection.Count(); i++)
-                {
-                    trueWriter.WriteRule(cssTranslator.RuleCollection[i], _settings.Minify);
-                }
+                WriteAndClearCollection(cssTranslator.RuleCollection, trueWriter);
 
                 if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
                 {
@@ -177,5 +172,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
             styleWriter.FlushStream();
         }
+
+        internal void WriteAndClearCollection(CssRuleCollection collection, CssTrueWriter writer)
+        {
+            for (int i = 0; i < collection.CssRules.Count(); i++)
+            {
+                writer.WriteRule(collection[i], _settings.Minify);
+            }
+
+            collection.CssRules.Clear();
+        }
+
     }
 }
