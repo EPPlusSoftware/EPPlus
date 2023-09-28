@@ -71,11 +71,11 @@ namespace OfficeOpenXml.Filter
             XmlElement node;
             if (position >= _autoFilter.Address.Columns)
             {
-                throw (new ArgumentOutOfRangeException("Position is outside of the range"));
+                throw (new ArgumentOutOfRangeException($"Position {position} is outside of the range if the filter collection"));
             }
             if (_columns.ContainsKey(position))
             {
-                throw (new ArgumentOutOfRangeException("Position already exists"));
+                throw (new ArgumentOutOfRangeException($"Filter at position {position} already exists"));
             }
             foreach (var c in _columns.Values)
             {
