@@ -33,20 +33,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var rows = ArgToInt(arguments, 0); 
+            var rows = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var argCount = arguments.Count;
-            var columns = argCount > 1 ? ArgToInt(arguments, 1) : 1;
+            var columns = 1;
+            if(argCount > 1)
+            {
+                columns = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            }
             var start = 1d;
             if(argCount > 2)
             {
-                start = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
-                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                start = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             }
             var step = 1d;
             if(argCount > 3)
             {
-                step = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
-                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+                step = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+                if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             } 
             
             if (rows<0 || columns < 0)

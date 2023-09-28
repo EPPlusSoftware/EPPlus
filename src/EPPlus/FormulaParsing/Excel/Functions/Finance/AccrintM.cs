@@ -30,16 +30,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             // collect input
-            var issueDate = DateTime.FromOADate(ArgToInt(arguments, 0));
-            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 1));
-            var rate = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
-            if (e1 != null) return CreateResult(e1.Type);
-            var par = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
-            if(e2 != null) return CreateResult(e2.Type);
+            var id = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var issueDate = DateTime.FromOADate(id);
+
+            var sd = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e1.Type);
+            var settlementDate = DateTime.FromOADate(sd);
+
+            var rate = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CreateResult(e3.Type);
+
+            var par = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+            if(e4 != null) return CreateResult(e4.Type);
+            
             var basis = 0;
             if (arguments.Count > 4)
             {
-                basis = ArgToInt(arguments, 4);
+                basis = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if(e5 != null) return CreateResult(e5.Type);
             }
 
             if (rate <= 0 || par <= 0) return CreateResult(eErrorType.Num);

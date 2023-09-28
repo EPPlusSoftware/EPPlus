@@ -31,18 +31,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             // collect input
-            var issueDate = DateTime.FromOADate(ArgToInt(arguments, 0));
-            var firstInterestDate = DateTime.FromOADate(ArgToInt(arguments, 1));
-            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 2));
-            var rate = ArgToDecimal(arguments, 3, out ExcelErrorValue e1);
-            if (e1 != null) return CreateResult(e1.Type);
-            var par = ArgToDecimal(arguments, 4, out ExcelErrorValue e2);
-            if(e2 != null) return CreateResult(e2.Type);
-            var frequency = ArgToInt(arguments, 5);
+            var id = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var issueDate = DateTime.FromOADate(id);
+
+            var fid = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var firstInterestDate = DateTime.FromOADate(fid);
+
+            var sd = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e1 != null) return CompileResult.GetErrorResult(e3.Type);
+            var settlementDate = DateTime.FromOADate(sd);
+
+            var rate = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
+
+            var par = ArgToDecimal(arguments, 4, out ExcelErrorValue e5);
+            if(e5 != null) return CompileResult.GetErrorResult(e5.Type);
+            
+            var frequency = ArgToInt(arguments, 5, out ExcelErrorValue e6);
+            if(e6 != null) return CompileResult.GetErrorResult(e6.Type);
             var basis = 0;
             if(arguments.Count >= 7)
             {
-                basis = ArgToInt(arguments, 6);
+                basis = ArgToInt(arguments, 6, out ExcelErrorValue e7);
+                if (e7 != null) return CompileResult.GetErrorResult(e7.Type);
             }
             var issueToSettlement = true;
             if(arguments.Count >= 8)

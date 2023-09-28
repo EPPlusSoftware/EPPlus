@@ -35,14 +35,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// Base class for Excel function implementations.
     /// </summary>
     public abstract class ExcelFunction
-    {        
+    {     
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ExcelFunction()
             : this(new ArgumentCollectionUtil(), new ArgumentParsers(), new CompileResultValidators())
         {
 
         }
 
-        public ExcelFunction(
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="argumentCollectionUtil"></param>
+        /// <param name="argumentParsers"></param>
+        /// <param name="compileResultValidators"></param>
+        internal ExcelFunction(
             ArgumentCollectionUtil argumentCollectionUtil,
             ArgumentParsers argumentParsers,
             CompileResultValidators compileResultValidators)
@@ -55,8 +64,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         private readonly ArgumentCollectionUtil _argumentCollectionUtil;
-        protected readonly ArgumentParsers _argumentParsers;
+        private readonly ArgumentParsers _argumentParsers;
         private readonly CompileResultValidators _compileResultValidators;
+        /// <summary>
+        /// Number of significant figures used in roundings, etc.
+        /// </summary>
         protected readonly int NumberOfSignificantFigures = 15;
         private readonly ArrayBehaviourConfig _arrayConfig;
 
@@ -114,6 +126,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// If overridden, this method is called before Execute is called.
         /// </summary>
         /// <param name="context"></param>
+        /// 
+        [Obsolete("Don't use this method from EPPlus 7.x and up")]
         public virtual void BeforeInvoke(ParsingContext context) { }
         /// <summary>
         /// If overridden, this method will be called before the <see cref="Execute" /> method is called with the arguments for any parameter having 
@@ -128,7 +142,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             
         }
         /// <summary>
-        /// If the function handles errors
+        /// <summary>
+        /// Indicates that the function is an ErrorHandlingFunction.
         /// </summary>
         public virtual bool IsErrorHandlingFunction
         {
@@ -190,6 +205,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="minLength"></param>
         /// <param name="errorTypeToThrow">The <see cref="eErrorType"/> of the <see cref="ExcelErrorValueException"/> that will be thrown if <paramref name="minLength"/> is not met.</param>
+        [Obsolete("Don't use this method from EPPlus 7.x and up. Use property ArgumentMinLength instead.")]
         protected void ValidateArguments(IEnumerable<FunctionArgument> arguments, int minLength,
                                          eErrorType errorTypeToThrow)
         {
@@ -223,6 +239,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="minLength"></param>
         /// <exception cref="ArgumentException"></exception>
+        [Obsolete("Don't use this method from EPPlus 7.x and up. Use property ArgumentMinLength instead.")]
         protected void ValidateArguments(IEnumerable<FunctionArgument> arguments, int minLength)
         {
             Require.That(arguments).Named("arguments").IsNotNull();
@@ -245,6 +262,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     return true;
                 }, "Expecting at least {0} arguments", minLength.ToString());
         }
+        /// <summary>
+        /// Returns a string representation of an arguments address.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         protected string ArgToAddress(IList<FunctionArgument> arguments, int index)
         {
             var arg = arguments[index];
@@ -256,16 +279,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             return ArgToString(arguments, index);
         }
-        //protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
-        //{
-        //    var arg = arguments.ElementAt(index);
-
-        //    if(arg.Address !=null)
-        //    {
-        //        return arg.Address.WorksheetAddress;
-        //    }
-        //    return ArgToAddress(arguments, index);
-        //}
 
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based index
@@ -273,16 +286,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="index"></param>
+        /// <param name="error">If an error occurs during the conversion it will be returned via this parameter</param>
         /// <param name="emptyValue">Value returned if datatype is empty</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IList<FunctionArgument> arguments, int index, int emptyValue=0)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index, out ExcelErrorValue error, int emptyValue=0)
         {
+            error = default;
             var arg = arguments[index];
             switch (arg.DataType)
             {
                 case DataType.ExcelError:
-                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                    error = arg.ValueAsExcelErrorValue;
+                    return default;
                 case DataType.Empty:
                     return emptyValue;
                 default:
@@ -297,14 +313,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <param name="ignoreErrors">If true an Excel error in the cell will be ignored</param>
+        /// <param name="error">If an error occurs during the conversion it will be returned via this parameter</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IList<FunctionArgument> arguments, int index, bool ignoreErrors)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index, bool ignoreErrors, out ExcelErrorValue error)
         {
+            error = null;
             var arg = arguments[index];
             if (arg.ValueIsExcelError && !ignoreErrors)
             {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue.Type);
+                error = arg.ValueAsExcelErrorValue;
             }
             else if (arg.DataType == DataType.Empty)
             {

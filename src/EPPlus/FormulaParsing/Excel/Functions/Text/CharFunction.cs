@@ -28,7 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var number = ArgToInt(arguments, 0);
+            var number = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (number < 1 || number > 255) return CreateResult(eErrorType.Value);
             return CreateResult(((char) number).ToString(), DataType.String);
         }

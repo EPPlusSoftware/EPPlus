@@ -38,12 +38,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var args = arguments[0];
-            var index = ArgToInt(arguments, 1, IgnoreErrors) - 1;
+            var index = ArgToInt(arguments, 1, IgnoreErrors, out ExcelErrorValue e1) - 1;
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var values = ArgsToDoubleEnumerable(args, context, x => {
                 x.IgnoreHiddenCells = IgnoreHiddenValues;
                 x.IgnoreErrors = IgnoreErrors;
-            }, out ExcelErrorValue e1);
-            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            }, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (index < 0 || index >= values.Count) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = values.OrderByDescending(x => x).ElementAt(index);
             return CreateResult(result, DataType.Decimal);

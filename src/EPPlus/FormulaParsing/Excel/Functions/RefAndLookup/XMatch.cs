@@ -69,7 +69,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var matchMode = LookupMatchMode.ExactMatch;
             if (arguments.Count > 2 && arguments[2] != null)
             {
-                var mm = ArgToInt(arguments, 2);
+                var mm = ArgToInt(arguments, 2, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
                 matchMode = XlookupUtil.GetMatchMode(mm);
             }
 
@@ -77,7 +78,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var searchMode = LookupSearchMode.StartingAtFirst;
             if (arguments.Count > 3)
             {
-                var sm = ArgToInt(arguments, 3);
+                var sm = ArgToInt(arguments, 3, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
                 searchMode = XlookupUtil.GetSearchMode(sm);
             }
             int ix;

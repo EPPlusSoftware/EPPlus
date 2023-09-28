@@ -33,7 +33,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var dateInt = ArgToInt(arguments, 0);
+            var dateInt = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var date = DateTime.FromOADate(dateInt);
             return CreateResult(WeekNumber(date), DataType.Integer);
         }

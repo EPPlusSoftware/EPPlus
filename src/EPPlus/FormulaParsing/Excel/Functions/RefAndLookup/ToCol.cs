@@ -35,7 +35,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var ignore = 0;
             if (arguments.Count > 1 && arguments[1].Value != null)
             {
-                ignore = ArgToInt(arguments, 1);
+                ignore = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 if (ignore < 0 || ignore > 4)
                 {
                     return CompileResult.GetDynamicArrayResultError(eErrorType.Value);

@@ -26,6 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class ForecastLinear : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
+
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);

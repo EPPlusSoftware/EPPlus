@@ -35,7 +35,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var noCommas = false;
             if (arguments.Count > 1)
             {
-                nDecimals = ArgToInt(arguments, 1);
+                nDecimals = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
             if (arguments.Count > 2)
             {

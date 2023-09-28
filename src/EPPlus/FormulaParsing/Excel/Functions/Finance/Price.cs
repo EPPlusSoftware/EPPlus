@@ -30,19 +30,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 6;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturityDate = DateTime.FromOADate(ArgToInt(arguments, 1));
-            var rate = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            var sd = ArgToInt(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var yield = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            var settlementDate = DateTime.FromOADate(sd);
+
+            var md = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
-            var redemption = ArgToDecimal(arguments, 4, out ExcelErrorValue e3);
+            var maturityDate = DateTime.FromOADate(md);
+
+            var rate = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
             if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
-            var frequency = ArgToInt(arguments, 5);
+            
+            var yield = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
+            
+            var redemption = ArgToDecimal(arguments, 4, out ExcelErrorValue e5);
+            if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
+            
+            var frequency = ArgToInt(arguments, 5, out ExcelErrorValue e6);
+            if(e6 != null) return CompileResult.GetErrorResult(e6.Type);
+
             var basis = 0;
             if (arguments.Count >= 7)
             {
-                basis = ArgToInt(arguments, 6);
+                basis = ArgToInt(arguments, 6, out ExcelErrorValue e7);
+                if (e7 != null) return CompileResult.GetErrorResult(e7.Type);
             }
             // validate input
             if ((settlementDate > maturityDate) || rate < 0 || yield < 0 || redemption <= 0 || (frequency != 1 && frequency != 2 && frequency != 4) || (basis < 0 || basis > 4))

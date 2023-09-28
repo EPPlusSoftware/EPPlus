@@ -30,16 +30,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 4;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturityDate = DateTime.FromOADate(ArgToInt(arguments, 1));
-            var investment = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            var sd = ArgToInt(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var redemption = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            var settlementDate = DateTime.FromOADate(sd);
+
+            var md = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var maturityDate = DateTime.FromOADate(md);
+
+            var investment = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            
+            var redemption = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
+            
             var basis = 0;
             if (arguments.Count() >= 5)
             {
-                basis = ArgToInt(arguments, 4);
+                basis = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
             if (basis < 0 || basis > 4) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = IntRateImpl.Intrate(settlementDate, maturityDate, investment, redemption, (DayCountBasis)basis);

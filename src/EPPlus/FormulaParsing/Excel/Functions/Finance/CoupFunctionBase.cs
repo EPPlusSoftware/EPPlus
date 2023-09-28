@@ -24,13 +24,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlementDate = DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturityDate = DateTime.FromOADate(ArgToInt(arguments, 1));
-            var frequency = ArgToInt(arguments, 2);
+            var sd = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var settlementDate = DateTime.FromOADate(sd);
+
+            var md = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var maturityDate = DateTime.FromOADate(md);
+
+            var frequency = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
             var basis = 0;
             if (arguments.Count >= 4)
             {
-                basis = ArgToInt(arguments, 3);
+                basis = ArgToInt(arguments, 3, out ExcelErrorValue e4);
+                if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             }
             // validate input
             if((settlementDate > maturityDate) || (frequency != 1 && frequency != 2 && frequency != 4) || (basis < 0 || basis > 4))

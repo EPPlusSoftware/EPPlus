@@ -59,7 +59,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                var index = ArgToInt(arguments, 0);
+                var index = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 var choosedValue = arguments[index].Value;
                 if(choosedValue is IRangeInfo ri)
                 {
