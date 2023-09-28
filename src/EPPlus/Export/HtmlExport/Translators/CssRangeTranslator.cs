@@ -108,8 +108,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 CssRule widthRule = new CssRule(clsName);
                 widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px");
 
-                clsName = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
-                CssRule heightRule = new CssRule(clsName);
+                var clsName2 = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
+                CssRule heightRule = new CssRule(clsName2);
                 heightRule.AddDeclaration("height", $"{(int)(ws.DefaultRowHeight / 0.75)}px");
 
                 _ruleCollection.AddRule(widthRule);

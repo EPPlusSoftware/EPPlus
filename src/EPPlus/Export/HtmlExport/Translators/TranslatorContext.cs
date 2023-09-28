@@ -37,7 +37,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             Exclude = settings.Css.CssExclude;
             Settings = settings.Css;
-
         }
 
         public TranslatorContext(CssExclude exclude, TranslatorBase concreteStrategy)

@@ -16,24 +16,41 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         private static bool IsAddedToCache(ExcelDxfStyleConditionalFormatting dxf, Dictionary<string, int> styleCache, out int id)
         {
             var key = dxf.Id;
-
-            if (styleCache.ContainsKey(key))
-            {
-                id = styleCache[key];
-                return true;
-            }
-            else
-            {
-                id = styleCache.Count + 1;
-                styleCache.Add(key, id);
-                return false;
-            }
+            return IsAddedToCacheBase(styleCache, key, out id);
+            //if (styleCache.ContainsKey(key))
+            //{
+            //    id = styleCache[key];
+            //    return true;
+            //}
+            //else
+            //{
+            //    id = styleCache.Count + 1;
+            //    styleCache.Add(key, id);
+            //    return false;
+            //}
         }
 
         internal static bool IsAddedToCache(ExcelXfs xfs, Dictionary<string, int> styleCache, out int id, int bottomStyleId = -1, int rightStyleId = -1)
         {
             var key = AttributeTranslator.GetStyleKey(xfs);
             if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
+
+            return IsAddedToCacheBase(styleCache, key, out id);
+            //if (styleCache.ContainsKey(key))
+            //{
+            //    id = styleCache[key];
+            //    return true;
+            //}
+            //else
+            //{
+            //    id = styleCache.Count + 1;
+            //    styleCache.Add(key, id);
+            //    return false;
+            //}
+        }
+
+        private static bool IsAddedToCacheBase(Dictionary<string, int> styleCache, string key, out int id)
+        {
             if (styleCache.ContainsKey(key))
             {
                 id = styleCache[key];

@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
 
         internal void WritePropertyDeclaration(Declaration declaration, bool minify)
         {
-            WriteCssItem($"{declaration.Name}: {declaration.ValuesToString()};", minify);
+            WriteCssItem($"{declaration.Name}:{declaration.ValuesToString()};", minify);
         }
 
         internal void WriteRule(CssRule rule, bool minify)

@@ -8,13 +8,16 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class ExporterContext
     {
-        internal readonly Dictionary<string, int> _styleCache = new Dictionary<string, int>();
-        internal readonly Dictionary<string, int> _dxfStyleCache = new Dictionary<string, int>();
+        //internal readonly Dictionary<string, int> _styleCache = new Dictionary<string, int>();
+        //internal readonly Dictionary<string, int> _dxfStyleCache = new Dictionary<string, int>();
+
+        internal readonly StyleCache _styleCache = new StyleCache();
+        internal readonly StyleCache _dxfStyleCache = new StyleCache();
 
         internal ExporterContext() 
         {
-            _styleCache = new Dictionary<string, int>();
-            _dxfStyleCache = new Dictionary<string, int>();
+            //_styleCache = new Dictionary<string, int>();
+            //_dxfStyleCache = new Dictionary<string, int>();
         }
 
 

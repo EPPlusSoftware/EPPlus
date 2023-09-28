@@ -100,6 +100,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                     {
                         var ma = ws.MergedCells[ce.Row, ce.Column];
+                        var xfs = styles.CellXfs[ce.Value._styleId];
                         if (ma != null)
                         {
                             if (address == null || address.Address != ma)
@@ -116,15 +117,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
                             var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
 
-                            var stylesList = new List<ExcelXfs>
+
+                            if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._styleCache, out int id, bottomStyleId, rightStyleId))
                             {
-                                styles.CellXfs[ce.Value._styleId],
+
+                                var stylesList = new List<ExcelXfs>
+                                {
+                                xfs,
                                 styles.CellXfs[bottomStyleId],
                                 styles.CellXfs[rightStyleId]
-                            };
+                                };
 
-                            if (!StyleToCss.IsAddedToCache(stylesList[0], _exporterContext._dxfStyleCache, out int id))
-                            {
                                 if (AttributeTranslator.HasStyle(stylesList[0]) || stylesList[1].BorderId > 0 || stylesList[2].BorderId > 0)
                                 {
                                     cssTranslator.AddToCollection(stylesList, styles.GetNormalStyle(), id);
@@ -133,15 +136,28 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         }
                         else
                         {
-                            var xfs = styles.CellXfs[ce.Value._styleId];
-
-                            if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._dxfStyleCache, out int id))
+                            if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._styleCache, out int id))
                             {
                                 if (AttributeTranslator.HasStyle(xfs))
                                 {
                                     cssTranslator.AddToCollection(xfs, styles.GetNormalStyle(), id);
                                 }
                             }
+
+                            //if (ce.CellAddress != null)
+                            //{
+                            //    if (_cfAtAddresses.ContainsKey(ce.CellAddress))
+                            //    {
+                            //        foreach (var cf in _cfAtAddresses[ce.CellAddress])
+                            //        {
+                            //            var idDxf = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
+                            //            if (idDxf != -1)
+                            //            {
+                            //                //await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
+                            //            }
+                            //        }
+                            //    }
+                            //}
                         }
                     }
                 }
