@@ -29,10 +29,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var nominalRate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var npery = ArgToInt(arguments, 1);
+
+            var npery = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
             if (nominalRate <= 0 || npery < 1)
                 return CompileResult.GetErrorResult(eErrorType.Num);
-            var result = (System.Math.Pow(nominalRate/npery + 1d, npery) - 1d);
+            var result = (Math.Pow(nominalRate/npery + 1d, npery) - 1d);
             return CreateResult(result, DataType.Decimal);
         }
     }

@@ -40,7 +40,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var startIndex = 0;
             if (arguments.Count > 2)
             {
-                startIndex = ArgToInt(arguments, 2) - 1;
+                startIndex = ArgToInt(arguments, 2, out ExcelErrorValue e2) - 1;
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
             var result = searchIn.IndexOf(search, startIndex, System.StringComparison.OrdinalIgnoreCase);
             if (result == -1)

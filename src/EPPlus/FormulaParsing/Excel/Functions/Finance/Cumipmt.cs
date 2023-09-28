@@ -31,12 +31,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CreateResult(e1.Type);
-            var nper = ArgToInt(arguments, 1);
-            var pv = ArgToDecimal(arguments, 2, out ExcelErrorValue e2);
+            
+            var nper = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CreateResult(e2.Type);
-            var startPeriod = ArgToInt(arguments, 3);
-            var endPeriod = ArgToInt(arguments, 4);
-            var type = ArgToInt(arguments, 5);
+            
+            var pv = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CreateResult(e3.Type);
+            
+            var startPeriod = ArgToInt(arguments, 3, out ExcelErrorValue e4);
+            if(e4 != null) return CreateResult(e4.Type);
+
+            var endPeriod = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+            if (e5 != null) return CreateResult(e5.Type);
+            
+            var type = ArgToInt(arguments, 5, out ExcelErrorValue e6);
+            if (e6 != null) return CreateResult(e6.Type);
+            
             if (type < 0 || type > 1) return CompileResult.GetErrorResult(eErrorType.Value);
             var result = CumipmtImpl.GetCumipmt(rate, nper, pv, startPeriod, endPeriod, (PmtDue)type);
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);

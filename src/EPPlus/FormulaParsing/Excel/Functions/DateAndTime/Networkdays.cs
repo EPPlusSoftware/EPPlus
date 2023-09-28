@@ -29,8 +29,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var startDate = DateTime.FromOADate(ArgToInt(arguments, 0));
-            var endDate = DateTime.FromOADate(ArgToInt(arguments, 1));
+            var sd = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var startDate = DateTime.FromOADate(sd);
+
+            var ed = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var endDate = DateTime.FromOADate(ed);
+
             var calculator = new WorkdayCalculator();
             var result = calculator.CalculateNumberOfWorkdays(startDate, endDate);
             if (arguments.Count > 2)

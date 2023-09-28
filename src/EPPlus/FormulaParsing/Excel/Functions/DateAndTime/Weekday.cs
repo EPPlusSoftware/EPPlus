@@ -40,7 +40,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             var serialNumber = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CreateResult(e1.Type);
             if (IsValidSerialNumber(serialNumber) == false) return CompileResult.GetErrorResult(eErrorType.Num);
-            var returnType = arguments.Count > 1 ? ArgToInt(arguments, 1) : 1;
+            var returnType = 1;
+            
+            if (arguments.Count > 1)
+            {
+                returnType = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+                if(e2 != null) return CreateResult(e2.Type);
+            }
+                    
             return CreateResult(CalculateDayOfWeek(DateTime.FromOADate(serialNumber), returnType), DataType.Integer);
         }
 

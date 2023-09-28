@@ -39,12 +39,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             int width = 0, height = 0;
             if (arguments.Count > 3)
             {
-                height = ArgToInt(arguments, 3);
+                height = ArgToInt(arguments, 3, out ExcelErrorValue e3);
+                if(e3 != null) return CompileResult.GetErrorResult(e3.Type);
                 if (height == 0) return new CompileResult(eErrorType.Ref);
             }
             if (arguments.Count > 4)
             {
-                width = ArgToInt(arguments, 4);
+                width = ArgToInt(arguments, 4, out ExcelErrorValue e4);
+                if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
                 if (width == 0) return new CompileResult(eErrorType.Ref);
             }
             var adr = arg0.Address;

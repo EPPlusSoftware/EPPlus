@@ -31,16 +31,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var cost = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CreateResult(e1.Type);
+            
             var salvage = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
             if(e2 != null) return CreateResult(e2.Type);
+            
             var life = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
             if(e3 != null) return CreateResult(e3.Type);
+            
             var period = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
             if (e4 != null) return CreateResult(e4.Type);
+            
             var month = 12;
             if (arguments.Count >= 5)
             {
-                month = ArgToInt(arguments, 4);
+                month = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
 
             if (cost < 0 || salvage < 0 || life <= 0 || period <= 0 || month <= 0 || month > 12)

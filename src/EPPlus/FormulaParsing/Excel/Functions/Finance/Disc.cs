@@ -31,7 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             int basis = 0;
             if(arguments.Count > 4)
             {
-                basis = ArgToInt(arguments, 4);
+                basis = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if(e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
             if(maturity <= settlement || pr <= 0 || redemption <= 0 || (basis < 0 || basis > 4))
             {
