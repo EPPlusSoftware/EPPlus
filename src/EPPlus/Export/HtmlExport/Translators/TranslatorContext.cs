@@ -22,6 +22,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         internal string IndentUnit;
 
         internal CssExclude Exclude;
+        internal CssExportSettings Settings;
 
         //internal ExcelXfs Xfs => _xfs;
         //internal ExcelNamedStyleXml Ns => _ns;
@@ -32,9 +33,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         private TranslatorBase strategy;
 
-        public TranslatorContext(CssExclude exclude) 
+        public TranslatorContext(HtmlRangeExportSettings settings) 
         {
-            Exclude = exclude;
+            Exclude = settings.Css.CssExclude;
+            Settings = settings.Css;
+
         }
 
         public TranslatorContext(CssExclude exclude, TranslatorBase concreteStrategy)

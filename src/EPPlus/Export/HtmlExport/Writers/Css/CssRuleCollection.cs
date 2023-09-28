@@ -44,6 +44,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
             _cssRules.Add(toBeAdded);
         }
 
+        internal void AddRule(CssRule rule) 
+        {
+            _cssRules.Add(rule);
+        }
+
         internal void RemoveRule(CssRule rule)
         {
             _cssRules.Remove(rule);

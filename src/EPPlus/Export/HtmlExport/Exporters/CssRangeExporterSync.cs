@@ -83,10 +83,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude);
 
-            styleWriter.RenderAdditionalAndFontCss(TableClass);
-
             var cssTranslator = new CssRangeTranslator(_ranges._list, _settings);
             var trueWriter = new CssTrueWriter(sw);
+
+            cssTranslator.AddSharedClasses(TableClass);
 
             var addedTableStyles = new HashSet<TableStyles>();
             foreach (var range in _ranges._list)
