@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.RichData.Types;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 
@@ -34,7 +33,6 @@ namespace OfficeOpenXml.RichData
             }
         }
         internal ZipPackagePart Part { get { return _part; } }
-
         private void ReadXml(Stream stream)
         {
            var xr = XmlReader.Create(stream);

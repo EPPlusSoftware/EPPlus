@@ -119,17 +119,18 @@ namespace OfficeOpenXml.Drawing
         internal static ExcelImageInfo GetImageBounds(byte[] image, ePictureType type, ExcelPackage pck)
         {
             var ret = new ExcelImageInfo();
-            var ms = RecyclableMemory.GetStream(image);
             var s = pck.Settings.ImageSettings;
-
-            if(s.GetImageBounds(ms, type, out double width, out double height, out double horizontalResolution, out double verticalResolution)==false)
+            using(var ms = RecyclableMemory.GetStream(image))
             {
-                throw (new InvalidOperationException($"No image handler for image type {type}"));
+                if (s.GetImageBounds(ms, type, out double width, out double height, out double horizontalResolution, out double verticalResolution) == false)
+                {
+                    throw (new InvalidOperationException($"No image handler for image type {type}"));
+                }
+                ret.Width = width;
+                ret.Height = height;
+                ret.HorizontalResolution = horizontalResolution;
+                ret.VerticalResolution = verticalResolution;
             }
-            ret.Width = width;
-            ret.Height = height;
-            ret.HorizontalResolution = horizontalResolution;
-            ret.VerticalResolution = verticalResolution;
             return ret;
         }
         internal static string GetExtension(Uri uri)
