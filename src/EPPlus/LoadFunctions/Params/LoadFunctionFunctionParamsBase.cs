@@ -46,5 +46,15 @@ namespace OfficeOpenXml.LoadFunctions
         {
             get; set;
         } = null;
+
+        /// <summary>
+        /// If true, EPPlus will add the built in (default) styles for hyperlinks and apply them on any member
+        /// that is of the <see cref="Uri"/> or <see cref="ExcelHyperLink"/> types. Default value is true.
+        /// </summary>
+        public bool UseBuiltInStylesForHyperlinks
+        {
+            get;
+            set;
+        } = true;
     }
 }
