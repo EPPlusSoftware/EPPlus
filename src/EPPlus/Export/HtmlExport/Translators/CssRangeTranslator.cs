@@ -17,6 +17,9 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
@@ -31,6 +34,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         ExcelTheme _theme;
 
         CssRuleCollection _ruleCollection;
+
+        internal protected HashSet<string> _images = new HashSet<string>();
 
         internal CssRuleCollection RuleCollection => _ruleCollection;
 
@@ -49,6 +54,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
+            
         }
 
         private void Init(List<ExcelRangeBase> ranges)
@@ -104,12 +110,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             var worksheets = _ranges.Select(x => x.Worksheet).Distinct().ToList();
             foreach (var ws in worksheets)
             {
-                var clsName = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
+                var clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
                 CssRule widthRule = new CssRule(clsName);
                 widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px");
 
-                var clsName2 = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
-                CssRule heightRule = new CssRule(clsName2);
+                clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
+                CssRule heightRule = new CssRule(clsName);
                 heightRule.AddDeclaration("height", $"{(int)(ws.DefaultRowHeight / 0.75)}px");
 
                 _ruleCollection.AddRule(widthRule);
@@ -163,6 +169,84 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
 
             _ruleCollection.CssRules.Add(styleClass);
+        }
+
+        internal void AddPictureToCss(HtmlImage p)
+        {
+            var translator = new CssImageTranslator(p);
+
+            if (translator.type == null) return;
+
+            var pc = (IPictureContainer)p.Picture;
+
+            if (_images.Contains(pc.ImageHash) == false)
+            {
+                string imageFileName = HtmlExportImageUtil.GetPictureName(p);
+                var imgRule = new CssRule($"img.{_settings.StyleClassPrefix}image-{imageFileName}");
+
+                _context.SetTranslator(translator);
+                _context.AddDeclarations(imgRule);
+
+                _ruleCollection.AddRule(imgRule);
+                _images.Add(pc.ImageHash);
+            }
+            AddPicturePropertiesToCss(p);
+        }
+
+        private void AddPicturePropertiesToCss(HtmlImage image)
+        {
+            string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            var width = image.Picture.GetPixelWidth();
+            var height = image.Picture.GetPixelHeight();
+
+            var imgProperties = new CssRule($"img.{_settings.StyleClassPrefix}image-prop-{imageName}");
+
+            if (_settings.Pictures.KeepOriginalSize == false)
+            {
+                if (width != image.Picture.Image.Bounds.Width)
+                {
+                    imgProperties.AddDeclaration("max-width", $"{width:F0}px");
+                }
+                if (height != image.Picture.Image.Bounds.Height)
+                {
+                    imgProperties.AddDeclaration("max-height", $"{height:F0}px");
+                }
+            }
+
+            if (image.Picture.Border.LineStyle != null && _settings.Pictures.CssExclude.Border == false)
+            {
+                var border = GetDrawingBorder(image.Picture);
+                imgProperties.AddDeclaration("border", border);
+            }
+            RuleCollection.AddRule(imgProperties);
+        }
+
+        private string GetDrawingBorder(ExcelPicture picture)
+        {
+            Color color = picture.Border.Fill.Color;
+            if (color.IsEmpty) return "";
+            string lineStyle = $"{picture.Border.Width}px";
+
+            switch (picture.Border.LineStyle.Value)
+            {
+                case eLineStyle.Solid:
+                    lineStyle += " solid";
+                    break;
+                case eLineStyle.Dash:
+                case eLineStyle.LongDashDot:
+                case eLineStyle.LongDashDotDot:
+                case eLineStyle.SystemDash:
+                case eLineStyle.SystemDashDot:
+                case eLineStyle.SystemDashDotDot:
+                    lineStyle += $" dashed";
+                    break;
+                case eLineStyle.Dot:
+                    lineStyle += $" dot";
+                    break;
+            }
+
+            lineStyle += " #" + color.ToArgb().ToString("x8").Substring(2);
+            return lineStyle;
         }
     }
 }

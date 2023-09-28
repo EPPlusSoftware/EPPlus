@@ -23,6 +23,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         internal CssExclude Exclude;
         internal CssExportSettings Settings;
+        internal HtmlPictureSettings Pictures;
 
         //internal ExcelXfs Xfs => _xfs;
         //internal ExcelNamedStyleXml Ns => _ns;
@@ -37,6 +38,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             Exclude = settings.Css.CssExclude;
             Settings = settings.Css;
+            Pictures = settings.Pictures;
         }
 
         public TranslatorContext(CssExclude exclude, TranslatorBase concreteStrategy)
