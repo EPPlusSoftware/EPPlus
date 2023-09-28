@@ -27,8 +27,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "7.0",
         Description = "Returns the probability of a trial result using a binomial distribution.")]
-
-
     internal class BinomDotDistDotRange : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
