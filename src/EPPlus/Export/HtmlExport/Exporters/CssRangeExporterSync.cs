@@ -81,8 +81,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void RenderCellCss(StreamWriter sw)
         {
-            var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude);
-
             var cssTranslator = new CssRangeTranslator(_ranges._list, _settings);
             var trueWriter = new CssTrueWriter(sw);
 
@@ -117,31 +115,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
                             var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
 
+                            int id = GetCacheIdAndStyle(xfs, out bool hasStyle, bottomStyleId, rightStyleId);
 
-                            if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._styleCache, out int id, bottomStyleId, rightStyleId))
+                            var stylesList = new List<ExcelXfs>
                             {
+                            xfs,
+                            styles.CellXfs[bottomStyleId],
+                            styles.CellXfs[rightStyleId]
+                            };
 
-                                var stylesList = new List<ExcelXfs>
-                                {
-                                xfs,
-                                styles.CellXfs[bottomStyleId],
-                                styles.CellXfs[rightStyleId]
-                                };
-
-                                if (AttributeTranslator.HasStyle(stylesList[0]) || stylesList[1].BorderId > 0 || stylesList[2].BorderId > 0)
-                                {
-                                    cssTranslator.AddToCollection(stylesList, styles.GetNormalStyle(), id);
-                                }
+                            if (hasStyle || stylesList[1].BorderId > 0 || stylesList[2].BorderId > 0)
+                            {
+                                cssTranslator.AddToCollection(stylesList, styles.GetNormalStyle(), id);
                             }
                         }
                         else
                         {
-                            if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._styleCache, out int id))
+                            var id = GetCacheIdAndStyle(xfs, out bool hasStyle);
+
+                            if(hasStyle)
                             {
-                                if (AttributeTranslator.HasStyle(xfs))
-                                {
-                                    cssTranslator.AddToCollection(xfs, styles.GetNormalStyle(), id);
-                                }
+                                cssTranslator.AddToCollection(xfs, styles.GetNormalStyle(), id);
                             }
 
                             //if (ce.CellAddress != null)
@@ -162,8 +156,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     }
                 }
 
-                WriteAndClearCollection(cssTranslator.RuleCollection, trueWriter);
-
                 if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
                 {
                     var table = range.GetTable();
@@ -183,10 +175,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 LoadRangeImages(_ranges._list);
                 foreach (var p in _rangePictures)
                 {
-                    styleWriter.AddPictureToCss(p);
+                    cssTranslator.AddPictureToCss(p);
                 }
             }
-            styleWriter.FlushStream();
+
+            WriteAndClearCollection(cssTranslator.RuleCollection, trueWriter);
+            sw.Flush();
         }
 
         internal void WriteAndClearCollection(CssRuleCollection collection, CssTrueWriter writer)
@@ -197,6 +191,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
 
             collection.CssRules.Clear();
+        }
+
+        internal int GetCacheIdAndStyle(ExcelXfs xfs, out bool hasStyle, int bottomStyleId = -1, int rightStyleId = -1)
+        {
+            var key = AttributeTranslator.GetStyleKey(xfs);
+            if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
+
+            if (!_exporterContext._styleCache.IsAdded(key, out int id))
+            {
+                if(AttributeTranslator.HasStyle(xfs))
+                {
+                    hasStyle = true;
+                    return id;
+                }
+
+                hasStyle = false;
+                return id;
+            }
+
+            hasStyle = false;
+            return -1;
         }
 
     }

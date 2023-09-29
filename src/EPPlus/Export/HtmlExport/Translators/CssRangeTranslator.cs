@@ -131,6 +131,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
         internal void AddToCollection(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, int id)
         {
+            if(id < 0)
+            {
+                return;
+            }
+
             var xfs = xfsList[0];
 
             var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
@@ -196,57 +201,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         private void AddPicturePropertiesToCss(HtmlImage image)
         {
             string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
-            var width = image.Picture.GetPixelWidth();
-            var height = image.Picture.GetPixelHeight();
 
             var imgProperties = new CssRule($"img.{_settings.StyleClassPrefix}image-prop-{imageName}");
+            _context.SetTranslator(new ImagePropertiesTranslator(image));
+            _context.AddDeclarations(imgProperties);
 
-            if (_settings.Pictures.KeepOriginalSize == false)
-            {
-                if (width != image.Picture.Image.Bounds.Width)
-                {
-                    imgProperties.AddDeclaration("max-width", $"{width:F0}px");
-                }
-                if (height != image.Picture.Image.Bounds.Height)
-                {
-                    imgProperties.AddDeclaration("max-height", $"{height:F0}px");
-                }
-            }
-
-            if (image.Picture.Border.LineStyle != null && _settings.Pictures.CssExclude.Border == false)
-            {
-                var border = GetDrawingBorder(image.Picture);
-                imgProperties.AddDeclaration("border", border);
-            }
             RuleCollection.AddRule(imgProperties);
-        }
-
-        private string GetDrawingBorder(ExcelPicture picture)
-        {
-            Color color = picture.Border.Fill.Color;
-            if (color.IsEmpty) return "";
-            string lineStyle = $"{picture.Border.Width}px";
-
-            switch (picture.Border.LineStyle.Value)
-            {
-                case eLineStyle.Solid:
-                    lineStyle += " solid";
-                    break;
-                case eLineStyle.Dash:
-                case eLineStyle.LongDashDot:
-                case eLineStyle.LongDashDotDot:
-                case eLineStyle.SystemDash:
-                case eLineStyle.SystemDashDot:
-                case eLineStyle.SystemDashDotDot:
-                    lineStyle += $" dashed";
-                    break;
-                case eLineStyle.Dot:
-                    lineStyle += $" dot";
-                    break;
-            }
-
-            lineStyle += " #" + color.ToArgb().ToString("x8").Substring(2);
-            return lineStyle;
         }
     }
 }
