@@ -131,11 +131,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
         internal void AddToCollection(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, int id)
         {
-            if(id < 0)
-            {
-                return;
-            }
-
             var xfs = xfsList[0];
 
             var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
@@ -203,7 +198,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
 
             var imgProperties = new CssRule($"img.{_settings.StyleClassPrefix}image-prop-{imageName}");
-            _context.SetTranslator(new ImagePropertiesTranslator(image));
+            _context.SetTranslator(new CssImagePropertiesTranslator(image));
             _context.AddDeclarations(imgProperties);
 
             RuleCollection.AddRule(imgProperties);

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.Writers;
@@ -99,6 +100,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     {
                         var ma = ws.MergedCells[ce.Row, ce.Column];
                         var xfs = styles.CellXfs[ce.Value._styleId];
+                        var sc = new StyleChecker(xfs, _exporterContext._styleCache, styles);
+
                         if (ma != null)
                         {
                             if (address == null || address.Address != ma)
@@ -115,27 +118,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
                             var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
 
-                            int id = GetCacheIdAndStyle(xfs, out bool hasStyle, bottomStyleId, rightStyleId);
-
-                            var stylesList = new List<ExcelXfs>
+                            if(sc.ShouldAddWithBorders(bottomStyleId, rightStyleId))
                             {
-                            xfs,
-                            styles.CellXfs[bottomStyleId],
-                            styles.CellXfs[rightStyleId]
-                            };
-
-                            if (hasStyle || stylesList[1].BorderId > 0 || stylesList[2].BorderId > 0)
-                            {
-                                cssTranslator.AddToCollection(stylesList, styles.GetNormalStyle(), id);
+                                cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
                             }
                         }
                         else
                         {
-                            var id = GetCacheIdAndStyle(xfs, out bool hasStyle);
-
-                            if(hasStyle)
+                            if (sc.ShouldAdd())
                             {
-                                cssTranslator.AddToCollection(xfs, styles.GetNormalStyle(), id);
+                                cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
                             }
 
                             //if (ce.CellAddress != null)
@@ -191,27 +183,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
 
             collection.CssRules.Clear();
-        }
-
-        internal int GetCacheIdAndStyle(ExcelXfs xfs, out bool hasStyle, int bottomStyleId = -1, int rightStyleId = -1)
-        {
-            var key = AttributeTranslator.GetStyleKey(xfs);
-            if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
-
-            if (!_exporterContext._styleCache.IsAdded(key, out int id))
-            {
-                if(AttributeTranslator.HasStyle(xfs))
-                {
-                    hasStyle = true;
-                    return id;
-                }
-
-                hasStyle = false;
-                return id;
-            }
-
-            hasStyle = false;
-            return -1;
         }
 
     }

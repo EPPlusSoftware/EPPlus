@@ -7,19 +7,17 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
-    internal class ImagePropertiesTranslator : TranslatorBase
+    internal class CssImagePropertiesTranslator : TranslatorBase
     {
         double _width;
         double _height;
         ExcelImageInfo _bounds;
         ExcelDrawingBorder _border;
 
-        internal ImagePropertiesTranslator(HtmlImage image)
+        internal CssImagePropertiesTranslator(HtmlImage image)
         {
             _width = image.Picture.GetPixelWidth();
             _height = image.Picture.GetPixelHeight();
