@@ -32,8 +32,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var number = ArgToInt(arguments, 0, RoundingMethod.Floor);            
-            var type = arguments.Count() > 1 ? FirstArgumentToInt(arguments) : 0;
+            var number = ArgToInt(arguments, 0, RoundingMethod.Floor);
+            var type = 0;
+            if(arguments.Count > 1)
+            {
+                type = FirstArgumentToInt(arguments, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            }
+           
             if (type < 0 || type > 4) return CompileResult.GetErrorResult(eErrorType.Value);
             if (number < 0 || number > 3999) return CompileResult.GetErrorResult(eErrorType.Value);
             RomanBase func = new RomanClassic();
@@ -56,8 +62,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return CreateResult(func.Execute(number), DataType.String);
         }
-        private int FirstArgumentToInt(IList<FunctionArgument> arguments)
+        private int FirstArgumentToInt(IList<FunctionArgument> arguments, out ExcelErrorValue error)
         {
+            error = null;
             var arg = arguments[1];
 
             if (arg.DataType == DataType.Boolean
@@ -66,7 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 return boolValue ? 0 : 4;
             }
 
-            return ArgToInt(arguments, 1);
+            return ArgToInt(arguments, 1, out error);
         }
     }
 }

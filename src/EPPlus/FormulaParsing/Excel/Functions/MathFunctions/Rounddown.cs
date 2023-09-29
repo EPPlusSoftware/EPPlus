@@ -33,7 +33,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
             var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var nDecimals = ArgToInt(arguments, 1);
+            
+            var nDecimals = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
 
             var nFactor = number < 0 ? -1 : 1;
             number *= nFactor;

@@ -10,12 +10,13 @@
  *************************************************************************************************
   06/23/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,

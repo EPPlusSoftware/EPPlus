@@ -50,7 +50,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var type = 0;
             if(arguments.Count >= 5)
             {
-                type = ArgToInt(arguments, 4);
+                type = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
             var retVal = FvImpl.Fv(rate, nPer, pmt, pv, (PmtDue)type);
             if (retVal.HasError) return CompileResult.GetErrorResult(retVal.ExcelErrorType);

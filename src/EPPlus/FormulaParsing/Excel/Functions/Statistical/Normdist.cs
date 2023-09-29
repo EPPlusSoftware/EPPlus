@@ -27,6 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     internal class Normdist : NormalDistributionBase
     {
         public override int ArgumentMinLength => 4;
+
+        public override string NamespacePrefix => "_xlfn.";
+
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
         public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)

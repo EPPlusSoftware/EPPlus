@@ -35,7 +35,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             var startDay = DayOfWeek.Sunday;
             if (arguments.Count() > 1)
             {
-                var argStartDay = ArgToInt(arguments, 1);
+                var argStartDay = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
                 switch (argStartDay)
                 {
                     case 1:

@@ -69,7 +69,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             context.HiddenCellBehaviour = HiddenCellHandlingCategory.Subtotal;
-            var funcNum = ArgToInt(arguments, 0);
+            var funcNum = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
 
             var cellId = ExcelCellBase.GetCellId(context.CurrentCell.WorksheetIx, context.CurrentCell.Row, context.CurrentCell.Column);
             if (!context.SubtotalAddresses.Contains(cellId))

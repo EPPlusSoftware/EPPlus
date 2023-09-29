@@ -31,27 +31,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         {
             var rate = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var nPer = ArgToInt(arguments, 1);
-            var presentValue = ArgToDecimal(arguments, 2, out ExcelErrorValue e2);
+            
+            var nPer = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
-            var payEndOfPeriod = 0;
+
+            var presentValue = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            
             var futureValue = 0d;
             if (arguments.Count > 3)
             {
-                futureValue = ArgToDecimal(arguments, 3, out ExcelErrorValue e3);
-                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+                futureValue = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+                if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             }
-            
-            if (arguments.Count > 4) payEndOfPeriod = ArgToInt(arguments, 4);
+
+            var payEndOfPeriod = 0;
+            if (arguments.Count > 4)
+            {
+                payEndOfPeriod = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
+            }
+
             var result = InternalMethods.PMT_Internal(rate, nPer, presentValue, futureValue, payEndOfPeriod == 0 ? PmtDue.EndOfPeriod : PmtDue.BeginningOfPeriod);
             if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
 
             return CreateResult(result.Result, DataType.Decimal);
-        }
-
-        private static double GetInterest(double rate, double remainingAmount)
-        {
-            return remainingAmount * rate;
         }
     }
 }

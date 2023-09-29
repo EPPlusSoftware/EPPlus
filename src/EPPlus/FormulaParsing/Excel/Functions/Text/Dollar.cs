@@ -34,7 +34,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var decimals = 2;
             if(arguments.Count > 1)
             {
-                decimals = ArgToInt(arguments, 1);
+                decimals = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
             double result;
             if(decimals >= 0)

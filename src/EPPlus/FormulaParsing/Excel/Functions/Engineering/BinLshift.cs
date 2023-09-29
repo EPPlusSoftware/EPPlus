@@ -34,8 +34,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         {
             if (!IsNumeric(arguments.ElementAt(0).Value) || !IsNumeric(arguments.ElementAt(1).Value)) return CreateResult(eErrorType.Value);
             if (!IsInteger(arguments.ElementAt(0).Value) || !IsInteger(arguments.ElementAt(1).Value)) return CreateResult(eErrorType.Num);
-            var number = ArgToInt(arguments, 0);
-            var shiftAmount = ArgToInt(arguments, 1);
+            var number = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var shiftAmount = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (number < 0 || shiftAmount < 0) return CreateResult(eErrorType.Num);
             if (number > (System.Math.Pow(2, 48) - 1)) return CreateResult(eErrorType.Num);
             return CreateResult(number << shiftAmount, DataType.Integer);

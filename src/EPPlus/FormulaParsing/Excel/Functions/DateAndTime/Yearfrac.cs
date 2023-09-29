@@ -49,7 +49,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             var basis = 0;
             if (arguments.Count > 2)
             {
-                basis = ArgToInt(arguments, 2);
+                basis = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+                if(e3 != null) return CreateResult(e3.Type);
                 if (basis < 0 || basis > 4) return CreateResult(eErrorType.Num);
             }
             var func = context.Configuration.FunctionRepository.GetFunction("days360");
