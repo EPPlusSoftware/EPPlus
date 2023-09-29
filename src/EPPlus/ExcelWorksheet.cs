@@ -3499,7 +3499,7 @@ namespace OfficeOpenXml
                     var t = v.GetType();
                     if (t == typeof(Uri) || t == typeof(ExcelHyperLink))
                     {
-                        if (!hyperlinkStylesAdded)
+                        if (!hyperlinkStylesAdded && addHyperlinkStyles)
                         {
                             if (!Workbook.Styles.NamedStyles.ExistsKey("Hyperlink"))
                             {
@@ -3508,11 +3508,6 @@ namespace OfficeOpenXml
                                 hls.Style.Font.UnderLine = true;
                                 hls.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
                             }
-                            //if (!Workbook.Styles.NamedStyles.ExistsKey("Followed Hyperlink"))
-                            //{
-                            //    var fhls = Workbook.Styles.CreateNamedStyle("Followed Hyperlink");
-                            //    fhls.BuildInId = 9;
-                            //}
                             hyperlinkStylesAdded = true;
                         }
                         Cells[row, col].StyleName = "Hyperlink";

@@ -45,7 +45,7 @@ namespace EPPlusTest.LoadFunctions
     [TestClass]
     public class LoadFromCollectionTests : TestBase
     {
-        [EpplusTable(AutofitColumns = true, PrintHeaders = true, TableStyle = TableStyles.Dark1)]
+        [EpplusTable(AutofitColumns = true, PrintHeaders = true, TableStyle = TableStyles.Light10)]
         internal class Company
         {
             public Company(int id, string name, Uri url)
@@ -555,12 +555,12 @@ namespace EPPlusTest.LoadFunctions
         public void LoadWithAttributesTest()
         {
             var l = new List<Company>();
-            l.Add(new Company(1, "EPPlus Softeware AB", new Uri("https://epplussoftware.com")));
+            l.Add(new Company(1, "EPPlus Software AB", new Uri("https://epplussoftware.com")));
 
             using (var package = OpenPackage("LoadFromCollectionAttr.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].LoadFromCollection(l);
+                sheet.Cells["A1"].LoadFromCollection(l, x => x.UseBuiltInStylesForHyperlinks = true);
 
                 SaveAndCleanup(package);
             }
