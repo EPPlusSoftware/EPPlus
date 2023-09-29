@@ -495,13 +495,7 @@ namespace OfficeOpenXml
                 if (_autoFilter == null)
                 {
                     CheckSheetTypeAndNotDisposed();
-                    if(GetXmlNodeString($"{AutoFilterPath}/@ref") == "")
-                    {
-                        SetXmlNodeString($"{AutoFilterPath}/@ref", "");
-                    }
-
-                    var node = _worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
-                    _autoFilter = new ExcelAutoFilter(NameSpaceManager, node, this);
+                    _autoFilter = new ExcelAutoFilter(NameSpaceManager, TopNode, this);
                 }
                 return _autoFilter;
             }
@@ -3511,13 +3505,14 @@ namespace OfficeOpenXml
                             {
                                 var hls = Workbook.Styles.CreateNamedStyle("Hyperlink");
                                 hls.BuildInId = 8;
-
+                                hls.Style.Font.UnderLine = true;
+                                hls.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
                             }
-                            if (!Workbook.Styles.NamedStyles.ExistsKey("Followed Hyperlink"))
-                            {
-                                var fhls = Workbook.Styles.CreateNamedStyle("Followed Hyperlink");
-                                fhls.BuildInId = 9;
-                            }
+                            //if (!Workbook.Styles.NamedStyles.ExistsKey("Followed Hyperlink"))
+                            //{
+                            //    var fhls = Workbook.Styles.CreateNamedStyle("Followed Hyperlink");
+                            //    fhls.BuildInId = 9;
+                            //}
                             hyperlinkStylesAdded = true;
                         }
                         Cells[row, col].StyleName = "Hyperlink";

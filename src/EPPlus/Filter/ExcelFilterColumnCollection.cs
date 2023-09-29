@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Filter
         internal ExcelFilterColumnCollection(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelAutoFilter autofilter) : base(namespaceManager, topNode)
         {
             _autoFilter = autofilter;
-            foreach (XmlElement node in topNode.SelectNodes("d:filterColumn", namespaceManager))
+            foreach (XmlElement node in topNode.SelectNodes("d:autoFilter/d:filterColumn", namespaceManager))
             {
                 if(!int.TryParse(node.Attributes["colId"].Value, out int position))
                 {
@@ -91,6 +91,11 @@ namespace OfficeOpenXml.Filter
 
         private XmlElement GetColumnNode(int position, string topNodeName)
         {
+            if (TopNode.LocalName != "autoFilter")
+            {
+                TopNode  = _autoFilter.CreateAutoFilterTopNode();
+            }
+
             XmlElement node = TopNode.OwnerDocument.CreateElement("filterColumn", ExcelPackage.schemaMain);
             node.SetAttribute("colId", position.ToString());
             var subNode = TopNode.OwnerDocument.CreateElement(topNodeName, ExcelPackage.schemaMain);
@@ -233,7 +238,10 @@ namespace OfficeOpenXml.Filter
         /// </summary>
         public void Clear()
         {
-            _columns.Clear();
+            while(_columns.Count > 0 )
+            {
+                Remove(_columns[0]);
+            }
         }
 
     }
