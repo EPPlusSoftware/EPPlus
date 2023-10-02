@@ -45,6 +45,8 @@ namespace OfficeOpenXml.LoadFunctions
 
         public string NumberFormat { get; set; }
 
+        public bool UseBuiltInHyperlinkStyle { get; set; }
+
         public RowFunctions TotalsRowFunction { get; set; }
 
         public string TotalsRowFormula { get; set; }

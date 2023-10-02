@@ -29,7 +29,11 @@ namespace OfficeOpenXml.LoadFunctions
             PrintHeaders = parameters.PrintHeaders;
             TableStyle = parameters.TableStyle;
             TableName = parameters.TableName?.Trim();
+
+            _useBuiltInStylesForHyperlinks = parameters.UseBuiltInStylesForHyperlinks;
         }
+
+        private readonly bool _useBuiltInStylesForHyperlinks;
 
         /// <summary>
         /// The range to which the data should be loaded
@@ -95,7 +99,7 @@ namespace OfficeOpenXml.LoadFunctions
             }
             else
             {
-                ws.SetRangeValueInner(Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1, values, true);
+                ws.SetRangeValueInner(Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1, values, true, _useBuiltInStylesForHyperlinks);
             }
 
 
