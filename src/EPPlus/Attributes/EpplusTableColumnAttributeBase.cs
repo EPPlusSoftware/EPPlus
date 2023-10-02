@@ -61,6 +61,15 @@ namespace OfficeOpenXml.Attributes
         }
 
         /// <summary>
+        /// Indicates whether the Built in (default) hyperlink style should be
+        /// applied to hyperlinks or not. Default value is true.
+        /// </summary>
+        public bool UseBuiltInHyperlinkStyle
+        {
+            get; set;
+        } = true;
+
+        /// <summary>
         /// If not <see cref="RowFunctions.None"/> the last cell in the column (the totals row) will contain a formula of the specified type.
         /// </summary>
         public RowFunctions TotalsRowFunction
