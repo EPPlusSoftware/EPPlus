@@ -102,6 +102,7 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 * The expression handling is totally rewritten and now uses reversed polish notation instead of an expression tree. This change affects internal classes only.
 * The `CompileResult` class has moved to a new namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
 * Adding defined names referencing addresses will now be added as fixed addresses (i.e $A$1), unless the `allowRelativeAddress` parameter of the `ExcelNamedRangeCollection.Add` method is set to true.
+### `ExcelWorksheet.AutofilterAddress` is now obsolete. Use `ExcelWorksheet.Autofilter.Address` instead. `ExcelWorksheet.Autofilter` will now always be set instead of being null if no autofilter was present.
 #### ConditionalFormatting
 * Updating ConditionalFormatting via the XML DOM will not work as read and write is performed on load/save.
 * The base class `ConditionalFormattingRule` and all derived classes no longer contain the Node property.
