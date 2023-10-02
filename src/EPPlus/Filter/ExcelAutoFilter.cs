@@ -29,9 +29,9 @@ namespace OfficeOpenXml.Filter
         {
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = worksheet;
-            if (GetXmlNodeString("@ref") != "")
+            if (GetXmlNodeString("d:autoFilter/@ref") != "")
             {
-                Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
+                Address = new ExcelAddressBase(GetXmlNodeString("d:autoFilter/@ref"));
             }
         }
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelTable table) : base(namespaceManager, topNode)
@@ -39,9 +39,9 @@ namespace OfficeOpenXml.Filter
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = table.WorkSheet;
             _table = table;
-            if(GetXmlNodeString("@ref") != "")
+            if(GetXmlNodeString("d:autoFilter/@ref") != "")
             {
-                Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
+                Address = new ExcelAddressBase(GetXmlNodeString("d:autoFilter/@ref"));
             }
         }
 
@@ -98,7 +98,7 @@ namespace OfficeOpenXml.Filter
                 _worksheet.CheckSheetTypeAndNotDisposed();
                 if(_address == null)
                 {
-                    string address = GetXmlNodeString("@ref");
+                    string address = GetXmlNodeString("d:autoFilter/@ref");
                     if (address == "")
                     {
                         _address = null;
@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Filter
 
                 if (value == null)
                 {
-                    DeleteAllNode($"@ref");
+                    DeleteAllNode($"d:autoFilter/@ref");
                     _columns = null;
                 }
                 else
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Filter
                         _columns = new ExcelFilterColumnCollection(NameSpaceManager, TopNode, this);
                     }
 
-                    SetXmlNodeString($"@ref", value.Address);
+                    SetXmlNodeString($"d:autoFilter/@ref", value.Address);
                 }
 
                 _address = value;
@@ -158,6 +158,17 @@ namespace OfficeOpenXml.Filter
             _columns.Clear();
             _table = null;
             Address = null;
+        }
+        internal XmlNode CreateAutoFilterTopNode()
+        {
+            if(_table==null)
+            {
+                return _worksheet.CreateNode("d:autoFilter");
+            }
+            else
+            {
+                return _table.CreateNode("d:autoFilter");
+            }
         }
     }
 }
