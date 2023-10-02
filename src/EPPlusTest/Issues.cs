@@ -38,11 +38,13 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.CompundDocument;
+using OfficeOpenXml.VBA;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -4576,7 +4578,7 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets["Components"];
                 var table = ws.Tables[0];
-                table.Columns.Insert(1,2);
+                table.Columns.Insert(1, 2);
                 SaveWorkbook("i854-2-Insert.xlsx", p);
             }
         }
@@ -4840,7 +4842,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("SRK2016.xlsx"))
             {
-                foreach(var ws in p.Workbook.Worksheets)
+                foreach (var ws in p.Workbook.Worksheets)
                 {
                     if (ws.Names.ContainsKey("_xlnm.Print_Area") && ws.Names.ContainsKey("Print_Area"))
                     {
@@ -4929,7 +4931,7 @@ namespace EPPlusTest
             using (var p = OpenPackage("tableCopyTest.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("sheet1");
-                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");               
+                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");
 
                 tableSheet.Cells[1, 1].Value = "Country";
                 tableSheet.Cells[2, 1].Value = "England";
@@ -4947,7 +4949,7 @@ namespace EPPlusTest
 
                 var table = tableSheet.Tables.Add(new ExcelAddress("A1:B11"), "Table1");
 
-                for (int i =  2; i < 7; i++)
+                for (int i = 2; i < 7; i++)
                 {
                     ws.Cells[i, 1].Value = tableSheet.Cells[i, 1].Value;
                     //If column 2 row i has the correct city to the country in A/table
@@ -5007,7 +5009,7 @@ namespace EPPlusTest
                 int columnCount = startColumn;
                 sheet.InsertRow(5, sheetRows - 1);
 
-                OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList validationList = 
+                OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList validationList =
                     sheet.DataValidations.AddListValidation(sheet.Cells[startRow, columnCount, sheetRows - 1, columnCount].Address);
 
                 SaveAndCleanup(p);
@@ -5214,7 +5216,14 @@ namespace EPPlusTest
                 Assert.AreEqual(expected, sheet.Cells["C1"].Value);
             }
         }
-
+        [TestMethod]
+        public void ReadProblem()
+        {
+            using (var package = OpenTemplatePackage("OversizedSheet.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+            }
+        }
         [TestMethod]
         public void i519()
         {
@@ -5253,6 +5262,16 @@ namespace EPPlusTest
                 //note that rows stay hidden even after the filter is removed
 
                 package.Save();
+            }
+        }
+        [TestMethod]
+        public void i1079()
+        {
+            using (var package = OpenTemplatePackage("i1079.xlsm"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.Calculate();
+                Assert.AreEqual(1d, ws.Cells["A1"].Value);
             }
         }
     }

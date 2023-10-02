@@ -1,4 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.10
+### Minor Feature
+* Hyperlinks loaded via the LoadFromCollection method will now be styled with the built-in Hyperlink Style. This style will also be added to the NamedStyles collection of the workbook if it does not exist.
+### Fixed issue
+* LoadFromCollection filter nested class properties-based on the supplied list of MemberInfo 
+* Fixed behaviour for SUBTOTAL with filters in calculations 
+* Performance improvement and handling of DateTime null values in ToDataTable()
+* Auto filter was not always removed when when ExcelWorksheet.AutoFilterAddress was set to null.
+* Some workbooks could not be loaded due to the worksheet's rolling buffer being too small in some scenarios.
+* Fixed a performance issue when adding comments and controls. 
+
 ## Version 6.2.9
 ### Fixed issue
 * Fixed an issue where empty DataValidationnodes caused a corrupt workbook.
