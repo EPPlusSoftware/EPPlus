@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Filter
             XmlElement node;
             if (position >= _autoFilter.Address.Columns)
             {
-                throw (new ArgumentOutOfRangeException($"Position {position} is outside of the range if the filter collection"));
+                throw (new ArgumentOutOfRangeException($"Position {position} is outside the range of the filter collection"));
             }
             if (_columns.ContainsKey(position))
             {
