@@ -1125,8 +1125,9 @@ namespace OfficeOpenXml
             var xr = XmlReader.Create(stream, new XmlReaderSettings()
             {
                 DtdProcessing = DtdProcessing.Prohibit,
-                IgnoreWhitespace = true
+                IgnoreWhitespace = true,
             });
+            
 #else
             var xr = new XmlTextReader(stream);
 #if NET35
@@ -1134,7 +1135,7 @@ namespace OfficeOpenXml
 #else
             xr.DtdProcessing = DtdProcessing.Prohibit;
 #endif
-            xr.WhitespaceHandling = WhitespaceHandling.None;
+            xr.WhitespaceHandling = WhitespaceHandling.Significant;
 #endif            
 
             LoadColumns(xr);    //columnXml

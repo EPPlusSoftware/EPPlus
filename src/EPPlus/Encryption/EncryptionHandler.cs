@@ -333,18 +333,20 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] CreateStrongEncryptionDataSpaceStream()
         {
-            MemoryStream ms = RecyclableMemory.GetStream();
-            BinaryWriter bw = new BinaryWriter(ms);
+            using (MemoryStream ms = RecyclableMemory.GetStream())
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
 
-            bw.Write((int)8);       //HeaderLength
-            bw.Write((int)1);       //EntryCount
+                bw.Write((int)8);       //HeaderLength
+                bw.Write((int)1);       //EntryCount
 
-            string tr = "StrongEncryptionTransform";
-            bw.Write((int)tr.Length*2);
-            bw.Write(UTF8Encoding.Unicode.GetBytes(tr + "\0")); // end \0 is for padding
+                string tr = "StrongEncryptionTransform";
+                bw.Write((int)tr.Length * 2);
+                bw.Write(UTF8Encoding.Unicode.GetBytes(tr + "\0")); // end \0 is for padding
 
-            bw.Flush();
-            return ms.ToArray();
+                bw.Flush();
+                return ms.ToArray();
+            }
         }
         private byte[] CreateVersionStream()
         {

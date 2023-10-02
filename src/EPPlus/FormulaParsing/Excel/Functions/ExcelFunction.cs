@@ -141,7 +141,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             
         }
-
+        /// <summary>
         /// <summary>
         /// Indicates that the function is an ErrorHandlingFunction.
         /// </summary>

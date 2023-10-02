@@ -25,12 +25,21 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     /// </summary>
     public class InMemoryRange : IRangeInfo
     {
+        /// <summary>
+        /// The constructor
+        /// </summary>
+        /// <param name="rangeDef">Defines the size of the range</param>
         public InMemoryRange(RangeDefinition rangeDef)
         {
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];
-            _size = rangeDef;
+            Size = rangeDef;
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = rangeDef.NumberOfRows - 1, ToCol = rangeDef.NumberOfCols - 1 };
         }
+        /// <summary>
+        /// The constructor
+        /// </summary>
+        /// <param name="address">The worksheet address that should be used for this range. Will be used for implicit intersection.</param>
+        /// <param name="rangeDef">Defines the size of the range</param>
         public InMemoryRange(FormulaRangeAddress address, RangeDefinition rangeDef)
         {
             if (address?._context != null)
@@ -39,11 +48,15 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             _address = address;
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];
-            _size = rangeDef;
+            Size = rangeDef;
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="range">A list of values also defining the size of the range</param>
         public InMemoryRange(List<List<object>> range)
         {
-            _size = new RangeDefinition(range.Count, (short)range[0].Count);
+            Size = new RangeDefinition(range.Count, (short)range[0].Count);
             _cells = new ICellInfo[Size.NumberOfRows, Size.NumberOfCols];
             for(int c=0;c < Size.NumberOfCols; c++)
             {
@@ -55,9 +68,13 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = Size.NumberOfRows - 1, ToCol = Size.NumberOfCols - 1 };
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ri">Another <see cref="IRangeInfo"/> used as clone for this range. The address of the supplied range will not be copied.</param>
         public InMemoryRange(IRangeInfo ri)
         {
-            var size = ri.Size;
+            Size = ri.Size;
             _cells = new ICellInfo[Size.NumberOfRows, Size.NumberOfCols];
             for (int c = 0; c < Size.NumberOfCols; c++)
             {
@@ -69,12 +86,17 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = Size.NumberOfRows - 1, ToCol = Size.NumberOfCols - 1 };
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="rows">Number of rows in the new range</param>
+        /// <param name="cols">Number of columns in the new range</param>
         public InMemoryRange(int rows, short cols)
             : this(new RangeDefinition(rows, cols))
-        {}
+        {
+        }
 
         private readonly FormulaRangeAddress _address;
-        private readonly RangeDefinition _size;
         private readonly ExcelWorksheet _ws;
         private readonly ICellInfo[,] _cells;
         private int _colIx = -1;
@@ -87,28 +109,59 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// </summary>
         public static InMemoryRange Empty => _empty;
 
+        /// <summary>
+        /// Sets the value for a cell.
+        /// </summary>
+        /// <param name="row">The row</param>
+        /// <param name="col">The column</param>
+        /// <param name="val">The value to set</param>
         public void SetValue(int row, int col, object val)
         {
             var c = new InMemoryCellInfo(val);
             _cells[row, col] = c;
         }
 
+        /// <summary>
+        /// Sets the <see cref="ICellInfo"/> for a cell directly
+        /// </summary>
+        /// <param name="row">The row</param>
+        /// <param name="col">The column</param>
+        /// <param name="cell">The cell</param>
         public void SetCell(int row, int col, ICellInfo cell)
         {
             _cells[row, col] = cell;
         }
+        /// <summary>
+        /// The in-memory range is never a reference error. Allways false.
+        /// </summary>
         public bool IsRef => false;
+        /// <summary>
+        /// If the range has no cells.
+        /// </summary>
         public bool IsEmpty => _cells.Length == 0;
-
+        /// <summary>
+        /// If the range is more than one cell.
+        /// </summary>
         public bool IsMulti => Size.NumberOfRows * Size.NumberOfCols > 1;
-
+        /// <summary>
+        /// If the range is an inmemory range. Allways true.
+        /// </summary>
         public bool IsInMemoryRange => true;
-
-        public RangeDefinition Size => _size;
-
+        /// <summary>
+        /// The size of the range.
+        /// </summary>
+        public RangeDefinition Size { get; private set; }
+        /// <summary>
+        /// The address of the inmemory range.
+        /// </summary>
         public FormulaRangeAddress Address => _address;
-
+        /// <summary>
+        /// The worksheet.
+        /// </summary>
         public ExcelWorksheet Worksheet => _ws;
+        /// <summary>
+        /// The address of the range
+        /// </summary>
         public FormulaRangeAddress Dimension
         {
             get
@@ -144,11 +197,20 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             return this;
         }
 
+        /// <summary>
+        /// Get the number of cells in the range
+        /// </summary>
+        /// <returns>The number of cells in range.</returns>
         public int GetNCells()
         {
-            return _size.NumberOfRows * _size.NumberOfCols;
+            return Size.NumberOfRows * Size.NumberOfCols;
         }
-
+        /// <summary>
+        /// Returns the value with the offset from the top-left cell.
+        /// </summary>
+        /// <param name="rowOffset">The row offset from the top-left cell.</param>
+        /// <param name="colOffset">The column offset from the top-left cell.</param>
+        /// <returns>The value of the cell</returns>
         public object GetOffset(int rowOffset, int colOffset)
         {
             var c = _cells[rowOffset, colOffset];
@@ -159,6 +221,14 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             return c.Value;
         }
 
+        /// <summary>
+        /// Returns the value with the offset from the top-left cell.
+        /// </summary>
+        /// <param name="rowOffsetStart">The starting row offset from the top-left cell.</param>
+        /// <param name="colOffsetEnd">The starting column offset from the top-left cell.</param>
+        /// <param name="rowOffsetEnd">The ending row offset from the top-left cell.</param>
+        /// <param name="colOffsetStart">The ending column offset from the top-left cell</param>
+        /// <returns>The value of the cell</returns>
         public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
         {
             var nRows = Math.Abs(rowOffsetEnd - rowOffsetStart);
@@ -179,10 +249,22 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             return result;
         }
+        /// <summary>
+        /// If the cell's row is hidden.
+        /// </summary>
+        /// <param name="rowOffset">Row offset from the top-left cell</param>
+        /// <param name="colOffset">Column offset from the top-left cell</param>
+        /// <returns></returns>
         public bool IsHidden(int rowOffset, int colOffset)
         {
             return false;
         }
+        /// <summary>
+        /// Gets the value of a cell.
+        /// </summary>
+        /// <param name="row">The row</param>
+        /// <param name="col">The column</param>
+        /// <returns></returns>
         public object GetValue(int row, int col)
         {
             if (_address == null)
@@ -244,6 +326,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                     ret.SetValue(r,c,ri.GetOffset(r,c));
                 }
             }
+
             return ret;
         }
 

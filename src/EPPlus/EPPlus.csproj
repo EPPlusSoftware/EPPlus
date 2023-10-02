@@ -407,6 +407,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
     <NeutralLanguage />
+	<LangVersion>latest</LangVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>EPPlusLogo.png</PackageIcon>
@@ -445,10 +446,13 @@
   <ItemGroup>
     <Compile Remove="Core\Worksheet\Fonts\Tables\**" />
     <Compile Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+    <Compile Remove="Utils\RecyclableMemoryStream\**" />
     <EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
     <EmbeddedResource Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+    <EmbeddedResource Remove="Utils\RecyclableMemoryStream\**" />
     <None Remove="Core\Worksheet\Fonts\Tables\**" />
     <None Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+    <None Remove="Utils\RecyclableMemoryStream\**" />
   </ItemGroup>
 
 
@@ -472,17 +476,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Threading.Tasks" />  
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
-    </PackageReference>
+    <Reference Include="System.Threading.Tasks" />
+	<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+		<Version>1.4.1</Version>
+	</PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>2.2.1</Version>
-    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
@@ -491,13 +492,13 @@
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+		  <Version>2.3.2</Version>
+	  </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.30" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>2.2.1</Version>
-    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
@@ -506,35 +507,35 @@
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+		  <Version>2.3.2</Version>
+	  </PackageReference>
   </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>2.2.1</Version>
-    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-  </ItemGroup>
+		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+			<Version>2.3.2</Version>
+		</PackageReference>
+	</ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>2.2.1</Version>
-    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.2" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+		  <Version>2.3.2</Version>
+	  </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="FormulaParsing\CalculateExtentionsOld.cs" />
-  </ItemGroup>
 
  <ItemGroup>
     <None Remove="resources\DefaultTableStyles.cst" />

@@ -211,7 +211,7 @@ namespace OfficeOpenXml
                 ms = new MemoryStream(b);
 #else
                 ms = RecyclableMemory.GetStream();
-                stream.CopyTo(ms);
+                stream.CopyTo(ms);                
 #endif
             }
             return e.DecryptPackage(ms, new ExcelEncryption() { Password = password, _isEncrypted=true });

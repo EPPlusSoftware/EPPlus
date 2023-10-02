@@ -23,7 +23,7 @@ namespace EPPlusTest.Utils
         int _index = 0;
         internal RollingBuffer(int size)
         {
-            _buffer= new byte[size];            
+            _buffer= new byte[size];                 
         }
         internal void Write(byte[] bytes, int size=-1)
         {

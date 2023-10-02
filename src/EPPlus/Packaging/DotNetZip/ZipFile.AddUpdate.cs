@@ -1859,8 +1859,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         public ZipEntry AddEntry(string entryName, byte[] byteContent)
         {
             if (byteContent == null) throw new ArgumentException("bad argument", "byteContent");
-            var ms = RecyclableMemory.GetStream(byteContent);
-            return AddEntry(entryName, ms);
+            using (var ms = RecyclableMemory.GetStream(byteContent))
+            {
+                var e = AddEntry(entryName, ms);
+                return e;
+            }                
         }
 
 
