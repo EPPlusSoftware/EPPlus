@@ -2718,7 +2718,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _vmlDrawings.CreateVmlPart();
+                    _vmlDrawings.CreateVmlPart(true);
                 }
             }
         }

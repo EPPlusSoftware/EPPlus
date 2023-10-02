@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal string RelId { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
         internal XmlNamespaceManager NameSpaceManager { get; set; }
-        internal void CreateVmlPart()
+        internal void CreateVmlPart(bool save)
         {
             if (Uri == null)
             {
@@ -86,8 +86,10 @@ namespace OfficeOpenXml.Drawing.Vml
                 _ws.SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
                 RelId = rel.Id;
             }
-
-            VmlDrawingXml.Save(Part.GetStream(FileMode.Create));
+            if (save)
+            {
+                VmlDrawingXml.Save(Part.GetStream(FileMode.Create));
+            }
         }
     }
 }
