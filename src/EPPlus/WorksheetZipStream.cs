@@ -19,17 +19,11 @@ namespace OfficeOpenXml
 {
     internal class WorksheetZipStream : Stream
     {
-        RollingBuffer _rollingBuffer = new RollingBuffer(8192 * 2);
+        RollingBuffer _rollingBuffer = new RollingBuffer(8192 * 2); //Zip stream buffer is 8K, so we use the double here so we preserve any values from previous read.
         private Stream _stream;
-        //private long _size;
-        //private long _bytesRead;
-        //private int _bufferEnd = 0;
-        //private int _prevBufferEnd = 0;
         public WorksheetZipStream(Stream zip, bool writeToBuffer, long size = -1)
         {
             _stream = zip;
-            //_size = size;
-            //_bytesRead = 0;
             WriteToBuffer = writeToBuffer;
         }
 
@@ -47,9 +41,6 @@ namespace OfficeOpenXml
         {
             _stream.Flush();
         }
-
-        //byte[] _buffer = null;
-        //byte[] _prevBuffer, _tempBuffer = new byte[8192];
         public override int Read(byte[] buffer, int offset, int count)
         {
             if(_stream.Length > 0 && _stream.Position + count > _stream.Length)

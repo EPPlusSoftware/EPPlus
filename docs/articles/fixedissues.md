@@ -8,7 +8,7 @@
 * Deleting a worksheet that was selected sometimes caused a hidden worksheet to become visible.
 * The CEILING and FLOOR functions did not handle null values correctly in the second parameter.
 * Fix for loading classes with only EPPlusNestedTableColumn attributes in ExcelRangeBase.LoadFromCollection.
-* Fixed an issue when using concat operator with Excel errors.
+* Fixed an issue when using concatenation operator with Excel errors.
 
 ## Version 6.2.8
 ### Fixed issues
