@@ -3490,12 +3490,13 @@ namespace OfficeOpenXml
         /// <param name="toRow">end row</param>
         /// <param name="toColumn">end column</param>
         /// <param name="values">set values</param>
+        /// <param name="addHyperlinkStyles">Will add built in styles for hyperlinks</param>
         /// <param name="setHyperLinkFromValue">If the value is of type Uri or ExcelHyperlink the Hyperlink property is set.</param>
-        internal void SetRangeValueInner(int fromRow, int fromColumn, int toRow, int toColumn, object[,] values, bool setHyperLinkFromValue)
+        internal void SetRangeValueInner(int fromRow, int fromColumn, int toRow, int toColumn, object[,] values, bool setHyperLinkFromValue, bool addHyperlinkStyles = false)
         {
             if (setHyperLinkFromValue)
             {
-                SetValuesWithHyperLink(fromRow, fromColumn, values);
+                SetValuesWithHyperLink(fromRow, fromColumn, values, addHyperlinkStyles);
             }
             else
             {
@@ -3507,11 +3508,12 @@ namespace OfficeOpenXml
             _metadataStore.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1);
         }
 
-        private void SetValuesWithHyperLink(int fromRow, int fromColumn, object[,] values)
+        private void SetValuesWithHyperLink(int fromRow, int fromColumn, object[,] values, bool addHyperlinkStyles)
         {
             var rowBound = values.GetUpperBound(0);
             var colBound = values.GetUpperBound(1);
 
+            var hyperlinkStylesAdded = false;
             for (int r = 0; r <= rowBound; r++)
             {
                 for (int c = 0; c <= colBound; c++)
@@ -3527,6 +3529,18 @@ namespace OfficeOpenXml
                     var t = v.GetType();
                     if (t == typeof(Uri) || t == typeof(ExcelHyperLink))
                     {
+                        if (!hyperlinkStylesAdded && addHyperlinkStyles)
+                        {
+                            if (!Workbook.Styles.NamedStyles.ExistsKey("Hyperlink"))
+                            {
+                                var hls = Workbook.Styles.CreateNamedStyle("Hyperlink");
+                                hls.BuildInId = 8;
+                                hls.Style.Font.UnderLine = true;
+                                hls.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+                            }
+                            hyperlinkStylesAdded = true;
+                        }
+                        Cells[row, col].StyleName = "Hyperlink";
                         _hyperLinks.SetValue(row, col, (Uri)v);
                         if (v is ExcelHyperLink hl)
                         {
