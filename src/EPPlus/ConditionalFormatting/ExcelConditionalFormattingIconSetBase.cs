@@ -110,7 +110,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             IconSetPercent = string.IsNullOrEmpty(xr.GetAttribute("percent")) ? true : xr.GetAttribute("percent") != "0";
             Reverse = string.IsNullOrEmpty(xr.GetAttribute("reverse")) ? false : xr.GetAttribute("reverse") != "0";
 
-            var set = xr.GetAttribute("iconSet").Substring(1);
+            var set = xr.GetAttribute("iconSet");
+
+            if (set == null)
+            {
+                set = "3TrafficLights1";
+            }
+
+
+            set = set.Substring(1);
 
             Type = type;
             IconSet = set.ToEnum<T>().Value;

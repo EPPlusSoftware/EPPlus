@@ -1988,5 +1988,18 @@ namespace EPPlusTest.ConditionalFormatting
                 sheet.ConditionalFormatting.AddAboveAverage("InvalidAddressAttempt");
             }
         }
+
+        [TestMethod]
+        public void ReadWriteTemplate()
+        {
+            using (var package = OpenTemplatePackage("TestConditionalFormatting.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                ws.Cells["Z70:Z72"].ConditionalFormatting.AddTwoColorScale();
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
