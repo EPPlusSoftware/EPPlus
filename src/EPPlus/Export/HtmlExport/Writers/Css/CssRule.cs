@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
 {
-    internal class CssRule
+    internal partial class CssRule
     {
         //internal List<SelectorItem> SelectorItems;
         internal List<Declaration> Declarations { get; set; }

@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if !NET35
+using System.Threading.Tasks;
+#endif
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
@@ -61,6 +64,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
             rule.AddDeclarationList(strategy.GenerateDeclarationList(this));
         }
+
+#if !NET35
+        public async Task AddDeclarationsAsync(CssRule rule)
+        {
+            if (strategy == null)
+            {
+                throw new ArgumentNullException("Cannot add declarations without a Strategy! Try using .SetTranslator first");
+            }
+
+            rule.AddDeclarationList(await strategy.GenerateDeclarationListAsync(this));
+        }
+#endif
 
     }
 }

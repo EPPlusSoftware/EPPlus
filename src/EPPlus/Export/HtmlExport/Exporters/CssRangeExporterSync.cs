@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.HtmlExport.Collectors;
 using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
@@ -82,7 +83,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void RenderCellCss(StreamWriter sw)
         {
-            var cssTranslator = new CssRangeTranslator(_ranges._list, _settings);
+            var cssTranslator = new CssRangeRuleCollection(_ranges._list, _settings);
             var trueWriter = new CssTrueWriter(sw);
 
             cssTranslator.AddSharedClasses(TableClass);

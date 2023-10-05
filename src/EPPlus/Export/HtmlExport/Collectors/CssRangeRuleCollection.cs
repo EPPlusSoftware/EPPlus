@@ -1,33 +1,20 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Runtime;
-using System.Text;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Export.HtmlExport.Translators;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace OfficeOpenXml.Export.HtmlExport.Parsers
+namespace OfficeOpenXml.Export.HtmlExport.Collectors
 {
-    internal partial class CssRangeTranslator
+    internal partial class CssRangeRuleCollection
     {
         HtmlExportSettings _settings;
         CssExportSettings _cssSettings;
-        CssExclude _cssExclude;
 
         ExcelWorkbook _wb;
         List<ExcelRangeBase> _ranges;
@@ -42,11 +29,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         TranslatorContext _context;
 
 
-        internal CssRangeTranslator(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
+        internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
         {
             _settings = settings;
             _cssSettings = settings.Css;
-            _cssExclude = settings.Css.CssExclude;
             Init(ranges);
             _ruleCollection = new CssRuleCollection();
 
@@ -54,7 +40,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
-            
+
         }
 
         private void Init(List<ExcelRangeBase> ranges)
@@ -123,12 +109,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
         }
 
-        internal void AddToCollection(ExcelXfs xfs, ExcelNamedStyleXml ns, int id)
-        {
-            var xfsList = new List<ExcelXfs>() { xfs };
-            AddToCollection(xfsList, ns, id);
-        }
-
         internal void AddToCollection(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, int id)
         {
             var xfs = xfsList[0];
@@ -145,7 +125,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 translators.Add(new CssFontTranslator(xfs.Font, ns.Style.Font));
             }
 
-            if(xfsList.Count > 1)
+            if (xfsList.Count > 1)
             {
                 var bXfs = xfsList[1];
                 var rXfs = xfsList[2];
@@ -155,7 +135,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     translators.Add(new CssBorderTranslator(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right));
                 }
             }
-            else if(xfs.BorderId > 0)
+            else if (xfs.BorderId > 0)
             {
                 translators.Add(new CssBorderTranslator(xfs.Border));
             }

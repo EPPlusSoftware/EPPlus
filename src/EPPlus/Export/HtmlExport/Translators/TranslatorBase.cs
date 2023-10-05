@@ -9,6 +9,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
+#if !NET35
+using System.Threading.Tasks;
+#endif
+
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     abstract internal class TranslatorBase
@@ -21,6 +25,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         }
 
         internal abstract List<Declaration> GenerateDeclarationList(TranslatorContext context);
+
+#if !NET35
+        internal async Task<List<Declaration>> GenerateDeclarationListAsync(TranslatorContext context)
+        {
+            await Task.Run(() => GenerateDeclarationList(context));
+            return declarations;
+        }
+#endif
+
 
         protected void AddDeclaration(string name, params string[] values) 
         {

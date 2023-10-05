@@ -35,35 +35,29 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
             return fbfKey.ToString() + "|" + ((int)_style.HorizontalAlignment).ToString() + "|" + ((int)_style.VerticalAlignment).ToString() + "|" + _style.Indent.ToString() + "|" + _style.TextRotation.ToString() + "|" + (_style.WrapText ? "1" : "0");
         }
 
-        internal bool IsAdded(out int id, int bottomStyleId = -1, int rightStyleId = -1)
+        internal bool IsAdded(int bottomStyleId = -1, int rightStyleId = -1)
         {
             var key = AttributeTranslator.GetStyleKey(_style);
             if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
 
             bool ret = _cache.IsAdded(key, out _id);
-            id = _id;
 
             return ret;
         }
 
         internal bool BorderStyleCheck(int borderIdBottom, int borderIdRight)
         {
-            if (HasStyle() || borderIdBottom > 0 || borderIdRight > 0)
-            {
-                return true;
-            }
-
-            return false;
+            return (HasStyle() || borderIdBottom > 0 || borderIdRight > 0);
         }
 
         internal bool ShouldAdd()
         {
-            return !IsAdded(out int id);
+            return !IsAdded();
         }
 
         internal bool ShouldAddWithBorders(int bottomStyleId, int rightStyleId)
         {
-            bool added = IsAdded(out int id, bottomStyleId, rightStyleId);
+            bool added = IsAdded(bottomStyleId, rightStyleId);
 
             if (added)
             {
@@ -92,7 +86,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
                    _style.Indent > 0 ||
                    _style.WrapText;
         }
-
-
     }
 }

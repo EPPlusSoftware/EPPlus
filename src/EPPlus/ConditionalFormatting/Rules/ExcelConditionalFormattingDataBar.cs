@@ -70,11 +70,16 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
         private void InitalizeDxfColours()
         {
-            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, null);
+            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, BaseColorCallback);
             BorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
             NegativeFillColor = new ExcelDxfColor(null, eStyleClass.Fill, ValueWasSet);
             NegativeBorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
             AxisColor = new ExcelDxfColor(null, eStyleClass.Border, null);
+        }
+
+        internal void BaseColorCallback(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+        {
+
         }
 
         internal void ValueWasSet(eStyleClass styleClass, eStyleProperty styleProperty, object value)
