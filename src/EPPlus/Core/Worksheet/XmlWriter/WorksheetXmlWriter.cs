@@ -1510,8 +1510,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             {
                 cache.Append($"val=\"{icon.Value}\" ");
             }
-
-            if(icon.Formula != null) 
+            else if(icon.Formula != null) 
             {
                 cache.Append($"val=\"{icon.Formula.EncodeXMLAttribute()}\" ");
             }
