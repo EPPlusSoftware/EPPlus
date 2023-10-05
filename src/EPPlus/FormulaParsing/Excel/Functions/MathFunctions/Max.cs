@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var values = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
+            var values = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (!values.Any())
             {
                 return CreateResult(0d, DataType.Decimal);

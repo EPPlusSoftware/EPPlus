@@ -37,11 +37,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var text = ArgToString(arguments, 0);
-            var startIx = ArgToInt(arguments, 1);
-            var length = ArgToInt(arguments, 2);
+            
+            var startIx = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
+            var length = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            
             if(startIx<=0 && length < 0)
             {
-                //throw(new ArgumentException("Argument start can't be less than 1"));
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
             //Allow overflowing start and length

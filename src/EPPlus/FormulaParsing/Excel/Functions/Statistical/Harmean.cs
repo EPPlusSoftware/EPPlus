@@ -28,14 +28,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var numbers = ArgsToDoubleEnumerable(arguments, context);
-            if (numbers.Any(x => x.Value <= 0d)) return CompileResult.GetErrorResult(eErrorType.Num);
+            var numbers = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            if (numbers.Any(x => x <= 0d)) return CompileResult.GetErrorResult(eErrorType.Num);
             var n = 0d;
             for (var x = 0; x < numbers.Count(); x++)
             {
                 n += 1d/numbers.ElementAt(x);
             }
-            var result = (double)numbers.Count() / n;
+            var result = numbers.Count / n;
             return CreateResult(result, DataType.Decimal);
         }
     }

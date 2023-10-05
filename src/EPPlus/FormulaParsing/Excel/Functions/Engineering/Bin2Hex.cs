@@ -33,7 +33,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var formatString = "X";
             if(arguments.Count > 1)
             {
-                var padding = ArgToInt(arguments, 1);
+                var padding = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 if (padding < 0 ^ padding > 10) return CreateResult(eErrorType.Num);
                 formatString += padding;
             }

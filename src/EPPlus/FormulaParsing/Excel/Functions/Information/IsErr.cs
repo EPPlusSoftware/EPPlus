@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         EPPlusVersion = "4",
         Description = "Tests if an initial supplied value (or expression) returns an error (EXCEPT for the #N/A error) and if so, returns TRUE; Otherwise returns FALSE",
         SupportsArrays = true)]
-    internal class IsErr : ErrorHandlingFunction
+    internal class IsErr : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
@@ -57,10 +57,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             return result;
         }
 
-        public override CompileResult HandleError(string errorCode)
-        {
-            return CreateResult(true, DataType.Boolean);
-        }
+        //public override CompileResult HandleError(string errorCode)
+        //{
+        //    return CreateResult(true, DataType.Boolean);
+        //}
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;

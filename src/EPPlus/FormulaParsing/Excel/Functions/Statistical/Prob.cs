@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
@@ -63,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 return CompileResult.GetErrorResult(eErrorType.NA);
             }
-            if (probRange.Sum() != 1)
+            if (probRange.SumKahan() != 1)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }

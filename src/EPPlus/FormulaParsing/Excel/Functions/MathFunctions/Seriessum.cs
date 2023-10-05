@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var m = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
             if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
 
-            var coeffs = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(3) }, context).ToArray();
+            var coeffs = ArgsToDoubleEnumerable(arguments[3], context, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             var result = 0d;
             for(var i = 0; i < coeffs.Count(); i++)
             {

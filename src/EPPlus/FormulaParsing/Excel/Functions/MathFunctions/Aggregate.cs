@@ -11,6 +11,7 @@
   05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             context.HiddenCellBehaviour = HiddenCellHandlingCategory.Aggregate;
-            var funcNum = ArgToInt(arguments, 0);
-            var nToSkip = IsNumeric(arguments.ElementAt(1).Value) ? 2 : 1;  
-            var options = nToSkip == 1 ? 0 : ArgToInt(arguments, 1);
+            var funcNum = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var nToSkip = IsNumeric(arguments.ElementAt(1).Value) ? 2 : 1;
+            var options = 0;
+            if(nToSkip != 1)
+            {
+                options = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+                if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            }
 
             if (options < 0 || options > 7) return CreateResult(eErrorType.Value);
 

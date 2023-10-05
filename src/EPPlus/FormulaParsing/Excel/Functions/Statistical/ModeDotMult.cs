@@ -66,7 +66,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            var numbers = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
+            var numbers = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var countNumbers = new Dictionary<double, ModeValue>();
             int maxCount = 0;
             var sortOrder = 1;

@@ -30,23 +30,33 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 6;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlement = DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturity = DateTime.FromOADate(ArgToInt(arguments, 1));
-            
-            var rate = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            var s = ArgToInt(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-
-            var pr = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            var settlement = DateTime.FromOADate(s);
+            
+            var m = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var maturity = DateTime.FromOADate(m);
             
-            var redemption = ArgToDecimal(arguments, 4, out ExcelErrorValue e3);
+            var rate = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
             if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+
+            var pr = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             
-            var frequency = ArgToInt(arguments, 5);
+            var redemption = ArgToDecimal(arguments, 4, out ExcelErrorValue e5);
+            if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
+            
+            var frequency = ArgToInt(arguments, 5, out ExcelErrorValue e6);
+            if (e6 != null) return CompileResult.GetErrorResult(e6.Type);
+
             var basis = DayCountBasis.US_30_360;
             if(arguments.Count > 6)
             {
-                basis = (DayCountBasis)ArgToInt(arguments, 6);
+                var b = ArgToInt(arguments, 6, out ExcelErrorValue e7);
+                if(e7 != null) return CompileResult.GetErrorResult(e7.Type);
+
+                basis = (DayCountBasis)b;
             }
             var func = new YieldImpl(new CouponProvider(), new PriceProvider());
             var result = func.GetYield(settlement, maturity, rate, pr, redemption, frequency, basis);

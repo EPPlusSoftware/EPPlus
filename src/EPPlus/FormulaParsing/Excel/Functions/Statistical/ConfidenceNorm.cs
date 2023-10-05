@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var sigma = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             
-            var size = ArgToInt(arguments, 2);
+            var size = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
 
             if (alpha <= 0d || alpha >= 1d) return CompileResult.GetErrorResult(eErrorType.Num);
             if (sigma <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);

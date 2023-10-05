@@ -35,14 +35,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// Base class for Excel function implementations.
     /// </summary>
     public abstract class ExcelFunction
-    {        
+    {     
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ExcelFunction()
             : this(new ArgumentCollectionUtil(), new ArgumentParsers(), new CompileResultValidators())
         {
 
         }
 
-        public ExcelFunction(
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="argumentCollectionUtil"></param>
+        /// <param name="argumentParsers"></param>
+        /// <param name="compileResultValidators"></param>
+        internal ExcelFunction(
             ArgumentCollectionUtil argumentCollectionUtil,
             ArgumentParsers argumentParsers,
             CompileResultValidators compileResultValidators)
@@ -55,8 +64,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         private readonly ArgumentCollectionUtil _argumentCollectionUtil;
-        protected readonly ArgumentParsers _argumentParsers;
+        private readonly ArgumentParsers _argumentParsers;
         private readonly CompileResultValidators _compileResultValidators;
+        /// <summary>
+        /// Number of significant figures used in roundings, etc.
+        /// </summary>
         protected readonly int NumberOfSignificantFigures = 15;
         private readonly ArrayBehaviourConfig _arrayConfig;
 
@@ -114,12 +126,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// If overridden, this method is called before Execute is called.
         /// </summary>
         /// <param name="context"></param>
+        /// 
+        [Obsolete("Don't use this method from EPPlus 7.x and up")]
         public virtual void BeforeInvoke(ParsingContext context) { }
+        /// <summary>
+        /// If overridden, this method will be called before the <see cref="Execute" /> method is called with the arguments for any parameter having 
+        /// <see cref="ParametersInfo"/> set to <see cref="FunctionParameterInformation.AdjustParameterAddress" /> and that argument is a range with an address. 
+        /// It can be used to narrow the dependency check for the function returning a queue with addresses to check dependency before executing.
+        /// </summary>
+        /// <param name="args">The function arguments that will be supplied to the execute method.</param>
+        /// <param name="index">The index of the argument that should be adjusted.</param>
+        /// <param name="addresses">A queue of addresses that will be calculated before calling the Execute function.</param>
         public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
             
         }
-
+        /// <summary>
+        /// <summary>
+        /// Indicates that the function is an ErrorHandlingFunction.
+        /// </summary>
         public virtual bool IsErrorHandlingFunction
         {
             get
@@ -180,6 +205,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="minLength"></param>
         /// <param name="errorTypeToThrow">The <see cref="eErrorType"/> of the <see cref="ExcelErrorValueException"/> that will be thrown if <paramref name="minLength"/> is not met.</param>
+        [Obsolete("Don't use this method from EPPlus 7.x and up. Use property ArgumentMinLength instead.")]
         protected void ValidateArguments(IEnumerable<FunctionArgument> arguments, int minLength,
                                          eErrorType errorTypeToThrow)
         {
@@ -213,6 +239,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="minLength"></param>
         /// <exception cref="ArgumentException"></exception>
+        [Obsolete("Don't use this method from EPPlus 7.x and up. Use property ArgumentMinLength instead.")]
         protected void ValidateArguments(IEnumerable<FunctionArgument> arguments, int minLength)
         {
             Require.That(arguments).Named("arguments").IsNotNull();
@@ -235,6 +262,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     return true;
                 }, "Expecting at least {0} arguments", minLength.ToString());
         }
+        /// <summary>
+        /// Returns a string representation of an arguments address.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         protected string ArgToAddress(IList<FunctionArgument> arguments, int index)
         {
             var arg = arguments[index];
@@ -246,16 +279,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
             return ArgToString(arguments, index);
         }
-        //protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
-        //{
-        //    var arg = arguments.ElementAt(index);
-
-        //    if(arg.Address !=null)
-        //    {
-        //        return arg.Address.WorksheetAddress;
-        //    }
-        //    return ArgToAddress(arguments, index);
-        //}
 
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based index
@@ -263,16 +286,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="index"></param>
+        /// <param name="error">If an error occurs during the conversion it will be returned via this parameter</param>
         /// <param name="emptyValue">Value returned if datatype is empty</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IList<FunctionArgument> arguments, int index, int emptyValue=0)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index, out ExcelErrorValue error, int emptyValue=0)
         {
+            error = default;
             var arg = arguments[index];
             switch (arg.DataType)
             {
                 case DataType.ExcelError:
-                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                    error = arg.ValueAsExcelErrorValue;
+                    return default;
                 case DataType.Empty:
                     return emptyValue;
                 default:
@@ -287,14 +313,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <param name="ignoreErrors">If true an Excel error in the cell will be ignored</param>
+        /// <param name="error">If an error occurs during the conversion it will be returned via this parameter</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IList<FunctionArgument> arguments, int index, bool ignoreErrors)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index, bool ignoreErrors, out ExcelErrorValue error)
         {
+            error = null;
             var arg = arguments[index];
             if (arg.ValueIsExcelError && !ignoreErrors)
             {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue.Type);
+                error = arg.ValueAsExcelErrorValue;
             }
             else if (arg.DataType == DataType.Empty)
             {
@@ -491,8 +519,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         protected bool IsNumericString(object value)
         {
-            if (value == null || string.IsNullOrEmpty(value.ToString())) return false;
-            return Regex.IsMatch(value.ToString(), @"^[\d]+(\,[\d])?");
+            if (value == null) return false;
+            return double.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out double d);
         }
 
         protected bool IsInteger(object n)
@@ -615,94 +643,66 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments,
-                                                                     ParsingContext context)
+        protected virtual IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments,
+                                                                     ParsingContext context, out ExcelErrorValue error)
         {
-            return ArgsToDoubleEnumerable(false, arguments, context);
+            error = null;
+            return ArgsToDoubleEnumerable(arguments, context, x => { }, out error);
         }
+
 
         /// <summary>
         /// Will return the arguments as an enumerable of doubles.
         /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="ignoreErrors">If a cell contains an error, that error will be ignored if this method is set to true</param>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="configHandler"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected virtual IList<double> ArgsToDoubleEnumerable(
+            IEnumerable<FunctionArgument> arguments, 
+            ParsingContext context, 
+            Action<DoubleEnumerableParseOptions> configHandler, 
+            out ExcelErrorValue error)
         {
-            return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, false, arguments, context, false);
+            error = null;
+            var options = new DoubleEnumerableParseOptions();
+            configHandler(options);
+            var parser = new DoubleEnumerableArgParser(arguments, context, options);
+            var result = parser.GetResult(out error);
+            if (error != null)
+            {
+                throw new ExcelErrorValueException(error);
+            }
+            return result;
         }
 
         /// <summary>
         /// Will return the arguments as an enumerable of doubles.
         /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="ignoreErrors">If a cell contains an error, that error will be ignored if this method is set to true</param>
-        /// <param name="ignoreNestedSubtotalAggregate">If cells which value comes from the calculation of a SUBTOTAL or an AGGREGATE function should be ignored, set this to true</param>
-        /// <param name="arguments"></param>
+        /// <param name="argument"></param>
         /// <param name="context"></param>
+        /// <param name="configHandler"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected virtual IList<double> ArgsToDoubleEnumerable(FunctionArgument argument, ParsingContext context, Action<DoubleEnumerableParseOptions> configHandler, out ExcelErrorValue error)
         {
-            return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context, false);
+            return ArgsToDoubleEnumerable(new List<FunctionArgument> { argument }, context, configHandler, out error);
         }
 
-
         /// <summary>
-        /// Will return the arguments as an enumerable of doubles.
+        /// Will return the arguments as an enumerable of doubles using default parameters
         /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="ignoreErrors">If a cell contains an error, that error will be ignored if this method is set to true</param>
-        /// <param name="ignoreNestedSubtotalAggregate">If cells which value comes from the calculation of a SUBTOTAL or an AGGREGATE function should be ignored, set this to true</param>
-        /// <param name="arguments"></param>
+        /// <param name="argument"></param>
         /// <param name="context"></param>
-        /// <param name="ignoreNonNumeric"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
+        protected virtual IList<double> ArgsToDoubleEnumerable(FunctionArgument argument, ParsingContext context, out ExcelErrorValue error)
         {
-            return _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, ignoreErrors, ignoreNestedSubtotalAggregate, arguments, context, ignoreNonNumeric);
-        }
-
-        /// <summary>
-        /// Will return the arguments as an enumerable of doubles.
-        /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="ignoreNestedSubtotalAggregate">If cells which value comes from the calculation of a SUBTOTAL or an AGGREGATE function should be ignored, set this to true</param>
-        /// <param name="arguments"></param>
-        /// <param name="context"></param>
-        /// <param name="ignoreNonNumeric"></param>
-        /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
-        {
-            return ArgsToDoubleEnumerable(ignoreHiddenCells, true, ignoreNestedSubtotalAggregate, arguments, context, ignoreNonNumeric);
-        }
-
-        /// <summary>
-        /// Will return the arguments as an enumerable of doubles.
-        /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="arguments"></param>
-        /// <param name="context"></param>
-        /// <param name="ignoreNonNumeric"></param>
-        /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
-        {
-            return ArgsToDoubleEnumerable(ignoreHiddenCells, true, false, arguments, context, ignoreNonNumeric);
-        }
-
-
-        /// <summary>
-        /// Will return the arguments as an enumerable of doubles.
-        /// </summary>
-        /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
-        /// <param name="arguments"></param>
-        /// <param name="context"></param>        
-        /// <returns></returns>
-        protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            return ArgsToDoubleEnumerable(ignoreHiddenCells, true, arguments, context, false);
+            return ArgsToDoubleEnumerable(argument, context, x => { }, out error);
         }
 
         protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, IRangeInfo rangeInfo, ParsingContext context)
@@ -713,7 +713,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
             var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
             var funcArg = new FunctionArgument(rangeInfo, DataType.ExcelRange);
-            var result = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
+            var result = _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, false, false, new List<FunctionArgument> { funcArg }, context);
             var dict = new Dictionary<int, double>();
             result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
             var resultList = new List<double>();

@@ -38,7 +38,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return CreateResult(Math.Truncate(number), DataType.Decimal);
             }
-            var nDigits = ArgToInt(arguments, 1);
+            var nDigits = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var func = context.Configuration.FunctionRepository.GetFunction("rounddown");
             return func.Execute(arguments, context);
         }

@@ -26,13 +26,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     internal class Substitute : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var text = ArgToString(arguments, 0);
             var find = ArgToString(arguments, 1);
             var replaceWith = ArgToString(arguments, 2);
-            var result = arguments.Count > 3 ? ReplaceFirst(text, find, replaceWith, ArgToInt(arguments, 3)) : text.Replace(find, replaceWith);
-            return CreateResult(result, DataType.String);
+            if(arguments.Count > 3)
+            {
+                var instanceNumber = ArgToInt(arguments, 3, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                var result = ReplaceFirst(text, find, replaceWith, instanceNumber);
+                return CreateResult(result, DataType.String);
+            }
+            else
+            {
+                var result = text.Replace(find, replaceWith);
+                return CreateResult(result, DataType.String);
+            }
         }
 
         private static string ReplaceFirst(string text, string search, string replace, int instanceNumber)

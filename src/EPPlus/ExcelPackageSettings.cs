@@ -10,6 +10,8 @@
  *************************************************************************************************
   09/10/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
+
 namespace OfficeOpenXml
 {
     /// <summary>
@@ -35,7 +37,7 @@ namespace OfficeOpenXml
             get
             {
                 if (_textSettings == null)
-                {
+                {                    
                     _textSettings = new ExcelTextSettings();
                 }
                 return _textSettings;

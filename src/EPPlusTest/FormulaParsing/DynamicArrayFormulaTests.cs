@@ -196,6 +196,7 @@ namespace EPPlusTest.FormulaParsing
             chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.ColumnChartStyle9);
 
             var address = _ws.Cells[20, 20].FormulaAddress;
+            Assert.AreEqual("T20:X24", address.Address);
             for (var c = address.Start.Column; c <= address.End.Column; c++)
             {
                 chart.Series.Add(_ws.Cells[address.Start.Row, c, address.End.Row, c]);

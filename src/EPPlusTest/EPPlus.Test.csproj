@@ -18,6 +18,7 @@
     <FileVersion>5.0.0.0</FileVersion>
     <Version>5.0.0.0</Version>
     <Description>Package Description</Description>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;Core;NETCOREAPP1_1</DefineConstants>

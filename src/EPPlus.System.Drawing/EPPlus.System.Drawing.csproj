@@ -12,6 +12,7 @@
     <RootNamespace>OfficeOpenXml.System.Drawing</RootNamespace>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageIcon>EPPlusLogo.png</PackageIcon>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>Core;Standard20</DefineConstants>

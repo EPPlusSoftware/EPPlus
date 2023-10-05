@@ -44,13 +44,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var type = 0;
             if (arguments.Count >= 5)
             {
-                type = ArgToInt(arguments, 4);
+                type = ArgToInt(arguments, 4, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
             var guess = 0d;
             if (arguments.Count >= 6)
             {
-                guess = ArgToDecimal(arguments, 5, out ExcelErrorValue e5);
-                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
+                guess = ArgToDecimal(arguments, 5, out ExcelErrorValue e6);
+                if (e6 != null) return CompileResult.GetErrorResult(e6.Type);
             }
             
             var retVal = RateImpl.Rate(nPer, pmt, pv, fv, (PmtDue)type, guess);

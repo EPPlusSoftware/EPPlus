@@ -977,7 +977,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     break;
             }
         }
-        public virtual FormulaTableAddress Clone()
+        /// <summary>
+        /// Clones the table address.
+        /// </summary>
+        /// <returns></returns>
+        public new FormulaTableAddress Clone()
         {
             return new FormulaTableAddress(_context)
             {

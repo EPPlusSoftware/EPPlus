@@ -40,11 +40,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 if (arguments.Count > 0)
                 {
-                    nRows = ArgToInt(arguments, 0);
+                    nRows = ArgToInt(arguments, 0, out ExcelErrorValue e1);
                 }
                 if (arguments.Count > 1)
                 {
-                    var c = ArgToInt(arguments, 1);
+                    var c = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+                    if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                     if (c > short.MaxValue || c < short.MinValue)
                     {
                         return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
@@ -53,13 +54,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 if (arguments.Count > 2)
                 {
-                    min = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
-                    if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                    min = ArgToDecimal(arguments, 2, out ExcelErrorValue e2);
+                    if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
                 }
                 if (arguments.Count > 3)
                 {
-                    max = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
-                    if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+                    max = ArgToDecimal(arguments, 3, out ExcelErrorValue e3);
+                    if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
                 }
                 if (arguments.Count > 4)
                 {

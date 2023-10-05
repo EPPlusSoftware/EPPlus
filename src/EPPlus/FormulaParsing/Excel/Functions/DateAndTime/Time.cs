@@ -34,9 +34,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         public override int ArgumentMinLength => 3;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var hour = ArgToInt(arguments, 0);
-            var min = ArgToInt(arguments, 1);
-            var sec = ArgToInt(arguments, 2);
+            var hour = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var min = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var sec = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
 
             if (sec < 0 || sec > 59) return CompileResult.GetErrorResult(eErrorType.Value);
             if (min < 0 || min > 59) return CompileResult.GetErrorResult(eErrorType.Value);

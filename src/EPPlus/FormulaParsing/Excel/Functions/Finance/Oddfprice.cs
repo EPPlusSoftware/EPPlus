@@ -36,22 +36,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 8;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
-            var issueDate = System.DateTime.FromOADate(ArgToInt(arguments, 2));
-            var firstCouponDate = System.DateTime.FromOADate(ArgToInt(arguments, 3));
-            var rate = ArgToDecimal(arguments, 4, out ExcelErrorValue e1);
+            var sd = ArgToInt(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            var yield = ArgToDecimal(arguments, 5, out ExcelErrorValue e2);
-            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
-            var redemption = ArgToDecimal(arguments, 6, out ExcelErrorValue e3);
-            if(e3 != null) return CompileResult.GetErrorResult(e3.Type);
-            var frequency = ArgToInt(arguments, 7);
-            var b = 0;
+            var settlementDate = DateTime.FromOADate(sd);
 
+            var md = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var maturityDate = DateTime.FromOADate(md);
+
+            var id = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            var issueDate = DateTime.FromOADate(id);
+
+            var fcd = ArgToInt(arguments, 3, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
+            var firstCouponDate = DateTime.FromOADate(fcd);
+
+            var rate = ArgToDecimal(arguments, 4, out ExcelErrorValue e5);
+            if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
+
+            var yield = ArgToDecimal(arguments, 5, out ExcelErrorValue e6);
+            if (e6 != null) return CompileResult.GetErrorResult(e6.Type);
+            
+            var redemption = ArgToDecimal(arguments, 6, out ExcelErrorValue e7);
+            if(e7 != null) return CompileResult.GetErrorResult(e7.Type);
+
+            var frequency = ArgToInt(arguments, 7, out ExcelErrorValue e8);
+            if (e8 != null) return CompileResult.GetErrorResult(e8.Type);
+            
+            var b = 0;
             if (arguments.Count > 8)
             {
-                b = ArgToInt(arguments, 8);
+                b = ArgToInt(arguments, 8, out ExcelErrorValue e9);
+                if (e9 != null) return CompileResult.GetErrorResult(e9.Type);
 
                 if (b < 0 || b > 4)
                 {

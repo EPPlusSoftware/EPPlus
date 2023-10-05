@@ -30,6 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     {
         public override int ArgumentMinLength => 4;
 
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);

@@ -31,20 +31,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var settlement = System.DateTime.FromOADate(ArgToInt(arguments, 0));
-            var maturity = System.DateTime.FromOADate(ArgToInt(arguments, 1));
-            
-            var investments = ArgToDecimal(arguments, 2, out ExcelErrorValue e1);
+            var s = ArgToInt(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            
-            var discount = ArgToDecimal(arguments, 3, out ExcelErrorValue e2);
+            var settlement = DateTime.FromOADate(s);
+
+            var m = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var maturity = DateTime.FromOADate(m);
+            
+            var investments = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+            
+            var discount = ArgToDecimal(arguments, 3, out ExcelErrorValue e4);
+            if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
             
             var basis = 0d;
             if (arguments.Count() > 4)
             {
-                basis = ArgToDecimal(arguments, 4, out ExcelErrorValue e3);
-                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
+                basis = ArgToDecimal(arguments, 4, out ExcelErrorValue e5);
+                if (e5 != null) return CompileResult.GetErrorResult(e5.Type);
             }
             basis = Math.Floor(basis);
             if (investments <= 0 || discount <= 0) return CreateResult(eErrorType.Num);

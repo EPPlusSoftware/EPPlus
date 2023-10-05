@@ -1,58 +1,98 @@
-﻿using System;
+﻿#if !NET35
+using Microsoft.IO;
+#endif
+using System;
 using System.IO;
 using System.Threading;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 namespace OfficeOpenXml.Utils
 {
-	/// <summary>
-	/// Handles the Recyclable Memory stream for supported and unsupported target frameworks.
-	/// </summary>
-	public static class RecyclableMemory
-	{
-#if !NET35
-		private static Microsoft.IO.RecyclableMemoryStreamManager _memoryManager;
-		private static bool _dataInitialized = false;
-		private static bool _lazyInitializeFailed = false;
-		private static object _dataLock = new object();
 
-		private static Microsoft.IO.RecyclableMemoryStreamManager MemoryManager
+#if !NET35
+    /// <summary>
+    /// Memmory settings for RecyclableMemoryStream handling
+    /// </summary>
+    public class MemorySettings
+	{
+        /// <summary>
+        /// The memory manager used, if RecyclableMemoryStream are used.
+		/// <seealso cref="UseRecyclableMemory"/>
+        /// </summary>
+        public RecyclableMemoryStreamManager MemoryManger 
 		{
 			get
 			{
-				var manager = default(Microsoft.IO.RecyclableMemoryStreamManager);
-				if (_lazyInitializeFailed && _dataInitialized)
+				return RecyclableMemory.MemoryManager;
+			}
+			set
+			{
+				if (value == null)
 				{
-					return _memoryManager;
+					throw new ArgumentNullException("Memory manager must not be null.");
 				}
-				// This has failed on dalvikvm (android), so adding a fallback handling of Exceptions /MA 2022-08-31
-				try
-                {
-					manager = LazyInitializer.EnsureInitialized(ref _memoryManager, ref _dataInitialized, ref _dataLock);
-				}
-				catch(Exception)
-                {
-					lock(_dataLock)
-                    {
-						_lazyInitializeFailed = true;
-						if (_memoryManager == null)
-                        {
-							_memoryManager = new Microsoft.IO.RecyclableMemoryStreamManager();
-							_dataInitialized = true;
-                        }
-                    }
-					manager = _memoryManager;
-				}
-				return manager;
+				if(RecyclableMemory.HasMemoryManager)
+				{
+                    throw new InvalidOperationException("A Memory Manager has already been created. To set a new memory manager, setting this property must be done before creating or opening any package.");
+                }
+				RecyclableMemory.SetRecyclableMemoryStreamManager(value);
 			}
 		}
+        /// <summary>
+        /// If true RecyclableMemoryStream's will be used to handle MemoryStreams. Default.
+		/// If false normal MemoryStream will be used.
+        /// </summary>
+        public bool UseRecyclableMemory 
+		{
+			get
+			{
+				return RecyclableMemory.UseRecyclableMemory;
+			}
+			set
+			{
+				RecyclableMemory.UseRecyclableMemory = value; ;
+            } 
+		}
+	}
+#endif
+	/// <summary>
+	/// Handles the Recyclable Memory stream for supported and unsupported target frameworks.
+	/// </summary>
+	internal class RecyclableMemory
+	{
+#if !NET35
+		private static RecyclableMemoryStreamManager _memoryManager;
+		private static object _dataLock = new object();
+
+        public static bool UseRecyclableMemory { get; set; }
+		internal static bool HasMemoryManager
+		{
+			get
+			{
+				return _memoryManager != null;
+			}
+		}
+        internal static RecyclableMemoryStreamManager MemoryManager
+		{
+			get
+			{
+				lock(_dataLock)
+                {						
+					if (_memoryManager == null)
+                    {
+						_memoryManager = new RecyclableMemoryStreamManager();
+                    }
+                }
+                return _memoryManager;
+            }
+        }
 
 		/// <summary>
 		/// Sets the RecyclableMemorytreamsManager to manage pools
 		/// </summary>
 		/// <param name="recyclableMemoryStreamManager">The memory manager</param>
-		public static void SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager recyclableMemoryStreamManager)
+		public static void SetRecyclableMemoryStreamManager(RecyclableMemoryStreamManager recyclableMemoryStreamManager)
 		{
-			_dataInitialized = recyclableMemoryStreamManager is object;
             _memoryManager = recyclableMemoryStreamManager;
 		}
 #endif
@@ -65,9 +105,17 @@ namespace OfficeOpenXml.Utils
 #if NET35
 			return new MemoryStream();
 #else
-			return MemoryManager.GetStream();
+			if (UseRecyclableMemory == true)
+			{
+				return MemoryManager.GetStream();
+			}
+			else
+			{
+                return new MemoryStream();
+
+            }
 #endif
-		}
+        }
 
 		/// <summary>
 		/// Get a new memory stream initiated with a byte-array
@@ -78,9 +126,16 @@ namespace OfficeOpenXml.Utils
 #if NET35
 			return new MemoryStream(array);
 #else
-			return MemoryManager.GetStream(array);
+            if(UseRecyclableMemory==true)
+			{
+                return MemoryManager.GetStream(array);
+            }
+            else
+			{
+                return new MemoryStream(array);
+            }
 #endif
-		}
+        }
 		/// <summary>
 		/// Get a new memory stream initiated with a byte-array
 		/// </summary>
@@ -91,8 +146,15 @@ namespace OfficeOpenXml.Utils
 #if NET35
 			return new MemoryStream(capacity);
 #else
-			return MemoryManager.GetStream(null, capacity);
+			if (UseRecyclableMemory == true)
+			{
+				return MemoryManager.GetStream(null, capacity);
+			}
+            else
+            {
+                return new MemoryStream(capacity);
+            }
 #endif
-		}
-	}
+        }
+    }
 }

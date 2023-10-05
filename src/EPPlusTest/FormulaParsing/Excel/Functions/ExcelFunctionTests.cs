@@ -36,6 +36,7 @@ using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -45,9 +46,9 @@ namespace EPPlusTest.Excel.Functions
         private class ExcelFunctionTester : ExcelFunction
         {
             public override int ArgumentMinLength => 0;
-            public IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerableImpl(IEnumerable<FunctionArgument> args)
+            public IList<double> ArgsToDoubleEnumerableImpl(IEnumerable<FunctionArgument> args)
             {
-                return ArgsToDoubleEnumerable(args, ParsingContext.Create());
+                return ArgsToDoubleEnumerable(args, ParsingContext.Create(), out ExcelErrorValue e1);
             }
             #region Other members
             public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

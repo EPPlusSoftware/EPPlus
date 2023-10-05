@@ -34,8 +34,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System.IO;
-using System.Diagnostics;
-using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest
 {

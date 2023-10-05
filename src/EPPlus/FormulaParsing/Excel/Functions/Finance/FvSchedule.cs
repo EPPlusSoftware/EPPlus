@@ -32,7 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
 
             var scheduleArg = new List<FunctionArgument> { arguments[1] };
-            var schedule = ArgsToDoubleEnumerable(scheduleArg, context);
+            var schedule = ArgsToDoubleEnumerable(scheduleArg, context, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             var result = principal;
             foreach(var interest in schedule)
             {

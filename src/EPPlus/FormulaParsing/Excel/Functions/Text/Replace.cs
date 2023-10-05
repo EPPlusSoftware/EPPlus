@@ -29,8 +29,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var oldText = ArgToString(arguments, 0);
-            var startPos = ArgToInt(arguments, 1);
-            var nCharsToReplace = ArgToInt(arguments, 2);
+            var startPos = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var nCharsToReplace = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             var newText = ArgToString(arguments, 3);
             var firstPart = GetFirstPart(oldText, startPos);
             var lastPart = GetLastPart(oldText, startPos, nCharsToReplace);

@@ -17,22 +17,16 @@ using System.IO;
 
 namespace OfficeOpenXml
 {
-    internal class WorksheetZipStream : Stream
+    internal class WorksheetZipStream : Stream, IDisposable
     {
         RollingBuffer _rollingBuffer = new RollingBuffer(8192*2);
         private Stream _stream;
-        //private long _size;
-        //private long _bytesRead;
-        //private int _bufferEnd = 0;
-        //private int _prevBufferEnd = 0;
         public WorksheetZipStream(Stream zip, bool writeToBuffer, long size = -1)
         {
             _stream = zip;
-            //_size = size;
-            //_bytesRead = 0;
             WriteToBuffer = writeToBuffer;
         }
-
+        
         public override bool CanRead => _stream.CanRead;
 
         public override bool CanSeek => _stream.CanSeek;
@@ -86,6 +80,10 @@ namespace OfficeOpenXml
         public BinaryWriter Buffer = new BinaryWriter(RecyclableMemory.GetStream());
         public void SetWriteToBuffer()
         {
+            Buffer.BaseStream.Dispose();
+#if(!NET35)
+            Buffer.Dispose();
+#endif
             Buffer = new BinaryWriter(RecyclableMemory.GetStream());
             Buffer.Write(_rollingBuffer.GetBuffer());
             WriteToBuffer = true;
@@ -204,16 +202,6 @@ namespace OfficeOpenXml
             {
                 endElementIx = FindElementPos(xml, endElement, false);
             }
-
-            //int endElementIx;
-            //if(endElement == "conditionalFormatting")
-            //{
-            //   endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
-            //}
-            //else
-            //{
-            //    endElementIx = FindElementPos(xml, endElement, false);
-            //}
 
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))
@@ -446,5 +434,19 @@ namespace OfficeOpenXml
                 ix += element.Length;
             }
         }
+        public new void Dispose()
+        {
+            Buffer.BaseStream.Dispose();
+#if(!NET35)
+            Buffer.Dispose();
+#endif
+            _stream.Dispose();
+            base.Dispose();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            _stream.Dispose();
+            base.Dispose(disposing);
+        }        
     }
 }

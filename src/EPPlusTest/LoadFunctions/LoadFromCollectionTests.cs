@@ -45,6 +45,30 @@ namespace EPPlusTest.LoadFunctions
     [TestClass]
     public class LoadFromCollectionTests : TestBase
     {
+        [EpplusTable(AutofitColumns = true, PrintHeaders = true, TableStyle = TableStyles.Light10)]
+        internal class Company
+        {
+            public Company(int id, string name, Uri url)
+            {
+                Id = id;
+                Name = name;
+                Url = url;
+            }
+
+            [EpplusTableColumn(Header = "Id", Order = 1)]
+            public int Id
+            {
+                get; set;
+            }
+
+            [EpplusTableColumn(Header = "Name", Order = 2)]
+            public string Name { get; set; }
+
+            [EpplusTableColumn(Header = "Homepage", Order = 3)]
+            public Uri Url { get; set; }
+
+        }
+
         internal abstract class BaseClass
         {
             public string Id { get; set; }
@@ -86,6 +110,12 @@ namespace EPPlusTest.LoadFunctions
             public string Name { get; set; }
             [EpplusTableColumn(Order = 3)]
             public int Number { get; set; }
+        }
+
+        internal class CClass
+        {
+            [DisplayName("Another property")]
+            public string AnotherProperty { get; set; }
         }
 
         internal class CamelCasedClass
@@ -269,6 +299,24 @@ namespace EPPlusTest.LoadFunctions
             }
         }
 
+#if !NET35
+        [TestMethod]
+        public void ShouldUseDisplayAttribute()
+        {
+            var items = new List<CClass>()
+            {
+                new CClass(){ AnotherProperty = "asdjfklö "}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1);
+
+                Assert.AreEqual("Another property", sheet.Cells["C1"].Value);
+            }
+        }
+#endif
+
         [TestMethod]
         public void ShouldUseBaseClassProperties()
         {
@@ -417,7 +465,13 @@ namespace EPPlusTest.LoadFunctions
             using (var package = OpenPackage("LoadFromCollectionUrls.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
+                var ns = package.Workbook.Styles.CreateNamedStyle("Hyperlink");
+                ns.BuildInId = 8;
+                ns.Style.Font.UnderLine = true;
+                ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
+                sheet.Cells["E2:E5"].StyleName = "Hyperlink";
 
                 Assert.AreEqual("MyId", sheet.Cells["A1"].Value);
                 Assert.AreEqual("MyName", sheet.Cells["B1"].Value);
@@ -503,6 +557,19 @@ namespace EPPlusTest.LoadFunctions
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void LoadWithAttributesTest()
+        {
+            var l = new List<Company>();
+            l.Add(new Company(1, "EPPlus Software AB", new Uri("https://epplussoftware.com")));
 
+            using (var package = OpenPackage("LoadFromCollectionAttr.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].LoadFromCollection(l, x => x.UseBuiltInStylesForHyperlinks = true);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

@@ -130,34 +130,36 @@ namespace OfficeOpenXml.VBA.Signatures
 
         private static byte[] GetHashContent(EPPlusSignatureContext ctx, byte[] hash)
         {
-            var ms= RecyclableMemory.GetStream();
-            var bw=new BinaryWriter(ms);
-            if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
+            using (var ms = RecyclableMemory.GetStream())
             {
-                bw.Write((byte)0x04);   //Octet String Identifier
-                bw.Write((byte)hash.Length);   //Hash length
-                bw.Write(hash);                //Content hash
+                var bw = new BinaryWriter(ms);
+                if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
+                {
+                    bw.Write((byte)0x04);   //Octet String Identifier
+                    bw.Write((byte)hash.Length);   //Hash length
+                    bw.Write(hash);                //Content hash
+                }
+                else
+                {
+                    // SigDataV1Serialized
+                    bw.Write((byte)0x04);   //Octet String Tag Identifier
+                    const int headerSizeOffset = 4 * 6; // size of header containg size and offset information
+                    var discriptorLength = headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1 + hash.Length; // length of structure
+                    bw.Write((byte)discriptorLength);
+                    bw.Write(ctx.AlgorithmIdentifierOId.Length + 1);
+                    bw.Write(0); // compiled hash size
+                    bw.Write(hash.Length); // source hash size
+                    bw.Write(headerSizeOffset); // algorithm id offset
+                    bw.Write(headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1); // compiled hash offset (always empty)
+                    bw.Write(headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1); // source hash offset
+                    var algorithmIdOffset = ctx.AlgorithmIdentifierOId.Length + 1 + hash.Length;
+                    bw.Write(Encoding.ASCII.GetBytes(ctx.AlgorithmIdentifierOId));
+                    bw.Write((byte)0); // string terminator
+                    bw.Write(hash);
+                }
+                bw.Flush();
+                return ms.ToArray();
             }
-            else
-            {
-                // SigDataV1Serialized
-                bw.Write((byte)0x04);   //Octet String Tag Identifier
-                const int headerSizeOffset = 4 * 6; // size of header containg size and offset information
-                var discriptorLength = headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1 + hash.Length; // length of structure
-                bw.Write((byte)discriptorLength);
-                bw.Write(ctx.AlgorithmIdentifierOId.Length + 1);
-                bw.Write(0); // compiled hash size
-                bw.Write(hash.Length); // source hash size
-                bw.Write(headerSizeOffset); // algorithm id offset
-                bw.Write(headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1); // compiled hash offset (always empty)
-                bw.Write(headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1); // source hash offset
-                var algorithmIdOffset = ctx.AlgorithmIdentifierOId.Length + 1 + hash.Length;
-                bw.Write(Encoding.ASCII.GetBytes(ctx.AlgorithmIdentifierOId));
-                bw.Write((byte)0); // string terminator
-                bw.Write(hash);
-            }
-            bw.Flush();
-            return ms.ToArray();
         }
 
         private static byte GetContentInfoTotalSize()

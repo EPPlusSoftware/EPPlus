@@ -27,9 +27,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arrArg = arguments.Take(1);
-            var arr = ArgsToDoubleEnumerable(arrArg, context).Select(x => (double)x).ToList();
+            
+            var arr = ArgsToDoubleEnumerable(arrArg, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            
             if (!arr.Any()) return CreateResult(eErrorType.Value);
-            var quart = ArgToInt(arguments, 1);
+            
+            var quart = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            
             switch (quart)
             {
                 case 0:

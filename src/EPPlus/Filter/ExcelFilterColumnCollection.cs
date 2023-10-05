@@ -10,9 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Filter
@@ -27,7 +29,7 @@ namespace OfficeOpenXml.Filter
         internal ExcelFilterColumnCollection(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelAutoFilter autofilter) : base(namespaceManager, topNode)
         {
             _autoFilter = autofilter;
-            foreach (XmlElement node in topNode.SelectNodes("d:filterColumn", namespaceManager))
+            foreach (XmlElement node in topNode.SelectNodes("d:autoFilter/d:filterColumn", namespaceManager))
             {
                 if(!int.TryParse(node.Attributes["colId"].Value, out int position))
                 {
@@ -69,13 +71,17 @@ namespace OfficeOpenXml.Filter
         internal XmlNode Add(int position, string topNodeName)
         {
             XmlElement node;
-            if (position >= _autoFilter.Address.Columns)
+            if(_autoFilter.Address==null)
             {
-                throw (new ArgumentOutOfRangeException("Position is outside of the range"));
+                throw (new InvalidOperationException("Cannot add a column to the auto filter until an address is set."));
+            }
+            else if (position >= _autoFilter.Address.Columns)
+            {
+                throw (new ArgumentException($"Position {position} is outside of the range if the filter column collection"));
             }
             if (_columns.ContainsKey(position))
             {
-                throw (new ArgumentOutOfRangeException("Position already exists"));
+                throw (new ArgumentException($"Filter column at position {position} already exists"));
             }
             foreach (var c in _columns.Values)
             {
@@ -91,6 +97,11 @@ namespace OfficeOpenXml.Filter
 
         private XmlElement GetColumnNode(int position, string topNodeName)
         {
+            if (TopNode.LocalName != "autoFilter")
+            {
+                TopNode  = _autoFilter.CreateAutoFilterTopNode();
+            }
+
             XmlElement node = TopNode.OwnerDocument.CreateElement("filterColumn", ExcelPackage.schemaMain);
             node.SetAttribute("colId", position.ToString());
             var subNode = TopNode.OwnerDocument.CreateElement(topNodeName, ExcelPackage.schemaMain);
@@ -233,7 +244,11 @@ namespace OfficeOpenXml.Filter
         /// </summary>
         public void Clear()
         {
-            _columns.Clear();
+            while(_columns.Count > 0 )
+            {
+                var c = _columns.Values.First();
+                Remove(c);
+            }
         }
 
     }

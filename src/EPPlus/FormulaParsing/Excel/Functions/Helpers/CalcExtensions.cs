@@ -54,6 +54,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return sum.Get() / values.Count();
         }
 
+        public static double AverageKahan(this IList<double> values)
+        {
+            KahanSum sum = 0.0;
+            foreach (var val in values)
+            {
+                sum += val;
+            }
+            return sum.Get() / values.Count();
+        }
+
+        public static double AverageKahan(this IList<double?> values)
+        {
+            KahanSum sum = 0.0;
+            foreach (var val in values)
+            {
+                sum += val ?? 0;
+            }
+            return sum.Get() / values.Count(x => x.HasValue);
+        }
+
+        public static double AverageKahan(this double[] values)
+        {
+            KahanSum sum = 0.0;
+            foreach (var val in values)
+            {
+                sum += val;
+            }
+            return sum.Get() / values.Count();
+        }
+
         public static double AverageKahan(this IEnumerable<double> values, Func<double, double> selector)
         {
             KahanSum sum = 0.0;
@@ -80,6 +110,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             foreach (var val in values)
             {
                 sum += val;
+            }
+            return sum.Get();
+        }
+
+        public static double SumKahan(this IEnumerable<double?> values)
+        {
+            KahanSum sum = 0.0;
+            foreach (var val in values)
+            {
+                sum += val ?? 0;
             }
             return sum.Get();
         }

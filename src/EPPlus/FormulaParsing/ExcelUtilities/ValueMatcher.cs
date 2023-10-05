@@ -32,7 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             searchedValue = CheckGetRange(searchedValue);
             candidate = CheckGetRange(candidate);
 
-            if (searchedValue is string && candidate is string)
+            if ((searchedValue is string && candidate is string) ||
+                (candidate.GetType() == typeof(ExcelErrorValue)))
             {
                 return CompareStringToString(searchedValue.ToString().ToLower(), candidate.ToString().ToLower());
             }

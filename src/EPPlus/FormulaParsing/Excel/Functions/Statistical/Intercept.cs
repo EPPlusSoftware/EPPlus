@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -28,11 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var arg1 = arguments[0];
-            var arg2 = arguments[1];
-            var knownYs = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).Select(x => x.Value).ToArray();
-            var knownXs = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg2 }, context).Select(x => x.Value).ToArray();
-            if (knownYs.Count() != knownXs.Count()) return CreateResult(eErrorType.NA);
+            var knownYs = ArgsToDoubleEnumerable(arguments[0], context, out ExcelErrorValue e1).ToArray();
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var knownXs = ArgsToDoubleEnumerable(arguments[1], context, out ExcelErrorValue e2).ToArray();
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            if (knownYs.Length != knownXs.Length) return CreateResult(eErrorType.NA);
             if (!knownYs.Any()) return CreateResult(eErrorType.NA);
             var result = InterceptImpl(0, knownYs, knownXs);
             return CreateResult(result, DataType.Decimal);
@@ -40,8 +41,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         internal static double InterceptImpl(double x, double[] arrayY, double[] arrayX)
         {
-            var avgY = arrayY.Average();
-            var avgX = arrayX.Average();
+            var avgY = arrayY.AverageKahan();
+            var avgX = arrayX.AverageKahan();
             var nItems = arrayY.Length;
             var upperEquationPart = 0d;
             var lowerEquationPart = 0d;

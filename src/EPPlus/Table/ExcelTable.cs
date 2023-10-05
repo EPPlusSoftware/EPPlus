@@ -445,9 +445,11 @@ namespace OfficeOpenXml.Table
         private string ToJsonString(JsonTableExportSettings s)
         {
             var exporter = new JsonTableExport(this, s);
-            var ms = RecyclableMemory.GetStream();
-            exporter.Export(ms);
-            return s.Encoding.GetString(ms.ToArray());
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                exporter.Export(ms);
+                return s.Encoding.GetString(ms.ToArray());
+            }
         }
 
         /// <summary>
@@ -734,8 +736,8 @@ namespace OfficeOpenXml.Table
         {
             if (_autoFilter == null)
             {
-                var node = TopNode.SelectSingleNode(AUTOFILTER_PATH, NameSpaceManager);
-                _autoFilter = new ExcelAutoFilter(NameSpaceManager, node, this);
+                //var node = TopNode.SelectSingleNode(AUTOFILTER_PATH, NameSpaceManager);
+                _autoFilter = new ExcelAutoFilter(NameSpaceManager, TopNode, this);
                 _autoFilter.Address = AutoFilterAddress;
             }
 

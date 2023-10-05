@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -51,23 +52,42 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         public bool IgnoreNestedSubtotalsAndAggregates { get; set; }
 
-        protected override IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected override IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, out ExcelErrorValue error)
         {
-            return ArgsToDoubleEnumerable(arguments, context, IgnoreErrors, false);
+            return ArgsToDoubleEnumerable(arguments, context, IgnoreErrors, false, out error);
         }
 
-        protected IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreErrors, bool ignoreNonNumeric)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <param name="ignoreErrors"></param>
+        /// <param name="ignoreNonNumeric"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreErrors, bool ignoreNonNumeric, out ExcelErrorValue error)
         {
             if (!arguments.Any())
             {
-                return Enumerable.Empty<ExcelDoubleCellValue>();
+                error = null;
+                return new List<double>();
             }
             if (IgnoreHiddenValues)
             {
-                var nonHidden = arguments.Where(x => !x.ExcelStateFlagIsSet(ExcelCellState.HiddenCell));
-                return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, nonHidden, context);
+                var nonHidden = arguments.Where(x => !x.IsHiddenCell);
+                var res = base.ArgsToDoubleEnumerable(nonHidden, context, x => x.IgnoreHiddenCells = IgnoreHiddenValues, out ExcelErrorValue e1);
+                if (e1 != null) throw new ExcelErrorValueException(e1.Type);
             }
-            return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, ignoreErrors, IgnoreNestedSubtotalsAndAggregates, arguments, context, ignoreNonNumeric);
+            //return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, ignoreErrors, IgnoreNestedSubtotalsAndAggregates, arguments, context, ignoreNonNumeric);
+            return base.ArgsToDoubleEnumerable(arguments, context, x =>
+            {
+                x.IgnoreHiddenCells = IgnoreHiddenValues;
+                x.IgnoreErrors = ignoreErrors;
+                x.IgnoreNestedSubtotalAggregate = IgnoreNestedSubtotalsAndAggregates;
+                x.IgnoreNonNumeric = ignoreNonNumeric;
+            }, out error);
         }
 
         protected bool ShouldIgnore(ICellInfo c, ParsingContext context)

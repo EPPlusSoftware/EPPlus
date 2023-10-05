@@ -33,7 +33,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var padding = default(int?);
             if (arguments.Count > 1)
             {
-                padding = ArgToInt(arguments, 1);
+                padding = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                 if (padding.Value < 0 ^ padding.Value > 10) return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var decNumber = TwoComplementHelper.ParseDecFromString(number, 16);

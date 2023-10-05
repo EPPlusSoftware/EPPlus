@@ -30,14 +30,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1, out ExcelErrorValue e1);
+            var array = GetNumbersFromArgs(arguments, 0, context, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var number = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (number < array.First() || number > array.Last()) return CompileResult.GetErrorResult(eErrorType.NA);
             var significance = 3;
             if (arguments.Count() > 2)
             {
-                significance = ArgToInt(arguments, 2);
+                significance = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+                if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             }
             var result = PercentRankExcImpl(array, number);
             result = RoundResult(result, significance);

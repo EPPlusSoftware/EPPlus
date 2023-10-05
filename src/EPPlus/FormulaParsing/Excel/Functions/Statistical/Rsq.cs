@@ -28,11 +28,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var arg1 = arguments[0];
-            var arg2 = arguments[1];
-            var knownXs = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).ToArray();
-            var knownYs = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg2 }, context).ToArray();
-            var result = Math.Pow(Pearson.PearsonImpl(knownXs.Select(x => x.Value).ToArray(), knownYs.Select(x => x.Value).ToArray()), 2);
+            var knownXs = ArgsToDoubleEnumerable(arguments[0], context, out ExcelErrorValue e1).ToArray();
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var knownYs = ArgsToDoubleEnumerable(arguments[1], context, out ExcelErrorValue e2).ToArray();
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var result = Math.Pow(Pearson.PearsonImpl(knownXs, knownYs), 2);
             return CreateResult(result, DataType.Decimal);
         }
     }

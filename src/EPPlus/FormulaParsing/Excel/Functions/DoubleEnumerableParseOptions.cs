@@ -8,53 +8,50 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/16/2020         EPPlus Software AB       EPPlus 5.2.1
+  03/10/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.LoadFunctions
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     /// <summary>
-    /// Base class for parameter classes for Load functions
+    /// Options for parsing function arguments to a list of doubles
     /// </summary>
-    public abstract class LoadFunctionFunctionParamsBase
+    public class DoubleEnumerableParseOptions
     {
         /// <summary>
-        /// If true a row with headers will be added above the data
+        /// Ignore errors in cells
         /// </summary>
-        public bool PrintHeaders
+        public bool IgnoreErrors
         {
             get; set;
         }
-        /// <summary>
-        /// A custom name for the table, if created. 
-        /// The TableName must be unique within the workbook and be a valid table name.
-        /// </summary>
-        public string TableName
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// If set to another value than TableStyles.None the data will be added to a
-        /// table with the specified style
-        /// </summary>
-        public TableStyles? TableStyle
-        {
-            get; set;
-        } = null;
 
         /// <summary>
-        /// If true, EPPlus will add the built in (default) styles for hyperlinks and apply them on any member
-        /// that is of the <see cref="Uri"/> or <see cref="ExcelHyperLink"/> types. Default value is true.
+        /// Ignore hidden cells
         /// </summary>
-        public bool UseBuiltInStylesForHyperlinks
+        public bool IgnoreHiddenCells
         {
-            get;
-            set;
-        } = true;
+            get; set;
+        }
+
+        /// <summary>
+        /// Ignore results from underlying SUBTOTAL or AGGREGATE functions
+        /// </summary>
+        public bool IgnoreNestedSubtotalAggregate
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Ignore cells with non-numeric values
+        /// </summary>
+        public bool IgnoreNonNumeric
+        {
+            get; set;
+        }
     }
 }

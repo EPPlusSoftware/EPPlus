@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -29,22 +30,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var numbers = ArgsToDoubleEnumerable(true, arguments, context, true);
+            var numbers = ArgsToDoubleEnumerable(arguments, context, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var n = (double)numbers.Count();
             if (n < 4) return CompileResult.GetErrorResult(eErrorType.Div0);
-            var stdev = new Stdev().StandardDeviation(numbers.Select(x => x.Value));
+            var stdev = new Stdev().StandardDeviation(numbers);
             if(stdev.DataType == DataType.ExcelError)
             {
                 return stdev;
             }
             var part1 = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-            var avg = numbers.Select(x => x.Value).Average();
+            var avg = numbers.AverageKahan();
             var part2 = 0d;
             for(var x = 0; x < n; x++)
             {
-                part2 += System.Math.Pow((numbers.ElementAt(x) - avg), 4);
+                part2 += Math.Pow((numbers.ElementAt(x) - avg), 4);
             }
-            part2 /= System.Math.Pow((double)stdev.Result, 4);
+            part2 /= Math.Pow((double)stdev.Result, 4);
             var result = part1 * part2 - (3 * System.Math.Pow(n - 1, 2)) / ((n - 2) * (n - 3));
             return CreateResult(result, DataType.Decimal);
         }

@@ -33,6 +33,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override int ArgumentMinLength => 4;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
+        public override string NamespacePrefix => "_xlfn.";
+
         public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
             config.SetArrayParameterIndexes(0, 1, 2, 3);

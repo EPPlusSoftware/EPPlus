@@ -41,8 +41,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             
             
             
-            var index = ArgToInt(arguments, 1, IgnoreErrors) - 1;
-            var values = ArgsToDoubleEnumerable(false,new List<FunctionArgument> { args }, context, true);
+            var index = ArgToInt(arguments, 1, IgnoreErrors, out ExcelErrorValue e1) - 1;
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var values = ArgsToDoubleEnumerable(args, context, x =>
+            {
+                x.IgnoreNonNumeric = true;
+                x.IgnoreHiddenCells = IgnoreHiddenValues;
+                x.IgnoreErrors = IgnoreErrors;
+            }, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (index < 0 || index >= values.Count()) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = values.OrderBy(x => x).ElementAt(index);
             return CreateResult(result, DataType.Decimal);

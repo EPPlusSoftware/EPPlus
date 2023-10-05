@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -34,8 +35,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
             var arg1 = arguments[1];
             var arg2 = arguments[2];
-            var arrayY = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).Select(a => a.Value).ToArray();
-            var arrayX = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg2 }, context).Select(b => b.Value).ToArray();
+            //var arrayY = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).Select(a => a.Value).ToArray();
+            //var arrayX = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg2 }, context).Select(b => b.Value).ToArray();
+            var arrayY = ArgsToDoubleEnumerable(arg1, context, out ExcelErrorValue e2).ToArray();
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            var arrayX = ArgsToDoubleEnumerable(arg2, context, out ExcelErrorValue e3).ToArray();
+            if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             if (arrayY.Count() != arrayX.Count()) return CompileResult.GetErrorResult(eErrorType.NA);
             if (!arrayY.Any()) return CompileResult.GetErrorResult(eErrorType.NA);
             var result = ForecastImpl(x, arrayY, arrayX);
@@ -44,8 +49,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         internal static double ForecastImpl(double x, double[] arrayY, double[] arrayX)
         {
-            var avgY = arrayY.Average();
-            var avgX = arrayX.Average();
+            var avgY = arrayY.AverageKahan();
+            var avgX = arrayX.AverageKahan();
             var nItems = arrayY.Length;
             var upperEquationPart = 0d;
             var lowerEquationPart = 0d;

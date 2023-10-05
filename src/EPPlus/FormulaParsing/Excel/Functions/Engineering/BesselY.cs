@@ -30,7 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         {
             var x = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CreateResult(e1.Type);
-            var n = ArgToInt(arguments, 1);
+            var n = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+            if(e2 != null) return CreateResult(e2.Type);
             var result = new BesselYImpl().BesselY(x, n);
             return CreateResult(result.Result, DataType.Decimal);
         }
