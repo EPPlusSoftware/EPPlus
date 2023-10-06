@@ -902,7 +902,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     col = table.Columns[colName];
                 }
                 if (col == null)
+                {
+                    fromCol = -1;
+                    toCol = -1;
                     return;
+                }
             }
             if (lastColon)
             {
