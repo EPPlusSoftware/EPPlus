@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, pivotTableCache);
-            CacheId = pivotTableCache.CacheId;
+            CacheId = pivotTableCache.ExtLstCacheId;
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CreatePivotTable(sheet, address, sourceAddress._toCol - sourceAddress._fromCol + 1, name, tblId);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, sourceAddress);
-            CacheId = CacheDefinition._cacheReference.CacheId;
+            CacheId = CacheDefinition._cacheReference.ExtLstCacheId;
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
@@ -206,7 +206,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 fld.LoadItems();
                 Fields.AddInternal(fld);
             }
-
         }
         private string GetStartXml(string name, ExcelAddressBase address, int fields)
         {
@@ -1145,6 +1144,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var newCacheId = WorkSheet.Workbook.GetNewPivotCacheId();
             CacheId = newCacheId;
             CacheDefinition._cacheReference.CacheId = newCacheId;
+            CacheDefinition._cacheReference.ExtLstCacheId = newCacheId;
             WorkSheet.Workbook.SetXmlNodeInt($"d:pivotCaches/d:pivotCache[@cacheId={oldCacheId}]/@cacheId", newCacheId);
 
             return newCacheId;
