@@ -192,7 +192,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 }
                                 else
                                 {
-                                    dataBar.LowValue.Value = double.Parse(xr.ReadContentAsString());
+                                    dataBar.LowValue.Value = double.Parse(xr.ReadContentAsString(), CultureInfo.InvariantCulture);
                                 }
                                 xr.Read();
                                 xr.Read();
@@ -213,7 +213,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 }
                                 else
                                 {
-                                    dataBar.HighValue.Value = double.Parse(xr.ReadContentAsString());
+                                    dataBar.HighValue.Value = double.Parse(xr.ReadContentAsString(), CultureInfo.InvariantCulture);
                                 }
                                 xr.Read();
                                 xr.Read();

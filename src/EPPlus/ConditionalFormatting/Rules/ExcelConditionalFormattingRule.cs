@@ -384,7 +384,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Style.Fill.Style = eDxfFillStyle.GradientFill;
                     string degree = xr.GetAttribute("degree");
                     Style.Fill.Gradient.Degree = string.IsNullOrEmpty(degree) ?
-                        null : (double?)double.Parse(degree);
+                        null : (double?)double.Parse(degree, CultureInfo.InvariantCulture);
 
                     if(!string.IsNullOrEmpty(xr.GetAttribute("type")))
                     {
