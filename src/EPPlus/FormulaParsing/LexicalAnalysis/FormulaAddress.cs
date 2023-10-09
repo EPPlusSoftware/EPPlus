@@ -12,7 +12,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using System.Net;
-using Microsoft.Extensions.Primitives;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
