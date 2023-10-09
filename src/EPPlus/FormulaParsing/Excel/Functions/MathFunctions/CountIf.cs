@@ -50,7 +50,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            
             _expressionEvaluator = new ExpressionEvaluator(context);
             var range = arguments[0];
             var criteria = arguments[1].ValueFirst?.ToString() ?? default;
