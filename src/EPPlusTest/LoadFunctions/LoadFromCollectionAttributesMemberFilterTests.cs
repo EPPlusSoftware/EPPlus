@@ -24,13 +24,16 @@ namespace EPPlusTest.LoadFunctions
                     new LfcaTestClass1{ Id = 3, Item = new LfcaTestClass2{ Id = 4, Name = "Test 1"}}
                 };
                 var t = typeof(LfcaTestClass1);
+                var t2 = typeof(LfcaTestClass2);
                 sheet.Cells["A1"].LoadFromCollection(items, c =>
                 {
                     c.PrintHeaders = true;
                     c.Members = new MemberInfo[]
                     {
                         t.GetProperty("Id"),
-                        t.GetProperty("Item")
+                        t.GetProperty("Item"),
+                        t2.GetProperty("Id"),
+                        t2.GetProperty("Name")
                     };
                 });
 
