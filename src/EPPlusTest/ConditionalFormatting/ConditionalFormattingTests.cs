@@ -1992,7 +1992,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void ReadWriteTemplate()
         {
-            using (var package = OpenTemplatePackage("TestConditionalFormatting.xlsx"))
+            using (var package = OpenTemplatePackage("TestConditionalFormattingOrig.xlsx"))
             {
                 var ws = package.Workbook.Worksheets[0];
 
