@@ -112,11 +112,13 @@ namespace OfficeOpenXml.LoadFunctions
             return copy;
         }
 
-        private bool ShouldIgnoreMember(MemberInfo member)
+        private bool ShouldIgnoreMember(MemberInfo member, bool isNested)
         {
             if (member == null) return true;
             if (member.HasPropertyOfType<EpplusIgnore>()) return true;
             if(_members.Count == 0) return false;
+            //ignore by member info only works for the first level (outer class)
+            if (isNested) return false;
             return !(_members.ContainsKey(member.DeclaringType) && _members[member.DeclaringType].Contains(member.Name));
         }
 
@@ -132,7 +134,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     var hPrefix = default(string);
                     var sortOrderList = CopyList(sortOrderListArg);
-                    if (ShouldIgnoreMember(member))
+                    if (ShouldIgnoreMember(member, isNestedClass))
                     {
                         continue;
                     }
@@ -255,7 +257,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 var index = 0;
                 result.AddRange(members
-                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>() && !ShouldIgnoreMember(x))
+                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>() && !ShouldIgnoreMember(x, isNestedClass))
                     .Select(member => {
                         var h = default(string);
                         var mp = default(string);
