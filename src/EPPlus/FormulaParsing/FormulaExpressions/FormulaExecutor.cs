@@ -193,11 +193,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             wsIx = parsingContext.Package.Workbook.ExternalLinks.GetPositionByToken(extRefIx, t.Value);
                         }
                         break;
-                    case TokenType.TableName:
-                        
-                        
-                        ExtractTableAddress(extRefIx, wsIx, tokens, i, out FormulaTableAddress tableAddress, parsingContext);
-                        
+                    case TokenType.TableName:                                               
+                        ExtractTableAddress(extRefIx, wsIx, tokens, i, out FormulaTableAddress tableAddress, parsingContext);                        
                         expressions.Add(i, new TableAddressExpression(tableAddress, parsingContext));
                         break;
                     case TokenType.OpeningEnumerable:
