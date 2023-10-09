@@ -75,7 +75,6 @@ namespace OfficeOpenXml.LoadFunctions
                 var index = 0;
                 foreach (var member in members)
                 {
-                    var hPrefix = default(string);
                     var sortOrderList = CopyList(sortOrderListArg);
                     if (member.HasPropertyOfType<EpplusIgnore>())
                     {
@@ -84,46 +83,7 @@ namespace OfficeOpenXml.LoadFunctions
                     var memberPath = path != null ? $"{path}.{member.Name}" : member.Name;
                     if (member.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
                     {
-                        if (member.PropertyType == typeof(string) || (!member.PropertyType.IsClass && !member.PropertyType.IsInterface))
-                        {
-                            throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {memberPath})");
-                        }
-                        var nestedTableAttr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
-                        var attrOrder = nestedTableAttr.Order;
-                        hPrefix = nestedTableAttr.HeaderPrefix;
-                        if(!string.IsNullOrEmpty(headerPrefix) && !string.IsNullOrEmpty(hPrefix))
-                        {
-                            hPrefix = $"{headerPrefix} {hPrefix}";
-                        }
-                        else if(!string.IsNullOrEmpty(headerPrefix))
-                        {
-                            hPrefix = headerPrefix;
-                        }
-                        if(_sortOrderColumns != null && _sortOrderColumns.IndexOf(memberPath) > -1)
-                        {
-                            attrOrder = _sortOrderColumns.IndexOf(memberPath);
-                        }
-                        else
-                        {
-                            attrOrder += SortOrderOffset;
-                        }
-                        if(sortOrderList == null)
-                        {
-                            sortOrderList = new List<int>
-                            {
-                                attrOrder
-                            };
-                        }
-                        else
-                        {
-                            sortOrderList.Add(attrOrder);
-                            if (attrOrder < SortOrderOffset)
-                            {
-                                sortOrderList[0] = _sortOrderColumns.IndexOf(memberPath);
-                            }
-                        }
-                        SetupInternal(member.PropertyType, result, sortOrderList, memberPath, hPrefix);
-                        sortOrderList.RemoveAt(sortOrderList.Count - 1);
+                       HandleNestedTableColumn(result, headerPrefix, member, ref sortOrderList, memberPath);
                         continue;
                     }
                     var header = default(string);
@@ -193,57 +153,7 @@ namespace OfficeOpenXml.LoadFunctions
             }
             else
             {
-                var index = 0;
-                result.AddRange(members
-                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>())
-                    .Select(member => {
-                        var h = default(string);
-                        var mp = default(string);
-                        if (!string.IsNullOrEmpty(path))
-                        {
-                            mp = $"{path}.{member.Name}";
-                        }
-                        var colInfoSortOrderList = new List<int>();
-                        var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(mp) : -1;
-                        var sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : SortOrderOffset;
-                        var sortOrderList = CopyList(sortOrderListArg);
-                        var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
-                        if (epplusColumnAttr != null)
-                        {
-                            h = epplusColumnAttr.Header;
-                            sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : epplusColumnAttr.Order + SortOrderOffset;
-                        }
-                        else
-                        {
-                            h = member.Name;
-                        }
-
-                        if (sortOrderList != null && sortOrderList.Any())
-                        {
-                            if (sortOrderColumnsIndex > -1)
-                            {
-                                sortOrderList[0] = sortOrder;
-                            }
-                            colInfoSortOrderList.AddRange(sortOrderList);
-                        }
-                        
-                        if(!string.IsNullOrEmpty(headerPrefix))
-                        {
-                            h = $"{headerPrefix} {h}";
-                        }
-                        else
-                        {
-                            h = member.Name;
-                        }
-                        return new ColumnInfo { 
-                            Index = index++, 
-                            MemberInfo = member, 
-                            Path = mp, 
-                            Header = h,
-                            SortOrder = sortOrder,
-                            SortOrderLevels = colInfoSortOrderList
-                        };
-                    }));
+                BuildColumnInfo(result, sortOrderListArg, path, headerPrefix, members);
             }
             var formulaColumnAttributes = type.FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
             if (formulaColumnAttributes != null && formulaColumnAttributes.Any())
@@ -264,6 +174,109 @@ namespace OfficeOpenXml.LoadFunctions
                 }
             }
             return sort;
+        }
+
+        private int BuildColumnInfo(List<ColumnInfo> result, List<int> sortOrderListArg, string path, string headerPrefix, PropertyInfo[] members)
+        {
+            var index = 0;
+            result.AddRange(members
+                .Where(x => !x.HasPropertyOfType<EpplusIgnore>())
+                .Select(member =>
+                {
+                    var h = default(string);
+                    var mp = default(string);
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        mp = $"{path}.{member.Name}";
+                    }
+                    var colInfoSortOrderList = new List<int>();
+                    var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(mp) : -1;
+                    var sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : SortOrderOffset;
+                    var sortOrderList = CopyList(sortOrderListArg);
+                    var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
+                    if (epplusColumnAttr != null)
+                    {
+                        h = epplusColumnAttr.Header;
+                        sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : epplusColumnAttr.Order + SortOrderOffset;
+                    }
+                    else
+                    {
+                        h = member.Name;
+                    }
+
+                    if (sortOrderList != null && sortOrderList.Any())
+                    {
+                        if (sortOrderColumnsIndex > -1)
+                        {
+                            sortOrderList[0] = sortOrder;
+                        }
+                        colInfoSortOrderList.AddRange(sortOrderList);
+                    }
+
+                    if (!string.IsNullOrEmpty(headerPrefix))
+                    {
+                        h = $"{headerPrefix} {h}";
+                    }
+                    else
+                    {
+                        h = member.Name;
+                    }
+                    return new ColumnInfo
+                    {
+                        Index = index++,
+                        MemberInfo = member,
+                        Path = mp,
+                        Header = h,
+                        SortOrder = sortOrder,
+                        SortOrderLevels = colInfoSortOrderList
+                    };
+                }));
+            return index;
+        }
+
+        private void HandleNestedTableColumn(List<ColumnInfo> result, string headerPrefix, PropertyInfo member, ref List<int> sortOrderList, string memberPath)
+        {
+            string hPrefix;
+            if (member.PropertyType == typeof(string) || (!member.PropertyType.IsClass && !member.PropertyType.IsInterface))
+            {
+                throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {memberPath})");
+            }
+            var nestedTableAttr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
+            var attrOrder = nestedTableAttr.Order;
+            hPrefix = nestedTableAttr.HeaderPrefix;
+            if (!string.IsNullOrEmpty(headerPrefix) && !string.IsNullOrEmpty(hPrefix))
+            {
+                hPrefix = $"{headerPrefix} {hPrefix}";
+            }
+            else if (!string.IsNullOrEmpty(headerPrefix))
+            {
+                hPrefix = headerPrefix;
+            }
+            if (_sortOrderColumns != null && _sortOrderColumns.IndexOf(memberPath) > -1)
+            {
+                attrOrder = _sortOrderColumns.IndexOf(memberPath);
+            }
+            else
+            {
+                attrOrder += SortOrderOffset;
+            }
+            if (sortOrderList == null)
+            {
+                sortOrderList = new List<int>
+                            {
+                                attrOrder
+                            };
+            }
+            else
+            {
+                sortOrderList.Add(attrOrder);
+                if (attrOrder < SortOrderOffset)
+                {
+                    sortOrderList[0] = _sortOrderColumns.IndexOf(memberPath);
+                }
+            }
+            SetupInternal(member.PropertyType, result, sortOrderList, memberPath, hPrefix);
+            sortOrderList.RemoveAt(sortOrderList.Count - 1);
         }
 
         private static void ReindexAndSortColumns(List<ColumnInfo> result)
