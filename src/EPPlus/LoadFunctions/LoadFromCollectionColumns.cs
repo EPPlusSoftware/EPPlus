@@ -44,21 +44,30 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 typeof(T)
             };
+            _members = new Dictionary<Type, HashSet<string>>();
             if (members != null && members.Length > 0)
             {
-                _members = new HashSet<MemberInfo>(members);
-            }
-            else
-            {
-                _members = new HashSet<MemberInfo>();
+                foreach(var member in members)
+                {
+                    AddMember(member);
+                }
             }
         }
 
         private readonly BindingFlags _bindingFlags;
         private readonly List<string> _sortOrderColumns;
-        private readonly HashSet<MemberInfo> _members;
+        private readonly Dictionary<Type, HashSet<string>> _members;
         private readonly HashSet<Type> _includedTypes;
         private const int SortOrderOffset = ExcelPackage.MaxColumns;
+
+        private void AddMember(MemberInfo member)
+        {
+            if(!_members.ContainsKey(member.DeclaringType))
+            {
+                _members.Add(member.DeclaringType, new HashSet<string>());
+            }
+            _members[member.DeclaringType].Add(member.Name);
+        }
 
         internal void ValidateType(MemberInfo member)
         {
@@ -103,12 +112,14 @@ namespace OfficeOpenXml.LoadFunctions
             return copy;
         }
 
-        private bool ShouldIgnoreMember(MemberInfo member)
+        private bool ShouldIgnoreMember(MemberInfo member, bool isNested)
         {
             if (member == null) return true;
             if (member.HasPropertyOfType<EpplusIgnore>()) return true;
             if(_members.Count == 0) return false;
-            return !_members.Contains(member);
+            //ignore by member info only works for the first level (outer class)
+            if (isNested) return false;
+            return !(_members.ContainsKey(member.DeclaringType) && _members[member.DeclaringType].Contains(member.Name));
         }
 
         private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, bool isNestedClass = false, string path = null, string headerPrefix = null)
@@ -123,7 +134,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     var hPrefix = default(string);
                     var sortOrderList = CopyList(sortOrderListArg);
-                    if (ShouldIgnoreMember(member))
+                    if (ShouldIgnoreMember(member, isNestedClass))
                     {
                         continue;
                     }
@@ -246,7 +257,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 var index = 0;
                 result.AddRange(members
-                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>())
+                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>() && !ShouldIgnoreMember(x, isNestedClass))
                     .Select(member => {
                         var h = default(string);
                         var mp = default(string);
