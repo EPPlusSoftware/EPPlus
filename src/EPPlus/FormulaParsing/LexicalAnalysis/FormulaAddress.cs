@@ -12,6 +12,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using System.Net;
+using Microsoft.Extensions.Primitives;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -884,15 +885,27 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 FromCol = table.Address._fromCol;
                 ToCol = table.Address._toCol;
 
-                SetRowFromTablePart(TablePart1, table, ref FromRow, ref ToRow, ref FixedFlag);
-                if(string.IsNullOrEmpty(TablePart2)==false) SetRowFromTablePart(TablePart2, table, ref FromRow, ref ToRow, ref FixedFlag);
-                
-                SetColFromTablePart(ColumnName1, table, ref FromCol, ref ToCol, false);
-                if (string.IsNullOrEmpty(ColumnName2) == false) SetColFromTablePart(ColumnName2, table, ref FromCol, ref ToCol, true);
+                if (string.IsNullOrEmpty(TablePart1) == false)
+                {
+                    SetRowFromTablePart(TablePart1, table, ref FromRow, ref ToRow, ref FixedFlag);
+                    if (string.IsNullOrEmpty(TablePart2) == false)
+                    {
+                        SetRowFromTablePart(TablePart2, table, ref FromRow, ref ToRow, ref FixedFlag);
+                    }
+                }
+
+                if (string.IsNullOrEmpty(ColumnName1) == false)
+                {
+                    SetColFromTablePart(ColumnName1, table, ref FromCol, ref ToCol, false);
+                    if (string.IsNullOrEmpty(ColumnName2) == false)
+                    {
+                        SetColFromTablePart(ColumnName2, table, ref FromCol, ref ToCol, true);
+                    }
+                }
             }
         }
         private void SetColFromTablePart(string value, ExcelTable table, ref int fromCol, ref int toCol, bool lastColon)
-        {            
+        {
             var col = table.Columns[value];
             if (col == null)
             {
