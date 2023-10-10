@@ -449,19 +449,33 @@ namespace OfficeOpenXml
                     //iterate all columns and set the row to the style of the last column
                     var cse = new CellStoreEnumerator<ExcelValue>(ws._values, 0, 1, 0, ExcelPackage.MaxColumns);
                     var cs = 0;
+                    int prevCol = 0;
+                    bool hasFullColCoverage = true; //If all columns are covered, 
                     while (cse.Next())
                     {
+                        if(prevCol != cse.Column-1)
+                        {
+                            hasFullColCoverage = false;
+                        }
                         cs = cse.Value._styleId;
                         if (cs == 0) continue;
                         var c = ws.GetValueInner(cse.Row, cse.Column) as ExcelColumn;
-                        if (c != null && c.ColumnMax < ExcelPackage.MaxColumns)
+                        if (c != null)
                         {
-                            for (int col = c.ColumnMin; col < c.ColumnMax; col++)
+                            if(c.ColumnMax < ExcelPackage.MaxColumns || hasFullColCoverage==false)
                             {
-                                if (!ws.ExistsStyleInner(rowNum, col))
+                                for (int col = c.ColumnMin; col < c.ColumnMax; col++)
                                 {
-                                    ws.SetStyleInner(rowNum, col, cs);
+                                    if (!ws.ExistsStyleInner(rowNum, col))
+                                    {
+                                        ws.SetStyleInner(rowNum, col, cs);
+                                    }
                                 }
+                            }
+                            else 
+                            {
+                                cs = c.StyleID;
+                                break;
                             }
                         }
                     }
