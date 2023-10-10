@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,6 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         {
             //Setup
             var f = @"SUM(MyTable[])";
-
 
             _ws.Cells["H1"].Formula = f;
             _ws.Cells["H1"].Calculate();
