@@ -478,10 +478,12 @@ namespace OfficeOpenXml
                                 break;
                             }
                         }
+                        prevCol = c.ColumnMax;
                     }
                     ws.SetStyleInner(rowNum, 0, cs);
                     cse.Dispose();
                 }
+
                 if (styleCashe.ContainsKey(s))
                 {
                     ws.SetStyleInner(rowNum, 0, styleCashe[s]);
