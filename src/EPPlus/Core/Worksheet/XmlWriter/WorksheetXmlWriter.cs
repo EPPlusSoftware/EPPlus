@@ -1419,7 +1419,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                     if (values[j].ColorSettings.Tint != null)
                                     {
-                                        cache.Append($" tint=\"{values[j].ColorSettings.Tint}\"");
+                                        cache.Append($" tint=\"{values[j].ColorSettings.Tint.Value.ToString(CultureInfo.InvariantCulture)}\"");
                                     }
 
                                     cache.Append($"/>");
@@ -1641,7 +1641,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if (cSValue.ColorSettings.Tint != null)
                             {
-                                cache.Append($" tint=\"{cSValue.ColorSettings.Tint}\"");
+                                cache.Append($" tint=\"{cSValue.ColorSettings.Tint.Value.ToString(CultureInfo.InvariantCulture)}\"");
                             }
 
                             cache.Append($"/>");
@@ -1841,7 +1841,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (col.Tint != null)
             {
-                cache.Append($" tint=\"{col.Tint}\"");
+                cache.Append($" tint=\"{col.Tint.Value.ToString(CultureInfo.InvariantCulture)}\"");
             }
 
             cache.Append($"/>");
