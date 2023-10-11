@@ -131,7 +131,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                                 cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
                             }
 
-                            //if (ce.CellAddress != null)
+                            //var scDxf = new StyleChecker(xfs, _exporterContext._dxfStyleCache, styles);
+
+                            //if(scDxf.ShouldAdd())
                             //{
                             //    if (_cfAtAddresses.ContainsKey(ce.CellAddress))
                             //    {
@@ -144,7 +146,21 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             //            }
                             //        }
                             //    }
-                            //}
+
+                            if (ce.CellAddress != null)
+                            {
+                                if (_cfAtAddresses.ContainsKey(ce.CellAddress))
+                                {
+                                    foreach (var cf in _cfAtAddresses[ce.CellAddress])
+                                    {
+                                        var idDxf = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
+                                        if (idDxf != -1)
+                                        {
+                                            //await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
 using System.Collections.Generic;
@@ -77,6 +78,42 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             {
                 ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
             }
+            return "#" + ret.ToArgb().ToString("x8").Substring(2);
+        }
+
+        protected string GetColor(ExcelDxfColor c, ExcelTheme theme)
+        {
+            Color ret;
+            if (c.Color.HasValue)
+            {
+                ret = c.Color.Value;
+            }
+            else if (c.Theme.HasValue)
+            {
+                ret = Utils.ColorConverter.GetThemeColor(theme, c.Theme.Value);
+            }
+            else if (c.Index != null)
+            {
+                if (c.Index.Value >= 0)
+                {
+                    ret = ExcelColor.GetIndexedColor(c.Index.Value);
+                }
+                else
+                {
+                    ret = Color.Empty;
+                }
+            }
+            else
+            {
+                //Automatic, set to black.
+                ret = Color.Black;
+            }
+
+            if (c.Tint != 0)
+            {
+                ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+            }
+
             return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
 
