@@ -201,7 +201,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        protected void CreateRichText()
+        internal void CreateRichText()
         {
             float defFont = 14;
             var stylePart = GetStylePart();
