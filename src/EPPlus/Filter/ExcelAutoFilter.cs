@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Filter
 
         internal void Save()
         {
-            ApplyFilter();
+            if(_worksheet.Workbook._package.Settings.ApplyFiltersOnSave) ApplyFilter();
             foreach (var c in Columns)
             {
                 c.Save();

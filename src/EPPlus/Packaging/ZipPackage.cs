@@ -328,7 +328,9 @@ namespace OfficeOpenXml.Packaging
                     part.ContentType == ContentTypes.contentTypeMetaData ||
                     part.ContentType == ContentTypes.contentTypeRichDataValueType ||
                     part.ContentType == ContentTypes.contentTypeRichDataValueStructure ||
-                    part.ContentType == ContentTypes.contentTypeRichDataValue)
+                    part.ContentType == ContentTypes.contentTypeRichDataValue ||
+                    part.ContentType == ContentTypes.contentTypeWorkbookDefault ||
+                    part.ContentType == ContentTypes.contentTypeWorkbookMacroEnabled)
                 {
                     saveAfterParts.Add(part);
                 }
@@ -338,13 +340,18 @@ namespace OfficeOpenXml.Packaging
                 }
             }
 
+            foreach (var part in saveAfterParts)
+            {
+                if (part.ShouldBeSaved==false)
+                {
+                    DeletePart(part.Uri);
+                }
+            }
+
             //Shared strings must be saved after all worksheets. The ss dictionary is populated when that workheets are saved (to get the best performance).
             foreach (var part in saveAfterParts)
             {
-                if (part.ShouldBeSaved)
-                { 
-                    part.WriteZip(os);
-                }   
+                part.WriteZip(os);
             }
             os.Flush();
             
@@ -365,7 +372,11 @@ namespace OfficeOpenXml.Packaging
                 }
                 else
                 {
-                    xml.AppendFormat("<Override ContentType=\"{0}\" PartName=\"{1}\" />", ct.Name, GetUriKey(ct.Match));
+                    var uriKey = GetUriKey(ct.Match);
+                    if (Parts.TryGetValue(uriKey, out ZipPackagePart part) && part.ShouldBeSaved)
+                    {
+                        xml.AppendFormat("<Override ContentType=\"{0}\" PartName=\"{1}\" />", ct.Name, uriKey);
+                    }
                 }
             }
             xml.Append("</Types>");

@@ -29,14 +29,14 @@ namespace OfficeOpenXml.Drawing.Chart
     {
         internal ExcelChart _chart;
         internal string _nsPrefix = "";
-        private readonly string titlePath = "{0}:tx/{0}:rich/a:p/a:r/a:t";
+        internal string _fontPropertiesPath = "";
 
         internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
             base(nameSpaceManager, node)
         {
             _chart = chart;
             _nsPrefix = nsPrefix;
-            titlePath = string.Format(titlePath, nsPrefix);
+            _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
             if (chart._isChartEx)
             {
                 AddSchemaNodeOrder(new string[] { "tx", "strRef", "rich", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
@@ -56,10 +56,10 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         private void CreateTopNode()
-        {            
+        {
             if (TopNode.LocalName != "title")
             {
-                TopNode = CreateNode(_nsPrefix+":title");
+                TopNode = CreateNode(_nsPrefix + ":title");
             }
         }
 
@@ -82,7 +82,7 @@ namespace OfficeOpenXml.Drawing.Chart
             get;
             set;
         }
-                ExcelDrawingBorder _border = null;
+        ExcelDrawingBorder _border = null;
         /// <summary>
         /// A reference to the border properties
         /// </summary>
@@ -107,13 +107,13 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_fill == null)
                 {
-                    
+
                     _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
         }
-        ExcelTextFont _font=null;
+        internal ExcelTextFont _font = null;
         /// <summary>
         /// A reference to the font properties
         /// </summary>
@@ -123,15 +123,17 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-                    if (_richText == null || _richText.Count == 0)
+                    if (HasLinkedCell==false && (_richText == null || _richText.Count == 0))
                     {
                         RichText.Add("");
                     }
-                    _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:tx/{_nsPrefix}:rich/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }
         }
+        internal abstract bool HasLinkedCell { get; }
+
         ExcelTextBody _textBody = null;
         /// <summary>
         /// Access to text body properties
@@ -142,7 +144,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, $"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }
@@ -184,24 +186,30 @@ namespace OfficeOpenXml.Drawing.Chart
 
         ExcelParagraphCollection _richText = null;
         /// <summary>
-        /// Richtext
+        /// Richtext. If the title is linked to a cell via <see cref="ExcelChartTitleStandard.LinkedCell"/>, this property returns null
         /// </summary>
         public ExcelParagraphCollection RichText
         {
             get
             {
+                if (HasLinkedCell) return null;
                 if (_richText == null)
                 {
-                    float defFont = 14;
-                    var stylePart = GetStylePart();
-                    if(stylePart!=null && stylePart.HasTextRun)
-                    {
-                        defFont = Convert.ToSingle(stylePart.DefaultTextRun.FontSize);
-                    }
-                    _richText = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:tx/{ _nsPrefix }:rich/a:p", SchemaNodeOrder, defFont);
+                    CreateRichText();
                 }
                 return _richText;
             }
+        }
+
+        protected void CreateRichText()
+        {
+            float defFont = 14;
+            var stylePart = GetStylePart();
+            if (stylePart != null && stylePart.HasTextRun)
+            {
+                defFont = Convert.ToSingle(stylePart.DefaultTextRun.FontSize);
+            }
+            _richText = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p", SchemaNodeOrder, defFont);
         }
 
         private ExcelChartStyleEntry GetStylePart()
@@ -253,11 +261,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@anchorCtr", false);
+                return GetXmlNodeBool($"{_fontPropertiesPath}/a:bodyPr/@anchorCtr", false);
             }
             set
             {
-                SetXmlNodeBool($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@anchorCtr", value, false);
+                SetXmlNodeBool($"{_fontPropertiesPath}/a:bodyPr/@anchorCtr", value, false);
             }
         }
         /// <summary>
@@ -267,11 +275,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@anchor").TranslateTextAchoring();
+                return GetXmlNodeString($"{_fontPropertiesPath}/a:bodyPr/@anchor").TranslateTextAchoring();
             }
             set
             {
-                SetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@anchorCtr", value.TranslateTextAchoringText());
+                SetXmlNodeString($"{_fontPropertiesPath}/a:bodyPr/@anchorCtr", value.TranslateTextAchoringText());
             }
         }
         const string TextVerticalPath = "xdr:sp/xdr:txBody/a:bodyPr/@vert";
@@ -282,11 +290,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@vert").TranslateTextVertical();
+                return GetXmlNodeString($"{_fontPropertiesPath}/a:bodyPr/@vert").TranslateTextVertical();
             }
             set
             {
-                SetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@vert", value.TranslateTextVerticalText());
+                SetXmlNodeString($"{_fontPropertiesPath}/a:bodyPr/@vert", value.TranslateTextVerticalText());
             }
         }
         /// <summary>
@@ -296,7 +304,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                var i=GetXmlNodeInt($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@rot");
+                var i=GetXmlNodeInt($"{_fontPropertiesPath}/a:bodyPr/@rot");
                 if (i < 0)
                 {
                     return 360 - (i / 60000);
@@ -322,7 +330,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     v = (int)(value * 60000);
                 }
-                SetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@rot", v.ToString());
+                SetXmlNodeString($"{_fontPropertiesPath}/a:bodyPr/@rot", v.ToString());
             }
         }
 
@@ -341,13 +349,14 @@ namespace OfficeOpenXml.Drawing.Chart
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
     }
+    /// <summary>
+    /// A chart title for a standard chart.
+    /// </summary>
     public class ExcelChartTitleStandard : ExcelChartTitle
     {
         internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) : base(chart, nameSpaceManager, node, nsPrefix)
         {
-            titleLinkPath = string.Format(titleLinkPath, nsPrefix);
         }
-        private readonly string titleLinkPath = "{0}:tx/{0}:strRef";
         public override string Text 
         {
             get
@@ -363,9 +372,14 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
+                if(RichText == null)
+                {
+                    LinkedCell = null;
+                    CreateRichText();
+                }
                 var applyStyle = (RichText.Count == 0);
-                LinkedCell = null;
                 RichText.Text = value;
+                _font = null;
                 if (applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
             }
         }
@@ -376,7 +390,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                var a = GetXmlNodeString($"{titleLinkPath}/c:f");
+                var a = GetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:strRef/c:f");
                 if (ExcelCellBase.IsValidAddress(a))
                 {
                     var address = new ExcelAddressBase(a);
@@ -400,16 +414,19 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:strRef");
                     RichText.Text = "";
-                    return;
+                    _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";                    
                 }
                 else
                 {
                     DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:rich");
-                    SetXmlNodeString($"{titleLinkPath}/c:f", value.FullAddressAbsolute);
-                    var cache = CreateNode($"{_nsPrefix}:tx/{_nsPrefix}strRef/c:strCache", false, true);
+                    SetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:strRef/c:f", value.FullAddressAbsolute);
+                    var cache = CreateNode($"{_nsPrefix}:tx/{_nsPrefix}:strRef/c:strCache", false, true);
                     cache.InnerXml = $"<c:ptCount val=\"1\"/><c:pt idx=\"0\"><c:v>{value.Text}</c:v></c:pt>";
+                    _fontPropertiesPath = $"{_nsPrefix}:txPr";
                 }
+                _font = null;
             }
         }
+        internal override bool HasLinkedCell => LinkedCell != null;
     }
 }

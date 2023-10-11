@@ -76,5 +76,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("@align", value.ToEnumString().Substring(0,1).ToLowerInvariant());
             }
         }
+        internal override bool HasLinkedCell => false;
     }
 }

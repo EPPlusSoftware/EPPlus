@@ -5327,6 +5327,111 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue1095()
+        {
+            using (var package = OpenPackage("I1095.xlsx", true))
+            {
+                string testName;
+                int startColumn;
+                int subColumnCount;
+                bool doTest;
+
+
+                for (var cycle = 1; cycle < 15; cycle++)
+                {
+                    var ws = package.Workbook.Worksheets.Add("test" + cycle);
+                    ws.OutLineSummaryRight = false;
+                    ws.Rows[0].Style.TextRotation = 90;
+                    ws.Row(1).CustomHeight = false;
+
+                    ws.ClearFormulas();
+                    ws.ClearFormulaValues();
+
+                    ws.Cells[cycle, 1].Value = "set";
+
+                    (testName, startColumn, subColumnCount, doTest) = ("outline-collapse[all]-data", 1, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                    }
+
+                    (testName, startColumn, subColumnCount, doTest) = ("outline-collapse[first]-data", 5, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                    }
+
+                    (testName, startColumn, subColumnCount, doTest) = ("collapse[first]-outline-data", 9, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                        for (int i = 0; i <= 0; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                    }
+
+                    (testName, startColumn, subColumnCount, doTest) = ("data-outline-collapse[first]", 13, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= 0; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                    }
+
+                    var s = "";
+                    for (var i = 1; i <= 50; i++)
+                    {
+                        var column = ws.Column(i);
+
+                        if (column is null) { continue; }
+
+                        s = s + (column.Collapsed ? "1" : 0);
+                    }
+                    Console.WriteLine($"cyc{cycle}::{s}");
+                }
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
         public void Issue1096()
         {
             using (var package = OpenPackage("I1096.xlsx", true))

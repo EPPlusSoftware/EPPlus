@@ -29,7 +29,8 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         string _borderReferencePath = "{0}/cs:lnRef ";
         string _effectReferencePath = "{0}/cs:effectRef";
         string _fontReferencePath = "{0}/cs:fontRef";
-        
+
+        string _richTextPath = "{0}/cs:rich";
         string _fillPath = "{0}/cs:spPr";
         string _borderPath = "{0}/cs:spPr/a:ln";
         string _effectPath = "{0}/cs:spPr/a:effectLst";
@@ -47,6 +48,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             _effectReferencePath = string.Format(_effectReferencePath, path);
             _fontReferencePath = string.Format(_fontReferencePath, path);
 
+            _richTextPath = string.Format(_richTextPath, path);
             _fillPath = string.Format(_fillPath, path);
             _borderPath = string.Format(_borderPath, path);
             _effectPath = string.Format(_effectPath, path);
@@ -302,6 +304,14 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 return ExistsNode(_defaultTextBodyPath);
             }
         }
+        public bool HasRichText
+        {
+            get
+            {
+                return ExistsNode(_richTextPath);
+            }
+        }
+
         /// <summary>
         /// True if the entry has text run styles
         /// </summary>
