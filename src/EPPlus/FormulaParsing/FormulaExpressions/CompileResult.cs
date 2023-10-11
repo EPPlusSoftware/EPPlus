@@ -173,7 +173,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
         }
 
-        internal static CompileResult GetErrorResult(eErrorType errorType)
+        /// <summary>
+        /// Returns a <see cref="CompileResult" /> from the error type/>
+        /// </summary>
+        /// <param name="errorType">The type of error.</param>
+        /// <returns>The <see cref="CompileResult" /> with a the value containing the <see cref="ExcelErrorValue"/> for the type.</returns>
+        public static CompileResult GetErrorResult(eErrorType errorType)
         {
             switch (errorType)
             {

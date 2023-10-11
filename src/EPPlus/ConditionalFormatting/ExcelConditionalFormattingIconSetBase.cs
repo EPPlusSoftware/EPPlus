@@ -12,6 +12,7 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using System;
+using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Utils.Extensions;
@@ -110,7 +111,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             IconSetPercent = string.IsNullOrEmpty(xr.GetAttribute("percent")) ? true : xr.GetAttribute("percent") != "0";
             Reverse = string.IsNullOrEmpty(xr.GetAttribute("reverse")) ? false : xr.GetAttribute("reverse") != "0";
 
-            var set = xr.GetAttribute("iconSet").Substring(1);
+            var set = xr.GetAttribute("iconSet");
+
+            if (set == null)
+            {
+                set = "3TrafficLights1";
+            }
+
+
+            set = set.Substring(1);
 
             Type = type;
             IconSet = set.ToEnum<T>().Value;
@@ -149,7 +158,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             icon.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
             if (icon.Type != eExcelConditionalFormattingValueObjectType.Formula)
             {
-                icon.Value = double.Parse(xr.GetAttribute("val"));
+                icon.Value = double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
             }
             else
             {

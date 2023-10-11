@@ -111,7 +111,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             {
                 if(highType != eExcelConditionalFormattingValueObjectType.Formula)
                 {
-                    HighValue.Value = Double.Parse(xr.GetAttribute("val"));
+                    HighValue.Value = Double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
                 }
             }
 
@@ -123,7 +123,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             {
                 if(lowType != eExcelConditionalFormattingValueObjectType.Formula)
                 {
-                    LowValue.Value = Double.Parse(xr.GetAttribute("val"));
+                    LowValue.Value = Double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
                 }
             }
 
@@ -205,7 +205,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
             {
-                col.Tint = double.Parse(xr.GetAttribute("tint"));
+                col.Tint = double.Parse(xr.GetAttribute("tint"), CultureInfo.InvariantCulture);
             }
 
             xr.Read();

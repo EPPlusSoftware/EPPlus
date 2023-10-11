@@ -179,7 +179,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
             {
-                colSettings.ColorSettings.Tint = double.Parse(xr.GetAttribute("tint"));
+                colSettings.ColorSettings.Tint = double.Parse(xr.GetAttribute("tint"), CultureInfo.InvariantCulture);
             }
         }
 

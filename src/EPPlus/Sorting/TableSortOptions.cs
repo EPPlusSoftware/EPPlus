@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Sorting
         public TableSortOptions(ExcelTable table) : base()
         {
             _table = table;
-            _columnNameIndexes = new Dictionary<string, int>();
+            _columnNameIndexes = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase);
             for(var x = 0; x < table.Columns.Count(); x++)
             {
                 _columnNameIndexes[table.Columns.ElementAt(x).Name] = x;

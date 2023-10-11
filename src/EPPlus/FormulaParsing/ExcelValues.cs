@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -200,7 +201,16 @@ namespace OfficeOpenXml
         {
             return new ExcelErrorValue(errorType);
         }
-        
+        /// <summary>
+        /// Returns the error as a <see cref="CompileResult"/>
+        /// </summary>
+        public CompileResult AsCompileResult
+        {
+            get
+            {
+                return CompileResult.GetErrorResult(Type);
+            }
+        }
         /// <summary>
         /// Parses a error value string and returns the <see cref="ExcelErrorValue"/>
         /// </summary>

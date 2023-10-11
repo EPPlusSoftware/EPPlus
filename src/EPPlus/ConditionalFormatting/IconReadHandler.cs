@@ -30,6 +30,11 @@ namespace OfficeOpenXml.ConditionalFormatting
             xr.Read();
             var set = xr.GetAttribute("iconSet");
 
+            if (set == null)
+            {
+                set = "3TrafficLights1";
+            }
+
             //The first char of all iconSet types start with number of their type.
             if (set[0] == '3')
             {
