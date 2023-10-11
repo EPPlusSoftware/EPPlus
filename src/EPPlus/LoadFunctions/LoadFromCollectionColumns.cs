@@ -30,13 +30,34 @@ namespace OfficeOpenXml.LoadFunctions
         }
 
         public LoadFromCollectionColumns(BindingFlags bindingFlags, List<string> sortOrderColumns)
+        : this(bindingFlags, sortOrderColumns, null)
+        {
+            
+        }
+
+        public LoadFromCollectionColumns(BindingFlags bindingFlags, List<string> sortOrderColumns, MemberInfo[] members)
         {
             _bindingFlags = bindingFlags;
             _sortOrderColumns = sortOrderColumns;
+            _includedTypes = new HashSet<Type>
+            {
+                typeof(T)
+            };
+            _members = new Dictionary<Type, HashSet<string>>();
+            if (members != null && members.Length > 0)
+            {
+                foreach (var member in members)
+                {
+                    AddMember(member);
+                }
+            }
         }
+
 
         private readonly BindingFlags _bindingFlags;
         private readonly List<string> _sortOrderColumns;
+        private readonly Dictionary<Type, HashSet<string>> _members;
+        private readonly HashSet<Type> _includedTypes;
         private const int SortOrderOffset = ExcelPackage.MaxColumns;
 
         internal List<ColumnInfo> Setup()
@@ -57,6 +78,32 @@ namespace OfficeOpenXml.LoadFunctions
             return result;
         }
 
+        private void AddMember(MemberInfo member)
+        {
+            if (!_members.ContainsKey(member.DeclaringType))
+            {
+                _members.Add(member.DeclaringType, new HashSet<string>());
+            }
+            _members[member.DeclaringType].Add(member.Name);
+        }
+
+        internal void ValidateType(MemberInfo member)
+        {
+            var isValid = false;
+            foreach (var includedType in _includedTypes)
+            {
+
+                if (member.DeclaringType == includedType
+                    || member.DeclaringType.IsAssignableFrom(includedType)
+                    || member.DeclaringType.IsSubclassOf(includedType))
+                {
+                    isValid = true;
+                    break;
+                }
+            }
+            if (!isValid) throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
+        }
+
         private List<ListType> CopyList<ListType>(List<ListType> source)
         {
             if (source == null) return null;
@@ -65,7 +112,17 @@ namespace OfficeOpenXml.LoadFunctions
             return copy;
         }
 
-        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, string path = null, string headerPrefix = null)
+        private bool ShouldIgnoreMember(MemberInfo member, bool isNested)
+        {
+            if (member == null) return true;
+            if (member.HasPropertyOfType<EpplusIgnore>()) return true;
+            if (_members.Count == 0) return false;
+            //ignore by member info only works for the first level (outer class)
+            if (isNested) return false;
+            return !(_members.ContainsKey(member.DeclaringType) && _members[member.DeclaringType].Contains(member.Name));
+        }
+
+        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, bool isNestedClass = false, string path = null, string headerPrefix = null)
         {
             var sort = false;
             var members = type.GetProperties(_bindingFlags);
@@ -77,6 +134,10 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     var hPrefix = default(string);
                     var sortOrderList = CopyList(sortOrderListArg);
+                    if (ShouldIgnoreMember(member, isNestedClass))
+                    {
+                        continue;
+                    }
                     if (member.HasPropertyOfType<EpplusIgnore>())
                     {
                         continue;
@@ -122,7 +183,7 @@ namespace OfficeOpenXml.LoadFunctions
                                 sortOrderList[0] = _sortOrderColumns.IndexOf(memberPath);
                             }
                         }
-                        SetupInternal(member.PropertyType, result, sortOrderList, memberPath, hPrefix);
+                        SetupInternal(member.PropertyType, result, sortOrderList, true, memberPath, hPrefix);
                         sortOrderList.RemoveAt(sortOrderList.Count - 1);
                         continue;
                     }
@@ -195,7 +256,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 var index = 0;
                 result.AddRange(members
-                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>())
+                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>() && !ShouldIgnoreMember(x, isNestedClass))
                     .Select(member => {
                         var h = default(string);
                         var mp = default(string);
