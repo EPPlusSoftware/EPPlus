@@ -1506,14 +1506,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             cache.Append($"<cfvo type=\"{icon.Type.ToString().UnCapitalizeFirstLetter()}\" ");
 
-            if (icon.Value != double.NaN)
-            {
-                cache.Append($"val=\"{icon.Value}\" ");
-            }
-
-            if(icon.Formula != null) 
+            if (icon.Formula != null)
             {
                 cache.Append($"val=\"{icon.Formula.EncodeXMLAttribute()}\" ");
+            }
+            else if (icon.Value != double.NaN)
+            {
+                cache.Append($"val=\"{icon.Value}\" ");
             }
 
             if (icon.GreaterThanOrEqualTo == false && gteCheck == true)
