@@ -26,71 +26,88 @@ namespace OfficeOpenXml.Style
         /// </summary>
         Solid,
         /// <summary>
-        /// Dark gray
+        /// Dark gray  <para/>
+        /// Excel name: 75% Gray
         /// </summary>
         DarkGray,
         /// <summary>
-        /// Medium gray
+        /// Medium gray <para/>
+        /// Excel name: 50% Gray
         /// </summary>
         MediumGray,
         /// <summary>
-        /// Light gray
+        /// Light gray <para/>
+        /// Excel name: 25% Gray
         /// </summary>
         LightGray,
         /// <summary>
-        /// Grayscale of 0.125, 1/8
+        /// Grayscale of 0.125, 1/8 <para/>
+        /// Excel name: 12.5% Gray
         /// </summary>
         Gray125,
         /// <summary>
-        /// Grayscale of 0.0625, 1/16
+        /// Grayscale of 0.0625, 1/16 <para/>
+        /// Excel name: 6.25% Gray
         /// </summary>
         Gray0625,
         /// <summary>
-        /// Dark vertical
+        /// Dark vertical <para/>
+        /// Excel name: Vertical Stripe
         /// </summary>
         DarkVertical,
         /// <summary>
-        /// Dark horizontal
+        /// Dark horizontal <para/>
+        /// Excel name: Horizontal Stripe
         /// </summary>
         DarkHorizontal,
         /// <summary>
-        /// Dark down
+        /// Dark down <para/>
+        /// Excel name: Reverse Diagonal Stripe
         /// </summary>
         DarkDown,
         /// <summary>
-        /// Dark up
+        /// Dark up <para/>
+        /// Excel name: Diagonal Stripe
         /// </summary>
         DarkUp,
         /// <summary>
-        /// Dark grid
+        /// Dark grid <para/>
+        /// Excel name: Diagonal Crosshatch
         /// </summary>
         DarkGrid,
         /// <summary>
-        /// Dark trellis
+        /// Dark trellis <para/>
+        /// Excel name: Thick Diagonal Crosshatch
         /// </summary>
         DarkTrellis,
         /// <summary>
-        /// Light vertical
+        /// Light vertical <para/>
+        /// Excel name: Thin Vertical Stripe
         /// </summary>
         LightVertical,
         /// <summary>
-        /// Light horizontal
+        /// Light horizontal <para/>
+        /// Excel name: Thin Horizontal Stripe
         /// </summary>
         LightHorizontal,
         /// <summary>
-        /// Light down
+        /// Light down <para/>
+        /// Excel name: Thin Reverse Diagonal Stripe
         /// </summary>
         LightDown,
         /// <summary>
-        /// Light up
+        /// Light up <para/>
+        /// Excel name: Thin Diagonal Stripe
         /// </summary>
         LightUp,
         /// <summary>
-        /// Light grid
+        /// Light grid <para/>
+        /// Excel name: Thin Horizontal Crosshatch
         /// </summary>
         LightGrid,
         /// <summary>
-        /// Light trellis
+        /// Light trellis <para/>
+        /// Excel name: Thin Diagonal Crosshatch
         /// </summary>
         LightTrellis
     }
