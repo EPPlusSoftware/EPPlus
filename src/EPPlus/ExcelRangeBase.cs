@@ -2029,15 +2029,17 @@ namespace OfficeOpenXml
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
         /// <summary>
-        /// The address of the formula in the top-left cell of the range.
-        /// A shared formula or array formula will return the address for the entire series.
-        /// If you want the address of a dynamic array formula, you must calculate the formula first.
+        /// The output range of the formula in the top-left cell of the range.
+        /// A shared formula will return the range for the entire series.
+        /// An array formula will return the range of the output of the formula.
+        /// If you want the range of a dynamic array formula, you must calculate the formula first.
         /// </summary>
-        /// <returns>The address the formula spans</returns>
-        public ExcelAddressBase FormulaAddress
+        /// <returns>The range the formula</returns>
+        public ExcelRangeBase FormulaRange
         {
             get
             {
+                string address;
                 if (Worksheet == null)
                 {
                     if (_fromRow == 0 && _fromCol < _workbook.Names.Count)
@@ -2045,14 +2047,15 @@ namespace OfficeOpenXml
                         var name = _workbook.Names[_fromCol];
                         if (name.NameValue is IRangeInfo ri && ri.Address != null)
                         {
-                            return ri.Address.ToExcelAddressBase();
+                            address = ri.Address.WorksheetAddress;
+                            return ri.Worksheet.Cells[address];
                         }
                     }
                     return null;
                 }
                 else
                 {
-                    return _worksheet.GetFormulaAddress(_fromRow, _fromCol);
+                    return _worksheet.GetFormulaRange(_fromRow, _fromCol);
                 }
             }
         }
