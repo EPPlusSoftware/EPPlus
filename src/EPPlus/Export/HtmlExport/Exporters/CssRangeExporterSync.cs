@@ -16,6 +16,7 @@ using OfficeOpenXml.Export.HtmlExport.Collectors;
 using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
@@ -128,6 +129,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         {
                             if (sc.ShouldAdd())
                             {
+                                GenericStyle style = new GenericStyle(sc.GetStyleList()[0]);
+
+                                cssTranslator.AddToCollection(style, styles.GetNormalStyle(), sc.Id);
+
                                 cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
                             }
 
@@ -156,6 +161,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                                         var idDxf = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
                                         if (idDxf != -1)
                                         {
+                                            cssTranslator.AddToCollectionCF(cf.Style, styles.GetNormalStyle(), idDxf);
+
                                             //await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
                                         }
                                     }

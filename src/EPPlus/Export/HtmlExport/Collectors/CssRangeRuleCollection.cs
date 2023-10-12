@@ -8,6 +8,9 @@ using System.Linq;
 using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 
 namespace OfficeOpenXml.Export.HtmlExport.Collectors
 {
@@ -109,6 +112,37 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
         }
 
+        internal void AddToCollection(GenericStyle style, ExcelNamedStyleXml ns, int id)
+        {
+            var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
+            var translators = new List<TranslatorBase>();
+
+            if (style.Fill != null)
+            {
+                translators.Add(new CssFillTranslator(style.Fill));
+            }
+
+            //if (dxfs.Font != null)
+            //{
+            //    translators.Add(new CssFontTranslator(dxfs.Font, ns.Style.Font));
+            //}
+
+            //if (dxfs.Border != null)
+            //{
+            //    translators.Add(new CssBorderTranslator(dxfs.Border.Top, dxfs.Border.Bottom, dxfs.Border.Left, dxfs.Border.Right));
+            //}
+
+            //translators.Add(new CssTextFormatTranslator(dxfs));
+
+            foreach (var translator in translators)
+            {
+                _context.SetTranslator(translator);
+                _context.AddDeclarations(styleClass);
+            }
+
+            _ruleCollection.CssRules.Add(styleClass);
+        }
+
         internal void AddToCollection(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, int id)
         {
             var xfs = xfsList[0];
@@ -149,6 +183,37 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
 
             _ruleCollection.CssRules.Add(styleClass);
+        }
+
+        internal void AddToCollectionCF(ExcelDxfStyleConditionalFormatting dxfs, ExcelNamedStyleXml ns, int id)
+        {
+            var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-dxf.id{id}");
+            var translators = new List<TranslatorBase>();
+
+            if (dxfs.Fill != null)
+            {
+                translators.Add(new CssFillTranslator(dxfs.Fill));
+            }
+            if (dxfs.Font != null)
+            {
+                translators.Add(new CssFontTranslator(dxfs.Font, ns.Style.Font));
+            }
+
+            if (dxfs.Border != null)
+            {
+               translators.Add(new CssBorderTranslator(dxfs.Border.Top, dxfs.Border.Bottom, dxfs.Border.Left, dxfs.Border.Right));
+            }
+
+            translators.Add(new CssTextFormatTranslator(dxfs));
+
+            foreach (var translator in translators)
+            {
+                _context.SetTranslator(translator);
+                _context.AddDeclarations(styleClass);
+            }
+
+            _ruleCollection.CssRules.Add(styleClass);
+            //await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf.id{id}{{", _settings.Minify);
         }
 
         internal void AddPictureToCss(HtmlImage p)
