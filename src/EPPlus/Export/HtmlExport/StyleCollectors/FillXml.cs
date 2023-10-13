@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 if (IsGradient)
                 {
-                    return ((ExcelGradientFillXml)_fill).Right;
+                    return ((ExcelGradientFillXml)_fill).Bottom;
                 }
 
                 return double.NaN;
@@ -82,6 +82,25 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 
                 return false;
             }
+        }
+
+        public string GetBackgroundColor(ExcelTheme theme)
+        {
+            return GetColor(_fill.BackgroundColor, theme);
+        }
+
+        public string GetPatternColor(ExcelTheme theme)
+        {
+            return GetColor(_fill.PatternColor, theme);
+        }
+
+        public string GetGradientColor1(ExcelTheme theme)
+        {
+            return GetColor(((ExcelGradientFillXml)_fill).GradientColor1, theme);
+        }
+        public string GetGradientColor2(ExcelTheme theme)
+        {
+            return GetColor(((ExcelGradientFillXml)_fill).GradientColor2, theme);
         }
 
         /// <summary>
@@ -123,25 +142,5 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             }
             return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
-
-        public string GetBackgroundColor(ExcelTheme theme)
-        {
-            return GetColor(_fill.BackgroundColor, theme);
-        }
-
-        public string GetPatternColor(ExcelTheme theme)
-        {
-            return GetColor(_fill.PatternColor, theme);
-        }
-
-        public string GetGradientColor1(ExcelTheme theme)
-        {
-            return GetColor(((ExcelGradientFillXml)_fill).GradientColor1, theme);
-        }
-        public string GetGradientColor2(ExcelTheme theme)
-        {
-            return GetColor(((ExcelGradientFillXml)_fill).GradientColor2, theme);
-        }
-
     }
 }

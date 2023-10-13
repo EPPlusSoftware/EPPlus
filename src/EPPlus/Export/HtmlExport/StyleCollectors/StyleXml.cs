@@ -1,0 +1,18 @@
+﻿using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
+using OfficeOpenXml.Style.XmlAccess;
+
+namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
+{
+    internal class StyleXml : IStyle
+    {
+        public IFill Fill { get; } = null;
+
+        public StyleXml(ExcelXfs style)        
+        {
+            if(style.FillId >  0)
+            {
+                Fill = new FillXml(style.Fill);
+            }
+        }
+    }
+}

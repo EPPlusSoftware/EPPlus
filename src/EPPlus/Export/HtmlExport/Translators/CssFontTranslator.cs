@@ -11,15 +11,16 @@ using System.Text;
 using OfficeOpenXml.Utils;
 using System.Xml.Linq;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class CssFontTranslator : TranslatorBase
     {
-        ExcelFontXml _f;
+        IFont _f;
         ExcelFont _nf;
 
-        internal CssFontTranslator(ExcelFontXml f, ExcelFont nf) : base() 
+        internal CssFontTranslator(IFont f, ExcelFont nf) : base() 
         {
             _f = f;
             _nf = nf;

@@ -11,6 +11,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 
 namespace OfficeOpenXml.Export.HtmlExport.Collectors
 {
@@ -112,8 +113,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
         }
 
-        internal void AddToCollection(GenericStyle style, ExcelNamedStyleXml ns, int id)
+        internal void AddToCollection(List<IStyle> styleList, ExcelNamedStyleXml ns, int id)
         {
+            var style = styleList[0];
+
             var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
             var translators = new List<TranslatorBase>();
 
@@ -121,18 +124,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             {
                 translators.Add(new CssFillTranslator(style.Fill));
             }
-
-            //if (dxfs.Font != null)
+            //if (style.FontId > 0)
             //{
-            //    translators.Add(new CssFontTranslator(dxfs.Font, ns.Style.Font));
+            //    translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
             //}
 
-            //if (dxfs.Border != null)
+            //if (styleList.Count > 1)
             //{
-            //    translators.Add(new CssBorderTranslator(dxfs.Border.Top, dxfs.Border.Bottom, dxfs.Border.Left, dxfs.Border.Right));
+            //    var bXfs = styleList[1];
+            //    var rXfs = styleList[2];
+
+            //    if (style.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+            //    {
+            //        translators.Add(new CssBorderTranslator(style.Border.Top, bXfs.Border.Bottom, style.Border.Left, rXfs.Border.Right));
+            //    }
+            //}
+            //else if (style.BorderId > 0)
+            //{
+            //    translators.Add(new CssBorderTranslator(style.Border));
             //}
 
-            //translators.Add(new CssTextFormatTranslator(dxfs));
+            //translators.Add(new CssTextFormatTranslator(style));
 
             foreach (var translator in translators)
             {
@@ -141,79 +153,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
 
             _ruleCollection.CssRules.Add(styleClass);
-        }
-
-        internal void AddToCollection(List<ExcelXfs> xfsList, ExcelNamedStyleXml ns, int id)
-        {
-            var xfs = xfsList[0];
-
-            var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
-            var translators = new List<TranslatorBase>();
-
-            if (xfs.FillId > 0)
-            {
-                translators.Add(new CssFillTranslator(xfs.Fill));
-            }
-            if (xfs.FontId > 0)
-            {
-                translators.Add(new CssFontTranslator(xfs.Font, ns.Style.Font));
-            }
-
-            if (xfsList.Count > 1)
-            {
-                var bXfs = xfsList[1];
-                var rXfs = xfsList[2];
-
-                if (xfs.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
-                {
-                    translators.Add(new CssBorderTranslator(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right));
-                }
-            }
-            else if (xfs.BorderId > 0)
-            {
-                translators.Add(new CssBorderTranslator(xfs.Border));
-            }
-
-            translators.Add(new CssTextFormatTranslator(xfs));
-
-            foreach (var translator in translators)
-            {
-                _context.SetTranslator(translator);
-                _context.AddDeclarations(styleClass);
-            }
-
-            _ruleCollection.CssRules.Add(styleClass);
-        }
-
-        internal void AddToCollectionCF(ExcelDxfStyleConditionalFormatting dxfs, ExcelNamedStyleXml ns, int id)
-        {
-            var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-dxf.id{id}");
-            var translators = new List<TranslatorBase>();
-
-            if (dxfs.Fill != null)
-            {
-                translators.Add(new CssFillTranslator(dxfs.Fill));
-            }
-            if (dxfs.Font != null)
-            {
-                translators.Add(new CssFontTranslator(dxfs.Font, ns.Style.Font));
-            }
-
-            if (dxfs.Border != null)
-            {
-               translators.Add(new CssBorderTranslator(dxfs.Border.Top, dxfs.Border.Bottom, dxfs.Border.Left, dxfs.Border.Right));
-            }
-
-            translators.Add(new CssTextFormatTranslator(dxfs));
-
-            foreach (var translator in translators)
-            {
-                _context.SetTranslator(translator);
-                _context.AddDeclarations(styleClass);
-            }
-
-            _ruleCollection.CssRules.Add(styleClass);
-            //await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}-dxf.id{id}{{", _settings.Minify);
         }
 
         internal void AddPictureToCss(HtmlImage p)

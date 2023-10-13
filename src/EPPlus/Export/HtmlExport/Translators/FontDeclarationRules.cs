@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class FontDeclarationRules
     {
-        internal FontDeclarationRules(ExcelFontXml f, ExcelFont nf, TranslatorContext context) 
+        internal FontDeclarationRules(IFont f, ExcelFont nf, TranslatorContext context) 
         {
             _f = f;
             _nf = nf;
@@ -19,7 +20,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             _theme = context.Theme;
         }
 
-        private readonly ExcelFontXml _f;
+        private readonly IFont _f;
         private readonly ExcelFont _nf;
         private readonly eFontExclude _fontExclude;
         private readonly ExcelTheme _theme;
