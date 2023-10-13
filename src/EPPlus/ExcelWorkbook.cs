@@ -1249,6 +1249,7 @@ namespace OfficeOpenXml
 
         private void SaveExternalLinks()
         {
+			var packageFile = _package.File;
             foreach (var er in _externalLinks)
             {
                 if (er.Part == null)
@@ -1257,7 +1258,7 @@ namespace OfficeOpenXml
                     var uri = GetNewUri(_package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
                     ewb.Part = _package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
 					var extFile = ((ExcelExternalWorkbook)er).File;
-					ewb.Relation = er.Part.CreateRelationship(extFile.FullName, TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+					ewb.Relation = er.Part.CreateRelationship(FileHelper.GetRelativeFile(packageFile, extFile), TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
 
                     var wbRel = Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
                     var wbExtRefElement = (XmlElement)CreateNode("d:externalReferences/d:externalReference", false, true);
