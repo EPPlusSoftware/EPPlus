@@ -736,7 +736,6 @@ namespace OfficeOpenXml.Table
         {
             if (_autoFilter == null)
             {
-                //var node = TopNode.SelectSingleNode(AUTOFILTER_PATH, NameSpaceManager);
                 _autoFilter = new ExcelAutoFilter(NameSpaceManager, TopNode, this);
                 _autoFilter.Address = AutoFilterAddress;
             }

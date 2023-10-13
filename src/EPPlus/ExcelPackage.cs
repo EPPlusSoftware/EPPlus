@@ -1122,6 +1122,9 @@ namespace OfficeOpenXml
         } = new ExcelPackageSettings();
 #if !NET35
         static MemorySettings _memorySettings = null;
+        /// <summary>
+        /// Memmory settings for RecyclableMemoryStream handling
+        /// </summary>
         public static MemorySettings MemorySettings
         {
             get

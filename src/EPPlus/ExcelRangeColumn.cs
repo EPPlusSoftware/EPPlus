@@ -660,7 +660,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                maxCol = Math.Max(_worksheet.Dimension.End.Row, _worksheet._values.GetLastRow(0));
+                maxCol = Math.Max(_worksheet.Dimension.End.Column, _worksheet._values.GetLastColumn());
             }
             return _toCol > maxCol + 1 ? maxCol + 1 : _toCol;   // +1 if the last column has outline level 1 then +1 is outline level 0.
         }

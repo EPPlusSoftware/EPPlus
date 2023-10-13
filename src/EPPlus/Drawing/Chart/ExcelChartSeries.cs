@@ -432,6 +432,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     _chart._legend.AddNewEntry(serie);
                 }
             }
+
             return (T)serie;
         }
         bool _isPivot;

@@ -269,7 +269,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 bool useMinute = false;
                 bool prevUnderScore = false;
                 bool ignoreNext = false;
-                bool containsAmPm = ExcelFormat.Contains("AM/PM");
+                bool containsAmPm = ExcelFormat.IndexOf("AM/PM", StringComparison.InvariantCultureIgnoreCase)>=0;
                 List<int> lstDec=new List<int>();
                 StringBuilder sb = new StringBuilder();
                 Culture = null;
@@ -279,7 +279,7 @@ namespace OfficeOpenXml.Style.XmlAccess
 
                 if (containsAmPm)
                 {
-                    ExcelFormat = Regex.Replace(ExcelFormat, "AM/PM", "");
+                    ExcelFormat = Regex.Replace(ExcelFormat, "AM/PM", "", RegexOptions.IgnoreCase);
                     DataType = eFormatType.DateTime;
                 }
 

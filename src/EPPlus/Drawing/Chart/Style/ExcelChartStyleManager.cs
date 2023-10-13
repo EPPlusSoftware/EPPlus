@@ -866,7 +866,6 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             {                
                 chartPartWithFont.Font.SetFromXml(section.DefaultTextRun.PathElement);                
             }
-
             if (section.FontReference.HasColor)
             {
                 chartPartWithFont.Font.Fill.Style = eFillStyle.SolidFill;

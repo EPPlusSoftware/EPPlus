@@ -3641,13 +3641,15 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Gets the address for the formula in the top-left cell.
-        /// If you want the address of a dynamic array formula, you must calculate the formula first.
+        /// Gets the range for the formula in the cell.
+        /// A shared formula will return the range for the entire series.
+        /// An array formula will return the range of the output of the formula.
+        /// If you want the range of a dynamic array formula, you must calculate the formula first.
         /// </summary>
-        /// <param name="row">The row of cell containing the formula.</param>
-        /// <param name="column">the column of cell containing  the formula.</param>
-        /// <returns>The address the formula spans</returns>
-        public ExcelAddressBase GetFormulaAddress(int row, int column)
+        /// <param name="row">The row of the cell containing the formula.</param>
+        /// <param name="column">The column of the cell containing  the formula.</param>
+        /// <returns>The range the formula spans</returns>
+        public ExcelRangeBase GetFormulaRange(int row, int column)
         {
             if (row > 0)
             {
@@ -3660,15 +3662,12 @@ namespace OfficeOpenXml
                 {
                     if (_sharedFormulas.TryGetValue(sfIx, out SharedFormula sf))
                     {
-                        return new ExcelAddressBase(sf.Address)
-                        {
-                            _ws = Name
-                        };
+                        return Cells[sf.Address];
                     }
                 }
                 else
                 {
-                    return new ExcelAddressBase(Name, row, column, row, column);
+                    return Cells[row, column];
                 }
             }
             else if(column > 0 && column < Names.Count)
@@ -3676,7 +3675,8 @@ namespace OfficeOpenXml
                 var name = Names[column];
                 if(name.NameValue is IRangeInfo ri && ri.Address!=null)
                 {
-                    return ri.Address.ToExcelAddressBase();
+                    var address = ri.Address.WorksheetAddress;
+                    return Cells[address];
                 }
             }
             return null;
