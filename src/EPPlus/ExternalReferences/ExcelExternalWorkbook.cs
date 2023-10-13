@@ -302,7 +302,7 @@ namespace OfficeOpenXml.ExternalReferences
                 file += _file.Name;
                 if (System.IO.File.Exists(file))
                 {
-                    _file = new FileInfo(FileHelper.GetRelativeFile(_wb._package.File, new FileInfo(file)));
+                    _file = new FileInfo(file);
                     return;
                 }
             }
