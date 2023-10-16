@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 if (arg.ValueIsExcelError)
                 {
-                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                    return new CompileResult(arg.ValueAsExcelErrorValue, DataType.ExcelError);
                 }
             }
 
