@@ -145,5 +145,53 @@ namespace EPPlusTest
                 Assert.AreEqual("A1:C3", range.Address);
             }
         }
+
+        [TestMethod]
+        public void ShouldTakeColumnsBetween()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 4;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 6;
+                sheet.Cells["C1"].Value = 7;
+                sheet.Cells["C2"].Value = 8;
+                sheet.Cells["C3"].Value = 9;
+
+                var range = sheet.Cells["A1:C3"].TakeColumnsBetween(0, 1);
+                Assert.AreEqual("A1:A3", range.Address);
+
+                range = sheet.Cells["A1:C3"].TakeColumnsBetween(1, 2);
+                Assert.AreEqual("B1:C3", range.Address);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldTakeRowsBetween()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 4;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 6;
+                sheet.Cells["C1"].Value = 7;
+                sheet.Cells["C2"].Value = 8;
+                sheet.Cells["C3"].Value = 9;
+
+                var range = sheet.Cells["A1:C3"].TakeRowsBetween(0, 1);
+                Assert.AreEqual("A1:C1", range.Address);
+
+                range = sheet.Cells["A1:C3"].TakeRowsBetween(1, 2);
+                Assert.AreEqual("A2:C3", range.Address);
+            }
+        }
     }
 }
