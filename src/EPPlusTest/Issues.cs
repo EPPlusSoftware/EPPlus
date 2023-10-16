@@ -5295,5 +5295,129 @@ namespace EPPlusTest
                 Assert.AreEqual("0", result);
             }
         }
+        [TestMethod]
+        public void s532()
+        {
+            var pivotTableWorksheetName = "Sheet3";
+            var NewSourceDataSheetName = "Sheet2";
+            var pivotTableName = "PivotTable1";
+            var exc = "";
+            var pivotTableCount = 0;
+            try
+            {
+
+                using (var package = OpenTemplatePackage("Pivot_Test_Orig.xlsx"))
+                {
+                    var pivotTableWorksheet = package.Workbook.Worksheets[pivotTableWorksheetName];
+
+                    ExcelWorksheet ws = package.Workbook.Worksheets[NewSourceDataSheetName];
+
+                    pivotTableCount = pivotTableWorksheet.PivotTables.Count;
+
+                    //var foundCache = package.Workbook.GetPivotCacheFromAddress(ws.Cells["M6:S16"].FullAddress, out PivotTableCacheInternal cache);
+
+                    pivotTableWorksheet.PivotTables[pivotTableName].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
+
+                    SaveAndCleanup(package);
+                }
+            }
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+            }
+
+            finally
+
+            {
+
+                System.GC.Collect();
+
+            }
+        }
+        [TestMethod]
+        public void Issue1096()
+        {
+            using (var package = OpenPackage("I1096.xlsx", true))
+            {
+                var workbook = package.Workbook;
+
+                var wss = workbook.Worksheets.Add("test");
+
+                var cells = new List<ExcelRange>()
+                {
+                    wss.Cells[1, 1],
+                    wss.Cells[2, 1],
+                    wss.Cells[3, 1],
+                };
+
+                wss.Cells.Style.Font.Name = "Tahoma";
+                wss.Cells.Style.Font.Size = 10;
+
+                cells.ForEach(x =>
+                {
+                    x.Value = "test";
+                });
+
+                cells = new List<ExcelRange>()
+                {
+                    wss.Cells[1, 2],
+                    wss.Cells[2, 2],
+                    wss.Cells[3, 2],
+                };
+
+                cells.ForEach(x =>
+                {
+                    x.Value = "test";
+                    //x.Style.Font.Size = 10;
+                });
+
+                wss.Column(2).Style.Font.Name = "Wingdings";
+
+                cells = new List<ExcelRange>()
+                {
+                    wss.Cells[1, 3],
+                    wss.Cells[2, 3],
+                    wss.Cells[3, 3],
+                    wss.Cells[1, 4],
+                    wss.Cells[2, 4],
+                    wss.Cells[3, 4],
+                    wss.Cells[1, 5],
+                    wss.Cells[2, 5],
+                    wss.Cells[3, 5],
+                };
+
+                cells.ForEach(x =>
+                {
+                    x.Value = "hola";
+                    //x.Style.Font.Name = "Wingdings";
+                    //x.Style.Font.Size = 10;
+                });
+
+                void DebugGetFontInfo()
+                {
+                    for (var row = 1; row <= 3; row++)
+                    {
+                        for (var column = 1; column <= 5; column++)
+                        {
+                            var range = wss.Cells[row, column];
+                            Debug.Write(range.Style.Font.Name + range.Style.Font.Size + ",");
+                        }
+                        Debug.WriteLine("");
+                    }
+                }
+
+
+                Debug.WriteLine("before:");
+                DebugGetFontInfo();
+
+                var r = wss.Rows[2];
+                r.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                r.Style.Fill.BackgroundColor.SetColor(Color.Pink);
+
+                Debug.WriteLine("after:");
+                DebugGetFontInfo();
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

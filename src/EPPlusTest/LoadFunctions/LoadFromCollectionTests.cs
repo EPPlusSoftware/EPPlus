@@ -257,6 +257,34 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldFilterMembers2()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                var t = typeof(Aclass);
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, LoadFromCollectionParams.DefaultBindingFlags,
+                    new MemberInfo[]
+                    {
+                        t.GetProperty("Id"),
+                        t.GetProperty("Name")
+                    });
+
+                Assert.AreEqual(1, sheet.Dimension._toCol - sheet.Dimension._fromCol);
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["D1"].Value);
+                Assert.IsNull(sheet.Cells["E1"].Value);
+                Assert.AreEqual("123", sheet.Cells["C2"].Value);
+                Assert.AreEqual("Item 1", sheet.Cells["D2"].Value);
+                Assert.IsNull(sheet.Cells["E2"].Value);
+            }
+        }
+
+        [TestMethod]
         public void ShouldFilterOneMember()
         {
             var items = new List<BaseClass>()
