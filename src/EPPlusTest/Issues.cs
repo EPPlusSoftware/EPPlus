@@ -5274,5 +5274,26 @@ namespace EPPlusTest
                 Assert.AreEqual(1d, ws.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void i1102()
+        {
+            using (var excel = new ExcelPackage())
+            {
+                var worksheet = excel.Workbook.Worksheets.Add("Test Worksheet");
+                var targetCell = worksheet.Cells[1, 1];
+                var validationCell = worksheet.Cells[1, 2];
+
+                validationCell.Formula = "IFERROR(SUBSTITUTE(RIGHT(A1,LEN(A1)-FIND(\"-\",A1)),\"-\",\"|\"),\"0\")";
+
+                targetCell.Value = "invalid";
+
+                validationCell.Calculate();
+
+                var result = validationCell.GetValue<string>();
+
+                Assert.AreEqual("0", result);
+            }
+        }
     }
 }
