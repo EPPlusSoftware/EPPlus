@@ -51,6 +51,7 @@ namespace EPPlusTest.FormulaParsing
             foreach(var xlFile in Directory.GetFiles(path).Where(x => x.EndsWith(".xlsx") || x.EndsWith(".xlsm")))
             {
                 string logFile = path + new FileInfo(xlFile).Name + ".log";
+
                 VerifyCalculationInPackage(xlFile, logFile);
             }
         }

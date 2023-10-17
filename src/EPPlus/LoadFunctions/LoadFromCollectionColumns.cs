@@ -39,6 +39,7 @@ namespace OfficeOpenXml.LoadFunctions
         {
             _bindingFlags = bindingFlags;
             _sortOrderColumns = sortOrderColumns;
+            _filterMembers = members;
             _includedTypes = new HashSet<Type>
             {
                 typeof(T)
@@ -57,6 +58,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly BindingFlags _bindingFlags;
         private readonly List<string> _sortOrderColumns;
         private readonly Dictionary<Type, HashSet<string>> _members;
+        private MemberInfo[] _filterMembers;
         private readonly HashSet<Type> _includedTypes;
         private const int SortOrderOffset = ExcelPackage.MaxColumns;
 
@@ -125,7 +127,7 @@ namespace OfficeOpenXml.LoadFunctions
         private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, bool isNestedClass = false, string path = null, string headerPrefix = null)
         {
             var sort = false;
-            var members = type.GetProperties(_bindingFlags);
+            var members = _filterMembers ?? type.GetProperties(_bindingFlags);
             if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
             {
                 sort = true;
@@ -145,7 +147,8 @@ namespace OfficeOpenXml.LoadFunctions
                     var memberPath = path != null ? $"{path}.{member.Name}" : member.Name;
                     if (member.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
                     {
-                        if (member.PropertyType == typeof(string) || (!member.PropertyType.IsClass && !member.PropertyType.IsInterface))
+                        var memberType = GetTypeByMemberInfo(member);
+                        if (memberType == typeof(string) || (!memberType.IsClass && memberType.IsInterface))
                         {
                             throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {memberPath})");
                         }
@@ -183,7 +186,7 @@ namespace OfficeOpenXml.LoadFunctions
                                 sortOrderList[0] = _sortOrderColumns.IndexOf(memberPath);
                             }
                         }
-                        SetupInternal(member.PropertyType, result, sortOrderList, true, memberPath, hPrefix);
+                        SetupInternal(memberType, result, sortOrderList, true, memberPath, hPrefix);
                         sortOrderList.RemoveAt(sortOrderList.Count - 1);
                         continue;
                     }
@@ -325,6 +328,21 @@ namespace OfficeOpenXml.LoadFunctions
                 }
             }
             return sort;
+        }
+
+        private Type GetTypeByMemberInfo(MemberInfo member)
+        {
+            switch(member.MemberType)
+            {
+                case MemberTypes.Field:
+                    return ((FieldInfo)member).FieldType;
+                case MemberTypes.Property:
+                    return ((PropertyInfo)member).PropertyType;
+                case MemberTypes.Method:
+                    return ((MethodInfo)member).ReturnType;
+                default:
+                    throw new InvalidOperationException($"LoadFromCollection: Unsupported MemberType on member {member.Name}. Only Field, Property and Method allowed.");
+            }
         }
 
         private static void ReindexAndSortColumns(List<ColumnInfo> result)
