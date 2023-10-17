@@ -37,7 +37,7 @@ namespace OfficeOpenXml
             }
             var nRows = range.End.Row - range.Start.Row + 1;
             var cs = count;
-            var ce = range.End.Column - count;
+            var ce = nRangeColumns - count;
             return range.Offset(0, cs, nRows, ce);
         }
 
@@ -56,7 +56,7 @@ namespace OfficeOpenXml
             }
             var nCols = range.End.Column - range.Start.Column + 1;
             var rs = count;
-            var re = range.End.Row - count;
+            var re = nRangeRows - count;
             return range.Offset(rs, 0, re, nCols);
         }
 
@@ -116,7 +116,7 @@ namespace OfficeOpenXml
         /// <param name="offset">Offset of the start-column (zero-based)</param>
         /// <param name="count">The number of columns to take</param>
         /// <returns>The result range</returns>
-        public static ExcelRangeBase TakeColumnsBetween(this ExcelRangeBase range, int offset, int count = 1)
+        public static ExcelRangeBase TakeColumnsBetween(this ExcelRangeBase range, int offset, int count)
         {
             var nRangeColumns = range.End.Column - range.Start.Column + 1;
             if(offset >= nRangeColumns)
@@ -170,6 +170,18 @@ namespace OfficeOpenXml
             }
             var nCols = range.End.Column - range.Start.Column + 1;
             return range.Offset(offset, 0, count, nCols);
+        }
+
+        /// <summary>
+        /// Returns a single cell within a range
+        /// </summary>
+        /// <param name="range">The source range</param>
+        /// <param name="rowOffset">Offset of the cell's row within the range (zero-based)</param>
+        /// <param name="columnOffset">Offset of the cell's column within the range (zero-based)</param>
+        /// <returns></returns>
+        public static ExcelRangeBase TakeSingleCell(this ExcelRangeBase range, int rowOffset, int columnOffset)
+        {
+            return range.Offset(rowOffset, columnOffset, 1, 1);
         }
     }
 }
