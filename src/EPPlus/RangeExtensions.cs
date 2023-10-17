@@ -99,6 +99,17 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Returns a single column as a new range.
+        /// </summary>
+        /// <param name="range">The source range</param>
+        /// <param name="offset">Offset of the column (zero-based) in the source range</param>
+        /// <returns>The requested row</returns>
+        public static ExcelRangeBase TakeSingleColumn(this ExcelRangeBase range, int offset)
+        {
+            return TakeColumnsBetween(range, offset, 1);
+        }
+
+        /// <summary>
         /// Returns a new range, created by taking a specific number of columns between from the offset parameter.
         /// </summary>
         /// <param name="range">The source range</param>
@@ -125,13 +136,24 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Returns a single row as a new range.
+        /// </summary>
+        /// <param name="range">The source range</param>
+        /// <param name="offset">Offset of the row (zero-based) in the source range</param>
+        /// <returns>The requested row</returns>
+        public static ExcelRangeBase TakeSingleRow(this ExcelRangeBase range, int offset)
+        {
+            return TakeRowsBetween(range, offset, 1);
+        }
+
+        /// <summary>
         /// Returns a new range, created by taking a specific number of rows based on the offset parameter.
         /// </summary>
         /// <param name="range">The source range</param>
         /// <param name="offset">Offset of the start-row (zero-based)</param>
         /// <param name="count">The number of rows to take</param>
         /// <returns>The result range</returns>
-        public static ExcelRangeBase TakeRowsBetween(this ExcelRangeBase range, int offset, int count = 1)
+        public static ExcelRangeBase TakeRowsBetween(this ExcelRangeBase range, int offset, int count)
         {
             var nRangeRows = range.End.Row - range.Start.Row + 1;
             if (offset >= nRangeRows)
