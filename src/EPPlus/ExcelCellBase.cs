@@ -784,11 +784,6 @@ namespace OfficeOpenXml
                 return false;
             }
 
-            if (address.LastIndexOf('!', address.Length - 2) > 0)   //Last char can be ! if address is set to #REF!, so use Lengh - 2 as start.
-            {
-                address = address.Substring(address.LastIndexOf('!') + 1);
-            }
-            if (string.IsNullOrEmpty(address.Trim())) return false;            
             if (IsValidRangeAddress(address)==false) //TODO: update IsValidRangeAddress to use tokens instead;
             {
                 return IsValidTableAddress(address);
@@ -804,43 +799,56 @@ namespace OfficeOpenXml
         public static bool IsValidTableAddress(string address)
         {
             var bc = 0;
-            var tokens = SourceCodeTokenizer.Default.Tokenize(address);
-            if (tokens.Count<2 || tokens[0].TokenType != TokenType.TableName || tokens[1].TokenType!=TokenType.OpeningBracket)
+            try
             {
-                return false;
-            }
-            foreach(var t in tokens)
-            {
-                switch(t.TokenType)
+                var tokens = SourceCodeTokenizer.Default.Tokenize(address);
+                if (tokens.Count < 2 || tokens[0].TokenType != TokenType.TableName || tokens[1].TokenType != TokenType.OpeningBracket)
                 {
-                    case TokenType.OpeningBracket:
-                        bc++;
-                        break;
-                   case TokenType.ClosingBracket:
-                        if (bc==0)
-                        {
-                            return false;
-                        }
-                        bc--;
-                        break;
-                    case TokenType.TableName:
-                    case TokenType.TablePart:
-                    case TokenType.TableColumn:
-                    case TokenType.Comma:
-                    case TokenType.WorksheetName:
-                    case TokenType.WorksheetNameContent:
-                    case TokenType.SingleQuote:
-                    case TokenType.ExternalReference:
-                        break;
-                   default:
-                        return false;
-
+                    return false;
                 }
+                foreach (var t in tokens)
+                {
+                    switch (t.TokenType)
+                    {
+                        case TokenType.OpeningBracket:
+                            bc++;
+                            break;
+                        case TokenType.ClosingBracket:
+                            if (bc == 0)
+                            {
+                                return false;
+                            }
+                            bc--;
+                            break;
+                        case TokenType.TableName:
+                        case TokenType.TablePart:
+                        case TokenType.TableColumn:
+                        case TokenType.Comma:
+                        case TokenType.WorksheetName:
+                        case TokenType.WorksheetNameContent:
+                        case TokenType.SingleQuote:
+                        case TokenType.ExternalReference:
+                            break;
+                        default:
+                            return false;
+
+                    }
+                }
+            }
+            catch 
+            { 
+                return false; 
             }
             return bc==0;
         }
         private static bool IsValidRangeAddress(string address)
         {
+            if (address.LastIndexOf('!', address.Length - 2) > 0)   //Last char can be ! if address is set to #REF!, so use Length - 2 as start.
+            {
+                address = address.Substring(address.LastIndexOf('!') + 1);
+            }
+            if (string.IsNullOrEmpty(address.Trim())) return false;
+
             address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
             var addrs = address.Split(',');
             foreach (var a in addrs)
