@@ -773,7 +773,7 @@ namespace OfficeOpenXml
             return true;
         }
         /// <summary>
-        /// Returns true if the cell address is valid
+        /// Returns true if the range or table address is valid
         /// </summary>
         /// <param name="address">The address to check</param>
         /// <returns>Return true if the address is valid</returns>
@@ -841,7 +841,12 @@ namespace OfficeOpenXml
             }
             return bc==0;
         }
-        private static bool IsValidRangeAddress(string address)
+        /// <summary>
+        /// Returns true if the range is valid
+        /// </summary>
+        /// <param name="address">The address to check</param>
+        /// <returns>Return true if the address is valid</returns>
+        public static bool IsValidRangeAddress(string address)
         {
             if (address.LastIndexOf('!', address.Length - 2) > 0)   //Last char can be ! if address is set to #REF!, so use Length - 2 as start.
             {
