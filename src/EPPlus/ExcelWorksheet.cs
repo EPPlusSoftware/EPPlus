@@ -1479,8 +1479,8 @@ namespace OfficeOpenXml
         private ExcelHyperLink GetHyperlinkFromRef(XmlReader xr, string refTag, int fromRow = 0, int toRow = 0, int fromCol = 0, int toCol = 0)
         {
             var hl = new ExcelHyperLink(xr.GetAttribute(refTag), xr.GetAttribute("display"));
-            hl.RowSpann = toRow - fromRow;
-            hl.ColSpann = toCol - fromCol;
+            hl.RowSpan = toRow - fromRow;
+            hl.ColSpan = toCol - fromCol;
             return hl;
         }
 

@@ -5516,5 +5516,41 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s539()
+        {
+            //Outputs
+            bool success = true;
+            string exc = "";
+            var pc = Thread.CurrentThread.CurrentCulture;
+
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                string sheetName = "Sheet1";
+                string range = "G2:G5";
+                string value = "VLOOKUP(F2,'Reference Data'!A2:B187021,2,0)";
+
+                using (var package = OpenTemplatePackage("s539.xlsm"))
+                {
+                    var ws = package.Workbook.Worksheets[sheetName];
+                    ws.Cells[range].Formula = value;
+                    ws.Cells[range].Calculate();
+                    SaveAndCleanup(package);
+                }
+            }
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+                success = false;
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = pc;
+                System.GC.Collect();
+            }
+        }
+            
     }
 }
