@@ -127,7 +127,7 @@ namespace OfficeOpenXml.LoadFunctions
         private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, bool isNestedClass = false, string path = null, string headerPrefix = null)
         {
             var sort = false;
-            var members = _filterMembers ?? type.GetProperties(_bindingFlags);
+            var members = !isNestedClass && _filterMembers != null ? _filterMembers : type.GetProperties(_bindingFlags);
             if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
             {
                 sort = true;
@@ -274,7 +274,7 @@ namespace OfficeOpenXml.LoadFunctions
                         var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                         if (epplusColumnAttr != null)
                         {
-                            h = epplusColumnAttr.Header;
+                            h = string.IsNullOrEmpty(epplusColumnAttr.Header) ? member.Name : epplusColumnAttr.Header;
                             sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : epplusColumnAttr.Order + SortOrderOffset;
                         }
                         else

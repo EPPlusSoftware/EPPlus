@@ -232,6 +232,10 @@ namespace EPPlusTest
 
             ws.Cells["A1"].LoadFromCollection(l, true, TableStyles.Light16, BindingFlags.Instance | BindingFlags.Public,
                 new MemberInfo[] { typeof(cls2).GetProperty("prop2") });
+
+            Assert.AreEqual("prop2", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["A2"].Value);
+            Assert.AreEqual("test1", ws.Cells["A3"].Value);
         }
 
         [TestMethod]
