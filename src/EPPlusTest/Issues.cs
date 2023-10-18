@@ -5516,6 +5516,46 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s532()
+        {
+            var pivotTableWorksheetName = "Sheet3";
+            var NewSourceDataSheetName = "Sheet2";
+            var pivotTableName = "PivotTable1";
+            var exc = "";
+            var pivotTableCount = 0;
+            try
+            {
+
+                using (var package = OpenTemplatePackage("Pivot_Test_Orig.xlsx"))
+                {
+                    var pivotTableWorksheet = package.Workbook.Worksheets[pivotTableWorksheetName];
+
+                    ExcelWorksheet ws = package.Workbook.Worksheets[NewSourceDataSheetName];
+
+                    pivotTableCount = pivotTableWorksheet.PivotTables.Count;
+
+                    //var foundCache = package.Workbook.GetPivotCacheFromAddress(ws.Cells["M6:S16"].FullAddress, out PivotTableCacheInternal cache);
+
+                    pivotTableWorksheet.PivotTables[pivotTableName].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
+
+                    SaveAndCleanup(package);
+                }
+            }
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+            }
+
+            finally
+
+            {
+
+                System.GC.Collect();
+
+            }
+        }
         [TestMethod]
         public void s539()
         {
@@ -5550,7 +5590,6 @@ namespace EPPlusTest
                 Thread.CurrentThread.CurrentCulture = pc;
                 System.GC.Collect();
             }
-        }
-            
-    }
+        }            
+    }            
 }

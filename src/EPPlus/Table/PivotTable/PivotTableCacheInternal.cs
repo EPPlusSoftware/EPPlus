@@ -31,9 +31,10 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheDefinitionXml = new XmlDocument();
             LoadXmlSafe(CacheDefinitionXml, Part.GetStream());
             TopNode = CacheDefinitionXml.DocumentElement;
-            if (CacheId <= 0)   //Check if the is set via exLst (used by for example slicers), otherwise set it to the cacheId
+            CacheId = cacheId;
+            if (ExtLstCacheId <= 0)   //Check if the is set via exLst (used by for example slicers), otherwise set it to the cacheId
             {
-                CacheId = cacheId;
+                ExtLstCacheId = cacheId;
             }
 
             ZipPackageRelationship rel = Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheRecords").FirstOrDefault();
@@ -489,7 +490,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
 
-            CacheId = _wb.GetNewPivotCacheId();
+            CacheId = ExtLstCacheId = _wb.GetNewPivotCacheId();
 
             var c = CacheId;
             CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref c);
@@ -565,28 +566,52 @@ namespace OfficeOpenXml.Table.PivotTable
             SetXmlNodeString(_sourceAddressPath, address);
         }
         int _cacheId = int.MinValue;
+
+        /// <summary>
+        /// This is the cache id from the workbook 
+        /// </summary>
         internal int CacheId
         {
             get
             {
                 if (_cacheId < 0)
                 {
-                    _cacheId = GetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId");
-                    if (_cacheId < 0)
-                    {
-                        _cacheId = _wb.GetPivotCacheId(CacheDefinitionUri);
-                        var node = GetOrCreateExtLstSubNode(ExtLstUris.PivotCacheDefinitionUri, "x14");
-                        node.InnerXml = $"<x14:pivotCacheDefinition pivotCacheId=\"{_cacheId}\"/>";
-                    }
+                    _cacheId = _wb.GetPivotCacheId(CacheDefinitionUri);
                 }
                 return _cacheId;
             }
             set
             {
-                var node = GetOrCreateExtLstSubNode(ExtLstUris.PivotCacheDefinitionUri, "x14");
-                if(node.InnerXml=="")
+                _cacheId = value;
+            }
+        }
+
+        int _extLstCacheId = int.MinValue;
+        /// <summary>
+        /// This a second cache id used for newer items like slicers. EPPlus will set this id to the same as the cache id by default.
+        /// </summary>
+        internal int ExtLstCacheId
+        {
+            get
+            {
+                if (_extLstCacheId < 0)
                 {
-                    node.InnerXml = $"<x14:pivotCacheDefinition pivotCacheId=\"{_cacheId}\"/>";
+                    _extLstCacheId = GetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId");
+                    if (_extLstCacheId < 0)
+                    {
+                        _extLstCacheId = CacheId;
+                        var node = GetOrCreateExtLstSubNode(ExtLstUris.PivotCacheDefinitionUri, "x14");
+                        node.InnerXml = $"<x14:pivotCacheDefinition pivotCacheId=\"{_extLstCacheId}\"/>";
+                    }
+                }
+                return _extLstCacheId;
+            }
+            set
+            {
+                var node = GetOrCreateExtLstSubNode(ExtLstUris.PivotCacheDefinitionUri, "x14");
+                if (node.InnerXml == "")
+                {
+                    node.InnerXml = $"<x14:pivotCacheDefinition pivotCacheId=\"{_extLstCacheId}\"/>";
                 }
                 else
                 {

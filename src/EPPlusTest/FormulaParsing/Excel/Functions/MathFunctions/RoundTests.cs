@@ -299,5 +299,20 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 Assert.AreEqual(0d, sheet.Cells["A2"].Value);
             }
         }
+
+        [TestMethod]
+        public void RoundDownShouldNotChangeCorrectValues()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("RoundingDown");
+                sheet.Cells["A1"].Value = 17.38d;
+                sheet.Cells["A2"].Formula = "ROUNDDOWN(A1,2)";
+
+                sheet.Cells.Calculate();
+
+                Assert.AreEqual(17.38, sheet.Cells["A2"].Value);
+            }
+        }
     }
 }
