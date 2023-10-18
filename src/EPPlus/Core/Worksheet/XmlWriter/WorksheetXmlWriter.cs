@@ -875,7 +875,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 var hl = uri as ExcelHyperLink;
                 if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress))
                 {
-                    var address = _ws.Cells[cse.Row, cse.Column, cse.Row + hl.RowSpann, cse.Column + hl.ColSpann].Address;
+                    var address = _ws.Cells[cse.Row, cse.Column, cse.Row + hl.RowSpan, cse.Column + hl.ColSpan].Address;
                     var location = ExcelCellBase.GetFullAddress(SecurityElement.Escape(_ws.Name), SecurityElement.Escape(hl.ReferenceAddress));
                     var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
                     var tooltip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";

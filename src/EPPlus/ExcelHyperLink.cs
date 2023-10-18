@@ -103,34 +103,34 @@ namespace OfficeOpenXml
             get;
             set;
         }
-        int _colSpann = 0;
+        int _colSpan = 0;
         /// <summary>
         /// If the hyperlink spans multiple columns
         /// </summary>
-        public int ColSpann
+        public int ColSpan
         {
             get
             {
-                return _colSpann;
+                return _colSpan;
             }
             set
             {
-                _colSpann = value;
+                _colSpan = value;
             }
         }
-        int _rowSpann = 0;
+        int _rowSpan = 0;
         /// <summary>
         /// If the hyperlink spans multiple rows
         /// </summary>
-        public int RowSpann
+        public int RowSpan
         {
             get
             {
-                return _rowSpann;
+                return _rowSpan;
             }
             set
             {
-                _rowSpann = value;
+                _rowSpan = value;
             }
         }
         /// <summary>
