@@ -94,35 +94,31 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRangeBase range, ExcelCalculationOption options)
         {
-            try
+            var ws = range.Worksheet;
+            RpnFormula f = null;
+            var fs = new CellStoreEnumerator<object>(ws._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
+            while (fs.Next())
             {
-                var ws = range.Worksheet;
-                RpnFormula f = null;
-                var fs = new CellStoreEnumerator<object>(ws._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
-                while (fs.Next())
+                if (fs.Value == null || fs.Value.ToString().Trim() == "") continue;
+                var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
+                if (depChain.processedCells.Contains(id) == false)
                 {
-                    if (fs.Value == null || fs.Value.ToString().Trim() == "") continue;
-                    var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
-                    if (depChain.processedCells.Contains(id) == false)
+                    try
                     {
                         if (GetFormula(depChain, ws, fs.Row, fs.Column, fs.Value, ref f))
                         {
                             AddChainForFormula(depChain, f, options);
                         }
                     }
+                    catch (CircularReferenceException)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        SetAndReturnValueError(depChain, ex);
+                    }
                 }
-            }
-            catch (CircularReferenceException)
-            {
-                throw;
-            }
-            catch (InvalidFormulaException ex)
-            {
-                if (depChain._parsingContext.Debug)
-                {
-                    depChain._parsingContext.Parser.Logger.Log(depChain._parsingContext, ex);
-                }
-                throw;
             }
         }
 

@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Globalization;
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -18,8 +19,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
         internal DecimalExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
-            var value = double.Parse(tokenValue, CultureInfo.InvariantCulture);
-            _cachedCompileResult = new CompileResult(value, DataType.Decimal);
+            if (double.TryParse(tokenValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
+            {
+                _cachedCompileResult = new CompileResult(value, DataType.Decimal);
+            }
+            else
+            {
+                throw new InvalidFormulaException($"Token value {tokenValue} is not an integer");
+            }
         }
         internal DecimalExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
