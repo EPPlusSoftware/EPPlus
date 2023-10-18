@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// The trendline will be the moving average.
         /// </summary>
-        MovingAvgerage,
+        MovingAverage,
         /// <summary>
         /// The trendline will be a polynomial curve.
         /// </summary>

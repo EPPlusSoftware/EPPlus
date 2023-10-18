@@ -570,7 +570,7 @@ namespace EPPlusTest
             tl.Intercept = 6;
             tl.Order = 5;
             
-            tl = chrt.Series[0].TrendLines.Add(eTrendLine.MovingAvgerage);
+            tl = chrt.Series[0].TrendLines.Add(eTrendLine.MovingAverage);
             chrt.Fill.Color = Color.LightSteelBlue;
             chrt.Border.LineStyle = eLineStyle.Dot;
             chrt.Border.Fill.Color=Color.Black;
