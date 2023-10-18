@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing.Chart
                    case "poly":
                        return eTrendLine.Polynomial;
                    case "movingavg":
-                       return eTrendLine.MovingAvgerage;
+                       return eTrendLine.MovingAverage;
                    case "power":
                        return eTrendLine.Power;
                    default:
@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         SetXmlNodeString(TRENDLINEPATH, "poly");
                         Order = 2;
                         break;
-                    case eTrendLine.MovingAvgerage:
+                    case eTrendLine.MovingAverage:
                         SetXmlNodeString(TRENDLINEPATH, "movingAvg");
                         Period = 2;
                         break;
@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
-                if (Type == eTrendLine.MovingAvgerage)
+                if (Type == eTrendLine.MovingAverage)
                 {
                     throw (new ArgumentException("Can't set period for trendline type MovingAvgerage"));
                 }
@@ -302,7 +302,7 @@ namespace OfficeOpenXml.Drawing.Chart
             get
             {
                 return ExistsNode("c:trendlineLbl") ||
-                       (Type != eTrendLine.MovingAvgerage && (DisplayRSquaredValue == true || DisplayEquation == true));
+                       (Type != eTrendLine.MovingAverage && (DisplayRSquaredValue == true || DisplayEquation == true));
             }
         }
     }
