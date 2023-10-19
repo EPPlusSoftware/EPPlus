@@ -143,7 +143,7 @@ namespace OfficeOpenXml
         internal ExcelPackage _loadedPackage = null;
         #region Properties
         /// <summary>
-        /// Extention Schema types
+        /// Extension Schema types
         /// </summary>
         internal const string schemaXmlExtension = "application/xml";
         internal const string schemaRelsExtension = "application/vnd.openxmlformats-package.relationships+xml";
