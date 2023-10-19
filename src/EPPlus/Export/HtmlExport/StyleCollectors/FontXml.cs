@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {
@@ -29,10 +28,10 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             get { return _font.Size; } 
         }
 
-        //public IStyleColor Color
-        //{
-        //    get { return _color; }
-        //}
+        public IStyleColor Color
+        {
+            get { return _color; }
+        }
 
         public bool Bold
         {

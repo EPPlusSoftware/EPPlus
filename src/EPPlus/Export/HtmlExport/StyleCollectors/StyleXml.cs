@@ -7,6 +7,10 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
     {
         public IFill Fill { get; } = null;
 
+        public IBorder Border { get; } = null;
+
+        public IFont Font { get; } = null;
+
         public StyleXml(ExcelXfs style)        
         {
             if(style.FillId >  0)
