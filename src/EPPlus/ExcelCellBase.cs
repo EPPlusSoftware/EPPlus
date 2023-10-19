@@ -802,7 +802,7 @@ namespace OfficeOpenXml
             try
             {
                 var tokens = SourceCodeTokenizer.Default.Tokenize(address);
-                if (tokens.Count < 2 || tokens[0].TokenType != TokenType.TableName || tokens[1].TokenType != TokenType.OpeningBracket)
+                if (tokens.Count < 3)
                 {
                     return false;
                 }
