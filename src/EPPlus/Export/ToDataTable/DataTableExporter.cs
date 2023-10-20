@@ -147,7 +147,9 @@ namespace OfficeOpenXml.Export.ToDataTable
             }
             else if (dataColumnType == typeof(DateTime))
             {
-                return ConvertUtility.GetValueDate(val);
+                var date = ConvertUtility.GetValueDate(val);
+				if(!date.HasValue) return DBNull.Value;
+                return date.Value;
             }
             else if (dataColumnType == typeof(double))
             {
