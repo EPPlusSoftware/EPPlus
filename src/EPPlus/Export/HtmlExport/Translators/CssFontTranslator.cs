@@ -18,9 +18,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
     internal class CssFontTranslator : TranslatorBase
     {
         IFont _f;
-        ExcelFont _nf;
+        IFont _nf;
 
-        internal CssFontTranslator(IFont f, ExcelFont nf) : base() 
+        internal CssFontTranslator(IFont f, IFont nf) : base() 
         {
             _f = f;
             _nf = nf;
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             }
             if (fontRules.HasColor)
             {
-                declarations.Add(new Declaration("color", HtmlUtils.ColorUtils.GetColor(_f.Color, context.Theme)));
+                declarations.Add(new Declaration("color", _f.Color.GetColor(context.Theme)));
             }
             if (fontRules.HasBold)
             {

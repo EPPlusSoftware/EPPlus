@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
         double Tint { get; }
         eThemeSchemeColor? Theme { get; }
         bool AreColorEqual(IStyleColor color);
+        string GetColor(ExcelTheme theme);
     }
 }

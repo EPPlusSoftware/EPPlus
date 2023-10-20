@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style;
 using System;
@@ -55,38 +56,38 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         }
 
 
-        //internal static string GetColor(ExcelColorXml c, ExcelTheme theme)
-        //{
-        //    Color ret;
-        //    if (!string.IsNullOrEmpty(c.Rgb))
-        //    {
-        //        if (int.TryParse(c.Rgb, NumberStyles.HexNumber, null, out int hex))
-        //        {
-        //            ret = Color.FromArgb(hex);
-        //        }
-        //        else
-        //        {
-        //            ret = Color.Empty;
-        //        }
-        //    }
-        //    else if (c.Theme.HasValue)
-        //    {
-        //        ret = Utils.ColorConverter.GetThemeColor(theme, c.Theme.Value);
-        //    }
-        //    else if (c.Indexed >= 0)
-        //    {
-        //        ret = ExcelColor.GetIndexedColor(c.Indexed);
-        //    }
-        //    else
-        //    {
-        //        //Automatic, set to black.
-        //        ret = Color.Black;
-        //    }
-        //    if (c.Tint != 0)
-        //    {
-        //        ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
-        //    }
-        //    return "#" + ret.ToArgb().ToString("x8").Substring(2);
-        //}
+        public string GetColor(ExcelTheme theme)
+        {
+            Color ret;
+            if (!string.IsNullOrEmpty(Rgb))
+            {
+                if (int.TryParse(Rgb, NumberStyles.HexNumber, null, out int hex))
+                {
+                    ret = Color.FromArgb(hex);
+                }
+                else
+                {
+                    ret = Color.Empty;
+                }
+            }
+            else if (Theme.HasValue)
+            {
+                ret = Utils.ColorConverter.GetThemeColor(theme, Theme.Value);
+            }
+            else if (Indexed >= 0)
+            {
+                ret = ExcelColor.GetIndexedColor(Indexed);
+            }
+            else
+            {
+                //Automatic, set to black.
+                ret = Color.Black;
+            }
+            if (Tint != 0)
+            {
+                ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(Tint));
+            }
+            return "#" + ret.ToArgb().ToString("x8").Substring(2);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class FontDeclarationRules
     {
-        internal FontDeclarationRules(IFont f, ExcelFont nf, TranslatorContext context) 
+        internal FontDeclarationRules(IFont f, IFont nf, TranslatorContext context) 
         {
             _f = f;
             _nf = nf;
@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         }
 
         private readonly IFont _f;
-        private readonly ExcelFont _nf;
+        private readonly IFont _nf;
         private readonly eFontExclude _fontExclude;
         private readonly ExcelTheme _theme;
         
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             get
             {
-                return (_f.Color != null && _f.Color.Exists && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color) && HtmlUtils.ColorUtils.AreColorEqual(_f.Color, _nf.Color) == false);
+                return (_f.Color != null && _f.Color.Exists && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color) && _f.Color.AreColorEqual(_nf.Color) == false);
             }
         }
         public bool HasBold
