@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace OfficeOpenXml.Core.CellStore
 {
     /// <summary>
-    /// For testing purpouse only. Can be removed when cellsstore is fully optimized.
+    /// For testing purpose only. Can be removed when cell store is fully optimized.
     /// </summary>
     internal static class CellStoreSettings
     {

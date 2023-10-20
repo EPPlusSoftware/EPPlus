@@ -299,8 +299,6 @@ namespace OfficeOpenXml
             f.Formula = value;
             f.Index = range._worksheet.GetMaxShareFunctionIndex(IsArray);
             f.Address = address.FirstAddress;
-            //f.StartCol = address.Start.Column;
-            //f.StartRow = address.Start.Row;
             f.FormulaType = IsArray ? FormulaType.Array : FormulaType.Shared;
 
             range._worksheet._sharedFormulas.Add(f.Index, f);
@@ -954,8 +952,6 @@ namespace OfficeOpenXml
             SharedFormula f = new SharedFormula(range);
             f.Formula = formula;
             f.Address = range.FirstAddress;
-            //f.StartCol = range.Start.Column;
-            //f.StartRow = range.Start.Row;
 
             if (range.Addresses == null)
             {
