@@ -873,7 +873,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     first = false;
                 }
                 var hl = uri as ExcelHyperLink;
-                if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress))
+                if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress) && uri.OriginalString.StartsWith("xl://internal"))
                 {
                     var address = _ws.Cells[cse.Row, cse.Column, cse.Row + hl.RowSpan, cse.Column + hl.ColSpan].Address;
                     var location = ExcelCellBase.GetFullAddress(SecurityElement.Escape(_ws.Name), SecurityElement.Escape(hl.ReferenceAddress));
@@ -885,7 +885,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     string id;
                     Uri hyp;
-                    string target = ""; ;
+                    string target = ""; 
                     if (hl != null)
                     {
                         if (hl.Target != null && hl.OriginalString.StartsWith("Invalid:Uri", StringComparison.OrdinalIgnoreCase))
@@ -898,6 +898,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     {
                         hyp = uri;
                     }
+
                     if (hyps.ContainsKey(hyp.OriginalString) && string.IsNullOrEmpty(target))
                     {
                         id = hyps[hyp.OriginalString];
@@ -917,7 +918,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         {
                             var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
                             var toolTip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
-                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\"{display}{toolTip} r:id=\"{relationship.Id}\"/>");
+                            var location = string.IsNullOrEmpty(hl.ReferenceAddress) ? "" : " location=\"" + SecurityElement.Escape(hl.ReferenceAddress) + "\"";
+                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\"{location}{display}{toolTip} r:id=\"{relationship.Id}\"/>");
                         }
                         else
                         {

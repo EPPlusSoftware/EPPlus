@@ -1378,7 +1378,6 @@ namespace OfficeOpenXml
                         {
                             var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
                             var rel = Part.GetRelationship(rId);
-
                             if (rel.TargetUri == null)
                             {
                                 if (rel.Target.StartsWith("#", StringComparison.OrdinalIgnoreCase) && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
@@ -1408,6 +1407,16 @@ namespace OfficeOpenXml
                             }
                             hl.Target = rel.Target;
                             hl.RId = rId;
+                            var display = xr.GetAttribute("display"); 
+                            if(!string.IsNullOrEmpty(display))
+                            {
+                                hl.Display = display;
+                            }
+                            var location = xr.GetAttribute("location");
+                            if (location != null)   
+                            {
+                                hl.ReferenceAddress = location; 
+                            }
                         }
                         else if (xr.GetAttribute("location") != null)
                         {
@@ -3507,7 +3516,7 @@ namespace OfficeOpenXml
                                 var hls = Workbook.Styles.CreateNamedStyle("Hyperlink");
                                 hls.BuildInId = 8;
                                 hls.Style.Font.UnderLine = true;
-                                hls.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+                                hls.Style.Font.Color.Theme = eThemeSchemeColor.Hyperlink;
                             }
                             hyperlinkStylesAdded = true;
                         }

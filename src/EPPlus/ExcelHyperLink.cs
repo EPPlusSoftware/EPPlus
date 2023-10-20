@@ -56,7 +56,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Sheet internal reference
         /// </summary>
-        /// <param name="referenceAddress">Address</param>
+        /// <param name="referenceAddress">The address or defined name</param>
         /// <param name="display">Displayed text</param>
         public ExcelHyperLink(string referenceAddress, string display) :
             base("xl://internal")   //URI is not used on internal links so put a dummy uri here.
@@ -64,10 +64,10 @@ namespace OfficeOpenXml
             _referenceAddress = referenceAddress;
             _display = display;
         }
-
+        
         string _referenceAddress = null;
         /// <summary>
-        /// The Excel address for internal links.
+        /// The Excel address for internal links or extended data for external hyper links not supported by the Uri class.
         /// </summary>
         public string ReferenceAddress
         {

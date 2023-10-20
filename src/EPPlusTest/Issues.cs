@@ -5594,6 +5594,17 @@ namespace EPPlusTest
                 Thread.CurrentThread.CurrentCulture = pc;
                 System.GC.Collect();
             }
-        }            
-    }            
+        }
+        [TestMethod]
+        public void I1107()
+        {
+            using (var package = OpenTemplatePackage("Hyperlink with subaddress.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                Assert.AreEqual("aa,bb=cc", ((ExcelHyperLink)ws.Cells["M6"].Hyperlink).ReferenceAddress);
+                SaveAndCleanup(package);
+            }
+        }
+
+    }
 }
