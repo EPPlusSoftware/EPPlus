@@ -5556,5 +5556,34 @@ namespace EPPlusTest
 
             }
         }
+
+        [TestMethod]
+        public void i1110()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("NewSheet");
+
+                var table = new DataTable("A Table \"named\"");
+
+                DataColumn column = new DataColumn();
+                column.DataType = System.Type.GetType("System.Int32");
+                column.ColumnName = "rowNr";
+                column.ReadOnly = true;
+                column.Unique = true;
+
+                table.Columns.Add(column);
+
+                DataRow row;
+                for (int i = 0; i <= 2; i++)
+                {
+                    row = table.NewRow();
+                    row["rowNr"] = i;
+                    table.Rows.Add(row);
+                }
+
+                var tbl = sheet.Cells["A1:B10"].LoadFromDataTable(table, false, TableStyles.Dark1);
+            }
+        }
     }
 }
