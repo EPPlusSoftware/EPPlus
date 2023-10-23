@@ -278,20 +278,21 @@ namespace OfficeOpenXml.Drawing
             {
                 ImageBytes = image;
             }
-            var ms = RecyclableMemory.GetStream(image);
-            var imageHandler = new GenericImageHandler();
-            if (imageHandler.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+            using(var ms = RecyclableMemory.GetStream(image))
             {
-                Bounds.Width = width;
-                Bounds.Height = height;
-                Bounds.HorizontalResolution = horizontalResolution;
-                Bounds.VerticalResolution = verticalResolution;
+                var imageHandler = new GenericImageHandler();
+                if (imageHandler.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+                {
+                    Bounds.Width = width;
+                    Bounds.Height = height;
+                    Bounds.HorizontalResolution = horizontalResolution;
+                    Bounds.VerticalResolution = verticalResolution;
+                }
+                else
+                {
+                    throw (new InvalidOperationException($"The image format is not supported: {pictureType} or the image is corrupt "));
+                }
             }
-            else
-            {
-                throw (new InvalidOperationException($"The image format is not supported: {pictureType} or the image is corrupt "));
-            }
-
             return this;
 
         }
@@ -338,19 +339,20 @@ namespace OfficeOpenXml.Drawing
                 ImageBytes = image;
             }
             PictureStore.SavePicture(image, _container, pictureType);
-            var ms = RecyclableMemory.GetStream(image);
-            if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+            using (var ms = RecyclableMemory.GetStream(image))
             {
-                Bounds.Width = width;
-                Bounds.Height = height;
-                Bounds.HorizontalResolution = horizontalResolution;
-                Bounds.VerticalResolution = verticalResolution;
+                if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+                {
+                    Bounds.Width = width;
+                    Bounds.Height = height;
+                    Bounds.HorizontalResolution = horizontalResolution;
+                    Bounds.VerticalResolution = verticalResolution;
+                }
+                else
+                {
+                    throw (new InvalidOperationException($"Image format not supported or: {pictureType} or corrupt image"));
+                }
             }
-            else
-            {
-                throw (new InvalidOperationException($"Image format not supported or: {pictureType} or corrupt image"));
-            }
-
             _container.SetNewImage();
             return this;
         }

@@ -198,7 +198,11 @@ namespace OfficeOpenXml.Encryption
         private byte[] EncryptDataAgile(byte[] data, EncryptionInfoAgile encryptionInfo, HashAlgorithm hashProvider)
         {
             var ke = encryptionInfo.KeyEncryptors[0];
+#if Core
             var aes = Aes.Create();
+#else
+            RijndaelManaged aes = new RijndaelManaged();
+#endif
             aes.KeySize = ke.KeyBits;
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.Zeros;
@@ -329,18 +333,20 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] CreateStrongEncryptionDataSpaceStream()
         {
-            MemoryStream ms = RecyclableMemory.GetStream();
-            BinaryWriter bw = new BinaryWriter(ms);
+            using (MemoryStream ms = RecyclableMemory.GetStream())
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
 
-            bw.Write((int)8);       //HeaderLength
-            bw.Write((int)1);       //EntryCount
+                bw.Write((int)8);       //HeaderLength
+                bw.Write((int)1);       //EntryCount
 
-            string tr = "StrongEncryptionTransform";
-            bw.Write((int)tr.Length*2);
-            bw.Write(UTF8Encoding.Unicode.GetBytes(tr + "\0")); // end \0 is for padding
+                string tr = "StrongEncryptionTransform";
+                bw.Write((int)tr.Length * 2);
+                bw.Write(UTF8Encoding.Unicode.GetBytes(tr + "\0")); // end \0 is for padding
 
-            bw.Flush();
-            return ms.ToArray();
+                bw.Flush();
+                return ms.ToArray();
+            }
         }
         private byte[] CreateVersionStream()
         {
@@ -468,7 +474,11 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] EncryptData(byte[] key, byte[] data, bool useDataSize)
         {
+#if (Core)
             var aes = Aes.Create();
+#else
+            RijndaelManaged aes = new RijndaelManaged();
+#endif
             aes.KeySize = key.Length * 8;
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.Zeros;
@@ -498,7 +508,7 @@ namespace OfficeOpenXml.Encryption
         }
         private MemoryStream GetStreamFromPackage(CompoundDocument doc, ExcelEncryption encryption)
         {
-            if(doc.Storage.DataStreams.ContainsKey("EncryptionInfo") ||
+            if(doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
                doc.Storage.DataStreams.ContainsKey("EncryptedPackage"))
             {
                 var encryptionInfo = EncryptionInfo.ReadBinary(doc.Storage.DataStreams["EncryptionInfo"]);
@@ -507,7 +517,7 @@ namespace OfficeOpenXml.Encryption
             }
             else
             {
-                throw (new InvalidDataException("Invalid document. EncryptionInfo or EncryptedPackage stream is missing"));
+                throw (new InvalidDataException("Invalid or unsupported encryption. EncryptionInfo or EncryptedPackage stream is missing"));
             }
         }
 
@@ -665,7 +675,11 @@ namespace OfficeOpenXml.Encryption
                 encryptionInfo.Header.AlgID == AlgorithmID.AES256
                 )
             {
+#if (Core)
                 var decryptKey = Aes.Create();
+#else
+            RijndaelManaged decryptKey = new RijndaelManaged();
+#endif
                 decryptKey.KeySize = encryptionInfo.Header.KeySize;
                 decryptKey.Mode = CipherMode.ECB;
                 decryptKey.Padding = PaddingMode.None;
@@ -704,7 +718,11 @@ namespace OfficeOpenXml.Encryption
         /// <returns></returns>
         private bool IsPasswordValid(byte[] key, EncryptionInfoBinary encryptionInfo)
         {
+#if (Core)
             var decryptKey = Aes.Create();
+#else
+                RijndaelManaged decryptKey = new RijndaelManaged();
+#endif
             decryptKey.KeySize = encryptionInfo.Header.KeySize;
             decryptKey.Mode = CipherMode.ECB;
             decryptKey.Padding = PaddingMode.None;
@@ -829,7 +847,7 @@ namespace OfficeOpenXml.Encryption
             switch (encr.CipherAlgorithm)
             {
                 case eCipherAlgorithm.AES:
-                    return Aes.Create();
+                    return new RijndaelManaged();
                 case eCipherAlgorithm.DES:
                     return new DESCryptoServiceProvider();
                 case eCipherAlgorithm.TRIPLE_DES:

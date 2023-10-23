@@ -48,6 +48,7 @@ namespace OfficeOpenXml.Drawing
                 Stream newMs = RecyclableMemory.GetStream();
                 StreamUtil.CopyStream(stream, ref newMs);
                 pt = GetPictureTypeFromMs((MemoryStream)newMs);
+                newMs.Dispose();
             }
             if (throwException && pt == null) throw new InvalidOperationException("Cannot identify the image format of the stream.");
             return pt;
@@ -62,9 +63,11 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Stream newMs = RecyclableMemory.GetStream();
-                await StreamUtil.CopyStreamAsync(stream, newMs, new CancellationToken()).ConfigureAwait(false);
-                pt = GetPictureTypeFromMs((MemoryStream)newMs);
+                using (Stream newMs = RecyclableMemory.GetStream())
+                {
+                    await StreamUtil.CopyStreamAsync(stream, newMs, new CancellationToken()).ConfigureAwait(false);
+                    pt = GetPictureTypeFromMs((MemoryStream)newMs);
+                }
             }
             if (pt == null) throw new InvalidOperationException("Cannot identify the image format of the stream.");
             return pt;
@@ -196,38 +199,42 @@ namespace OfficeOpenXml.Drawing
             {
                 try
                 {
-                    var ms = RecyclableMemory.GetStream(img);
-                    var msOut = RecyclableMemory.GetStream();
-                    const int bufferSize = 4096;
-                    var buffer = new byte[bufferSize];
-                    using (var z = new OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream(ms, Packaging.Ionic.Zlib.CompressionMode.Decompress))
+                    using(var ms = RecyclableMemory.GetStream(img))
                     {
-                        int size = 0;
-                        do
+                        using(var msOut = RecyclableMemory.GetStream())
                         {
-                            size = z.Read(buffer, 0, bufferSize);
-                            if (size > 0)
+                            const int bufferSize = 4096;
+                            var buffer = new byte[bufferSize];
+                            using (var z = new OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream(ms, Packaging.Ionic.Zlib.CompressionMode.Decompress))
                             {
-                                msOut.Write(buffer, 0, size);
+                                int size = 0;
+                                do
+                                {
+                                    size = z.Read(buffer, 0, bufferSize);
+                                    if (size > 0)
+                                    {
+                                        msOut.Write(buffer, 0, size);
+                                    }
+                                }
+                                while (size == bufferSize);
+                                msOut.Position = 0;
+                                var br = new BinaryReader(msOut);
+                                if (IsEmf(br))
+                                {
+                                    type = ePictureType.Emf;
+                                }
+                                else if (IsWmf(br))
+                                {
+                                    type = ePictureType.Wmf;
+                                }
+                                else
+                                {
+                                    type = null;
+                                }
+                                msOut.Position = 0;
+                                return msOut.ToArray();
                             }
                         }
-                        while (size == bufferSize);
-                        msOut.Position = 0;
-                        var br = new BinaryReader(msOut);
-                        if (IsEmf(br))
-                        {
-                            type = ePictureType.Emf;
-                        }
-                        else if (IsWmf(br))
-                        {
-                            type = ePictureType.Wmf;
-                        }
-                        else
-                        {
-                            type = null;
-                        }
-                        msOut.Position = 0;
-                        return msOut.ToArray();
                     }
                 }
                 catch

@@ -36,6 +36,7 @@ using OfficeOpenXml;
 using System.IO;
 using System.Diagnostics;
 using OfficeOpenXml.FormulaParsing;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -294,10 +295,12 @@ namespace EPPlusTest
         [TestMethod]
         public void INTFunctionTest()
         {
+            var pc = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             var pck = new ExcelPackage();
             var ws = pck.Workbook.Worksheets.Add("CalcTest");
             var currentDate = DateTime.UtcNow.Date;
-            ws.SetValue("A1", currentDate.ToString("MM/dd/yyyy"));
+            ws.SetValue("A1", currentDate.ToShortDateString());
             ws.SetValue("A2", currentDate.Date);
             ws.SetValue("A3", "31.1");
             ws.SetValue("A4", 31.1);
@@ -311,6 +314,8 @@ namespace EPPlusTest
             Assert.AreEqual((int)currentDate.ToOADate(), ws.Cells["A6"].Value);
             Assert.AreEqual(31, ws.Cells["A7"].Value);
             Assert.AreEqual(31, ws.Cells["A8"].Value);
+
+            Thread.CurrentThread.CurrentCulture = pc;
         }
 
 

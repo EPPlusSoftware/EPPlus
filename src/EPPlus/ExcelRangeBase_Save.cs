@@ -301,9 +301,11 @@ namespace OfficeOpenXml
         public string ToJson()
         {
             var re = new JsonRangeExport(this, new JsonRangeExportSettings());
-            var ms = RecyclableMemory.GetStream();
-            re.Export(ms);
-            return Encoding.UTF8.GetString(ms.ToArray());
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                re.Export(ms);
+                return Encoding.UTF8.GetString(ms.ToArray());
+            }
         }
         /// <summary>
         /// Returns the range as JSON
@@ -315,9 +317,11 @@ namespace OfficeOpenXml
             var s = new JsonRangeExportSettings();
             settings.Invoke(s);
             var re = new JsonRangeExport(this, s);
-            var ms = RecyclableMemory.GetStream();
-            re.Export(ms);
-            return s.Encoding.GetString(ms.ToArray());
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                re.Export(ms);
+                return s.Encoding.GetString(ms.ToArray());
+            }
         }
         /// <summary>
         /// Saves the range as JSON to a stream.

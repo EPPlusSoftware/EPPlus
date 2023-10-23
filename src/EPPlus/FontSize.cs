@@ -24,7 +24,7 @@ namespace OfficeOpenXml
     /// A collection of fonts and there size in pixels used when determining auto widths for columns.
     /// This is used as .NET and Excel does not measure font widths in pixels in a similar way.
     /// </summary>
-    public static class FontSize
+    public class FontSize
     {
         /// <summary>
         /// Default font used in EPPlus
@@ -179,12 +179,18 @@ namespace OfficeOpenXml
         public static void LoadAllFontsFromResource()
         {
             LoadFontsFromResource(null);
+            if (_fontStream != null)
+            {
+                _fontStream.Dispose();
+                _fontStream = null;
+            }
         }
         /// <summary>
         /// Load the specified fonts default heights/widths from the internal resource file
         /// </summary>
         /// <param name="fontName">The name of the font.</param>
-        public static void LoadFontsFromResource(string fontName)
+        /// <param name="disposeStream">If false the stream is loading the font is kept open to load other fonts faster. It true the font-stream is disposed on exit.</param>
+        public static void LoadFontsFromResource(string fontName, bool disposeStream=true)
         {            
             lock (_lockObj)
             {
@@ -199,32 +205,38 @@ namespace OfficeOpenXml
 
                 using (stream)
                 {
-                    var zipStream = new ZipInputStream(stream);
-                    ZipEntry entry;
-                    while ((entry = zipStream.GetNextEntry()) != null)
+                    using (var zipStream = new ZipInputStream(stream))
                     {
-                        if (entry.FileName.Equals("fontsize.bin", StringComparison.OrdinalIgnoreCase))
+                        ZipEntry entry;
+                        while ((entry = zipStream.GetNextEntry()) != null)
                         {
-                            var br = new BinaryReader(zipStream);
-                            if (string.IsNullOrEmpty(fontName))
+                            if (entry.FileName.Equals("fontsize.bin", StringComparison.OrdinalIgnoreCase))
                             {
-                                using (var ms = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize)))
+                                var br = new BinaryReader(zipStream);
+                                if (string.IsNullOrEmpty(fontName))
                                 {
-                                    ReadFontSize(ms, fontName);
+                                    using (var ms = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize)))
+                                    {
+                                        ReadFontSize(ms, fontName);
+                                    }
+                                    _isLoaded = true;
                                 }
-                                _isLoaded = true;
-                            }
-                            else
-                            {
-                                _fontStream = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize));
-                                ReadFontSize(_fontStream, fontName);
+                                else
+                                {
+                                    _fontStream = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize));
+                                    ReadFontSize(_fontStream, fontName);
+                                }
                             }
                         }
                     }
                 }
+                if (disposeStream && _fontStream!=null)
+                {
+                    _fontStream.Dispose();
+                    _fontStream = null;
+                }
             }
-        }
-
+        }        
         private static void ReadFontSize(MemoryStream stream, string fontName)
         {
             var br = new BinaryReader(stream);

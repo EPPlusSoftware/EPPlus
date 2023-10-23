@@ -1503,7 +1503,7 @@ namespace OfficeOpenXml.Drawing
 
         internal void ReIndexNames(int Index, int increase)
         {
-            for (int i = _drawingsList.Count-1; i >= Index; i--)
+            for (int i = _drawingsList.Count - 1; i >= Index; i--)
             {
                 _drawingNames[_drawingsList[i].Name] = i;
             }
