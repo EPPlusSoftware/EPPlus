@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
@@ -13,15 +14,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class CssBorderTranslator : TranslatorBase
     {
-        ExcelBorderItemXml _top;
-        ExcelBorderItemXml _bottom;
-        ExcelBorderItemXml _left;
-        ExcelBorderItemXml _right;
+        IBorderItem _top;
+        IBorderItem _bottom;
+        IBorderItem _left;
+        IBorderItem _right;
 
         ExcelTheme _theme;
 
 
-        internal CssBorderTranslator(ExcelBorderXml border) 
+        internal CssBorderTranslator(IBorder border) 
         {
             _top = border.Top;
             _bottom = border.Bottom;
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             _right = border.Right;
         }
 
-        internal CssBorderTranslator(ExcelBorderItemXml top, ExcelBorderItemXml bottom, ExcelBorderItemXml left, ExcelBorderItemXml right)
+        internal CssBorderTranslator(IBorderItem top, IBorderItem bottom, IBorderItem left, IBorderItem right)
         {
             _top = top;
             _bottom = bottom;
@@ -53,7 +54,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             return declarations;
         }
 
-        private void WriteBorderItem(ExcelBorderItemXml bi, string suffix)
+        private void WriteBorderItem(IBorderItem bi, string suffix)
         {
             if (bi.Style != ExcelBorderStyle.None)
             {
@@ -61,7 +62,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
                 if (bi.Color != null && bi.Color.Exists)
                 {
-                    declarations.Last().AddValues(GetColor(bi.Color, _theme));
+                    declarations.Last().AddValues(bi.Color.GetColor(_theme));
                 }
             }
         }

@@ -145,9 +145,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                                         if (idDxf != -1)
                                         {
                                             //var scDxf = new StyleChecker(cf.Style, _exporterContext._dxfStyleCache, styles);
-
+                                            //cf._style.Border
                                             var dxfStyle = new StyleDxf(cf._style);
-
                                             //cf._style.Font.Color
                                             cssTranslator.AddToCollection(new List<IStyle>() { dxfStyle }, styles.GetNormalStyle(), idDxf);
 

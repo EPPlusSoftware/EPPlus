@@ -129,20 +129,20 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                 translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
             }
 
-            //if (styleList.Count > 1)
-            //{
-            //    var bXfs = styleList[1];
-            //    var rXfs = styleList[2];
+            if (styleList.Count > 1)
+            {
+                var bXfs = styleList[1];
+                var rXfs = styleList[2];
 
-            //    if (style.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
-            //    {
-            //        translators.Add(new CssBorderTranslator(style.Border.Top, bXfs.Border.Bottom, style.Border.Left, rXfs.Border.Right));
-            //    }
-            //}
-            //else if (style.BorderId > 0)
-            //{
-            //    translators.Add(new CssBorderTranslator(style.Border));
-            //}
+                if (style.Border != null || bXfs.Border != null || rXfs.Border != null)
+                {
+                    translators.Add(new CssBorderTranslator(style.Border.Top, bXfs.Border.Bottom, style.Border.Left, rXfs.Border.Right));
+                }
+            }
+            else if (style.Border != null)
+            {
+                translators.Add(new CssBorderTranslator(style.Border));
+            }
 
             //translators.Add(new CssTextFormatTranslator(style));
 

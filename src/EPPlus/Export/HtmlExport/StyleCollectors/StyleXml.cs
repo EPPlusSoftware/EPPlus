@@ -17,6 +17,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 Fill = new FillXml(style.Fill);
                 Font = new FontXml(style.Font);
+                Border = new BorderXml(style.Border);
             }
         }
     }
