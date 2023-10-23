@@ -3,17 +3,20 @@ using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
 
@@ -116,17 +119,18 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     catch (Exception ex)
                     {
-                        SetAndReturnValueError(depChain, ex);
+                        SetAndReturnValueError(depChain, ex, f);
                     }
                 }
             }
         }
 
-        private static object SetAndReturnValueError(RpnOptimizedDependencyChain depChain, Exception ex)
+        private static object SetAndReturnValueError(RpnOptimizedDependencyChain depChain, Exception ex, RpnFormula f)
         {
             if (depChain._parsingContext.Parser.Logger != null)
             {
                 depChain._parsingContext.Parser.Logger.Log(depChain._parsingContext, ex);
+                LogFormula(depChain, f);
             }
             var cc = depChain._parsingContext.CurrentCell;
             var ret = ExcelErrorValue.Create(eErrorType.Value);
@@ -146,6 +150,22 @@ namespace OfficeOpenXml.FormulaParsing
                 depChain._parsingContext.Package.Workbook.Names[depChain._parsingContext.CurrentCell.Row].Value = ret;
             }
             return ret;
+        }
+
+        private static void LogFormula(RpnOptimizedDependencyChain depChain, RpnFormula f)
+        {
+            try
+            {
+                var logger = depChain._parsingContext.Parser.Logger;
+                logger.Log($"Formula at address: {f.GetAddress()}");
+                logger.Log("Formula Tokens: " + string.Join(", ", f._tokens.Select(x => x.Value).ToArray()));
+                logger.Log($"Formula current token : {f._tokens[f._tokenIndex]}. Position : {f._tokenIndex}");
+                logger.Log($"Current Culture Setting: {Thread.CurrentThread.CurrentCulture.Name}");
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelNamedRangeCollection namesCollection, ExcelCalculationOption options)
@@ -492,7 +512,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             catch (Exception ex)
             {
-                var errValue = SetAndReturnValueError(depChain, ex);
+                var errValue = SetAndReturnValueError(depChain, ex, f);
                 f._tokenIndex=f._tokens.Count-1;
                 if(depChain._formulaStack.Count > 0)
                 {
