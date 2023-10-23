@@ -39,6 +39,7 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -5396,6 +5397,68 @@ namespace EPPlusTest
                 Debug.WriteLine("after:");
                 DebugGetFontInfo();
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i1102()
+        {
+            using (var excel = new ExcelPackage())
+            {
+                var worksheet = excel.Workbook.Worksheets.Add("Test Worksheet");
+                var targetCell = worksheet.Cells[1, 1];
+                var validationCell = worksheet.Cells[1, 2];
+
+                validationCell.Formula = "IFERROR(SUBSTITUTE(RIGHT(A1,LEN(A1)-FIND(\"-\",A1)),\"-\",\"|\"),\"0\")";
+
+                targetCell.Value = "invalid";
+
+                validationCell.Calculate();
+
+                var result = validationCell.GetValue<string>();
+
+                Assert.AreEqual("0", result);
+            }
+        }
+        [TestMethod]
+        public void i1110()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("NewSheet");
+
+                var table = new DataTable("A Table \"named\"");
+
+                DataColumn column = new DataColumn();
+                column.DataType = System.Type.GetType("System.Int32");
+                column.ColumnName = "rowNr";
+                column.ReadOnly = true;
+                column.Unique = true;
+
+                table.Columns.Add(column);
+
+                DataRow row;
+                for (int i = 0; i <= 2; i++)
+                {
+                    row = table.NewRow();
+                    row["rowNr"] = i;
+                    table.Rows.Add(row);
+                }
+
+                var tbl = sheet.Cells["A1:B10"].LoadFromDataTable(table, false, OfficeOpenXml.Table.TableStyles.Dark1);
+            }
+        }
+
+        [TestMethod]
+        public void i1087LongNumber()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 2347440000d;
+                sheet.Cells["A2"].Formula = "ROUNDDOWN(A1,-5)";
+                sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+
+                Assert.AreEqual(2347400000d, sheet.Cells["A2"].Value);
             }
         }
 
