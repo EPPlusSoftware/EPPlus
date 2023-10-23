@@ -1,29 +1,22 @@
-﻿using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.XmlAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class FontDeclarationRules
     {
-        internal FontDeclarationRules(IFont f, IFont nf, TranslatorContext context) 
+        internal FontDeclarationRules(IFont f, ExcelFont nf, TranslatorContext context) 
         {
             _f = f;
             _nf = nf;
             _fontExclude = context.Exclude.Font;
-            _theme = context.Theme;
         }
 
         private readonly IFont _f;
-        private readonly IFont _nf;
+        private readonly ExcelFont _nf;
         private readonly eFontExclude _fontExclude;
-        private readonly ExcelTheme _theme;
         
         public bool HasFamily 
         {   
@@ -44,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             get
             {
-                return (_f.Color != null && _f.Color.Exists && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color) && _f.Color.AreColorEqual(_nf.Color) == false);
+                return (_f.Color != null && _f.Color.Exists && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color) && _f.Color.AreColorEqual(new StyleColorNormal(_nf.Color)) == false);
             }
         }
         public bool HasBold
@@ -76,7 +69,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 return (_f.UnderLineType != ExcelUnderLineType.None && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Underline) && _f.UnderLineType != _nf.UnderLineType);
             }
         }
-
-
     }
 }

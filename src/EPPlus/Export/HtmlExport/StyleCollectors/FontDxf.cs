@@ -10,13 +10,14 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {
     internal class FontDxf: IFont
     {
-        ExcelDxfStyleLimitedFont _font;
+        ExcelDxfFontBase _font;
 
         IStyleColor _color;
 
-        public FontDxf(ExcelDxfStyleLimitedFont font)
+        public FontDxf(ExcelDxfFontBase font)
         {
             _font = font;
+            _color = new StyleColorDxf(font.Color);
         }
 
         //No such property by definition
@@ -40,22 +41,22 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 
         public bool Bold
         {
-            get { return _font.Font.Bold.HasValue ? _font.Font.Bold.Value : false; }
+            get { return _font.Bold.HasValue ? _font.Bold.Value : false; }
         }
 
         public bool Italic
         {
-            get { return _font.Font.Italic.HasValue ? _font.Font.Italic.Value : false; }
+            get { return _font.Italic.HasValue ? _font.Italic.Value : false; }
         }
 
         public bool Strike
         {
-            get { return _font.Font.Strike.HasValue ? _font.Font.Strike.Value : false; }
+            get { return _font.Strike.HasValue ? _font.Strike.Value : false; }
         }
 
         public ExcelUnderLineType UnderLineType
         {
-            get { return _font.Font.Underline.HasValue ? _font.Font.Underline.Value : ExcelUnderLineType.None; }
+            get { return _font.Underline.HasValue ? _font.Underline.Value : ExcelUnderLineType.None; }
         }
     }
 }

@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                             if(sc.ShouldAddWithBorders(bottomStyleId, rightStyleId))
                             {
-                               // cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
+                              // cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
                             }
                         }
                         else
@@ -134,22 +134,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                                 cssTranslator.AddToCollection(new List<IStyle>() { style }, styles.GetNormalStyle(), sc.Id);
                             }
-
-                            //var scDxf = new StyleChecker(xfs, _exporterContext._dxfStyleCache, styles);
-
-                            //if(scDxf.ShouldAdd())
-                            //{
-                            //    if (_cfAtAddresses.ContainsKey(ce.CellAddress))
-                            //    {
-                            //        foreach (var cf in _cfAtAddresses[ce.CellAddress])
-                            //        {
-                            //            var idDxf = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
-                            //            if (idDxf != -1)
-                            //            {
-                            //                //await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
-                            //            }
-                            //        }
-                            //    }
 
                             if (ce.CellAddress != null)
                             {
@@ -164,7 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                                             var dxfStyle = new StyleDxf(cf._style);
 
-
+                                            //cf._style.Font.Color
                                             cssTranslator.AddToCollection(new List<IStyle>() { dxfStyle }, styles.GetNormalStyle(), idDxf);
 
                                             //await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);

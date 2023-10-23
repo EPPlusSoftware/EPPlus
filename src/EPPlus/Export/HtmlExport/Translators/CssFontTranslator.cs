@@ -18,9 +18,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
     internal class CssFontTranslator : TranslatorBase
     {
         IFont _f;
-        IFont _nf;
+        ExcelFont _nf;
 
-        internal CssFontTranslator(IFont f, IFont nf) : base() 
+        internal CssFontTranslator(IFont f, ExcelFont nf) : base() 
         {
             _f = f;
             _nf = nf;
@@ -29,8 +29,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
-            //ExcelFontXml f, FontDeclarationRules rules, ExcelFont nf, eFontExclude fontExclude, ExcelTheme theme
-
             var declarations = new List<Declaration>();
             var fontExclude = context.Exclude.Font;
             var fontRules = new FontDeclarationRules(_f, _nf, context);

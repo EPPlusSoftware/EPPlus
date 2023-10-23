@@ -124,10 +124,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             {
                 translators.Add(new CssFillTranslator(style.Fill));
             }
-            //if (style.FontId > 0)
-            //{
-            //    translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
-            //}
+            if (style.Font != null)
+            {
+                translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
+            }
 
             //if (styleList.Count > 1)
             //{

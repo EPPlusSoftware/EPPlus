@@ -1,21 +1,19 @@
 ﻿using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {
     internal class FontXml : IFont
     {
-        ExcelFont _font;
+        ExcelFontXml _font;
 
         IStyleColor _color;
 
-        public FontXml(ExcelFont font) 
+        public FontXml(ExcelFontXml font) 
         { 
             _font = font;
+            _color = new StyleColorXml(font.Color);
         }
 
         public string Name

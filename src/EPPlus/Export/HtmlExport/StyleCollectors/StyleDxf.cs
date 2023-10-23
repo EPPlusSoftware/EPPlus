@@ -15,6 +15,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             if (style.Fill != null)
             {
                 Fill = new FillDxf(style.Fill);
+                Font = new FontDxf(style.Font);
             }
         }
     }

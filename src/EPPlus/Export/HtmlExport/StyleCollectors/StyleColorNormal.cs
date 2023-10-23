@@ -2,26 +2,20 @@
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.XmlAccess;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {
-    internal class StyleColorXml : IStyleColor
+    internal class StyleColorNormal : IStyleColor
     {
-        ExcelColorXml _color;
+        ExcelColor _color;
 
-        public StyleColorXml(ExcelColorXml color) 
+        public StyleColorNormal(ExcelColor color)
         {
             _color = color;
         }
 
-        public bool Exists { get { return _color.Exists; } }
+        //TODO: Is this correct?
+        public bool Exists { get { return true; } }
 
         public bool Auto { get { return _color.Auto; } }
 
