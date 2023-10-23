@@ -36,6 +36,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -5583,6 +5584,19 @@ namespace EPPlusTest
                 }
 
                 var tbl = sheet.Cells["A1:B10"].LoadFromDataTable(table, false, TableStyles.Dark1);
+            }
+        }
+        [TestMethod]
+        public void i1087LongNumber()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 2347440000d;
+                sheet.Cells["A2"].Formula = "ROUNDDOWN(A1,-5)";
+                sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+
+                Assert.AreEqual(2347400000d, sheet.Cells["A2"].Value);
             }
         }
     }
