@@ -32,25 +32,19 @@ namespace OfficeOpenXml.FormulaParsing
         /// Configures the formula calc engine to allow circular references.
         /// </summary>
         public bool AllowCircularReferences { get; internal set; }
+        /// <summary>
+        /// If EPPlus will should cache expressions or not. Default is true.
+        /// </summary>
         public bool CacheExpressions { get; internal set; }
         /// <summary>
         /// In some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.
         /// </summary>
         public PrecisionAndRoundingStrategy PrecisionAndRoundingStrategy { get; internal set; }
-        /// <summary>
-        /// The <see cref="ILexer"/> of the parser
-        /// </summary>
-        public virtual ILexer Lexer { get; private set; }
 
         /// <summary>
         /// The <see cref="IFormulaParserLogger"/> of the parser
         /// </summary>
         public IFormulaParserLogger Logger { get; private set; }
-
-        ///// <summary>
-        ///// The <see cref="IExpressionGraphBuilder"/> of the parser
-        ///// </summary>
-        //internal IExpressionGraphBuilder GraphBuilder { get; private set; }
 
         ///// <summary>
         ///// The <see cref="IExpressionCompiler"/> of the parser
@@ -80,39 +74,6 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         /// <summary>
-        /// Replaces the lexer with any instance implementing the <see cref="ILexer"/> interface.
-        /// </summary>
-        /// <param name="lexer"></param>
-        /// <returns></returns>
-        public ParsingConfiguration SetLexer(ILexer lexer)
-        {
-            Lexer = lexer;
-            return this;
-        }
-
-        ///// <summary>
-        ///// Replaces the graphbuilder with any instance implementing the <see cref="IExpressionGraphBuilder"/> interface.
-        ///// </summary>
-        ///// <param name="graphBuilder"></param>
-        ///// <returns></returns>
-        //internal ParsingConfiguration SetGraphBuilder(IExpressionGraphBuilder graphBuilder)
-        //{
-        //    GraphBuilder = graphBuilder;
-        //    return this;
-        //}
-
-        ///// <summary>
-        ///// Replaces the expression compiler with any instance implementing the <see cref="IExpressionCompiler"/> interface.
-        ///// </summary>
-        ///// <param name="expressionCompiler"></param>
-        ///// <returns></returns>
-        //public ParsingConfiguration SetExpresionCompiler(IExpressionCompiler expressionCompiler)
-        //{
-        //    ExpressionCompiler = expressionCompiler;
-        //    return this;
-        //}
-
-        /// <summary>
         /// Attaches a logger, errors and log entries will be written to the logger during the parsing process.
         /// </summary>
         /// <param name="logger"></param>
@@ -129,7 +90,8 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <returns></returns>
         public ParsingConfiguration DetachLogger()
-        {            
+        {
+            Logger?.Dispose();
             Logger = null;
             return this;
         }

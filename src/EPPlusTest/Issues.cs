@@ -232,6 +232,10 @@ namespace EPPlusTest
 
             ws.Cells["A1"].LoadFromCollection(l, true, TableStyles.Light16, BindingFlags.Instance | BindingFlags.Public,
                 new MemberInfo[] { typeof(cls2).GetProperty("prop2") });
+
+            Assert.AreEqual("prop2", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["A2"].Value);
+            Assert.AreEqual("test1", ws.Cells["A3"].Value);
         }
 
         [TestMethod]
@@ -5556,7 +5560,51 @@ namespace EPPlusTest
 
             }
         }
+        [TestMethod]
+        public void s539()
+        {
+            //Outputs
+            bool success = true;
+            string exc = "";
+            var pc = Thread.CurrentThread.CurrentCulture;
 
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                string sheetName = "Sheet1";
+                string range = "G2:G5";
+                string value = "VLOOKUP(F2,'Reference Data'!A2:B187021,2,0)";
+
+                using (var package = OpenTemplatePackage("s539.xlsm"))
+                {
+                    var ws = package.Workbook.Worksheets[sheetName];
+                    ws.Cells[range].Formula = value;
+                    ws.Cells[range].Calculate();
+                    SaveAndCleanup(package);
+                }
+            }
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+                success = false;
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = pc;
+                System.GC.Collect();
+            }
+        }
+        [TestMethod]
+        public void I1107()
+        {
+            using (var package = OpenTemplatePackage("Hyperlink with subaddress.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                Assert.AreEqual("aa,bb=cc", ((ExcelHyperLink)ws.Cells["M6"].Hyperlink).ReferenceAddress);
+                SaveAndCleanup(package);
+            }
+        }
         [TestMethod]
         public void i1110()
         {

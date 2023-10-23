@@ -1378,7 +1378,6 @@ namespace OfficeOpenXml
                         {
                             var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
                             var rel = Part.GetRelationship(rId);
-
                             if (rel.TargetUri == null)
                             {
                                 if (rel.Target.StartsWith("#", StringComparison.OrdinalIgnoreCase) && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
@@ -1408,6 +1407,16 @@ namespace OfficeOpenXml
                             }
                             hl.Target = rel.Target;
                             hl.RId = rId;
+                            var display = xr.GetAttribute("display"); 
+                            if(!string.IsNullOrEmpty(display))
+                            {
+                                hl.Display = display;
+                            }
+                            var location = xr.GetAttribute("location");
+                            if (location != null)   
+                            {
+                                hl.ReferenceAddress = location; 
+                            }
                         }
                         else if (xr.GetAttribute("location") != null)
                         {
@@ -1479,8 +1488,8 @@ namespace OfficeOpenXml
         private ExcelHyperLink GetHyperlinkFromRef(XmlReader xr, string refTag, int fromRow = 0, int toRow = 0, int fromCol = 0, int toCol = 0)
         {
             var hl = new ExcelHyperLink(xr.GetAttribute(refTag), xr.GetAttribute("display"));
-            hl.RowSpann = toRow - fromRow;
-            hl.ColSpann = toCol - fromCol;
+            hl.RowSpan = toRow - fromRow;
+            hl.ColSpan = toCol - fromCol;
             return hl;
         }
 
@@ -3507,7 +3516,7 @@ namespace OfficeOpenXml
                                 var hls = Workbook.Styles.CreateNamedStyle("Hyperlink");
                                 hls.BuildInId = 8;
                                 hls.Style.Font.UnderLine = true;
-                                hls.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+                                hls.Style.Font.Color.Theme = eThemeSchemeColor.Hyperlink;
                             }
                             hyperlinkStylesAdded = true;
                         }

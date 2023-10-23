@@ -80,5 +80,12 @@ namespace EPPlusTest.ExcelUtilities
             var result = address1.CollidesWith(address2);
             Assert.AreEqual(eAddressCollition.No, result);
         }
+        [TestMethod]
+        public void ValidateTableAddressIsValue()
+        {
+            Assert.IsTrue(OfficeOpenXml.ExcelAddressBase.IsValidAddress("Table1[]"));
+            Assert.IsTrue(OfficeOpenXml.ExcelAddressBase.IsValidAddress("Sheet1!Table1[#All]"));
+            Assert.IsTrue(OfficeOpenXml.ExcelAddressBase.IsValidAddress("[0]Sheet1!Table1[[#All],[Column1]]"));
+        }
     }
 }

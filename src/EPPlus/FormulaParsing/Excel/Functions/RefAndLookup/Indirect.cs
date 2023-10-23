@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             FormulaRangeAddress adr;
             IRangeInfo result;
             var arg = arguments[0];
-            if (ExcelCellBase.IsValidAddress(address))
+            if (ExcelCellBase.IsValidRangeAddress(address))
             {                
                 adr = new FormulaRangeAddress(context, address);
                 result = context.ExcelDataProvider.GetRange(adr);
