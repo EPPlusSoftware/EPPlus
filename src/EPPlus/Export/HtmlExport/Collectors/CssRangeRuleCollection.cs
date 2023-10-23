@@ -113,7 +113,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
         }
 
-        internal void AddToCollection(List<IStyle> styleList, ExcelNamedStyleXml ns, int id)
+        internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id)
         {
             var style = styleList[0];
 

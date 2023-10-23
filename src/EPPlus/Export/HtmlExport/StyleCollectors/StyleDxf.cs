@@ -3,7 +3,7 @@ using OfficeOpenXml.Style.Dxf;
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {
-    internal class StyleDxf : IStyle
+    internal class StyleDxf : IStyleExport
     {
         public IFill Fill { get; } = null;
 

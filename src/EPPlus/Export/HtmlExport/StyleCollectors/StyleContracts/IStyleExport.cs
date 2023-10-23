@@ -2,7 +2,7 @@
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
 {
-    public interface IStyle
+    public interface IStyleExport
     {
         /// <summary>
         /// Fill

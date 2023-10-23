@@ -123,16 +123,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                             if(sc.ShouldAddWithBorders(bottomStyleId, rightStyleId))
                             {
-                              // cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
+                                cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
                             }
                         }
                         else
                         {
                             if (sc.ShouldAdd())
                             {
-                                var style = new StyleXml(sc.GetStyleList()[0]);
-
-                                cssTranslator.AddToCollection(new List<IStyle>() { style }, styles.GetNormalStyle(), sc.Id);
+                                cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
                             }
 
                             if (ce.CellAddress != null)
@@ -148,7 +146,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                                             //cf._style.Border
                                             var dxfStyle = new StyleDxf(cf._style);
                                             //cf._style.Font.Color
-                                            cssTranslator.AddToCollection(new List<IStyle>() { dxfStyle }, styles.GetNormalStyle(), idDxf);
+                                            cssTranslator.AddToCollection(new List<IStyleExport>() { dxfStyle }, styles.GetNormalStyle(), idDxf);
 
                                             //await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
                                         }

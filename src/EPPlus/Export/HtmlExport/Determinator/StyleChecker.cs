@@ -1,4 +1,6 @@
 ﻿using OfficeOpenXml.Export.HtmlExport.Parsers;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
@@ -70,9 +72,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
             return BorderStyleCheck(_styleList[1].BorderId, _styleList[2].BorderId);
         }
 
-        internal List<ExcelXfs> GetStyleList()
+        internal List<IStyleExport> GetStyleList()
         {
-            return _styleList;
+            var retList = new List<IStyleExport>();
+            for(int i = 0; i< _styleList.Count; i++)
+            {
+                retList.Add(new StyleXml(_styleList[i]));
+            }
+            return retList;
         }
 
         internal bool HasStyle()

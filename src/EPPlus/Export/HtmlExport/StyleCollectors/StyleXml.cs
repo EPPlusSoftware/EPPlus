@@ -3,7 +3,7 @@ using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {
-    internal class StyleXml : IStyle
+    internal class StyleXml : IStyleExport
     {
         public IFill Fill { get; } = null;
 
