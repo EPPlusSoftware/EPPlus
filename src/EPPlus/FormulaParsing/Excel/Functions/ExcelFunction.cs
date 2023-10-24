@@ -705,34 +705,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return ArgsToDoubleEnumerable(argument, context, x => { }, out error);
         }
 
-        protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, IRangeInfo rangeInfo, ParsingContext context)
-        {
-            var startRow = rangeInfo.Address.FromRow;
-            var endRow = rangeInfo.Address.ToRow > rangeInfo.Worksheet.Dimension._toRow ? rangeInfo.Worksheet.Dimension._toRow : rangeInfo.Address.ToRow;
-            var startCol = rangeInfo.Address.FromCol;
-            var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
-            var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
-            var funcArg = new FunctionArgument(rangeInfo, DataType.ExcelRange);
-            var result = _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, false, false, new List<FunctionArgument> { funcArg }, context);
-            var dict = new Dictionary<int, double>();
-            result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
-            var resultList = new List<double>();
-            var from = horizontal ? startCol : startRow;
-            var to = horizontal ? endCol : endRow;
-            for (var row = from; row <= to; row++)
-            {
-                if (dict.ContainsKey(row))
-                {
-                    resultList.Add(dict[row]);
-                }
-                else
-                {
-                    resultList.Add(0d);
-                }
-            }
-            return resultList;
-        }
-
         /// <summary>
         /// Will return the arguments as an enumerable of objects.
         /// </summary>
