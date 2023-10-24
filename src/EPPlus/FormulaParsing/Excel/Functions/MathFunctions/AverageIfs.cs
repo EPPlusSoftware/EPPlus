@@ -89,7 +89,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     count++;
                 }
             }
-
+            if(count == 0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Div0);
+            }   
 
             return CreateResult(sum.Get()/count, DataType.Decimal);
         }

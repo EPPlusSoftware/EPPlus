@@ -508,21 +508,37 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return null;
         }
 
+        /// <summary>
+        /// Divides two numbers. If <paramref name="right"/> is zero double.PositiveInfinity will be returned.
+        /// </summary>
+        /// <param name="left">Numerator</param>
+        /// <param name="right">Denominator</param>
+        /// <returns></returns>
         protected double Divide(double left, double right)
         {
-            if (Math.Abs(right - 0d) < double.Epsilon)
+            if (Math.Abs(right) - 0d < double.Epsilon)
             {
                 return double.PositiveInfinity;
             }
             return left / right;
         }
 
+        /// <summary>
+        /// Returns true if the parameter <paramref name="value"/> is a numeric string, otherwise false.
+        /// </summary>
+        /// <param name="value">The value to test</param>
+        /// <returns></returns>
         protected bool IsNumericString(object value)
         {
             if (value == null) return false;
             return double.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out double d);
         }
 
+        /// <summary>
+        /// Returns true if the parameter <paramref name="n"/> is an integer, otherwise false.
+        /// </summary>
+        /// <param name="n">The value to test</param>
+        /// <returns></returns>
         protected bool IsInteger(object n)
         {
             if (!IsNumeric(n)) return false;
