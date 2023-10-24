@@ -34,15 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             config.IgnoreNumberOfArgsFromStart = 1;
             config.ArrayArgInterval = 1;
         }
-        //public override ArrayBehaviourConfig GetArrayBehaviourConfig()
-        //{
-        //    var abc = new ArrayBehaviourConfig() { ArrayParameterIndexes=new List<int>() };
-        //    for(int i=1;i<=127;i++)
-        //    {
-        //        abc.ArrayParameterIndexes.Add(i);
-        //    }
-        //    return abc;
-        //}
+
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
