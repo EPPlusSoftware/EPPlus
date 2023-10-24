@@ -64,73 +64,68 @@ namespace OfficeOpenXml.Packaging
             {
                 var rels = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 stream.Seek(0, SeekOrigin.Begin);
-                //using (ZipInputStream zip = new ZipInputStream(stream))
-                //{
-                    _zip = new ZipInputStream(stream);
-                    var e = _zip.GetNextEntry();
-                    if (e == null)
-                    {
-                        throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
-                    }
+                _zip = new ZipInputStream(stream);
+                var e = _zip.GetNextEntry();
+                if (e == null)
+                {
+                    throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                }
 
-                    while (e != null)
-                    {
-                        GetDirSeparator(e);
+                while (e != null)
+                {
+                    GetDirSeparator(e);
                         
-                        if (e.UncompressedSize > 0)
+                    if (e.UncompressedSize > 0)
+                    {
+                        if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
                         {
-                            if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
-                            {
-                                AddContentTypes(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
-                                hasContentTypeXml = true;
-                            }
+                            AddContentTypes(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
+                            hasContentTypeXml = true;
+                        }
 
-                            else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
-                            {
-                                ReadRelation(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)), "");
-                            }
-                            else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
-                            {
-                                var ba = GetZipEntryAsByteArray(_zip, e);
-                                rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(ba));
-                            }
-                            else
-                            {
-                                ExtractEntryToPart(_zip, e);
-                            }                            
-                        }
-                        e = _zip.GetNextEntry();
-                    }
-                    if (_dirSeparator == '0') _dirSeparator = '/';
-                    foreach (var p in Parts)
-                    {
-                        string name = Path.GetFileName(p.Key);
-                        string extension = Path.GetExtension(p.Key);
-                        string relFile = string.Format("{0}_rels/{1}.rels", p.Key.Substring(0, p.Key.Length - name.Length), name);
-                        if (rels.ContainsKey(relFile))
+                        else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
                         {
-                            p.Value.ReadRelation(rels[relFile], p.Value.Uri.OriginalString);
+                            ReadRelation(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)), "");
                         }
-                        if (_contentTypes.ContainsKey(p.Key))
+                        else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                         {
-                            p.Value.ContentType = _contentTypes[p.Key].Name;
+                            var ba = GetZipEntryAsByteArray(_zip, e);
+                            rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(ba));
                         }
-                        else if (extension.Length > 1 && _contentTypes.ContainsKey(extension.Substring(1)))
+                        else
                         {
-                            p.Value.ContentType = _contentTypes[extension.Substring(1)].Name;
-                        }
+                            ExtractEntryToPart(_zip, e);
+                        }                            
                     }
-                    if (!hasContentTypeXml)
+                    e = _zip.GetNextEntry();
+                }
+                if (_dirSeparator == '0') _dirSeparator = '/';
+                foreach (var p in Parts)
+                {
+                    string name = Path.GetFileName(p.Key);
+                    string extension = Path.GetExtension(p.Key);
+                    string relFile = string.Format("{0}_rels/{1}.rels", p.Key.Substring(0, p.Key.Length - name.Length), name);
+                    if (rels.ContainsKey(relFile))
                     {
-                        throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                        p.Value.ReadRelation(rels[relFile], p.Value.Uri.OriginalString);
                     }
-                    if (!hasContentTypeXml)
+                    if (_contentTypes.ContainsKey(p.Key))
                     {
-                        throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                        p.Value.ContentType = _contentTypes[p.Key].Name;
                     }
-                    //zip.Close();
-                    //zip.Dispose();
-                //}
+                    else if (extension.Length > 1 && _contentTypes.ContainsKey(extension.Substring(1)))
+                    {
+                        p.Value.ContentType = _contentTypes[extension.Substring(1)].Name;
+                    }
+                }
+                if (!hasContentTypeXml)
+                {
+                    throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                }
+                if (!hasContentTypeXml)
+                {
+                    throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                }
             }
         }
 
@@ -328,7 +323,9 @@ namespace OfficeOpenXml.Packaging
                     part.ContentType == ContentTypes.contentTypeMetaData ||
                     part.ContentType == ContentTypes.contentTypeRichDataValueType ||
                     part.ContentType == ContentTypes.contentTypeRichDataValueStructure ||
-                    part.ContentType == ContentTypes.contentTypeRichDataValue)
+                    part.ContentType == ContentTypes.contentTypeRichDataValue ||
+                    part.ContentType == ContentTypes.contentTypeWorkbookDefault ||
+                    part.ContentType == ContentTypes.contentTypeWorkbookMacroEnabled)
                 {
                     saveAfterParts.Add(part);
                 }
@@ -338,13 +335,18 @@ namespace OfficeOpenXml.Packaging
                 }
             }
 
+            foreach (var part in saveAfterParts)
+            {
+                if (part.ShouldBeSaved==false)
+                {
+                    DeletePart(part.Uri);
+                }
+            }
+
             //Shared strings must be saved after all worksheets. The ss dictionary is populated when that workheets are saved (to get the best performance).
             foreach (var part in saveAfterParts)
             {
-                if (part.ShouldBeSaved)
-                { 
-                    part.WriteZip(os);
-                }   
+                part.WriteZip(os);
             }
             os.Flush();
             
@@ -365,7 +367,11 @@ namespace OfficeOpenXml.Packaging
                 }
                 else
                 {
-                    xml.AppendFormat("<Override ContentType=\"{0}\" PartName=\"{1}\" />", ct.Name, GetUriKey(ct.Match));
+                    var uriKey = GetUriKey(ct.Match);
+                    if (Parts.TryGetValue(uriKey, out ZipPackagePart part) && part.ShouldBeSaved)
+                    {
+                        xml.AppendFormat("<Override ContentType=\"{0}\" PartName=\"{1}\" />", ct.Name, uriKey);
+                    }
                 }
             }
             xml.Append("</Types>");

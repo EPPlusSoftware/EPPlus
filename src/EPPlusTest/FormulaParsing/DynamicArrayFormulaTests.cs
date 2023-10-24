@@ -40,8 +40,8 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(10D, _ws.GetValue(1, 6));
             Assert.AreEqual(110D, _ws.GetValue(1, 5));
 
-            Assert.AreEqual("F2:F11", _ws.Cells["F2"].FormulaAddress.Address);
-            Assert.AreEqual("F2:F11", _ws.GetFormulaAddress(2,6).Address);
+            Assert.AreEqual("F2:F11", _ws.Cells["F2"].FormulaRange.Address);
+            Assert.AreEqual("F2:F11", _ws.GetFormulaRange(2,6).Address);
         }
         [TestMethod]
         public void DynamicArrayFormulaReferencedBySharedFormula()
@@ -56,8 +56,8 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 9)), ConvertUtil.GetValueDouble(ws.GetValue(2, 9)));
             Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 14)), ConvertUtil.GetValueDouble(ws.GetValue(2, 14)));
 
-            Assert.AreEqual("F2:N2", ws.Cells["F2"].FormulaAddress.Address);
-            Assert.AreEqual("F2:N2", ws.GetFormulaAddress(2, 6).Address);
+            Assert.AreEqual("F2:N2", ws.Cells["F2"].FormulaRange.Address);
+            Assert.AreEqual("F2:N2", ws.GetFormulaRange(2, 6).Address);
         }
 
         [TestMethod]
@@ -80,10 +80,10 @@ namespace EPPlusTest.FormulaParsing
 
             _ws.Calculate();
 
-            Assert.AreEqual("F20:I59", _ws.Cells["F20"].FormulaAddress.Address);
-            Assert.AreEqual("F20:I59", _ws.GetFormulaAddress(20, 6).Address);
-            Assert.AreEqual("F100:I139", _ws.Cells["F100"].FormulaAddress.Address);
-            Assert.AreEqual("F100:I139", _ws.GetFormulaAddress(100, 6).Address);
+            Assert.AreEqual("F20:I59", _ws.Cells["F20"].FormulaRange.Address);
+            Assert.AreEqual("F20:I59", _ws.GetFormulaRange(20, 6).Address);
+            Assert.AreEqual("F100:I139", _ws.Cells["F100"].FormulaRange.Address);
+            Assert.AreEqual("F100:I139", _ws.GetFormulaRange(100, 6).Address);
 
         }
 
@@ -195,7 +195,7 @@ namespace EPPlusTest.FormulaParsing
             var chart = _ws.Drawings.AddBarChart("Dynamic Chart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
             chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.ColumnChartStyle9);
 
-            var address = _ws.Cells[20, 20].FormulaAddress;
+            var address = _ws.Cells[20, 20].FormulaRange;
             Assert.AreEqual("T20:X24", address.Address);
             for (var c = address.Start.Column; c <= address.End.Column; c++)
             {

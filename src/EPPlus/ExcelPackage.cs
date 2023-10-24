@@ -143,7 +143,7 @@ namespace OfficeOpenXml
         internal ExcelPackage _loadedPackage = null;
         #region Properties
         /// <summary>
-        /// Extention Schema types
+        /// Extension Schema types
         /// </summary>
         internal const string schemaXmlExtension = "application/xml";
         internal const string schemaRelsExtension = "application/vnd.openxmlformats-package.relationships+xml";
@@ -1122,6 +1122,9 @@ namespace OfficeOpenXml
         } = new ExcelPackageSettings();
 #if !NET35
         static MemorySettings _memorySettings = null;
+        /// <summary>
+        /// Memmory settings for RecyclableMemoryStream handling
+        /// </summary>
         public static MemorySettings MemorySettings
         {
             get

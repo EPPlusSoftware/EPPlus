@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             else
             {
-                result = (int)Math.Floor(number);
+                result = (long)Math.Floor(number);
                 result = result - (result % System.Math.Pow(10, (nDecimals*-1)));
             }
             return CreateResult(result * nFactor, DataType.Decimal);
@@ -55,11 +55,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         private static double RoundDownDecimalNumber(double number, int nDecimals)
         {
-            var integerPart = System.Math.Floor(number);
-            var decimalPart = number - integerPart;
-            decimalPart = System.Math.Pow(10d, nDecimals)*decimalPart;
-            decimalPart = System.Math.Truncate(decimalPart)/System.Math.Pow(10d, nDecimals);
-            var result = integerPart + decimalPart;
+            long integerRepresentation = (long)Math.Floor(number * Math.Pow(10d, nDecimals));
+            var result = integerRepresentation / Math.Pow(10d, nDecimals);
             return result;
         }
     }

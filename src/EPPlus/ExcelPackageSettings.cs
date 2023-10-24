@@ -58,5 +58,11 @@ namespace OfficeOpenXml
                 return _imageSettings;
             }
         }
+
+        /// <summary>
+        /// Any auto- or table- filters created will be applied on save.
+        /// In the case you want to handle this manually, set this property to true.
+        /// </summary>
+        public bool ApplyFiltersOnSave { get; set; } = true;
     }
 }

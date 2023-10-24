@@ -36,6 +36,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -232,6 +233,10 @@ namespace EPPlusTest
 
             ws.Cells["A1"].LoadFromCollection(l, true, TableStyles.Light16, BindingFlags.Instance | BindingFlags.Public,
                 new MemberInfo[] { typeof(cls2).GetProperty("prop2") });
+
+            Assert.AreEqual("prop2", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["A2"].Value);
+            Assert.AreEqual("test1", ws.Cells["A3"].Value);
         }
 
         [TestMethod]
@@ -5324,6 +5329,322 @@ namespace EPPlusTest
                 ws.Cells["A1:Z35"].AutoFilter = false;
 
                 package.Save();
+            }
+        }
+        [TestMethod]
+        public void Issue1095()
+        {
+            using (var package = OpenPackage("I1095.xlsx", true))
+            {
+                string testName;
+                int startColumn;
+                int subColumnCount;
+                bool doTest;
+
+
+                for (var cycle = 1; cycle < 15; cycle++)
+                {
+                    var ws = package.Workbook.Worksheets.Add("test" + cycle);
+                    ws.OutLineSummaryRight = false;
+                    ws.Rows[0].Style.TextRotation = 90;
+                    ws.Row(1).CustomHeight = false;
+
+                    ws.ClearFormulas();
+                    ws.ClearFormulaValues();
+
+                    ws.Cells[cycle, 1].Value = "set";
+
+                    (testName, startColumn, subColumnCount, doTest) = ("outline-collapse[all]-data", 1, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                    }
+
+                    (testName, startColumn, subColumnCount, doTest) = ("outline-collapse[first]-data", 5, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                    }
+
+                    (testName, startColumn, subColumnCount, doTest) = ("collapse[first]-outline-data", 9, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                        for (int i = 0; i <= 0; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                    }
+
+                    (testName, startColumn, subColumnCount, doTest) = ("data-outline-collapse[first]", 13, 3, true);
+                    if (doTest)
+                    {
+                        for (int i = 0; i <= subColumnCount; i++)
+                        {
+                            ws.Cells[1, startColumn + i].Value = testName + i;
+                        }
+                        for (int i = 1; i <= subColumnCount; i++)
+                        {
+                            ws.Column(startColumn + i).OutlineLevel = i;
+                        }
+                        for (int i = 0; i <= 0; i++)
+                        {
+                            ws.Cells[1, startColumn + i].EntireColumn.SetVisibleOutlineLevel(0);
+                        }
+                    }
+
+                    var s = "";
+                    for (var i = 1; i <= 50; i++)
+                    {
+                        var column = ws.Column(i);
+
+                        if (column is null) { continue; }
+
+                        s = s + (column.Collapsed ? "1" : 0);
+                    }
+                    Console.WriteLine($"cyc{cycle}::{s}");
+                }
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Issue1096()
+        {
+            using (var package = OpenPackage("I1096.xlsx", true))
+            {
+                var workbook = package.Workbook;
+
+                var wss = workbook.Worksheets.Add("test");
+
+                var cells = new List<ExcelRange>()
+                {
+                    wss.Cells[1, 1],
+                    wss.Cells[2, 1],
+                    wss.Cells[3, 1],
+                };
+
+                wss.Cells.Style.Font.Name = "Tahoma";
+                wss.Cells.Style.Font.Size = 10;
+
+                cells.ForEach(x =>
+                {
+                    x.Value = "test";
+                });
+
+                cells = new List<ExcelRange>()
+                {
+                    wss.Cells[1, 2],
+                    wss.Cells[2, 2],
+                    wss.Cells[3, 2],
+                };
+
+                cells.ForEach(x =>
+                {
+                    x.Value = "test";
+                    //x.Style.Font.Size = 10;
+                });
+
+                wss.Column(2).Style.Font.Name = "Wingdings";
+
+                cells = new List<ExcelRange>()
+                {
+                    wss.Cells[1, 3],
+                    wss.Cells[2, 3],
+                    wss.Cells[3, 3],
+                    wss.Cells[1, 4],
+                    wss.Cells[2, 4],
+                    wss.Cells[3, 4],
+                    wss.Cells[1, 5],
+                    wss.Cells[2, 5],
+                    wss.Cells[3, 5],
+                };
+
+                cells.ForEach(x =>
+                {
+                    x.Value = "hola";
+                    //x.Style.Font.Name = "Wingdings";
+                    //x.Style.Font.Size = 10;
+                });
+
+                void DebugGetFontInfo()
+                {
+                    for (var row = 1; row <= 3; row++)
+                    {
+                        for (var column = 1; column <= 5; column++)
+                        {
+                            var range = wss.Cells[row, column];
+                            Debug.Write(range.Style.Font.Name + range.Style.Font.Size + ",");
+                        }
+                        Debug.WriteLine("");
+                    }
+                }
+
+
+                Debug.WriteLine("before:");
+                DebugGetFontInfo();
+
+                var x = wss.Rows[2];
+                x.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                x.Style.Fill.BackgroundColor.SetColor(Color.Pink);
+
+                Debug.WriteLine("after:");
+                DebugGetFontInfo();
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s532()
+        {
+            var pivotTableWorksheetName = "Sheet3";
+            var NewSourceDataSheetName = "Sheet2";
+            var pivotTableName = "PivotTable1";
+            var exc = "";
+            var pivotTableCount = 0;
+            try
+            {
+
+                using (var package = OpenTemplatePackage("Pivot_Test_Orig.xlsx"))
+                {
+                    var pivotTableWorksheet = package.Workbook.Worksheets[pivotTableWorksheetName];
+
+                    ExcelWorksheet ws = package.Workbook.Worksheets[NewSourceDataSheetName];
+
+                    pivotTableCount = pivotTableWorksheet.PivotTables.Count;
+
+                    //var foundCache = package.Workbook.GetPivotCacheFromAddress(ws.Cells["M6:S16"].FullAddress, out PivotTableCacheInternal cache);
+
+                    pivotTableWorksheet.PivotTables[pivotTableName].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
+
+                    SaveAndCleanup(package);
+                }
+            }
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+            }
+
+            finally
+
+            {
+
+                System.GC.Collect();
+
+            }
+        }
+        [TestMethod]
+        public void s539()
+        {
+            //Outputs
+            bool success = true;
+            string exc = "";
+            var pc = Thread.CurrentThread.CurrentCulture;
+
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+                string sheetName = "Sheet1";
+                string range = "G2:G5";
+                string value = "VLOOKUP(F2,'Reference Data'!A2:B187021,2,0)";
+
+                using (var package = OpenTemplatePackage("s539.xlsm"))
+                {
+                    var ws = package.Workbook.Worksheets[sheetName];
+                    ws.Cells[range].Formula = value;
+                    ws.Cells[range].Calculate();
+                    SaveAndCleanup(package);
+                }
+            }
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+                success = false;
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = pc;
+                System.GC.Collect();
+            }
+        }
+        [TestMethod]
+        public void I1107()
+        {
+            using (var package = OpenTemplatePackage("Hyperlink with subaddress.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                Assert.AreEqual("aa,bb=cc", ((ExcelHyperLink)ws.Cells["M6"].Hyperlink).ReferenceAddress);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i1110()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("NewSheet");
+
+                var table = new DataTable("A Table \"named\"");
+
+                DataColumn column = new DataColumn();
+                column.DataType = System.Type.GetType("System.Int32");
+                column.ColumnName = "rowNr";
+                column.ReadOnly = true;
+                column.Unique = true;
+
+                table.Columns.Add(column);
+
+                DataRow row;
+                for (int i = 0; i <= 2; i++)
+                {
+                    row = table.NewRow();
+                    row["rowNr"] = i;
+                    table.Rows.Add(row);
+                }
+
+                var tbl = sheet.Cells["A1:B10"].LoadFromDataTable(table, false, TableStyles.Dark1);
+            }
+        }
+        [TestMethod]
+        public void i1087LongNumber()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 2347440000d;
+                sheet.Cells["A2"].Formula = "ROUNDDOWN(A1,-5)";
+                sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+
+                Assert.AreEqual(2347400000d, sheet.Cells["A2"].Value);
             }
         }
     }
