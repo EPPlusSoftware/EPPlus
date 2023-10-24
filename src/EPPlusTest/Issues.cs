@@ -1054,6 +1054,7 @@ namespace EPPlusTest
             using (var p1 = OpenTemplatePackage("Sample_Cond_Format.xlsx"))
             {
                 var ws = p1.Workbook.Worksheets[0];
+
                 using (var p2 = new ExcelPackage())
                 {
                     var ws2 = p2.Workbook.Worksheets.Add("Test", ws);
