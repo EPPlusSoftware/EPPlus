@@ -68,7 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             var result = op.Apply(leftResult, rightResult, _parsingContext);
             if (result.DataType != DataType.Boolean)
             {
-                throw new ArgumentException("Illegal operator in expression");
+                return false;
             }
             return (bool)result.Result;
         }

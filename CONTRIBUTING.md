@@ -20,5 +20,15 @@ This is not a complicated process. Just download the CAA form, sign it and mail 
 
 Our unit tests are still LGPL (as stated in the header of those code files). So the 20 lines are excluding unit tests.
 
+### Larger pull requests
+Larger pull requests are in general not likely to be accepted.
+
+If you are considering to submit code that has significant impact on the EPPlus code base, please reach out to us first. You can do this by creating an issue in our issue tracker. "Significant impact" would include one of the following definitions:
+- The pull request implements completely new features of EPPlus.
+- The pull request contains changes in central parts of the software.
+- The pull request would change the current behaviour of EPPlus.
+
+If you have identified such a requirement we need to have a solid understanding of the issue before being able to advice the best way forward.
+
 Please see our [CAA](https://epplussoftware.com/legal/caa) for more information.  
 For branch naming see [Branching-strategy-and-CI](https://github.com/EPPlusSoftware/EPPlus/wiki/Branching-strategy-and-CI)
