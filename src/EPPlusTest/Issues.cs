@@ -5461,5 +5461,12 @@ namespace EPPlusTest
                 Assert.AreEqual(2347400000d, sheet.Cells["A2"].Value);
             }
         }
+
+        [TestMethod]
+        public void ValidateTableAddressIsValue()
+        {
+            Assert.IsTrue(ExcelAddressBase.IsValidAddress("Sheet1!Table1[#All]"));
+            Assert.IsTrue(ExcelAddressBase.IsValidAddress("[0]Sheet1!Table1[[#All],[Column1]]"));
+        }
     }
 }

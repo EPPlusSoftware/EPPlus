@@ -340,7 +340,7 @@ namespace OfficeOpenXml.Drawing
                 }
             }
             else
-            {                
+            {
                 if (_fillTypeNode != null)
                 {
                     _fillTypeNode.ParentNode.RemoveChild(_fillTypeNode);
@@ -400,10 +400,9 @@ namespace OfficeOpenXml.Drawing
             _solidFill = null;
             _gradientFill = null;
         }
-
         internal void UpdateFillTypeNode()
         {
-            if(_fillTypeNode!=null && _fillTypeNode.ParentNode==null)
+            if (_fillTypeNode != null && _fillTypeNode.ParentNode == null)
             {
                 _fillTypeNode = null;
                 LoadFill();

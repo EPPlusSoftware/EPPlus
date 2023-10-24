@@ -24,21 +24,27 @@ namespace OfficeOpenXml.Filter
         private const string AutoFilterGuid= "71E0E44A-7884-43F4-9E11-E314B2584A5E";
         private ExcelWorksheet _worksheet;
         private ExcelTable _table;
+        int columnsOnLoad;
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelWorksheet worksheet) : base(namespaceManager, topNode)
         {
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = worksheet;
+            columnsOnLoad = _columns.Count;
         }
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelTable table) : base(namespaceManager, topNode)
         {
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = table.WorkSheet;
             _table = table;
+            columnsOnLoad = _columns.Count;
         }
 
         internal void Save()
         {
-            ApplyFilter();
+            if (columnsOnLoad != _columns.Count || _columns.Count > 0) //Apply filter if we have filter columns or we have removed filter columns
+            {
+                ApplyFilter();
+            }
             foreach (var c in Columns)
             {
                 c.Save();

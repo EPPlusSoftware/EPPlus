@@ -327,7 +327,7 @@ namespace EPPlusTest.Excel.Functions.Text
             var input = $"1,000.15";
             var func = new NumberValue();
             var result = func.Execute(FunctionsHelper.CreateArgs(input, ".", ","), _parsingContext);
-            Assert.AreEqual(1000.15d, result.Result);
+            Assert.AreEqual(1000.15d, result.Result);            
         }
 
         [TestMethod]

@@ -450,7 +450,7 @@ namespace OfficeOpenXml
                     var cse = new CellStoreEnumerator<ExcelValue>(ws._values, 0, 1, 0, ExcelPackage.MaxColumns);
                     var cs = 0;
                     int prevCol = 0;
-                    bool hasFullColCoverage = true;
+                    bool hasFullColCoverage = true; //If all columns are covered, 
                     while (cse.Next())
                     {
                         if(prevCol != cse.Column-1)
@@ -483,7 +483,6 @@ namespace OfficeOpenXml
                     ws.SetStyleInner(rowNum, 0, cs);
                     cse.Dispose();
                 }
-
                 if (styleCashe.ContainsKey(s))
                 {
                     ws.SetStyleInner(rowNum, 0, styleCashe[s]);

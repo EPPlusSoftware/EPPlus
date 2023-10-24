@@ -799,7 +799,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
                     first = false;
                 }
                 var hl = uri as ExcelHyperLink;
-                if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress))
+                if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress) && uri.OriginalString.StartsWith("xl://internal"))
                 {
                     var address = _ws.Cells[cse.Row, cse.Column, cse.Row + hl.RowSpann, cse.Column + hl.ColSpann].Address;
                     var location = ExcelCellBase.GetFullAddress(SecurityElement.Escape(_ws.Name), SecurityElement.Escape(hl.ReferenceAddress));
@@ -843,7 +843,8 @@ namespace OfficeOpenXml.ExcelXMLWriter
                         {
                             var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
                             var toolTip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
-                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\"{display}{toolTip} r:id=\"{relationship.Id}\"/>");
+                            var location = string.IsNullOrEmpty(hl.ReferenceAddress) ? "" : " location=\"" + SecurityElement.Escape(hl.ReferenceAddress) + "\"";
+                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\"{location}{display}{toolTip} r:id=\"{relationship.Id}\"/>");
                         }
                         else
                         {

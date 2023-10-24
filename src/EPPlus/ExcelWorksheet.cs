@@ -1278,7 +1278,7 @@ namespace OfficeOpenXml
 #else
             xr.DtdProcessing = DtdProcessing.Prohibit;
 #endif
-            xr.WhitespaceHandling = WhitespaceHandling.None;
+            xr.WhitespaceHandling = WhitespaceHandling.Significant;
 #endif            
             LoadColumns(xr);    //columnXml
             var lastXmlElement = "sheetData";
@@ -1310,8 +1310,7 @@ namespace OfficeOpenXml
                 xml = stream.ReadFromEndElement(lastXmlElement, xml);
             }
 
-
-            // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
+            //Now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
             packPart.Stream = RecyclableMemory.GetStream();
 
@@ -1526,6 +1525,18 @@ namespace OfficeOpenXml
                             }
                             hl.Target = rel.Target;
                             hl.RId = rId;
+
+                            var display = xr.GetAttribute("display");
+                            if (!string.IsNullOrEmpty(display))
+                            {
+                                hl.Display = display;
+                            }
+
+                            var location = xr.GetAttribute("location");
+                            if (location != null)
+                            {
+                                hl.ReferenceAddress = location;
+                            }
                         }
                         else if (xr.GetAttribute("location") != null)
                         {

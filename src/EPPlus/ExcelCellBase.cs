@@ -753,6 +753,15 @@ namespace OfficeOpenXml
             }
             if (string.IsNullOrEmpty(address.Trim())) return false;
             address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
+            if(IsValidRangeAddress(address) == false)
+            {
+                return ExcelAddress.IsTableAddress(address);
+            }
+            return true;
+        }
+
+        private static bool IsValidRangeAddress(string address)
+        {
             var addrs = address.Split(',');
             foreach (var a in addrs)
             {

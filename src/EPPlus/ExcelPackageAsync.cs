@@ -488,21 +488,21 @@ namespace OfficeOpenXml
 
         private async Task ConstructNewFileAsync(string password, CancellationToken cancellationToken)
         {
-            var ms = RecyclableMemory.GetStream();
             if (_stream == null) _stream = RecyclableMemory.GetStream();
             File?.Refresh();
             if (File != null && File.Exists)
             {
+                MemoryStream ms=null;
                 if (password != null)
                 {
                     var encrHandler = new EncryptedPackageHandler();
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
-                    ms.Dispose();
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
                 else
                 {
+                    ms = RecyclableMemory.GetStream();
                     await WriteFileToStreamAsync(File.FullName, ms, cancellationToken).ConfigureAwait(false);
                 }
                 try
@@ -525,8 +525,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                _zipPackage = new Packaging.ZipPackage(ms);
-                ms.Dispose();
+                _zipPackage = new Packaging.ZipPackage();
                 CreateBlankWb();
             }
         }

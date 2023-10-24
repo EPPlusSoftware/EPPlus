@@ -80,50 +80,52 @@ namespace OfficeOpenXml.VBA.Signatures
 
         internal static void ReadSignedData(byte[] data, EPPlusSignatureContext ctx)
         {
-            var ms = RecyclableMemory.GetStream(data);
-            var br = new BinaryReader(ms);            
-            var totallength = ReadSequence(br);
-            var lengthSpcIndirectDataContent = ReadSequence(br);
-            var indirectDataContentOid = ReadOId(br);
-            var digestValue = ReadOctStringBytes(br);
-
-            var lengthDigestInfo = ReadSequence(br);
-            var lengthAlgorithmIdentifier = ReadSequence(br);
-            ctx.AlgorithmIdentifierOId = ReadOId(br);
-
-            //Parameter is null
-            var nullTypeIdentifyer = br.ReadByte();   //Null type identifier
-            var nullLength = br.ReadByte();   //Null length
-
-            if (indirectDataContentOid == IndirectDataContentOidV2) //V2
+            using (var ms = RecyclableMemory.GetStream(data))
             {
-                //Read
-                var SigFormatDescriptorV1_size = BitConverter.ToInt32(digestValue, 0);    //12
-                var SigFormatDescriptorV1_version = BitConverter.ToInt32(digestValue, 4); //1
-                var SigFormatDescriptorV1_format = BitConverter.ToInt32(digestValue, 8);  //1
+                var br = new BinaryReader(ms);
+                var totallength = ReadSequence(br);
+                var lengthSpcIndirectDataContent = ReadSequence(br);
+                var indirectDataContentOid = ReadOId(br);
+                var digestValue = ReadOctStringBytes(br);
 
-                //var sigDataV1Serialized = ReadOctStringBytes(br); //SigDataV1Serialized
-                var id = br.ReadByte();  //4
-                var octstringSize = br.ReadByte();
-                var sigDataV1Serialized_algorithmIdSize = br.ReadInt32();
-                var sigDataV1Serialized_compiledHashSize = br.ReadInt32();
-                var sigDataV1Serialized_sourceHashSize = br.ReadInt32();
-                var sigDataV1Serialized_algorithmIdOffset = br.ReadInt32();
-                var sigDataV1Serialized_compiledHashOffset = br.ReadInt32();
-                var sigDataV1Serialized_sourceHashOffset = br.ReadInt32();
+                var lengthDigestInfo = ReadSequence(br);
+                var lengthAlgorithmIdentifier = ReadSequence(br);
+                ctx.AlgorithmIdentifierOId = ReadOId(br);
 
-                var sigDataV1Serialized_algorithmId = br.ReadBytes(sigDataV1Serialized_algorithmIdSize);    //As a string here apparently. Should match the AlgorithmIdentifierOId above.
-                var algId = Encoding.ASCII.GetString(sigDataV1Serialized_algorithmId, 0, sigDataV1Serialized_algorithmIdSize - 1); //Skip ending \0
-                var sigDataV1Serialized_compiledHash = br.ReadBytes(sigDataV1Serialized_compiledHashSize);
-                var sigDataV1Serialized_sourceHash = br.ReadBytes(sigDataV1Serialized_sourceHashSize); //ReadOctStringBytes(br);
-                ctx.AlgorithmIdentifierOId = algId;
-                ctx.CompiledHash = sigDataV1Serialized_compiledHash;
-                ctx.SourceHash = sigDataV1Serialized_sourceHash;
-            }
-            else  //V1
-            {
-                var hash = ReadOctStringBytes(br);
-                ctx.SourceHash = hash;
+                //Parameter is null
+                var nullTypeIdentifyer = br.ReadByte();   //Null type identifier
+                var nullLength = br.ReadByte();   //Null length
+
+                if (indirectDataContentOid == IndirectDataContentOidV2) //V2
+                {
+                    //Read
+                    var SigFormatDescriptorV1_size = BitConverter.ToInt32(digestValue, 0);    //12
+                    var SigFormatDescriptorV1_version = BitConverter.ToInt32(digestValue, 4); //1
+                    var SigFormatDescriptorV1_format = BitConverter.ToInt32(digestValue, 8);  //1
+
+                    //var sigDataV1Serialized = ReadOctStringBytes(br); //SigDataV1Serialized
+                    var id = br.ReadByte();  //4
+                    var octstringSize = br.ReadByte();
+                    var sigDataV1Serialized_algorithmIdSize = br.ReadInt32();
+                    var sigDataV1Serialized_compiledHashSize = br.ReadInt32();
+                    var sigDataV1Serialized_sourceHashSize = br.ReadInt32();
+                    var sigDataV1Serialized_algorithmIdOffset = br.ReadInt32();
+                    var sigDataV1Serialized_compiledHashOffset = br.ReadInt32();
+                    var sigDataV1Serialized_sourceHashOffset = br.ReadInt32();
+
+                    var sigDataV1Serialized_algorithmId = br.ReadBytes(sigDataV1Serialized_algorithmIdSize);    //As a string here apparently. Should match the AlgorithmIdentifierOId above.
+                    var algId = Encoding.ASCII.GetString(sigDataV1Serialized_algorithmId, 0, sigDataV1Serialized_algorithmIdSize - 1); //Skip ending \0
+                    var sigDataV1Serialized_compiledHash = br.ReadBytes(sigDataV1Serialized_compiledHashSize);
+                    var sigDataV1Serialized_sourceHash = br.ReadBytes(sigDataV1Serialized_sourceHashSize); //ReadOctStringBytes(br);
+                    ctx.AlgorithmIdentifierOId = algId;
+                    ctx.CompiledHash = sigDataV1Serialized_compiledHash;
+                    ctx.SourceHash = sigDataV1Serialized_sourceHash;
+                }
+                else  //V1
+                {
+                    var hash = ReadOctStringBytes(br);
+                    ctx.SourceHash = hash;
+                }
             }
         }
 

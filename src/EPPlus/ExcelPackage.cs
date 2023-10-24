@@ -508,21 +508,21 @@ namespace OfficeOpenXml
         }
         private void ConstructNewFile(string password)
         {
-            var ms = RecyclableMemory.GetStream();
             if (_stream == null) _stream = RecyclableMemory.GetStream();
             if (File != null) File.Refresh();
             if (File != null && File.Exists && File.Length > 0)
             {
+                MemoryStream ms=null;
                 if (password != null)
                 {
                     var encrHandler = new EncryptedPackageHandler();
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
-                    ms.Dispose();
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
                 else
                 {
+                    ms = RecyclableMemory.GetStream();
                     WriteFileToStream(File.FullName, ms);
                 }
                 try
@@ -539,16 +539,15 @@ namespace OfficeOpenXml
                     {
                         throw;
                     }
+                    if(ms!=null)
+                    {
+                        ms.Dispose();
+                    }
                 }
-    //            finally
-    //            {
-    //                ms.Dispose();
-				//}
             }
             else
             {
-                _zipPackage = new ZipPackage(ms);
-                ms.Dispose();
+                _zipPackage = new ZipPackage();
                 CreateBlankWb();
             }
         }
@@ -714,7 +713,6 @@ namespace OfficeOpenXml
 
                     _workbook.GetDefinedNames();
                     _workbook.LoadPivotTableCaches();
-
                 }
                 return (_workbook);
 			}
