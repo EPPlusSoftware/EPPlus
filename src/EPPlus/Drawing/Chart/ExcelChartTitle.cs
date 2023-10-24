@@ -413,8 +413,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (value == null)
                 {
                     DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:strRef");
+                    DeleteNode($"{_nsPrefix}:txPr");
+                    _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
                     RichText.Text = "";
-                    _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";                    
                 }
                 else
                 {
