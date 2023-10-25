@@ -42,8 +42,6 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
     [TestClass]
     public class RefAndLookupTests : FormulaParserTestBase
     {
-        private ExcelDataProvider _excelDataProvider;
-        const string WorksheetName = null;
         private ExcelPackage _package;
         private ExcelWorksheet _worksheet;
 
@@ -52,10 +50,6 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         {
             _package = new ExcelPackage();
             _worksheet = _package.Workbook.Worksheets.Add("Test");
-            //_excelDataProvider = A.Fake<ExcelDataProvider>();
-            //A.CallTo(() => _excelDataProvider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(10, 1));
-            //A.CallTo(() => _excelDataProvider.GetWorkbookNameValues()).Returns(new ExcelNamedRangeCollection(_package.Workbook));
-            //_parser = new FormulaParser(_excelDataProvider);
             _parser = _package.Workbook.FormulaParser;
         }
 
@@ -147,12 +141,6 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Calculate();
                 Assert.AreEqual(1, s.Cells[5, 5].Value);
             }
-            //    A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName,1, 1)).Returns(3);
-            //A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName,1, 2)).Returns(5);
-            //A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName,2, 1)).Returns(4);
-            //A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName,2, 2)).Returns(1);
-            //var result = _parser.Parse("LOOKUP(4, " + lookupAddress + ")");
-            //Assert.AreEqual(1, result);
         }
 
         [TestMethod]
@@ -191,7 +179,6 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestMethod]
         public void ColumnShouldReturnRowNumber()
         {
-            //A.CallTo(() => _excelDataProvider.GetRangeFormula("", 4, 2)).Returns("Column()");
             var ws = _package.Workbook.Worksheets.Add("column");
             ws.Cells["B4"].Formula = "Column()";
             var result = _parser.ParseAt("column",4,2);

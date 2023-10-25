@@ -38,7 +38,9 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         /// <summary>
         /// 
-        /// </summary>
+        /// </summary
+        /// <param name="address"></param>
+        /// <param name="ws"></param>
         /// <param name="xr"></param>
         internal ExcelConditionalFormattingGreaterThan(ExcelAddress address, ExcelWorksheet ws, XmlReader xr) 
             : base(eExcelConditionalFormattingRuleType.GreaterThan, address, ws, xr)

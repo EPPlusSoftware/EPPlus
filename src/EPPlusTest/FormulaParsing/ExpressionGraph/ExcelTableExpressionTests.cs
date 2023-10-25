@@ -87,32 +87,6 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             Assert.AreEqual(4451634D, _ws.Cells["H5"].Value);
         }
         [TestMethod]
-        public void VerifyTableExpression_Table_With_Worksheet()
-        {
-            //Setup
-            var f = @"SUM(Sheet1!MyTable[])";
-
-            //_ws.Cells["G1"].Formula = f;
-            //var tokens = _tokenizer.Tokenize(f);
-            //var exps = _graphBuilder.Build(tokens);
-
-            ////Assert
-            //Assert.AreEqual(8, tokens.Count);
-            //Assert.AreEqual(1, exps.Expressions.Count);
-
-            //Assert.AreEqual(TokenType.TableName, tokens[4].TokenType);
-            //var result = ((TableAddressExpression)exps.Expressions[0].Children[0].Children[0]).Compile();
-            //var range = (IRangeInfo)result.Result;
-
-            //Assert.AreEqual(range.Address.FromRow, 2);
-            //Assert.AreEqual(range.Address.FromCol, 1);
-            //Assert.AreEqual(range.Address.ToRow, 101);
-            //Assert.AreEqual(range.Address.ToCol, 5);
-            //Assert.AreEqual(range.Address.FixedFlag, FixedFlag.All);
-        }
-        [TestMethod]
-
-
         public void VerifyTableExpression_Table_With_NonExisting_Worksheet()
         {
             //Setup

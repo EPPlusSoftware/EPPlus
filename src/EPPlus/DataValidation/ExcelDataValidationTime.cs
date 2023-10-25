@@ -25,10 +25,9 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
+        /// <param name="ws"></param>
         internal ExcelDataValidationTime(string uid, string address, ExcelWorksheet ws)
             : base(uid, address, ws)
         {
@@ -40,6 +39,8 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
+        /// <param name="ws">The worksheet</param>
+
         internal ExcelDataValidationTime(XmlReader xr, ExcelWorksheet ws)
             : base(xr, ws)
         {
@@ -49,6 +50,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationTime(ExcelDataValidationTime copy, ExcelWorksheet ws) 
             : base(copy, ws)
         {

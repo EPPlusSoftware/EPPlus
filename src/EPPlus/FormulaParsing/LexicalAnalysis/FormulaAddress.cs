@@ -456,7 +456,17 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// int.MinValue - Not set. 
         /// </summary>
         public int WorksheetIx;
-        public int Row, Column;
+        /// <summary>
+        /// The row number
+        /// </summary>
+        public int Row;
+        /// <summary>
+        /// The column number
+        /// </summary>
+        public int Column;
+        /// <summary>
+        /// The address
+        /// </summary>
         public string Address
         {
             get
@@ -507,17 +517,32 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         internal int FromRow, FromCol, ToRow,ToCol;
     }
+    /// <summary>
+    /// Represents a range address
+    /// </summary>
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
-        public ParsingContext _context;
+        internal ParsingContext _context;
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public FormulaRangeAddress()
         {
 
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ctx"></param>
         public FormulaRangeAddress(ParsingContext ctx)
         {            
             _context = ctx;
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="address"></param>
         public FormulaRangeAddress(ParsingContext ctx, string address) : this(ctx)
         {
             int ix;

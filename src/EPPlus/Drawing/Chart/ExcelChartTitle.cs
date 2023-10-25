@@ -357,6 +357,9 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) : base(chart, nameSpaceManager, node, nsPrefix)
         {
         }
+        /// <summary>
+        /// The chart title text
+        /// </summary>
         public override string Text 
         {
             get

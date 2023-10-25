@@ -18,7 +18,7 @@ using System.Globalization;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using util=OfficeOpenXml.Utils;
+using Util=OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -33,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return r == null ? 0 : r.ValueDouble;
             }
             if (obj is double) return obj;
-            if (obj.IsNumeric()) return util.ConvertUtil.GetValueDouble(obj);
+            if (obj.IsNumeric()) return Util.ConvertUtil.GetValueDouble(obj);
             var str = obj != null ? obj.ToString() : string.Empty;
             try
             {
@@ -51,7 +51,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 throw new ExcelErrorValueException(ExcelErrorValue.Create(eErrorType.Value));
             }
         }
-
         public override object Parse(object obj, RoundingMethod roundingMethod)
         {
             return Parse(obj);
