@@ -13,8 +13,9 @@
 * Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information
 * Conditional Formatting improvements
 	* Improved performance, xml is now read and written on load and save.
-	* Cross worksheet support formula support.
+	* Cross worksheet formula support.
 	* Extended styling options for color scales, data bars and icon sets.
+	* Added String constructor that creates an ExcelAddress internally.
 
 ## Version 6.2.4
 ### Minor Features

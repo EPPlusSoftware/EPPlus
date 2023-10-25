@@ -111,5 +111,6 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 * Updating ConditionalFormatting via the XML DOM will not work as read and write is performed on load/save.
 * The base class `ConditionalFormattingRule` and all derived classes no longer contain the Node property.
 * Misspelled enum member `eTrendLine.MovingAvgerage` has been removed and replaced with `eTrendLine.MovingAverage`
+* ConditionalFormatting classes are now Internal. Interfaces for each class exist and have all relevant properties instead.
 #### ExcelHyperlink
 * Renamed misspelled properties `ColSpann` and `RowSpann` to `ColSpan` and `RowSpan` on the `ExcelHyperLink` class.
