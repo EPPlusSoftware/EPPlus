@@ -88,10 +88,11 @@ namespace EPPlusTest
             Assert.IsTrue(result);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void EvaluateShouldThrowIfOperatorIsNotBoolean()
+        [TestMethod]
+        public void EvaluateShouldReturnFalseOperatorIsNotBoolean()
         {
             var result = _evaluator.Evaluate(1d, "+1");
+            Assert.IsFalse(result);
         }
         [TestMethod]
         public void EvaluateShouldEvaluateToGreaterThanMinusOne ()

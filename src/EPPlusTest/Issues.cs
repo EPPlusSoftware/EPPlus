@@ -1054,6 +1054,7 @@ namespace EPPlusTest
             using (var p1 = OpenTemplatePackage("Sample_Cond_Format.xlsx"))
             {
                 var ws = p1.Workbook.Worksheets[0];
+
                 using (var p2 = new ExcelPackage())
                 {
                     var ws2 = p2.Workbook.Worksheets.Add("Test", ws);
@@ -5576,9 +5577,11 @@ namespace EPPlusTest
                 string sheetName = "Sheet1";
                 string range = "G2:G5";
                 string value = "VLOOKUP(F2,'Reference Data'!A2:B187021,2,0)";
-
+                var logFile = new FileInfo("c:\\temp\\formulaLog.log");
+                if (logFile.Exists) logFile.Delete();
                 using (var package = OpenTemplatePackage("s539.xlsm"))
                 {
+                    package.Workbook.FormulaParserManager.AttachLogger(logFile);
                     var ws = package.Workbook.Worksheets[sheetName];
                     ws.Cells[range].Formula = value;
                     ws.Cells[range].Calculate();

@@ -130,6 +130,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
             }
             var div = Divide(returnValue.Get(), nMatches);
+            if (double.IsPositiveInfinity(div))
+            {
+                error = ExcelErrorValue.Create(eErrorType.Div0);
+                return double.NaN;
+            }
             return div;
         }
 

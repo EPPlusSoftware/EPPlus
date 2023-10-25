@@ -51,7 +51,19 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             return result;
         }
+        public static List<object> FlattenRangeObject(IRangeInfo r1)
+        {
+            var result = new List<object>();
 
+            for (var row = 0; row < r1.Size.NumberOfRows; row++)
+            {
+                for (var column = 0; column < r1.Size.NumberOfCols; column++)
+                {
+                    result.Add(r1.GetOffset(row, column));
+                }
+            }
+            return result;
+        }
         /// <summary>
         /// produces two lists based on the supplied ranges. The lists will contain all data from positions where both ranges has numeric values. 
         /// </summary>

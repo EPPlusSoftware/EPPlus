@@ -52,6 +52,7 @@ namespace EPPlusTest.FormulaParsing
             {
                 string logFile = path + new FileInfo(xlFile).Name + ".log";
 
+
                 VerifyCalculationInPackage(xlFile, logFile);
             }
         }
@@ -65,10 +66,12 @@ namespace EPPlusTest.FormulaParsing
             }
 
             var logWriter = new StreamWriter(File.OpenWrite(logFile));
+            var formulaLogFile = new FileInfo("c:\\temp\\formulaLog.log");
+            if (formulaLogFile.Exists) formulaLogFile.Delete();
             logWriter.WriteLine($"File {xlFile} starting");
             using(var p = new ExcelPackage(xlFile))
             {
-                p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulaLog.log"));
+                p.Workbook.FormulaParserManager.AttachLogger(formulaLogFile);
                 var values = new Dictionary<ulong, object>();
                 foreach(var ws in p.Workbook.Worksheets)
                 {                    
@@ -98,7 +101,7 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate(x => x.CacheExpressions=false);
+                    p.Workbook.Calculate(x => x.CacheExpressions=true);
                     //p.Workbook.Worksheets["Data_Elements"].Cells["AS2"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)

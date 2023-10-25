@@ -52,5 +52,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 Assert.AreEqual(4d, val);
             }
         }
+
+        [TestMethod]
+        public void AverageIfsShouldIgnoreErrorsInRangeIfInCriteria()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["B1"].Value = 2;
+                sheet.Cells["C1"].Value = 3;
+                sheet.Cells["A2"].Value = "a";
+                sheet.Cells["B2"].Value = ErrorValues.NAError;
+                sheet.Cells["C2"].Value = "Test";
+
+                sheet.Cells["A3"].Formula = "AVERAGEIFS(A1:C1,A2:C2,\"=#N/A\")";
+                sheet.Calculate();
+                Assert.AreEqual(2d, sheet.Cells["A3"].Value);
+
+                sheet.Cells["A3"].Formula = "AVERAGEIFS(A1:C1,A2:C2,\"=a\")";
+                sheet.Calculate();
+                Assert.AreEqual(1d, sheet.Cells["A3"].Value);
+            }
+        }
     }
 }
