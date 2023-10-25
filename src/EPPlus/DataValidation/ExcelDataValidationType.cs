@@ -82,8 +82,7 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Returns a validation type by <see cref="eDataValidationType"/>
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <returns>The string representation written to the xml</returns>
         internal string TypeToXmlString()
         {
             switch (Type)

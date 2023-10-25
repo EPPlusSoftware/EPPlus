@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System;
 using OfficeOpenXml.Utils.Extensions;
-using drawing =System.Drawing;
+using Draw = System.Drawing;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Style.Coloring
@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         {
 
         }
-        internal static ePresetColor GetPresetColor(drawing.Color presetColor)
+        internal static ePresetColor GetPresetColor(Draw.Color presetColor)
         {
             return (ePresetColor)Enum.Parse(typeof(ePresetColor), TranslateFromColor(presetColor), true);
         }
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             }
         }   
 
-        private static string TranslateFromColor(drawing.Color c)
+        private static string TranslateFromColor(Draw.Color c)
         {            
             if (c.IsEmpty || c.GetType().GetProperty(c.Name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static) == null)
             {

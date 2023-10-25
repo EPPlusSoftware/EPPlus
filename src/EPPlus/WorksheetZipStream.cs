@@ -384,6 +384,7 @@ namespace OfficeOpenXml
         /// <param name="xml">The xml to search</param>
         /// <param name="element">The element</param>
         /// <param name="returnStartPos">If the position before the start element is returned. If false the end of the end element is returned.</param>
+        /// <param name="ix">The index</param>
         /// <returns>The position of the element in the input xml</returns>
         private int FindLastElementPosWithoutPrefix(string xml, string element, bool returnStartPos = true, int ix = 0)
         {

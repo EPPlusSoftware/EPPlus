@@ -41,9 +41,6 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// </summary>
     internal abstract class ExcelDataValidationFormula : IExcelDataValidationFormula
     {
-
-        internal event System.EventHandler BecomesExt;
-
         private readonly Action<OnFormulaChangedEventArgs> _handler;
 
         /// <summary>
