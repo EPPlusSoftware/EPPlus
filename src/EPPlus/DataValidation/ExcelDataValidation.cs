@@ -28,12 +28,13 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public abstract class ExcelDataValidation : IExcelDataValidation
     {
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="uid">Id for validation</param>
-            /// <param name="address">adress validation is applied to</param>
-            protected ExcelDataValidation(string uid, string address, ExcelWorksheet ws)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="uid">Id for validation</param>
+        /// <param name="address">adress validation is applied to</param>
+        /// <param name="ws">The worksheet</param>
+        protected ExcelDataValidation(string uid, string address, ExcelWorksheet ws)
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");
             Require.Argument(address).IsNotNullOrEmpty("address");
@@ -47,6 +48,7 @@ namespace OfficeOpenXml.DataValidation
         /// Read-File Constructor
         /// </summary>
         /// <param name="xr"></param>
+        /// <param name="ws">The worksheet</param>
         protected ExcelDataValidation(XmlReader xr, ExcelWorksheet ws)
         {
             LoadXML(xr);
@@ -57,6 +59,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy-Constructor
         /// </summary>
         /// <param name="validation">Validation to copy from</param>
+        /// <param name="ws">The worksheet</param>
         protected ExcelDataValidation(ExcelDataValidation validation,ExcelWorksheet ws)
         {
             Uid = validation.Uid;

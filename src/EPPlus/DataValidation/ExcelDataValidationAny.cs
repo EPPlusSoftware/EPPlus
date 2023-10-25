@@ -25,6 +25,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationAny(string uid, string address, ExcelWorksheet ws) : base(uid, address, ws)
         {
         }
@@ -33,6 +34,7 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationAny(XmlReader xr, ExcelWorksheet ws) : base(xr, ws)
         {
         }
@@ -41,6 +43,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationAny(ExcelDataValidationAny copy, ExcelWorksheet ws) : base(copy, ws)
         {
         }

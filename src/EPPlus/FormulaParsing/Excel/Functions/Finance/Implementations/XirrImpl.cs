@@ -17,10 +17,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
-    public static class XirrImpl
+    internal static class XirrImpl
     {
 
-        public static FinanceCalcResult<double> GetXirr(IEnumerable<double> aValues, IEnumerable<System.DateTime> aDates, double rGuessRate = 0.1)
+        internal static FinanceCalcResult<double> GetXirr(IEnumerable<double> aValues, IEnumerable<System.DateTime> aDates, double rGuessRate = 0.1)
         {
             if (aValues.Count() != aDates.Count()) return new FinanceCalcResult<double>(eErrorType.Value);
 

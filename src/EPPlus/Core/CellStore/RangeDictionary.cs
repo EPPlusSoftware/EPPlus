@@ -17,6 +17,7 @@ namespace OfficeOpenXml.Core.CellStore
     /// <summary>
     /// This class stores ranges to keep track if they have been accessed before and adds a reference to <see cref="T"/>.
     /// </summary>
+    /// <typeparam name="T">Type type used in the RangeDictionary</typeparam>
     internal class RangeDictionary<T>
     {
         internal struct RangeItem : IComparable<RangeItem>

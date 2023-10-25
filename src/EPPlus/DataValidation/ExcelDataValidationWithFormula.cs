@@ -32,9 +32,9 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="workSheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationWithFormula(string uid, string address, ExcelWorksheet ws)
             : base(uid, address, ws)
         {
@@ -45,6 +45,7 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationWithFormula(XmlReader xr, ExcelWorksheet ws)
             : base(xr, ws)
         {
@@ -54,6 +55,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy Constructor
         /// </summary>
         /// <param name="copy"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationWithFormula(ExcelDataValidation copy, ExcelWorksheet ws)
             : base(copy, ws)
         {
@@ -62,7 +64,7 @@ namespace OfficeOpenXml.DataValidation
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
         {
             base.ReadClassSpecificXmlNodes(xr);
-            Formula = ReadFormula(xr, "formula1");
+            Formula = ReadFormula(xr, "formula");
         }
 
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)

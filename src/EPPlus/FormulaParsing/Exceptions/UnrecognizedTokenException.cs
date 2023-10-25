@@ -18,8 +18,15 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.Exceptions
 {
+    /// <summary>
+    /// An Exception when encountering an invalid token.
+    /// </summary>
     public class UnrecognizedTokenException : Exception
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="token">The unrecognized token</param>
         public UnrecognizedTokenException(Token token)
             : base( "Unrecognized token: " + token.Value)
         {

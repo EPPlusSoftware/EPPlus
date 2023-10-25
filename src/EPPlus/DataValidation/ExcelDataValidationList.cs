@@ -27,10 +27,9 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationList(string uid, string address, ExcelWorksheet ws)
             : base(uid, address, ws)
         {

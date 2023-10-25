@@ -27,6 +27,7 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
+        /// <param name="ws">Worksheet</param>
         ///  <param name="isTextLength">Bool to define type of int validation</param>
         internal ExcelDataValidationInt(XmlReader xr, ExcelWorksheet ws, bool isTextLength = false)
             : base(xr, ws)
@@ -37,9 +38,9 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
+        /// <param name="ws">The worksheet</param>
         /// <param name="isTextLength">Bool to define type of int validation</param>
         internal ExcelDataValidationInt(string uid, string address, ExcelWorksheet ws, bool isTextLength = false)
             : base(uid, address, ws)
@@ -54,6 +55,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationInt(ExcelDataValidationInt copy, ExcelWorksheet ws) 
             : base(copy, ws)
         {

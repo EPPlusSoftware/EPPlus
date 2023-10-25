@@ -635,7 +635,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Adds the axis title and styles it according to the style selected in the StyleManager
         /// </summary>
-        /// <param name="title"></param>
+        /// <param name="linkedCell">A cell range to link the title to.</param>
         public void AddTitle(ExcelRangeBase linkedCell)
         {
             Title.LinkedCell = linkedCell;

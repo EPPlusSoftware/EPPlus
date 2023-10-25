@@ -26,6 +26,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// Constructor
         /// </summary>
         /// <param name="validationUid">Uid for the data validation</param>
+        /// <param name="worksheetName">The worksheet name</param>
+        /// <param name="extListHandler">Callback for updateing formulas</param>
         public ExcelDataValidationFormulaValue(string validationUid, string worksheetName, Action<OnFormulaChangedEventArgs> extListHandler)
             : base(validationUid, worksheetName, extListHandler)
         {

@@ -531,6 +531,10 @@ namespace OfficeOpenXml
                 }
                 catch (Exception ex)
                 {
+                    if (ms != null)
+                    {
+                        ms.Dispose();
+                    }
                     if (password == null && CompoundDocument.IsCompoundDocument(File))
                     {
                         throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
@@ -538,10 +542,6 @@ namespace OfficeOpenXml
                     else
                     {
                         throw;
-                    }
-                    if(ms!=null)
-                    {
-                        ms.Dispose();
                     }
                 }
             }

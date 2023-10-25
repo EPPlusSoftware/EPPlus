@@ -222,6 +222,7 @@ namespace OfficeOpenXml.DataValidation
         /// Optionally add address at end for new copy with address in range
         /// </summary>
         /// <param name="dv"></param>
+        /// <param name="added">The worksheet</param>
         /// <param name="address"></param>
         internal void AddCopyOfDataValidation(ExcelDataValidation dv, ExcelWorksheet added, string address = null)
         {

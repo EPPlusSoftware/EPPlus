@@ -26,9 +26,9 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationDateTime(string uid, string address, ExcelWorksheet ws)
             : base(uid, address, ws)
         {
@@ -49,6 +49,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationDateTime(ExcelDataValidationDateTime copy, ExcelWorksheet ws) : base(copy, ws)
         {
             Formula = copy.Formula;

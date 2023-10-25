@@ -41,15 +41,14 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// </summary>
     internal abstract class ExcelDataValidationFormula :IExcelDataValidationFormula
     {
-
-        internal event System.EventHandler BecomesExt;
-
         private readonly Action<OnFormulaChangedEventArgs> _handler;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="validationUid">id of the data validation containing this formula</param>
+        /// <param name="workSheetName">The worksheet name</param>
+        /// <param name="extListHandler">A callback when the formula is changed.</param>
         public ExcelDataValidationFormula(string validationUid, string workSheetName, Action<OnFormulaChangedEventArgs> extListHandler)
         {
             Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
