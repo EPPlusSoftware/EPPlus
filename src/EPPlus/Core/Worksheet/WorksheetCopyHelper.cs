@@ -852,12 +852,12 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             DxfStyleHandler.UpdateDxfXml(copy.Workbook);
 
-            var dxfStyleCashe = new Dictionary<string, int>();
-            CopyDxfStylesTables(copy, added, dxfStyleCashe);
+            var dxfStyleCashe = new Dictionary<int, int>();
+            CopyDxfStylesTables(copy, added);
             CopyDxfStylesPivotTables(copy, added, dxfStyleCashe);
             CopyDxfStylesConditionalFormatting(copy, added, dxfStyleCashe);
         }
-        private static void CopyDxfStylesTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
+        private static void CopyDxfStylesTables(ExcelWorksheet copy, ExcelWorksheet added)
         {
             //Table formats
             for(int i=0;i<copy.Tables.Count; i++)
@@ -879,14 +879,14 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        private static void CopyDxfStylesPivotTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
+        private static void CopyDxfStylesPivotTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<int, int> dxfStyleCache)
         {
             //Table formats
             foreach (var pt in copy.PivotTables)
             {
                 foreach(var a in pt.Styles._list)
                 {
-                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, a.Style.DxfId);
+                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCache, a.Style.DxfId);
                 }                
             }
 
@@ -894,49 +894,32 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 foreach (var a in pt.Styles._list)
                 {
-                    a.Style.DxfId= dxfStyleCashe[a.Style.DxfId.ToString()];
+                    a.Style.DxfId= dxfStyleCache[a.Style.DxfId];
                 }
             }
         }
-        private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
+        private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<int, int> dxfStyleCache)
         {
             //Conditional Formatting
             for (var i = 0; i < copy.ConditionalFormatting.Count; i++)
             {
                 var cfSource = copy.ConditionalFormatting[i];
-                //var dxfElement = ((XmlElement)cfSource.Node);
                 var dxfId = cfSource.DxfId;
                 if (dxfId != -1)
                 {
-                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, dxfId);
+                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCache, dxfId);
+                    added.ConditionalFormatting[i].DxfId = dxfStyleCache[dxfId];
                 }
             }
-
-            for (var i = 0; i < added.ConditionalFormatting.Count; i++)
-            {
-                if (dxfStyleCashe.ContainsKey(added.ConditionalFormatting[i].DxfId.ToString()))
-                {
-                    added.ConditionalFormatting[i].DxfId = dxfStyleCashe[added.ConditionalFormatting[i].DxfId.ToString()];
-                }
-            }
-            //var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", added.NameSpaceManager);
-            //foreach (XmlElement cfRule in nodes)
-            //{
-            //    var dxfId = cfRule.GetAttribute("dxfId");
-            //    if (dxfStyleCashe.ContainsKey(dxfId))
-            //    {
-            //        cfRule.SetAttribute("dxfId", dxfStyleCashe[dxfId].ToString());
-            //    }
-            //}
         }
 
-        private static void AppendDxf(ExcelStyles stylesFrom, ExcelStyles stylesTo, Dictionary<string, int> dxfStyleCashe, int dxfId)
+        private static void AppendDxf(ExcelStyles stylesFrom, ExcelStyles stylesTo, Dictionary<int, int> dxfStyleCache, int dxfId)
         {
             if (dxfId < 0) return;
-            if (!dxfStyleCashe.ContainsKey(dxfId.ToString()))
+            if (!dxfStyleCache.ContainsKey(dxfId))
             {
                 var s = DxfStyleHandler.CloneDxfStyle(stylesFrom, stylesTo, dxfId, ExcelStyles.DxfsPath);
-                dxfStyleCashe.Add(dxfId.ToString(), s);
+                dxfStyleCache.Add(dxfId, s);
             }
         }
 

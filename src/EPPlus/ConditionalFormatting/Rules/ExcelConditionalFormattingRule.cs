@@ -211,7 +211,13 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             Type = type;
 
-            if(!string.IsNullOrEmpty(xr.GetAttribute("id")))
+            if (!string.IsNullOrEmpty(xr.GetAttribute("stopIfTrue")))
+            {
+                StopIfTrue = int.Parse(xr.GetAttribute("stopIfTrue")) == 1;
+            }
+                
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("id")))
             {
                 Uid = xr.GetAttribute("id");
             }
@@ -528,6 +534,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Type = original.Type;
             PivotTable = original.PivotTable;
             _text = original._text;
+            StopIfTrue = original.StopIfTrue;
 
             if(original._stdDev != 0)
             {
