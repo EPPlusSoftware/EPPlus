@@ -668,9 +668,16 @@ namespace OfficeOpenXml.ConditionalFormatting
           eExcelConditionalFormattingRuleType type,
           ExcelAddress address, bool allowNullAddress = false)
         {
-            if(!allowNullAddress)
+            if (!allowNullAddress)
             {
                 Require.Argument(address).IsNotNull("address");
+
+                if (!ExcelCellBase.IsValidAddress(address.Address))
+                {
+                    throw new ArgumentException(
+                        $"Address: \"{address.Address}\" for Conditional Formatting rule of type {type} " +
+                        $"is not a valid address");
+                }
             }
 
             // Create the Rule according to the correct type, address and priority

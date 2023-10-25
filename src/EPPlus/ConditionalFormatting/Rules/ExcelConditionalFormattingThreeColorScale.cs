@@ -18,7 +18,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    public class ExcelConditionalFormattingThreeColorScale : ExcelConditionalFormattingTwoColorScale,
+    internal class ExcelConditionalFormattingThreeColorScale : ExcelConditionalFormattingTwoColorScale,
     IExcelConditionalFormattingThreeColorScale
     {
         internal ExcelConditionalFormattingThreeColorScale(ExcelAddress address, int priority, ExcelWorksheet ws)

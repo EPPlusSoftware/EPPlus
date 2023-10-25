@@ -18,7 +18,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 {
     internal class ExcelConditionalFormattingLessThan : ExcelConditionalFormattingRule, IExcelConditionalFormattingLessThan
     {
-        public ExcelConditionalFormattingLessThan(
+        internal ExcelConditionalFormattingLessThan(
           ExcelAddress address,
           int priority,
           ExcelWorksheet worksheet)
@@ -27,7 +27,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.LessThan;
         }
 
-        public ExcelConditionalFormattingLessThan(
+        internal ExcelConditionalFormattingLessThan(
           ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
           : base(eExcelConditionalFormattingRuleType.LessThan, address, ws, xr)
         {
