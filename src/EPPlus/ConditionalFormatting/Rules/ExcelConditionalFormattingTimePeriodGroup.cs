@@ -18,7 +18,7 @@ namespace OfficeOpenXml.ConditionalFormatting
   /// <summary>
   /// ExcelConditionalFormattingTimePeriodGroup
   /// </summary>
-  public class ExcelConditionalFormattingTimePeriodGroup: ExcelConditionalFormattingRule,
+  internal class ExcelConditionalFormattingTimePeriodGroup: ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTimePeriodGroup
   {
     /****************************************************************************************/

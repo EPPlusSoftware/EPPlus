@@ -18,7 +18,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// ExcelConditionalFormattingLast7Days
     /// </summary>
-    public class ExcelConditionalFormattingThisMonth: ExcelConditionalFormattingTimePeriodGroup
+    internal class ExcelConditionalFormattingThisMonth: ExcelConditionalFormattingTimePeriodGroup
     {
         #region Constructors
         /// <summary>
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="address"></param>
         /// <param name="ws"></param>
         /// <param name="xr"></param>
-        public ExcelConditionalFormattingThisMonth(
+        internal ExcelConditionalFormattingThisMonth(
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.ThisMonth, address, ws, xr)
         {

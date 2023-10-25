@@ -19,7 +19,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     internal class ExcelConditionalFormattingNotContainsText : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingNotContainsText
     {
-        public ExcelConditionalFormattingNotContainsText(
+        internal ExcelConditionalFormattingNotContainsText(
           ExcelAddress address,
           int priority,
           ExcelWorksheet worksheet)
@@ -29,7 +29,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Text = string.Empty;
         }
 
-        public ExcelConditionalFormattingNotContainsText(
+        internal ExcelConditionalFormattingNotContainsText(
           ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
           : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
         {
