@@ -1,34 +1,35 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.Utils.RecyclableMemory
-  commentId: T:OfficeOpenXml.Utils.RecyclableMemory
-  id: RecyclableMemory
+- uid: OfficeOpenXml.Utils.MemorySettings
+  commentId: T:OfficeOpenXml.Utils.MemorySettings
+  id: MemorySettings
   parent: OfficeOpenXml.Utils
   children:
-  - OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager)
+  - OfficeOpenXml.Utils.MemorySettings.MemoryManger
+  - OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
   langs:
   - csharp
   - vb
-  name: RecyclableMemory
-  nameWithType: RecyclableMemory
-  fullName: OfficeOpenXml.Utils.RecyclableMemory
+  name: MemorySettings
+  nameWithType: MemorySettings
+  fullName: OfficeOpenXml.Utils.MemorySettings
   type: Class
   source:
     remote:
       path: src/EPPlus/Utils/RecyclableMemory.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: RecyclableMemory
+    id: MemorySettings
     path: ../src/EPPlus/Utils/RecyclableMemory.cs
-    startLine: 9
+    startLine: 15
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Utils
-  summary: "\nHandles the Recyclable Memory stream for supported and unsupported target frameworks.\n"
+  summary: "\nMemmory settings for RecyclableMemoryStream handling\n"
   example: []
   syntax:
-    content: public static class RecyclableMemory
-    content.vb: Public Module RecyclableMemory
+    content: public class MemorySettings
+    content.vb: Public Class MemorySettings
   inheritance:
   - System.Object
   inheritedMembers:
@@ -41,49 +42,84 @@ items:
   - System.Object.ToString
   modifiers.csharp:
   - public
-  - static
   - class
   modifiers.vb:
   - Public
-  - Module
-- uid: OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager)
-  commentId: M:OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager)
-  id: SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager)
-  parent: OfficeOpenXml.Utils.RecyclableMemory
+  - Class
+- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManger
+  commentId: P:OfficeOpenXml.Utils.MemorySettings.MemoryManger
+  id: MemoryManger
+  parent: OfficeOpenXml.Utils.MemorySettings
   langs:
   - csharp
   - vb
-  name: SetRecyclableMemoryStreamManager(RecyclableMemoryStreamManager)
-  nameWithType: RecyclableMemory.SetRecyclableMemoryStreamManager(RecyclableMemoryStreamManager)
-  fullName: OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager)
-  type: Method
+  name: MemoryManger
+  nameWithType: MemorySettings.MemoryManger
+  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManger
+  type: Property
   source:
     remote:
       path: src/EPPlus/Utils/RecyclableMemory.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: SetRecyclableMemoryStreamManager
+    id: MemoryManger
     path: ../src/EPPlus/Utils/RecyclableMemory.cs
-    startLine: 52
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Utils
-  summary: "\nSets the RecyclableMemorytreamsManager to manage pools\n"
+  summary: "\nThe memory manager used, if RecyclableMemoryStream are used.\n<xref href=\"OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public static void SetRecyclableMemoryStreamManager(RecyclableMemoryStreamManager recyclableMemoryStreamManager)
-    parameters:
-    - id: recyclableMemoryStreamManager
+    content: public RecyclableMemoryStreamManager MemoryManger { get; set; }
+    parameters: []
+    return:
       type: Microsoft.IO.RecyclableMemoryStreamManager
-      description: The memory manager
-    content.vb: Public Shared Sub SetRecyclableMemoryStreamManager(recyclableMemoryStreamManager As RecyclableMemoryStreamManager)
-  overload: OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager*
+    content.vb: Public Property MemoryManger As RecyclableMemoryStreamManager
+  overload: OfficeOpenXml.Utils.MemorySettings.MemoryManger*
   modifiers.csharp:
   - public
-  - static
+  - get
+  - set
   modifiers.vb:
   - Public
-  - Shared
+- uid: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  commentId: P:OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  id: UseRecyclableMemory
+  parent: OfficeOpenXml.Utils.MemorySettings
+  langs:
+  - csharp
+  - vb
+  name: UseRecyclableMemory
+  nameWithType: MemorySettings.UseRecyclableMemory
+  fullName: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/RecyclableMemory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseRecyclableMemory
+    path: ../src/EPPlus/Utils/RecyclableMemory.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nIf true RecyclableMemoryStream&apos;s will be used to handle MemoryStreams. Default.\nIf false normal MemoryStream will be used.\n"
+  example: []
+  syntax:
+    content: public bool UseRecyclableMemory { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UseRecyclableMemory As Boolean
+  overload: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.Utils
   commentId: N:OfficeOpenXml.Utils
@@ -382,11 +418,14 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager*
-  commentId: Overload:OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager
-  name: SetRecyclableMemoryStreamManager
-  nameWithType: RecyclableMemory.SetRecyclableMemoryStreamManager
-  fullName: OfficeOpenXml.Utils.RecyclableMemory.SetRecyclableMemoryStreamManager
+- uid: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  commentId: P:OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  isExternal: true
+- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManger*
+  commentId: Overload:OfficeOpenXml.Utils.MemorySettings.MemoryManger
+  name: MemoryManger
+  nameWithType: MemorySettings.MemoryManger
+  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManger
 - uid: Microsoft.IO.RecyclableMemoryStreamManager
   commentId: T:Microsoft.IO.RecyclableMemoryStreamManager
   parent: Microsoft.IO
@@ -400,3 +439,15 @@ references:
   name: Microsoft.IO
   nameWithType: Microsoft.IO
   fullName: Microsoft.IO
+- uid: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory*
+  commentId: Overload:OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  name: UseRecyclableMemory
+  nameWithType: MemorySettings.UseRecyclableMemory
+  fullName: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

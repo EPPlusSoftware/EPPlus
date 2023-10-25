@@ -392,15 +392,16 @@ items:
   summary: "\nFill color of Databar\n"
   example: []
   syntax:
-    content: ExcelDxfColor FillColor { get; set; }
+    content: ExcelDxfColor FillColor { get; }
     parameters: []
     return:
       type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
-    content.vb: Property FillColor As ExcelDxfColor
+    content.vb: ReadOnly Property FillColor As ExcelDxfColor
   overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.FillColor*
   modifiers.csharp:
   - get
-  - set
+  modifiers.vb:
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor
   id: BorderColor
@@ -426,15 +427,16 @@ items:
   summary: "\nBorder color of databar. \nSetting any property sets Border to true\n"
   example: []
   syntax:
-    content: ExcelDxfColor BorderColor { get; set; }
+    content: ExcelDxfColor BorderColor { get; }
     parameters: []
     return:
       type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
-    content.vb: Property BorderColor As ExcelDxfColor
+    content.vb: ReadOnly Property BorderColor As ExcelDxfColor
   overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.BorderColor*
   modifiers.csharp:
   - get
-  - set
+  modifiers.vb:
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor
   id: NegativeFillColor
@@ -460,15 +462,16 @@ items:
   summary: "\nFill color for negative values\nSetting any property sets NegativeBarColorSameAsPositive to false\n"
   example: []
   syntax:
-    content: ExcelDxfColor NegativeFillColor { get; set; }
+    content: ExcelDxfColor NegativeFillColor { get; }
     parameters: []
     return:
       type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
-    content.vb: Property NegativeFillColor As ExcelDxfColor
+    content.vb: ReadOnly Property NegativeFillColor As ExcelDxfColor
   overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeFillColor*
   modifiers.csharp:
   - get
-  - set
+  modifiers.vb:
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor
   id: NegativeBorderColor
@@ -494,15 +497,16 @@ items:
   summary: "\nBorder color for negative values\nSetting any property sets NegativeBarBorderColorSameAsPositive to false\n"
   example: []
   syntax:
-    content: ExcelDxfColor NegativeBorderColor { get; set; }
+    content: ExcelDxfColor NegativeBorderColor { get; }
     parameters: []
     return:
       type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
-    content.vb: Property NegativeBorderColor As ExcelDxfColor
+    content.vb: ReadOnly Property NegativeBorderColor As ExcelDxfColor
   overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.NegativeBorderColor*
   modifiers.csharp:
   - get
-  - set
+  modifiers.vb:
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor
   id: AxisColor
@@ -528,15 +532,16 @@ items:
   summary: "\nColor of the axis between negative and positive values\n"
   example: []
   syntax:
-    content: ExcelDxfColor AxisColor { get; set; }
+    content: ExcelDxfColor AxisColor { get; }
     parameters: []
     return:
       type: OfficeOpenXml.Style.Dxf.ExcelDxfColor
-    content.vb: Property AxisColor As ExcelDxfColor
+    content.vb: ReadOnly Property AxisColor As ExcelDxfColor
   overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.AxisColor*
   modifiers.csharp:
   - get
-  - set
+  modifiers.vb:
+  - ReadOnly
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
   commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Direction
   id: Direction

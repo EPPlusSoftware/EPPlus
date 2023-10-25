@@ -5,6 +5,7 @@ items:
   id: OfficeOpenXml.FormulaParsing.Excel
   children:
   - OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  - OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
   langs:
   - csharp
   - vb
@@ -21,6 +22,12 @@ references:
   name: ExcelCellState
   nameWithType: ExcelCellState
   fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+- uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  parent: OfficeOpenXml.FormulaParsing.Excel
+  name: HiddenCellHandlingCategory
+  nameWithType: HiddenCellHandlingCategory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
 - uid: OfficeOpenXml.FormulaParsing.Excel
   commentId: N:OfficeOpenXml.FormulaParsing.Excel
   name: OfficeOpenXml.FormulaParsing.Excel

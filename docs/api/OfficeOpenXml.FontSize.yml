@@ -9,7 +9,7 @@ items:
   - OfficeOpenXml.FontSize.FontHeights
   - OfficeOpenXml.FontSize.FontWidths
   - OfficeOpenXml.FontSize.LoadAllFontsFromResource
-  - OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
+  - OfficeOpenXml.FontSize.LoadFontsFromResource(System.String,System.Boolean)
   - OfficeOpenXml.FontSize.NonExistingFont
   langs:
   - csharp
@@ -32,8 +32,8 @@ items:
   summary: "\nA collection of fonts and there size in pixels used when determining auto widths for columns.\nThis is used as .NET and Excel does not measure font widths in pixels in a similar way.\n"
   example: []
   syntax:
-    content: public static class FontSize
-    content.vb: Public Module FontSize
+    content: public class FontSize
+    content.vb: Public Class FontSize
   inheritance:
   - System.Object
   inheritedMembers:
@@ -46,11 +46,10 @@ items:
   - System.Object.ToString
   modifiers.csharp:
   - public
-  - static
   - class
   modifiers.vb:
   - Public
-  - Module
+  - Class
 - uid: OfficeOpenXml.FontSize.DefaultFont
   commentId: F:OfficeOpenXml.FontSize.DefaultFont
   id: DefaultFont
@@ -225,16 +224,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
-  commentId: M:OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
-  id: LoadFontsFromResource(System.String)
+- uid: OfficeOpenXml.FontSize.LoadFontsFromResource(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.FontSize.LoadFontsFromResource(System.String,System.Boolean)
+  id: LoadFontsFromResource(System.String,System.Boolean)
   parent: OfficeOpenXml.FontSize
   langs:
   - csharp
   - vb
-  name: LoadFontsFromResource(String)
-  nameWithType: FontSize.LoadFontsFromResource(String)
-  fullName: OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
+  name: LoadFontsFromResource(String, Boolean)
+  nameWithType: FontSize.LoadFontsFromResource(String, Boolean)
+  fullName: OfficeOpenXml.FontSize.LoadFontsFromResource(System.String, System.Boolean)
   type: Method
   source:
     remote:
@@ -243,19 +242,22 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFontsFromResource
     path: ../src/EPPlus/FontSize.cs
-    startLine: 186
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
   summary: "\nLoad the specified fonts default heights/widths from the internal resource file\n"
   example: []
   syntax:
-    content: public static void LoadFontsFromResource(string fontName)
+    content: public static void LoadFontsFromResource(string fontName, bool disposeStream = true)
     parameters:
     - id: fontName
       type: System.String
       description: The name of the font.
-    content.vb: Public Shared Sub LoadFontsFromResource(fontName As String)
+    - id: disposeStream
+      type: System.Boolean
+      description: If false the stream is loading the font is kept open to load other fonts faster. It true the font-stream is disposed on exit.
+    content.vb: Public Shared Sub LoadFontsFromResource(fontName As String, disposeStream As Boolean = True)
   overload: OfficeOpenXml.FontSize.LoadFontsFromResource*
   modifiers.csharp:
   - public
@@ -733,3 +735,10 @@ references:
   name: LoadFontsFromResource
   nameWithType: FontSize.LoadFontsFromResource
   fullName: OfficeOpenXml.FontSize.LoadFontsFromResource
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

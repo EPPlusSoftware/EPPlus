@@ -17,7 +17,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.DecimalCompileResultValidator
   - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
   - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
@@ -45,7 +45,6 @@ items:
 references:
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: ArgumentCollectionUtil
   nameWithType: ArgumentCollectionUtil
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
@@ -63,7 +62,6 @@ references:
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: ArgumentParsers
   nameWithType: ArgumentParsers
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
@@ -127,7 +125,6 @@ references:
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: CompileResultValidators
   nameWithType: CompileResultValidators
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
@@ -147,11 +144,11 @@ references:
   name: DoubleEnumerableArgConverter
   nameWithType: DoubleEnumerableArgConverter
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
-  name: ErrorHandlingFunction
-  nameWithType: ErrorHandlingFunction
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  name: DoubleEnumerableParseOptions
+  nameWithType: DoubleEnumerableParseOptions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions

@@ -233,7 +233,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 138
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -270,7 +270,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 153
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -307,7 +307,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 168
+    startLine: 170
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -344,11 +344,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 188
+    startLine: 190
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nRichtext\n"
+  summary: "\nRichtext. If the title is linked to a cell via <xref href=\"OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard.LinkedCell\" data-throw-if-not-resolved=\"false\"></xref>, this property returns null\n"
   example: []
   syntax:
     content: public ExcelParagraphCollection RichText { get; }
@@ -381,7 +381,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overlay
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 223
+    startLine: 231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -418,7 +418,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AnchorCtr
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 251
+    startLine: 259
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -455,7 +455,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Anchor
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 265
+    startLine: 273
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -492,7 +492,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextVertical
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 280
+    startLine: 288
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -529,7 +529,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 294
+    startLine: 302
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -955,6 +955,9 @@ references:
   name: OfficeOpenXml.Drawing.Style.ThreeD
   nameWithType: OfficeOpenXml.Drawing.Style.ThreeD
   fullName: OfficeOpenXml.Drawing.Style.ThreeD
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard.LinkedCell
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard.LinkedCell
+  isExternal: true
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText
   name: RichText

@@ -106,6 +106,7 @@ items:
   - OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
   - OfficeOpenXml.ExcelWorksheet.Rows
   - OfficeOpenXml.ExcelWorksheet.Columns
+  - OfficeOpenXml.ExcelWorksheet.GetFormulaRange(System.Int32,System.Int32)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -1761,6 +1762,61 @@ references:
   name: Columns
   nameWithType: ExcelWorksheet.Columns
   fullName: OfficeOpenXml.ExcelWorksheet.Columns
+- uid: OfficeOpenXml.ExcelWorksheet.GetFormulaRange(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetFormulaRange(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: GetFormulaRange(Int32, Int32)
+  nameWithType: ExcelWorksheet.GetFormulaRange(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetFormulaRange(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetFormulaRange(System.Int32,System.Int32)
+    name: GetFormulaRange
+    nameWithType: ExcelWorksheet.GetFormulaRange
+    fullName: OfficeOpenXml.ExcelWorksheet.GetFormulaRange
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetFormulaRange(System.Int32,System.Int32)
+    name: GetFormulaRange
+    nameWithType: ExcelWorksheet.GetFormulaRange
+    fullName: OfficeOpenXml.ExcelWorksheet.GetFormulaRange
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object

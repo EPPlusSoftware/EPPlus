@@ -7,6 +7,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Ranges.CellInfo
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
   - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfo
   - OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
   - OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
@@ -36,6 +37,12 @@ references:
   name: ExternalCellInfo
   nameWithType: ExternalCellInfo
   fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  name: InMemoryRange
+  nameWithType: InMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
 - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
   commentId: T:OfficeOpenXml.FormulaParsing.Ranges.NameInfo
   name: NameInfo

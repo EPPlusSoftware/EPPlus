@@ -42,6 +42,7 @@ items:
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -279,6 +280,12 @@ references:
   name: TableStyle
   nameWithType: LoadFunctionFunctionParamsBase.TableStyle
   fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  name: UseBuiltInStylesForHyperlinks
+  nameWithType: LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object

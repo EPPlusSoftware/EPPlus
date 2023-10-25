@@ -79,6 +79,8 @@ items:
   - OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String,System.String)
   - OfficeOpenXml.ExcelCellBase.IsSimpleAddress(System.String)
   - OfficeOpenXml.ExcelCellBase.IsValidAddress(System.String)
+  - OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  - OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
   - OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetType
@@ -1744,6 +1746,84 @@ references:
     name: IsValidAddress
     nameWithType: ExcelCellBase.IsValidAddress
     fullName: OfficeOpenXml.ExcelCellBase.IsValidAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  isExternal: true
+  name: IsValidTableAddress(String)
+  nameWithType: ExcelCellBase.IsValidTableAddress(String)
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+    name: IsValidTableAddress
+    nameWithType: ExcelCellBase.IsValidTableAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidTableAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+    name: IsValidTableAddress
+    nameWithType: ExcelCellBase.IsValidTableAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidTableAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  isExternal: true
+  name: IsValidRangeAddress(String)
+  nameWithType: ExcelCellBase.IsValidRangeAddress(String)
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+    name: IsValidRangeAddress
+    nameWithType: ExcelCellBase.IsValidRangeAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+    name: IsValidRangeAddress
+    nameWithType: ExcelCellBase.IsValidRangeAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress
   - name: (
     nameWithType: (
     fullName: (

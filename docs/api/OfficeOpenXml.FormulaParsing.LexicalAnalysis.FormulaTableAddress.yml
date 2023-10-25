@@ -312,22 +312,23 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clone
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 979
+    startLine: 999
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nClones the table address.\n"
+  example: []
   syntax:
-    content: public virtual FormulaTableAddress Clone()
+    content: public FormulaTableAddress Clone()
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
-    content.vb: Public Overridable Function Clone As FormulaTableAddress
+      description: ''
+    content.vb: Public Function Clone As FormulaTableAddress
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone*
   modifiers.csharp:
   - public
-  - virtual
   modifiers.vb:
   - Public
-  - Overridable
 references:
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis

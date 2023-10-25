@@ -95,6 +95,7 @@ items:
   - OfficeOpenXml.LicenseException
   - OfficeOpenXml.OfficeProperties
   - OfficeOpenXml.PictureAlignment
+  - OfficeOpenXml.RangeExtensions
   - OfficeOpenXml.ToCollectionOptions
   - OfficeOpenXml.ToCollectionRangeOptions
   - OfficeOpenXml.ToCollectionTableOptions
@@ -719,6 +720,12 @@ references:
   name: OfficeProperties
   nameWithType: OfficeProperties
   fullName: OfficeOpenXml.OfficeProperties
+- uid: OfficeOpenXml.RangeExtensions
+  commentId: T:OfficeOpenXml.RangeExtensions
+  parent: OfficeOpenXml
+  name: RangeExtensions
+  nameWithType: RangeExtensions
+  fullName: OfficeOpenXml.RangeExtensions
 - uid: OfficeOpenXml.eTableNamedStyleAppliesTo
   commentId: T:OfficeOpenXml.eTableNamedStyleAppliesTo
   parent: OfficeOpenXml

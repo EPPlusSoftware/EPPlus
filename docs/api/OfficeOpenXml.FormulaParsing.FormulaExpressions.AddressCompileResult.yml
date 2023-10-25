@@ -25,7 +25,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressCompileResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 354
+    startLine: 371
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -46,6 +46,7 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.False
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
@@ -88,7 +89,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 356
+    startLine: 373
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -125,7 +126,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 360
+    startLine: 377
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -160,7 +161,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 364
+    startLine: 381
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -193,7 +194,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 368
+    startLine: 385
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -226,7 +227,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 372
+    startLine: 389
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -264,7 +265,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 376
+    startLine: 393
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -339,6 +340,42 @@ references:
   name: "True"
   nameWithType: CompileResult.True
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.True
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult(OfficeOpenXml.eErrorType)
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: GetErrorResult(eErrorType)
+  nameWithType: CompileResult.GetErrorResult(eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult(OfficeOpenXml.eErrorType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult(OfficeOpenXml.eErrorType)
+    name: GetErrorResult
+    nameWithType: CompileResult.GetErrorResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult(OfficeOpenXml.eErrorType)
+    name: GetErrorResult
+    nameWithType: CompileResult.GetErrorResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.GetErrorResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
   commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult

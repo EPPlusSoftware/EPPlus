@@ -93,7 +93,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormats
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 760
+    startLine: 776
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -126,7 +126,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fonts
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 764
+    startLine: 780
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,7 +159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fills
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 768
+    startLine: 784
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -192,7 +192,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Borders
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 772
+    startLine: 788
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -225,7 +225,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellStyleXfs
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 776
+    startLine: 792
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -258,7 +258,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellXfs
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 780
+    startLine: 796
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -291,7 +291,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NamedStyles
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 784
+    startLine: 800
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -324,7 +324,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyles
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 788
+    startLine: 804
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -357,7 +357,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SlicerStyles
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 792
+    startLine: 808
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -390,7 +390,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dxfs
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 796
+    startLine: 812
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -423,7 +423,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateNamedStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 808
+    startLine: 824
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -462,7 +462,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateNamedStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 818
+    startLine: 834
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -504,7 +504,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreatePivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 886
+    startLine: 902
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -543,7 +543,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreatePivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 904
+    startLine: 920
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -585,7 +585,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreatePivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 916
+    startLine: 932
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -627,7 +627,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 928
+    startLine: 944
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -666,7 +666,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 946
+    startLine: 962
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -708,7 +708,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 958
+    startLine: 974
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -750,7 +750,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 970
+    startLine: 986
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -789,7 +789,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 987
+    startLine: 1003
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -831,7 +831,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 1004
+    startLine: 1020
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -873,7 +873,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 1021
+    startLine: 1037
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -915,7 +915,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateSlicerStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 1033
+    startLine: 1049
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -954,7 +954,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateSlicerStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 1074
+    startLine: 1090
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -996,7 +996,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateSlicerStyle
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 1105
+    startLine: 1121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1038,7 +1038,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/ExcelStyles.cs
-    startLine: 1115
+    startLine: 1131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

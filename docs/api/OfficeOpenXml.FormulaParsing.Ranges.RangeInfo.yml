@@ -992,7 +992,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 344
+    startLine: 337
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1042,7 +1042,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 361
+    startLine: 346
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1711,7 +1711,10 @@ references:
   fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
 - uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
   commentId: T:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
-  isExternal: true
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  name: InMemoryRange
+  nameWithType: InMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
 - uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.IsInMemoryRange*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.IsInMemoryRange
   name: IsInMemoryRange

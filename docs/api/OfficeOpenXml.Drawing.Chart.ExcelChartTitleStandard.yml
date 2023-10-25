@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartTitleStandard
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 343
+    startLine: 354
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA chart title for a standard chart.\n"
+  example: []
   syntax:
     content: 'public class ExcelChartTitleStandard : ExcelChartTitle'
     content.vb: >-
@@ -78,7 +80,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 350
+    startLine: 359
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -116,7 +118,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkedCell
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 374
+    startLine: 388
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

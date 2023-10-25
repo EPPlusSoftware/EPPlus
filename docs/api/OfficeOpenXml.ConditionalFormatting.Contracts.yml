@@ -73,7 +73,6 @@ references:
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
   commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
-  parent: OfficeOpenXml.ConditionalFormatting.Contracts
   name: IExcelConditionalFormattingColorScaleGroup
   nameWithType: IExcelConditionalFormattingColorScaleGroup
   fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup

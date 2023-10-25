@@ -1,38 +1,39 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
-  id: DoubleArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  id: DoubleEnumerableParseOptions
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
   langs:
   - csharp
   - vb
-  name: DoubleArgumentParser
-  nameWithType: DoubleArgumentParser
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+  name: DoubleEnumerableParseOptions
+  nameWithType: DoubleEnumerableParseOptions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleArgumentParser.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: DoubleArgumentParser
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleArgumentParser.cs
-    startLine: 24
+    id: DoubleEnumerableParseOptions
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nOptions for parsing function arguments to a list of doubles\n"
+  example: []
   syntax:
-    content: 'public class DoubleArgumentParser : ArgumentParser'
-    content.vb: >-
-      Public Class DoubleArgumentParser
-          Inherits ArgumentParser
+    content: public class DoubleEnumerableParseOptions
+    content.vb: Public Class DoubleEnumerableParseOptions
   inheritance:
   - System.Object
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -47,84 +48,154 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object)
-  id: Parse(System.Object)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  id: IgnoreErrors
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
   langs:
   - csharp
   - vb
-  name: Parse(Object)
-  nameWithType: DoubleArgumentParser.Parse(Object)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object)
-  type: Method
+  name: IgnoreErrors
+  nameWithType: DoubleEnumerableParseOptions.IgnoreErrors
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleArgumentParser.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Parse
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleArgumentParser.cs
-    startLine: 26
+    id: IgnoreErrors
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore errors in cells\n"
+  example: []
   syntax:
-    content: public override object Parse(object obj)
-    parameters:
-    - id: obj
-      type: System.Object
+    content: public bool IgnoreErrors { get; set; }
+    parameters: []
     return:
-      type: System.Object
-    content.vb: Public Overrides Function Parse(obj As Object) As Object
-  overridden: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object)
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse*
+      type: System.Boolean
+    content.vb: Public Property IgnoreErrors As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors*
   modifiers.csharp:
   - public
-  - override
+  - get
+  - set
   modifiers.vb:
   - Public
-  - Overrides
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  id: Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  id: IgnoreHiddenCells
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
   langs:
   - csharp
   - vb
-  name: Parse(Object, RoundingMethod)
-  nameWithType: DoubleArgumentParser.Parse(Object, RoundingMethod)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse(System.Object, OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  type: Method
+  name: IgnoreHiddenCells
+  nameWithType: DoubleEnumerableParseOptions.IgnoreHiddenCells
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleArgumentParser.cs
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Parse
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleArgumentParser.cs
-    startLine: 54
+    id: IgnoreHiddenCells
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore hidden cells\n"
+  example: []
   syntax:
-    content: public override object Parse(object obj, RoundingMethod roundingMethod)
-    parameters:
-    - id: obj
-      type: System.Object
-    - id: roundingMethod
-      type: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+    content: public bool IgnoreHiddenCells { get; set; }
+    parameters: []
     return:
-      type: System.Object
-    content.vb: Public Overrides Function Parse(obj As Object, roundingMethod As RoundingMethod) As Object
-  overridden: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse*
+      type: System.Boolean
+    content.vb: Public Property IgnoreHiddenCells As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells*
   modifiers.csharp:
   - public
-  - override
+  - get
+  - set
   modifiers.vb:
   - Public
-  - Overrides
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  id: IgnoreNestedSubtotalAggregate
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  langs:
+  - csharp
+  - vb
+  name: IgnoreNestedSubtotalAggregate
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreNestedSubtotalAggregate
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore results from underlying SUBTOTAL or AGGREGATE functions\n"
+  example: []
+  syntax:
+    content: public bool IgnoreNestedSubtotalAggregate { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IgnoreNestedSubtotalAggregate As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  id: IgnoreNonNumeric
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  langs:
+  - csharp
+  - vb
+  name: IgnoreNonNumeric
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNonNumeric
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreNonNumeric
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore cells with non-numeric values\n"
+  example: []
+  syntax:
+    content: public bool IgnoreNonNumeric { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IgnoreNonNumeric As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -138,12 +209,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
-  name: ArgumentParser
-  nameWithType: ArgumentParser
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -429,106 +494,30 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  name: IgnoreErrors
+  nameWithType: DoubleEnumerableParseOptions.IgnoreErrors
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
   isExternal: true
-  name: Parse(Object)
-  nameWithType: ArgumentParser.Parse(Object)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object)
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object)
-    name: Parse
-    nameWithType: ArgumentParser.Parse
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object)
-    name: Parse
-    nameWithType: ArgumentParser.Parse
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse
-  name: Parse
-  nameWithType: DoubleArgumentParser.Parse
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser.Parse
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
-  isExternal: true
-  name: Parse(Object, RoundingMethod)
-  nameWithType: ArgumentParser.Parse(Object, RoundingMethod)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object, OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-    name: Parse
-    nameWithType: ArgumentParser.Parse
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
-    name: RoundingMethod
-    nameWithType: RoundingMethod
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse(System.Object,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
-    name: Parse
-    nameWithType: ArgumentParser.Parse
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser.Parse
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
-    name: RoundingMethod
-    nameWithType: RoundingMethod
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
-  name: RoundingMethod
-  nameWithType: RoundingMethod
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  name: IgnoreHiddenCells
+  nameWithType: DoubleEnumerableParseOptions.IgnoreHiddenCells
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  name: IgnoreNestedSubtotalAggregate
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  name: IgnoreNonNumeric
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNonNumeric
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric

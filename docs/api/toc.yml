@@ -186,6 +186,8 @@
     name: OfficeProperties
   - uid: OfficeOpenXml.PictureAlignment
     name: PictureAlignment
+  - uid: OfficeOpenXml.RangeExtensions
+    name: RangeExtensions
   - uid: OfficeOpenXml.ToCollectionOptions
     name: ToCollectionOptions
   - uid: OfficeOpenXml.ToCollectionRangeOptions
@@ -253,34 +255,8 @@
     name: ExcelConditionalFormattingColorScaleValue
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
     name: ExcelConditionalFormattingIconDataBarValue
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
-    name: ExcelConditionalFormattingLast7Days
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
-    name: ExcelConditionalFormattingLastMonth
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-    name: ExcelConditionalFormattingLastWeek
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
-    name: ExcelConditionalFormattingNextMonth
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
-    name: ExcelConditionalFormattingNextWeek
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
     name: ExcelConditionalFormattingRule
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
-    name: ExcelConditionalFormattingThisMonth
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
-    name: ExcelConditionalFormattingThisWeek
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-    name: ExcelConditionalFormattingThreeColorScale
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
-    name: ExcelConditionalFormattingTimePeriodGroup
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
-    name: ExcelConditionalFormattingToday
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-    name: ExcelConditionalFormattingTomorrow
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-    name: ExcelConditionalFormattingTwoColorScale
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
-    name: ExcelConditionalFormattingYesterday
   - uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
     name: IRangeConditionalFormatting
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -1459,6 +1435,8 @@
   items:
   - uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
     name: ExcelCellState
+  - uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+    name: HiddenCellHandlingCategory
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: OfficeOpenXml.FormulaParsing.Excel.Functions
   items:
@@ -1489,8 +1467,8 @@
     name: DoubleArgumentParser
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
     name: DoubleEnumerableArgConverter
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
-    name: ErrorHandlingFunction
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+    name: DoubleEnumerableParseOptions
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
     name: ExcelDoubleCellValue
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
@@ -1725,6 +1703,8 @@
     name: EpplusExcelExternalRangeInfo
   - uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
     name: ExternalCellInfo
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+    name: InMemoryRange
   - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
     name: NameInfo
   - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
@@ -2169,8 +2149,8 @@
   - uid: OfficeOpenXml.Utils.IArgument`1
     name: IArgument<T>
     name.vb: IArgument(Of T)
-  - uid: OfficeOpenXml.Utils.RecyclableMemory
-    name: RecyclableMemory
+  - uid: OfficeOpenXml.Utils.MemorySettings
+    name: MemorySettings
   - uid: OfficeOpenXml.Utils.Require
     name: Require
   - uid: OfficeOpenXml.Utils.SqRefUtility
