@@ -11,13 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Text;
 using System.Xml;
 using OfficeOpenXml.Utils;
-using System.Security;
 using System.Linq;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
