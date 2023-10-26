@@ -186,9 +186,27 @@ namespace OfficeOpenXml.Table.PivotTable
                     PivotTable.CacheId = _cacheReference.CacheId;
                     _wb.AddPivotTableCache(_cacheReference);
                     Relationship.TargetUri = _cacheReference.CacheDefinitionUri;
+                    UpdateCacheInFields();
                 }
             }
         }
+
+        private void UpdateCacheInFields()
+        {
+            foreach (var field in PivotTable.Fields)
+            {
+                var cf = _cacheReference.Fields.Where(x => x.Name == field.Name).FirstOrDefault();
+                if (cf != null)
+                {
+                    field.CacheField = cf;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Pivot Table source change: Destination range headers does not match source range headers. Field Name {field.Name} is missing.");
+                }
+            }
+        }
+
         /// <summary>
         /// If Excel will save the source data with the pivot table.
         /// </summary>

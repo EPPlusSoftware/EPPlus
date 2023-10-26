@@ -245,7 +245,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         private void Validate(ExcelPivotTableField baseField, int? baseItem = null)
         {
-            if (baseField._pivotTable != _dataField.Field._pivotTable)
+            if (baseField.PivotTable != _dataField.Field.PivotTable)
             {
                 throw new ArgumentException("The base field must be from the same pivot table as the data field", nameof(baseField));
             }

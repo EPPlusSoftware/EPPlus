@@ -22,11 +22,9 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         ExcelPivotTableField _field;
-        private readonly ExcelPivotTableCacheField _cache;
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
             _field = field;
-            _cache = field.Cache;
         }
         /// <summary>
         /// It the object exists in the cache
@@ -35,7 +33,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns></returns>
         public bool Contains(object value)
         {
-            return _cache._cacheLookup.ContainsKey(value);
+            return _field.Cache._cacheLookup.ContainsKey(value);
         }
         /// <summary>
         /// Get the item with the value supplied. If the value does not exist, null is returned.
@@ -44,7 +42,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The pivot table field</returns>
         public ExcelPivotTableFieldItem GetByValue(object value)
         {
-            if(_cache._cacheLookup.TryGetValue(value, out int ix))
+            if(_field.Cache._cacheLookup.TryGetValue(value, out int ix))
             {
                 return _list[ix];
             }
@@ -57,7 +55,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The index of the item</returns>
         public int GetIndexByValue(object value)
         {
-            if (_cache._cacheLookup.TryGetValue(value, out int ix))
+            if (_field.Cache._cacheLookup.TryGetValue(value, out int ix))
             {
                 return ix;
             }
@@ -118,7 +116,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         public void Refresh()
         {
-            _cache.Refresh();
+            _field.Cache.Refresh();
         }
     }
     /// <summary>
