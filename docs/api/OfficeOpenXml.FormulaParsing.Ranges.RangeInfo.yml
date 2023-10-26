@@ -186,7 +186,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 77
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -200,6 +200,7 @@ items:
       description: The worksheet
     - id: ctx
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: Parsing context
     content.vb: Public Sub New(ws As ExcelWorksheet, ctx As ParsingContext)
   overload: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.#ctor*
   modifiers.csharp:
@@ -224,7 +225,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 87
+    startLine: 89
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -241,6 +242,7 @@ items:
       description: ''
     - id: ctx
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: Parsing context
     content.vb: Public Sub New(ws As ExcelWorksheet, address As ExcelAddressBase, ctx As ParsingContext = Nothing)
   overload: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.#ctor*
   modifiers.csharp:
@@ -265,7 +267,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 111
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -302,7 +304,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 119
+    startLine: 121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -341,7 +343,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 129
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -380,7 +382,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 153
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -419,7 +421,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 182
+    startLine: 184
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -458,7 +460,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 187
+    startLine: 189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -497,7 +499,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 192
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -536,7 +538,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 200
+    startLine: 202
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -575,7 +577,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 205
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -612,7 +614,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 226
+    startLine: 228
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -647,7 +649,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 236
+    startLine: 238
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -686,7 +688,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 248
+    startLine: 250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -723,7 +725,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 258
+    startLine: 260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -757,7 +759,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextCell
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 269
+    startLine: 271
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -792,7 +794,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 280
+    startLine: 282
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -830,7 +832,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 290
+    startLine: 292
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -865,7 +867,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 304
+    startLine: 306
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -904,7 +906,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 312
+    startLine: 314
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -948,7 +950,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 323
+    startLine: 325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -992,7 +994,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 344
+    startLine: 339
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1042,7 +1044,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 361
+    startLine: 348
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1711,7 +1713,10 @@ references:
   fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
 - uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
   commentId: T:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
-  isExternal: true
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  name: InMemoryRange
+  nameWithType: InMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
 - uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.IsInMemoryRange*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.IsInMemoryRange
   name: IsInMemoryRange

@@ -103,7 +103,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula2
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-    startLine: 72
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -144,15 +144,20 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-    startLine: 83
+    startLine: 89
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
+  summary: "\nValidate the validation\n"
+  example: []
   syntax:
     content: public override void Validate()
     content.vb: Public Overrides Sub Validate
   overridden: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula{{T}}.Validate
   overload: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1.Validate*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
   nameWithType.vb: ExcelDataValidationWithFormula2(Of T).Validate()
   modifiers.csharp:
   - public
@@ -712,6 +717,13 @@ references:
   name: T
   nameWithType: T
   fullName: T
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula{{T}}.Validate
   commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula{`0}.Validate
   parent: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula{{T}}

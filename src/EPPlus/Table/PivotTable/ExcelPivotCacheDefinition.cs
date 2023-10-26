@@ -15,6 +15,7 @@ using System.Xml;
 using OfficeOpenXml.Utils;
 using System.Linq;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 
 namespace OfficeOpenXml.Table.PivotTable
 {

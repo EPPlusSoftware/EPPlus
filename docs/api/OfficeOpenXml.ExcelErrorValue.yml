@@ -5,6 +5,7 @@ items:
   id: ExcelErrorValue
   parent: OfficeOpenXml
   children:
+  - OfficeOpenXml.ExcelErrorValue.AsCompileResult
   - OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
   - OfficeOpenXml.ExcelErrorValue.GetHashCode
@@ -27,7 +28,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 97
+    startLine: 98
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -72,7 +73,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 198
+    startLine: 199
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -95,6 +96,43 @@ items:
   modifiers.vb:
   - Public
   - Shared
+- uid: OfficeOpenXml.ExcelErrorValue.AsCompileResult
+  commentId: P:OfficeOpenXml.ExcelErrorValue.AsCompileResult
+  id: AsCompileResult
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: AsCompileResult
+  nameWithType: ExcelErrorValue.AsCompileResult
+  fullName: OfficeOpenXml.ExcelErrorValue.AsCompileResult
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AsCompileResult
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the error as a <xref href=\"OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public CompileResult AsCompileResult { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    content.vb: Public ReadOnly Property AsCompileResult As CompileResult
+  overload: OfficeOpenXml.ExcelErrorValue.AsCompileResult*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
   commentId: M:OfficeOpenXml.ExcelErrorValue.Parse(System.String)
   id: Parse(System.String)
@@ -113,7 +151,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 211
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -164,7 +202,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 234
+    startLine: 244
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -201,7 +239,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 240
+    startLine: 250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -239,7 +277,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 272
+    startLine: 282
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -283,7 +321,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 282
+    startLine: 292
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -327,7 +365,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 291
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -365,7 +403,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 300
+    startLine: 310
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -601,6 +639,22 @@ references:
   name: Create
   nameWithType: ExcelErrorValue.Create
   fullName: OfficeOpenXml.ExcelErrorValue.Create
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+- uid: OfficeOpenXml.ExcelErrorValue.AsCompileResult*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.AsCompileResult
+  name: AsCompileResult
+  nameWithType: ExcelErrorValue.AsCompileResult
+  fullName: OfficeOpenXml.ExcelErrorValue.AsCompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
 - uid: System.ArgumentNullException
   commentId: T:System.ArgumentNullException
   isExternal: true

@@ -49,7 +49,6 @@ references:
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
   commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
-  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   name: ILexer
   nameWithType: ILexer
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer

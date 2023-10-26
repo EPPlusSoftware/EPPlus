@@ -27,13 +27,13 @@ namespace OfficeOpenXml.DataValidation
     public abstract class ExcelDataValidationWithFormula<T> : ExcelDataValidation
         where T : IExcelDataValidationFormula
     {
-        protected string _workSheetName;
+        internal protected string _workSheetName;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="workSheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
+        /// <param name="ws">The worksheet</param>
         /// <param name="address"></param>
         internal ExcelDataValidationWithFormula(string uid, string address, ExcelWorksheet ws)
             : base(uid, address, ws)
@@ -45,6 +45,7 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationWithFormula(XmlReader xr, ExcelWorksheet ws)
             : base(xr, ws)
         {
@@ -54,6 +55,8 @@ namespace OfficeOpenXml.DataValidation
         /// Copy Constructor
         /// </summary>
         /// <param name="copy"></param>
+        /// <param name="ws">The worksheet</param>
+
         internal ExcelDataValidationWithFormula(ExcelDataValidation copy, ExcelWorksheet ws)
             : base(copy, ws)
         {

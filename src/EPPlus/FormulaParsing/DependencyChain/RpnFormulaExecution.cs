@@ -301,7 +301,6 @@ namespace OfficeOpenXml.FormulaParsing
                 depChain._parsingContext.CurrentCell =  cc;
             }
         }
-        static bool _prevExists = false;
         private static RpnFormula GetNameFormula(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, INameInfo name, int cellRow, int cellCol)
         {
             ExcelCellBase.SplitCellId(name.Id, out int wsIx, out int row, out int col);

@@ -44,6 +44,7 @@ items:
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Header
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormat
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
+  - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFormula
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowNumberFormat
@@ -152,6 +153,12 @@ references:
   name: Hidden
   nameWithType: EpplusTableColumnAttributeBase.Hidden
   fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  parent: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  name: UseBuiltInHyperlinkStyle
+  nameWithType: EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
 - uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   parent: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase

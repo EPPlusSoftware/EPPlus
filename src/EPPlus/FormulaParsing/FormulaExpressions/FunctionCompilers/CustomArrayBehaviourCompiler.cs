@@ -39,7 +39,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         public override CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(context);
             
             if (!children.Any()) return new CompileResult(eErrorType.Value);
 

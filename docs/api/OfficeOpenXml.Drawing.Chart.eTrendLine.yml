@@ -8,7 +8,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.eTrendLine.Exponential
   - OfficeOpenXml.Drawing.Chart.eTrendLine.Linear
   - OfficeOpenXml.Drawing.Chart.eTrendLine.Logarithmic
-  - OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
+  - OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAverage
   - OfficeOpenXml.Drawing.Chart.eTrendLine.Polynomial
   - OfficeOpenXml.Drawing.Chart.eTrendLine.Power
   langs:
@@ -142,23 +142,23 @@ items:
   modifiers.vb:
   - Public
   - Const
-- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
-  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
-  id: MovingAvgerage
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAverage
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAverage
+  id: MovingAverage
   parent: OfficeOpenXml.Drawing.Chart.eTrendLine
   langs:
   - csharp
   - vb
-  name: MovingAvgerage
-  nameWithType: eTrendLine.MovingAvgerage
-  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
+  name: MovingAverage
+  nameWithType: eTrendLine.MovingAverage
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAverage
   type: Field
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: MovingAvgerage
+    id: MovingAverage
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
     startLine: 34
   assemblies:
@@ -167,7 +167,7 @@ items:
   summary: "\nThe trendline will be the moving average.\n"
   example: []
   syntax:
-    content: MovingAvgerage = 3
+    content: MovingAverage = 3
     return:
       type: OfficeOpenXml.Drawing.Chart.eTrendLine
   modifiers.csharp:

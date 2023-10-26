@@ -8,11 +8,11 @@ items:
   - OfficeOpenXml.ExcelHyperLink.#ctor(System.String)
   - OfficeOpenXml.ExcelHyperLink.#ctor(System.String,System.String)
   - OfficeOpenXml.ExcelHyperLink.#ctor(System.String,System.UriKind)
-  - OfficeOpenXml.ExcelHyperLink.ColSpann
+  - OfficeOpenXml.ExcelHyperLink.ColSpan
   - OfficeOpenXml.ExcelHyperLink.Display
   - OfficeOpenXml.ExcelHyperLink.OriginalUri
   - OfficeOpenXml.ExcelHyperLink.ReferenceAddress
-  - OfficeOpenXml.ExcelHyperLink.RowSpann
+  - OfficeOpenXml.ExcelHyperLink.RowSpan
   - OfficeOpenXml.ExcelHyperLink.ToolTip
   langs:
   - csharp
@@ -235,7 +235,7 @@ items:
     parameters:
     - id: referenceAddress
       type: System.String
-      description: Address
+      description: The address or defined name
     - id: display
       type: System.String
       description: Displayed text
@@ -267,7 +267,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nThe Excel address for internal links.\n"
+  summary: "\nThe Excel address for internal links or extended data for external hyper links not supported by the Uri class.\n"
   example: []
   syntax:
     content: public string ReferenceAddress { get; set; }
@@ -356,23 +356,23 @@ items:
   - set
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.ExcelHyperLink.ColSpann
-  commentId: P:OfficeOpenXml.ExcelHyperLink.ColSpann
-  id: ColSpann
+- uid: OfficeOpenXml.ExcelHyperLink.ColSpan
+  commentId: P:OfficeOpenXml.ExcelHyperLink.ColSpan
+  id: ColSpan
   parent: OfficeOpenXml.ExcelHyperLink
   langs:
   - csharp
   - vb
-  name: ColSpann
-  nameWithType: ExcelHyperLink.ColSpann
-  fullName: OfficeOpenXml.ExcelHyperLink.ColSpann
+  name: ColSpan
+  nameWithType: ExcelHyperLink.ColSpan
+  fullName: OfficeOpenXml.ExcelHyperLink.ColSpan
   type: Property
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ColSpann
+    id: ColSpan
     path: ../src/EPPlus/ExcelHyperLink.cs
     startLine: 109
   assemblies:
@@ -381,35 +381,35 @@ items:
   summary: "\nIf the hyperlink spans multiple columns\n"
   example: []
   syntax:
-    content: public int ColSpann { get; set; }
+    content: public int ColSpan { get; set; }
     parameters: []
     return:
       type: System.Int32
-    content.vb: Public Property ColSpann As Integer
-  overload: OfficeOpenXml.ExcelHyperLink.ColSpann*
+    content.vb: Public Property ColSpan As Integer
+  overload: OfficeOpenXml.ExcelHyperLink.ColSpan*
   modifiers.csharp:
   - public
   - get
   - set
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.ExcelHyperLink.RowSpann
-  commentId: P:OfficeOpenXml.ExcelHyperLink.RowSpann
-  id: RowSpann
+- uid: OfficeOpenXml.ExcelHyperLink.RowSpan
+  commentId: P:OfficeOpenXml.ExcelHyperLink.RowSpan
+  id: RowSpan
   parent: OfficeOpenXml.ExcelHyperLink
   langs:
   - csharp
   - vb
-  name: RowSpann
-  nameWithType: ExcelHyperLink.RowSpann
-  fullName: OfficeOpenXml.ExcelHyperLink.RowSpann
+  name: RowSpan
+  nameWithType: ExcelHyperLink.RowSpan
+  fullName: OfficeOpenXml.ExcelHyperLink.RowSpan
   type: Property
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: RowSpann
+    id: RowSpan
     path: ../src/EPPlus/ExcelHyperLink.cs
     startLine: 124
   assemblies:
@@ -418,12 +418,12 @@ items:
   summary: "\nIf the hyperlink spans multiple rows\n"
   example: []
   syntax:
-    content: public int RowSpann { get; set; }
+    content: public int RowSpan { get; set; }
     parameters: []
     return:
       type: System.Int32
-    content.vb: Public Property RowSpann As Integer
-  overload: OfficeOpenXml.ExcelHyperLink.RowSpann*
+    content.vb: Public Property RowSpan As Integer
+  overload: OfficeOpenXml.ExcelHyperLink.RowSpan*
   modifiers.csharp:
   - public
   - get
@@ -2685,11 +2685,11 @@ references:
   name: ToolTip
   nameWithType: ExcelHyperLink.ToolTip
   fullName: OfficeOpenXml.ExcelHyperLink.ToolTip
-- uid: OfficeOpenXml.ExcelHyperLink.ColSpann*
-  commentId: Overload:OfficeOpenXml.ExcelHyperLink.ColSpann
-  name: ColSpann
-  nameWithType: ExcelHyperLink.ColSpann
-  fullName: OfficeOpenXml.ExcelHyperLink.ColSpann
+- uid: OfficeOpenXml.ExcelHyperLink.ColSpan*
+  commentId: Overload:OfficeOpenXml.ExcelHyperLink.ColSpan
+  name: ColSpan
+  nameWithType: ExcelHyperLink.ColSpan
+  fullName: OfficeOpenXml.ExcelHyperLink.ColSpan
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
@@ -2697,11 +2697,11 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
-- uid: OfficeOpenXml.ExcelHyperLink.RowSpann*
-  commentId: Overload:OfficeOpenXml.ExcelHyperLink.RowSpann
-  name: RowSpann
-  nameWithType: ExcelHyperLink.RowSpann
-  fullName: OfficeOpenXml.ExcelHyperLink.RowSpann
+- uid: OfficeOpenXml.ExcelHyperLink.RowSpan*
+  commentId: Overload:OfficeOpenXml.ExcelHyperLink.RowSpan
+  name: RowSpan
+  nameWithType: ExcelHyperLink.RowSpan
+  fullName: OfficeOpenXml.ExcelHyperLink.RowSpan
 - uid: OfficeOpenXml.ExcelHyperLink.OriginalUri*
   commentId: Overload:OfficeOpenXml.ExcelHyperLink.OriginalUri
   name: OriginalUri

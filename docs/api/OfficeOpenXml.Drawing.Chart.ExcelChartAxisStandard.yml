@@ -876,6 +876,7 @@ items:
     parameters:
     - id: linkedCell
       type: OfficeOpenXml.ExcelRangeBase
+      description: The cell linked to the title.
     content.vb: Public Sub AddTitle(linkedCell As ExcelRangeBase)
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle*
   modifiers.csharp:

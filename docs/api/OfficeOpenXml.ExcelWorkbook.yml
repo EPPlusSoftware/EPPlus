@@ -912,7 +912,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1550
+    startLine: 1549
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -944,7 +944,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1562
+    startLine: 1561
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -976,7 +976,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1647
+    startLine: 1646
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1010,7 +1010,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLoadedPivotTables
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1677
+    startLine: 1676
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
