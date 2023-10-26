@@ -138,7 +138,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 fieldNode.SetAttribute("dragToCol", "0");
                 fieldNode.SetAttribute("dragToRow", "0");
                 var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, pt, cacheField.Index, 0);
-                field._cacheField = cacheField;
+                field.CacheField = cacheField;
                 pt.Fields.AddInternal(field);
             }
             return _table.Fields[cacheField.Index];

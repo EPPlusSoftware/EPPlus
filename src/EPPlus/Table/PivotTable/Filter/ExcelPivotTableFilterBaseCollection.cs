@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         internal ExcelPivotTableFilterBaseCollection(ExcelPivotTableField field)
         {            
             _field = field;
-            _table = field._pivotTable;
+            _table = field.PivotTable;
 
             foreach(var filter in _table.Filters)
             {
