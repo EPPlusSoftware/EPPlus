@@ -91,7 +91,6 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopyTable(copy, added);
             }
-
             if (copy.PivotTables.Count > 0)
             {
                 CopyPivotTable(copy, added);
@@ -749,11 +748,14 @@ namespace OfficeOpenXml.Core.Worksheet
                 //TODO: Fix save pivottable here
                 xmlDoc.LoadXml(xml);
                 xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@name", tbl.NameSpaceManager).Value = name;
-                xml = xmlDoc.OuterXml;
 
                 int Id = added._package.Workbook._nextPivotTableID++;
                 var uriTbl = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
                 if (added.Workbook._nextPivotTableID < Id) added.Workbook._nextPivotTableID = Id;
+
+                xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@cacheId", tbl.NameSpaceManager).Value = Id.ToString();
+                xml = xmlDoc.OuterXml;
+
                 var partTbl = added._package.ZipPackage.CreatePart(uriTbl, ContentTypes.contentTypePivotTable, added._package.Compression);
                 StreamWriter streamTbl = new StreamWriter(partTbl.GetStream(FileMode.Create, FileAccess.Write));
                 streamTbl.Write(xml);
@@ -769,7 +771,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     CreateCacheInNewPackage(added, wbAdded, tbl, partTbl);
                 }
-
             }
 
             added._pivotTables = null;   //Reset collection so it's reloaded when accessing the collection next time.
@@ -788,6 +789,9 @@ namespace OfficeOpenXml.Core.Worksheet
                     fld.Cache.Refresh();
                 }
             }
+
+            //Can't have a cell selected when "group editing" avoids pop-up by not selecting sheet.
+            added.View.SetTabSelected(false);
         }
 
         private static void CreateCacheInNewPackage(ExcelWorksheet added, ExcelWorkbook wbAdded, ExcelPivotTable tbl, ZipPackagePart partTbl)

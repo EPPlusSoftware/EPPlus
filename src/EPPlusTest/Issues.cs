@@ -57,6 +57,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Xml;
 
 namespace EPPlusTest
 {
@@ -5520,6 +5521,25 @@ namespace EPPlusTest
             finally
             {
                 System.GC.Collect();
+            }
+        }
+
+        [TestMethod]
+        public void s542()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532_source.xlsx"))
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532_destination.xlsx");
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["Sheet3"];
+                var wscopied = destinationpackage.Workbook.Worksheets.Add("Pivot Data", sourceworksheet);
+
+                var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                SaveAndCleanup(destinationpackage);
             }
         }
     }
