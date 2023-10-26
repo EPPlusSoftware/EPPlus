@@ -1,14 +1,14 @@
-﻿# Features / Fixed issues - EPPlus 6
+﻿# Features / Fixed issues - EPPlus 7
 
-## Version 7.0.0-Beta rc 1
-* Calculation engine update to to support array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
+## Version 7.0.0
+* New calculation engine supporting array formulas. https://epplussoftware.com/en/Developers/EPPlus7
 	* Support for calculating legacy / dynamic array formulas.
 	* Support for intersect operator.
 	* Support for implicit intersection.
 	* Support for array parameters in functions.
 	* Better support for using the colon operator with functions.
 	* Better handling of circular references
-	* 91 new functions
+	* 90 new functions
 	* Faster optimized calculation engine with configurable expression caching.
 * Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information
 * Conditional Formatting improvements
