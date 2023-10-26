@@ -36,7 +36,6 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgumentMinLength
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
@@ -252,42 +251,6 @@ references:
   name: ArgumentMinLength
   nameWithType: ExcelFunction.ArgumentMinLength
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgumentMinLength
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-  name: BeforeInvoke(ParsingContext)
-  nameWithType: ExcelFunction.BeforeInvoke(ParsingContext)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-    name: BeforeInvoke
-    nameWithType: ExcelFunction.BeforeInvoke
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
-    name: ParsingContext
-    nameWithType: ParsingContext
-    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-    name: BeforeInvoke
-    nameWithType: ExcelFunction.BeforeInvoke
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
-    name: ParsingContext
-    nameWithType: ParsingContext
-    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction

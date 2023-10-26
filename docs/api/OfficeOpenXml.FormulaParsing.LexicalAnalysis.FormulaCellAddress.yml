@@ -133,10 +133,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 458
+    startLine: 461
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nThe row number\n"
+  example: []
   syntax:
     content: public int Row
     return:
@@ -164,10 +166,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 458
+    startLine: 465
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nThe column number\n"
+  example: []
   syntax:
     content: public int Column
     return:
@@ -195,10 +199,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 459
+    startLine: 469
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nThe address\n"
+  example: []
   syntax:
     content: public readonly string Address { get; }
     parameters: []
@@ -231,7 +237,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellId
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 475
+    startLine: 485
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis

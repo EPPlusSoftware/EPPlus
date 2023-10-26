@@ -25,7 +25,6 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgumentMinLength
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,OfficeOpenXml.ExcelErrorValue@)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo,OfficeOpenXml.ExcelErrorValue@)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
@@ -259,56 +258,6 @@ items:
   - Public
   - MustOverride
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-  id: BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-  langs:
-  - csharp
-  - vb
-  name: BeforeInvoke(ParsingContext)
-  nameWithType: ExcelFunction.BeforeInvoke(ParsingContext)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: BeforeInvoke
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 129
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  summary: "\nIf overridden, this method is called before Execute is called.\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Don't use this method from EPPlus 7.x and up")]
-
-      public virtual void BeforeInvoke(ParsingContext context)
-    parameters:
-    - id: context
-      type: OfficeOpenXml.FormulaParsing.ParsingContext
-      description: ''
-    content.vb: >-
-      <Obsolete("Don't use this method from EPPlus 7.x and up")>
-
-      Public Overridable Sub BeforeInvoke(context As ParsingContext)
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Don't use this method from EPPlus 7.x and up
-  modifiers.csharp:
-  - public
-  - virtual
-  modifiers.vb:
-  - Public
-  - Overridable
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
   id: GetNewParameterAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult},System.Int32,System.Collections.Generic.Queue{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}@)
@@ -327,7 +276,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNewParameterAddress
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 139
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -374,10 +323,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsErrorHandlingFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 147
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIndicates that the function is an ErrorHandlingFunction.\n"
+  example: []
   syntax:
     content: public virtual bool IsErrorHandlingFunction { get; }
     parameters: []
@@ -411,7 +362,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArrayBehaviour
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 158
+    startLine: 150
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -450,7 +401,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConfigureArrayBehaviour
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 171
+    startLine: 163
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -488,7 +439,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFirstValue
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 184
+    startLine: 176
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -528,7 +479,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidateArguments
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 207
+    startLine: 199
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -585,7 +536,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidateArguments
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 241
+    startLine: 233
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -642,7 +593,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToAddress
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 270
+    startLine: 262
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -687,7 +638,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToInt
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 292
+    startLine: 284
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -741,7 +692,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToInt
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 318
+    startLine: 310
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -795,7 +746,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToInt
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 342
+    startLine: 334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -846,7 +797,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToString
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 364
+    startLine: 356
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -891,7 +842,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToDecimal
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 377
+    startLine: 369
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -939,7 +890,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToDecimal
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 389
+    startLine: 382
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -956,6 +907,7 @@ items:
       description: strategy for handling precision and rounding of double values
     - id: error
       type: OfficeOpenXml.ExcelErrorValue
+      description: An error type if the operation returns an error.
     return:
       type: System.Double
       description: Value of the argument as a double.
@@ -989,7 +941,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToDecimal
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 412
+    startLine: 405
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1043,7 +995,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToDecimal
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 446
+    startLine: 439
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1097,7 +1049,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetDecimalSingleArgument
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 466
+    startLine: 459
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1136,7 +1088,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToRangeInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 501
+    startLine: 492
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1181,7 +1133,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Divide
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 516
+    startLine: 507
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1223,7 +1175,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumericString
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 530
+    startLine: 521
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1262,7 +1214,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInteger
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 541
+    startLine: 532
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1301,7 +1253,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgToBool
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 555
+    startLine: 546
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1346,7 +1298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThrowArgumentExceptionIf
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 567
+    startLine: 558
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1391,7 +1343,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThrowArgumentExceptionIf
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 581
+    startLine: 572
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1436,7 +1388,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThrowExcelErrorValueException
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 591
+    startLine: 582
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1472,7 +1424,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThrowExcelErrorValueException
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 599
+    startLine: 590
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1508,7 +1460,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThrowExcelErrorValueExceptionIf
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 610
+    startLine: 601
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1553,7 +1505,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumeric
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 619
+    startLine: 610
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1588,7 +1540,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsBool
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 627
+    startLine: 618
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1623,7 +1575,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsString
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 632
+    startLine: 623
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1660,7 +1612,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 651
+    startLine: 642
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1702,7 +1654,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 663
+    startLine: 654
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1752,7 +1704,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 680
+    startLine: 671
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1808,7 +1760,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 706
+    startLine: 697
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1861,7 +1813,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 718
+    startLine: 709
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1911,7 +1863,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToObjectEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 730
+    startLine: 723
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -1925,8 +1877,10 @@ items:
       description: If a cell is hidden and this value is true the value of that cell will be ignored
     - id: ignoreErrors
       type: System.Boolean
+      description: ''
     - id: ignoreNestedSubtotalAggregate
       type: System.Boolean
+      description: ''
     - id: arguments
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
       description: ''
@@ -1965,7 +1919,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 741
+    startLine: 734
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2007,7 +1961,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 747
+    startLine: 740
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2046,7 +2000,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateDynamicArrayResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 759
+    startLine: 752
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2088,7 +2042,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateDynamicArrayResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 765
+    startLine: 758
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2127,7 +2081,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateAddressResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 778
+    startLine: 770
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2169,7 +2123,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 784
+    startLine: 776
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2204,7 +2158,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CheckForAndHandleExcelError
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 795
+    startLine: 787
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2246,7 +2200,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CheckForAndHandleExcelError
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 810
+    startLine: 802
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2288,7 +2242,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetResultByObject
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 819
+    startLine: 811
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2323,7 +2277,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsVolatile
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 842
+    startLine: 834
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2362,7 +2316,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReturnsReference
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 852
+    startLine: 844
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2401,7 +2355,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParametersInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 862
+    startLine: 854
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2440,7 +2394,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NamespacePrefix
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
-    startLine: 872
+    startLine: 863
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -2897,11 +2851,6 @@ references:
   name: ArgumentMinLength
   nameWithType: ExcelFunction.ArgumentMinLength
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgumentMinLength
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke
-  name: BeforeInvoke
-  nameWithType: ExcelFunction.BeforeInvoke
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction

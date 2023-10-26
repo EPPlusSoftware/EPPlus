@@ -80,10 +80,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 359
+    startLine: 362
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe chart title text\n"
+  example: []
   syntax:
     content: public override string Text { get; set; }
     parameters: []
@@ -118,7 +120,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkedCell
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 388
+    startLine: 391
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
