@@ -26,7 +26,7 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-		## Version 6.2.10
+		## Version 6.2.11
 		* Bug fixes.
 
 		## Version 6.2.10
@@ -326,7 +326,7 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.2.11	20231025 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.11	20231026 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		6.2.10	20231002 Minor bug fixes.
 		6.2.9	20230908 Minor bug fixes.
 		6.2.8	20230815 Minor bug fixes.
