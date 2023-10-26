@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>6.2.10.0</AssemblyVersion>
-    <FileVersion>6.2.10.0</FileVersion>
-    <Version>6.2.10</Version>
+    <AssemblyVersion>6.2.11.0</AssemblyVersion>
+    <FileVersion>6.2.11.0</FileVersion>
+    <Version>6.2.11</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,13 +18,16 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.2.10
+		EPPlus 6.2.11
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+		## Version 6.2.11
+		* Bug fixes.
 
 		## Version 6.2.10
 		* Bug fixes.
@@ -323,7 +326,8 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.2.10	20231002 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.11	20231026 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.10	20231002 Minor bug fixes.
 		6.2.9	20230908 Minor bug fixes.
 		6.2.8	20230815 Minor bug fixes.
 		6.2.7	20230719 Minor bug fixes.
@@ -341,7 +345,7 @@
 		6.0.8	20220921 Minor bug fixes.
 		5.8.14	20220921 Minor bug fixes.
 		6.0.7	20220830 Minor bug fixes.
-		5.8.13	20220830 Minor bug fixes.
+		5.8.13	20220830 Minor bug fixes.	
 		6.0.6	20220708 Minor bug fixes.
 		5.8.12	20220708 Minor bug fixes.
 		6.0.5	20220610 Minor bug fixes.
