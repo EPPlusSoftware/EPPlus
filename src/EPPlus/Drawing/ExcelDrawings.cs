@@ -402,16 +402,17 @@ namespace OfficeOpenXml.Drawing
         }
         /// <summary>
         /// Adds a new stock chart to the worksheet.
-        /// Requires a range with four, five or six columns depending on the stock chart type.
-        /// The first column is the category series. 
-        /// The following columns in the range depend on the stock chart type (HLC, OHLC, VHLC, VOHLC).
+        /// Requires a range with four, five or six columns or rows depending on the stock chart type.
+        /// The first column/row is the category series. 
+        /// The following columns/rows in the range depend on the stock chart type (HLC, OHLC, VHLC, VOHLC).
+        /// You can control if the range should be read by column or by row via the <paramref name="readSeriesByColumn"/> parameter.
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">The Stock chart type</param>
         /// <param name="Range">The range containing all the series. Must match the stock chart type's expected ranges</param>
-        /// <param name="leftToRight">If true the range will be handled by rows, if false it will be handled by column</param>
+        /// <param name="readSeriesByColumn">If true the series will be read by column (left to right), if false they will be read by row (top-down)</param>
         /// <returns>The chart</returns>
-        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase Range, bool leftToRight = true)
+        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase Range, bool readSeriesByColumn = true)
         {
             var startRow = Range.Start.Row;
             var startCol = Range.Start.Column;
@@ -421,7 +422,7 @@ namespace OfficeOpenXml.Drawing
             switch (ChartType)
             {
                 case eStockChartType.StockHLC:
-                    if(leftToRight)
+                    if (readSeriesByColumn)
                     {
                         if (Range.Columns != 4)
                         {
@@ -446,8 +447,8 @@ namespace OfficeOpenXml.Drawing
                         ws.Cells[startRow + 3, startCol, startRow + 3, endCol]);
                     }
                 case eStockChartType.StockOHLC:
-                    
-                    if (leftToRight)
+
+                    if (readSeriesByColumn)
                     {
                         if (Range.Columns != 5)
                         {
@@ -473,10 +474,10 @@ namespace OfficeOpenXml.Drawing
                         ws.Cells[startRow + 4, startCol, startRow + 4, endCol],
                         ws.Cells[startRow + 1, startCol, startRow + 1, endCol]);
                     }
-                        
+
                 case eStockChartType.StockVHLC:
-                    
-                    if (leftToRight)
+
+                    if (readSeriesByColumn)
                     {
                         if (Range.Columns != 5)
                         {
@@ -505,8 +506,8 @@ namespace OfficeOpenXml.Drawing
                         ws.Cells[startRow + 1, startCol, startRow + 1, endCol]);
                     }
                 case eStockChartType.StockVOHLC:
-                    
-                    if (leftToRight)
+
+                    if (readSeriesByColumn)
                     {
                         if (Range.Columns != 6)
                         {
