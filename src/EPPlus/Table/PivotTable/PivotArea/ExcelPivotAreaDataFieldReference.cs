@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 throw new ArgumentNullException("The pivot table field must not be null.");
             }
-            if (field.Field._pivotTable != _pt)
+            if (field.Field.PivotTable != _pt)
             {
                 throw new ArgumentException("The pivot table field is from another pivot table.");
             }
