@@ -5650,5 +5650,61 @@ namespace EPPlusTest
                 Assert.AreEqual(2347400000d, sheet.Cells["A2"].Value);
             }
         }
+
+        [TestMethod]
+        public void issues()
+        {
+            //Inputs
+            string Path = @"C:\epplusTest\Workbooks\Pivot_Test_Input.xlsx";
+            string pivotTableWorksheetName = "Sheet3";
+            string NewSourceDataSheetName = "Sheet2";
+            string pivotTableName = "PivotTable1";
+            string NewInputRange = "M6:S16";
+
+            //Output
+            bool success = false;
+            string exc = "";
+            int pivotTableCount = 0;
+
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+
+            try
+            {
+                ExcelPackage package = new ExcelPackage(Path);
+                var pivotTableWorksheet = package.Workbook.Worksheets[pivotTableWorksheetName];
+                ExcelWorksheet ws = package.Workbook.Worksheets[NewSourceDataSheetName];
+
+                pivotTableCount = pivotTableWorksheet.PivotTables.Count;
+                if (pivotTableCount < 1)
+                {
+                    throw new Exception("No Pivot tables present in the given Pivot Worksheet");
+                }
+                else if (pivotTableName != "")
+                {
+                    pivotTableWorksheet.PivotTables[pivotTableName].CacheDefinition.SourceRange = ws.Cells[NewInputRange];
+                }
+                else
+                {
+                    for (int i = 0; i < pivotTableCount; i++)
+                    {
+                        pivotTableWorksheet.PivotTables[i].CacheDefinition.SourceRange = ws.Cells[NewInputRange];
+                    }
+                }
+                package.SaveAs(@"C:\epplusTest\Workbooks\Pivot_Result_Output.xlsx");
+                package.Dispose();
+                success = true;
+            }
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+                success = false;
+            }
+            finally
+            {
+                System.GC.Collect();
+            }
+        }
+
+
     }
 }

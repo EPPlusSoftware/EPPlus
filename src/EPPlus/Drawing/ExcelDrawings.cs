@@ -1215,9 +1215,9 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Can't add a slicer to a calculated field");
             }
-            if (Field._pivotTable.CacheId == 0)
+            if (Field.PivotTable.CacheId == 0)
             {
-                Field._pivotTable.ChangeCacheId(0); //Slicers can for some reason not have a cache id of 0.
+                Field.PivotTable.ChangeCacheId(0); //Slicers can for some reason not have a cache id of 0.
             }
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)

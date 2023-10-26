@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             _field = field;
             SourceName = _field.Cache.Name;
             wb.Names.AddFormula(Name, "#N/A");
-            PivotTables.Add(_field._pivotTable);           
+            PivotTables.Add(_field.PivotTable);           
             CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerPivotTableUri);
             SlicerCacheXml.Save(Part.GetStream());
             Data.Items.Refresh();

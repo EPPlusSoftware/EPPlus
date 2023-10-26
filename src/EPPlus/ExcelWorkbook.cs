@@ -1596,15 +1596,14 @@ namespace OfficeOpenXml
 		{
 			if (createWorkbookElement)
 			{
-				CreateNode("d:pivotCaches");
+				var pivotCachesNode = CreateNode("d:pivotCaches");
 
 				XmlElement item = WorkbookXml.CreateElement("pivotCache", ExcelPackage.schemaMain);
 				item.SetAttribute("cacheId", cacheReference.CacheId.ToString());
 				var rel = Part.CreateRelationship(UriHelper.ResolvePartUri(WorkbookUri, cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
 				item.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
 
-				var pivotCaches = WorkbookXml.SelectSingleNode("//d:pivotCaches", NameSpaceManager);
-				pivotCaches.AppendChild(item);
+                pivotCachesNode.AppendChild(item);
 			}
 
 			if (cacheReference.CacheSource == eSourceType.Worksheet && cacheReference.SourceRange!=null)
