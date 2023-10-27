@@ -421,36 +421,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        ExcelConditionalFormattingIconDataBarValue[] CreateBaseIconArr(eExcelConditionalFormattingRuleType type)
-        {
-            int nrOfIcons;
-            switch (type)
-            {
-                case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                    nrOfIcons = 3;
-                    break;
-                case eExcelConditionalFormattingRuleType.FourIconSet:
-                    nrOfIcons = 4;
-                    break;
-                case eExcelConditionalFormattingRuleType.FiveIconSet:
-                    nrOfIcons = 5;
-                    break;
-
-                default:
-                    throw new NotImplementedException("CreateBaseIconArr Can only handle Iconset types");
-            };
-
-            var arr = new ExcelConditionalFormattingIconDataBarValue[nrOfIcons];
-
-            for (int i = 0; i < nrOfIcons; i++)
-            {
-                arr[i] = new ExcelConditionalFormattingIconDataBarValue
-                    (eExcelConditionalFormattingValueObjectType.Percent, type);
-            }
-
-            return arr;
-        }
-
         void ApplyIconSetAttributes<T>(bool showValue, bool percent, bool reverse, IExcelConditionalFormattingIconSetGroup<T> group)
         {
             group.ShowValue = showValue;

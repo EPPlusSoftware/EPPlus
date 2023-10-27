@@ -4,6 +4,10 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
 {
     public interface IStyleExport
     {
+        public string StyleKey { get; }
+
+        public bool HasStyle { get; }
+
         /// <summary>
         /// Fill
         /// </summary>

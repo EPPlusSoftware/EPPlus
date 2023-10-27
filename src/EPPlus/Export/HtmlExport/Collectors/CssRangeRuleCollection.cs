@@ -32,6 +32,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
 
         TranslatorContext _context;
 
+        ExcelNamedStyleXml ns;
+
 
         internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
         {

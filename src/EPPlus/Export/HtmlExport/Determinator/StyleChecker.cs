@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Export.HtmlExport.Parsers;
+﻿using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
@@ -13,85 +14,123 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
 {
     internal class StyleChecker
     {
-        ExcelStyles _styles;
-        ExcelXfs _style;
-        StyleCache _cache;
+        ExcelStyles _wbStyles;
+        IStyleExport _style = null;
         int _id = -1;
 
         internal int Id => _id;
 
-        List<ExcelXfs> _styleList; 
+        List<IStyleExport> _styleList;
 
-        internal StyleChecker(ExcelXfs style, StyleCache cache, ExcelStyles styles)
+        internal StyleChecker(ExcelStyles wbStyles)
         {
-            _style = style;
-            _cache = cache;
-            _styles = styles;
-            _styleList = new List<ExcelXfs>
-            { _style };
+            _wbStyles = wbStyles;
         }
 
-        internal string GetStyleKey()
+        internal StyleCache Cache { private get; set; } = null;
+
+        internal IStyleExport Style 
         {
-            var fbfKey = ((ulong)(uint)_style.FontId << 32 | (uint)_style.BorderId << 16 | (uint)_style.FillId);
-            return fbfKey.ToString() + "|" + ((int)_style.HorizontalAlignment).ToString() + "|" + ((int)_style.VerticalAlignment).ToString() + "|" + _style.Indent.ToString() + "|" + _style.TextRotation.ToString() + "|" + (_style.WrapText ? "1" : "0");
+            private get
+            {
+                return _style;
+            }
+            set
+            {
+                _style = value;
+                _styleList.Clear();
+
+                _styleList.Add(value);
+            }
         }
 
         internal bool IsAdded(int bottomStyleId = -1, int rightStyleId = -1)
         {
-            var key = AttributeTranslator.GetStyleKey(_style);
+            if (Style == null || Cache == null)
+            {
+                throw new InvalidOperationException("Must assign Style and Cache to Stylechecker first");
+            }
+
+            var key = Style.StyleKey;
             if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
 
-            bool ret = _cache.IsAdded(key, out _id);
-
-            return ret;
+            return Cache.IsAdded(key, out _id);
         }
 
         internal bool BorderStyleCheck(int borderIdBottom, int borderIdRight)
         {
-            return (HasStyle() || borderIdBottom > 0 || borderIdRight > 0);
+            return (Style.HasStyle || borderIdBottom > 0 || borderIdRight > 0);
         }
 
-        internal bool ShouldAdd()
-        {
-            return !IsAdded();
+        internal bool ShouldAdd 
+        { 
+            get
+            {
+                //If already added we should 'not' add
+                return !IsAdded();
+            }
         }
 
         internal bool ShouldAddWithBorders(int bottomStyleId, int rightStyleId)
         {
-            bool added = IsAdded(bottomStyleId, rightStyleId);
-
-            if (added)
+            if (IsAdded(bottomStyleId, rightStyleId))
             {
                 return false;
             }
 
-            _styleList.Add(_styles.CellXfs[bottomStyleId]);
-            _styleList.Add(_styles.CellXfs[rightStyleId]);
+            _styleList.Add(new StyleXml(_wbStyles.CellXfs[bottomStyleId]));
+            _styleList.Add(new StyleXml(_wbStyles.CellXfs[rightStyleId]));
 
-            return BorderStyleCheck(_styleList[1].BorderId, _styleList[2].BorderId);
+            return BorderStyleCheck(_wbStyles.CellXfs[bottomStyleId].BorderId, _wbStyles.CellXfs[rightStyleId].BorderId);
         }
 
         internal List<IStyleExport> GetStyleList()
         {
-            var retList = new List<IStyleExport>();
-            for(int i = 0; i< _styleList.Count; i++)
-            {
-                retList.Add(new StyleXml(_styleList[i]));
-            }
-            return retList;
+            return _styleList;
         }
 
-        internal bool HasStyle()
+        internal void GetIdsShouldAdd(string cellAddress, Dictionary<string, List<ExcelConditionalFormattingRule>> dict, Func<int, List<IStyleExport>, bool> addToCss)
         {
-            return _style.FontId > 0 ||
-                   _style.FillId > 0 ||
-                   _style.BorderId > 0 ||
-                   _style.HorizontalAlignment != ExcelHorizontalAlignment.General ||
-                   _style.VerticalAlignment != ExcelVerticalAlignment.Bottom ||
-                   _style.TextRotation != 0 ||
-                   _style.Indent > 0 ||
-                   _style.WrapText;
+            //if (cellAddress != null && dict.ContainsKey(cellAddress))
+            //{
+            //    foreach (var cf in dict[cellAddress])
+            //    {
+            //        _style = new StyleDxf(cf.Style);
+            //        if(ShouldAdd)
+            //        {
+            //            addToCss(Id, _styleList);
+            //        }
+            //    }
+            //}
+
+            var delegator = new ForEachCFDelegator(dict);
+
+            delegator.FuncOnEachElement(cellAddress, testStyle);
+            if (ShouldAdd)
+            {
+                addToCss(Id, _styleList);
+            }
         }
+
+        bool testStyle(ExcelConditionalFormattingRule cf)
+        {
+            _style = new StyleDxf(cf.Style);
+            return true;
+        }
+
+        //if (ce.CellAddress != null && _cfAtAddresses.ContainsKey(ce.CellAddress))
+        //{
+        //    foreach (var cf in _cfAtAddresses[ce.CellAddress])
+        //    {
+        //        var dxfStyle = new StyleDxf(cf._style);
+        //        ScDxf.Style = dxfStyle;
+
+        //        if (!ScDxf.ShouldAdd)
+        //        {
+        //            cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), ScDxf.Id);
+        //        }
+        //    }
+        //}
+
     }
 }

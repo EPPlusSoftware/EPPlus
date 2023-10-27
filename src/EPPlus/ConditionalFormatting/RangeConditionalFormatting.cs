@@ -511,6 +511,11 @@ namespace OfficeOpenXml.ConditionalFormatting
         #endregion Conditional Formatting Rule Types
 
         #region Public Methods
+
+        /// <summary>
+        /// Goes through a range returning a dict with each individual address and a list of conditionalFormattings that apply to it.
+        /// </summary>
+        /// <returns>A dictonary of all individual addresses in the range and a list of the conditional formattings that apply to it</returns>
         public Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings()
         {
             var conditionalFormattingRules = new QuadTree<ExcelConditionalFormattingRule>(_address);

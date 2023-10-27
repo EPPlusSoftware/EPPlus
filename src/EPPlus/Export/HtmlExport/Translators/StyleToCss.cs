@@ -13,40 +13,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
     internal static class StyleToCss
     {
-        private static bool IsAddedToCache(ExcelDxfStyleConditionalFormatting dxf, Dictionary<string, int> styleCache, out int id)
-        {
-            var key = dxf.Id;
-            return IsAddedToCacheBase(styleCache, key, out id);
-            //if (styleCache.ContainsKey(key))
-            //{
-            //    id = styleCache[key];
-            //    return true;
-            //}
-            //else
-            //{
-            //    id = styleCache.Count + 1;
-            //    styleCache.Add(key, id);
-            //    return false;
-            //}
-        }
-
         internal static bool IsAddedToCache(ExcelXfs xfs, Dictionary<string, int> styleCache, out int id, int bottomStyleId = -1, int rightStyleId = -1)
         {
             var key = AttributeTranslator.GetStyleKey(xfs);
             if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
 
             return IsAddedToCacheBase(styleCache, key, out id);
-            //if (styleCache.ContainsKey(key))
-            //{
-            //    id = styleCache[key];
-            //    return true;
-            //}
-            //else
-            //{
-            //    id = styleCache.Count + 1;
-            //    styleCache.Add(key, id);
-            //    return false;
-            //}
         }
 
         private static bool IsAddedToCacheBase(Dictionary<string, int> styleCache, string key, out int id)
@@ -65,11 +37,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         }
 
 
-        internal static int GetIdFromCache(ExcelDxfStyleConditionalFormatting dxfs, Dictionary<string, int> styleCache)
+        internal static int GetIdFromCache(ExcelDxfStyleConditionalFormatting dxfs, StyleCache cache)
         {
             if (dxfs != null)
             {
-                if (!IsAddedToCache(dxfs, styleCache, out int id))
+                var key = dxfs.Id;
+                if (!IsAddedToCacheBase(cache, key, out int id))
                 {
                     return id;
                 }

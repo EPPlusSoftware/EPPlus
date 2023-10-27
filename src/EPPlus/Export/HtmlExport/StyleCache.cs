@@ -28,6 +28,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
+        //internal bool IsAddedAtCellAddress(string cellAddress)
+        //{
 
+        //}
+
+         //if(address != null && _cfAtAddresses.ContainsKey(address))
+         //   {
+         //       foreach (var cf in _cfAtAddresses[address])
+         //       {
     }
 }
