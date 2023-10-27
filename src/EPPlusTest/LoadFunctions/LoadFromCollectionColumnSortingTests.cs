@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Attributes;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -112,5 +113,81 @@ namespace EPPlusTest.LoadFunctions
 				
 			}
 		}
-	}
+
+        #region Test classes
+
+        [EpplusTable(AutofitColumns = true, PrintHeaders = true, TableStyle = TableStyles.Medium2),
+            EPPlusTableColumnSortOrder(Properties = new string[] {
+            nameof(Id), nameof(Name), nameof(EmailLink)
+        })]
+        public class EmployeeDTO
+        {
+            [EpplusIgnore]
+            public bool Active { get; set; }
+
+            [EpplusIgnore]
+            public string Email { get; set; }
+
+            [EpplusTableColumn(Header = "Email")]
+            public ExcelHyperLink EmailLink
+            {
+                get
+                {
+                    if (Email is null)
+                        return null;
+
+                    var url = new ExcelHyperLink($"mailto:{Email}");
+                    url.Display = Email;
+                    return url;
+                }
+            }
+
+            [EpplusTableColumn(Header = "WWID")]
+            public int Id { get; set; }
+
+            [EpplusTableColumn(Header = "Name")]
+            public string Name { get; set; }
+        }
+
+        [EpplusTable(AutofitColumns = true, PrintHeaders = true, TableStyle = TableStyles.Medium2),
+            EPPlusTableColumnSortOrder(Properties = new string[] {
+            "Owner.Id", "Owner.Name", "Owner.EmailLink"})]
+        public sealed class ExcelSpaceRow
+        {
+            [EpplusNestedTableColumn(HeaderPrefix = "Space Manager")]
+            public EmployeeDTO Owner { get; set; }
+        }
+
+        #endregion
+
+        [TestMethod]
+        public void ShouldHandleClassWithNestedPropertyOnly()
+        {
+            var space = new ExcelSpaceRow
+            {
+                Owner = new EmployeeDTO()
+                {
+                    Active = true,
+                    Email = "foo@bar.com",
+                    Id = 1,
+                    Name = "Mr. Foo"
+                }
+                //},
+                //Something = ""
+            };
+
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].LoadFromCollection(new ExcelSpaceRow[] { space });
+
+                Assert.AreEqual("Space Manager WWID", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Space Manager Name", sheet.Cells["B1"].Value);
+                Assert.AreEqual("Space Manager Email", sheet.Cells["C1"].Value);
+                Assert.AreEqual(1, sheet.Cells["A2"].Value);
+                Assert.AreEqual("Mr. Foo", sheet.Cells["B2"].Value);
+                Assert.AreEqual("foo@bar.com", sheet.Cells["C2"].Value);
+            }
+        }
+    }
 }
