@@ -38,16 +38,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         public CssRangeExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
             : base(settings, ranges)
         {
-            _settings = settings;
         }
 
         public CssRangeExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range)
             : base(settings, range)
         {
-            _settings = settings;
         }
-
-        private readonly HtmlRangeExportSettings _settings;
 
         //public HtmlRangeExportSettings Settings => _settings;
 
@@ -158,7 +154,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                                 AddStyleToCollection(sc.Id, sc.GetStyleList());
                             }
 
-                            ScDxf.GetIdsShouldAdd(ce.CellAddress, _cfAtAddresses, AddStyleToCollection); 
+                            //ScDxf.AddConditionalFormattingsToCollection(ce.CellAddress, _cfAtAddresses, AddStyleToCollection);
+                            
+                            //if (ce.CellAddress != null && _cfAtAddresses.ContainsKey(ce.CellAddress))
+                            //{
+                            //    foreach (var cf in _cfAtAddresses[ce.CellAddress])
+                            //    {
+                            //        var style = new StyleDxf(cf.Style);
+                            //        if (notInCache)
+                            //        {
+                            //            AddStyleToCollection(sc.Id, sc.GetStyleList());
+                            //        }
+                            //    }
+                            //}
                         }
                     }
                 }

@@ -298,6 +298,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Get dict of all CFs and their addresses in range
         /// </summary>
         /// <returns></returns>
-        Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings();
+        //Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings();
+
+        List<ExcelConditionalFormattingRule> GetConditionalFormattings();
     }
 }

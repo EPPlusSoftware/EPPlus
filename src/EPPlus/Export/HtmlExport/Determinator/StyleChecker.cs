@@ -89,27 +89,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
             return _styleList;
         }
 
-        internal void GetIdsShouldAdd(string cellAddress, Dictionary<string, List<ExcelConditionalFormattingRule>> dict, Func<int, List<IStyleExport>, bool> addToCss)
+        internal void AddConditionalFormattingsToCollection(string cellAddress, Dictionary<string, List<ExcelConditionalFormattingRule>> dict, Func<int, List<IStyleExport>, bool> addToCss)
         {
-            //if (cellAddress != null && dict.ContainsKey(cellAddress))
-            //{
-            //    foreach (var cf in dict[cellAddress])
-            //    {
-            //        _style = new StyleDxf(cf.Style);
-            //        if(ShouldAdd)
-            //        {
-            //            addToCss(Id, _styleList);
-            //        }
-            //    }
-            //}
-
-            var delegator = new ForEachCFDelegator(dict);
-
-            delegator.FuncOnEachElement(cellAddress, testStyle);
-            if (ShouldAdd)
+            if (cellAddress != null && dict.ContainsKey(cellAddress))
             {
-                addToCss(Id, _styleList);
+                foreach (var cf in dict[cellAddress])
+                {
+                    _style = new StyleDxf(cf.Style);
+                    if (ShouldAdd)
+                    {
+                        addToCss(Id, _styleList);
+                    }
+                }
             }
+
+            //var delegator = new ForEachCFDelegator(dict);
+
+            //delegator.FuncOnEachElement(cellAddress, testStyle);
+            //if (ShouldAdd)
+            //{
+            //    addToCss(Id, _styleList);
+            //}
         }
 
         bool testStyle(ExcelConditionalFormattingRule cf)

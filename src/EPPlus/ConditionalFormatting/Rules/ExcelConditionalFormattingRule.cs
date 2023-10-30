@@ -20,6 +20,7 @@ using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Style;
 using System.Globalization;
+using OfficeOpenXml.Core.RangeQuadTree;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -32,12 +33,29 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// The type of conditional formatting rule.
         /// </summary>
         public eExcelConditionalFormattingRuleType Type { get; set; }
+
+        ExcelAddress _address = null;
+
         /// <summary>
         /// <para>The range over which these conditional formatting rules apply.</para>
         /// </summary>
-        public virtual ExcelAddress Address { get; set; }
+        public virtual ExcelAddress Address 
+        {   get
+            {
+                return _address;
+            }
+            set
+            {
+                _address = value;
+                //QuadItem = new QuadItem<ExcelConditionalFormattingRule>(){ this, _address }
+                //QuadRange = new QuadRange(value);
+            }
+        }
 
-        internal int _priority = 1;
+        //internal QuadRange QuadRange { get; private set; }
+        //internal QuadItem<ExcelConditionalFormattingRule> QuadItem { get; private set; }
+
+    internal int _priority = 1;
 
         /// <summary>
         /// The priority of the rule. 

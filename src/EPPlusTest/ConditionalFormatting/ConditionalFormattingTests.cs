@@ -1955,6 +1955,8 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var copiedSheet = pck.Workbook.Worksheets.Add("copySheet", firstSheet);
 
+                pck.Workbook.Worksheets[0].Cells["A1:D50"].ConditionalFormatting.GetConditionalFormattings();
+
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(3).Type, eExcelConditionalFormattingRuleType.DataBar);

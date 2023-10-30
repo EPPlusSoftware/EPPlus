@@ -24,7 +24,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssTableExporterSync : CssRangeExporterBase
+    internal class CssTableExporterSync : CssExporterBase
     {
         public CssTableExporterSync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {

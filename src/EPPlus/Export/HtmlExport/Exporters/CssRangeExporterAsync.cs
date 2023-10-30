@@ -13,6 +13,7 @@
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
@@ -30,7 +31,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssRangeExporterAsync : CssRangeExporterBase
+    internal class CssRangeExporterAsync : CssExporterBase
     {
         public CssRangeExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
          : base(settings, ranges)
@@ -138,15 +139,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                             if (ce.CellAddress != null)
                             {
-                                if (_cfAtAddresses.ContainsKey(ce.CellAddress))
+                                var items = GetCFItemsAtAddress(ce.CellAddress);
+
+                                foreach (var cf in items)
                                 {
-                                    foreach (var cf in _cfAtAddresses[ce.CellAddress])
+                                    var idDxf = StyleToCss.GetIdFromCache(cf.Value._style, _exporterContext._dxfStyleCache);
+                                    if(idDxf != -1)
                                     {
-                                        var idDxf = StyleToCss.GetIdFromCache(cf._style, _exporterContext._dxfStyleCache);
-                                        if(idDxf != -1)
-                                        {
-                                            await styleWriter.AddToCssAsyncCF(cf._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
-                                        }
+                                        await styleWriter.AddToCssAsyncCF(cf.Value._style, Settings.StyleClassPrefix, Settings.CellStyleClassName, idDxf);
                                     }
                                 }
                             }
@@ -175,6 +175,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
             await styleWriter.FlushStreamAsync();
+        }
+
+        internal List<QuadRangeItem<ExcelConditionalFormattingRule>> GetCFItemsAtAddress(string cellAddress)
+        {
+            return _cfQuadTree.GetIntersectingRangeItems
+                (new QuadRange(new ExcelAddress(cellAddress)));
         }
     }
 }

@@ -12,6 +12,7 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Sorting.Internal;
@@ -44,7 +45,72 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             _ws = ws;
             _rules = new List<ExcelConditionalFormattingRule>();
+            //_items = new List<QuadItem<ExcelConditionalFormattingRule>>();
+           // _ruleQuadTree = new QuadTree<ExcelConditionalFormattingRule>(new ExcelAddress("A1"));
         }
+
+        ////List<QuadItem<ExcelConditionalFormattingRule>> _items;
+
+        ////List<QuadItem<ExcelConditionalFormattingRule>> QuadItems
+        ////{
+        ////    get
+        ////    {
+        ////        foreach (var rule in _rules) 
+        ////        {
+        ////            if(_items.Contains())
+        ////        }
+        ////        return _items;
+        ////    }
+        ////}
+
+        //QuadTree<ExcelConditionalFormattingRule> _ruleQuadTree = null;
+
+        ///// <summary>
+        ///// Quadtree is always null if list is empty
+        ///// </summary>
+        //internal QuadTree<ExcelConditionalFormattingRule> RuleQuadTree
+        //{
+        //    get
+        //    {
+        //        var ranges = new List<QuadRange>();
+        //        var fromRow = int.MaxValue;
+        //        var fromColumn = int.MaxValue;
+        //        var toRow = -1;
+        //        var toColumn = -1;
+
+        //        foreach (ExcelConditionalFormattingRule rule in _rules)
+        //        {
+        //            if(rule.Address._fromRow < fromRow)
+        //            {
+        //                fromRow = rule.Address._fromRow;
+        //            }
+        //            if (rule.Address._fromCol < fromColumn)
+        //            {
+        //                fromColumn = rule.Address._fromCol;
+        //            }
+        //            if (rule.Address._toRow > toRow)
+        //            {
+        //                toRow = rule.Address._fromRow;
+        //            }
+        //            if (rule.Address._toCol > toColumn)
+        //            {
+        //                toColumn = rule.Address._toCol;
+        //            }
+
+        //            ranges.Add(rule.QuadRange);
+  
+        //            _ruleQuadTree.Add(rule.QuadRange, rule);
+        //        }
+
+        //        _ruleQuadTree = new QuadTree<ExcelConditionalFormattingRule>(fromRow,fromColumn, toRow, toColumn);
+        //        foreach (ExcelConditionalFormattingRule rule in _rules)
+        //        {
+        //            _ruleQuadTree.Add(rule.QuadRange, rule);
+        //        }
+
+        //        return _ruleQuadTree;
+        //    }
+        //}
 
         internal void ReadRegularConditionalFormattings(XmlReader xr)
         {

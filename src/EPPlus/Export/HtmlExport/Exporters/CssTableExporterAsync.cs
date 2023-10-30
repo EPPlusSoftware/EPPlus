@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssTableExporterAsync : CssRangeExporterBase
+    internal class CssTableExporterAsync : CssExporterBase
     {
         public CssTableExporterAsync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {
