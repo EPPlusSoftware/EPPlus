@@ -35,14 +35,14 @@ namespace OfficeOpenXml.LoadFunctions
             _headerParsingType = parameters.HeaderParsingType;
             var type = typeof(T);
             var tableAttr = type.GetFirstAttributeOfType<EpplusTableAttribute>();
-            if(tableAttr != null)
+            if (tableAttr != null)
             {
                 ShowFirstColumn = tableAttr.ShowFirstColumn;
                 ShowLastColumn = tableAttr.ShowLastColumn;
                 ShowTotal = tableAttr.ShowTotal;
             }
             var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
-            if(classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
+            if (classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
             {
                 SortOrderProperties = classSortOrderAttr.Properties.ToList();
             }
@@ -66,9 +66,18 @@ namespace OfficeOpenXml.LoadFunctions
                 // the ValidateType method will throw an InvalidCastException
                 // if parameters.Members contains a MemberInfo that is not declared
                 // by any of the types used.
-                foreach(var member in parameters.Members )
+                foreach (var member in parameters.Members)
                 {
                     cols.ValidateType(member);
+                    if (member.DeclaringType != null && member.DeclaringType != type)
+                    {
+                        _isSameType = false;
+                    }
+                    //Fixing inverted check for IsSubclassOf / Pullrequest from tom dam
+                    if (member.DeclaringType != null && member.DeclaringType != type && !TypeCompat.IsSubclassOf(type, member.DeclaringType) && !TypeCompat.IsSubclassOf(member.DeclaringType, type))
+                    {
+                        throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
+                    }
                 }
             }
         }
@@ -98,7 +107,7 @@ namespace OfficeOpenXml.LoadFunctions
 
         protected override void PostProcessTable(ExcelTable table, ExcelRangeBase range)
         {
-            for(var ix = 0; ix < table.Columns.Count; ix++)
+            for (var ix = 0; ix < table.Columns.Count; ix++)
             {
                 if (ix >= _columns.Length) break;
                 var totalsRowFormula = _columns[ix].TotalsRowFormula;
@@ -107,7 +116,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     table.Columns[ix].TotalsRowFormula = totalsRowFormula;
                 }
-                else if(!string.IsNullOrEmpty(totalsRowLabel))
+                else if (!string.IsNullOrEmpty(totalsRowLabel))
                 {
                     table.Columns[ix].TotalsRowLabel = _columns[ix].TotalsRowLabel;
                     table.Columns[ix].TotalsRowFunction = RowFunctions.None;
@@ -116,8 +125,8 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     table.Columns[ix].TotalsRowFunction = _columns[ix].TotalsRowFunction;
                 }
-                
-                if(!string.IsNullOrEmpty(_columns[ix].TotalsRowNumberFormat))
+
+                if (!string.IsNullOrEmpty(_columns[ix].TotalsRowNumberFormat))
                 {
                     var row = range._toRow + 1;
                     var col = range._fromCol + _columns[ix].Index;
@@ -134,7 +143,7 @@ namespace OfficeOpenXml.LoadFunctions
             int col = 0, row = 0;
             columnFormats = new Dictionary<int, string>();
             formulaCells = new Dictionary<int, FormulaCell>();
-            if (_columns.Length > 0 && (PrintHeaders ?? false))
+            if (_columns.Length > 0 && PrintHeaders)
             {
                 SetHeaders(values, columnFormats, ref col, ref row);
             }
@@ -159,7 +168,7 @@ namespace OfficeOpenXml.LoadFunctions
             }
         }
 
-        
+
 
         private void SetValuesAndFormulas(object[,] values, Dictionary<int, FormulaCell> formulaCells, ref int col, ref int row)
         {
@@ -178,15 +187,15 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         values[row, col++] = item;
                     }
-                    else if(t.IsEnum)
-                    {                        
+                    else if (t.IsEnum)
+                    {
                         values[row, col++] = GetEnumValue(item, t); ;
                     }
                     else
                     {
                         foreach (var colInfo in _columns)
                         {
-                            if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
+                            if (!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
                             {
                                 values[row, col++] = GetValueByPath(item, colInfo.Path);
                                 continue;
@@ -195,7 +204,7 @@ namespace OfficeOpenXml.LoadFunctions
                             if (colInfo.MemberInfo != null)
                             {
                                 var member = colInfo.MemberInfo;
-                                object v=null;
+                                object v = null;
                                 if (_isSameType == false && obj.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
                                 {
                                     col++;
@@ -220,12 +229,12 @@ namespace OfficeOpenXml.LoadFunctions
                                     var type = v.GetType();
                                     if (type.IsEnum)
                                     {
-                                        v=GetEnumValue(v, type);
+                                        v = GetEnumValue(v, type);
                                     }
                                 }
 #endif
 
-                                values[row, col++] = v;                                
+                                values[row, col++] = v;
                             }
                             else if (!string.IsNullOrEmpty(colInfo.Formula))
                             {
@@ -258,24 +267,24 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var members = path.Split('.');
             object o = obj;
-            foreach(var member in members)
+            foreach (var member in members)
             {
                 if (o == null) return null;
                 var memberInfos = o.GetType().GetMember(member);
-                if(memberInfos == null || memberInfos.Length == 0)
+                if (memberInfos == null || memberInfos.Length == 0)
                 {
                     return null;
                 }
                 var memberInfo = memberInfos.First();
-                if(memberInfo is PropertyInfo pi)
+                if (memberInfo is PropertyInfo pi)
                 {
                     o = pi.GetValue(o, null);
                 }
-                else if(memberInfo is FieldInfo fi)
+                else if (memberInfo is FieldInfo fi)
                 {
                     o = fi.GetValue(obj);
                 }
-                else if(memberInfo is MethodInfo mi)
+                else if (memberInfo is MethodInfo mi)
                 {
                     o = mi.Invoke(obj, null);
                 }
@@ -286,14 +295,14 @@ namespace OfficeOpenXml.LoadFunctions
             }
             return o;
         }
-        
+
 
         private void SetHeaders(object[,] values, Dictionary<int, string> columnFormats, ref int col, ref int row)
         {
             foreach (var colInfo in _columns)
             {
                 var header = colInfo.Header;
-                
+
                 // if the header is already set and contains a space it doesn't need more formatting or validation.
                 var useExistingHeader = !string.IsNullOrEmpty(header) && header.Contains(" ");
 
@@ -320,31 +329,20 @@ namespace OfficeOpenXml.LoadFunctions
                             columnFormats.Add(col, epplusColumnAttribute.NumberFormat);
                         }
                     }
-                    else if(!useExistingHeader)
+                    else if (!useExistingHeader)
                     {
-                        var descriptionAttribute = member.GetFirstAttributeOfType<DescriptionAttribute>();
-                        if (descriptionAttribute != null)
+                        var dotNetHeader = GetHeaderFromDotNetAttributes(member);
+                        if (!string.IsNullOrEmpty(dotNetHeader))
                         {
-                            header = descriptionAttribute.Description;
+                            header = dotNetHeader;
+                        }
+                        else if (!string.IsNullOrEmpty(colInfo.Header) && colInfo.Header != member.Name)
+                        {
+                            header = colInfo.Header;
                         }
                         else
                         {
-                            var displayNameAttribute = member.GetFirstAttributeOfType<DisplayNameAttribute>();
-                            if (displayNameAttribute != null)
-                            {
-                                header = displayNameAttribute.DisplayName;
-                            }
-                            else
-                            {
-                                if(!string.IsNullOrEmpty(colInfo.Header) && colInfo.Header != member.Name)
-                                {
-                                    header = colInfo.Header;
-                                }
-                                else
-                                {
-                                    header = ParseHeader(member.Name);
-                                }
-                            }
+                            header = ParseHeader(member.Name);
                         }
                     }
                 }
@@ -360,9 +358,25 @@ namespace OfficeOpenXml.LoadFunctions
             row++;
         }
 
+        private string GetHeaderFromDotNetAttributes(MemberInfo member)
+        {
+            var descriptionAttribute = member.GetFirstAttributeOfType<DescriptionAttribute>();
+            if (descriptionAttribute != null)
+            {
+                return descriptionAttribute.Description;
+            }
+            var displayNameAttribute = member.GetFirstAttributeOfType<DisplayNameAttribute>();
+            if (displayNameAttribute != null)
+            {
+                return displayNameAttribute.DisplayName;
+            }
+            return default;
+        }
+
+
         private string ParseHeader(string header)
         {
-            switch(_headerParsingType)
+            switch (_headerParsingType)
             {
                 case HeaderParsingTypes.Preserve:
                     return header;

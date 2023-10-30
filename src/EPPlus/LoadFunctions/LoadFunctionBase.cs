@@ -26,7 +26,7 @@ namespace OfficeOpenXml.LoadFunctions
         public LoadFunctionBase(ExcelRangeBase range, LoadFunctionFunctionParamsBase parameters)
         {
             Range = range;
-            PrintHeaders = parameters.PrintHeaders;
+            PrintHeaders = parameters.PrintHeaders ?? false;
             TableStyle = parameters.TableStyle;
             TableName = parameters.TableName?.Trim();
 
@@ -43,7 +43,7 @@ namespace OfficeOpenXml.LoadFunctions
         /// <summary>
         /// If true a header row will be printed above the data
         /// </summary>
-        protected bool? PrintHeaders { get; }
+        protected bool PrintHeaders { get; }
 
         /// <summary>
         /// If value is other than TableStyles.None the data will be added to a table in the worksheet.
@@ -82,7 +82,7 @@ namespace OfficeOpenXml.LoadFunctions
         /// <returns></returns>
         internal ExcelRangeBase Load()
         {
-            var nRows = PrintHeaders ?? false ? GetNumberOfRows() + 1 : GetNumberOfRows();
+            var nRows = PrintHeaders? GetNumberOfRows() + 1 : GetNumberOfRows();
             var nCols = GetNumberOfColumns();
             var values = new object[nRows, nCols];
 
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.LoadFunctions
 
 
             //Must have at least 1 row, if header is shown
-            if (nRows == 1 && (PrintHeaders ?? false))
+            if (nRows == 1 && (PrintHeaders))
             {
                 nRows++;
             }
@@ -124,7 +124,7 @@ namespace OfficeOpenXml.LoadFunctions
             if (TableStyle.HasValue)
             {
                 var tbl = ws.Tables.Add(r, TableName);
-                tbl.ShowHeader = PrintHeaders ?? false;
+                tbl.ShowHeader = PrintHeaders;
                 tbl.TableStyle = TableStyle.Value;
                 tbl.ShowFirstColumn = ShowFirstColumn;
                 tbl.ShowLastColumn = ShowLastColumn;
@@ -141,7 +141,7 @@ namespace OfficeOpenXml.LoadFunctions
                 if (formulaCells.ContainsKey(col))
                 {
                     var row = 0;
-                    if (PrintHeaders ?? false)
+                    if (PrintHeaders)
                     {
                         var header = values[0, col];
                         ws.SetValue(Range._fromRow, Range._fromCol + col, header);
