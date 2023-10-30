@@ -1,4 +1,16 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.11
+### Fixed issue
+* ROUNDUP function sometimes rounded incorrectly.
+* Some internal MemoryStream's were not disposed correctly.
+* Setting the Pivot table SourceRange to the same range as an existing Pivot Cache sometimes caused the workbook to be corrupt.
+* LoadFromCollection MemberInfo[] now works correctly with attributes, but are ignored on nested classes.
+* The SUBSTITUTE function did incorrectly handled Excel errors as strings.
+* ExcelRangeBase.LoadFromDataTable method did now checks the data table name to be valid, or otherwise sets the table name to TableX.
+* ExcelAddressBase.IsValidAddress did not handle table addresses.
+* ExcelHyperlink did not handle sub addresses, i.e., http://xxx.yy/zzz/#aa,bb=cc. The ExcelHyperLink.ReferenceAddress will now contain the sub address path.
+* Setting the source range of a pivot table that shared the pivot cache with another pivot table caused a corrupt workbook.
+
 ## Version 6.2.10
 ### Minor Feature
 * Hyperlinks loaded via the LoadFromCollection method will now be styled with the built-in Hyperlink Style. This style will also be added to the NamedStyles collection of the workbook if it does not exist.
