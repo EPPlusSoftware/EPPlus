@@ -107,7 +107,7 @@ namespace OfficeOpenXml.LoadFunctions
             columnFormats = new Dictionary<int, string>();
             formulaCells = new Dictionary<int, FormulaCell>();
             int col = 0, row = 0;
-            if (PrintHeaders ?? false && _keys.Count() > 0)
+            if (PrintHeaders && _keys.Count() > 0)
             {
                 foreach (var key in _keys)
                 {
