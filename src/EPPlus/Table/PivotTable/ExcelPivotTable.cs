@@ -281,7 +281,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     WorkSheet.Tables._tableNames.Add(value, ix);
                 }
                 SetXmlNodeString(NAME_PATH, value);
-                SetXmlNodeString(DISPLAY_NAME_PATH, cleanDisplayName(value));
+                SetXmlNodeString(DISPLAY_NAME_PATH, CleanDisplayName(value));
             }
         }
         /// <summary>
@@ -292,7 +292,29 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             private set;
         }
-        private string cleanDisplayName(string name)
+        List<Dictionary<int[], object>> CalculatedItems = null;
+        internal void Calculate()
+        {
+            CalculatePivotTable();
+        }
+
+        private void CalculatePivotTable()
+        {
+            var ci = CacheDefinition._cacheReference;
+            CalculatedItems = new List<Dictionary<int[], object>>();
+            var numberOfGroups = Fields.Count(x => x.IsColumnField || x.IsRowField);
+            foreach (var dt in DataFields)
+            {
+                var dataFieldItems = new Dictionary<int[], object>();
+                foreach (var r in ci.Records.CacheItems)
+                {
+                    ci
+                }
+                var key = new int[numberOfGroups];
+            }
+        }
+
+        private string CleanDisplayName(string name)
         {
             return Regex.Replace(name, @"[^\w\.-_]", "_");
         }
