@@ -496,6 +496,7 @@ namespace OfficeOpenXml
                 {
                     CheckSheetTypeAndNotDisposed();
                     _autoFilter = new ExcelAutoFilter(NameSpaceManager, TopNode, this);
+                    _autoFilter.SchemaNodeOrder = SchemaNodeOrder;
                 }
                 return _autoFilter;
             }

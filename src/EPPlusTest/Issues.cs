@@ -36,6 +36,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
@@ -5198,7 +5199,7 @@ namespace EPPlusTest
             using (var package = OpenPackage("PercentOper.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("test");
-                ws.Cells["A1"].Formula="10%";
+                ws.Cells["A1"].Formula = "10%";
                 ws.Calculate();
                 Assert.AreEqual(0.1, ws.Cells["A1"].Value);
             }
@@ -5685,6 +5686,29 @@ namespace EPPlusTest
 
                 sourcePackage.Dispose();
                 SaveAndCleanup(destinationpackage);
+            }
+        }
+
+        [TestMethod]
+        public void s546()
+        {
+            using (var pck = OpenTemplatePackage("s546_old_alt.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
+
+                var range = ws.Cells["A1:K16"];
+
+                range.AutoFilter = false;
+
+                ws.Cells["A1"].Value = 3;
+
+                range = ws.Cells["A1:K16"];
+
+                range.AutoFilter = true;
+
+                Assert.IsNotNull(ws.AutoFilter.SchemaNodeOrder);
+
+                SaveAndCleanup(pck);
             }
         }
     }
