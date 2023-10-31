@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -29,12 +30,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         }
 
         internal static string GetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, 
-            string additionalClasses, Dictionary<string, List<ExcelConditionalFormattingRule>> cfCollection, 
-            Dictionary<string, int> _styleCache, Dictionary<string, int> _dxfStyleCache)
+            string additionalClasses, ExporterContext context)
         {
             string cls = string.IsNullOrEmpty(additionalClasses) ? "" : additionalClasses;
             int styleId = cell.StyleID;
             ExcelStyles styles = cell.Worksheet.Workbook.Styles;
+
+            var styleCache = context._styleCache;
+            var dxfStyleCache = context._dxfStyleCache;
 
             if (styleId < 0 || styleId >= styles.CellXfs.Count)
             {
@@ -75,41 +78,42 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
 
             int id;
-            if (_styleCache.ContainsKey(key))
+            if (styleCache.ContainsKey(key))
             {
-                id = _styleCache[key];
+                id = styleCache[key];
             }
             else
             {
-                id = _styleCache.Count + 1;
-                _styleCache.Add(key, id);
+                id = styleCache.Count + 1;
+                styleCache.Add(key, id);
             }
 
             cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
 
-            if (cfCollection.ContainsKey(cell.Address))
+
+            int dxfId;
+            string dxfKey;
+
+            var cfItems = context._cfQuadTree.GetIntersectingRangeItems
+                (new QuadRange(new ExcelAddress(cell.Address)));
+
+            for (int i = 0; i < cfItems.Count(); i++)
             {
-                int dxfId;
-                string dxfKey;
-
-                for (int i = 0; i < cfCollection[cell.Address].Count(); i++)
+                if (cfItems[i].Value.ShouldApplyToCell(cell))
                 {
-                    if (cfCollection[cell.Address][i].ShouldApplyToCell(cell))
+                    dxfKey = cfItems[i].Value.Style.Id;
+
+                    if (dxfStyleCache.ContainsKey(dxfKey))
                     {
-                        dxfKey = cfCollection[cell.Address][i].Style.Id;
-
-                        if (_dxfStyleCache.ContainsKey(dxfKey))
-                        {
-                            dxfId = _dxfStyleCache[dxfKey];
-                        }
-                        else
-                        {
-                            dxfId = _dxfStyleCache.Count + 1;
-                            _dxfStyleCache.Add(dxfKey, id);
-                        }
-
-                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
+                        dxfId = dxfStyleCache[dxfKey];
                     }
+                    else
+                    {
+                        dxfId = dxfStyleCache.Count + 1;
+                        dxfStyleCache.Add(dxfKey, id);
+                    }
+
+                    cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
                 }
             }
 

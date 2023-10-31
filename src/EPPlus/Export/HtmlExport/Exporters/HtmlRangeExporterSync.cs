@@ -259,13 +259,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, false, image, _cfAtAddresses, _exporterContext);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, false, image, _exporterContext);
                     }
                     else
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
     
-                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
 
                         if (!string.IsNullOrEmpty(classString))
                         {
@@ -336,7 +336,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _exporterContext);
 
                         if (!string.IsNullOrEmpty(classString))
                         {

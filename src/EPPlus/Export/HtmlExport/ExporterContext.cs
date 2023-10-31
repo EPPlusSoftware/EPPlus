@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+﻿using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal readonly StyleCache _styleCache = new StyleCache();
         internal readonly StyleCache _dxfStyleCache = new StyleCache();
+        internal QuadTree<ExcelConditionalFormattingRule> _cfQuadTree = null;
 
         internal ExporterContext() 
         {
@@ -20,6 +23,18 @@ namespace OfficeOpenXml.Export.HtmlExport
             //_dxfStyleCache = new Dictionary<string, int>();
         }
 
+        internal void InitializeQuadTree(ExcelRangeBase range)
+        {
+            if (_cfQuadTree == null)
+            {
+                _cfQuadTree = new QuadTree<ExcelConditionalFormattingRule>(range);
+            }
+
+            foreach (ExcelConditionalFormattingRule rule in range.Worksheet.ConditionalFormatting)
+            {
+                _cfQuadTree.Add(new QuadRange(rule.Address), rule);
+            }
+        }
 
         //If multiple caches later perhaps enum cache type or simply a list with ids prefered over boolean.
         internal bool AddPairToCache(string key, int value, bool isDxfCache = false) 

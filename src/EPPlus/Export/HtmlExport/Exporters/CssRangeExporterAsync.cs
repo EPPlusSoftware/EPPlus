@@ -179,7 +179,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         internal List<QuadRangeItem<ExcelConditionalFormattingRule>> GetCFItemsAtAddress(string cellAddress)
         {
-            return _cfQuadTree.GetIntersectingRangeItems
+            return _exporterContext._cfQuadTree.GetIntersectingRangeItems
                 (new QuadRange(new ExcelAddress(cellAddress)));
         }
     }

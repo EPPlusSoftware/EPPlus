@@ -30,6 +30,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         public ExcelHtmlRangeExporter(ExcelRangeBase range) : base(range)
         {
             _settings = new HtmlRangeExportSettings();
+            _exporterContext.InitializeQuadTree(range);
         }
 
         private readonly HtmlRangeExportSettings _settings;

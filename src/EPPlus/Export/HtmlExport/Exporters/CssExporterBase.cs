@@ -24,7 +24,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             Settings = settings;
             Require.Argument(range).IsNotNull("range");
             _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
-            ConditionalFormattingQuad(range);
 
             if (range.Addresses == null)
             {
@@ -38,24 +37,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
         }
-        //abstract internal void WriteAndClearCollection(CssRuleCollection collection, CssTrueWriter writer);
 
         public CssExporterBase(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
         {
             Settings = settings;
             Require.Argument(ranges).IsNotNull("ranges");
             _ranges = ranges;
-            ConditionalFormattingQuad(ranges[0]);
-            //foreach(var range in _ranges) 
-            //{
-            //    ConditionalFormattingQuad(range);
-            //}
         }
 
         protected HtmlExportSettings Settings;
         protected EPPlusReadOnlyList<ExcelRangeBase> _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
-        //protected Dictionary<string, List<ExcelConditionalFormattingRule>> _cfAtAddresses;
-        protected QuadTree<ExcelConditionalFormattingRule> _cfQuadTree = null;
 
         private void AddRange(ExcelRangeBase range)
         {
@@ -66,19 +57,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             else
             {
                 _ranges.Add(range);
-            }
-        }
-
-        private void ConditionalFormattingQuad(ExcelRangeBase range)
-        {
-            if(_cfQuadTree == null)
-            {
-                _cfQuadTree = new QuadTree<ExcelConditionalFormattingRule>(range);
-            }
-
-            foreach(ExcelConditionalFormattingRule rule in range.Worksheet.ConditionalFormatting)
-            {
-                _cfQuadTree.Add(new QuadRange(rule.Address), rule);
             }
         }
     }

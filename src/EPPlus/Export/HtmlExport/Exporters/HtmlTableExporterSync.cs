@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
 
-                var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
+                var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _exporterContext);
 
                 if (!string.IsNullOrEmpty(classString))
                 {
@@ -179,7 +179,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image, _cfAtAddresses, _exporterContext);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image, _exporterContext);
                     }
                     else
                     {
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         AddImage(writer, Settings, image, cell.Value);
                         var imageCellClassName = GetImageCellClassName(image, Settings);
 
-                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
 
                         if (!string.IsNullOrEmpty(classString))
                         {
@@ -241,7 +241,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
                 var imageCellClassName = GetImageCellClassName(image, Settings);
 
-                var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _cfAtAddresses, _exporterContext._styleCache, _exporterContext._dxfStyleCache);
+                var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
 
                 if (!string.IsNullOrEmpty(classString))
                 {

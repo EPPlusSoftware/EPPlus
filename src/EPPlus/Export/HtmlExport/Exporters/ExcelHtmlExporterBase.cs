@@ -33,8 +33,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
 
-            _cfAtAddresses = range.ConditionalFormatting.GetConditionalFormattings();
-
             if (range.Addresses == null)
             {
                 AddRange(range);
@@ -63,7 +61,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
 
         private readonly EPPlusReadOnlyList<ExcelRangeBase> _ranges;
-        private readonly Dictionary<string, List<ExcelConditionalFormattingRule>> _cfAtAddresses;
 
         /// <summary>
         /// Exported ranges

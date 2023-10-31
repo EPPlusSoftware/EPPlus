@@ -143,62 +143,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        internal static void RenderTableCss(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, Dictionary<string, int> styleCache, List<string> datatypes)
-        {
-            var styleWriter = new EpplusTableCssWriter(sw, table, settings);
-            if (settings.Minify == false) styleWriter.WriteLine();
-            ExcelTableNamedStyle tblStyle;
-            if (table.TableStyle == TableStyles.Custom)
-            {
-                tblStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
-            }
-            else
-            {
-                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                tblStyle = new ExcelTableNamedStyle(table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
-                tblStyle.SetFromTemplate(table.TableStyle);
-            }
-
-            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
-            styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
-            styleWriter.AddAlignmentToCss($"{tableClass}", datatypes);
-
-            styleWriter.AddToCss($"{tableClass}", tblStyle.WholeTable, "");
-            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
-
-            //Header
-            styleWriter.AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead");
-            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.HeaderRow, "");
-
-            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
-
-            //Total
-            styleWriter.AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot");
-            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.TotalRow, "");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
-
-            //Columns stripes
-            var tableClassCS = $"{tableClass}-column-stripes";
-            styleWriter.AddToCss($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
-            styleWriter.AddToCss($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
-
-            //Row stripes
-            var tableClassRS = $"{tableClass}-row-stripes";
-            styleWriter.AddToCss($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
-            styleWriter.AddToCss($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
-
-            //Last column
-            var tableClassLC = $"{tableClass}-last-column";
-            styleWriter.AddToCss($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
-
-            //First column
-            var tableClassFC = $"{tableClass}-first-column";
-            styleWriter.AddToCss($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
-
-            styleWriter.FlushStream();
-        }
 #if !NET35 && !NET40
         internal static async Task RenderTableCssAsync(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, Dictionary<string, int> styleCache, List<string> datatypes)
         {

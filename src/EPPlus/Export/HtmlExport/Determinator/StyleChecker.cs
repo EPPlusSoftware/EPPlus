@@ -25,6 +25,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
         internal StyleChecker(ExcelStyles wbStyles)
         {
             _wbStyles = wbStyles;
+            _styleList = new List<IStyleExport>();
         }
 
         internal StyleCache Cache { private get; set; } = null;

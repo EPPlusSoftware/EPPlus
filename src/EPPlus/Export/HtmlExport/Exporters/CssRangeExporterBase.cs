@@ -11,8 +11,10 @@ using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,13 +37,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         protected readonly HtmlRangeExportSettings _settings;
 
-        protected void RenderCellCss(StreamWriter sw)
+        public static object TableStyleClassPrefix { get; private set; }
+
+        protected CssRangeRuleCollection RenderCellCss(StreamWriter sw)
         {
             var cssTranslator = new CssRangeRuleCollection(_ranges._list, _settings);
-            var trueWriter = new CssTrueWriter(sw);
 
             cssTranslator.AddSharedClasses(TableClass);
-
 
             AddRangesToCollection(cssTranslator);
 
@@ -54,19 +56,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
 
-            WriteAndClearCollection(cssTranslator.RuleCollection, trueWriter);
-            sw.Flush();
+            return cssTranslator;
         }
 
-        void AddRangesToCollection(CssRangeRuleCollection cssTranslator)
+        protected void AddRangesToCollection(CssRangeRuleCollection cssTranslator)
         {
             var addedTableStyles = new HashSet<TableStyles>();
 
             foreach (var range in _ranges._list)
             {
-
                 var ws = range.Worksheet;
                 var styles = ws.Workbook.Styles;
+                var ns = styles.GetNormalStyle();
                 var ce = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
                 ExcelAddressBase address = null;
 
@@ -99,40 +100,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                             if (sc.ShouldAddWithBorders(bottomStyleId, rightStyleId))
                             {
-                                cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
+                                cssTranslator.AddToCollection(sc.GetStyleList(), ns, sc.Id);
                             }
-
-                            if (sc.ShouldAdd)
-                            {
-                                cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
-                            }
-
-                            //AddConditionalFormattingsToCollection(ce.CellAddress, styles.GetNormalStyle(), cssTranslator);
-
-                            //if (ce.CellAddress != null)
-                            //{
-                            //    var items = GetCFItemsAtAddress(ce.CellAddress);
-
-                            //    foreach (var cf in items)
-                            //    {
-                            //        var style = new StyleDxf(cf.Value.Style);
-                            //        //TODO: Figure out how to determine bottom and right when merged cell cfs
-                            //        if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id))
-                            //        {
-                            //            AddStyleToCollection(id, new List<IStyleExport>() { style });
-                            //        }
-                            //    }
-                            //}
                         }
                         else
                         {
                             if (sc.ShouldAdd)
                             {
-                                cssTranslator.AddToCollection(sc.GetStyleList(), styles.GetNormalStyle(), sc.Id);
+                                cssTranslator.AddToCollection(sc.GetStyleList(), ns, sc.Id);
                             }
                         }
 
-                        AddConditionalFormattingsToCollection(ce.CellAddress, styles.GetNormalStyle(), cssTranslator);
+                        AddConditionalFormattingsToCollection(ce.CellAddress, ns, cssTranslator);
                     }
                 }
 
@@ -144,7 +123,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 //       addedTableStyles.Contains(table.TableStyle) == false)
                 //    {
                 //        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                //        HtmlExportTableUtil.RenderTableCss(sw, table, settings, _exporterContext._styleCache, _dataTypes);
+                //        RenderTableCss(sw, table, settings, _exporterContext._styleCache, _dataTypes);
                 //        addedTableStyles.Add(table.TableStyle);
                 //    }
                 //}
@@ -170,20 +149,65 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         internal List<QuadRangeItem<ExcelConditionalFormattingRule>> GetCFItemsAtAddress(string cellAddress)
         {
-            return _cfQuadTree.GetIntersectingRangeItems
+            return _exporterContext._cfQuadTree.GetIntersectingRangeItems
                 (new QuadRange(new ExcelAddress(cellAddress)));
         }
 
-        internal void WriteAndClearCollection(CssRuleCollection collection, CssTrueWriter writer)
+        internal static void RenderTableCss(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, List<string> datatypes)
         {
-            for (int i = 0; i < collection.CssRules.Count(); i++)
+            var styleWriter = new EpplusTableCssWriter(sw, table, settings);
+            if (settings.Minify == false) styleWriter.WriteLine();
+            ExcelTableNamedStyle tblStyle;
+            if (table.TableStyle == TableStyles.Custom)
             {
-                writer.WriteRule(collection[i], _settings.Minify);
+                tblStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+            }
+            else
+            {
+                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                tblStyle = new ExcelTableNamedStyle(table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
+                tblStyle.SetFromTemplate(table.TableStyle);
             }
 
-            collection.CssRules.Clear();
+            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
+            styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
+            styleWriter.AddAlignmentToCss($"{tableClass}", datatypes);
+
+            styleWriter.AddToCss($"{tableClass}", tblStyle.WholeTable, "");
+            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
+
+            //Header
+            styleWriter.AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead");
+            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.HeaderRow, "");
+
+            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
+
+            //Total
+            styleWriter.AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot");
+            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.TotalRow, "");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
+
+            //Columns stripes
+            var tableClassCS = $"{tableClass}-column-stripes";
+            styleWriter.AddToCss($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
+            styleWriter.AddToCss($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
+
+            //Row stripes
+            var tableClassRS = $"{tableClass}-row-stripes";
+            styleWriter.AddToCss($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
+            styleWriter.AddToCss($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
+
+            //Last column
+            var tableClassLC = $"{tableClass}-last-column";
+            styleWriter.AddToCss($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
+
+            //First column
+            var tableClassFC = $"{tableClass}-first-column";
+            styleWriter.AddToCss($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
+
+            styleWriter.FlushStream();
         }
-
-
     }
 }
