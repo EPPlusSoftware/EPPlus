@@ -238,7 +238,6 @@ namespace EPPlusTest
             ws.Cells["A1"].LoadFromCollection(l, true, TableStyles.Light16, BindingFlags.Instance | BindingFlags.Public,
                 new MemberInfo[] { typeof(cls2).GetProperty("prop2") });
         }
-
         [TestMethod]
         public void Issue15168()
         {
