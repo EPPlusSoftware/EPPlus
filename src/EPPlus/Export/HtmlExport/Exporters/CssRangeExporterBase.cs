@@ -115,18 +115,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     }
                 }
 
-                //if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
-                //{
-                //    var table = range.GetTable();
-                //    if (table != null &&
-                //       table.TableStyle != TableStyles.None &&
-                //       addedTableStyles.Contains(table.TableStyle) == false)
-                //    {
-                //        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                //        RenderTableCss(sw, table, settings, _exporterContext._styleCache, _dataTypes);
-                //        addedTableStyles.Add(table.TableStyle);
-                //    }
-                //}
+                if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
+                {
+                    var table = range.GetTable();
+                    if (table != null &&
+                       table.TableStyle != TableStyles.None &&
+                       addedTableStyles.Contains(table.TableStyle) == false)
+                    {
+                        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
+                        RenderTableCss(sw, table, settings, _exporterContext._styleCache, _dataTypes);
+                        addedTableStyles.Add(table.TableStyle);
+                    }
+                }
             }
         }
 
@@ -156,6 +156,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         internal static void RenderTableCss(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, List<string> datatypes)
         {
             var styleWriter = new EpplusTableCssWriter(sw, table, settings);
+
+            var tableRules = new CssTableRuleCollection(table, settings);
+
             if (settings.Minify == false) styleWriter.WriteLine();
             ExcelTableNamedStyle tblStyle;
             if (table.TableStyle == TableStyles.Custom)
@@ -170,6 +173,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
 
             var tableClass = $"{TableClass}.{TableStyleClassPrefix}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
+
+            tableRules.AddHyperlink($"{tableClass}", tblStyle.WholeTable);
+
             styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
             styleWriter.AddAlignmentToCss($"{tableClass}", datatypes);
 

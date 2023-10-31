@@ -45,8 +45,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
         }
 
-        //public HtmlRangeExportSettings Settings => _settings;
-
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
@@ -98,18 +96,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             collection.CssRules.Clear();
         }
-
-        //internal void AddDxfsAtAddress(string address, )
-        //{
-        //    var ret = new List<int>();
-
-        //    if(address != null && _cfAtAddresses.ContainsKey(address))
-        //    {
-        //        for (int i = 0; i< _cfAtAddresses.Count; i++)
-        //        {
-
-        //        }
-        //    }
-        //}
     }
 }

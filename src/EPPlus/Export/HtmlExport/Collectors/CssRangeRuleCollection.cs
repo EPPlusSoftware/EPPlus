@@ -32,9 +32,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
 
         TranslatorContext _context;
 
-        ExcelNamedStyleXml ns;
-
-
         internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
         {
             _settings = settings;
@@ -145,8 +142,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             {
                 translators.Add(new CssBorderTranslator(style.Border));
             }
-
-            //translators.Add(new CssTextFormatTranslator(style));
 
             foreach (var translator in translators)
             {
