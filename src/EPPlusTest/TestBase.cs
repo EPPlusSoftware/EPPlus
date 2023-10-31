@@ -267,7 +267,7 @@ namespace EPPlusTest
             }
             ws.Cells.AutoFitColumns();
         }
-        protected static void LoadHierarkiTestData(ExcelWorksheet ws)
+        protected static ExcelRangeBase LoadHierarkiTestData(ExcelWorksheet ws)
         {
 
             var l = new List<SalesData>
@@ -290,7 +290,7 @@ namespace EPPlusTest
                 new SalesData{ Continent="North America", Country="USA", State = "San Fransico", Sales= 411 },
             };
 
-            ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);
+            return ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);
         }
         protected static void LoadGeoTestData(ExcelWorksheet ws)
         {

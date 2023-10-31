@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Constants;
+﻿using EPPlusTest.Table.PivotTable;
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
@@ -153,6 +154,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         }
+        internal PivotTableCacheRecords Records { get; private set; }
         internal Packaging.ZipPackageRelationship RecordRelationship
         {
             get;
@@ -192,6 +194,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index++));
             }
+            Records = new PivotTableCacheRecords(this);
         }
 
         internal void RefreshFields()
@@ -235,14 +238,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
 
                     if (!string.IsNullOrEmpty(name) && !field.Name.StartsWith(name)) field.Name = name;
-                    //var hs = new HashSet<object>();
-                    //var dimensionToRow = ws.Dimension?._toRow ?? r._fromRow + 1;
-                    //var toRow = r._toRow < dimensionToRow ? r._toRow : dimensionToRow;
-                    //for (int row = r._fromRow + 1; row <= toRow; row++)
-                    //{
-                    //    ExcelPivotTableCacheField.AddSharedItemToHashSet(hs, ws.GetValue(row, col));
-                    //}
-                    //field.SharedItems._list = hs.ToList();
                     fields.Add(field);
                 }
             }
@@ -260,35 +255,9 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             if (cacheUpdated) UpdateRowColumnPageFields(tableFields);
-
             RefreshPivotTableItems();
+            Records = new PivotTableCacheRecords(this);
         }
-
-        //private void SyncFields(List<ExcelPivotTableCacheField> fields)
-        //{
-            
-        //}
-
-        //private void SyncFields()
-        //{
-        //    var r = SourceRange;
-        //    foreach(var pt in _pivotTables)
-        //    {       
-        //        var newList = new List<ExcelPivotTableField>();
-        //        foreach (var f in pt.Fields)
-        //        {                    
-        //            if (pt.CacheDefinition._cacheReference.Fields.Any(x=>x.Name.Equals(f.Name))
-        //            {
-        //                f.TopNode.RemoveChild(f.TopNode);                            
-        //            }
-        //            else
-        //            {
-        //                newList.Add(f);
-        //            }
-        //        }
-        //        pt.Fields._list = newList;
-        //    }
-        //}
 
         private void RemoveDeletedFields(ExcelRangeBase r)
         {

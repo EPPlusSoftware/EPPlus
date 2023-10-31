@@ -3327,7 +3327,6 @@ namespace EPPlusTest
             {
                 SaveAndCleanup(p);
             }
-
         }
         [TestMethod]
         public void I676()

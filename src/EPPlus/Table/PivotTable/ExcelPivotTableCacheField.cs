@@ -18,6 +18,7 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -94,6 +95,8 @@ namespace OfficeOpenXml.Table.PivotTable
             set;
         } = new EPPlusReadOnlyList<object>();
         internal Dictionary<object, int> _cacheLookup = null;
+        internal Dictionary<int, List<int>> _fieldRecordIndex { get; set; }
+
         /// <summary>
         /// The type of date grouping
         /// </summary>
@@ -186,6 +189,30 @@ namespace OfficeOpenXml.Table.PivotTable
                 return false;
             }
         }
+        internal bool IsRowOrColumn
+        {
+            get
+            {
+                foreach (var pt in _cache._pivotTables)
+                {
+                    if (Index < pt.Fields.Count)
+                    {
+                        var axis = pt.Fields[Index].Axis;
+                        if (axis == ePivotFieldAxis.Column ||
+                            axis == ePivotFieldAxis.Row)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// The formula for cache field.
         /// The formula for the calculated field. 
@@ -237,6 +264,8 @@ namespace OfficeOpenXml.Table.PivotTable
                 return false;
             }
         }
+
+
         internal void UpdateSlicers()
         {
             foreach (var pt in _cache._pivotTables)
@@ -305,7 +334,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var t = si.GetType();
                     var tc = Type.GetTypeCode(t);
 
-                    switch (tc)
+                    switch(tc)
                     {
                         case TypeCode.Byte:
                         case TypeCode.SByte:
@@ -376,7 +405,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 shNode.SetAttribute("longText", "1");
             }
         }
-
         private DataTypeFlags GetFlags()
         {
             DataTypeFlags flags = 0;
