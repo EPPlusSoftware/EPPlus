@@ -23,7 +23,7 @@ Our unit tests are still LGPL (as stated in the header of those code files). So 
 ### Larger pull requests
 Larger pull requests are in general not likely to be accepted.
 
-If you are considering to submit code that has significant impact on the EPPlus code base, please reach out to us first. You can do this by creating an issue in our issue tracker. "Significant impact" would include one of the following definitions:
+If you are considering to submit code that has significant impact on the EPPlus code base, please reach out to us first. You can do this by creating an issue in our issue tracker. "Significant impact" would include at least one of the following definitions:
 - The pull request implements completely new features of EPPlus.
 - The pull request contains changes in central parts of the software.
 - The pull request would change the current behaviour of EPPlus.
