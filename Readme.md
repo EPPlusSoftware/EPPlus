@@ -1,7 +1,6 @@
 ﻿![Nuget](https://img.shields.io/nuget/v/epplus)
  [![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
-[![Build status](https://ci.appveyor.com/api/projects/status/6jdk5tjxxvx99d5i?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/fn3lqpxfjff3jq0v?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus7)
 # EPPlus 7
 
 ## Announcement: new license model from version 5
