@@ -36,6 +36,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
@@ -5197,7 +5198,7 @@ namespace EPPlusTest
             using (var package = OpenPackage("PercentOper.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("test");
-                ws.Cells["A1"].Formula="10%";
+                ws.Cells["A1"].Formula = "10%";
                 ws.Calculate();
                 Assert.AreEqual(0.1, ws.Cells["A1"].Value);
             }
@@ -5651,56 +5652,19 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void issues()
+        public void s532CacheIssue()
         {
-            //Inputs
-            string Path = @"C:\epplusTest\Workbooks\Pivot_Test_Input.xlsx";
-            string pivotTableWorksheetName = "Sheet3";
-            string NewSourceDataSheetName = "Sheet2";
-            string pivotTableName = "PivotTable1";
-            string NewInputRange = "M6:S16";
-
-            //Output
-            bool success = false;
-            string exc = "";
-            int pivotTableCount = 0;
-
-            CultureInfo.CurrentCulture = new CultureInfo("en-US");
-
-            try
+            using (var package = OpenTemplatePackage("s532-Pivot-Cache.xlsx"))
             {
-                ExcelPackage package = new ExcelPackage(Path);
-                var pivotTableWorksheet = package.Workbook.Worksheets[pivotTableWorksheetName];
-                ExcelWorksheet ws = package.Workbook.Worksheets[NewSourceDataSheetName];
+                var pivotTableWorksheet = package.Workbook.Worksheets["Sheet3"];
+                ExcelWorksheet ws = package.Workbook.Worksheets["Sheet2"];
 
-                pivotTableCount = pivotTableWorksheet.PivotTables.Count;
-                if (pivotTableCount < 1)
-                {
-                    throw new Exception("No Pivot tables present in the given Pivot Worksheet");
-                }
-                else if (pivotTableName != "")
-                {
-                    pivotTableWorksheet.PivotTables[pivotTableName].CacheDefinition.SourceRange = ws.Cells[NewInputRange];
-                }
-                else
-                {
-                    for (int i = 0; i < pivotTableCount; i++)
-                    {
-                        pivotTableWorksheet.PivotTables[i].CacheDefinition.SourceRange = ws.Cells[NewInputRange];
-                    }
-                }
-                package.SaveAs(@"C:\epplusTest\Workbooks\Pivot_Result_Output.xlsx");
-                package.Dispose();
-                success = true;
-            }
-            catch (Exception e)
-            {
-                exc = "Failed. " + e.ToString();
-                success = false;
-            }
-            finally
-            {
-                System.GC.Collect();
+                pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
+                var definition = pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition;
+
+                Assert.AreEqual(definition.PivotTable.Fields[0].CacheField._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
+
+                SaveAndCleanup(package);
             }
         }
 
@@ -5721,6 +5685,29 @@ namespace EPPlusTest
 
                 sourcePackage.Dispose();
                 SaveAndCleanup(destinationpackage);
+            }
+        }
+
+        [TestMethod]
+        public void s546()
+        {
+            using (var pck = OpenTemplatePackage("s546_old_alt.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
+
+                var range = ws.Cells["A1:K16"];
+
+                range.AutoFilter = false;
+
+                ws.Cells["A1"].Value = 3;
+
+                range = ws.Cells["A1:K16"];
+
+                range.AutoFilter = true;
+
+                Assert.IsNotNull(ws.AutoFilter.SchemaNodeOrder);
+
+                SaveAndCleanup(pck);
             }
         }
     }

@@ -22,11 +22,10 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         ExcelPivotTableField _field;
-        //private readonly ExcelPivotTableCacheField _cache;
+
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
             _field = field;
-            //_cache = field.Cache;
         }
         /// <summary>
         /// It the object exists in the cache
