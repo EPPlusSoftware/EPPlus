@@ -118,11 +118,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
             var translators = new List<TranslatorBase>();
 
-            if (style.Fill != null)
+            if (style.Fill != null && _context.Exclude.Fill == false)
             {
                 translators.Add(new CssFillTranslator(style.Fill));
             }
-            if (style.Font != null)
+            if (style.Font != null && _context.Exclude.Font != eFontExclude.All)
             {
                 translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
             }

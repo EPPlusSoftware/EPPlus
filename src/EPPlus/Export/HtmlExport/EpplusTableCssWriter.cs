@@ -178,10 +178,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             if (f.Bold.HasValue && f.Bold.Value && EnumUtil.HasNotFlag(flags, eFontExclude.Bold))
             {
-                CssTrueWriter tWriter = new CssTrueWriter(_writer);
-
-                //tWriter.WriteCssClassOpening("")
-
                 WriteCssItem("font-weight:bolder;", _settings.Minify);
             }
             if (f.Italic.HasValue && f.Italic.Value && EnumUtil.HasNotFlag(flags, eFontExclude.Italic))

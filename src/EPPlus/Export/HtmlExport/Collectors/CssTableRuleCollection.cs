@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
@@ -9,9 +10,9 @@ using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
@@ -42,13 +43,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
 
         internal void AddHyperlink(string name, ExcelTableStyleElement element)
         {
-            var styleClass = new CssRule($"table.{name} a");
+            if(_context.Exclude.Font != eFontExclude.All && 
+                element.Style.HasValue && 
+                element.Style.Font.HasValue)
+            {
+                var styleClass = new CssRule($"table.{name} a");
 
-            var ft = new CssFontTranslator(new FontDxf(element.Style.Font), null);
+                var ft = new CssFontTranslator(new FontDxf(element.Style.Font), null);
 
-            styleClass.AddDeclarationList(ft.GenerateDeclarationList(_context));
+                styleClass.AddDeclarationList(ft.GenerateDeclarationList(_context));
 
-            _ruleCollection.AddRule(styleClass);
+                _ruleCollection.AddRule(styleClass);
+            }
         }
 
         internal void AddAlignment(string name, List<string> dataTypes)
@@ -95,6 +101,55 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                     //TODO: If we exclude both horizontal and vertical we can get a class with empty declaration list here...
                     _ruleCollection.AddRule(styleClass);
                 }
+            }
+        }
+
+        internal void AddToCollection(string name, ExcelTableStyleElement element, string htmlElement)
+        {
+            if (element.Style.HasValue == false) return; //Dont add empty elements
+
+            //TODO: Fix. Don't think is castable.
+            var s = (IStyleExport)element.Style;
+
+            var styleClass = new CssRule($"table.{name}{htmlElement}");
+
+            var translators = new List<TranslatorBase>();
+
+            if (s.Fill != null && _context.Exclude.Fill == false)
+            {
+                //TODO: Ensure if gradients with more than 2 colors it is handled correctly.
+                translators.Add(new CssFillTranslator(s.Fill));
+            }
+            if (s.Font != null && _context.Exclude.Font != eFontExclude.All)
+            {
+                translators.Add(new CssFontTranslator(s.Font, null));
+            }
+            if(s.Border != null)
+            {
+                translators.Add(new CssBorderTranslator(s.Border));
+            }
+
+            foreach (var translator in translators)
+            {
+                _context.SetTranslator(translator);
+                _context.AddDeclarations(styleClass);
+            }
+
+            _ruleCollection.AddRule(styleClass);
+        }
+
+        internal void AddToCollectionVH(string name, ExcelTableStyleElement element, string htmlElement)
+        {
+            if (element.Style.Border.Vertical.HasValue == false && element.Style.Border.Horizontal.HasValue == false) return; //Dont add empty elements
+
+            var s = (IStyleExport)element.Style;
+
+            var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ");
+            if (s.Border != null)
+            {
+                var translator = new CssBorderTranslator(s.Border);
+                styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
+                _ruleCollection.AddRule(styleClass);
             }
         }
     }
