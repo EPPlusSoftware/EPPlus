@@ -292,12 +292,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return rowsSmall;
         }
-
-                    default:
-                    //case DataFieldFunctions.Sum:
-                        d += ConvertUtil.GetValueDouble(v);
-                        break;
-
         /// <summary>
         /// If Excel will save the source data with the pivot table.
         /// </summary>

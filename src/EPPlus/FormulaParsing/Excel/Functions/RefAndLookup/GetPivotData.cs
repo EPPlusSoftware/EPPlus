@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 criteria.Add(new PivotDataCriteria(field, value));
             }
             //Calulate value;      
-            var result = pivotTable.CacheDefinition.GetPivotData(criteria, dataField);
+            var result = pivotTable.GetPivotData(criteria, dataField);
             return new CompileResult(result, DataType.Decimal);
         }
 

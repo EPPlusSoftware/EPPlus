@@ -27,6 +27,8 @@ using OfficeOpenXml.Style.Dxf;
 using System.IO;
 using System.Globalization;
 using OfficeOpenXml.Table.PivotTable.Filter;
+using OfficeOpenXml.Table.PivotTable.Calculation;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -291,27 +293,47 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get;
             private set;
-        }
+        }        
+        internal bool IsCalculated { get; set; }
         List<Dictionary<int[], object>> CalculatedItems = null;
-        internal void Calculate()
+        public void Refresh()
         {
-            CalculatePivotTable();
+            CacheDefinition.Refresh();
+            CalculatedItems = PivotTableCalculation.Calculate(this);
+            IsCalculated= true;
         }
-
-        private void CalculatePivotTable()
+        internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
         {
-            var ci = CacheDefinition._cacheReference;
-            CalculatedItems = new List<Dictionary<int[], object>>();
-            var numberOfGroups = Fields.Count(x => x.IsColumnField || x.IsRowField);
-            foreach (var dt in DataFields)
+            var items = CacheDefinition._cacheReference.Records.CacheItems;
+
+            var keyFieldIndex = RowColumnFieldIndicies;
+            var key=new int[keyFieldIndex.Count];
+
+            for (int i=0;i < keyFieldIndex.Count;i++)
             {
-                var dataFieldItems = new Dictionary<int[], object>();
-                foreach (var r in ci.Records.CacheItems)
+                key[i] = -1;
+                for (int j = 0; j < criteria.Count; j++)
                 {
-                    ci
+                    if (criteria[j].Field.Index == keyFieldIndex[i])
+                    {
+                        if (criteria[j].Field.CacheField._cacheLookup.ContainsKey(criteria[j].Value))
+                        {
+                            key[i] = criteria[j].Field.CacheField._cacheLookup[criteria[j].Value];
+                        }
+                        else
+                        {
+                            return ErrorValues.RefError;
+                        }
+                    }
                 }
-                var key = new int[numberOfGroups];
             }
+
+            var dfIx = DataFields.IndexOf(dataField);
+            if(CalculatedItems[dfIx].TryGetValue(key, out var value))
+            {
+                return value;
+            }
+            return 0d;
         }
 
         private string CleanDisplayName(string name)
@@ -1161,6 +1183,15 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeInt("@cacheId", value);
             }
         }
+
+        internal List<int> RowColumnFieldIndicies
+        {
+            get
+            {
+                return RowFields.Union(ColumnFields).Select(x => x.CacheField.Index).OrderBy(x => x).ToList();
+            }
+        }
+
 
         internal int ChangeCacheId(int oldCacheId)
         {

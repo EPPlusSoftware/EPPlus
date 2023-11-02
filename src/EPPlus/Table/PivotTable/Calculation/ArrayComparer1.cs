@@ -10,15 +10,36 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
-    internal class PivotTableCalculation
+    internal partial class PivotTableCalculation
     {
-        internal static void Calculate(ExcelPivotTable excelPivotTable)
+        internal class ArrayComparer : IEqualityComparer<int[]>
         {
-            throw new NotImplementedException();
+            public bool Equals(int[] x, int[] y)
+            {
+                if(x.Length!=y.Length) return false;
+                for(int i=0; i < x.Length; i++)
+                {
+                    if (x[i] != y[i]) return false;
+                }
+                return true;
+            }
+
+            public int GetHashCode(int[] obj)
+            {                
+                int hash = 49;                
+                for(int i = 0; i<obj.Length; i++)
+                {
+                    unchecked
+                    {
+                        hash *= 23 * obj[i].GetHashCode();
+                    }
+                }
+                return hash;
+            }
         }
     }
 }

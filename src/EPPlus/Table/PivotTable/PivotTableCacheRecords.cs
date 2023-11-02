@@ -23,17 +23,16 @@ namespace EPPlusTest.Table.PivotTable
     {
         internal PivotTableCacheRecords(PivotTableCacheInternal cache)
         {
-            CalculateRecords(cache);
             Cache = cache;
         }
 
-        private void CalculateRecords(PivotTableCacheInternal cache)
+        internal void CreateRecords()
         {
-            var sr = cache.SourceRange;
+            var sr = Cache.SourceRange;
             var ws = sr.Worksheet;
-            for (int i = 0; i < cache.Fields.Count; i++)
+            for (int i = 0; i < Cache.Fields.Count; i++)
             {
-                var f = cache.Fields[i];
+                var f = Cache.Fields[i];
                 var l = new List<object>();
                 var c = sr._fromCol + f.Index;
                 if (f.IsRowOrColumn)
@@ -70,5 +69,16 @@ namespace EPPlusTest.Table.PivotTable
         { 
             get; 
         }= new List<List<object>>();
+        public int RecordCount
+        {
+            get
+            {
+                if(CacheItems==null || CacheItems.Count==0 || CacheItems[0].Count==0)
+                {
+                    return 0;
+                }
+                return CacheItems[0].Count;
+            }
+        }
     }
 }
