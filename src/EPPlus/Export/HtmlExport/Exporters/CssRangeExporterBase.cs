@@ -175,6 +175,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var tableClass = $"{TableClass}.{TableStyleClassPrefix}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
 
             tableRules.AddHyperlink($"{tableClass}", tblStyle.WholeTable);
+            tableRules.AddAlignment($"{tableClass}", datatypes);
 
             styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
             styleWriter.AddAlignmentToCss($"{tableClass}", datatypes);

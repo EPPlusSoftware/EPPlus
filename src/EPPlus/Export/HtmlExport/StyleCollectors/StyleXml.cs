@@ -6,7 +6,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {
     internal class StyleXml : IStyleExport
     {
-        ExcelXfs _style;
+        internal ExcelXfs _style;
 
         public string StyleKey 
         { 

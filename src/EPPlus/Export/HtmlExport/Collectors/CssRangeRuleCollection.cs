@@ -43,7 +43,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
-
         }
 
         private void Init(List<ExcelRangeBase> ranges)
@@ -141,6 +140,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             else if (style.Border != null)
             {
                 translators.Add(new CssBorderTranslator(style.Border));
+            }
+
+            if(style is StyleXml)
+            {
+                translators.Add(new CssTextFormatTranslator((StyleXml)style));
             }
 
             foreach (var translator in translators)

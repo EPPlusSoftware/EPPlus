@@ -44,10 +44,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             Pictures = settings.Pictures;
         }
 
-        public TranslatorContext(CssExclude exclude, TranslatorBase concreteStrategy)
+        public TranslatorContext(CssExclude exclude)
         { 
             Exclude = exclude;
-            strategy = concreteStrategy;
         }
 
         public void SetTranslator(TranslatorBase concreteStrategy) 

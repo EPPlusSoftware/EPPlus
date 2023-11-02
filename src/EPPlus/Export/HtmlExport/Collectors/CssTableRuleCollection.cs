@@ -3,12 +3,15 @@ using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
@@ -33,6 +36,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
             _theme = table.WorkSheet.Workbook.ThemeManager.CurrentTheme;
 
+            _context = new TranslatorContext(_settings.Css.Exclude.TableStyle);
             _context.Theme = _theme;
         }
 
@@ -47,47 +51,51 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             _ruleCollection.AddRule(styleClass);
         }
 
-        internal void AddAlignmentToCss(string name, List<string> dataTypes)
+        internal void AddAlignment(string name, List<string> dataTypes)
         {
             if (_settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.DontSet)
             {
                 return;
             }
+
             var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
             for (int c = 0; c < _table.Columns.Count; c++)
             {
                 var col = _table.Address._fromCol + c;
                 var styleId = _table.WorkSheet.GetStyleInner(row, col);
-                string hAlign = "";
-                string vAlign = "";
-                if (styleId > 0)
+
+                bool rightDefault;
+                //We never want to default horizontal right if horizontal is excluded.
+                if (_context.Exclude.HorizontalAlignment == false)
                 {
-                    var xfs = _table.WorkSheet.Workbook.Styles.CellXfs[styleId];
-                    if (xfs.ApplyAlignment ?? false)
-                    {
-                        hAlign = GetHorizontalAlignment(xfs);
-                        vAlign = GetVerticalAlignment(xfs);
-                    }
+                    rightDefault = false;
+                }
+                else
+                {
+                    rightDefault = c < dataTypes.Count && 
+                        (dataTypes[c] == HtmlDataTypes.Number || dataTypes[c] == HtmlDataTypes.DateTime);
                 }
 
-                if (string.IsNullOrEmpty(hAlign) && c < dataTypes.Count && (dataTypes[c] == HtmlDataTypes.Number || dataTypes[c] == HtmlDataTypes.DateTime))
+                if (rightDefault || styleId > 0)
                 {
-                    hAlign = "right";
-                }
+                    var styleClass = new CssRule($"table.{name} td:nth-child({col})");
 
-                if (!(string.IsNullOrEmpty(hAlign) && string.IsNullOrEmpty(vAlign)))
-                {
-                    WriteClass($"table.{name} td:nth-child({col}){{", _settings.Minify);
-                    if (string.IsNullOrEmpty(hAlign) == false && _settings.Css.Exclude.TableStyle.HorizontalAlignment == false)
+                    if (styleId > 0)
                     {
-                        WriteCssItem($"text-align:{hAlign};", _settings.Minify);
+                        var xfs = new StyleXml(_table.WorkSheet.Workbook.Styles.CellXfs[styleId]);
+                        var translator = new CssTableTextFormatTranslator(xfs, rightDefault);
+
+                        styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
                     }
-                    if (string.IsNullOrEmpty(vAlign) == false && _settings.Css.Exclude.TableStyle.VerticalAlignment == false)
+                    else
                     {
-                        WriteCssItem($"vertical-align:{vAlign};", _settings.Minify);
+                        styleClass.AddDeclaration("text-align", "right");
                     }
-                    WriteClassEnd(_settings.Minify);
+
+                    //TODO: If we exclude both horizontal and vertical we can get a class with empty declaration list here...
+                    _ruleCollection.AddRule(styleClass);
                 }
             }
         }
+    }
 }
