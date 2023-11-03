@@ -10,23 +10,14 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
     {
         internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems)
         {
-            double v;
-            if (dataFieldItems.TryGetValue(key, out object currentValue))
+            var d = GetValueDouble(value);
+            if (double.IsNaN(d))
             {
-                if (currentValue is ExcelErrorValue) return;
-                v = GetValueDouble(value);
+                AddItemsToKeys<ExcelErrorValue>(key, dataFieldItems, (ExcelErrorValue)value, SetError);
             }
             else
             {
-                v = GetValueDouble(value);
-            }
-            if (double.IsNaN(v))
-            {
-                dataFieldItems[key] = value;
-            }
-            else if(currentValue==null || v > (double)currentValue)
-            {
-                dataFieldItems[key] = v;
+                AddItemsToKeys<double>(key, dataFieldItems, d, MaxValue);
             }
         }
     }

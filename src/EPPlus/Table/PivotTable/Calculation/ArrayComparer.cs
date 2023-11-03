@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.Table.PivotTable.Calculation
+namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
     {

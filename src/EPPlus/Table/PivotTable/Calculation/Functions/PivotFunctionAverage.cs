@@ -1,11 +1,11 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
-    internal class PivotFunctionMin : PivotFunction
+    internal class PivotFunctionAverage : PivotFunction
     {
         internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems)
         {
@@ -16,7 +16,14 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
             else
             {
-                AddItemsToKeys(key, dataFieldItems, d, MinValue);
+                AddItemsToKeys<object>(key, dataFieldItems, d, AverageValue);
+            }
+        }
+        internal override void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems)
+        {
+            foreach (var key in dataFieldItems.Keys.ToArray())
+            {
+                dataFieldItems[key] = ((AverageItem)dataFieldItems[key]).Average;
             }
         }
     }

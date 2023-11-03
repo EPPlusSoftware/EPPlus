@@ -13,7 +13,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
     //{
     //    List<double> values;
     //}
-    internal class PivotFunctionStdDev : PivotFunction
+    internal class PivotFunctionVar : PivotFunction
     {
         internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems)
         {   
@@ -32,19 +32,20 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             foreach (var key in dataFieldItems.Keys.ToArray())
             {
                 if (dataFieldItems[key] is List<double> l)
-                {
+                { 
                     if (l.Count > 1)
                     {
                         var avg = l.AverageKahan();
-                        var sum = l.SumKahan(d => Math.Pow(d - avg, 2));
-                        var div = ExcelFunction.Divide(sum, (l.Count - 1));
+                        double d = l.AggregateKahan(0.0, (total, next) => total += System.Math.Pow(next - avg, 2));
+
+                        var div = ExcelFunction.Divide(d, (l.Count - 1));
                         if (double.IsPositiveInfinity(div))
                         {
                             dataFieldItems[key] = ErrorValues.Div0Error;
                         }
                         else
                         {
-                            dataFieldItems[key] = Math.Sqrt(div);
+                            dataFieldItems[key] = div;
                         }
                     }
                     else

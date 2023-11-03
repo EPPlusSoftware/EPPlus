@@ -69,11 +69,18 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                     return 0D;
             }
         }
+        protected static void SetError(int[] key, Dictionary<int[], object> dataFieldItems, ExcelErrorValue v)
+        {
+            dataFieldItems[key] = v;
+        }
         protected static void SumValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
-                dataFieldItems[key] = (double)v + d;
+                if(v is double cv)
+                {
+                    dataFieldItems[key] = cv + d;
+                }
             }
             else
             {
@@ -84,14 +91,106 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
-                dataFieldItems[key] = (double)v * d;
+                if (v is double cv)
+                {
+                    dataFieldItems[key] = (double)v * d;
+                }
             }
             else
             {
                 dataFieldItems[key] = d;
             }
         }
-        protected static void AddItemsToKeys(int[] key, Dictionary<int[], object> dataFieldItems, double d, Action<int[], Dictionary<int[], object>, double> action)
+        protected static void MinValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
+        {
+            if (dataFieldItems.TryGetValue(key, out object o))
+            {
+                if (o is double cv && d < (double)cv)
+                {
+                    dataFieldItems[key] = d;
+                }
+            }
+            else
+            {
+                dataFieldItems[key] = d;
+            }
+
+        }
+        protected static void MaxValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
+        {
+            if (dataFieldItems.TryGetValue(key, out object o))
+            {
+                if (o is double cv && d > (double)cv)
+                {
+                    dataFieldItems[key] = d;
+                }
+            }
+            else
+            {
+                dataFieldItems[key] = d;
+            }
+        }
+        protected static void AverageValue(int[] key, Dictionary<int[], object> dataFieldItems, object value)
+        {
+            if (dataFieldItems.TryGetValue(key, out object v))
+            {
+                if (v is AverageItem ai)
+                {
+                    dataFieldItems[key] = ai + value;
+                }
+            }
+            else
+            {
+                dataFieldItems[key] = new AverageItem((double)value);
+            }
+        }
+        protected static void ValueList(int[] key, Dictionary<int[], object> dataFieldItems, object value)
+        {
+            if (dataFieldItems.TryGetValue(key, out object cv))
+            {
+                if (cv is List<double> l)
+                {
+                    l.Add((double)value);
+                }
+            }
+            else
+            {
+                dataFieldItems[key] = new List<double>() { (double)value };
+            }
+        }
+        private static void GetMinMaxValue(int[] key, Dictionary<int[], object> dataFieldItems, object value, bool isMin)
+        {
+            double v;
+            if (dataFieldItems.TryGetValue(key, out object currentValue))
+            {
+                if (currentValue is ExcelErrorValue) return;
+                v = GetValueDouble(value);
+            }
+            else
+            {
+                v = GetValueDouble(value);
+            }
+            if (double.IsNaN(v))
+            {
+                dataFieldItems[key] = value;
+            }
+            else if (isMin)
+            {
+                if (currentValue == null || v < (double)currentValue)
+                {
+                    dataFieldItems[key] = v;
+                }
+            }
+            else
+            {
+                if (currentValue == null || v > (double)currentValue)
+                {
+                    dataFieldItems[key] = v;
+                }
+            }
+        }
+
+        protected static void AddItemsToKeys<T>(int[] key, Dictionary<int[], object> dataFieldItems, T d, Action<int[], Dictionary<int[], object>, T> action)
         {
             action(key, dataFieldItems, d);
             for (int i = 0; i < key.Length; i++)

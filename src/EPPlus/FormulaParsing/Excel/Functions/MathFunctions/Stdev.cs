@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     return CompileResult.GetErrorResult(eErrorType.Div0);
                 }
-                ret = MathObj.Sqrt((double)div);
+                ret = MathObj.Sqrt(div);
             }
             return CreateResult(ret, DataType.Decimal);
         } 

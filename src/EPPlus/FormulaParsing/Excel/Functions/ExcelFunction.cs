@@ -505,7 +505,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="left">Numerator</param>
         /// <param name="right">Denominator</param>
         /// <returns></returns>
-        protected double Divide(double left, double right)
+        internal static protected double Divide(double left, double right)
         {
             if (Math.Abs(right) - 0d < double.Epsilon)
             {

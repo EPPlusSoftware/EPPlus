@@ -30,10 +30,11 @@ namespace OfficeOpenXml.Table.PivotTable
             { DataFieldFunctions.Product, new PivotFunctionProduct() },
             { DataFieldFunctions.Min, new PivotFunctionMin() },
             { DataFieldFunctions.Max, new PivotFunctionMax() },
+            { DataFieldFunctions.Average, new PivotFunctionAverage() },
             { DataFieldFunctions.StdDev,  new PivotFunctionStdDev() },
-            { DataFieldFunctions.StdDevP,  null },
-            { DataFieldFunctions.Var,  null },
-            { DataFieldFunctions.VarP,  null }
+            { DataFieldFunctions.StdDevP,  new PivotFunctionStdDevP() },
+            { DataFieldFunctions.Var,  new PivotFunctionVar() },
+            { DataFieldFunctions.VarP,  new PivotFunctionVarP() }
         };
         internal static List<Dictionary<int[], object>> Calculate(ExcelPivotTable pivotTable)
         {
