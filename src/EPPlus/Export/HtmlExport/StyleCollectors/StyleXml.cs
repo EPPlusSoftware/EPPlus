@@ -39,12 +39,18 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 
         public StyleXml(ExcelXfs style)        
         {
-            if(style.FillId >  0)
-            {
-                _style = style;
+            _style = style;
 
+            if (style.FillId >  0)
+            {
                 Fill = new FillXml(style.Fill);
+            }
+            if(style.FontId > 0)
+            {
                 Font = new FontXml(style.Font);
+            }
+            if(style.BorderId > 0) 
+            {
                 Border = new BorderXml(style.Border);
             }
         }

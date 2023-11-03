@@ -12,6 +12,7 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
+using OfficeOpenXml.Export.HtmlExport.Settings;
 
 namespace OfficeOpenXml.Export.HtmlExport.Collectors
 {
@@ -40,6 +41,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             _ruleCollection = new CssRuleCollection();
 
             _context = new TranslatorContext(settings);
+            _context.Theme = _theme;
+            _context.IndentValue = _cssSettings.IndentValue;
+            _context.IndentUnit = _cssSettings.IndentUnit;
+        }
+
+        internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlTableExportSettings settings)
+        {
+            _settings = settings;
+            _cssSettings = settings.Css;
+            Init(ranges);
+            _ruleCollection = new CssRuleCollection();
+
+            _context = new TranslatorContext(_settings.Css.Exclude.TableStyle);
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
@@ -187,6 +201,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             _context.AddDeclarations(imgProperties);
 
             RuleCollection.AddRule(imgProperties);
+        }
+
+        internal void AddOtherCollectionToThisCollection(CssRuleCollection otherCollection)
+        {
+            foreach (var otherRule in otherCollection)
+            {
+                _ruleCollection.AddRule(otherRule);
+            }
         }
     }
 }

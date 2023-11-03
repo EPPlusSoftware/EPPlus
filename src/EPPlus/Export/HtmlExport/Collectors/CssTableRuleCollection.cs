@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
         ExcelTable _table;
         ExcelTheme _theme;
 
-        CssRuleCollection _ruleCollection;
+        internal CssRuleCollection RuleCollection { get; private set; }
         TranslatorContext _context;
 
         internal CssTableRuleCollection(ExcelTable table, HtmlTableExportSettings settings)
@@ -39,6 +39,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
 
             _context = new TranslatorContext(_settings.Css.Exclude.TableStyle);
             _context.Theme = _theme;
+
+            RuleCollection = new CssRuleCollection();
         }
 
         internal void AddHyperlink(string name, ExcelTableStyleElement element)
@@ -53,7 +55,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
 
                 styleClass.AddDeclarationList(ft.GenerateDeclarationList(_context));
 
-                _ruleCollection.AddRule(styleClass);
+                RuleCollection.AddRule(styleClass);
             }
         }
 
@@ -99,7 +101,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                     }
 
                     //TODO: If we exclude both horizontal and vertical we can get a class with empty declaration list here...
-                    _ruleCollection.AddRule(styleClass);
+                    RuleCollection.AddRule(styleClass);
                 }
             }
         }
@@ -108,8 +110,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
         {
             if (element.Style.HasValue == false) return; //Dont add empty elements
 
-            //TODO: Fix. Don't think is castable.
-            var s = (IStyleExport)element.Style;
+            var s = element.Style;
 
             var styleClass = new CssRule($"table.{name}{htmlElement}");
 
@@ -118,15 +119,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             if (s.Fill != null && _context.Exclude.Fill == false)
             {
                 //TODO: Ensure if gradients with more than 2 colors it is handled correctly.
-                translators.Add(new CssFillTranslator(s.Fill));
+                translators.Add(new CssFillTranslator(new FillDxf(s.Fill)));
             }
             if (s.Font != null && _context.Exclude.Font != eFontExclude.All)
             {
-                translators.Add(new CssFontTranslator(s.Font, null));
+                translators.Add(new CssFontTranslator(new FontDxf(s.Font), null));
             }
-            if(s.Border != null)
+            if(s.Border != null && _context.Exclude.Border != eBorderExclude.All)
             {
-                translators.Add(new CssBorderTranslator(s.Border));
+                translators.Add(new CssBorderTranslator(new BorderDxf(s.Border)));
             }
 
             foreach (var translator in translators)
@@ -135,7 +136,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                 _context.AddDeclarations(styleClass);
             }
 
-            _ruleCollection.AddRule(styleClass);
+            RuleCollection.AddRule(styleClass);
         }
 
         internal void AddToCollectionVH(string name, ExcelTableStyleElement element, string htmlElement)
@@ -149,7 +150,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             {
                 var translator = new CssBorderTranslator(s.Border);
                 styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
-                _ruleCollection.AddRule(styleClass);
+                RuleCollection.AddRule(styleClass);
+            }
+        }
+
+        internal void AddOtherCollectionToThisCollection(CssRuleCollection otherCollection)
+        {
+            foreach (var otherRule in otherCollection)
+            {
+                RuleCollection.AddRule(otherRule);
             }
         }
     }

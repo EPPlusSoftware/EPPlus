@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.HtmlExport.Collectors;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Style.Table;
@@ -34,63 +35,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private readonly ExcelTable _table;
         private readonly HtmlTableExportSettings _tableSettings;
-
-        private void RenderTableCss(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, Dictionary<string, int> styleCache, List<string> datatypes)
-        {
-            var styleWriter = new EpplusTableCssWriter(sw, table, settings);
-            if (settings.Minify == false) styleWriter.WriteLine();
-            ExcelTableNamedStyle tblStyle;
-            if (table.TableStyle == TableStyles.Custom)
-            {
-                tblStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
-            }
-            else
-            {
-                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                tblStyle = new ExcelTableNamedStyle(table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
-                tblStyle.SetFromTemplate(table.TableStyle);
-            }
-
-            var tableClass = $"{TableClass}.{HtmlExportTableUtil.TableStyleClassPrefix}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
-            styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
-            styleWriter.AddAlignmentToCss($"{tableClass}", datatypes);
-
-            styleWriter.AddToCss($"{tableClass}", tblStyle.WholeTable, "");
-            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
-
-            //Header
-            styleWriter.AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead");
-            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.HeaderRow, "");
-
-            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
-
-            //Total
-            styleWriter.AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot");
-            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.TotalRow, "");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
-
-            //Columns stripes
-            var tableClassCS = $"{tableClass}-column-stripes";
-            styleWriter.AddToCss($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
-            styleWriter.AddToCss($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
-
-            //Row stripes
-            var tableClassRS = $"{tableClass}-row-stripes";
-            styleWriter.AddToCss($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
-            styleWriter.AddToCss($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
-
-            //Last column
-            var tableClassLC = $"{tableClass}-last-column";
-            styleWriter.AddToCss($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
-
-            //First column
-            var tableClassFC = $"{tableClass}-first-column";
-            styleWriter.AddToCss($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
-
-            styleWriter.FlushStream();
-        }
 
         private void RenderCellCss(EpplusCssWriter styleWriter)
         {
@@ -148,10 +92,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             var ranges = new List<ExcelRangeBase>() { _table.Range };
             var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle);
+            var collection = new CssRangeRuleCollection(ranges, _tableSettings);
 
 
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
-            if (_tableSettings.Css.IncludeTableStyles) RenderTableCss(sw, _table, _tableSettings, _exporterContext._styleCache, _dataTypes);
+            if (_tableSettings.Css.IncludeTableStyles) RenderTableCss(_table, _tableSettings, _dataTypes);
             if (_tableSettings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
             if (_tableSettings.Pictures.Include == ePictureInclude.Include)
             {

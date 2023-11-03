@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
 
         internal bool IsAdded(int bottomStyleId = -1, int rightStyleId = -1)
         {
-            if (Style == null || Cache == null)
+            if (Style.HasStyle == false || Cache == null)
             {
                 throw new InvalidOperationException("Must assign Style and Cache to Stylechecker first");
             }
