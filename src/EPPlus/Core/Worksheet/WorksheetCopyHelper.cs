@@ -257,125 +257,10 @@ namespace OfficeOpenXml.Core.Worksheet
             var drawRelation = added.Part.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, uriDraw), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/drawing");
             XmlElement e = added.WorksheetXml.SelectSingleNode("//d:drawing", nsm) as XmlElement;
             e.SetAttribute("id", ExcelPackage.schemaRelationships, drawRelation.Id);
+
             for (int i = 0; i < copy.Drawings.Count; i++)
             {
-                ExcelDrawing draw = copy.Drawings[i];
-                if (draw is ExcelChart chart)
-                {
-                    xml = chart.ChartXml.InnerXml;
-                    Uri uriChart;
-                    ZipPackagePart chartPart;
-                    if (chart._isChartEx)
-                    {
-                        uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chartEx{0}.xml");
-                        chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChartEx, pck.Compression);
-                    }
-                    else
-                    {
-                        uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chart{0}.xml");
-                        chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChart, pck.Compression);
-                    }
-                    StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
-                    streamChart.Write(xml);
-                    streamChart.Flush();
-                    //Now create the new relationship to the copied chart xml
-                    XmlNode relNode;
-                    if (chart._isChartEx)
-                    {
-                        relNode=draw.TopNode.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1' or @Requires='cx2']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart/@r:id", copy.Drawings.NameSpaceManager);
-                        string prevRelID = relNode?.Value;
-                        var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaChartExRelationships);
-                        XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//cx:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
-                        relAtt.Value = rel.Id;
-
-                    }
-                    else
-                    {
-                        relNode=draw.TopNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", copy.Drawings.NameSpaceManager);
-                        string prevRelID = relNode?.Value;
-                        var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
-                        XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
-                        relAtt.Value = rel.Id;
-                    }
-
-                    CopyChartRelations(copy, added, chart, chartPart);
-                }
-                else if (draw is ExcelPicture pic)
-                {
-                    IPictureContainer container = pic;
-                    var uri = container.UriPic;
-                    var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
-
-                    var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
-                    //Fixes problem with invalid image when the same image is used more than once.
-                    XmlNode relAtt =
-                        drawXml.SelectSingleNode(
-                            string.Format(
-                                "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
-                                pic.Name), copy.Drawings.NameSpaceManager);
-
-                    if (relAtt != null)
-                    {
-                        relAtt.Value = rel.Id;
-                    }
-                }
-                else if (draw is ExcelTableSlicer slicer)
-                {
-                    var name = pck.Workbook.GetSlicerName(slicer.Name);
-                    var newSlicer = added.Drawings[i] as ExcelTableSlicer;
-                    newSlicer.Name = name;
-                    newSlicer.SlicerName = name;
-                    //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
-                    newSlicer.CreateNewCache();
-                }
-                else if (draw is ExcelPivotTableSlicer ptSlicer)
-                {
-                    var name = pck.Workbook.GetSlicerName(ptSlicer.Name);
-                    var newSlicer = added.Drawings[i] as ExcelPivotTableSlicer;
-                    newSlicer.Name = name;
-                    newSlicer.SlicerName = name;
-                    //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
-                    newSlicer.CreateNewCache(ptSlicer.Cache._field);
-                }
-                else if(draw is ExcelControl ctrl)
-                {
-                    var UriCtrl = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/ctrlProps/ctrlProp{0}.xml");
-                    var ctrlPart = pck.ZipPackage.CreatePart(UriCtrl, ContentTypes.contentTypeControlProperties, pck.Compression);
-                    StreamWriter streamChart = new StreamWriter(ctrlPart.GetStream(FileMode.Create, FileAccess.Write));
-                    streamChart.Write(ctrl.ControlPropertiesXml.OuterXml);
-                    streamChart.Flush();
-
-                    var prevRelID = ctrl._control.RelationshipId;
-                    var rel = added.Part.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
-                    XmlAttribute relAtt = added.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), added.NameSpaceManager) as XmlAttribute;
-                    relAtt.Value = rel.Id;
-                }
-                else if (draw is ExcelShape shp)
-                {
-                    CopyBlipFillDrawing(added, partDraw, drawXml, draw, shp.Fill, uriDraw);
-                }
-
-                if (draw.HypRel != null)
-                {
-                    ZipPackageRelationship rel;
-                    if (string.IsNullOrEmpty(draw.HypRel.Target))
-                    {
-                        rel = partDraw.CreateRelationship(draw.HypRel.TargetUri.OriginalString, draw.HypRel.TargetMode, draw.HypRel.RelationshipType);
-                    }
-                    else
-                    {
-                        rel = partDraw.CreateRelationship(draw.HypRel.Target, draw.HypRel.TargetMode, draw.HypRel.RelationshipType);
-                    }
-
-                    XmlNode relAtt =
-                        drawXml.SelectSingleNode(
-                                $"//{draw._nvPrPath}[@name='{draw.Name}']/a:hlinkClick/@r:id", copy.Drawings.NameSpaceManager);
-
-                    if (relAtt != null)
-                    {
-                        relAtt.Value = rel.Id;
-                    }
-                }
+                CreateDrawingRelations(copy.Drawings[i], xml, pck, partDraw, drawXml, uriDraw, copy, added, i);
             }
 
             //rewrite the drawing xml with the new relID's
@@ -422,6 +307,172 @@ namespace OfficeOpenXml.Core.Worksheet
                             s.HeaderAddress = new ExcelAddressBase(ExcelCellBase.GetFullAddress(added.Name, s.HeaderAddress.LocalAddress));
                         }
 
+                    }
+                }
+            }
+        }
+
+        private static void CreateDrawingRelations(ExcelDrawing draw, string xml, ExcelPackage pck,
+            ZipPackagePart partDraw, XmlDocument drawXml, Uri uriDraw, ExcelWorksheet copy, ExcelWorksheet added, int i, ExcelGroupShape gShape = null)
+        {
+
+            if (draw is ExcelGroupShape group)
+            {
+                for (int j = 0; j < group.Drawings.Count; j++)
+                {
+                    CreateDrawingRelations(group.Drawings[j], xml, pck, partDraw, drawXml, uriDraw, copy, added, i, group);
+                }
+            }
+            else
+            {
+                if (draw is ExcelChart chart)
+                {
+                    xml = chart.ChartXml.InnerXml;
+                    Uri uriChart;
+                    ZipPackagePart chartPart;
+                    if (chart._isChartEx)
+                    {
+                        uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chartEx{0}.xml");
+                        chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChartEx, pck.Compression);
+                    }
+                    else
+                    {
+                        uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chart{0}.xml");
+                        chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChart, pck.Compression);
+                    }
+                    StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
+                    streamChart.Write(xml);
+                    streamChart.Flush();
+                    //Now create the new relationship to the copied chart xml
+                    XmlNode relNode;
+                    if (chart._isChartEx)
+                    {
+                        relNode = draw.TopNode.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1' or @Requires='cx2']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart/@r:id", copy.Drawings.NameSpaceManager);
+                        string prevRelID = relNode?.Value;
+                        var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaChartExRelationships);
+                        XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//cx:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
+                        relAtt.Value = rel.Id;
+
+                    }
+                    else
+                    {
+                        relNode = draw.TopNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", copy.Drawings.NameSpaceManager);
+                        string prevRelID = relNode?.Value;
+                        var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
+                        XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
+                        relAtt.Value = rel.Id;
+                    }
+
+                    CopyChartRelations(copy, added, chart, chartPart);
+                }
+                else if (draw is ExcelPicture pic)
+                {
+                    if (gShape == null)
+                    {
+                        IPictureContainer container = pic;
+                        var uri = container.UriPic;
+                        var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
+
+                        var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                        //Fixes problem with invalid image when the same image is used more than once.
+                        XmlNode relAtt =
+                            drawXml.SelectSingleNode(
+                                string.Format(
+                                    "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
+                                    pic.Name), copy.Drawings.NameSpaceManager);
+
+                        if (relAtt != null)
+                        {
+                            relAtt.Value = rel.Id;
+                        }
+                    }
+                    else
+                    {
+
+                        IPictureContainer container = pic;
+
+                        var source = container.RelationDocument.RelatedPart._rels[
+                            pic.ParentGroup._drawings._drawingRelation.Id].SourceUri;
+
+                        var id = pic.GetXmlNodeString(pic._hyperLinkPath);
+                        var target = container.RelationDocument.RelatedPart._rels[id].TargetUri;
+
+                        //var target = container.RelationDocument.RelatedPart._rels[pic.].TargetUri;
+
+                        //added.Workbook._package.PictureStore._images[pic.Name];
+                        var aPic = pic;
+                        //var rId = container.RelationDocument.RelatedPart
+
+                        var rel = partDraw.CreateRelationship(target, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+
+
+                        //XmlNode relAtt =
+                        //drawXml.SelectSingleNode(
+                        //    string.Format(
+                        //        "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
+                        //        pic.Name), copy.Drawings.NameSpaceManager);
+
+                        //if (relAtt != null)
+                        //{
+                        //    relAtt.Value = rel.Id;
+                        //}
+                    }
+                }
+                else if (draw is ExcelTableSlicer slicer)
+                {
+                    var name = pck.Workbook.GetSlicerName(slicer.Name);
+                    var newSlicer = added.Drawings[i] as ExcelTableSlicer;
+                    newSlicer.Name = name;
+                    newSlicer.SlicerName = name;
+                    //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
+                    newSlicer.CreateNewCache();
+                }
+                else if (draw is ExcelPivotTableSlicer ptSlicer)
+                {
+                    var name = pck.Workbook.GetSlicerName(ptSlicer.Name);
+                    var newSlicer = added.Drawings[i] as ExcelPivotTableSlicer;
+                    newSlicer.Name = name;
+                    newSlicer.SlicerName = name;
+                    //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
+                    newSlicer.CreateNewCache(ptSlicer.Cache._field);
+                }
+                else if (draw is ExcelControl ctrl)
+                {
+                    var UriCtrl = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/ctrlProps/ctrlProp{0}.xml");
+                    var ctrlPart = pck.ZipPackage.CreatePart(UriCtrl, ContentTypes.contentTypeControlProperties, pck.Compression);
+                    StreamWriter streamChart = new StreamWriter(ctrlPart.GetStream(FileMode.Create, FileAccess.Write));
+                    streamChart.Write(ctrl.ControlPropertiesXml.OuterXml);
+                    streamChart.Flush();
+
+                    var prevRelID = ctrl._control.RelationshipId;
+                    var rel = added.Part.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
+                    XmlAttribute relAtt = added.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), added.NameSpaceManager) as XmlAttribute;
+                    relAtt.Value = rel.Id;
+                }
+                else if (draw is ExcelShape shp)
+                {
+                    CopyBlipFillDrawing(added, partDraw, drawXml, draw, shp.Fill, uriDraw);
+                }
+
+                if (draw.HypRel != null)
+                {
+                    ZipPackageRelationship rel;
+                    if (string.IsNullOrEmpty(draw.HypRel.Target))
+                    {
+                        rel = partDraw.CreateRelationship(draw.HypRel.TargetUri.OriginalString, draw.HypRel.TargetMode, draw.HypRel.RelationshipType);
+                    }
+                    else
+                    {
+                        rel = partDraw.CreateRelationship(draw.HypRel.Target, draw.HypRel.TargetMode, draw.HypRel.RelationshipType);
+                    }
+
+                    XmlNode relAtt =
+                        drawXml.SelectSingleNode(
+                                $"//{draw._nvPrPath}[@name='{draw.Name}']/a:hlinkClick/@r:id", copy.Drawings.NameSpaceManager);
+
+                    if (relAtt != null)
+                    {
+                        relAtt.Value = rel.Id;
                     }
                 }
             }

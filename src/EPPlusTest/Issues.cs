@@ -5504,5 +5504,65 @@ namespace EPPlusTest
                 SaveAndCleanup(destinationpackage);
             }
         }
+
+        [TestMethod]
+        public void i1143()
+        {
+            using (var gPck = OpenTemplatePackage("pic_shape_grouped2.xlsx"))
+            {
+                var sheet = gPck.Workbook.Worksheets[0];
+
+                //sheet.Cells["A1"].Value = 5;
+
+                gPck.Workbook.Worksheets.Add("copiedSheet", sheet);
+
+                gPck.Workbook.Worksheets.Copy("sheet1", "CopiedSheetMethod2");
+
+                SaveAndCleanup(gPck);
+            }
+        }
+
+        [TestMethod]
+        public void i1143Shapes()
+        {
+            using (var gPck = OpenTemplatePackage("shape_group_itest.xlsx"))
+            {
+                var sheet = gPck.Workbook.Worksheets[0];
+
+                //sheet.Cells["A1"].Value = 5;
+
+                gPck.Workbook.Worksheets.Add("copiedSheet", sheet);
+
+                gPck.Workbook.Worksheets.Copy("sheet1", "CopiedSheetMethod2");
+
+                SaveAndCleanup(gPck);
+            }
+        }
+
+        [TestMethod]
+        public void i1143FromScratch()
+        {
+            using (var pck = OpenPackage("i1143.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("origws");
+
+                var drawing1 = sheet.Drawings.AddPicture("newPic", "C:\\Users\\OssianEdström\\Pictures\\webp.png");
+                var drawing2 = sheet.Drawings.AddPicture("hesperion", "C:\\Users\\OssianEdström\\Pictures\\Hesperion.png");
+
+                drawing1.Group(drawing1);
+
+                //var group = sheet.Drawings.AddGroupBoxControl("pictures");
+
+                //group.Group(drawing1, drawing2);
+
+                //sheet.Cells["A1"].Value = 5;
+
+                pck.Workbook.Worksheets.Add("copiedSheet", sheet);
+
+                pck.Workbook.Worksheets.Copy("origws", "CopiedSheetMethod2");
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }
