@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Writers
 {
-    internal class CssTrueWriter : TrueWriterBase
+    internal partial class CssTrueWriter : TrueWriterBase
     {
         internal CssTrueWriter(StreamWriter writer) : base(writer)
         {
