@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             Init(ranges);
             _ruleCollection = new CssRuleCollection();
 
-            _context = new TranslatorContext(_settings.Css.Exclude.TableStyle);
+            _context = new TranslatorContext(settings.Css.Exclude.TableStyle);
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
