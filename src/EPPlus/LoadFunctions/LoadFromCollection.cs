@@ -201,7 +201,21 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
                             {
-                                values[row, col++] = GetValueByPath(item, colInfo.Path);
+                                if(colInfo.IsDictionaryProperty)
+                                {
+                                    var dict = GetValueByPath(item, colInfo.Path) as Dictionary<string, object>;
+                                    if(dict != null)
+                                    {
+                                        if (dict.ContainsKey(colInfo.DictinaryKey))
+                                        {
+                                            values[row, col++] = dict[colInfo.DictinaryKey];
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    values[row, col++] = GetValueByPath(item, colInfo.Path);
+                                }
                                 continue;
                             }
                             var obj = item;
@@ -225,6 +239,18 @@ namespace OfficeOpenXml.LoadFunctions
                                 else if (member is MethodInfo)
                                 {
                                     v = ((MethodInfo)member).Invoke(obj, null);
+                                }
+                                if (colInfo.IsDictionaryProperty)
+                                {
+                                    var dict = v as Dictionary<string, object>;
+                                    if(dict != null && dict.ContainsKey(colInfo.DictinaryKey))
+                                    {
+                                        v = dict[colInfo.DictinaryKey];
+                                    }
+                                    else
+                                    {
+                                        v = null;
+                                    }
                                 }
 
 #if (!NET35)
