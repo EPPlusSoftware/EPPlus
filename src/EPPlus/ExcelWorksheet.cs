@@ -1110,7 +1110,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                SetXmlNodeString(codeModuleNamePath, value);
+                SetXmlNodeString(codeModuleNamePath, value, true);
             }
         }
         internal void CodeNameChange(string value)

@@ -843,7 +843,8 @@ namespace OfficeOpenXml
             {
                 if (_isExternalStream==false && _stream != null && (_stream.CanRead || _stream.CanWrite))
                 {
-                    CloseStream();
+                    _stream.Close();
+                    _stream.Dispose();
                 }
                 _zipPackage.Close();    
                 if(_workbook != null)
@@ -1228,7 +1229,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="input">The input.</param>
         public void Load(Stream input)
-        {
+        {            
             Load(input, RecyclableMemory.GetStream(), null);            
         }
         /// <summary>
@@ -1248,6 +1249,7 @@ namespace OfficeOpenXml
         /// <param name="Password"></param>
         private void Load(Stream input, Stream output, string Password)
         {
+            
             ReleaseResources();
             if (input.CanSeek && input.Length == 0) // Template is blank, Construct new
             {

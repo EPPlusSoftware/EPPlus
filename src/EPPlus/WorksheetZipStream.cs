@@ -17,7 +17,7 @@ using System.IO;
 
 namespace OfficeOpenXml
 {
-    internal class WorksheetZipStream : Stream
+    internal class WorksheetZipStream : Stream, IDisposable
     {
         RollingBuffer _rollingBuffer = new RollingBuffer(8192 * 2); //Zip stream buffer is 8K, so we use the double here so we preserve any values from previous read.
         private Stream _stream;
@@ -43,7 +43,7 @@ namespace OfficeOpenXml
         }
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if(_stream.Length > 0 && _stream.Position + count > _stream.Length)
+            if (_stream.Length > 0 && _stream.Position + count > _stream.Length)
             {
                 count = (int)(_stream.Length - _stream.Position);
             }
@@ -223,7 +223,7 @@ namespace OfficeOpenXml
             WriteToBuffer = writeToBuffer;
             return startXml + xml;
         }
-        internal string ReadToExt(string startXml, string uriValue, ref string lastElement, string lastUri="")
+        internal string ReadToExt(string startXml, string uriValue, ref string lastElement, string lastUri = "")
         {
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
@@ -232,13 +232,13 @@ namespace OfficeOpenXml
             {
                 var lastExtStartIx = GetXmlIndex(xml, lastUri);
                 int endExtIx;
-                if(lastExtStartIx < 0)
+                if (lastExtStartIx < 0)
                 {
                     endExtIx = FindElementPos(xml, "ext", false);
                 }
                 else
                 {
-                    endExtIx = FindElementPos(xml, "ext", false, lastExtStartIx+4);
+                    endExtIx = FindElementPos(xml, "ext", false, lastExtStartIx + 4);
                 }
                 xml = xml.Substring(endExtIx);
             }
@@ -287,16 +287,16 @@ namespace OfficeOpenXml
         private bool HasExtElementUri(string elementString, string uriValue)
         {
             if (elementString.StartsWith("</")) return false; //An endtag, return false;
-            var ix=elementString.IndexOf("uri");
+            var ix = elementString.IndexOf("uri");
             var pc = elementString[ix - 1];
             var nc = elementString[ix + 3];
-            if(char.IsWhiteSpace(pc) && (char.IsWhiteSpace(nc) || nc=='='))
+            if (char.IsWhiteSpace(pc) && (char.IsWhiteSpace(nc) || nc == '='))
             {
                 ix = elementString.IndexOf('=', ix + 1);
                 var ixAttrStart = elementString.IndexOf('"', ix + 1) + 1;
                 var ixAttrEnd = elementString.IndexOf('"', ixAttrStart + 1) - 1;
 
-                var uri = elementString.Substring(ixAttrStart, ixAttrEnd - ixAttrStart+1);
+                var uri = elementString.Substring(ixAttrStart, ixAttrEnd - ixAttrStart + 1);
                 return uriValue.Equals(uri, StringComparison.OrdinalIgnoreCase);
             }
             return false;
@@ -310,7 +310,7 @@ namespace OfficeOpenXml
         /// <param name="returnStartPos">If the position before the start element is returned. If false the end of the end element is returned.</param>
         /// <param name="ix">the index</param>
         /// <returns>The position of the element in the input xml</returns>
-        private int FindElementPos(string xml, string element, bool returnStartPos = true, int ix=0)
+        private int FindElementPos(string xml, string element, bool returnStartPos = true, int ix = 0)
         {
             while (true)
             {
@@ -346,6 +346,14 @@ namespace OfficeOpenXml
                 if (ix < 0) return -1;
                 ix += element.Length;
             }
+        }
+        /// <summary>
+        /// Disposes resources.
+        /// </summary>
+        public void Dispose()
+        {
+            base.Dispose();
+            Buffer.BaseStream.Dispose();
         }
     }
 }

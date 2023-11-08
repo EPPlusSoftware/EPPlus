@@ -5504,5 +5504,31 @@ namespace EPPlusTest
                 SaveAndCleanup(destinationpackage);
             }
         }
+        [TestMethod]
+        public void GroupDrawingIssue()
+        {
+            using (var p = OpenTemplatePackage("pic_shape_grouped2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var grpSp = (ExcelGroupShape)ws.Drawings[0];
+                var d = grpSp.Drawings[0];
+
+                p.Workbook.Worksheets.Add("Sheet2", ws);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i1146()
+        {
+            using (var p1 = OpenTemplatePackage("HeaderFooterTest.xlsx"))
+            {
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws = p1.Workbook.Worksheets[0];
+                    p2.Workbook.Worksheets.Add("sheet1", ws);
+                    SaveWorkbook("HeaderFooterSaved.xlsx", p2);
+                }
+            }
+        }
     }
 }

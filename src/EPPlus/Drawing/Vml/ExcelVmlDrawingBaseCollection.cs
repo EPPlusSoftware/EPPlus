@@ -18,6 +18,8 @@ using System.Collections;
 using OfficeOpenXml.Utils;
 using System.IO;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Packaging;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
