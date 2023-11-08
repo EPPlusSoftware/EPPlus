@@ -1,4 +1,6 @@
 version: 6.2.11.{build}
+branches:
+  only:
   - develop6
 configuration: release
 image: Visual Studio 2022
