@@ -509,7 +509,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.30" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.32" />
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
@@ -528,7 +528,7 @@
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.3" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.4" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
 			<Version>2.3.2</Version>
@@ -540,7 +540,7 @@
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.2" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
 		  <Version>2.3.2</Version>

@@ -842,7 +842,8 @@ namespace OfficeOpenXml
             {
                 if (_isExternalStream == false && _stream != null && (_stream.CanRead || _stream.CanWrite))
                 {
-                    CloseStream();
+                    _stream.Close();
+                    _stream.Dispose();
                 }
                 _zipPackage.Close();
                 if (_workbook != null)
