@@ -17,15 +17,18 @@ using System.Xml;
 using System.Collections;
 using System.Globalization;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Packaging;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
     /// <summary>
     /// A collection of vml drawings used for header and footer picturess
     /// </summary>
-    public class ExcelVmlDrawingPictureCollection : ExcelVmlDrawingBaseCollection, IEnumerable
+    public class ExcelVmlDrawingPictureCollection : ExcelVmlDrawingBaseCollection, IEnumerable, IPictureRelationDocument
     {
         internal List<ExcelVmlDrawingPicture> _images;
+        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
         internal ExcelVmlDrawingPictureCollection(ExcelWorksheet ws, Uri uri) :
             base(ws, uri, "d:legacyDrawingHF/@r:id")
         {            
@@ -149,5 +152,12 @@ namespace OfficeOpenXml.Drawing.Vml
         }
 
         #endregion
+        ExcelPackage IPictureRelationDocument.Package => _package;
+
+        Dictionary<string, HashInfo> IPictureRelationDocument.Hashes => _hashes;
+
+        ZipPackagePart IPictureRelationDocument.RelatedPart => Part;
+
+        Uri IPictureRelationDocument.RelatedUri => Uri;
     }
 }

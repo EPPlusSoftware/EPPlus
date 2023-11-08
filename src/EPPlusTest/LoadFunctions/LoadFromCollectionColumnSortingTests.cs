@@ -168,7 +168,7 @@ namespace EPPlusTest.LoadFunctions
                 Owner = new EmployeeDTO()
 				{
 					Active = true,
-					Email = "foo@bar.com",
+					Email = "foo@bar.com", 
 					Id = 1,
 					Name = "Mr. Foo"
 				}

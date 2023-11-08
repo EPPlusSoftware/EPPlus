@@ -50,6 +50,11 @@ namespace OfficeOpenXml.Packaging
             }
             set
             {
+                if(_stream!=null)
+                {
+                    _stream.Close();
+                    _stream.Dispose();
+                }
                 _stream = value;
             }
         }

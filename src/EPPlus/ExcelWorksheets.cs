@@ -180,6 +180,10 @@ namespace OfficeOpenXml
                     _pck.Workbook.VbaProject.Modules.Add(new ExcelVBAModule(worksheet.CodeNameChange) { Name = name, Code = "", Attributes = _pck.Workbook.VbaProject.GetDocumentAttributes(Name, "0{00020820-0000-0000-C000-000000000046}"), Type = eModuleType.Document, HelpContext = 0 });
                     worksheet.CodeModuleName = name;
                 }
+                else
+                {
+                    worksheet.CodeModuleName = null;
+                }
 
                 return worksheet;
             }

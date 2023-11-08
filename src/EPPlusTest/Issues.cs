@@ -57,6 +57,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Xml;
 
 namespace EPPlusTest
 {
@@ -237,7 +238,6 @@ namespace EPPlusTest
             ws.Cells["A1"].LoadFromCollection(l, true, TableStyles.Light16, BindingFlags.Instance | BindingFlags.Public,
                 new MemberInfo[] { typeof(cls2).GetProperty("prop2") });
         }
-
         [TestMethod]
         public void Issue15168()
         {
@@ -5469,57 +5469,65 @@ namespace EPPlusTest
             Assert.IsTrue(ExcelAddressBase.IsValidAddress("[0]Sheet1!Table1[[#All],[Column1]]"));
         }
 
-[TestMethod]
-        public void issues()
+        [TestMethod]
+        public void s532CacheIssue()
         {
-            //Inputs
-            string Path = @"C:\epplusTest\Workbooks\s532-Pivot-Cache.xlsx";
-            string pivotTableWorksheetName = "Sheet3";
-            string NewSourceDataSheetName = "Sheet2";
-            string pivotTableName = "PivotTable1";
-            string NewInputRange = "M6:S16";
-
-            //Output
-            bool success = false;
-            string exc = "";
-            int pivotTableCount = 0;
-
-            CultureInfo.CurrentCulture = new CultureInfo("en-US");
-
-            try
+            using (var package = OpenTemplatePackage("s532-Pivot-Cache.xlsx"))
             {
-                ExcelPackage package = new ExcelPackage(Path);
-                var pivotTableWorksheet = package.Workbook.Worksheets[pivotTableWorksheetName];
-                ExcelWorksheet ws = package.Workbook.Worksheets[NewSourceDataSheetName];
+                var pivotTableWorksheet = package.Workbook.Worksheets["Sheet3"];
+                ExcelWorksheet ws = package.Workbook.Worksheets["Sheet2"];
 
-                pivotTableCount = pivotTableWorksheet.PivotTables.Count;
-                if (pivotTableCount < 1)
-                {
-                    throw new Exception("No Pivot tables present in the given Pivot Worksheet");
-                }
-                else if (pivotTableName != "")
-                {
-                    pivotTableWorksheet.PivotTables[pivotTableName].CacheDefinition.SourceRange = ws.Cells[NewInputRange];
-                }
-                else
-                {
-                    for (int i = 0; i < pivotTableCount; i++)
-                    {
-                        pivotTableWorksheet.PivotTables[i].CacheDefinition.SourceRange = ws.Cells[NewInputRange];
-                    }
-                }
-                package.SaveAs(@"C:\epplusTest\Workbooks\Pivot_Result_Output.xlsx");
-                package.Dispose();
-                success = true;
+                pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
+                var definition = pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition;
+
+                Assert.AreEqual(definition.PivotTable.Fields[0].CacheField._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
+
+                SaveAndCleanup(package);
             }
-            catch (Exception e)
+        }
+
+        [TestMethod]
+        public void s542()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532_source.xlsx"))
             {
-                exc = "Failed. " + e.ToString();
-                success = false;
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532_destination.xlsx");
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["Sheet3"];
+                var wscopied = destinationpackage.Workbook.Worksheets.Add("Pivot Data", sourceworksheet);
+
+                var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                SaveAndCleanup(destinationpackage);
             }
-            finally
+        }
+        [TestMethod]
+        public void GroupDrawingIssue()
+        {
+            using (var p = OpenTemplatePackage("pic_shape_grouped2.xlsx"))
             {
-                System.GC.Collect();
+                var ws = p.Workbook.Worksheets[0];
+                var grpSp = (ExcelGroupShape)ws.Drawings[0];
+                var d = grpSp.Drawings[0];
+
+                p.Workbook.Worksheets.Add("Sheet2", ws);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i1146()
+        {
+            using (var p1 = OpenTemplatePackage("HeaderFooterTest.xlsx"))
+            {
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws = p1.Workbook.Worksheets[0];
+                    p2.Workbook.Worksheets.Add("sheet1", ws);
+                    SaveWorkbook("HeaderFooterSaved.xlsx", p2);
+                }
             }
         }
     }
