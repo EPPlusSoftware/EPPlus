@@ -12,13 +12,19 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.Collectors;
+using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style.Table;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
+using System.Runtime;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -66,61 +72,120 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        internal static CssTableRuleCollection RenderTableCss(ExcelTable table, HtmlTableExportSettings settings, List<string> datatypes)
+        protected void AddRangesToCollection(CssRangeRuleCollection cssTranslator, bool isTableExporter = false)
+        {
+            var addedTableStyles = new HashSet<TableStyles>();
+
+            foreach (var range in _ranges._list)
+            {
+                AddCellCss(cssTranslator, range, isTableExporter);
+
+                if (Settings.TableStyle == eHtmlRangeTableInclude.Include && !isTableExporter)
+                {
+                    var table = range.GetTable();
+                    if (table != null &&
+                       table.TableStyle != TableStyles.None &&
+                       addedTableStyles.Contains(table.TableStyle) == false)
+                    {
+                        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
+                        cssTranslator.AddOtherCollectionToThisCollection
+                            (
+                                CreateTableCssRules(table, settings, _dataTypes).RuleCollection
+                            );
+                        addedTableStyles.Add(table.TableStyle);
+                    }
+                }
+            }
+        }
+
+        protected void AddCellCss(CssRangeRuleCollection collection, ExcelRangeBase range, bool isTableExporter = false)
+        {
+            var styles = range.Worksheet.Workbook.Styles;
+            var ns = styles.GetNormalStyle();
+            var ce = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
+
+            while (ce.Next())
+            {
+                if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
+                {
+                    var sc = new StyleChecker(styles);
+                    sc.Style = new StyleXml(styles.CellXfs[ce.Value._styleId]);
+                    sc.Cache = _exporterContext._styleCache;
+                    var ma = range.Worksheet.MergedCells[ce.Row, ce.Column];
+
+                    if (!isTableExporter && ma != null)
+                    {
+                        if(!AddMergedCellsToCollection(range, ma, ce, sc, collection))
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if (sc.ShouldAdd)
+                        {
+                            collection.AddToCollection(sc.GetStyleList(), ns, sc.Id);
+                        }
+                    }
+
+                    AddConditionalFormattingsToCollection(ce.CellAddress, ns, collection);
+                }
+            }
+        }
+
+        private bool AddMergedCellsToCollection(ExcelRangeBase range, string ma, CellStoreEnumerator<ExcelValue> ce, StyleChecker sc, CssRangeRuleCollection collection)
+        {
+            var address = new ExcelAddressBase(ma);
+
+            var fromRow = address._fromRow < range._fromRow ? range._fromRow : address._fromRow;
+            var fromCol = address._fromCol < range._fromCol ? range._fromCol : address._fromCol;
+
+            if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
+                return false;
+
+            var mAdr = new ExcelAddressBase(ma);
+            var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
+            var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
+
+            if (sc.ShouldAddWithBorders(bottomStyleId, rightStyleId))
+            {
+                collection.AddToCollection(sc.GetStyleList(), range.Worksheet.Workbook.Styles.GetNormalStyle(), sc.Id);
+            }
+
+            return true;
+        }
+
+
+        internal void AddConditionalFormattingsToCollection(string cellAddress, ExcelNamedStyleXml normalStyle, CssRangeRuleCollection cssTranslator)
+        {
+            if (cellAddress != null)
+            {
+                var items = GetCFItemsAtAddress(cellAddress);
+
+                foreach (var cf in items)
+                {
+                    var style = new StyleDxf(cf.Value.Style);
+                    if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id))
+                    {
+                        var name = $".{Settings.StyleClassPrefix}{Settings.CellStyleClassName}-dxf.id{id}";
+                        cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id, name);
+                    }
+                }
+            }
+        }
+
+        internal List<QuadRangeItem<ExcelConditionalFormattingRule>> GetCFItemsAtAddress(string cellAddress)
+        {
+            return _exporterContext._cfQuadTree.GetIntersectingRangeItems
+                (new QuadRange(new ExcelAddress(cellAddress)));
+        }
+
+
+        internal static CssTableRuleCollection CreateTableCssRules(ExcelTable table, HtmlTableExportSettings settings, List<string> datatypes)
         {
             var tableRules = new CssTableRuleCollection(table, settings);
-
-            //if (settings.Minify == false) styleWriter.WriteLine();
-            ExcelTableNamedStyle tblStyle;
-            if (table.TableStyle == TableStyles.Custom)
-            {
-                tblStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
-            }
-            else
-            {
-                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                tblStyle = new ExcelTableNamedStyle(table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
-                tblStyle.SetFromTemplate(table.TableStyle);
-            }
-
-            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
-
-            tableRules.AddHyperlink($"{tableClass}", tblStyle.WholeTable);
-            tableRules.AddAlignment($"{tableClass}", datatypes);
-
-            tableRules.AddToCollection($"{tableClass}", tblStyle.WholeTable, "");
-            tableRules.AddToCollectionVH($"{tableClass}", tblStyle.WholeTable, "");
-
-            //Header
-            tableRules.AddToCollection($"{tableClass}", tblStyle.HeaderRow, " thead");
-            tableRules.AddToCollectionVH($"{tableClass}", tblStyle.HeaderRow, "");
-
-            tableRules.AddToCollection($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
-            tableRules.AddToCollection($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
-
-            //Total
-            tableRules.AddToCollection($"{tableClass}", tblStyle.TotalRow, " tfoot");
-            tableRules.AddToCollectionVH($"{tableClass}", tblStyle.TotalRow, "");
-            tableRules.AddToCollection($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
-            tableRules.AddToCollection($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
-
-            //Columns stripes
-            var tableClassCS = $"{tableClass}-column-stripes";
-            tableRules.AddToCollection($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
-            tableRules.AddToCollection($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
-
-            //Row stripes
-            var tableClassRS = $"{tableClass}-row-stripes";
-            tableRules.AddToCollection($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
-            tableRules.AddToCollection($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
-
-            //Last column
-            var tableClassLC = $"{tableClass}-last-column";
-            tableRules.AddToCollection($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
-
-            //First column
-            var tableClassFC = $"{tableClass}-first-column";
-            tableRules.AddToCollection($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
+            var tableClass = $"{TableClass}.{TableStyleClassPrefix}";
+            tableRules.AddTableToCollection(table, datatypes, tableClass);
 
             return tableRules;
         }

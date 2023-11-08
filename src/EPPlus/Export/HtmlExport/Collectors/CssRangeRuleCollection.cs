@@ -125,11 +125,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
         }
 
-        internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id)
+        internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id, string altName = null)
         {
             var style = styleList[0];
+            var ruleName = altName == null ? $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}" : altName;
 
-            var styleClass = new CssRule($".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}");
+            var styleClass = new CssRule(ruleName);
             var translators = new List<TranslatorBase>();
 
             if (style.Fill != null && _context.Exclude.Fill == false)

@@ -14,6 +14,8 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Export.HtmlExport.Collectors;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Export.HtmlExport.Translators;
+using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -25,7 +27,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssTableExporterSync : CssExporterBase
+    internal class CssTableExporterSync : CssRangeExporterBase
     {
         public CssTableExporterSync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {
@@ -35,26 +37,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private readonly ExcelTable _table;
         private readonly HtmlTableExportSettings _tableSettings;
-
-        private void RenderCellCss(EpplusCssWriter styleWriter)
-        {
-            var r = _table.Range;
-            var styles = r.Worksheet.Workbook.Styles;
-            var ce = new CellStoreEnumerator<ExcelValue>(r.Worksheet._values, r._fromRow, r._fromCol, r._toRow, r._toCol);
-            while (ce.Next())
-            {
-                if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
-                {
-                    var xfs = styles.CellXfs[ce.Value._styleId];
-                    if (!StyleToCss.IsAddedToCache(xfs, _exporterContext._dxfStyleCache, out int id))
-                    {
-                        if (AttributeTranslator.HasStyle(xfs))
-                            styleWriter.AddToCss(xfs, styles.GetNormalStyle(), Settings.StyleClassPrefix, Settings.CellStyleClassName, id);
-                    }
-                }
-            }
-            styleWriter.FlushStream();
-        }
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -88,25 +70,20 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
 
             if (_dataTypes.Count == 0) GetDataTypes(_table.Address, _table);
+
             var sw = new StreamWriter(stream);
+            var trueWriter = new CssTrueWriter(sw);
 
-            var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var cellCssWriter = new EpplusCssWriter(sw, ranges, _tableSettings, _tableSettings.Css, _tableSettings.Css.Exclude.CellStyle);
-            var collection = new CssRangeRuleCollection(ranges, _tableSettings);
+            CreateRuleCollection(_tableSettings, _table);
+            //var collection = new CssRangeRuleCollection(_ranges._list, _tableSettings);
+            //collection.AddSharedClasses(TableClass);
 
+            //if (_tableSettings.Css.IncludeTableStyles) collection.AddOtherCollectionToThisCollection
+            //    (
+            //        CreateTableCssRules(_table, _tableSettings, _dataTypes).RuleCollection
+            //    );
 
-            cellCssWriter.RenderAdditionalAndFontCss(TableClass);
-            if (_tableSettings.Css.IncludeTableStyles) RenderTableCss(_table, _tableSettings, _dataTypes);
-            if (_tableSettings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
-            if (_tableSettings.Pictures.Include == ePictureInclude.Include)
-            {
-                LoadRangeImages(ranges);
-                foreach (var p in _rangePictures)
-                {
-                    cellCssWriter.AddPictureToCss(p);
-                }
-            }
-            cellCssWriter.FlushStream();
+            //if (_tableSettings.Css.IncludeCellStyles) AddCellCss(collection, _table.Range, true);
         }
     }
 }

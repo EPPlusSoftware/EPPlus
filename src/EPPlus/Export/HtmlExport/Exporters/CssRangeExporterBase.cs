@@ -1,45 +1,22 @@
-﻿using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.Core;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Core.RangeQuadTree;
+﻿using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.Collectors;
-using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
-using OfficeOpenXml.Export.HtmlExport.Translators;
-using OfficeOpenXml.Export.HtmlExport.Writers;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Table;
-using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
     internal abstract class CssRangeExporterBase : CssExporterBase
     {
-        internal CssRangeExporterBase(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges) : base(settings, ranges) 
-        {
-            _settings = settings;
-        }
+        internal CssRangeExporterBase(HtmlExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges) : base(settings, ranges) 
+        { }
 
-        public CssRangeExporterBase(HtmlRangeExportSettings settings, ExcelRangeBase range)
+        public CssRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
             : base(settings, range)
-        {
-            _settings = settings;
-        }
+        { }
 
-        protected readonly HtmlRangeExportSettings _settings;
-
-        protected CssRangeRuleCollection RenderCellCss(StreamWriter sw)
+        protected CssRangeRuleCollection CreateRuleCollection(HtmlRangeExportSettings settings)
         {
-            var cssTranslator = new CssRangeRuleCollection(_ranges._list, _settings);
+            var cssTranslator = new CssRangeRuleCollection(_ranges._list, settings);
 
             cssTranslator.AddSharedClasses(TableClass);
 
@@ -57,101 +34,32 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             return cssTranslator;
         }
 
-        protected void AddRangesToCollection(CssRangeRuleCollection cssTranslator)
+        protected CssRangeRuleCollection CreateRuleCollection(HtmlTableExportSettings settings, ExcelTable table)
         {
-            var addedTableStyles = new HashSet<TableStyles>();
+            var cssTranslator = new CssRangeRuleCollection(_ranges._list, settings);
 
-            foreach (var range in _ranges._list)
+            cssTranslator.AddSharedClasses(TableClass);
+
+            if (settings.Css.IncludeTableStyles) cssTranslator.AddOtherCollectionToThisCollection
+            (
+                CreateTableCssRules(table, settings, _dataTypes).RuleCollection
+            );
+
+            if (settings.Css.IncludeCellStyles) AddCellCss(cssTranslator, table.Range, true);
+
+            AddRangesToCollection(cssTranslator, true);
+
+
+            if (Settings.Pictures.Include == ePictureInclude.Include)
             {
-                var ws = range.Worksheet;
-                var styles = ws.Workbook.Styles;
-                var ns = styles.GetNormalStyle();
-                var ce = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
-                ExcelAddressBase address = null;
-
-                while (ce.Next())
+                LoadRangeImages(_ranges._list);
+                foreach (var p in _rangePictures)
                 {
-                    if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
-                    {
-                        var ma = ws.MergedCells[ce.Row, ce.Column];
-                        var xfs = styles.CellXfs[ce.Value._styleId];
-
-                        var sc = new StyleChecker(styles);
-                        sc.Style = new StyleXml(xfs);
-                        sc.Cache = _exporterContext._styleCache;
-
-                        if (ma != null)
-                        {
-                            if (address == null || address.Address != ma)
-                            {
-                                address = new ExcelAddressBase(ma);
-                            }
-                            var fromRow = address._fromRow < range._fromRow ? range._fromRow : address._fromRow;
-                            var fromCol = address._fromCol < range._fromCol ? range._fromCol : address._fromCol;
-
-                            if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
-                                continue;
-
-                            var mAdr = new ExcelAddressBase(ma);
-                            var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
-                            var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
-
-                            if (sc.ShouldAddWithBorders(bottomStyleId, rightStyleId))
-                            {
-                                cssTranslator.AddToCollection(sc.GetStyleList(), ns, sc.Id);
-                            }
-                        }
-                        else
-                        {
-                            if (sc.ShouldAdd)
-                            {
-                                cssTranslator.AddToCollection(sc.GetStyleList(), ns, sc.Id);
-                            }
-                        }
-
-                        AddConditionalFormattingsToCollection(ce.CellAddress, ns, cssTranslator);
-                    }
-                }
-
-                if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
-                {
-                    var table = range.GetTable();
-                    if (table != null &&
-                       table.TableStyle != TableStyles.None &&
-                       addedTableStyles.Contains(table.TableStyle) == false)
-                    {
-                        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                        cssTranslator.AddOtherCollectionToThisCollection
-                            (
-                            RenderTableCss(table, settings, _dataTypes).RuleCollection
-                            );
-                        addedTableStyles.Add(table.TableStyle);
-                    }
+                    cssTranslator.AddPictureToCss(p);
                 }
             }
-        }
 
-        internal void AddConditionalFormattingsToCollection(string cellAddress, ExcelNamedStyleXml normalStyle,  CssRangeRuleCollection cssTranslator)
-        {
-            if (cellAddress != null)
-            {
-                var items = GetCFItemsAtAddress(cellAddress);
-
-                foreach (var cf in items)
-                {
-                    var style = new StyleDxf(cf.Value.Style);
-                    if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id))
-                    {
-                        cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id);
-                    }
-                }
-            }
-        }
-
-        internal List<QuadRangeItem<ExcelConditionalFormattingRule>> GetCFItemsAtAddress(string cellAddress)
-        {
-            return _exporterContext._cfQuadTree.GetIntersectingRangeItems
-                (new QuadRange(new ExcelAddress(cellAddress)));
+            return cssTranslator;
         }
     }
 }

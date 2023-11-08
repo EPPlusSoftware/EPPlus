@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
@@ -6,6 +7,7 @@ using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using System;
@@ -152,6 +154,61 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                 styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
                 RuleCollection.AddRule(styleClass);
             }
+        }
+
+        internal void AddTableToCollection(ExcelTable table, List<string> datatypes, string tableClassPreset)
+        {
+            //if (settings.Minify == false) styleWriter.WriteLine();
+            ExcelTableNamedStyle tblStyle;
+            if (table.TableStyle == TableStyles.Custom)
+            {
+                tblStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+            }
+            else
+            {
+                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                tblStyle = new ExcelTableNamedStyle(table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
+                tblStyle.SetFromTemplate(table.TableStyle);
+            }
+
+            var tableClass = $"{tableClassPreset}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
+
+            AddHyperlink($"{tableClass}", tblStyle.WholeTable);
+            AddAlignment($"{tableClass}", datatypes);
+
+            AddToCollection($"{tableClass}", tblStyle.WholeTable, "");
+            AddToCollectionVH($"{tableClass}", tblStyle.WholeTable, "");
+
+            //Header
+            AddToCollection($"{tableClass}", tblStyle.HeaderRow, " thead");
+            AddToCollectionVH($"{tableClass}", tblStyle.HeaderRow, "");
+
+            AddToCollection($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
+            AddToCollection($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
+
+            //Total
+            AddToCollection($"{tableClass}", tblStyle.TotalRow, " tfoot");
+            AddToCollectionVH($"{tableClass}", tblStyle.TotalRow, "");
+            AddToCollection($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
+            AddToCollection($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
+
+            //Columns stripes
+            var tableClassCS = $"{tableClass}-column-stripes";
+            AddToCollection($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
+            AddToCollection($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
+
+            //Row stripes
+            var tableClassRS = $"{tableClass}-row-stripes";
+            AddToCollection($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
+            AddToCollection($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
+
+            //Last column
+            var tableClassLC = $"{tableClass}-last-column";
+            AddToCollection($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
+
+            //First column
+            var tableClassFC = $"{tableClass}-first-column";
+            AddToCollection($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
         }
 
         internal void AddOtherCollectionToThisCollection(CssRuleCollection otherCollection)

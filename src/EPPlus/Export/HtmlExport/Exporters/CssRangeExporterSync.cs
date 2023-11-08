@@ -11,25 +11,12 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Export.HtmlExport.Collectors;
-using OfficeOpenXml.Export.HtmlExport.Determinator;
-using OfficeOpenXml.Export.HtmlExport.Parsers;
-using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
-using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Export.HtmlExport.Writers.Css;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -38,12 +25,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         public CssRangeExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
             : base(settings, ranges)
         {
+            _settings = settings;
         }
 
         public CssRangeExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range)
             : base(settings, range)
         {
+            _settings = settings;
         }
+
+        HtmlRangeExportSettings _settings;
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -73,15 +64,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 throw new IOException("Parameter stream must be a writable System.IO.Stream");
             }
 
-            //if (_datatypes.Count == 0) GetDataTypes();
             var sw = new StreamWriter(stream);
-            WriteCell(sw);
+            WriteCells(sw);
         }
 
-        private void WriteCell(StreamWriter sw)
+        private void WriteCells(StreamWriter sw)
         {
             var trueWriter = new CssTrueWriter(sw);
-            var cssTranslator = RenderCellCss(sw);
+            var cssTranslator = CreateRuleCollection(_settings);
 
             WriteAndClearCollection(cssTranslator.RuleCollection, trueWriter);
             sw.Flush();
@@ -91,7 +81,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             for (int i = 0; i < collection.CssRules.Count(); i++)
             {
-                writer.WriteRule(collection[i], _settings.Minify);
+                writer.WriteRule(collection[i], Settings.Minify);
             }
 
             collection.CssRules.Clear();

@@ -5,7 +5,4 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssTableExporterBase
-    {
-    }
 }

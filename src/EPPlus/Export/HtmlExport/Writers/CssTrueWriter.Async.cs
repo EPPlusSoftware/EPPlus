@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if !NET35
 using System.Threading.Tasks;
+#endif
 
 namespace OfficeOpenXml.Export.HtmlExport.Writers
 {
+#if !NET35 && !NET40
     internal partial class CssTrueWriter
     {
         internal async Task WritePropertyDeclarationAsync(Declaration declaration, bool minify)
@@ -31,4 +34,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
             await WriteClassAsync($"{selector}{{", minify);
         }
     }
+#endif
 }
