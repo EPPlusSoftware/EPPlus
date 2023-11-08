@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
+using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -36,6 +37,11 @@ namespace OfficeOpenXml.Table.PivotTable
             { DataFieldFunctions.Var,  new PivotFunctionVar() },
             { DataFieldFunctions.VarP,  new PivotFunctionVarP() }
         };
+        static Dictionary<eShowDataAs, PivotShowAsBase> _calculateShowAs = new Dictionary<eShowDataAs, PivotShowAsBase>
+        {
+            { eShowDataAs.PercentOfTotal, new PivotShowAsPercentOfGrandTotal() },
+            { eShowDataAs.PercentOfColumn, new PivotShowAsPercentOfColumnTotal() },
+        }
         internal static List<Dictionary<int[], object>> Calculate(ExcelPivotTable pivotTable)
         {
             var ci = pivotTable.CacheDefinition._cacheReference;
@@ -58,6 +64,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 
                 _calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
+                if(df.ShowDataAs.Value!=eShowDataAs.Normal)
+                {                    
+                    _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, dataFieldItems);
+                }
             }            
             return calculatedItems;
         }
