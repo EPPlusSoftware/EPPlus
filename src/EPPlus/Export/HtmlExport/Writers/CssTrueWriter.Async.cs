@@ -33,6 +33,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
         {
             await WriteClassAsync($"{selector}{{", minify);
         }
+
+        internal async Task WriteAndClearCollectionAsync(CssRuleCollection collection, bool minify)
+        {
+            for (int i = 0; i < collection.CssRules.Count(); i++)
+            {
+                await WriteRuleAsync(collection[i], minify);
+            }
+
+            collection.CssRules.Clear();
+        }
     }
 #endif
 }

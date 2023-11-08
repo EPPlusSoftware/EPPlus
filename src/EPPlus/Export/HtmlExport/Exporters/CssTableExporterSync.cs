@@ -27,7 +27,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssTableExporterSync : CssRangeExporterBase
+    internal class CssTableExporterSync : CssExporterBase
     {
         public CssTableExporterSync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {
@@ -74,16 +74,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var sw = new StreamWriter(stream);
             var trueWriter = new CssTrueWriter(sw);
 
-            CreateRuleCollection(_tableSettings, _table);
-            //var collection = new CssRangeRuleCollection(_ranges._list, _tableSettings);
-            //collection.AddSharedClasses(TableClass);
-
-            //if (_tableSettings.Css.IncludeTableStyles) collection.AddOtherCollectionToThisCollection
-            //    (
-            //        CreateTableCssRules(_table, _tableSettings, _dataTypes).RuleCollection
-            //    );
-
-            //if (_tableSettings.Css.IncludeCellStyles) AddCellCss(collection, _table.Range, true);
+            var cssRules = CreateRuleCollection(_tableSettings);
+            trueWriter.WriteAndClearCollection(cssRules, Settings.Minify);
+            sw.Flush();
         }
     }
 }

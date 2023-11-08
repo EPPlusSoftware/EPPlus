@@ -12,15 +12,13 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.Writers;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.IO;
-using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssRangeExporterSync : CssRangeExporterBase
+    internal class CssRangeExporterSync : CssExporterBase
     {
         public CssRangeExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
             : base(settings, ranges)
@@ -71,20 +69,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         private void WriteCells(StreamWriter sw)
         {
             var trueWriter = new CssTrueWriter(sw);
-            var cssTranslator = CreateRuleCollection(_settings);
+            var cssCollection = CreateRuleCollection(_settings);
 
-            WriteAndClearCollection(cssTranslator.RuleCollection, trueWriter);
+            trueWriter.WriteAndClearCollection(cssCollection, Settings.Minify);
             sw.Flush();
-        }
-
-        internal void WriteAndClearCollection(CssRuleCollection collection, CssTrueWriter writer)
-        {
-            for (int i = 0; i < collection.CssRules.Count(); i++)
-            {
-                writer.WriteRule(collection[i], Settings.Minify);
-            }
-
-            collection.CssRules.Clear();
         }
     }
 }

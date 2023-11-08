@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssRangeExporterAsync : CssRangeExporterBase
+    internal class CssRangeExporterAsync : CssExporterBase
     {
         public CssRangeExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
          : base(settings, ranges)
@@ -71,20 +71,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         private async Task WriteCellAsync(StreamWriter sw)
         {
             var trueWriter = new CssTrueWriter(sw);
-            var cssTranslator = CreateRuleCollection(_settings);
+            var cssRules = CreateRuleCollection(_settings);
 
-            await WriteAndClearCollection(cssTranslator.RuleCollection, trueWriter);
-            sw.Flush();
-        }
-
-        private async Task WriteAndClearCollection(CssRuleCollection collection, CssTrueWriter writer)
-        {
-            for (int i = 0; i < collection.CssRules.Count(); i++)
-            {
-                await writer.WriteRuleAsync(collection[i], Settings.Minify);
-            }
-
-            collection.CssRules.Clear();
+            await WriteAndClearCollectionAsync(cssRules, trueWriter);
+            await sw.FlushAsync();
         }
     }
 }

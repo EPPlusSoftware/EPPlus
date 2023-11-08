@@ -19,12 +19,11 @@ using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
-using OfficeOpenXml.Style.Table;
+using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
-using System.Runtime;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -72,28 +71,64 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        protected void AddRangesToCollection(CssRangeRuleCollection cssTranslator, bool isTableExporter = false)
+        protected CssRuleCollection CreateRuleCollection(HtmlRangeExportSettings settings)
         {
+            var cssTranslator = new CssRangeRuleCollection(_ranges._list, settings);
+
+            AddCssRulesToCollection(cssTranslator);
+
+            return cssTranslator.RuleCollection;
+        }
+
+        protected CssRuleCollection CreateRuleCollection(HtmlTableExportSettings settings)
+        {
+            var cssTranslator = new CssRangeRuleCollection(_ranges._list, settings);
+
+            AddCssRulesToCollection(cssTranslator, settings);
+
+            return cssTranslator.RuleCollection;
+        }
+
+        protected void AddCssRulesToCollection(CssRangeRuleCollection cssTranslator, HtmlTableExportSettings tableSettings = null)
+        {
+            cssTranslator.AddSharedClasses(TableClass);
+
             var addedTableStyles = new HashSet<TableStyles>();
 
             foreach (var range in _ranges._list)
             {
-                AddCellCss(cssTranslator, range, isTableExporter);
+                if(tableSettings == null || tableSettings.Css.IncludeCellStyles)
+                {
+                    AddCellCss(cssTranslator, range, tableSettings == null);
+                }
 
-                if (Settings.TableStyle == eHtmlRangeTableInclude.Include && !isTableExporter)
+                if (Settings.TableStyle == eHtmlRangeTableInclude.Include || tableSettings != null && tableSettings.Css.IncludeTableStyles)
                 {
                     var table = range.GetTable();
                     if (table != null &&
                        table.TableStyle != TableStyles.None &&
                        addedTableStyles.Contains(table.TableStyle) == false)
                     {
-                        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
+                        if(tableSettings == null)
+                        {
+                            tableSettings = new HtmlTableExportSettings() { Minify = Settings.Minify };
+                        }
+
                         cssTranslator.AddOtherCollectionToThisCollection
                             (
-                                CreateTableCssRules(table, settings, _dataTypes).RuleCollection
+                                CreateTableCssRules(table, tableSettings, _dataTypes).RuleCollection
                             );
                         addedTableStyles.Add(table.TableStyle);
                     }
+                }
+            }
+
+            if (Settings.Pictures.Include == ePictureInclude.Include)
+            {
+                LoadRangeImages(_ranges._list);
+                foreach (var p in _rangePictures)
+                {
+                    cssTranslator.AddPictureToCss(p);
                 }
             }
         }

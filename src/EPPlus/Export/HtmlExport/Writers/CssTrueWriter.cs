@@ -55,5 +55,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
 
             WriteClassEnd(minify);
         }
+
+        internal void WriteAndClearCollection(CssRuleCollection collection, bool minify)
+        {
+            for (int i = 0; i < collection.CssRules.Count(); i++)
+            {
+                WriteRule(collection[i], minify);
+            }
+
+            collection.CssRules.Clear();
+        }
     }
 }
