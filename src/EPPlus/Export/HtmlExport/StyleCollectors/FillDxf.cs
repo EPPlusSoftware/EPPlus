@@ -104,6 +104,14 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             return GetColor(_fill.Gradient.Colors[1].Color, theme);
         }
 
+        public bool HasValue
+        {
+            get
+            {
+                return _fill.HasValue;
+            }
+        }
+
         protected string GetColor(ExcelDxfColor c, ExcelTheme theme)
         {
             Color ret;

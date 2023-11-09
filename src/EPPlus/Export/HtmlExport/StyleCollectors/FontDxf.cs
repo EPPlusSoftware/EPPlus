@@ -58,5 +58,13 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         {
             get { return _font.Underline.HasValue ? _font.Underline.Value : ExcelUnderLineType.None; }
         }
+
+        public bool HasValue
+        {
+            get
+            {
+                return _font.HasValue;
+            }
+        }
     }
 }

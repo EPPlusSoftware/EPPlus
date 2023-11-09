@@ -14,6 +14,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
         bool IsLinear { get; }
         bool IsGradient { get; }
 
+        bool HasValue { get; }
         //string Color1 { get; }
         //string Color2 { get; }
 

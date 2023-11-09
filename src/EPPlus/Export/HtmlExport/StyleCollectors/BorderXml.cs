@@ -10,8 +10,14 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         BorderItemXml _left;
         BorderItemXml _right;
 
+        public bool HasValue
+        {
+            get;
+        }
+
         internal BorderXml(ExcelBorderXml border)
         {
+            HasValue = !string.IsNullOrEmpty(border.Id);
             _top = new BorderItemXml(border.Top);
             _bottom = new BorderItemXml(border.Bottom);
             _left = new BorderItemXml(border.Left);

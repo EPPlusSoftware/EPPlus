@@ -11,7 +11,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
         string Name { get; }
         float Size { get; }
         IStyleColor Color { get; }
-
+        bool HasValue { get; }
         bool Bold { get; }
         bool Italic { get; }
         bool Strike { get; }

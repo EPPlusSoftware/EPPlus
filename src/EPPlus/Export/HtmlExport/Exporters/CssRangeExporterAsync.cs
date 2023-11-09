@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var trueWriter = new CssTrueWriter(sw);
             var cssRules = CreateRuleCollection(_settings);
 
-            await WriteAndClearCollectionAsync(cssRules, trueWriter);
+            await trueWriter.WriteAndClearCollectionAsync(cssRules, Settings.Minify);
             await sw.FlushAsync();
         }
     }

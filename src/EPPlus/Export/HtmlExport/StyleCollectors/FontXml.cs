@@ -50,5 +50,13 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         {
             get { return _font.UnderLineType; }
         }
+
+        public bool HasValue
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(_font.Id);
+            }
+        }
     }
 }

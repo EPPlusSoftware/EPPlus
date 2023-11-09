@@ -133,11 +133,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             var styleClass = new CssRule(ruleName);
             var translators = new List<TranslatorBase>();
 
-            if (style.Fill != null && _context.Exclude.Fill == false)
+            if (style.Fill != null && style.Fill.HasValue && _context.Exclude.Fill == false)
             {
                 translators.Add(new CssFillTranslator(style.Fill));
             }
-            if (style.Font != null && _context.Exclude.Font != eFontExclude.All)
+            if (style.Font != null && style.Font.HasValue && _context.Exclude.Font != eFontExclude.All)
             {
                 translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
             }
@@ -147,12 +147,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                 var bXfs = styleList[1];
                 var rXfs = styleList[2];
 
-                if (style.Border != null || bXfs.Border != null || rXfs.Border != null)
+                if (style.Border != null && style.Border.HasValue || bXfs.Border != null && bXfs.Border.HasValue || rXfs.Border != null && rXfs.Border.HasValue)
                 {
                     translators.Add(new CssBorderTranslator(style.Border.Top, bXfs.Border.Bottom, style.Border.Left, rXfs.Border.Right));
                 }
             }
-            else if (style.Border != null)
+            else if (style.Border != null && style.Border.HasValue)
             {
                 translators.Add(new CssBorderTranslator(style.Border));
             }

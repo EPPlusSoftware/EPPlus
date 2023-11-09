@@ -12,8 +12,14 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         BorderItemDxf _left;
         BorderItemDxf _right;
 
+        public bool HasValue
+        {
+            get;
+        }
+
         internal BorderDxf(ExcelDxfBorderBase border)
         {
+            HasValue = border.HasValue;
             _top = new BorderItemDxf(border.Top);
             _bottom = new BorderItemDxf(border.Bottom);
             _left = new BorderItemDxf(border.Left);

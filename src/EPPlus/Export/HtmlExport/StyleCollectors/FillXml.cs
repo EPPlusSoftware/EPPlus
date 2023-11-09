@@ -84,6 +84,14 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             }
         }
 
+        public bool HasValue
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(_fill.Id);
+            }
+        }
+
         public string GetBackgroundColor(ExcelTheme theme)
         {
             return GetColor(_fill.BackgroundColor, theme);

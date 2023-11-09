@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             _fontExclude = context.Exclude.Font;
             if (nf != null) 
             {
-                _nfName = _f.Name.Equals(_nf.Name) == false;
+                _nfName = (_f.Name == nf.Name) == false;
                 _nfSize = _f.Size != _nf.Size;
                 _nfColor = f.Color.AreColorEqual(new StyleColorNormal(_nf.Color)) == false;
                 _nfBold = _nf.Bold != _f.Bold;
