@@ -53,7 +53,7 @@ namespace OfficeOpenXml.LoadFunctions
             LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
             {
-                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 SetHiddenColumns();
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
-                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties, parameters.Members);
+                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 // the ValidateType method will throw an InvalidCastException

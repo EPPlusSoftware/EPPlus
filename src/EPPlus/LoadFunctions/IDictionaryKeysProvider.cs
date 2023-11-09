@@ -10,34 +10,25 @@
  *************************************************************************************************
   7/11/2023         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml.LoadFunctions
 {
     /// <summary>
-    /// This attributes can only be used on properties that are of the type IDictionary&lt;string, string&gt;.
-    /// Columns will be added based on the items in <see cref="EPPlusDictionaryColumnAttribute.ColumnHeaders"/>
+    /// Provides keys of a property decorated with the <see cref="EPPlusDictionaryColumnAttribute"/>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
-    internal class EPPlusDictionaryColumnAttribute : Attribute
+    public interface IDictionaryKeysProvider
     {
         /// <summary>
-        /// Order of the columns value, default value is 0
+        /// This function will return keys that will be used as column headers
+        /// based on the <paramref name="key"/> that will be read from the <see cref="EPPlusDictionaryColumnAttribute"/>
         /// </summary>
-        public int Order
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// The values of this array will be used to generate columns (one column for each item).
-        /// </summary>
-        public string[] ColumnHeaders { get; set; }
-
-        public string HeadersKey { get; set; }
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public IEnumerable<string> GetKeys(string key);
     }
 }

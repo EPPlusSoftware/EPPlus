@@ -11,6 +11,7 @@
   08/286/2021         EPPlus Software AB       EPPlus 5.7.5
  *************************************************************************************************/
 using OfficeOpenXml.Attributes;
+using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -23,27 +24,21 @@ namespace OfficeOpenXml.LoadFunctions
 {
     internal class LoadFromCollectionColumns<T>
     {
-        public LoadFromCollectionColumns(BindingFlags bindingFlags)
-            : this(bindingFlags, new List<string>())
-        {
+        public LoadFromCollectionColumns(LoadFromCollectionParams parameters):
+            this(parameters, Enumerable.Empty<string>().ToList())
+        { }
 
-        }
-
-        public LoadFromCollectionColumns(BindingFlags bindingFlags, List<string> sortOrderColumns)
-        : this(bindingFlags, sortOrderColumns, null)
+        public LoadFromCollectionColumns(LoadFromCollectionParams parameters, List<string> sortOrderColumns)
         {
-            
-        }
-
-        public LoadFromCollectionColumns(BindingFlags bindingFlags, List<string> sortOrderColumns, MemberInfo[] members)
-        {
-            _bindingFlags = bindingFlags;
+            _bindingFlags = parameters.BindingFlags;
             _sortOrderColumns = sortOrderColumns;
-            _filterMembers = members;
+            _filterMembers = parameters.Members;
+            _keysProvider = parameters.KeysProvider;
             _includedTypes = new HashSet<Type>
             {
                 typeof(T)
             };
+            var members = parameters.Members;
             _members = new Dictionary<Type, HashSet<string>>();
             if (members != null && members.Length > 0)
             {
@@ -58,6 +53,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly BindingFlags _bindingFlags;
         private readonly List<string> _sortOrderColumns;
         private readonly Dictionary<Type, HashSet<string>> _members;
+        private readonly IDictionaryKeysProvider _keysProvider;
         private MemberInfo[] _filterMembers;
         private readonly HashSet<Type> _includedTypes;
         private const int SortOrderOffset = ExcelPackage.MaxColumns;
@@ -246,7 +242,16 @@ namespace OfficeOpenXml.LoadFunctions
             }
             var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(memberPath) : -1;
             var so = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : attr.Order + SortOrderOffset;
-            foreach (var key in attr.ColumnHeaders)
+            var columnHeaders = Enumerable.Empty<string>();
+            if(!string.IsNullOrEmpty(attr.HeadersKey) && _keysProvider != null)
+            {
+                columnHeaders = _keysProvider.GetKeys(attr.HeadersKey);
+            }
+            else if(attr.ColumnHeaders != null && attr.ColumnHeaders.Length > 0)
+            {
+                columnHeaders = attr.ColumnHeaders;
+            }
+            foreach (var key in columnHeaders)
             {
                 result.Add(new ColumnInfo
                 {
@@ -257,7 +262,6 @@ namespace OfficeOpenXml.LoadFunctions
                     Path = memberPath,
                     Header = key,
                     SortOrder = so
-                    //SortOrderLevels = colInfoSortOrderList
                 });
             }
         }
