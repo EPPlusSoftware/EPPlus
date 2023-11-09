@@ -123,5 +123,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(2, _worksheet.Cells["A4"].Value);
             Assert.AreEqual(1, _worksheet.Cells["A5"].Value);
         }
+        [TestMethod]
+        public void MatchShouldWorkWithSingleCell()
+        {
+            _worksheet.Cells["A1"].Value = "test@test.com";
+            var formulaCell = _worksheet.Cells["B1"];
+            formulaCell.Formula = "MATCH(\"?*@?*.?*\", A1, 0)";
+
+            formulaCell.Calculate();
+
+            Assert.AreEqual(1, formulaCell.GetValue<int>());
+        }
     }
 }
