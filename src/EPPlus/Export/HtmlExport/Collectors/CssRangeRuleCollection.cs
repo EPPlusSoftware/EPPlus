@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             Init(ranges);
             _ruleCollection = new CssRuleCollection();
 
-            _context = new TranslatorContext(settings.Css.Exclude.TableStyle);
+            _context = new TranslatorContext(settings, settings.Css.Exclude.TableStyle);
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
@@ -112,11 +112,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             var worksheets = _ranges.Select(x => x.Worksheet).Distinct().ToList();
             foreach (var ws in worksheets)
             {
-                var clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
+                var clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1) + " ";
                 CssRule widthRule = new CssRule(clsName);
                 widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px");
 
-                clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
+                clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1) + " ";
                 CssRule heightRule = new CssRule(clsName);
                 heightRule.AddDeclaration("height", $"{(int)(ws.DefaultRowHeight / 0.75)}px");
 

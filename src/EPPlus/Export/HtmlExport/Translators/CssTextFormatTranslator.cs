@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             if (context.Exclude.WrapText == false)
             {
-                AddDeclaration("white-space", _wrapText ? "break-spaces" : "nowrap");
+                AddDeclaration("white-space", _wrapText ? " break-spaces" : " nowrap");
             }
 
             if (_applyAlignment ?? false)

@@ -45,8 +45,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             Pictures = settings.Pictures;
         }
 
-        public TranslatorContext(CssExclude exclude)
-        { 
+        public TranslatorContext(HtmlTableExportSettings settings, CssExclude exclude)
+        {
+            Settings = settings.Css;
+            Pictures = settings.Pictures;
             Exclude = exclude;
         }
 

@@ -1844,7 +1844,7 @@ namespace EPPlusTest.ConditionalFormatting
                 }
 
                 var dictCon = sheet.Cells["A1:E5"].ConditionalFormatting.GetConditionalFormattings();
-                Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()["A1"][0].Type, 
+                Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()[0].Type, 
                     eExcelConditionalFormattingRuleType.ContainsBlanks);
             }
         }

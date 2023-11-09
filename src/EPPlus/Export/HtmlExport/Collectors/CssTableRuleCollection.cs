@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             }
             _theme = table.WorkSheet.Workbook.ThemeManager.CurrentTheme;
 
-            _context = new TranslatorContext(_settings.Css.Exclude.TableStyle);
+            _context = new TranslatorContext(settings, _settings.Css.Exclude.TableStyle);
             _context.Theme = _theme;
 
             RuleCollection = new CssRuleCollection();
@@ -145,7 +145,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
         {
             if (element.Style.Border.Vertical.HasValue == false && element.Style.Border.Horizontal.HasValue == false) return; //Dont add empty elements
 
-            var s = (IStyleExport)element.Style;
+            var s = new StyleDxf(element.Style);
 
             var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ");
             if (s.Border != null)

@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
                 res += $"{Values[i]} ";
             }
 
-            return res.Trim();
+            return res.TrimEnd();
         }
 
         internal void AddValues(params string[] values)

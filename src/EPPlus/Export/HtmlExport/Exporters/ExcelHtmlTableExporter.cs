@@ -31,6 +31,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             _table = table;
             _settings = new HtmlTableExportSettings();
+            _exporterContext.InitializeQuadTree(table.Range);
         }
 
         private readonly ExcelTable _table;

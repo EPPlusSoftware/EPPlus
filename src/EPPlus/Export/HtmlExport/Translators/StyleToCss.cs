@@ -13,43 +13,43 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
     internal static class StyleToCss
     {
-        internal static bool IsAddedToCache(ExcelXfs xfs, Dictionary<string, int> styleCache, out int id, int bottomStyleId = -1, int rightStyleId = -1)
-        {
-            var key = AttributeTranslator.GetStyleKey(xfs);
-            if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
+        //internal static bool IsAddedToCache(ExcelXfs xfs, Dictionary<string, int> styleCache, out int id, int bottomStyleId = -1, int rightStyleId = -1)
+        //{
+        //    var key = AttributeTranslator.GetStyleKey(xfs);
+        //    if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
 
-            return IsAddedToCacheBase(styleCache, key, out id);
-        }
+        //    return IsAddedToCacheBase(styleCache, key, out id);
+        //}
 
-        private static bool IsAddedToCacheBase(Dictionary<string, int> styleCache, string key, out int id)
-        {
-            if (styleCache.ContainsKey(key))
-            {
-                id = styleCache[key];
-                return true;
-            }
-            else
-            {
-                id = styleCache.Count + 1;
-                styleCache.Add(key, id);
-                return false;
-            }
-        }
+        //private static bool IsAddedToCacheBase(Dictionary<string, int> styleCache, string key, out int id)
+        //{
+        //    if (styleCache.ContainsKey(key))
+        //    {
+        //        id = styleCache[key];
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        id = styleCache.Count + 1;
+        //        styleCache.Add(key, id);
+        //        return false;
+        //    }
+        //}
 
 
-        internal static int GetIdFromCache(ExcelDxfStyleConditionalFormatting dxfs, StyleCache cache)
-        {
-            if (dxfs != null)
-            {
-                var key = dxfs.Id;
-                if (!IsAddedToCacheBase(cache, key, out int id))
-                {
-                    return id;
-                }
-            }
+        //internal static int GetIdFromCache(ExcelDxfStyleConditionalFormatting dxfs, StyleCache cache)
+        //{
+        //    if (dxfs != null)
+        //    {
+        //        var key = dxfs.Id;
+        //        if (!IsAddedToCacheBase(cache, key, out int id))
+        //        {
+        //            return id;
+        //        }
+        //    }
 
-            return -1;
-        }
+        //    return -1;
+        //}
 
         //internal async Task StyleToCssStringAsync(ExcelDxfStyleConditionalFormatting dxfs, int id, string styleClassPrefix, string cellStyleClassName, EpplusCssWriter writer)
         //{

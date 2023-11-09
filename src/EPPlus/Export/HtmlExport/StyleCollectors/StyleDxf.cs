@@ -35,5 +35,23 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
                 Border = new BorderDxf(style.Border);
             }
         }
+
+        public StyleDxf(ExcelDxfStyleLimitedFont style)
+        {
+            _style = style.ToDxfConditionalFormattingStyle();
+
+            if (style.Fill != null)
+            {
+                Fill = new FillDxf(style.Fill);
+            }
+            if (style.Font != null)
+            {
+                Font = new FontDxf(style.Font);
+            }
+            if (style.Border != null)
+            {
+                Border = new BorderDxf(style.Border);
+            }
+        }
     }
 }

@@ -22,17 +22,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
 
         List<IStyleExport> _styleList;
 
-        internal StyleChecker(ExcelStyles wbStyles)
+        internal StyleChecker(ExcelStyles wbStyles, IStyleExport style , StyleCache cache)
         {
             _wbStyles = wbStyles;
             _styleList = new List<IStyleExport>();
+            Style = style;
+            Cache = cache;
         }
 
-        internal StyleCache Cache { private get; set; } = null;
+        private StyleCache Cache { get; set; } = null;
 
-        internal IStyleExport Style 
+        private IStyleExport Style 
         {
-            private get
+            get
             {
                 return _style;
             }
@@ -47,9 +49,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
 
         internal bool IsAdded(int bottomStyleId = -1, int rightStyleId = -1)
         {
-            if (Style.HasStyle == false || Cache == null)
+            if (Style.HasStyle == false)
             {
-                throw new InvalidOperationException("Must assign Style and Cache to Stylechecker first");
+                return false;
             }
 
             var key = Style.StyleKey;
