@@ -1,6 +1,14 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.12
+### Fixed issues 
+* Copying a worksheet with the ExcelWorksheet.CodeModuleName set and not having a VBA project in the workbook caused the name to be duplicated.
+* Worksheet Copy did not copy images in the header/footer when the destination worksheet was in another workbook.
+* Worksheet Copy did not copy images inside group shapes correctly when the destination worksheet was in another workbook.
+* Copying a pivot table sometimes caused the workbook to become corrupt.
+* Disposed some internal MemoryStream's were not disposed correctly.
+
 ## Version 6.2.11
-### Fixed issue
+### Fixed issues
 * ROUNDUP function sometimes rounded incorrectly.
 * Some internal MemoryStream's were not disposed correctly.
 * Setting the Pivot table SourceRange to the same range as an existing Pivot Cache sometimes caused the workbook to be corrupt.
@@ -23,7 +31,7 @@
 * Fixed a performance issue when adding comments and controls. 
 
 ## Version 6.2.9
-### Fixed issue
+### Fixed issues
 * Fixed an issue where empty DataValidationnodes caused a corrupt workbook.
 * Ungrouping drawings put the drawings in the wrong position and sometimes caused the workbook to become corrupt.
 * VLOOKUP / HLOOKUP and MATCH did not work with external ranges.
