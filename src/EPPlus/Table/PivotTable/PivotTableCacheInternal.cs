@@ -395,7 +395,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         fld.PageFieldSettings.Index = ix;
                         fld.PageFieldSettings._field = fld;
                     }
-                    foreach(ExcelPivotTableAreaStyle s in f._pivotTable.Styles)
+                    foreach(ExcelPivotTableAreaStyle s in f.PivotTable.Styles)
                     {
                         if(s.FieldIndex==f.Index)
                         {

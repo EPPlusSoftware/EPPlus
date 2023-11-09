@@ -13,6 +13,7 @@ items:
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowLabel
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowNumberFormat
+  - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
   langs:
   - csharp
   - vb
@@ -243,6 +244,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  id: UseBuiltInHyperlinkStyle
+  parent: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  langs:
+  - csharp
+  - vb
+  name: UseBuiltInHyperlinkStyle
+  nameWithType: EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseBuiltInHyperlinkStyle
+    path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Attributes
+  summary: "\nIndicates whether the Built in (default) hyperlink style should be\napplied to hyperlinks or not. Default value is true.\n"
+  example: []
+  syntax:
+    content: public bool UseBuiltInHyperlinkStyle { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UseBuiltInHyperlinkStyle As Boolean
+  overload: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
   id: TotalsRowFunction
@@ -261,7 +299,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 65
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -298,7 +336,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 74
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -335,7 +373,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowNumberFormat
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 83
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -372,7 +410,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-    startLine: 92
+    startLine: 101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -2827,6 +2865,11 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle*
+  commentId: Overload:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  name: UseBuiltInHyperlinkStyle
+  nameWithType: EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
 - uid: OfficeOpenXml.Table.RowFunctions.None
   commentId: F:OfficeOpenXml.Table.RowFunctions.None
   isExternal: true

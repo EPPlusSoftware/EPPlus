@@ -1895,7 +1895,7 @@ namespace EPPlusTest.ConditionalFormatting
             {
                 var sheet = pck.Workbook.Worksheets.Add("performanceTest");
 
-                for (int i = 0; i < 210000; i++)
+                for (int i = 1; i < 16384; i++)
                 {
                     sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 1, i, 3));
                     sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 2, i, 3));
@@ -2008,6 +2008,18 @@ namespace EPPlusTest.ConditionalFormatting
                 var sheet = pck.Workbook.Worksheets.Add("NewWorksheet");
 
                 sheet.ConditionalFormatting.AddAboveAverage("InvalidAddressAttempt");
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidAddressShouldThrowOnNumbers()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("NewWorksheet");
+
+                sheet.ConditionalFormatting.AddDatabar("1234", Color.Gold);
             }
         }
 

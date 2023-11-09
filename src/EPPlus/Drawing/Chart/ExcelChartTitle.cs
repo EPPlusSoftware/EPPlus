@@ -357,6 +357,9 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) : base(chart, nameSpaceManager, node, nsPrefix)
         {
         }
+        /// <summary>
+        /// The chart title text
+        /// </summary>
         public override string Text 
         {
             get
@@ -413,8 +416,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (value == null)
                 {
                     DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:strRef");
+                    DeleteNode($"{_nsPrefix}:txPr");
+                    _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
                     RichText.Text = "";
-                    _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";                    
                 }
                 else
                 {

@@ -18,7 +18,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// ExcelConditionalFormattingLast7Days
     /// </summary>
-    public class ExcelConditionalFormattingYesterday: ExcelConditionalFormattingTimePeriodGroup
+    internal class ExcelConditionalFormattingYesterday: ExcelConditionalFormattingTimePeriodGroup
     {
         #region Constructors
         /// <summary>
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="address"></param>
         /// <param name="ws"></param>
         /// <param name="xr"></param>
-        public ExcelConditionalFormattingYesterday(
+        internal ExcelConditionalFormattingYesterday(
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.Yesterday, address, ws, xr)
         {

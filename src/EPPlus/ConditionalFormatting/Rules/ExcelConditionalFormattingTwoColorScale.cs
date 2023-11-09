@@ -22,7 +22,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// Two Colour Scale class
     /// </summary>
-    public class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTwoColorScale
     {
         internal ExcelConditionalFormattingTwoColorScale(

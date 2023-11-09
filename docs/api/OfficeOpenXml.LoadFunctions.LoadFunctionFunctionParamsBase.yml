@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
   langs:
   - csharp
   - vb
@@ -157,6 +158,43 @@ items:
       type: System.Nullable{OfficeOpenXml.Table.TableStyles}
     content.vb: Public Property TableStyle As TableStyles?
   overload: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  id: UseBuiltInStylesForHyperlinks
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  langs:
+  - csharp
+  - vb
+  name: UseBuiltInStylesForHyperlinks
+  nameWithType: LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseBuiltInStylesForHyperlinks
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nIf true, EPPlus will add the built in (default) styles for hyperlinks and apply them on any member\nthat is of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"OfficeOpenXml.ExcelHyperLink\" data-throw-if-not-resolved=\"false\"></xref> types. Default value is true.\n"
+  example: []
+  syntax:
+    content: public bool UseBuiltInStylesForHyperlinks { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UseBuiltInStylesForHyperlinks As Boolean
+  overload: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks*
   modifiers.csharp:
   - public
   - get
@@ -571,3 +609,26 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: OfficeOpenXml.ExcelHyperLink
+  commentId: T:OfficeOpenXml.ExcelHyperLink
+  parent: OfficeOpenXml
+  name: ExcelHyperLink
+  nameWithType: ExcelHyperLink
+  fullName: OfficeOpenXml.ExcelHyperLink
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  name: UseBuiltInStylesForHyperlinks
+  nameWithType: LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml

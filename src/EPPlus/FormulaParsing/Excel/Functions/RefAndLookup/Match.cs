@@ -32,10 +32,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-
             var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
             var arg2 = arguments[1];
-            if (!arg2.IsExcelRange) return CreateResult(eErrorType.Value);
+            if (!arg2.IsExcelRangeOrSingleCell) return CreateResult(eErrorType.NA);
             var lookupRange = arg2.ValueAsRangeInfo;
             var matchType = 1;
             if(arguments.Count > 2)

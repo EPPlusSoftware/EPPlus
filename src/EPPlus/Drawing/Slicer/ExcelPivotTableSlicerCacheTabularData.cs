@@ -144,7 +144,7 @@ namespace OfficeOpenXml.Drawing.Slicer
 
             if (PivotCacheId < 0)
             {
-                PivotCacheId = _cache._field._pivotTable.CacheId;
+                PivotCacheId = _cache._field.PivotTable.CacheId;
             }
             var dataNode = (XmlElement)CreateNode(_topPath+"/x14:items");
             dataNode.SetAttribute("count", x.ToString());

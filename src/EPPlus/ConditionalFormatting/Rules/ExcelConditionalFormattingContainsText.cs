@@ -20,7 +20,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     internal class ExcelConditionalFormattingContainsText : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingContainsText
     {
-        public ExcelConditionalFormattingContainsText(
+        internal ExcelConditionalFormattingContainsText(
           ExcelAddress address,
           int priority,
           ExcelWorksheet worksheet)
@@ -30,7 +30,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Text = string.Empty;
         }
 
-        public ExcelConditionalFormattingContainsText(
+        internal ExcelConditionalFormattingContainsText(
           ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
           : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
         {

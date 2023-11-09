@@ -87,7 +87,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAny.cs
-    startLine: 50
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -129,7 +129,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAny.cs
-    startLine: 55
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

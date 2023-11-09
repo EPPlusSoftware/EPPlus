@@ -5,6 +5,7 @@ items:
   id: ExcelPackageSettings
   parent: OfficeOpenXml
   children:
+  - OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
   - OfficeOpenXml.ExcelPackageSettings.DoGarbageCollectOnDispose
   - OfficeOpenXml.ExcelPackageSettings.ImageSettings
   - OfficeOpenXml.ExcelPackageSettings.TextSettings
@@ -22,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 17
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -65,7 +66,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoGarbageCollectOnDispose
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 26
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -102,7 +103,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 32
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -139,7 +140,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 47
+    startLine: 49
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -158,6 +159,43 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
+  commentId: P:OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
+  id: ApplyFiltersOnSave
+  parent: OfficeOpenXml.ExcelPackageSettings
+  langs:
+  - csharp
+  - vb
+  name: ApplyFiltersOnSave
+  nameWithType: ExcelPackageSettings.ApplyFiltersOnSave
+  fullName: OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplyFiltersOnSave
+    path: ../src/EPPlus/ExcelPackageSettings.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAny auto- or table- filters created will be applied on save.\nIn the case you want to handle this manually, set this property to true.\n"
+  example: []
+  syntax:
+    content: public bool ApplyFiltersOnSave { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ApplyFiltersOnSave As Boolean
+  overload: OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml
   commentId: N:OfficeOpenXml
@@ -490,3 +528,8 @@ references:
   name: ExcelImageSettings
   nameWithType: ExcelImageSettings
   fullName: OfficeOpenXml.ExcelImageSettings
+- uid: OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave*
+  commentId: Overload:OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
+  name: ApplyFiltersOnSave
+  nameWithType: ExcelPackageSettings.ApplyFiltersOnSave
+  fullName: OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave

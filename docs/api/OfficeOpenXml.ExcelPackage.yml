@@ -44,6 +44,7 @@ items:
   - OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.Threading.CancellationToken)
   - OfficeOpenXml.ExcelPackage.MaxColumns
   - OfficeOpenXml.ExcelPackage.MaxRows
+  - OfficeOpenXml.ExcelPackage.MemorySettings
   - OfficeOpenXml.ExcelPackage.Save
   - OfficeOpenXml.ExcelPackage.Save(System.String)
   - OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)
@@ -739,7 +740,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encryption
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 599
+    startLine: 594
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -776,7 +777,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseContext
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 618
+    startLine: 613
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -815,7 +816,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Workbook
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 700
+    startLine: 695
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -852,7 +853,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configure
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 727
+    startLine: 722
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -893,7 +894,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializationErrors
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 735
+    startLine: 730
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -930,7 +931,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoAdjustDrawings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 746
+    startLine: 741
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -967,7 +968,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 843
+    startLine: 838
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1001,7 +1002,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 878
+    startLine: 873
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1033,7 +1034,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 984
+    startLine: 979
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1069,7 +1070,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 994
+    startLine: 989
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1105,7 +1106,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1004
+    startLine: 999
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1141,7 +1142,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1015
+    startLine: 1010
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1180,7 +1181,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1028
+    startLine: 1023
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1219,7 +1220,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1037
+    startLine: 1032
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1255,7 +1256,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1054
+    startLine: 1049
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1294,7 +1295,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: File
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1063
+    startLine: 1058
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1331,7 +1332,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Stream
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1082
+    startLine: 1077
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1368,7 +1369,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compression
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1093
+    startLine: 1088
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1405,7 +1406,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compatibility
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1108
+    startLine: 1103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1442,7 +1443,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Settings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1122
+    startLine: 1117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1460,6 +1461,45 @@ items:
   - get
   modifiers.vb:
   - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelPackage.MemorySettings
+  commentId: P:OfficeOpenXml.ExcelPackage.MemorySettings
+  id: MemorySettings
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: MemorySettings
+  nameWithType: ExcelPackage.MemorySettings
+  fullName: OfficeOpenXml.ExcelPackage.MemorySettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MemorySettings
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1127
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMemmory settings for RecyclableMemoryStream handling\n"
+  example: []
+  syntax:
+    content: public static MemorySettings MemorySettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Utils.MemorySettings
+    content.vb: Public Shared ReadOnly Property MemorySettings As MemorySettings
+  overload: OfficeOpenXml.ExcelPackage.MemorySettings*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
   - ReadOnly
 - uid: OfficeOpenXml.ExcelPackage.GetAsByteArray
   commentId: M:OfficeOpenXml.ExcelPackage.GetAsByteArray
@@ -1479,7 +1519,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1158
+    startLine: 1170
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1515,7 +1555,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1180
+    startLine: 1192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1555,7 +1595,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1233
+    startLine: 1245
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1591,7 +1631,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1242
+    startLine: 1254
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3138,6 +3178,22 @@ references:
   name: ExcelPackageSettings
   nameWithType: ExcelPackageSettings
   fullName: OfficeOpenXml.ExcelPackageSettings
+- uid: OfficeOpenXml.ExcelPackage.MemorySettings*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.MemorySettings
+  name: MemorySettings
+  nameWithType: ExcelPackage.MemorySettings
+  fullName: OfficeOpenXml.ExcelPackage.MemorySettings
+- uid: OfficeOpenXml.Utils.MemorySettings
+  commentId: T:OfficeOpenXml.Utils.MemorySettings
+  parent: OfficeOpenXml.Utils
+  name: MemorySettings
+  nameWithType: MemorySettings
+  fullName: OfficeOpenXml.Utils.MemorySettings
+- uid: OfficeOpenXml.Utils
+  commentId: N:OfficeOpenXml.Utils
+  name: OfficeOpenXml.Utils
+  nameWithType: OfficeOpenXml.Utils
+  fullName: OfficeOpenXml.Utils
 - uid: OfficeOpenXml.ExcelPackage.GetAsByteArray*
   commentId: Overload:OfficeOpenXml.ExcelPackage.GetAsByteArray
   name: GetAsByteArray

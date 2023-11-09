@@ -123,13 +123,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public abstract int ArgumentMinLength { get; }
 
         /// <summary>
-        /// If overridden, this method is called before Execute is called.
-        /// </summary>
-        /// <param name="context"></param>
-        /// 
-        [Obsolete("Don't use this method from EPPlus 7.x and up")]
-        public virtual void BeforeInvoke(ParsingContext context) { }
-        /// <summary>
         /// If overridden, this method will be called before the <see cref="Execute" /> method is called with the arguments for any parameter having 
         /// <see cref="ParametersInfo"/> set to <see cref="FunctionParameterInformation.AdjustParameterAddress" /> and that argument is a range with an address. 
         /// It can be used to narrow the dependency check for the function returning a queue with addresses to check dependency before executing.
@@ -141,7 +134,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             
         }
-        /// <summary>
         /// <summary>
         /// Indicates that the function is an ErrorHandlingFunction.
         /// </summary>
@@ -385,6 +377,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
+        /// <param name="error">An error type if the operation returns an error.</param>
         /// <returns>Value of the argument as a double.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
         protected double ArgToDecimal(object obj, PrecisionAndRoundingStrategy precisionAndRoundingStrategy, out ExcelErrorValue error)
@@ -490,8 +483,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 return Utils.ConvertUtil.GetValueDouble(arg.Value);
             }
-
-            return default;
         }
         /// <summary>
         /// 
@@ -508,21 +499,37 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return null;
         }
 
+        /// <summary>
+        /// Divides two numbers. If <paramref name="right"/> is zero double.PositiveInfinity will be returned.
+        /// </summary>
+        /// <param name="left">Numerator</param>
+        /// <param name="right">Denominator</param>
+        /// <returns></returns>
         protected double Divide(double left, double right)
         {
-            if (Math.Abs(right - 0d) < double.Epsilon)
+            if (Math.Abs(right) - 0d < double.Epsilon)
             {
                 return double.PositiveInfinity;
             }
             return left / right;
         }
 
+        /// <summary>
+        /// Returns true if the parameter <paramref name="value"/> is a numeric string, otherwise false.
+        /// </summary>
+        /// <param name="value">The value to test</param>
+        /// <returns></returns>
         protected bool IsNumericString(object value)
         {
             if (value == null) return false;
             return double.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out double d);
         }
 
+        /// <summary>
+        /// Returns true if the parameter <paramref name="n"/> is an integer, otherwise false.
+        /// </summary>
+        /// <param name="n">The value to test</param>
+        /// <returns></returns>
         protected bool IsInteger(object n)
         {
             if (!IsNumeric(n)) return false;
@@ -705,40 +712,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return ArgsToDoubleEnumerable(argument, context, x => { }, out error);
         }
 
-        protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, IRangeInfo rangeInfo, ParsingContext context)
-        {
-            var startRow = rangeInfo.Address.FromRow;
-            var endRow = rangeInfo.Address.ToRow > rangeInfo.Worksheet.Dimension._toRow ? rangeInfo.Worksheet.Dimension._toRow : rangeInfo.Address.ToRow;
-            var startCol = rangeInfo.Address.FromCol;
-            var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
-            var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
-            var funcArg = new FunctionArgument(rangeInfo, DataType.ExcelRange);
-            var result = _argumentCollectionUtil.ArgsToDoubleEnumerable(ignoreHiddenCells, false, false, new List<FunctionArgument> { funcArg }, context);
-            var dict = new Dictionary<int, double>();
-            result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
-            var resultList = new List<double>();
-            var from = horizontal ? startCol : startRow;
-            var to = horizontal ? endCol : endRow;
-            for (var row = from; row <= to; row++)
-            {
-                if (dict.ContainsKey(row))
-                {
-                    resultList.Add(dict[row]);
-                }
-                else
-                {
-                    resultList.Add(0d);
-                }
-            }
-            return resultList;
-        }
-
         /// <summary>
         /// Will return the arguments as an enumerable of objects.
         /// </summary>
         /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="ignoreErrors"></param>
+        /// <param name="ignoreNestedSubtotalAggregate"></param>
         /// <returns></returns>
         protected virtual IEnumerable<object> ArgsToObjectEnumerable(bool ignoreHiddenCells, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -786,7 +767,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="result"></param>
         /// <param name="dataType"></param>
-        /// <param name="address">The address for the range</param>
         /// <returns></returns>
         protected CompileResult CreateAddressResult(IRangeInfo result, DataType dataType)
         {
@@ -880,7 +860,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// Information of individual arguments of the function used internally by the formula parser .
         /// </summary>
-        /// <param name="argumentIndex">The argument index</param>
         /// <returns>Function argument information</returns>
         public virtual string NamespacePrefix
         {

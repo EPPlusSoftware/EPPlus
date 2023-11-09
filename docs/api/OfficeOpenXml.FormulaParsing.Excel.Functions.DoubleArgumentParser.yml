@@ -103,7 +103,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleArgumentParser.cs
-    startLine: 51
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions

@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public int ArrayArgInterval { get; set; }
 
         /// <summary>
-        /// Returns true if the 0-based <paramref name="ix">index</paramref>
+        /// Returns true if the 0-based <paramref name="argIx">index</paramref>
         /// occurs in the <see cref="SetArrayParameterIndexes(int[])"/> list or if
         /// the index matches the configuration of <see cref="IgnoreNumberOfArgsFromStart"/>
         /// and <see cref="ArrayArgInterval"/>.

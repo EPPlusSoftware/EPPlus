@@ -133,7 +133,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-    startLine: 84
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -174,7 +174,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-    startLine: 96
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

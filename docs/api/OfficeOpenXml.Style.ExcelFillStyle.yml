@@ -139,11 +139,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkGray
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 30
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nDark gray\n"
+  summary: "\nDark gray  <p></p>\nExcel name: 75% Gray\n"
   example: []
   syntax:
     content: DarkGray = 2
@@ -173,11 +173,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MediumGray
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 34
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nMedium gray\n"
+  summary: "\nMedium gray <p></p>\nExcel name: 50% Gray\n"
   example: []
   syntax:
     content: MediumGray = 3
@@ -207,11 +207,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightGray
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 38
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nLight gray\n"
+  summary: "\nLight gray <p></p>\nExcel name: 25% Gray\n"
   example: []
   syntax:
     content: LightGray = 4
@@ -241,11 +241,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gray125
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 42
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nGrayscale of 0.125, 1/8\n"
+  summary: "\nGrayscale of 0.125, 1/8 <p></p>\nExcel name: 12.5% Gray\n"
   example: []
   syntax:
     content: Gray125 = 5
@@ -275,11 +275,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gray0625
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 46
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nGrayscale of 0.0625, 1/16\n"
+  summary: "\nGrayscale of 0.0625, 1/16 <p></p>\nExcel name: 6.25% Gray\n"
   example: []
   syntax:
     content: Gray0625 = 6
@@ -309,11 +309,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkVertical
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 50
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nDark vertical\n"
+  summary: "\nDark vertical <p></p>\nExcel name: Vertical Stripe\n"
   example: []
   syntax:
     content: DarkVertical = 7
@@ -343,11 +343,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkHorizontal
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 54
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nDark horizontal\n"
+  summary: "\nDark horizontal <p></p>\nExcel name: Horizontal Stripe\n"
   example: []
   syntax:
     content: DarkHorizontal = 8
@@ -377,11 +377,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkDown
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 58
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nDark down\n"
+  summary: "\nDark down <p></p>\nExcel name: Reverse Diagonal Stripe\n"
   example: []
   syntax:
     content: DarkDown = 9
@@ -411,11 +411,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkUp
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 62
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nDark up\n"
+  summary: "\nDark up <p></p>\nExcel name: Diagonal Stripe\n"
   example: []
   syntax:
     content: DarkUp = 10
@@ -445,11 +445,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkGrid
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 66
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nDark grid\n"
+  summary: "\nDark grid <p></p>\nExcel name: Diagonal Crosshatch\n"
   example: []
   syntax:
     content: DarkGrid = 11
@@ -479,11 +479,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkTrellis
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 70
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nDark trellis\n"
+  summary: "\nDark trellis <p></p>\nExcel name: Thick Diagonal Crosshatch\n"
   example: []
   syntax:
     content: DarkTrellis = 12
@@ -513,11 +513,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightVertical
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 74
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nLight vertical\n"
+  summary: "\nLight vertical <p></p>\nExcel name: Thin Vertical Stripe\n"
   example: []
   syntax:
     content: LightVertical = 13
@@ -547,11 +547,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightHorizontal
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 78
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nLight horizontal\n"
+  summary: "\nLight horizontal <p></p>\nExcel name: Thin Horizontal Stripe\n"
   example: []
   syntax:
     content: LightHorizontal = 14
@@ -581,11 +581,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightDown
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 82
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nLight down\n"
+  summary: "\nLight down <p></p>\nExcel name: Thin Reverse Diagonal Stripe\n"
   example: []
   syntax:
     content: LightDown = 15
@@ -615,11 +615,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightUp
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 86
+    startLine: 101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nLight up\n"
+  summary: "\nLight up <p></p>\nExcel name: Thin Diagonal Stripe\n"
   example: []
   syntax:
     content: LightUp = 16
@@ -649,11 +649,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightGrid
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 90
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nLight grid\n"
+  summary: "\nLight grid <p></p>\nExcel name: Thin Horizontal Crosshatch\n"
   example: []
   syntax:
     content: LightGrid = 17
@@ -683,11 +683,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightTrellis
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
-    startLine: 94
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nLight trellis\n"
+  summary: "\nLight trellis <p></p>\nExcel name: Thin Diagonal Crosshatch\n"
   example: []
   syntax:
     content: LightTrellis = 18

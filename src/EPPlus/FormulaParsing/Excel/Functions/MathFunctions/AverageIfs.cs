@@ -16,7 +16,10 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -43,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         }));
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var sumRange = ArgsToDoubleEnumerable(arguments[0], context, out ExcelErrorValue e1).ToList();
+            var valueRange = arguments[0].ValueAsRangeInfo;
             var argRanges = new List<RangeOrValue>();
             var criterias = new List<object>();
             for (var ix = 1; ix < 31; ix += 2)
@@ -59,7 +62,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                //var v = GetCriteraFromArgsByIndex(arguments, ix);
                 criterias.Add(arguments[ix+1].ValueFirst);
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
@@ -71,9 +73,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
 
             if (matchIndexes.Count() == 0) return CreateResult(eErrorType.Div0);
-            var result = matchIndexes.AverageKahan(index => sumRange[index]);
+            var sumRange = RangeFlattener.FlattenRangeObject(valueRange);
+            KahanSum sum = 0d;
+            var count = 0;
+            foreach (var index in matchIndexes)
+            {
+                var obj = sumRange[index];
+                if (obj is ExcelErrorValue e1)
+                {
+                    return e1.AsCompileResult;
+                }
+                if (ConvertUtil.IsNumericOrDate(obj))
+                {
+                    sum += ConvertUtil.GetValueDouble(obj);
+                    count++;
+                }
+            }
+            if(count == 0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Div0);
+            }   
 
-            return CreateResult(result, DataType.Decimal);
+            return CreateResult(sum.Get()/count, DataType.Decimal);
         }
     }
 }

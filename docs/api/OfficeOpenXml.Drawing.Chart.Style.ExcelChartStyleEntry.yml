@@ -17,6 +17,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasBorder
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasEffect
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasFill
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasTextBody
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasTextRun
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasThreeD
@@ -82,7 +83,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 62
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -118,7 +119,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 78
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -155,7 +156,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EffectReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 94
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -192,7 +193,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 110
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -229,7 +230,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 126
+    startLine: 128
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -266,7 +267,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 141
+    startLine: 143
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -303,7 +304,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 156
+    startLine: 158
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -340,7 +341,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 171
+    startLine: 173
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -377,7 +378,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultTextRun
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 186
+    startLine: 188
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -414,7 +415,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultTextBody
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 202
+    startLine: 204
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -451,7 +452,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Modifier
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 217
+    startLine: 219
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -488,7 +489,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasFill
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 252
+    startLine: 254
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -525,7 +526,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasBorder
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 266
+    startLine: 268
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -562,7 +563,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasEffect
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 276
+    startLine: 278
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -599,7 +600,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasThreeD
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 286
+    startLine: 288
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -636,7 +637,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTextBody
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 297
+    startLine: 299
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -649,6 +650,41 @@ items:
       type: System.Boolean
     content.vb: Public ReadOnly Property HasTextBody As Boolean
   overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasTextBody*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText
+  id: HasRichText
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+  langs:
+  - csharp
+  - vb
+  name: HasRichText
+  nameWithType: ExcelChartStyleEntry.HasRichText
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasRichText
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
+    startLine: 306
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  syntax:
+    content: public bool HasRichText { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasRichText As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText*
   modifiers.csharp:
   - public
   - get
@@ -673,7 +709,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTextRun
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 307
+    startLine: 317
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -1157,6 +1193,11 @@ references:
   name: HasTextBody
   nameWithType: ExcelChartStyleEntry.HasTextBody
   fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasTextBody
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText
+  name: HasRichText
+  nameWithType: ExcelChartStyleEntry.HasRichText
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasRichText
 - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasTextRun*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry.HasTextRun
   name: HasTextRun

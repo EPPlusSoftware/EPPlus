@@ -36,6 +36,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
@@ -1054,6 +1055,7 @@ namespace EPPlusTest
             using (var p1 = OpenTemplatePackage("Sample_Cond_Format.xlsx"))
             {
                 var ws = p1.Workbook.Worksheets[0];
+
                 using (var p2 = new ExcelPackage())
                 {
                     var ws2 = p2.Workbook.Worksheets.Add("Test", ws);
@@ -5197,7 +5199,7 @@ namespace EPPlusTest
             using (var package = OpenPackage("PercentOper.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("test");
-                ws.Cells["A1"].Formula="10%";
+                ws.Cells["A1"].Formula = "10%";
                 ws.Calculate();
                 Assert.AreEqual(0.1, ws.Cells["A1"].Value);
             }
@@ -5576,9 +5578,11 @@ namespace EPPlusTest
                 string sheetName = "Sheet1";
                 string range = "G2:G5";
                 string value = "VLOOKUP(F2,'Reference Data'!A2:B187021,2,0)";
-
+                var logFile = new FileInfo("c:\\temp\\formulaLog.log");
+                if (logFile.Exists) logFile.Delete();
                 using (var package = OpenTemplatePackage("s539.xlsm"))
                 {
+                    package.Workbook.FormulaParserManager.AttachLogger(logFile);
                     var ws = package.Workbook.Worksheets[sheetName];
                     ws.Cells[range].Formula = value;
                     ws.Cells[range].Calculate();
@@ -5645,6 +5649,92 @@ namespace EPPlusTest
                 sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
 
                 Assert.AreEqual(2347400000d, sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void s532CacheIssue()
+        {
+            using (var package = OpenTemplatePackage("s532-Pivot-Cache.xlsx"))
+            {
+                var pivotTableWorksheet = package.Workbook.Worksheets["Sheet3"];
+                ExcelWorksheet ws = package.Workbook.Worksheets["Sheet2"];
+
+                pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
+                var definition = pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition;
+
+                Assert.AreEqual(definition.PivotTable.Fields[0].CacheField._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s542()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532_source.xlsx"))
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532_destination.xlsx");
+
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["Sheet3"];
+                var wscopied = destinationpackage.Workbook.Worksheets.Add("Pivot Data", sourceworksheet);
+
+                var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                SaveAndCleanup(destinationpackage);
+            }
+        }
+
+        [TestMethod]
+        public void s546()
+        {
+            using (var pck = OpenTemplatePackage("s546_old_alt.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
+
+                var range = ws.Cells["A1:K16"];
+
+                range.AutoFilter = false;
+
+                ws.Cells["A1"].Value = 3;
+
+                range = ws.Cells["A1:K16"];
+
+                range.AutoFilter = true;
+
+                Assert.IsNotNull(ws.AutoFilter.SchemaNodeOrder);
+
+                SaveAndCleanup(pck);
+            }
+        }
+        [TestMethod]
+        public void GroupDrawingIssue()
+        {
+            using (var p = OpenTemplatePackage("pic_shape_grouped2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var grpSp = (ExcelGroupShape)ws.Drawings[0];
+                var d = grpSp.Drawings[0];
+
+                p.Workbook.Worksheets.Add("Sheet2", ws);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i1146()
+        {
+            using (var p1 = OpenTemplatePackage("HeaderFooterTest.xlsx"))
+            {
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws = p1.Workbook.Worksheets[0];
+                    p2.Workbook.Worksheets.Add("sheet1", ws);
+                    SaveWorkbook("HeaderFooterSaved.xlsx", p2);
+                }
             }
         }
     }

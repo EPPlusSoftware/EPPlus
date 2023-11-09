@@ -32,17 +32,19 @@ namespace OfficeOpenXml.Drawing
     {
 #region "Constructors"
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type) :
-            base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
+            base(drawings, node, "xdr:pic/", "xdr:nvPicPr/xdr:cNvPr")
         {
+            Init();
             CreatePicNode(node,type);
             Hyperlink = hyperlink;
             Image = new ExcelImage(this);
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
-            base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr", shape)
+            base(drawings, node, shape==null ? "xdr:pic/" : "", "xdr:nvPicPr/xdr:cNvPr", shape)
         {
-            XmlNode picNode = node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip", drawings.NameSpaceManager);
+            Init();
+            XmlNode picNode = node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", drawings.NameSpaceManager);
             if (picNode != null && picNode.Attributes["embed", ExcelPackage.schemaRelationships] != null)
             {
                 IPictureContainer container = this;
@@ -78,14 +80,20 @@ namespace OfficeOpenXml.Drawing
                 container.ImageHash = ii.Hash;
             }
         }
+        private void Init()
+        {
+            _lockAspectRatioPath = $"{_topPath}xdr:nvPicPr/xdr:cNvPicPr/a:picLocks/@noChangeAspect";
+            _preferRelativeResizePath = $"{_topPath}xdr:nvPicPr/xdr:cNvPicPr/@preferRelativeResize";
+        }
+
         private void SetRelId(XmlNode node, ePictureType type, string relID)
         {
             //Create relationship
-            node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
+            node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
             
             if (type == ePictureType.Svg)
             {
-                node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relID;
+                node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relID;
             }
         }
 
@@ -269,7 +277,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_fill == null)
                 {
-                    _fill = new ExcelDrawingFill(_drawings, NameSpaceManager, TopNode, "xdr:pic/xdr:spPr", SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_drawings, NameSpaceManager, TopNode, $"{_topPath}xdr:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
@@ -284,7 +292,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_drawings, NameSpaceManager, TopNode, "xdr:pic/xdr:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_drawings, NameSpaceManager, TopNode, $"{_topPath}xdr:spPr/a:ln", SchemaNodeOrder);
                 }
                 return _border;
             }
@@ -299,12 +307,12 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_drawings, NameSpaceManager, TopNode, "xdr:pic/xdr:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_drawings, NameSpaceManager, TopNode, $"{_topPath}xdr:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
         }
-        const string _preferRelativeResizePath = "xdr:pic/xdr:nvPicPr/xdr:cNvPicPr/@preferRelativeResize";
+        string _preferRelativeResizePath;
         /// <summary>
         /// Relative to original picture size
         /// </summary>
@@ -319,7 +327,7 @@ namespace OfficeOpenXml.Drawing
                 SetXmlNodeBool(_preferRelativeResizePath, value);
             }
         }
-        const string _lockAspectRatioPath = "xdr:pic/xdr:nvPicPr/xdr:cNvPicPr/a:picLocks/@noChangeAspect";
+        string _lockAspectRatioPath;
         /// <summary>
         /// Lock aspect ratio
         /// </summary>
@@ -380,10 +388,10 @@ namespace OfficeOpenXml.Drawing
         void IPictureContainer.SetNewImage()
         {
             var relId = ((IPictureContainer)this).RelPic.Id;
-            TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
             if (Image.Type == ePictureType.Svg)
             {
-                TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relId;
+                TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relId;
             }
         }
 

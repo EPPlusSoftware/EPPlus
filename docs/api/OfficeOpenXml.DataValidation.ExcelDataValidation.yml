@@ -92,7 +92,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -109,6 +109,7 @@ items:
       description: adress validation is applied to
     - id: ws
       type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
     content.vb: Protected Sub New(uid As String, address As String, ws As ExcelWorksheet)
   overload: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor*
   modifiers.csharp:
@@ -133,7 +134,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 49
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -147,6 +148,7 @@ items:
       description: ''
     - id: ws
       type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
     content.vb: Protected Sub New(xr As XmlReader, ws As ExcelWorksheet)
   overload: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor*
   modifiers.csharp:
@@ -171,7 +173,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 59
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -185,6 +187,7 @@ items:
       description: Validation to copy from
     - id: ws
       type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
     content.vb: Protected Sub New(validation As ExcelDataValidation, ws As ExcelWorksheet)
   overload: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor*
   modifiers.csharp:
@@ -209,7 +212,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Uid
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 81
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -248,7 +251,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 88
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -287,7 +290,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 93
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -328,7 +331,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorStyle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 99
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -367,10 +370,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImeMode
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 118
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
+  summary: "\nMode for east-asian languages who use Input Method Editors(IME)\n"
+  example: []
   syntax:
     content: public ExcelDataValidationImeMode ImeMode { get; set; }
     parameters: []
@@ -404,7 +409,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowBlank
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 139
+    startLine: 145
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -443,7 +448,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInputMessage
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 144
+    startLine: 150
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -482,7 +487,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowErrorMessage
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 149
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -521,7 +526,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorTitle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 154
+    startLine: 160
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -560,7 +565,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Error
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 159
+    startLine: 165
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -599,7 +604,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PromptTitle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 164
+    startLine: 170
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -638,7 +643,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Prompt
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 169
+    startLine: 175
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -677,7 +682,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 174
+    startLine: 180
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -718,7 +723,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 180
+    startLine: 186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -758,7 +763,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 188
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -797,7 +802,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsStale
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 205
+    startLine: 211
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -846,7 +851,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 212
+    startLine: 218
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -883,7 +888,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OnFormulaChanged
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 297
+    startLine: 303
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
