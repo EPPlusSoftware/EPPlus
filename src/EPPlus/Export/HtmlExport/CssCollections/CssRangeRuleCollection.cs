@@ -1,5 +1,4 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 
-namespace OfficeOpenXml.Export.HtmlExport.Collectors
+namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
     internal partial class CssRangeRuleCollection
     {
@@ -157,7 +156,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                 translators.Add(new CssBorderTranslator(style.Border));
             }
 
-            if(style is StyleXml)
+            if (style is StyleXml)
             {
                 translators.Add(new CssTextFormatTranslator((StyleXml)style));
             }

@@ -1,6 +1,6 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
 using System.Collections.Generic;

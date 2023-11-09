@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
+namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
     /// <summary>
     /// A css Declaration is the combo of a property and its values.

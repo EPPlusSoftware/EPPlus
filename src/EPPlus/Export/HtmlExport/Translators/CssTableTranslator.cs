@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml.Export.HtmlExport.Writers.Css;
+﻿using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using System;

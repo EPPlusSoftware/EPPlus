@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
+using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;

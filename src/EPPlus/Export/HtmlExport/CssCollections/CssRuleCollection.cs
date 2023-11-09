@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 
-namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
+namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
     internal class CssRuleCollection : IEnumerable<CssRule>
     {
@@ -44,7 +40,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
             _cssRules.Add(toBeAdded);
         }
 
-        internal void AddRule(CssRule rule) 
+        internal void AddRule(CssRule rule)
         {
             _cssRules.Add(rule);
         }

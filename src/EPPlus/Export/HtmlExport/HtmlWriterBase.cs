@@ -41,23 +41,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         internal int Indent { get; set; }
 
-        //protected internal static bool HasStyle(ExcelXfs xfs)
-        //{
-        //    return xfs.FontId > 0 ||
-        //           xfs.FillId > 0 ||
-        //           xfs.BorderId > 0 ||
-        //           xfs.HorizontalAlignment != ExcelHorizontalAlignment.General ||
-        //           xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom ||
-        //           xfs.TextRotation != 0 ||
-        //           xfs.Indent > 0 ||
-        //           xfs.WrapText;
-        //}
-        //protected internal static string GetStyleKey(ExcelXfs xfs)
-        //{
-        //    var fbfKey = ((ulong)(uint)xfs.FontId << 32 | (uint)xfs.BorderId << 16 | (uint)xfs.FillId);
-        //    return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0");
-        //}
-
         protected static string GetBorderItemLine(ExcelBorderStyle style, string suffix)
         {
             var lineStyle = $"border-{suffix}:";

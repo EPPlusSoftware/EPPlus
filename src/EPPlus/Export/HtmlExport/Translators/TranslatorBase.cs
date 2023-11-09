@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
+using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;

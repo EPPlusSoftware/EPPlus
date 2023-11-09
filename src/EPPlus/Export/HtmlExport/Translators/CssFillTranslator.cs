@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;

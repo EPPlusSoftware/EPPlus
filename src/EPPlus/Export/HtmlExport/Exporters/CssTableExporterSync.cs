@@ -10,20 +10,11 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Export.HtmlExport.Collectors;
-using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Writers;
-using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {

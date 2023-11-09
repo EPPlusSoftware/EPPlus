@@ -1,5 +1,4 @@
 ﻿using OfficeOpenXml.Drawing.Vml;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
@@ -12,6 +11,7 @@ using OfficeOpenXml.Utils;
 using System.Xml.Linq;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
+using OfficeOpenXml.Export.HtmlExport.CssCollections;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {

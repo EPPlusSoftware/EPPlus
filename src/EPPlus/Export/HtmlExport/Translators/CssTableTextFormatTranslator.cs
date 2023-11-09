@@ -1,5 +1,5 @@
-﻿using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
+﻿using OfficeOpenXml.Export.HtmlExport.CssCollections;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style;
 using System;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
+namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
     internal partial class CssRule
     {
@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers.Css
 
         internal void AddDeclarationList(List<Declaration> declarations)
         {
-            for(int i= 0; i < declarations.Count(); i++)
+            for (int i = 0; i < declarations.Count(); i++)
             {
                 Declarations.Add(declarations[i]);
             }

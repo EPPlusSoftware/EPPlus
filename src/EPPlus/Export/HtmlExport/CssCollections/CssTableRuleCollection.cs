@@ -2,23 +2,14 @@
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.Translators;
-using OfficeOpenXml.Export.HtmlExport.Writers.Css;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
-using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
-namespace OfficeOpenXml.Export.HtmlExport.Collectors
+namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
     internal class CssTableRuleCollection
     {
@@ -47,8 +38,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
 
         internal void AddHyperlink(string name, ExcelTableStyleElement element)
         {
-            if(_context.Exclude.Font != eFontExclude.All && 
-                element.Style.HasValue && 
+            if (_context.Exclude.Font != eFontExclude.All &&
+                element.Style.HasValue &&
                 element.Style.Font.HasValue)
             {
                 var styleClass = new CssRule($"table.{name} a");
@@ -82,7 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
                 }
                 else
                 {
-                    rightDefault = c < dataTypes.Count && 
+                    rightDefault = c < dataTypes.Count &&
                         (dataTypes[c] == HtmlDataTypes.Number || dataTypes[c] == HtmlDataTypes.DateTime);
                 }
 
@@ -127,7 +118,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Collectors
             {
                 translators.Add(new CssFontTranslator(new FontDxf(s.Font), null));
             }
-            if(s.Border != null && _context.Exclude.Border != eBorderExclude.All)
+            if (s.Border != null && _context.Exclude.Border != eBorderExclude.All)
             {
                 translators.Add(new CssBorderTranslator(new BorderDxf(s.Border)));
             }
