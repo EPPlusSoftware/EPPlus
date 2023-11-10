@@ -102,6 +102,24 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             writer.RenderHTMLElement(group, settings.Minify);
         }
 
+        protected void AddImage(HTMLElement parent, HtmlExportSettings settings, HtmlImage image, object value)
+        {
+            if (image != null)
+            {
+                var child = new HTMLElement(HtmlElements.Img);
+                var name = GetPictureName(image);
+                string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                child.AddAttribute("alt", image.Picture.Name);
+                if (settings.Pictures.AddNameAsId)
+                {
+                    child.AddAttribute("id", imageName);
+                }
+                child.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
+                parent._childElements.Add(child);
+                //parent.RenderBeginTag(HtmlElements.Img, true);
+            }
+        }
+
         protected void AddImage(EpplusHtmlWriter writer, HtmlExportSettings settings, HtmlImage image, object value)
         {
             if (image != null)

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -300,12 +301,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         private void RenderHeaderRow(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings, int headerRows, List<string> headers)
         {
             if (table != null && table.ShowHeader == false) return;
+
+            var thead = new HTMLElement(HtmlElements.Thead);
+
             if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TheadRole))
             {
-                writer.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
+                thead.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
+                //writer.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
             }
-            writer.RenderBeginTag(HtmlElements.Thead);
-            writer.ApplyFormatIncreaseIndent(Settings.Minify);
+            //writer.RenderBeginTag(HtmlElements.Thead);
+            //writer.ApplyFormatIncreaseIndent(Settings.Minify);
+
             if (table == null)
             {
                 headerRows = _settings.HeaderRows == 0 ? 1 : _settings.HeaderRows;
@@ -320,21 +326,26 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             {
                 if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
-                    writer.AddAttribute("role", "row");
+                    thead.AddAttribute("role", "row");
+                    //writer.AddAttribute("role", "row");
                 }
                 var row = range._fromRow + i;
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix, IsMultiSheet);
-                writer.RenderBeginTag(HtmlElements.TableRow);
-                writer.ApplyFormatIncreaseIndent(Settings.Minify);
+                var tr = new HTMLElement(HtmlElements.TableRow);
+
+                if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
+                //writer.RenderBeginTag(HtmlElements.TableRow);
+                //writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 foreach (var col in _columns)
                 {
+                    var th = new HTMLElement(HtmlElements.TableHeader);
                     if (InMergeCellSpan(row, col)) continue;
                     var cell = range.Worksheet.Cells[row, col];
                     if (Settings.RenderDataTypes)
                     {
-                        writer.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
+                        th.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
+                        //writer.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
                     }
-                    SetColRowSpan(range, writer, cell);
+                    SetColRowSpan(range, th, cell);
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
@@ -342,16 +353,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                         if (!string.IsNullOrEmpty(classString))
                         {
-                            writer.AddAttribute("class", classString);
+                            th.AddAttribute("class", classString);
                         }
                     }
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
-                    writer.RenderBeginTag(HtmlElements.TableHeader);
-                    AddImage(writer, Settings, image, cell.Value);
-
+                    //writer.RenderBeginTag(HtmlElements.TableHeader);
+                    AddImage(th, Settings, image, cell.Value);
+                    
                     if (headerRows > 0 || table != null)
                     {
                         if (cell.Hyperlink == null)

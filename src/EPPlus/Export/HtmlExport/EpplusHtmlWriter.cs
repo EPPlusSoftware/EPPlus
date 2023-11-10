@@ -115,29 +115,41 @@ namespace OfficeOpenXml.Export.HtmlExport
             else
             {
                 _writer.Write(">");
-                _elementStack.Push(elementName);
             }
         }
 
-        public void RenderHTMLElement(HTMLElement element, bool minify, bool closeElementOnBegin = false)
+        public void RenderHTMLElement(HTMLElement element, bool minify)
         {
-            if(closeElementOnBegin)
-            {
-                RenderBeginTag(element.ElementName, element._attributes, closeElementOnBegin);
-            }
-            else
+            if(element._childElements.Count > 0)
             {
                 RenderBeginTag(element.ElementName, element._attributes);
-                ApplyFormatIncreaseIndent(minify);
+
+                var name = element.ElementName;
+                bool noIndent = minify == true ?
+                    true :
+                    name == HtmlElements.TableData ||
+                    name == HtmlElements.TFoot ||
+                    name == HtmlElements.TableHeader ||
+                    name == HtmlElements.A ||
+                    name == HtmlElements.Img;
+
+                ApplyFormatIncreaseIndent(noIndent);
 
                 foreach(var child in element._childElements)
                 {
-                    RenderHTMLElement(child, minify, child.closeOnBegin);
+                    RenderHTMLElement(child, minify);
                 }
 
-                Indent--;
-                RenderEndTag();
+                if(noIndent == false)
+                {
+                    Indent--;
+                }
 
+                RenderEndTag(element.ElementName);
+            }
+            else
+            {
+                RenderBeginTag(element.ElementName, element._attributes, true);
             }
             ApplyFormat(minify);
         }

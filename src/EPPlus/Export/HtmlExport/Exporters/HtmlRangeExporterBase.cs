@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -127,6 +128,22 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             return false;
         }
 
+        internal void AddRowHeightStyle(HTMLElement element, ExcelRangeBase range, int row, string styleClassPrefix, bool isMultiSheet)
+        {
+            var r = range.Worksheet._values.GetValue(row, 0);
+            if (r._value is RowInternal rowInternal)
+            {
+                if (rowInternal.Height != -1 && rowInternal.Height != range.Worksheet.DefaultRowHeight)
+                {
+                    element.AddAttribute("style", $"height:{rowInternal.Height}pt");
+                    return;
+                }
+            }
+
+            var clsName = HtmlExportTableUtil.GetWorksheetClassName(styleClassPrefix, "drh", range.Worksheet, isMultiSheet);
+            element.AddAttribute("class", clsName); //Default row height
+        }
+
         internal void AddRowHeightStyle(EpplusHtmlWriter writer, ExcelRangeBase range, int row, string styleClassPrefix, bool isMultiSheet)
         {
             var r = range.Worksheet._values.GetValue(row, 0);
@@ -172,6 +189,42 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
             return false;
+        }
+
+        protected void SetColRowSpan(ExcelRangeBase range, HTMLElement element, ExcelRange cell)
+        {
+            if (cell.Merge)
+            {
+                var address = cell.Worksheet.MergedCells[cell._fromRow, cell._fromCol];
+                if (address != null)
+                {
+                    var ma = new ExcelAddressBase(address);
+                    bool added = false;
+                    //ColSpan
+                    if (ma._fromCol == cell._fromCol || range._fromCol == cell._fromCol)
+                    {
+                        var maxCol = Math.Min(ma._toCol, range._toCol);
+                        var colSpan = maxCol - ma._fromCol + 1;
+                        if (colSpan > 1)
+                        {
+                            element.AddAttribute("colspan", colSpan.ToString(CultureInfo.InvariantCulture));
+                        }
+                        _mergedCells.Add(ma);
+                        added = true;
+                    }
+                    //RowSpan
+                    if (ma._fromRow == cell._fromRow || range._fromRow == cell._fromRow)
+                    {
+                        var maxRow = Math.Min(ma._toRow, range._toRow);
+                        var rowSpan = maxRow - ma._fromRow + 1;
+                        if (rowSpan > 1)
+                        {
+                            element.AddAttribute("rowspan", rowSpan.ToString(CultureInfo.InvariantCulture));
+                        }
+                        if (added == false) _mergedCells.Add(ma);
+                    }
+                }
+            }
         }
 
         protected void SetColRowSpan(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelRange cell)

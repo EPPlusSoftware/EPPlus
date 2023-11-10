@@ -8,9 +8,7 @@ namespace OfficeOpenXml.Export.HtmlExport.HtmlCollections
     {
         internal readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
 
-        internal List<HTMLElement> _childElements;
-
-        internal bool closeOnBegin = false;
+        internal List<HTMLElement> _childElements = new List<HTMLElement>();
 
         internal string ElementName { get; set; }
 
