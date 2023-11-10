@@ -11,6 +11,8 @@
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
+using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
@@ -25,7 +27,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal partial class EpplusHtmlWriter : HtmlWriterBase
+    internal partial class EpplusHtmlWriter : TrueWriterBase
     {
         internal EpplusHtmlWriter(Stream stream, Encoding encoding) : base(stream, encoding)
         {
@@ -77,6 +79,67 @@ namespace OfficeOpenXml.Export.HtmlExport
             var elementName = _elementStack.Pop();
             _writer.Write($"</{elementName}>");
             _writer.Flush();
+        }
+
+        public void RenderEndTag(string elementName)
+        {
+            if (_newLine)
+            {
+                WriteIndent();
+            }
+
+            _writer.Write($"</{elementName}>");
+            _writer.Flush();
+        }
+
+        public void RenderBeginTag(string elementName, List<EpplusHtmlAttribute> attributes, bool closeElement = false)
+        {
+            _newLine = false;
+            // avoid writing indent characters for a hyperlinks or images inside a td element
+            if (elementName != HtmlElements.A && elementName != HtmlElements.Img)
+            {
+                WriteIndent();
+            }
+            _writer.Write($"<{elementName}");
+            foreach (var attribute in attributes)
+            {
+                _writer.Write($" {attribute.AttributeName}=\"{attribute.Value}\"");
+            }
+            attributes.Clear();
+
+            if (closeElement)
+            {
+                _writer.Write("/>");
+                _writer.Flush();
+            }
+            else
+            {
+                _writer.Write(">");
+                _elementStack.Push(elementName);
+            }
+        }
+
+        public void RenderHTMLElement(HTMLElement element, bool minify, bool closeElementOnBegin = false)
+        {
+            if(closeElementOnBegin)
+            {
+                RenderBeginTag(element.ElementName, element._attributes, closeElementOnBegin);
+            }
+            else
+            {
+                RenderBeginTag(element.ElementName, element._attributes);
+                ApplyFormatIncreaseIndent(minify);
+
+                foreach(var child in element._childElements)
+                {
+                    RenderHTMLElement(child, minify, child.closeOnBegin);
+                }
+
+                Indent--;
+                RenderEndTag();
+
+            }
+            ApplyFormat(minify);
         }
     }
 }

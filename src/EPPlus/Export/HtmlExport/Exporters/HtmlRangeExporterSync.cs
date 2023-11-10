@@ -141,11 +141,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
+
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
             var headerRows = overrideSettings != null ? overrideSettings.HeaderRows : _settings.HeaderRows;
             var headers = overrideSettings != null ? overrideSettings.Headers : _settings.Headers;
+
             AddClassesAttributes(writer, table, tableId, additionalClassNames);
             AddTableAccessibilityAttributes(accessibilitySettings, writer);
             writer.RenderBeginTag(HtmlElements.Table);

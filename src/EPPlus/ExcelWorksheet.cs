@@ -577,10 +577,11 @@ namespace OfficeOpenXml
                 _name = value;
             }
         }
-
+        //TODO: Examine if mdw is really a neccessary input parameter.
+        //Seems it is always the same as Workbook.MaxFontWidth
         internal int GetColumnWidthPixels(int col, decimal mdw)
         {
-            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), mdw);
+            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
         internal decimal GetColumnWidth(int col)
         {

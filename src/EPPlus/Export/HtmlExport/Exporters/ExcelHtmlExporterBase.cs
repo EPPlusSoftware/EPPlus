@@ -14,9 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
-using OfficeOpenXml.Core.RangeQuadTree;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {

@@ -266,9 +266,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         protected async Task SetColumnGroupAsync(EpplusHtmlWriter writer, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
-            var ws = _range.Worksheet;
             await writer.RenderBeginTagAsync("colgroup");
             await writer.ApplyFormatIncreaseIndentAsync(settings.Minify);
+
+            var ws = _range.Worksheet;
             var mdw = _range.Worksheet.Workbook.MaxFontWidth;
             var defColWidth = ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), mdw);
             foreach (var c in _columns)

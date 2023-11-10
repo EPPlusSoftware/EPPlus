@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,37 +32,74 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         protected void SetColumnGroup(EpplusHtmlWriter writer, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
+            //writer.RenderBeginTag("colgroup");
+            //writer.ApplyFormatIncreaseIndent(settings.Minify);
+            var group = new HTMLElement("colgroup");
+
             var ws = _range.Worksheet;
-            writer.RenderBeginTag("colgroup");
-            writer.ApplyFormatIncreaseIndent(settings.Minify);
             var mdw = _range.Worksheet.Workbook.MaxFontWidth;
             var defColWidth = ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), mdw);
+
+            //string classes = "";
+            //string args = "";
+            //var elements = new List<HTMLElement>();
+
             foreach (var c in _columns)
             {
+                var element = new HTMLElement("col");
                 if (settings.SetColumnWidth)
                 {
                     double width = ws.GetColumnWidthPixels(c - 1, mdw);
                     if (width == defColWidth)
                     {
                         var clsName = HtmlExportTableUtil.GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
-                        writer.AddAttribute("class", clsName);
+                        element.AddAttribute("class", clsName);
+                        // writer.AddAttribute("class", clsName);
                     }
                     else
                     {
-                        writer.AddAttribute("style", $"width:{width}px");
+                        element.AddAttribute("style", $"width:{width}px");
                     }
                 }
                 if (settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
                 {
-                    writer.AddAttribute("class", $"{TableClass}-ar");
+                    element.AddAttribute("class", $"{TableClass}-ar");
                 }
-                writer.AddAttribute("span", "1");
-                writer.RenderBeginTag("col", true);
-                writer.ApplyFormat(settings.Minify);
+                element.AddAttribute("span", "1");
+
+                group.AddChildElement(element);
+                //writer.RenderBeginTag("col", true);
+                //writer.ApplyFormat(settings.Minify);
             }
-            writer.Indent--;
-            writer.RenderEndTag();
-            writer.ApplyFormat(settings.Minify);
+
+            //foreach (var c in _columns)
+            //{
+            //    if (settings.SetColumnWidth)
+            //    {
+            //        double width = ws.GetColumnWidthPixels(c - 1, mdw);
+            //        if (width == defColWidth)
+            //        {
+            //            var clsName = HtmlExportTableUtil.GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
+            //            writer.AddAttribute("class", clsName);
+            //        }
+            //        else
+            //        {
+            //            writer.AddAttribute("style", $"width:{width}px");
+            //        }
+            //    }
+            //    if (settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
+            //    {
+            //        writer.AddAttribute("class", $"{TableClass}-ar");
+            //    }
+            //    writer.AddAttribute("span", "1");
+            //    writer.RenderBeginTag("col", true);
+            //    writer.ApplyFormat(settings.Minify);
+            //}
+
+            //writer.Indent--;
+            //writer.RenderEndTag();
+            //writer.ApplyFormat(settings.Minify);
+            writer.RenderHTMLElement(group, settings.Minify);
         }
 
         protected void AddImage(EpplusHtmlWriter writer, HtmlExportSettings settings, HtmlImage image, object value)
