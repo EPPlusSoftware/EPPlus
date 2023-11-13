@@ -106,6 +106,29 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
+        internal bool HandleHiddenRow(EpplusHtmlAttribute attribute, ExcelWorksheet ws, HtmlExportSettings Settings, ref int row)
+        {
+            if (Settings.HiddenRows != eHiddenState.Include)
+            {
+                var r = ws.Row(row);
+                if (r.Hidden || r.Height == 0)
+                {
+                    if (Settings.HiddenRows == eHiddenState.IncludeButHide)
+                    {
+                        attribute.AttributeName = "class";
+                        attribute.Value = $"{Settings.StyleClassPrefix}hidden";
+                    }
+                    else
+                    {
+                        row++;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         internal bool HandleHiddenRow(EpplusHtmlWriter writer, ExcelWorksheet ws, HtmlExportSettings Settings, ref int row)
         {
             if (Settings.HiddenRows != eHiddenState.Include)

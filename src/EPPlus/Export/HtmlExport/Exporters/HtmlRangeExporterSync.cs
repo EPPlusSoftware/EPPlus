@@ -159,7 +159,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             if (_settings.HeaderRows > 0 || _settings.Headers.Count > 0)
             {
-                RenderHeaderRow(range, writer, table, accessibilitySettings, headerRows, headers);
+                RenderHeaderRow(range, writer, table, accessibilitySettings, headers);
             }
             // table rows
             RenderTableRows(range, writer, table, accessibilitySettings);
@@ -210,12 +210,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void RenderTableRows(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings)
         {
+            var tBody = new HTMLElement(HtmlElements.Tbody);
             if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))
             {
-                writer.AddAttribute("role", accessibilitySettings.TableSettings.TbodyRole);
+                tBody.AddAttribute("role", accessibilitySettings.TableSettings.TbodyRole);
+                //writer.AddAttribute("role", accessibilitySettings.TableSettings.TbodyRole);
             }
-            writer.RenderBeginTag(HtmlElements.Tbody);
-            writer.ApplyFormatIncreaseIndent(Settings.Minify);
+            //writer.RenderBeginTag(HtmlElements.Tbody);
+            //writer.ApplyFormatIncreaseIndent(Settings.Minify);
+
             var row = range._fromRow + _settings.HeaderRows;
             var endRow = range._toRow;
             var ws = range.Worksheet;
@@ -223,25 +226,41 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             bool hasFooter = table != null && table.ShowTotal;
             while (row <= endRow)
             {
-                if (HandleHiddenRow(writer, range.Worksheet, Settings, ref row))
+                EpplusHtmlAttribute attribute = null;
+                if (HandleHiddenRow(attribute, range.Worksheet, Settings, ref row))
                 {
                     continue; //The row is hidden and should not be included.
                 }
 
+                //if (hasFooter && row == endRow)
+                //{
+                //    writer.RenderBeginTag(HtmlElements.TFoot);
+                //}
+
+                //var currentElement = new HTMLElement(HtmlElements.TableRow);
+
                 if (hasFooter && row == endRow)
                 {
-                    writer.RenderBeginTag(HtmlElements.TFoot);
+                    var tFoot = new HTMLElement(HtmlElements.TFoot);
+                    if(attribute != null) { tFoot.AddAttribute(attribute.AttributeName, attribute.Value); }
+                    attribute = null;
                 }
+
+                var tr = new HTMLElement(HtmlElements.TableRow);
+
+                if (attribute != null) { tr.AddAttribute(attribute.AttributeName, attribute.Value); }
 
                 if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
-                    writer.AddAttribute("role", "row");
-                    writer.AddAttribute("scope", "row");
+                    tr.AddAttribute("role", "row");
+                    tr.AddAttribute("scope", "row");
                 }
 
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix, IsMultiSheet);
-                writer.RenderBeginTag(HtmlElements.TableRow);
-                writer.ApplyFormatIncreaseIndent(Settings.Minify);
+                if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
+
+                //writer.RenderBeginTag(HtmlElements.TableRow);
+                //writer.ApplyFormatIncreaseIndent(Settings.Minify);
+
                 foreach (var col in _columns)
                 {
                     if (InMergeCellSpan(row, col)) continue;
@@ -250,7 +269,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     var cv = cell.Value;
                     var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
-                    SetColRowSpan(range, writer, cell);
+                    var tblData = new HTMLElement(HtmlElements.TableData);
+
+                    SetColRowSpan(range, tblData, cell);
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
@@ -275,8 +296,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                         writer.RenderBeginTag(HtmlElements.TableData);
                         AddImage(writer, Settings, image, cell.Value);
                         RenderHyperlink(writer, cell, Settings);
-                        writer.RenderEndTag();
-                        writer.ApplyFormat(Settings.Minify);
+                        //writer.RenderEndTag();
+                        //writer.ApplyFormat(Settings.Minify);
                     }
                 }
 
@@ -295,19 +316,25 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             // end tag tbody
             writer.RenderEndTag();
         }
-        private void RenderHeaderRow(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings, int headerRows, List<string> headers)
+        private void RenderHeaderRow(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings, List<string> headers)
         {
             if (table != null && table.ShowHeader == false) return;
 
+            var thead = GetThead(range, table, accessibilitySettings, headers);
+           
+            writer.RenderHTMLElement(thead, Settings.Minify);
+        }
+
+        HTMLElement GetThead(ExcelRangeBase range, ExcelTable table, AccessibilitySettings accessibilitySettings, List<string> headers)
+        {
             var thead = new HTMLElement(HtmlElements.Thead);
 
             if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TheadRole))
             {
                 thead.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
-                //writer.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
             }
-            //writer.RenderBeginTag(HtmlElements.Thead);
-            //writer.ApplyFormatIncreaseIndent(Settings.Minify);
+
+            int headerRows;
 
             if (table == null)
             {
@@ -324,14 +351,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
                     thead.AddAttribute("role", "row");
-                    //writer.AddAttribute("role", "row");
                 }
                 var row = range._fromRow + i;
                 var tr = new HTMLElement(HtmlElements.TableRow);
 
                 if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
-                //writer.RenderBeginTag(HtmlElements.TableRow);
-                //writer.ApplyFormatIncreaseIndent(Settings.Minify);
+
                 foreach (var col in _columns)
                 {
                     var th = new HTMLElement(HtmlElements.TableHeader);
@@ -340,7 +365,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (Settings.RenderDataTypes)
                     {
                         th.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
-                        //writer.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
                     }
                     SetColRowSpan(range, th, cell);
                     if (Settings.IncludeCssClassNames)
@@ -357,15 +381,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
-                    //writer.RenderBeginTag(HtmlElements.TableHeader);
+
                     AddImage(th, Settings, image, cell.Value);
-                    //START HERE MONDAY!!
+
                     if (headerRows > 0 || table != null)
                     {
                         if (cell.Hyperlink == null)
                         {
                             th.Content = GetCellText(cell, Settings);
-                            //writer.Write(GetCellText(cell, Settings));
                         }
                         else
                         {
@@ -375,21 +398,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     else if (headers.Count < col)
                     {
                         th.Content = headers[col];
-                        //writer.Write(headers[col]);
                     }
                     tr.AddChildElement(th);
-                    //writer.RenderEndTag();
-                    //writer.ApplyFormat(Settings.Minify);
                 }
                 thead.AddChildElement(tr);
-                //writer.Indent--;
-                //writer.RenderEndTag();
             }
-            writer.RenderHTMLElement(thead, Settings.Minify);
-            //writer.ApplyFormatDecreaseIndent(Settings.Minify);
-            //writer.RenderEndTag();
-            //writer.ApplyFormat(Settings.Minify);
-
+            return thead;
         }
     }
 }
