@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Filter
 
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelWorksheet worksheet) : base(namespaceManager, topNode)
         {
+            SchemaNodeOrder = worksheet.SchemaNodeOrder;
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = worksheet;
             if (GetXmlNodeString("d:autoFilter/@ref") != "")
@@ -36,6 +37,8 @@ namespace OfficeOpenXml.Filter
         }
         internal ExcelAutoFilter(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelTable table) : base(namespaceManager, topNode)
         {
+            SchemaNodeOrder = table.SchemaNodeOrder;
+
             _columns = new ExcelFilterColumnCollection(namespaceManager, topNode, this);
             _worksheet = table.WorkSheet;
             _table = table;

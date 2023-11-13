@@ -5267,6 +5267,8 @@ namespace EPPlusTest
                 var ws = package.Workbook.Worksheets[0];
                 ws.Calculate();
                 Assert.AreEqual(1d, ws.Cells["A1"].Value);
+                Assert.AreEqual(2d, ws.Cells["A2"].Value);
+                Assert.AreEqual(3d, ws.Cells["A3"].Value);
             }
         }
 
@@ -5710,5 +5712,62 @@ namespace EPPlusTest
                 SaveAndCleanup(pck);
             }
         }
+        [TestMethod]
+        public void GroupDrawingIssue()
+        {
+            using (var p = OpenTemplatePackage("pic_shape_grouped2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var grpSp = (ExcelGroupShape)ws.Drawings[0];
+                var d = grpSp.Drawings[0];
+
+                p.Workbook.Worksheets.Add("Sheet2", ws);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i1146()
+        {
+            using (var p1 = OpenTemplatePackage("HeaderFooterTest.xlsx"))
+            {
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws = p1.Workbook.Worksheets[0];
+                    p2.Workbook.Worksheets.Add("sheet1", ws);
+                    SaveWorkbook("HeaderFooterSaved.xlsx", p2);
+                }
+            }
+        }
+        [TestMethod]
+        public void i1156()
+        {
+            using (var p = OpenTemplatePackage("I1156.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Calculate();
+                Assert.AreEqual("A", ws.Cells["B2"].Value);
+                Assert.AreEqual("B", ws.Cells["B3"].Value);
+                Assert.AreEqual("C", ws.Cells["B4"].Value);
+                Assert.AreEqual("D", ws.Cells["B5"].Value);
+                Assert.AreEqual("E", ws.Cells["B6"].Value);
+                Assert.AreEqual("G", ws.Cells["B7"].Value);
+                Assert.AreEqual("H", ws.Cells["B8"].Value);
+                Assert.AreEqual("I", ws.Cells["B9"].Value);
+                Assert.AreEqual("J", ws.Cells["B10"].Value);
+
+                Assert.AreEqual("A", ws.Cells["D2"].Value);
+                Assert.AreEqual("B", ws.Cells["D3"].Value);
+                Assert.AreEqual("C", ws.Cells["D4"].Value);
+                Assert.AreEqual(1D, ws.Cells["D5"].Value);
+
+                Assert.AreEqual("A", ws.Cells["E2"].Value);
+                Assert.AreEqual("B", ws.Cells["E3"].Value);
+                Assert.AreEqual("C", ws.Cells["E4"].Value);
+                Assert.AreEqual(1D, ws.Cells["E5"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

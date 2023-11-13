@@ -496,7 +496,6 @@ namespace OfficeOpenXml
                 {
                     CheckSheetTypeAndNotDisposed();
                     _autoFilter = new ExcelAutoFilter(NameSpaceManager, TopNode, this);
-                    _autoFilter.SchemaNodeOrder = SchemaNodeOrder;
                 }
                 return _autoFilter;
             }
@@ -973,7 +972,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                SetXmlNodeString(codeModuleNamePath, value);
+                SetXmlNodeString(codeModuleNamePath, value, true);
             }
         }
         internal void CodeNameChange(string value)
@@ -2620,7 +2619,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _vmlDrawings.CreateVmlPart();
+                    _vmlDrawings.CreateVmlPart(true);
                 }
             }
         }
