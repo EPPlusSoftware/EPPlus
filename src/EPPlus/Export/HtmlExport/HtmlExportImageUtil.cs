@@ -40,7 +40,8 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal static string GetPictureName(HtmlImage p)
         {
-            var hash = ((IPictureContainer)p.Picture).ImageHash;
+            var container = (IPictureContainer)p.Picture;
+            var hash = container.ImageHash;
             var fi = new FileInfo(p.Picture.Part.Uri.OriginalString);
             var name = fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length);
 

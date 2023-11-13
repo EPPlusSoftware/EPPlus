@@ -148,9 +148,10 @@ namespace OfficeOpenXml.Drawing
             IPictureContainer container = this;
             container.UriPic = ii.Uri;
             string relId;
+            Part = ii.Part;
+
             if (!pc.Hashes.ContainsKey(ii.Hash))
             {
-                Part = ii.Part;
                 container.RelPic = _drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(_drawings.UriDrawing, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                 relId = container.RelPic.Id;
                 pc.Hashes.Add(ii.Hash, new HashInfo(relId));
