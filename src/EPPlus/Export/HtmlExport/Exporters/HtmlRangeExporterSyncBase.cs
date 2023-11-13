@@ -139,6 +139,61 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <summary>
         /// Renders a hyperlink
         /// </summary>
+        /// <param name="element"></param>
+        /// <param name="cell"></param>
+        /// <param name="settings"></param>
+        protected void AddHyperlink(HTMLElement element, ExcelRangeBase cell, HtmlExportSettings settings)
+        {
+            if (cell.Hyperlink is ExcelHyperLink eurl)
+            {
+                if (string.IsNullOrEmpty(eurl.ReferenceAddress))
+                {
+                    if (string.IsNullOrEmpty(eurl.AbsoluteUri))
+                    {
+                        element.AddAttribute("href", eurl.OriginalString);
+                    }
+                    else
+                    {
+                        element.AddAttribute("href", eurl.AbsoluteUri);
+                    }
+                    if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
+                    {
+                        element.AddAttribute("target", settings.HyperlinkTarget);
+                    }
+                    var hyperlink = new HTMLElement(HtmlElements.A);
+                    hyperlink.Content = string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display;
+                    element.AddChildElement(hyperlink);
+                    //writer.RenderBeginTag(HtmlElements.A);
+                    //writer.Write(string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display);
+                    //writer.RenderEndTag();
+                }
+                else
+                {
+                    //Internal
+                    element.Content = GetCellText(cell, settings);
+                   // writer.Write(GetCellText(cell, settings));
+                }
+            }
+            else
+            {
+                element.AddAttribute("href", cell.Hyperlink.OriginalString);
+                //writer.AddAttribute("href", cell.Hyperlink.OriginalString);
+                if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
+                {
+                    element.AddAttribute("target", settings.HyperlinkTarget);
+                }
+                var hyperlink = new HTMLElement(HtmlElements.A);
+                hyperlink.Content = GetCellText(cell, settings);
+                element.AddChildElement(hyperlink);
+                //writer.RenderBeginTag(HtmlElements.A);
+                //writer.Write(GetCellText(cell, settings));
+                //writer.RenderEndTag();
+            }
+        }
+
+        /// <summary>
+        /// Renders a hyperlink
+        /// </summary>
         /// <param name="writer"></param>
         /// <param name="cell"></param>
         /// <param name="settings"></param>

@@ -18,10 +18,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -362,32 +359,37 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     }
                     //writer.RenderBeginTag(HtmlElements.TableHeader);
                     AddImage(th, Settings, image, cell.Value);
-                    
+                    //START HERE MONDAY!!
                     if (headerRows > 0 || table != null)
                     {
                         if (cell.Hyperlink == null)
                         {
-                            writer.Write(GetCellText(cell, Settings));
+                            th.Content = GetCellText(cell, Settings);
+                            //writer.Write(GetCellText(cell, Settings));
                         }
                         else
                         {
-                            RenderHyperlink(writer, cell, Settings);
+                            AddHyperlink(th, cell, Settings);
                         }
                     }
                     else if (headers.Count < col)
                     {
-                        writer.Write(headers[col]);
+                        th.Content = headers[col];
+                        //writer.Write(headers[col]);
                     }
-
-                    writer.RenderEndTag();
-                    writer.ApplyFormat(Settings.Minify);
+                    tr.AddChildElement(th);
+                    //writer.RenderEndTag();
+                    //writer.ApplyFormat(Settings.Minify);
                 }
-                writer.Indent--;
-                writer.RenderEndTag();
+                thead.AddChildElement(tr);
+                //writer.Indent--;
+                //writer.RenderEndTag();
             }
-            writer.ApplyFormatDecreaseIndent(Settings.Minify);
-            writer.RenderEndTag();
-            writer.ApplyFormat(Settings.Minify);
+            writer.RenderHTMLElement(thead, Settings.Minify);
+            //writer.ApplyFormatDecreaseIndent(Settings.Minify);
+            //writer.RenderEndTag();
+            //writer.ApplyFormat(Settings.Minify);
+
         }
     }
 }

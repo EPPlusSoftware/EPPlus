@@ -12,6 +12,8 @@ namespace OfficeOpenXml.Export.HtmlExport.HtmlCollections
 
         internal string ElementName { get; set; }
 
+        internal string Content { get; set; }
+
         internal HTMLElement(string elementName)
         {
             ElementName = elementName;
