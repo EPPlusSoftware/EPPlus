@@ -48,12 +48,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var byCol = false;
             if(arguments.Count > 1)
             {
-                byCol = ArgToBool(arguments, 1);
+                byCol = ArgToBool(arguments, 1, false);
             }
             var exactlyOnce = false;
             if(arguments.Count > 2)
             {
-                exactlyOnce= ArgToBool(arguments, 2);
+                exactlyOnce= ArgToBool(arguments, 2, false);
             }
 
             var resultRange = byCol ? GetByCols(range, exactlyOnce) : GetByRows(range, exactlyOnce);

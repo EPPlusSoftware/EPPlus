@@ -68,7 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var sortOrder = 1;
                 if(x + 1 < nArgs)
                 {
-                    sortOrder = ArgToInt(arguments, x + 1, out ExcelErrorValue e1);
+                    sortOrder = ArgToInt(arguments, x + 1, out ExcelErrorValue e1, 1);
                     if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
                     if(sortOrder != 1 && sortOrder != -1)
                     {

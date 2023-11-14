@@ -43,7 +43,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 else
                 {
-                    ranges.Add(arg.ValueAsRangeInfo);
+                    var r = arg.ValueAsRangeInfo;
+                    if(r==null)
+                    {
+                        return CreateDynamicArrayResult(ErrorValues.ValueError, DataType.ExcelError);                            
+                    }
+                    ranges.Add(r);
                 }
             }
             var nRows = ranges.Sum(x => x.Size.NumberOfRows);
