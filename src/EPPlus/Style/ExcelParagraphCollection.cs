@@ -202,7 +202,9 @@ namespace OfficeOpenXml.Style
                         sb.Append(item.Text);
                     }
                 }
-                if (sb.Length > 2) sb.Remove(sb.Length - 2, 2); //Remove last crlf
+                //Remove last crlf
+                var nlCharsLength = Environment.NewLine.Length;
+                sb.Remove(sb.Length - nlCharsLength, nlCharsLength);
                 return sb.ToString();
             }
             set

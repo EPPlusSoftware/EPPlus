@@ -73,7 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 case Operators.Concat:
                     return string.Concat(l, r);
                 case Operators.LessThan:
-                    if(l == null && r != null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
                         return true;
                     }
@@ -81,67 +81,67 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     {
                         return false;
                     }
-                    if (l == null && r == null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return false;
                     return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) < 0;
                 case Operators.LessThanOrEqual:
-                    if (l == null && r != null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
                         return true;
                     }
-                    if (l != null && r == null)
+                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
                     {
                         return false;
                     }
-                    if (l == null && r == null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return true;
                     return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) <= 0;
                 case Operators.GreaterThan:
-                    if (l == null && r != null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
                         return false;
                     }
-                    if (l != null && r == null)
+                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
                     {
                         return true;
                     }
-                    if (l == null && r == null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return false;
                     return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) > 0;
                 case Operators.GreaterThanOrEqual:
-                    if (l == null && r != null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
                         return false;
                     }
-                    if (l != null && r == null)
+                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
                     {
                         return true;
                     }
-                    if (l == null && r == null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return true;
                     return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) >= 0;
                 case Operators.Equals:
-                    if (l == null && r != null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
                         return false;
                     }
-                    if (l != null && r == null)
+                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
                     {
                         return false;
                     }
-                    if (l == null && r == null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return true;
                     return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) == 0;
                 case Operators.NotEqualTo:
-                    if (l == null && r != null)
+                    if (string.IsNullOrEmpty(l)==true && string.IsNullOrEmpty(r)==false)
                     {
                         return true;
                     }
-                    if (l != null && r == null)
+                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
                     {
                         return true;
                     }
-                    if (l == null && r == null)
+                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return false;
                     return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) != 0;
                 default:
