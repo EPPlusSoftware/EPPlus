@@ -8,9 +8,9 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal class PivotShowAsPercentOfColumnTotal : PivotShowAsBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], object> calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref Dictionary<int[], object> calculatedItems)
         {   
-            var showAsCalculatedItems = new Dictionary<int[], object>();
+            var showAsCalculatedItems = PivotTableCalculation.GetNewCalculatedItems();
             var colStartIx = df.Field.PivotTable.RowFields.Count;
             var totalKey = GetKey(fieldIndex.Count);            
             var t = calculatedItems[totalKey];
@@ -29,11 +29,12 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                     }                    
                 }
             }
+            calculatedItems = showAsCalculatedItems;
         }
         private static double GetColumnTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
         {
             var colKey = (int[])key.Clone();
-            for (int i = 0;i < key.Length;i++)
+            for (int i = colStartIx;i < key.Length;i++)
             {
                 colKey[i] = -1;
             }

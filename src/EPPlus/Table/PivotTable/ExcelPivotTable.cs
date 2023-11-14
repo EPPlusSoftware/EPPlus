@@ -296,11 +296,14 @@ namespace OfficeOpenXml.Table.PivotTable
         }        
         internal bool IsCalculated { get; set; }
         List<Dictionary<int[], object>> CalculatedItems = null;
-        public void Refresh()
+        public void Calculate(bool refreshCache=false)
         {
-            CacheDefinition.Refresh();
+            if(refreshCache)
+            {
+                CacheDefinition.Refresh();
+            }
             CalculatedItems = PivotTableCalculation.Calculate(this);
-            IsCalculated= true;
+            IsCalculated = true;
         }
         internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
         {

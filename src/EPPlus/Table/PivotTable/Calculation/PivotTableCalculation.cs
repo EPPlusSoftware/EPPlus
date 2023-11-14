@@ -41,7 +41,9 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             { eShowDataAs.PercentOfTotal, new PivotShowAsPercentOfGrandTotal() },
             { eShowDataAs.PercentOfColumn, new PivotShowAsPercentOfColumnTotal() },
-        }
+            { eShowDataAs.PercentOfRow, new PivotShowAsPercentOfRowTotal() },
+            { eShowDataAs.Percent, new PivotShowAsPercent() },
+        };
         internal static List<Dictionary<int[], object>> Calculate(ExcelPivotTable pivotTable)
         {
             var ci = pivotTable.CacheDefinition._cacheReference;
@@ -49,7 +51,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
             foreach (var df in pivotTable.DataFields)
             {
-                var dataFieldItems = new Dictionary<int[], object>(new ArrayComparer());
+                var dataFieldItems = PivotTableCalculation.GetNewCalculatedItems();
                 calculatedItems.Add(dataFieldItems);
                 var recs = ci.Records;
                 for (var r= 0; r < recs.RecordCount;r++)
@@ -65,8 +67,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 
                 _calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
                 if(df.ShowDataAs.Value!=eShowDataAs.Normal)
-                {                    
-                    _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, dataFieldItems);
+                {
+                    _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, ref dataFieldItems);
+                    calculatedItems[calculatedItems.Count - 1] = dataFieldItems;
                 }
             }            
             return calculatedItems;

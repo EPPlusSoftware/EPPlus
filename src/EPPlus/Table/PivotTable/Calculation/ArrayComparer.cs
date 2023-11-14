@@ -16,6 +16,10 @@ namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
     {
+        internal static Dictionary<int[], object> GetNewCalculatedItems()
+        {
+            return new Dictionary<int[], object>(new ArrayComparer());
+        }        
         internal class ArrayComparer : IEqualityComparer<int[]>
         {
             public bool Equals(int[] x, int[] y)

@@ -36,7 +36,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.ColumnFields.Add(pt.Fields["Continent"]);
             pt.RowFields.Add(pt.Fields["Country"]);
             pt.DataFields.Add(pt.Fields["Sales"]);
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -58,7 +58,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Count;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -81,7 +81,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Min;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -104,7 +104,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Max;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -127,7 +127,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Product;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -150,7 +150,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Average;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -173,7 +173,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.StdDev;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -198,7 +198,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.StdDevP;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -223,7 +223,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Var;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -248,7 +248,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.VarP;
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -273,8 +273,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["Country"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Sum;
+            pt.CacheDefinition.Refresh();
             df.ShowDataAs.SetPercentOfTotal();
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -297,7 +298,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Sum;
             df.ShowDataAs.SetPercentOfColumn();
-            pt.Refresh();
+            pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -308,6 +309,66 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(1D, (double)ws.Cells["G6"].Value, 0.0000001);
             Assert.AreEqual(1D, ws.Cells["G7"].Value);
             Assert.AreEqual(0D, ws.Cells["G8"].Value);
+            Assert.AreEqual(ErrorValues.RefError, ws.Cells["G9"].Value);
+        }
+        [TestMethod]
+        public void GetPivotData_Sum_ShowValueAs_PercentOfRowTotal()
+        {
+            var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_RowTotal");
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable12");
+            pt.ColumnFields.Add(pt.Fields["Continent"]);
+            pt.RowFields.Add(pt.Fields["Country"]);
+            var df = pt.DataFields.Add(pt.Fields["Sales"]);
+            df.Function = DataFieldFunctions.Sum;
+            df.ShowDataAs.SetPercentOfRow();
+            pt.Calculate();
+            ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
+            ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
+            ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
+            ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\")";
+            ws.Cells["G9"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Invalid Field\",\"North America\")";
+            ws.Calculate();
+            Assert.AreEqual(1D, (double)ws.Cells["G5"].Value);
+            Assert.AreEqual(0.256587202, (double)ws.Cells["G6"].Value, 0.0000001D);
+            Assert.AreEqual(1D, (double)ws.Cells["G7"].Value);
+            Assert.AreEqual(0D, ws.Cells["G8"].Value);
+            Assert.AreEqual(ErrorValues.RefError, ws.Cells["G9"].Value);
+        }
+        [TestMethod]
+        public void GetPivotData_Sum_ShowValueAs_PercentOf()
+        {
+            var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_PercentOf");
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable12");
+            pt.ColumnFields.Add(pt.Fields["Continent"]);
+            pt.RowFields.Add(pt.Fields["Country"]);
+            var df1 = pt.DataFields.Add(pt.Fields["Sales"]);
+            var df2 = pt.DataFields.Add(pt.Fields["Sales"]);
+            var df3 = pt.DataFields.Add(pt.Fields["Sales"]);
+            pt.CacheDefinition.Refresh();
+            df1.Function = DataFieldFunctions.Sum;
+            df1.ShowDataAs.SetPercent(pt.RowFields[0], pt.RowFields[0].Items.GetIndexByValue("USA"));
+            df2.Function = DataFieldFunctions.Average;
+            df2.ShowDataAs.SetPercent(pt.RowFields[0], ePrevNextPivotItem.Previous);
+            df3.Function = DataFieldFunctions.StdDevP;
+            df3.ShowDataAs.SetPercent(pt.RowFields[0], ePrevNextPivotItem.Next);
+
+            pt.Calculate();
+            ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Canada\")";
+            ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Country\",\"Japan\")";
+            ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
+            ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\")";
+            ws.Cells["G9"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Invalid Field\",\"North America\")";
+            ws.Cells["H5"].Formula = "GETPIVOTDATA(\"Sales_2\",$A$1,\"Continent\",\"North America\",\"Country\",\"Canada\")";
+            ws.Cells["H6"].Formula = "GETPIVOTDATA(\"Sales_2\",$A$1,\"Country\",\"Japan\")";
+            ws.Cells["H7"].Formula = "GETPIVOTDATA(\"Sales_2\",$A$1)";
+            ws.Cells["H8"].Formula = "GETPIVOTDATA(\"Sales_2\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\")";
+            ws.Cells["H9"].Formula = "GETPIVOTDATA(\"Sales_2\",$A$1,\"Invalid Field\",\"North America\")";
+
+            ws.Calculate();
+            Assert.AreEqual(0.264508929, (double)ws.Cells["G5"].Value, 0.0000001D);
+            Assert.AreEqual(0.694196429, (double)ws.Cells["G6"].Value, 0.0000001D);
+            Assert.AreEqual(1D, (double)ws.Cells["G7"].Value);
+            Assert.AreEqual(ErrorValues.NullError, ws.Cells["G8"].Value);
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["G9"].Value);
         }
 
