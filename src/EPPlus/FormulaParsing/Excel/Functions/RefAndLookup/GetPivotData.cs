@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             var dataFieldName = (arguments[0].Value ?? "").ToString();
 
-            var dataField = pivotTable.DataFields.FirstOrDefault(x=>x.Field.Name==dataFieldName);
+            var dataField = pivotTable.DataFields.FirstOrDefault(x=>  (string.IsNullOrEmpty(x.Name) ? x.Field.Name : x.Name) == dataFieldName);
             if(dataField == null)
             {
                 return CompileResult.GetErrorResult(eErrorType.Ref);

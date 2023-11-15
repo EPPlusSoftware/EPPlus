@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -20,30 +21,36 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             return new Dictionary<int[], object>(new ArrayComparer());
         }        
-        internal class ArrayComparer : IEqualityComparer<int[]>
+    }
+    internal class ArrayComparer : IEqualityComparer<int[]>
+    {
+        public static bool IsEqual(int[] x, int[] y)
         {
-            public bool Equals(int[] x, int[] y)
+            if (x.Length != y.Length) return false;
+            for (int i = 0; i < x.Length; i++)
             {
-                if (x.Length != y.Length) return false;
-                for (int i = 0; i < x.Length; i++)
-                {
-                    if (x[i] != y[i]) return false;
-                }
-                return true;
+                if (x[i] != y[i]) return false;
             }
+            return true;
+        }
 
-            public int GetHashCode(int[] obj)
+        public bool Equals(int[] x, int[] y)
+        {
+            return IsEqual(x, y);
+        }
+
+        public int GetHashCode(int[] obj)
+        {
+            int hash = 49;
+            for (int i = 1; i < obj.Length; i++)
             {
-                int hash = 49;
-                for (int i = 1; i < obj.Length; i++)
+                unchecked
                 {
-                    unchecked
-                    {
-                        hash *= 23 * obj[i].GetHashCode();
-                    }
+                    hash *= 23 * obj[i].GetHashCode();
                 }
-                return hash;
             }
+            return hash;
         }
     }
+
 }
