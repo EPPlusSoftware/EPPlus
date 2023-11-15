@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,6 +61,24 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
                 writer.RenderBeginTag(HtmlElements.Img, true);
+            }
+        }
+
+        internal static void AddImage(HTMLElement element, HtmlExportSettings settings, HtmlImage image, object value)
+        {
+            if (image != null)
+            {
+                var imgElement = new HTMLElement(HtmlElements.Img);
+                var name = GetPictureName(image);
+                string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                imgElement.AddAttribute("alt", image.Picture.Name);
+                if (settings.Pictures.AddNameAsId)
+                {
+                    imgElement.AddAttribute("id", imageName);
+                }
+                imgElement.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
+                element.AddChildElement(imgElement);
+                //writer.RenderBeginTag(HtmlElements.Img, true);
             }
         }
     }

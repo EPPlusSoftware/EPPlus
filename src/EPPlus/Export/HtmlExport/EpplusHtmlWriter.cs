@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 #if !NET35
 using System.Threading.Tasks;
@@ -136,7 +137,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                 ApplyFormatIncreaseIndent(noIndent);
 
-                foreach(var child in element._childElements)
+                foreach (var child in element._childElements)
                 {
                     RenderHTMLElement(child, minify);
                 }
@@ -150,45 +151,18 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             else
             {
-                RenderBeginTag(element.ElementName, element._attributes, true);
+                if (element.IsVoidElement)
+                {
+                    RenderBeginTag(element.ElementName, element._attributes, true);
+                }
+                else
+                {
+                    RenderBeginTag(element.ElementName, element._attributes, false);
+                    Write(element.Content);
+                    RenderEndTag(element.ElementName);
+                }
             }
             ApplyFormat(minify);
-        }
-
-        public void RenderOrderedDict(OrderedDictionary elements, bool minify)
-        {
-            //if (element._childElements.Count > 0)
-            //{
-            //    RenderBeginTag(element.ElementName, element._attributes);
-
-            //    var name = element.ElementName;
-            //    bool noIndent = minify == true ?
-            //        true :
-            //        name == HtmlElements.TableData ||
-            //        name == HtmlElements.TFoot ||
-            //        name == HtmlElements.TableHeader ||
-            //        name == HtmlElements.A ||
-            //        name == HtmlElements.Img;
-
-            //    ApplyFormatIncreaseIndent(noIndent);
-
-            //    foreach (var child in element._childElements)
-            //    {
-            //        RenderHTMLElement(child, minify);
-            //    }
-
-            //    if (noIndent == false)
-            //    {
-            //        Indent--;
-            //    }
-
-            //    RenderEndTag(element.ElementName);
-            //}
-            //else
-            //{
-            //    RenderBeginTag(element.ElementName, element._attributes, true);
-            //}
-            //ApplyFormat(minify);
         }
     }
 }

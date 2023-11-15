@@ -33,4 +33,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         public const string ColGroup = "colgroup";
         public const string Img = "img";
     }
+
+    //NOTE: If more are added must be added to HTMLElement constructor as well.
+    internal static class HtmlVoidElements
+    {
+        public const string Col = "col";
+        public const string Img = "img";
+    }
 }

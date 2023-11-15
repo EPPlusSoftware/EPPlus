@@ -13,6 +13,7 @@
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
@@ -27,8 +28,8 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 
-            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, ExporterContext content)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings,
+                    AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, ExporterContext content)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -67,6 +68,52 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             writer.RenderEndTag();
             writer.ApplyFormat(settings.Minify);
+        }
+
+        public void Write(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, 
+            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, ExporterContext content)
+        {
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
+            {
+                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
+                if (string.IsNullOrEmpty(v) == false)
+                {
+                    element.AddAttribute($"data-{settings.DataValueAttributeName}", v);
+                }
+            }
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
+            {
+                element.AddAttribute("role", "cell");
+                if (addRowScope)
+                {
+                    element.AddAttribute("scope", "row");
+                }
+            }
+            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
+            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
+
+            if (!string.IsNullOrEmpty(classString))
+            {
+                element.AddAttribute("class", classString);
+            }
+
+            //writer.RenderBeginTag(HtmlElements.TableData);
+            HtmlExportImageUtil.AddImage(element, settings, image, cell.Value);
+            if (cell.IsRichText)
+            {
+                element.Content = cell.RichText.HtmlText;
+                //writer.Write(cell.RichText.HtmlText);
+            }
+            else
+            {
+                element.Content = ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
+
+                //writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            }
+
+            //element.AddChildElement(element);
+            //writer.RenderEndTag();
+            //writer.ApplyFormat(settings.Minify);
         }
 #if !NET35
         public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 

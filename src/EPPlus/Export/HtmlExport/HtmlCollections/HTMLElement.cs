@@ -14,9 +14,15 @@ namespace OfficeOpenXml.Export.HtmlExport.HtmlCollections
 
         internal string Content { get; set; }
 
+        internal bool IsVoidElement { get; private set; }
+
         internal HTMLElement(string elementName)
         {
             ElementName = elementName;
+            if(ElementName == HtmlVoidElements.Col || ElementName == HtmlVoidElements.Img) 
+            {
+                IsVoidElement = true;
+            }
         }
 
         public void AddAttribute(string attributeName, string attributeValue)
