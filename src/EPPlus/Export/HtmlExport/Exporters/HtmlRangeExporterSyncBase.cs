@@ -13,7 +13,13 @@
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
+using OfficeOpenXml.Table;
 using System;
+using System.Collections.Generic;
+using System.Runtime;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -204,6 +210,208 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 writer.Write(GetCellText(cell, settings));
                 writer.RenderEndTag();
             }
+        }
+
+        HTMLElement CreateThead()
+        {
+            var thead = new HTMLElement(HtmlElements.Thead);
+
+            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
+            {
+                thead.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
+            }
+
+            return thead;
+        }
+
+        HTMLElement CreateRow(ExcelRangeBase range, int row = 0)
+        {
+            var tr = new HTMLElement(HtmlElements.TableRow);
+            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                tr.AddAttribute("role", "row");
+            }
+
+            if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
+
+            return tr;
+        }
+
+        protected virtual int GetHeaderRows(ExcelTable table)
+        {
+            return 1;
+        }
+
+        protected virtual void AddTableData(ExcelTable table, HTMLElement th, int col) 
+        {
+        }
+
+        protected HTMLElement AddTableRowsAlt(ExcelRangeBase range, int row, int endRow)
+        {
+            var tBody = new HTMLElement(HtmlElements.Tbody);
+            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
+            {
+                tBody.AddAttribute("role", Settings.Accessibility.TableSettings.TbodyRole);
+            }
+
+            var table = range.GetTable();
+
+            var ws = range.Worksheet;
+            HtmlImage image = null;
+            bool hasFooter = table != null && table.ShowTotal;
+            while (row <= endRow)
+            {
+                EpplusHtmlAttribute attribute = null;
+                if (HandleHiddenRow(attribute, range.Worksheet, Settings, ref row))
+                {
+                    continue; //The row is hidden and should not be included.
+                }
+
+                HTMLElement tFoot = null;
+                if (hasFooter && row == endRow)
+                {
+                    tFoot = new HTMLElement(HtmlElements.TFoot);
+                    if (attribute != null) { tFoot.AddAttribute(attribute.AttributeName, attribute.Value); }
+                    attribute = null;
+                }
+
+                var tr = new HTMLElement(HtmlElements.TableRow);
+
+                if (attribute != null) { tr.AddAttribute(attribute.AttributeName, attribute.Value); }
+
+                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    tr.AddAttribute("role", "row");
+
+                    if (!table.ShowFirstColumn && !table.ShowLastColumn || table == null)
+                    {
+                        tr.AddAttribute("scope", "row");
+                    }
+                }
+
+                if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
+
+                foreach (var col in _columns)
+                {
+                    if (InMergeCellSpan(row, col)) continue;
+                    var colIx = col - range._fromCol;
+                    var cell = ws.Cells[row, col];
+                    var cv = cell.Value;
+                    var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
+
+                    var tblData = new HTMLElement(HtmlElements.TableData);
+
+                    SetColRowSpan(range, tblData, cell);
+
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
+                    {
+                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
+                    }
+
+                    if (cell.Hyperlink == null)
+                    {
+                        _cellDataWriter.Write(cell, dataType, tblData, Settings, accessibilitySettings, false, image, _exporterContext);
+                    }
+                    else
+                    {
+                        var imageCellClassName = GetImageCellClassName(image, Settings);
+
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            tblData.AddAttribute("class", classString);
+                        }
+
+                        AddImage(tblData, Settings, image, cell.Value);
+                        AddHyperlink(tblData, cell, Settings);
+                    }
+                    tr.AddChildElement(tblData);
+                }
+
+                tBody.AddChildElement(tr);
+
+                if (tFoot != null)
+                {
+                    tBody.AddChildElement(tFoot);
+                }
+                row++;
+            }
+
+            element.AddChildElement(tBody);
+        }
+
+        protected HTMLElement GetTheadAlt(ExcelRangeBase range, List<string> headers = null)
+        {
+            var thead = CreateThead();
+            ExcelTable table = null;
+            if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
+            {
+                table = range.GetTable();
+            }
+
+            int headerRows = GetHeaderRows(table);
+
+            for (int i = 0; i < headerRows; i++)
+            {
+                var row = range._fromRow + i;
+                var rowElement = CreateRow(range, row);
+
+                ExcelWorksheet worksheet = range.Worksheet;
+                HtmlImage image = null;
+                foreach (var col in _columns)
+                {
+                    if(InMergeCellSpan(row, col)) continue;
+
+                    var th = new HTMLElement(HtmlElements.TableHeader);
+                    var cell = worksheet.Cells[row, col];
+                    if (Settings.RenderDataTypes)
+                    {
+                        th.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
+                    }
+
+                    SetColRowSpan(range, th, cell);
+
+                    if (Settings.IncludeCssClassNames)
+                    {
+                        var imageCellClassName = GetImageCellClassName(image, Settings, table != null);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _exporterContext);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            th.AddAttribute("class", classString);
+                        }
+                    }
+
+                    AddTableData(table, th, col);
+
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
+                    {
+                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
+                    }
+                    AddImage(th, Settings, image, cell.Value);
+
+                    if (headerRows > 0 || table != null)
+                    {
+                        if (cell.Hyperlink == null)
+                        {
+                            th.Content = GetCellText(cell, Settings);
+                        }
+                        else
+                        {
+                            AddHyperlink(th, cell, Settings);
+                        }
+                    }
+                    else if (headers.Count < col)
+                    {
+                        th.Content = headers[col];
+                    }
+
+                    rowElement.AddChildElement(th);
+                }
+                thead.AddChildElement(rowElement);
+            }
+            return thead;
         }
     }
 }

@@ -94,8 +94,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        protected string GetImageCellClassName(HtmlImage image, HtmlExportSettings settings)
+        protected string GetImageCellClassName(HtmlImage image, HtmlExportSettings settings, bool isTable = false)
         {
+            if(isTable)
+            {
+                return image == null ? "" : settings.StyleClassPrefix + "image-cell";
+            }
+
             return image == null && settings.Pictures.Position != ePicturePosition.Absolute ? "" : settings.StyleClassPrefix + "image-cell";
         }
 
