@@ -10,18 +10,12 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Writers;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Utils;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 #if !NET35
 using System.Threading.Tasks;
@@ -122,10 +116,19 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         public void RenderHTMLElement(HTMLElement element, bool minify)
         {
-            if(element._childElements.Count > 0)
-            {
-                RenderBeginTag(element.ElementName, element._attributes);
+            RenderBeginTag(element.ElementName, element._attributes, element.IsVoidElement);
 
+            if (element.IsVoidElement)
+            {
+                if(element.ElementName != HtmlElements.Img)
+                {
+                    ApplyFormat(minify);
+                }
+                return;
+            }
+
+            if (element._childElements.Count > 0)
+            {
                 var name = element.ElementName;
                 bool noIndent = minify == true ?
                     true :
@@ -146,22 +149,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     Indent--;
                 }
-
-                RenderEndTag(element.ElementName);
             }
             else
             {
-                if (element.IsVoidElement)
-                {
-                    RenderBeginTag(element.ElementName, element._attributes, true);
-                }
-                else
-                {
-                    RenderBeginTag(element.ElementName, element._attributes, false);
-                    Write(element.Content);
-                    RenderEndTag(element.ElementName);
-                }
+                Write(element.Content);
             }
+
+            RenderEndTag(element.ElementName);
             ApplyFormat(minify);
         }
     }

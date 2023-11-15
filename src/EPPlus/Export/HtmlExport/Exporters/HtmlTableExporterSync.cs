@@ -20,6 +20,7 @@ using System.IO;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -292,15 +293,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             GetDataTypes(_table.Address, _table);
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
-            HtmlExportTableUtil.AddClassesAttributes(writer, _table, _tableExportSettings);
-            AddTableAccessibilityAttributes(Settings.Accessibility, writer);
-            writer.RenderBeginTag(HtmlElements.Table);
+            var htmlTable = new HTMLElement(HtmlElements.Table);
 
-            writer.ApplyFormatIncreaseIndent(Settings.Minify);
+
+            HtmlExportTableUtil.AddClassesAttributes(htmlTable, _table, _tableExportSettings);
+            AddTableAccessibilityAttributes(Settings.Accessibility, htmlTable);
+            //writer.RenderBeginTag(HtmlElements.Table);
+
+            //writer.ApplyFormatIncreaseIndent(Settings.Minify);
             LoadVisibleColumns();
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                SetColumnGroup(writer, _table.Range, Settings, false);
+                SetColumnGroup(htmlTable, _table.Range, Settings, false);
             }
 
             if (_table.ShowHeader)

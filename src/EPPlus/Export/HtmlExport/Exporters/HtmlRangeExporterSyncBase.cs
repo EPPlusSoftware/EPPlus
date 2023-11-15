@@ -27,11 +27,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
         }
 
-        protected void SetColumnGroup(EpplusHtmlWriter writer, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
+        protected void SetColumnGroup(HTMLElement element, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
             var group = GetGroup(_range, settings, isMultiSheet);
-
-            writer.RenderHTMLElement(group, settings.Minify);
+            element.AddChildElement(group);
+            //writer.RenderHTMLElement(group, settings.Minify);
         }
 
         HTMLElement GetGroup(ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)

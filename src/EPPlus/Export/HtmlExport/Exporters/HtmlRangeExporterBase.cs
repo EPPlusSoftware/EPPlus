@@ -313,6 +313,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
+        protected void AddTableAccessibilityAttributes(AccessibilitySettings settings, HTMLElement element)
+        {
+            if (!settings.TableSettings.AddAccessibilityAttributes) return;
+            if (!string.IsNullOrEmpty(settings.TableSettings.TableRole))
+            {
+                element.AddAttribute("role", settings.TableSettings.TableRole);
+            }
+            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabel))
+            {
+                element.AddAttribute(AriaAttributes.AriaLabel.AttributeName, settings.TableSettings.AriaLabel);
+            }
+            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabelledBy))
+            {
+                element.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, settings.TableSettings.AriaLabelledBy);
+            }
+            if (!string.IsNullOrEmpty(settings.TableSettings.AriaDescribedBy))
+            {
+                element.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, settings.TableSettings.AriaDescribedBy);
+            }
+        }
+
         protected void AddTableAccessibilityAttributes(AccessibilitySettings settings, EpplusHtmlWriter writer)
         {
             if (!settings.TableSettings.AddAccessibilityAttributes) return;
@@ -357,6 +378,28 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (overrideSettings == null || overrideSettings.Accessibility == null) return Settings.Accessibility;
             return overrideSettings.Accessibility;
+        }
+
+        protected void AddClassesAttributes(HTMLElement element, ExcelTable table, string tableId, List<string> additionalTableClassNames)
+        {
+            var tableClasses = TableClass;
+            if (table != null)
+            {
+                tableClasses += " " + HtmlExportTableUtil.GetTableClasses(table); //Add classes for the table styles if the range corresponds to a table.
+            }
+            if (additionalTableClassNames != null && additionalTableClassNames.Count > 0)
+            {
+                foreach (var cls in additionalTableClassNames)
+                {
+                    tableClasses += $" {cls}";
+                }
+            }
+            element.AddAttribute(HtmlAttributes.Class, $"{tableClasses}");
+
+            if (!string.IsNullOrEmpty(tableId))
+            {
+                element.AddAttribute(HtmlAttributes.Id, tableId);
+            }
         }
 
         protected void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table, string tableId, List<string> additionalTableClassNames)

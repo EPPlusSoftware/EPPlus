@@ -10,6 +10,7 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
@@ -116,6 +117,33 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             return tblClasses;
         }
+
+        internal static void AddClassesAttributes(HTMLElement element, ExcelTable table, HtmlTableExportSettings settings)
+        {
+            if (table.TableStyle == TableStyles.None)
+            {
+                element.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
+            }
+            else
+            {
+                var tblClasses = $"{TableClass} ";
+                tblClasses += GetTableClasses(table);
+                if (settings.AdditionalTableClassNames.Count > 0)
+                {
+                    foreach (var cls in settings.AdditionalTableClassNames)
+                    {
+                        tblClasses += $" {cls}";
+                    }
+                }
+
+                element.AddAttribute(HtmlAttributes.Class, tblClasses);
+            }
+            if (!string.IsNullOrEmpty(settings.TableId))
+            {
+                element.AddAttribute(HtmlAttributes.Id, settings.TableId);
+            }
+        }
+
 
         internal static void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table, HtmlTableExportSettings settings)
         {
