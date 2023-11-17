@@ -107,6 +107,30 @@ namespace EPPlusTest.Table
             Assert.AreEqual("Don't Shift Me", ws.Cells["F5"].Value);
             Assert.AreEqual("Shift Me Down", ws.Cells["B106"].Value);
         }
+
+        //[TestMethod]
+        //public void TableBottowOnlyTotal()
+        //{
+        //    //Setup
+        //    var ws = _pck.Workbook.Worksheets.Add("TableInsertBottomTotal");
+        //    LoadTestdata(ws, 100, 2);
+        //    ws.Cells["B102"].Value = "Shift Me Down";
+        //    ws.Cells["F5"].Value = "Don't Shift Me";
+
+        //    var tbl = ws.Tables.Add(ws.Cells["B1:E100"], "TableInsertBottomTotal");
+        //    tbl.ShowTotal = true;
+        //    tbl.Columns[0].TotalsRowFunction = RowFunctions.Sum;
+        //    tbl.Columns[1].TotalsRowFunction = RowFunctions.Count;
+        //    tbl.Columns[2].TotalsRowFunction = RowFunctions.Average;
+        //    tbl.Columns[3].TotalsRowFunction = RowFunctions.CountNums;
+
+        //    Assert.AreEqual("B1:E102", tbl.Address.Address);
+        //    Assert.AreEqual("Shift Me Down", ws.Cells["B103"].Value);
+        //    //Assert.AreEqual("B1:E105", tbl.Address.Address);
+        //    //Assert.AreEqual("Don't Shift Me", ws.Cells["F5"].Value);
+        //    //Assert.AreEqual("Shift Me Down", ws.Cells["B106"].Value);
+        //}
+
         [TestMethod]
         public void TableInsertRowInside()
         {

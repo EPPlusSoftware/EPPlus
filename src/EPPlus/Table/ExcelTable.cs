@@ -24,12 +24,9 @@ using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Net;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -811,8 +808,11 @@ namespace OfficeOpenXml.Table
                     {
                         DeleteNode(TOTALSROWCOUNT_PATH);
                         DataStyle.SetStyle();
+                        WorksheetRangeDeleteHelper.Delete(WorkSheet.Cells[Address._toRow+1, Address._fromCol, Address._toRow + 1, Address._toCol], eShiftTypeDelete.Up);
+                        //WorkSheet.Cells[Address._toRow + 1, Address._toCol].Delete(eShiftTypeDelete.Up);
                     }
                     WriteAutoFilter(value);
+   
                 }
             }
         }
