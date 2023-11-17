@@ -726,52 +726,9 @@ namespace EPPlusTest.Table
                 sheet.Cells["D3:E3"].Value = 4;
                 sheet.Cells["E10"].Value = 5;
 
-                sheet.Cells["F11"].Value = 11;
-
-                table.ShowTotal = true;
-                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
-
-                sheet.Calculate();
-
-                //Assert.AreEqual(sheet.Cells["A10"].Value, "Number:9");
-                //Assert.AreEqual(sheet.Cells["A11"].Value, null);
-                //Assert.AreEqual(sheet.Cells["A12"].Value, "Number:10");
-                //Assert.AreEqual(sheet.Cells["F11"].Value, 11);
-
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
-        public void ShowTotalWhenValueBelowItNoHeader()
-        {
-            using (var package = OpenPackage("ShowTotalInsertNoHeader.xlsx", true))
-            {
-                var sheet = package.Workbook.Worksheets.Add("Tables");
-
-                //Cause of issue. (Specifically sheet.cells[11,1]
-                for (int i = 1; i < 25; i++)
-                {
-                    sheet.Cells[1 + i, 1].Formula = $"\"Number:{i}\"";
-                }
-
-                sheet.Cells["A1"].Value = "Month";
-                sheet.Cells["B1"].Value = "Sales";
-                sheet.Cells["C1"].Value = "VAT";
-                sheet.Cells["D1"].Value = "Total";
-
-                var table = sheet.Tables.Add(new ExcelAddress("A1:E10"), "testTable");
-                table.ShowHeader = false;
-                table.ShowFirstColumn = true;
-                table.TableStyle = TableStyles.Dark2;
-
-                sheet.Cells["A1"].Value = "testStuff";
-
-                sheet.Cells["C3:C5"].Value = 3;
-                sheet.Cells["D3:E3"].Value = 4;
-                sheet.Cells["E10"].Value = 5;
-
-                sheet.Cells["F11"].Value = 11;
+                sheet.Cells["F11"].Value = "Don't clear me";
+                var noHeader = package.Workbook.Worksheets.Add("noHeader", sheet);
+                var stackTest = package.Workbook.Worksheets.Add("stackTest", sheet);
 
                 table.ShowTotal = true;
                 table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
@@ -780,60 +737,35 @@ namespace EPPlusTest.Table
 
                 Assert.AreEqual(sheet.Cells["A10"].Value, "Number:9");
                 Assert.AreEqual(sheet.Cells["A11"].Value, null);
-                Assert.AreEqual(sheet.Cells["A12"].Value, "Number:10");
-                Assert.AreEqual(sheet.Cells["F11"].Value, 11);
+                Assert.AreEqual(sheet.Cells["A12"].Value, "Number:11");
+                Assert.AreEqual(sheet.Cells["F11"].Value, "Don't clear me");
 
-                SaveAndCleanup(package);
-            }
-        }
+                noHeader.Tables[0].ShowHeader = false;
+                noHeader.Tables[0].ShowTotal = true;
+                noHeader.Tables[0].Columns[2].TotalsRowFunction = RowFunctions.Sum;
 
-        [TestMethod]
-        public void EnsureShowTotalNonStacking()
-        {
-            using (var package = OpenPackage("showTotal.xlsx", true))
-            {
-                var sheet = package.Workbook.Worksheets.Add("Tables");
+                noHeader.Calculate();
 
-                //Cause of issue. (Specifically sheet.cells[11,1]
-                for (int i = 1; i < 25; i++)
-                {
-                    sheet.Cells[1 + i, 1].Formula = $"\"Number:{i}\"";
-                }
+                Assert.AreEqual(noHeader.Cells["A10"].Value, "Number:9");
+                Assert.AreEqual(noHeader.Cells["A11"].Value, null);
+                Assert.AreEqual(noHeader.Cells["A12"].Value, "Number:11");
+                Assert.AreEqual(noHeader.Cells["F11"].Value, "Don't clear me");
 
-                sheet.Cells["A1"].Value = "Month";
-                sheet.Cells["B1"].Value = "Sales";
-                sheet.Cells["C1"].Value = "VAT";
-                sheet.Cells["D1"].Value = "Total";
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
 
-                var table = sheet.Tables.Add(new ExcelAddress("A1:E10"), "testTable");
-                table.ShowHeader = false;
-                table.ShowFirstColumn = true;
-                table.TableStyle = TableStyles.Dark2;
+                stackTest.Calculate();
 
-                sheet.Cells["A1"].Value = "testStuff";
-
-                sheet.Cells["C3:C5"].Value = 3;
-                sheet.Cells["D3:E3"].Value = 4;
-                sheet.Cells["E10"].Value = 5;
-
-                sheet.Cells["F11"].Value = 11;
-
-                table.ShowTotal = true;
-                table.ShowTotal = false;
-                table.ShowTotal = true;
-                table.ShowTotal = false;
-                table.ShowTotal = true;
-                table.ShowTotal = false;
-                table.ShowTotal = true;
-
-                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
-
-                sheet.Calculate();
-
-                //Assert.AreEqual(sheet.Cells["A10"].Value, "Number:9");
-                //Assert.AreEqual(sheet.Cells["A11"].Value, "Number:10");
-                //Assert.AreEqual(sheet.Cells["A12"].Value, "Number:11");
-                //Assert.AreEqual(sheet.Cells["F11"].Value, 11);
+                Assert.AreEqual(stackTest.Cells["A10"].Value, "Number:9");
+                Assert.AreEqual(stackTest.Cells["A11"].Value, null);
+                Assert.AreEqual(stackTest.Cells["A12"].Value, "Number:11");
+                Assert.AreEqual(stackTest.Cells["F11"].Value, "Don't clear me");
 
                 SaveAndCleanup(package);
             }

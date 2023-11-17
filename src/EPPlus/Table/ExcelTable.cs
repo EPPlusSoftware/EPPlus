@@ -787,7 +787,8 @@ namespace OfficeOpenXml.Table
                 {
                     if (value)
                     {
-                        InsertNormalRowUnderTable();
+                        WorkSheet.Cells[Address._toRow + 1, Address._fromCol, Address._toRow + 1, Address._toCol].Clear();
+                        //InsertNormalRowUnderTable();
                         Address =new ExcelAddress(WorkSheet.Name, ExcelAddressBase.GetAddress(Address.Start.Row, Address.Start.Column, Address.End.Row+1, Address.End.Column));
                     }
                     else
@@ -806,10 +807,9 @@ namespace OfficeOpenXml.Table
                     }
                     else
                     {
+                        WorkSheet.Cells[Address._toRow + 1, Address._fromCol, Address._toRow + 1, Address._toCol].Clear();
                         DeleteNode(TOTALSROWCOUNT_PATH);
                         DataStyle.SetStyle();
-                        WorksheetRangeDeleteHelper.Delete(WorkSheet.Cells[Address._toRow+1, Address._fromCol, Address._toRow + 1, Address._toCol], eShiftTypeDelete.Up);
-                        //WorkSheet.Cells[Address._toRow + 1, Address._toCol].Delete(eShiftTypeDelete.Up);
                     }
                     WriteAutoFilter(value);
    
