@@ -33,7 +33,6 @@ using OfficeOpenXml.Table;
 using System;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 
 namespace EPPlusTest.Table
 {
@@ -695,6 +694,96 @@ namespace EPPlusTest.Table
                 // Create a table
                 var tableCells = worksheet.Cells["A1:B2"];
                 var table = worksheet.Tables.Add(tableCells, "table"); // --> This triggers a NullReferenceException
+            }
+        }
+
+        [TestMethod]
+        public void ShowTotalWhenValueBelowIt()
+        {
+            using (var package = OpenPackage("ShowTotalInsert.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Tables");
+
+                //Cause of issue. (Specifically sheet.cells[11,1]
+                for (int i = 1; i < 25; i++)
+                {
+                    sheet.Cells[1 + i, 1].Formula = $"\"Number:{i}\"";
+                }
+
+                sheet.Cells["A1"].Value = "Month";
+                sheet.Cells["B1"].Value = "Sales";
+                sheet.Cells["C1"].Value = "VAT";
+                sheet.Cells["D1"].Value = "Total";
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:E10"), "testTable");
+                table.ShowHeader = true;
+                table.ShowFirstColumn = true;
+                table.TableStyle = TableStyles.Dark2;
+
+                sheet.Cells["A1"].Value = "testStuff";
+
+                sheet.Cells["C3:C5"].Value = 3;
+                sheet.Cells["D3:E3"].Value = 4;
+                sheet.Cells["E10"].Value = 5;
+
+                sheet.Cells["F11"].Value = 11;
+
+                table.ShowTotal = true;
+                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+
+                sheet.Calculate();
+
+                Assert.AreEqual(sheet.Cells["A10"].Value, "Number:9");
+                Assert.AreEqual(sheet.Cells["A11"].Value, null);
+                Assert.AreEqual(sheet.Cells["A12"].Value, "Number:10");
+                Assert.AreEqual(sheet.Cells["F11"].Value, 11);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ShowTotalWhenValueBelowItNoHeader()
+        {
+            using (var package = OpenPackage("ShowTotalInsertNoHeader.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Tables");
+
+                //Cause of issue. (Specifically sheet.cells[11,1]
+                for (int i = 1; i < 25; i++)
+                {
+                    sheet.Cells[1 + i, 1].Formula = $"\"Number:{i}\"";
+                }
+
+                sheet.Cells["A1"].Value = "Month";
+                sheet.Cells["B1"].Value = "Sales";
+                sheet.Cells["C1"].Value = "VAT";
+                sheet.Cells["D1"].Value = "Total";
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:E10"), "testTable");
+                table.ShowHeader = false;
+                table.ShowFirstColumn = true;
+                table.TableStyle = TableStyles.Dark2;
+
+                sheet.Cells["A1"].Value = "testStuff";
+
+                sheet.Cells["C3:C5"].Value = 3;
+                sheet.Cells["D3:E3"].Value = 4;
+                sheet.Cells["E10"].Value = 5;
+
+                sheet.Cells["F11"].Value = 11;
+
+                table.ShowTotal = true;
+                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+
+                sheet.Calculate();
+
+                Assert.AreEqual(sheet.Cells["A10"].Value, "Number:9");
+                Assert.AreEqual(sheet.Cells["A11"].Value, null);
+                Assert.AreEqual(sheet.Cells["A12"].Value, "Number:10");
+                Assert.AreEqual(sheet.Cells["F11"].Value, 11);
+
+                SaveAndCleanup(package);
             }
         }
     }

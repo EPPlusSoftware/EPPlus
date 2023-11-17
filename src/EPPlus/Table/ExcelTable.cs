@@ -28,6 +28,8 @@ using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Net;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -788,7 +790,8 @@ namespace OfficeOpenXml.Table
                 {
                     if (value)
                     {
-                        Address=new ExcelAddress(WorkSheet.Name, ExcelAddressBase.GetAddress(Address.Start.Row, Address.Start.Column, Address.End.Row+1, Address.End.Column));
+                        InsertNormalRowUnderTable();
+                        Address =new ExcelAddress(WorkSheet.Name, ExcelAddressBase.GetAddress(Address.Start.Row, Address.Start.Column, Address.End.Row+1, Address.End.Column));
                     }
                     else
                     {
@@ -1044,12 +1047,12 @@ namespace OfficeOpenXml.Table
             }
             var firstRow = _address._fromRow;
             var isFirstRow = position == 0;
-            var subtact = ShowTotal ? 2 : 1;
-            if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtact)
+            var subtract = ShowTotal ? 2 : 1;
+            if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtract)
             {
-                position = _address.Rows - subtact;
+                position = _address.Rows - subtract;
             }
-            if (_address._fromRow+position+rows>ExcelPackage.MaxRows)
+            if (_address._fromRow + position + rows>ExcelPackage.MaxRows)
             {
                 throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
             }
@@ -1077,6 +1080,19 @@ namespace OfficeOpenXml.Table
             }
 
             return range;
+        }
+
+        private void InsertNormalRowUnderTable(int rows = 1)
+        {
+            int position = _address.Rows;
+            if (_address._fromRow + position + rows > ExcelPackage.MaxRows)
+            {
+                throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
+            }
+            var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
+            var range = new ExcelRangeBase(WorkSheet, address);
+
+            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Down, false, true);
         }
 
         private void ExtendCalculatedFormulas(ExcelRangeBase range)

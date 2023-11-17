@@ -36,6 +36,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
@@ -5804,6 +5805,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-
     }
 }
