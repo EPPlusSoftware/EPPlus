@@ -18,14 +18,14 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             {
                 if (calculatedItems[key] is double d)
                 {
-                    var colTotal = GetRowTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
-                    if (double.IsNaN(colTotal))
+                    var rowTotal = GetRowTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
+                    if (double.IsNaN(rowTotal))
                     {
                         showAsCalculatedItems.Add(key,error);
                     }
                     else
                     {
-                        showAsCalculatedItems.Add(key, d / colTotal);
+                        showAsCalculatedItems.Add(key, d / rowTotal);
                     }                    
                 }
             }
@@ -33,12 +33,12 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
         }
         private static double GetRowTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
         {
-            var colKey = (int[])key.Clone();
-            for (int i = 0;i < colStartIx; i++)
+            var rowKey = (int[])key.Clone();
+            for (int i = colStartIx; i < key.Length; i++)
             {
-                colKey[i] = -1;
+                rowKey[i] = -1;
             }
-            var v = calculatedItems[colKey];
+            var v = calculatedItems[rowKey];
             if (v is ExcelErrorValue er)
             {
                 error = er;

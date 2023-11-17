@@ -29,6 +29,7 @@ using System.Globalization;
 using OfficeOpenXml.Table.PivotTable.Filter;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -296,13 +297,14 @@ namespace OfficeOpenXml.Table.PivotTable
         }        
         internal bool IsCalculated { get; set; }
         List<Dictionary<int[], object>> CalculatedItems = null;
+        Dictionary<int[], int> KeyCount = null;
         public void Calculate(bool refreshCache=false)
         {
             if(refreshCache)
             {
                 CacheDefinition.Refresh();
             }
-            CalculatedItems = PivotTableCalculation.Calculate(this);
+            PivotTableCalculation.Calculate(this, out CalculatedItems, out KeyCount);
             IsCalculated = true;
         }
         internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
@@ -332,11 +334,45 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             var dfIx = DataFields.IndexOf(dataField);
+            if(IsReferencingUngroupableKey(key, dataField.Field.PivotTable.RowFields.Count))
+            {
+                if(KeyCount.TryGetValue(key, out int uniqueItems))
+                {
+                    if(uniqueItems!=1)
+                    {
+                        return ErrorValues.RefError; 
+                    }
+                }
+                else
+                {
+                    return ErrorValues.RefError;
+                }
+            }
             if(CalculatedItems[dfIx].TryGetValue(key, out var value))
             {
                 return value;
             }
             return 0d;
+        }
+
+        private bool IsReferencingUngroupableKey(int[] key, int rf)
+        {                        
+            for(var i=1;i<rf;i++)
+            {
+                if (key[i-1] == -1 && key[i]>-1)
+                {
+                    return true;
+                }
+            }
+
+            for (var i = rf+1; i <= key.Length-1; i++)
+            {
+                if (key[i - 1] == -1 && key[i] > -1)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private string CleanDisplayName(string name)
@@ -1191,7 +1227,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return RowFields.Union(ColumnFields).Select(x => x.CacheField.Index).OrderBy(x => x).ToList();
+                return RowFields.Union(ColumnFields).Select(x => x.CacheField.Index).ToList();
             }
         }
 

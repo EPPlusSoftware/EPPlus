@@ -5,7 +5,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal abstract class PivotFunction
     {
-        internal abstract void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems);
+        internal abstract void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], int> keyCount);
         internal virtual void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems) { }
         protected static bool IsNumeric(object value)
         {
@@ -189,15 +189,17 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 }
             }
         }
-
-        protected static void AddItemsToKeys<T>(int[] key, Dictionary<int[], object> dataFieldItems, T d, Action<int[], Dictionary<int[], object>, T> action)
+        protected static void AddItemsToKeys<T>(int[] key, Dictionary<int[], object> dataFieldItems, Dictionary<int[], int> keyCount, T d, Action<int[], Dictionary<int[], object>, T> action)
         {
+            bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
+            //if (newUniqeKey) keyCount[key]++;
             for (int i = 0; i < key.Length; i++)
             {
                 var newKey = (int[])key.Clone();
                 newKey[i] = -1;
                 action(newKey, dataFieldItems, d);
+                if (newUniqeKey) keyCount[newKey] = keyCount.TryGetValue(newKey, out int v) ? v+1 : 1;
             }
             var inc = 1;
             while (inc < key.Length)
@@ -210,6 +212,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                         newKey[i + c] = -1;
                     }
                     action(newKey, dataFieldItems, d);
+                    if (newUniqeKey) keyCount[newKey] = keyCount.TryGetValue(newKey, out int v) ? v + 1 : 1;
                 }
                 inc++;
             }

@@ -9,22 +9,18 @@ using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
-    //internal class StdDevItem
-    //{
-    //    List<double> values;
-    //}
     internal class PivotFunctionVar : PivotFunction
     {
-        internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems)
+        internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], int> keyCount)
         {   
             var d = GetValueDouble(value);
             if (double.IsNaN(d))
             {
-                AddItemsToKeys<ExcelErrorValue>(key, dataFieldItems, (ExcelErrorValue)value, SetError);
+                AddItemsToKeys<ExcelErrorValue>(key, dataFieldItems, keyCount, (ExcelErrorValue)value, SetError);
             }
             else
             {
-                AddItemsToKeys<object>(key, dataFieldItems, d, ValueList);
+                AddItemsToKeys<object>(key, dataFieldItems, keyCount, d, ValueList);
             }
         }
         internal override void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems)

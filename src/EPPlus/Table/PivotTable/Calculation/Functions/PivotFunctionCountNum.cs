@@ -7,11 +7,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal class PivotFunctionCountNums : PivotFunction
     {
-        internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems)
+        internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], int> keyCount)
         {
             if (IsNumeric(value))
             {
-                AddItemsToKeys(key, dataFieldItems, 1d, SumValue);
+                AddItemsToKeys(key, dataFieldItems, keyCount, 1d, SumValue);
             }
         }
     }

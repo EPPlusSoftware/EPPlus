@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
-    internal class PivotShowAsPercentOfColumnTotal : PivotShowAsBase
+    internal class PivotShowAsPercentOfParentRowTotal : PivotShowAsBase
     {
         internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref Dictionary<int[], object> calculatedItems)
         {   
@@ -18,27 +18,35 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             {
                 if (calculatedItems[key] is double d)
                 {
-                    var colTotal = GetColumnTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
-                    if (double.IsNaN(colTotal))
+                    var rowTotal = GetParentRowTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
+                    if (double.IsNaN(rowTotal))
                     {
                         showAsCalculatedItems.Add(key,error);
                     }
                     else
                     {
-                        showAsCalculatedItems.Add(key, d / colTotal);
+                        showAsCalculatedItems.Add(key, d / rowTotal);
                     }                    
                 }
             }
             calculatedItems = showAsCalculatedItems;
         }
-        private static double GetColumnTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
+        private static double GetParentRowTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
         {
-            var colKey = (int[])key.Clone();
-            for (int i = 0;i < colStartIx;i++)
+            var rowKey = (int[])key.Clone();
+            for(int i=colStartIx-1;i>=0;i--)
             {
-                colKey[i] = -1;
+                if(rowKey[i]!=-1)
+                {
+                    rowKey[i] = -1;
+                    break;
+                }
             }
-            var v = calculatedItems[colKey];
+            for (int i = colStartIx; i < key.Length; i++)
+            {
+                rowKey[i] = -1;
+            }
+            var v = calculatedItems[rowKey];
             if (v is ExcelErrorValue er)
             {
                 error = er;
