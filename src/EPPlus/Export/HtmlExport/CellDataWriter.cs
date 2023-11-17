@@ -28,8 +28,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings,
-                    AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, ExporterContext content)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -39,7 +38,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute($"data-{settings.DataValueAttributeName}", v);
                 }
             }
-            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
             {
                 writer.AddAttribute("role", "cell");
                 if (addRowScope)
@@ -70,8 +69,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormat(settings.Minify);
         }
 
-        public void Write(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, 
-            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, ExporterContext content)
+        public void Write(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -81,7 +79,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     element.AddAttribute($"data-{settings.DataValueAttributeName}", v);
                 }
             }
-            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
             {
                 element.AddAttribute("role", "cell");
                 if (addRowScope)

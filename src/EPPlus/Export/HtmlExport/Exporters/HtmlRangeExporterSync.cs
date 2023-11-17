@@ -162,7 +162,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 RenderHeaderRow(range, htmlTable, table, headers);
             }
             // table rows
-            RenderTableRows(range, htmlTable, table, accessibilitySettings);
+            htmlTable.AddChildElement(AddTableRowsAlt(range, range._fromRow + _settings.HeaderRows, range._toRow));
+           // RenderTableRows(range, htmlTable, table, accessibilitySettings);
 
             writer.RenderHTMLElement(htmlTable, Settings.Minify);
         }
@@ -266,7 +267,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, tblData, Settings, accessibilitySettings, false, image, _exporterContext);
+                        _cellDataWriter.Write(cell, dataType, tblData, Settings, false, image, _exporterContext);
                     }
                     else
                     {

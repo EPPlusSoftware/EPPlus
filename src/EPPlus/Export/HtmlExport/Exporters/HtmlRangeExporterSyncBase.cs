@@ -283,7 +283,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 {
                     tr.AddAttribute("role", "row");
 
-                    if (!table.ShowFirstColumn && !table.ShowLastColumn || table == null)
+                    if (table == null || !table.ShowFirstColumn && !table.ShowLastColumn)
                     {
                         tr.AddAttribute("scope", "row");
                     }
@@ -296,7 +296,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (InMergeCellSpan(row, col)) continue;
                     var colIx = col - range._fromCol;
                     var cell = ws.Cells[row, col];
-                    var cv = cell.Value;
+                    //possibly make virtual
+                    //var dataType = _dataTypes[colIx];
                     var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
                     var tblData = new HTMLElement(HtmlElements.TableData);
@@ -310,7 +311,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, tblData, Settings, accessibilitySettings, false, image, _exporterContext);
+                        var addRowScope = table == null ? false : (table.ShowFirstColumn && col == table.Address._fromCol) || (table.ShowLastColumn && col == table.Address._toCol);
+                        _cellDataWriter.Write(cell, dataType, tblData, Settings, addRowScope, image, _exporterContext);
                     }
                     else
                     {
@@ -338,7 +340,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 row++;
             }
 
-            element.AddChildElement(tBody);
+            //element.AddChildElement(tBody);
+            return tBody;
         }
 
         protected HTMLElement GetTheadAlt(ExcelRangeBase range, List<string> headers = null)
