@@ -549,6 +549,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var obj = arguments[index].Value ?? string.Empty;
             return (bool)_argumentParsers.GetParser(DataType.Boolean).Parse(obj);
         }
+        protected bool ArgToBool(IList<FunctionArgument> arguments, int index, bool valueIfEmpty)
+        {
+            if (arguments[index].DataType == DataType.Empty) return valueIfEmpty;
+            var obj = arguments[index].Value ?? string.Empty;
+            return (bool)_argumentParsers.GetParser(DataType.Boolean).Parse(obj);
+        }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> if <paramref name="condition"/> evaluates to true.
