@@ -60,12 +60,313 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             LoadRangeImages(_ranges._list);
         }
 
-        public HtmlRangeExporterBase(EPPlusReadOnlyList<ExcelRangeBase> ranges)
+        protected void SetColumnGroup(HTMLElement element, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
-            Require.Argument(ranges).IsNotNull("ranges");
-            _ranges = ranges;
+            var group = GetColumnGroup(_range, settings, isMultiSheet);
+            element.AddChildElement(group);
+        }
 
-            LoadRangeImages(_ranges._list);
+        HTMLElement GetColumnGroup(ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
+        {
+            var group = new HTMLElement("colgroup");
+
+            var ws = _range.Worksheet;
+            var mdw = _range.Worksheet.Workbook.MaxFontWidth;
+            var defColWidth = ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), mdw);
+
+            foreach (var c in _columns)
+            {
+                var element = new HTMLElement("col");
+                if (settings.SetColumnWidth)
+                {
+                    double width = ws.GetColumnWidthPixels(c - 1, mdw);
+                    if (width == defColWidth)
+                    {
+                        var clsName = HtmlExportTableUtil.GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
+                        element.AddAttribute("class", clsName);
+                    }
+                    else
+                    {
+                        element.AddAttribute("style", $"width:{width}px");
+                    }
+                }
+                if (settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
+                {
+                    element.AddAttribute("class", $"{TableClass}-ar");
+                }
+                element.AddAttribute("span", "1");
+
+                group.AddChildElement(element);
+            }
+            return group;
+        }
+
+        protected HTMLElement GetThead(ExcelRangeBase range, List<string> headers = null)
+        {
+            var thead = CreateThead();
+            ExcelTable table = null;
+            if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
+            {
+                table = range.GetTable();
+            }
+
+            int headerRows = GetHeaderRows(table);
+
+            for (int i = 0; i < headerRows; i++)
+            {
+                var row = range._fromRow + i;
+                var rowElement = CreateRow(range, row);
+
+                ExcelWorksheet worksheet = range.Worksheet;
+                HtmlImage image = null;
+                foreach (var col in _columns)
+                {
+                    if (InMergeCellSpan(row, col)) continue;
+
+                    var th = new HTMLElement(HtmlElements.TableHeader);
+                    var cell = worksheet.Cells[row, col];
+                    if (Settings.RenderDataTypes)
+                    {
+                        th.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
+                    }
+
+                    SetColRowSpan(range, th, cell);
+
+                    if (Settings.IncludeCssClassNames)
+                    {
+                        var imageCellClassName = GetImageCellClassName(image, Settings, table != null);
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _exporterContext);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            th.AddAttribute("class", classString);
+                        }
+                    }
+
+                    AddTableData(table, th, col);
+
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
+                    {
+                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
+                    }
+                    AddImage(th, Settings, image, cell.Value);
+
+                    if (headerRows > 0 || table != null)
+                    {
+                        if (cell.Hyperlink == null)
+                        {
+                            th.Content = GetCellText(cell, Settings);
+                        }
+                        else
+                        {
+                            AddHyperlink(th, cell, Settings);
+                        }
+                    }
+                    else if (headers.Count < col)
+                    {
+                        th.Content = headers[col];
+                    }
+
+                    rowElement.AddChildElement(th);
+                }
+                thead.AddChildElement(rowElement);
+            }
+            return thead;
+        }
+
+        HTMLElement CreateThead()
+        {
+            var thead = new HTMLElement(HtmlElements.Thead);
+
+            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
+            {
+                thead.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
+            }
+
+            return thead;
+        }
+
+        HTMLElement CreateRow(ExcelRangeBase range, int row = 0)
+        {
+            var tr = new HTMLElement(HtmlElements.TableRow);
+            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                tr.AddAttribute("role", "row");
+            }
+
+            if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
+
+            return tr;
+        }
+
+        protected virtual int GetHeaderRows(ExcelTable table)
+        {
+            return 1;
+        }
+
+        protected virtual void AddTableData(ExcelTable table, HTMLElement th, int col)
+        {
+        }
+
+        protected HTMLElement GetTableBody(ExcelRangeBase range, int row, int endRow)
+        {
+            var tBody = new HTMLElement(HtmlElements.Tbody);
+            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
+            {
+                tBody.AddAttribute("role", Settings.Accessibility.TableSettings.TbodyRole);
+            }
+
+            var table = range.GetTable();
+
+            var ws = range.Worksheet;
+            HtmlImage image = null;
+            bool hasFooter = table != null && table.ShowTotal;
+            while (row <= endRow)
+            {
+                EpplusHtmlAttribute attribute = null;
+                if (HandleHiddenRow(attribute, range.Worksheet, Settings, ref row))
+                {
+                    continue; //The row is hidden and should not be included.
+                }
+
+                HTMLElement tFoot = null;
+                if (hasFooter && row == endRow)
+                {
+                    tFoot = new HTMLElement(HtmlElements.TFoot);
+                    if (attribute != null) { tFoot.AddAttribute(attribute.AttributeName, attribute.Value); }
+                    attribute = null;
+                }
+
+                var tr = new HTMLElement(HtmlElements.TableRow);
+
+                if (attribute != null) { tr.AddAttribute(attribute.AttributeName, attribute.Value); }
+
+                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    tr.AddAttribute("role", "row");
+
+                    if (table == null || !table.ShowFirstColumn && !table.ShowLastColumn)
+                    {
+                        tr.AddAttribute("scope", "row");
+                    }
+                }
+
+                if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
+
+                foreach (var col in _columns)
+                {
+                    if (InMergeCellSpan(row, col)) continue;
+                    var colIx = col - range._fromCol;
+                    var cell = ws.Cells[row, col];
+
+                    var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
+
+                    var tblData = new HTMLElement(HtmlElements.TableData);
+
+                    SetColRowSpan(range, tblData, cell);
+
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
+                    {
+                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
+                    }
+
+                    if (cell.Hyperlink == null)
+                    {
+                        var addRowScope = table == null ? false : (table.ShowFirstColumn && col == table.Address._fromCol) || (table.ShowLastColumn && col == table.Address._toCol);
+                        _cellDataWriter.AddTableDataFromCell(cell, dataType, tblData, Settings, addRowScope, image, _exporterContext);
+                    }
+                    else
+                    {
+                        var imageCellClassName = GetImageCellClassName(image, Settings);
+
+                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
+
+                        if (!string.IsNullOrEmpty(classString))
+                        {
+                            tblData.AddAttribute("class", classString);
+                        }
+
+                        AddImage(tblData, Settings, image, cell.Value);
+                        AddHyperlink(tblData, cell, Settings);
+                    }
+                    tr.AddChildElement(tblData);
+                }
+
+                tBody.AddChildElement(tr);
+
+                if (tFoot != null)
+                {
+                    tBody.AddChildElement(tFoot);
+                }
+                row++;
+            }
+
+            return tBody;
+        }
+
+        /// <summary>
+        /// Renders a hyperlink
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="cell"></param>
+        /// <param name="settings"></param>
+        protected void AddHyperlink(HTMLElement element, ExcelRangeBase cell, HtmlExportSettings settings)
+        {
+            if (cell.Hyperlink is ExcelHyperLink eurl)
+            {
+                if (string.IsNullOrEmpty(eurl.ReferenceAddress))
+                {
+                    if (string.IsNullOrEmpty(eurl.AbsoluteUri))
+                    {
+                        element.AddAttribute("href", eurl.OriginalString);
+                    }
+                    else
+                    {
+                        element.AddAttribute("href", eurl.AbsoluteUri);
+                    }
+                    if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
+                    {
+                        element.AddAttribute("target", settings.HyperlinkTarget);
+                    }
+                    var hyperlink = new HTMLElement(HtmlElements.A);
+                    hyperlink.Content = string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display;
+                    element.AddChildElement(hyperlink);
+                }
+                else
+                {
+                    //Internal
+                    element.Content = GetCellText(cell, settings);
+                }
+            }
+            else
+            {
+                element.AddAttribute("href", cell.Hyperlink.OriginalString);
+                if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
+                {
+                    element.AddAttribute("target", settings.HyperlinkTarget);
+                }
+                var hyperlink = new HTMLElement(HtmlElements.A);
+                hyperlink.Content = GetCellText(cell, settings);
+                element.AddChildElement(hyperlink);
+            }
+        }
+
+        protected void AddImage(HTMLElement parent, HtmlExportSettings settings, HtmlImage image, object value)
+        {
+            if (image != null)
+            {
+                var child = new HTMLElement(HtmlElements.Img);
+                var name = GetPictureName(image);
+                string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                child.AddAttribute("alt", image.Picture.Name);
+                if (settings.Pictures.AddNameAsId)
+                {
+                    child.AddAttribute("id", imageName);
+                }
+                child.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
+                parent._childElements.Add(child);
+                //parent.RenderBeginTag(HtmlElements.Img, true);
+            }
         }
 
         protected List<int> _columns = new List<int>();
@@ -131,28 +432,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             return false;
         }
 
-        internal bool HandleHiddenRow(EpplusHtmlWriter writer, ExcelWorksheet ws, HtmlExportSettings Settings, ref int row)
-        {
-            if (Settings.HiddenRows != eHiddenState.Include)
-            {
-                var r = ws.Row(row);
-                if (r.Hidden || r.Height == 0)
-                {
-                    if (Settings.HiddenRows == eHiddenState.IncludeButHide)
-                    {
-                        writer.AddAttribute("class", $"{Settings.StyleClassPrefix}hidden");
-                    }
-                    else
-                    {
-                        row++;
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         internal void AddRowHeightStyle(HTMLElement element, ExcelRangeBase range, int row, string styleClassPrefix, bool isMultiSheet)
         {
             var r = range.Worksheet._values.GetValue(row, 0);
@@ -167,22 +446,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             var clsName = HtmlExportTableUtil.GetWorksheetClassName(styleClassPrefix, "drh", range.Worksheet, isMultiSheet);
             element.AddAttribute("class", clsName); //Default row height
-        }
-
-        internal void AddRowHeightStyle(EpplusHtmlWriter writer, ExcelRangeBase range, int row, string styleClassPrefix, bool isMultiSheet)
-        {
-            var r = range.Worksheet._values.GetValue(row, 0);
-            if (r._value is RowInternal rowInternal)
-            {
-                if (rowInternal.Height != -1 && rowInternal.Height != range.Worksheet.DefaultRowHeight)
-                {
-                    writer.AddAttribute("style", $"height:{rowInternal.Height}pt");
-                    return;
-                }
-            }
-
-            var clsName = HtmlExportTableUtil.GetWorksheetClassName(styleClassPrefix, "drh", range.Worksheet, isMultiSheet);
-            writer.AddAttribute("class", clsName); //Default row height
         }
 
         protected string GetPictureName(HtmlImage p)
@@ -252,42 +515,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        protected void SetColRowSpan(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelRange cell)
-        {
-            if (cell.Merge)
-            {
-                var address = cell.Worksheet.MergedCells[cell._fromRow, cell._fromCol];
-                if (address != null)
-                {
-                    var ma = new ExcelAddressBase(address);
-                    bool added = false;
-                    //ColSpan
-                    if (ma._fromCol == cell._fromCol || range._fromCol == cell._fromCol)
-                    {
-                        var maxCol = Math.Min(ma._toCol, range._toCol);
-                        var colSpan = maxCol - ma._fromCol + 1;
-                        if (colSpan > 1)
-                        {
-                            writer.AddAttribute("colspan", colSpan.ToString(CultureInfo.InvariantCulture));
-                        }
-                        _mergedCells.Add(ma);
-                        added = true;
-                    }
-                    //RowSpan
-                    if (ma._fromRow == cell._fromRow || range._fromRow == cell._fromRow)
-                    {
-                        var maxRow = Math.Min(ma._toRow, range._toRow);
-                        var rowSpan = maxRow - ma._fromRow + 1;
-                        if (rowSpan > 1)
-                        {
-                            writer.AddAttribute("rowspan", rowSpan.ToString(CultureInfo.InvariantCulture));
-                        }
-                        if (added == false) _mergedCells.Add(ma);
-                    }
-                }
-            }
-        }
-
         protected void GetDataTypes(ExcelRangeBase range, HtmlRangeExportSettings settings)
         {
             if (range._fromRow + settings.HeaderRows > ExcelPackage.MaxRows)
@@ -336,27 +563,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        protected void AddTableAccessibilityAttributes(AccessibilitySettings settings, EpplusHtmlWriter writer)
-        {
-            if (!settings.TableSettings.AddAccessibilityAttributes) return;
-            if (!string.IsNullOrEmpty(settings.TableSettings.TableRole))
-            {
-                writer.AddAttribute("role", settings.TableSettings.TableRole);
-            }
-            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabel))
-            {
-                writer.AddAttribute(AriaAttributes.AriaLabel.AttributeName, settings.TableSettings.AriaLabel);
-            }
-            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabelledBy))
-            {
-                writer.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, settings.TableSettings.AriaLabelledBy);
-            }
-            if (!string.IsNullOrEmpty(settings.TableSettings.AriaDescribedBy))
-            {
-                writer.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, settings.TableSettings.AriaDescribedBy);
-            }
-        }
-
         protected string GetTableId(int index, ExcelHtmlOverrideExportSettings overrideSettings)
         {
             if (overrideSettings == null || string.IsNullOrEmpty(overrideSettings.TableId))
@@ -401,28 +607,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (!string.IsNullOrEmpty(tableId))
             {
                 element.AddAttribute(HtmlAttributes.Id, tableId);
-            }
-        }
-
-        protected void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table, string tableId, List<string> additionalTableClassNames)
-        {
-            var tableClasses = TableClass;
-            if (table != null)
-            {
-                tableClasses += " " + HtmlExportTableUtil.GetTableClasses(table); //Add classes for the table styles if the range corresponds to a table.
-            }
-            if (additionalTableClassNames != null && additionalTableClassNames.Count > 0)
-            {
-                foreach (var cls in additionalTableClassNames)
-                {
-                    tableClasses += $" {cls}";
-                }
-            }
-            writer.AddAttribute(HtmlAttributes.Class, $"{tableClasses}");
-
-            if (!string.IsNullOrEmpty(tableId))
-            {
-                writer.AddAttribute(HtmlAttributes.Id, tableId);
             }
         }
     }

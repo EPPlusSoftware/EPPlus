@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void AddHeaderRow(HTMLElement table)
         {
-            table.AddChildElement(GetTheadAlt(_table.Range));
+            table.AddChildElement(GetThead(_table.Range));
         }
 
         private void RenderTotalRow(HTMLElement table)

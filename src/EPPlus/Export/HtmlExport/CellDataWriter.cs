@@ -28,48 +28,48 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
-        {
-            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
-            {
-                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
-                if (string.IsNullOrEmpty(v) == false)
-                {
-                    writer.AddAttribute($"data-{settings.DataValueAttributeName}", v);
-                }
-            }
-            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
-            {
-                writer.AddAttribute("role", "cell");
-                if (addRowScope)
-                {
-                    writer.AddAttribute("scope", "row");
-                }
-            }
-            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
+        //public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
+        //{
+        //    if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
+        //    {
+        //        var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
+        //        if (string.IsNullOrEmpty(v) == false)
+        //        {
+        //            writer.AddAttribute($"data-{settings.DataValueAttributeName}", v);
+        //        }
+        //    }
+        //    if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+        //    {
+        //        writer.AddAttribute("role", "cell");
+        //        if (addRowScope)
+        //        {
+        //            writer.AddAttribute("scope", "row");
+        //        }
+        //    }
+        //    var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
+        //    var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
 
-            if (!string.IsNullOrEmpty(classString))
-            {
-                writer.AddAttribute("class", classString);
-            }
+        //    if (!string.IsNullOrEmpty(classString))
+        //    {
+        //        writer.AddAttribute("class", classString);
+        //    }
 
-            writer.RenderBeginTag(HtmlElements.TableData);
-            HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
-            if (cell.IsRichText)
-            {
-                writer.Write(cell.RichText.HtmlText);
-            }
-            else
-            {
-                writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
-            }
+        //    writer.RenderBeginTag(HtmlElements.TableData);
+        //    HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
+        //    if (cell.IsRichText)
+        //    {
+        //        writer.Write(cell.RichText.HtmlText);
+        //    }
+        //    else
+        //    {
+        //        writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+        //    }
 
-            writer.RenderEndTag();
-            writer.ApplyFormat(settings.Minify);
-        }
+        //    writer.RenderEndTag();
+        //    writer.ApplyFormat(settings.Minify);
+        //}
 
-        public void Write(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
+        public void AddTableDataFromCell(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -113,49 +113,49 @@ namespace OfficeOpenXml.Export.HtmlExport
             //writer.RenderEndTag();
             //writer.ApplyFormat(settings.Minify);
         }
-#if !NET35
-        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 
-            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, ExporterContext content)
-        {
-            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
-            {
-                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
-                if (string.IsNullOrEmpty(v) == false)
-                {
-                    writer.AddAttribute($"data-{settings.DataValueAttributeName}", v);
-                }
-            }
-            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
-            {
-                writer.AddAttribute("role", "cell");
-                if (addRowScope)
-                {
-                    writer.AddAttribute("scope", "row");
-                }
-            }
-            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
+//#if !NET35
+//        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, 
+//            AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image, ExporterContext content)
+//        {
+//            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
+//            {
+//                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
+//                if (string.IsNullOrEmpty(v) == false)
+//                {
+//                    writer.AddAttribute($"data-{settings.DataValueAttributeName}", v);
+//                }
+//            }
+//            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
+//            {
+//                writer.AddAttribute("role", "cell");
+//                if (addRowScope)
+//                {
+//                    writer.AddAttribute("scope", "row");
+//                }
+//            }
+//            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
             
-            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
+//            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
 
-            if (!string.IsNullOrEmpty(classString))
-            {
-                writer.AddAttribute("class", classString);
-            }
+//            if (!string.IsNullOrEmpty(classString))
+//            {
+//                writer.AddAttribute("class", classString);
+//            }
 
-            //writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
-            await writer.RenderBeginTagAsync(HtmlElements.TableData);
-            HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
-            if (cell.IsRichText)
-            {
-                await writer.WriteAsync(cell.RichText.HtmlText);
-            }
-            else
-            {
-                await writer.WriteAsync(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
-            }
-            await writer.RenderEndTagAsync();
-            await writer.ApplyFormatAsync(settings.Minify);
-        }
-#endif
+//            //writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName, cfRules);
+//            await writer.RenderBeginTagAsync(HtmlElements.TableData);
+//            HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
+//            if (cell.IsRichText)
+//            {
+//                await writer.WriteAsync(cell.RichText.HtmlText);
+//            }
+//            else
+//            {
+//                await writer.WriteAsync(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+//            }
+//            await writer.RenderEndTagAsync();
+//            await writer.ApplyFormatAsync(settings.Minify);
+//        }
+//#endif
     }
 }

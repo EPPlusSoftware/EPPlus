@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/07/2021         EPPlus Software AB       Added Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal partial class EpplusHtmlWriter
     {
 #if !NET35 && !NET40
-        public async Task RenderBeginTagAsync(string elementName, bool closeElement = false)
+        public async Task RenderBeginTagAsync(string elementName, List<EpplusHtmlAttribute> attributes, bool closeElement = false)
         {
             _newLine = false;
             if (elementName != HtmlElements.A && elementName != HtmlElements.Img)
@@ -31,11 +32,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 await WriteIndentAsync();
             }
             await _writer.WriteAsync($"<{elementName}");
-            foreach (var attribute in _attributes)
+            foreach (var attribute in attributes)
             {
                 await _writer.WriteAsync($" {attribute.AttributeName}=\"{attribute.Value}\"");
             }
-            _attributes.Clear();
+            attributes.Clear();
 
             if (closeElement)
             {
@@ -45,20 +46,57 @@ namespace OfficeOpenXml.Export.HtmlExport
             else
             {
                 await _writer.WriteAsync(">");
-                _elementStack.Push(elementName);
             }
         }
 
-        public async Task RenderEndTagAsync()
+        public async Task RenderEndTagAsync(string elementName)
         {
             if (_newLine)
             {
                 await WriteIndentAsync();
             }
 
-            var elementName = _elementStack.Pop();
             await _writer.WriteAsync($"</{elementName}>");
             await _writer.FlushAsync();
+        }
+
+        public async Task RenderHTMLElementAsync(HTMLElement element, bool minify)
+        {
+            await RenderBeginTagAsync(element.ElementName, element._attributes, element.IsVoidElement);
+
+            if (element.IsVoidElement)
+            {
+                if (element.ElementName != HtmlElements.Img)
+                {
+                    await ApplyFormatAsync(minify);
+                }
+                return;
+            }
+
+            if (element._childElements.Count > 0)
+            {
+                var name = element.ElementName;
+                bool noIndent = minify == true ? true : HtmlElements.NoIndentElements.Contains(name);
+
+                await ApplyFormatIncreaseIndentAsync(noIndent);
+
+                foreach (var child in element._childElements)
+                {
+                    await RenderHTMLElementAsync(child, minify);
+                }
+
+                if (noIndent == false)
+                {
+                    Indent--;
+                }
+            }
+            else
+            {
+                await WriteAsync(element.Content);
+            }
+
+            await RenderEndTagAsync(element.ElementName);
+            await ApplyFormatAsync(minify);
         }
 #endif
     }

@@ -22,7 +22,7 @@ using System.IO;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class HtmlRangeExporterSync : HtmlRangeExporterSyncBase
+    internal class HtmlRangeExporterSync : HtmlRangeExporterBase
     {
         internal HtmlRangeExporterSync
             (HtmlRangeExportSettings settings, ExcelRangeBase range) : base(settings, range)
@@ -190,17 +190,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         }
 
         /// <summary>
-        /// The ranges used in the export.
-        /// </summary>
-        public EPPlusReadOnlyList<ExcelRangeBase> Ranges
-        {
-            get
-            {
-                return _ranges;
-            }
-        }
-
-        /// <summary>
         /// Renders both the Html and the Css to a single page. 
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
@@ -218,7 +207,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (table != null && table.ShowHeader == false) return;
 
-            var thead = GetTheadAlt(range, headers);
+            var thead = GetThead(range, headers);
 
             element.AddChildElement(thead);
         }

@@ -48,22 +48,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             return GetClassName(name, hash);
         }
 
-        internal static void AddImage(EpplusHtmlWriter writer, HtmlExportSettings settings, HtmlImage image, object value)
-        {
-            if (image != null)
-            {
-                var name = GetPictureName(image);
-                string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
-                writer.AddAttribute("alt", image.Picture.Name);
-                if (settings.Pictures.AddNameAsId)
-                {
-                    writer.AddAttribute("id", imageName);
-                }
-                writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
-                writer.RenderBeginTag(HtmlElements.Img, true);
-            }
-        }
-
         internal static void AddImage(HTMLElement element, HtmlExportSettings settings, HtmlImage image, object value)
         {
             if (image != null)

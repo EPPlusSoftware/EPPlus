@@ -143,32 +143,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 element.AddAttribute(HtmlAttributes.Id, settings.TableId);
             }
         }
-
-
-        internal static void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table, HtmlTableExportSettings settings)
-        {
-            if (table.TableStyle == TableStyles.None)
-            {
-                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
-            }
-            else
-            {
-                var tblClasses = $"{TableClass} ";
-                tblClasses += GetTableClasses(table);
-                if (settings.AdditionalTableClassNames.Count > 0)
-                {
-                    foreach (var cls in settings.AdditionalTableClassNames)
-                    {
-                        tblClasses += $" {cls}";
-                    }
-                }
-
-                writer.AddAttribute(HtmlAttributes.Class, tblClasses);
-            }
-            if (!string.IsNullOrEmpty(settings.TableId))
-            {
-                writer.AddAttribute(HtmlAttributes.Id, settings.TableId);
-            }
-        }
     }
 }

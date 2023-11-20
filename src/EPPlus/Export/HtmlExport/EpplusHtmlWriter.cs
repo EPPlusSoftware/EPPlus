@@ -29,54 +29,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
         }
 
-        private readonly Stack<string> _elementStack = new Stack<string>();
-        private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
-
-        public void AddAttribute(string attributeName, string attributeValue)
-        {
-            Require.Argument(attributeName).IsNotNullOrEmpty("attributeName");
-            Require.Argument(attributeValue).IsNotNullOrEmpty("attributeValue");
-            _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName, Value = attributeValue });
-        }
-        public void RenderBeginTag(string elementName, bool closeElement = false)
-        {
-            _newLine = false;
-            // avoid writing indent characters for a hyperlinks or images inside a td element
-            if(elementName != HtmlElements.A && elementName != HtmlElements.Img)
-            {
-                WriteIndent();
-            }
-            _writer.Write($"<{elementName}");
-            foreach (var attribute in _attributes)
-            {
-                _writer.Write($" {attribute.AttributeName}=\"{attribute.Value}\"");
-            }
-            _attributes.Clear();
-
-            if (closeElement)
-            {
-                _writer.Write("/>");
-                _writer.Flush();
-            }
-            else
-            {
-                _writer.Write(">");
-                _elementStack.Push(elementName);
-            }
-        }
-
-        public void RenderEndTag()
-        {
-            if (_newLine)
-            {
-                WriteIndent();
-            }
-
-            var elementName = _elementStack.Pop();
-            _writer.Write($"</{elementName}>");
-            _writer.Flush();
-        }
-
         public void RenderEndTag(string elementName)
         {
             if (_newLine)
