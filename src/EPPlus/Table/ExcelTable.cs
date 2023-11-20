@@ -788,7 +788,6 @@ namespace OfficeOpenXml.Table
                     if (value)
                     {
                         WorkSheet.Cells[Address._toRow + 1, Address._fromCol, Address._toRow + 1, Address._toCol].Clear();
-                        //InsertNormalRowUnderTable();
                         Address =new ExcelAddress(WorkSheet.Name, ExcelAddressBase.GetAddress(Address.Start.Row, Address.Start.Column, Address.End.Row+1, Address.End.Column));
                     }
                     else
@@ -1080,19 +1079,6 @@ namespace OfficeOpenXml.Table
             }
 
             return range;
-        }
-
-        private void InsertNormalRowUnderTable(int rows = 1)
-        {
-            int position = _address.Rows;
-            if (_address._fromRow + position + rows > ExcelPackage.MaxRows)
-            {
-                throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
-            }
-            var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
-            var range = new ExcelRangeBase(WorkSheet, address);
-
-            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Down, false, true);
         }
 
         private void ExtendCalculatedFormulas(ExcelRangeBase range)
