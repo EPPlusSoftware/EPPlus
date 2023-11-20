@@ -5768,6 +5768,41 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i1156_2()
+        {
+            using (var p = OpenTemplatePackage("I1156-2.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Calculate();
+                Assert.AreEqual("A", ws.Cells["B2"].Value);
+                Assert.AreEqual("B", ws.Cells["B3"].Value);
+                Assert.AreEqual("C", ws.Cells["B4"].Value);
+                Assert.AreEqual("D", ws.Cells["B5"].Value);
+                Assert.AreEqual("E", ws.Cells["B6"].Value);
+                Assert.AreEqual("G", ws.Cells["B7"].Value);
+                Assert.AreEqual("H", ws.Cells["B8"].Value);
+                Assert.AreEqual("I", ws.Cells["B9"].Value);
+                Assert.AreEqual("J", ws.Cells["B10"].Value);
+
+                Assert.AreEqual("A", ws.Cells["D2"].Value);
+                Assert.AreEqual("B", ws.Cells["D3"].Value);
+                Assert.AreEqual("C", ws.Cells["D4"].Value);
+                Assert.AreEqual(1D, ws.Cells["D5"].Value);
+
+                Assert.AreEqual("A", ws.Cells["E2"].Value);
+                Assert.AreEqual("B", ws.Cells["E3"].Value);
+                Assert.AreEqual("C", ws.Cells["E4"].Value);
+                Assert.AreEqual(1D, ws.Cells["E5"].Value);
+
+                Assert.AreEqual("A", ws.Cells["G2"].Value);
+                Assert.AreEqual("B", ws.Cells["G3"].Value);
+                Assert.AreEqual("C", ws.Cells["G4"].Value);
+                Assert.AreEqual(1D, ws.Cells["G5"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
 
     }
 }
