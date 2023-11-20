@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Export.HtmlExport.HtmlCollections
         internal HTMLElement(string elementName)
         {
             ElementName = elementName;
-            if(ElementName == HtmlVoidElements.Col || ElementName == HtmlVoidElements.Img) 
+            if(HtmlElements.VoidElements.Contains(elementName)) 
             {
                 IsVoidElement = true;
             }

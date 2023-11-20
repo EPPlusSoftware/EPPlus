@@ -19,8 +19,24 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal static class HtmlElements
     {
-        public const string Body = "body";
+        internal static readonly HashSet<string> VoidElements
+        = new HashSet<string>
+        {
+            { "col" },
+            { Img }
+        };
 
+        internal static readonly HashSet<string> NoIndentElements
+        = new HashSet<string>
+        {
+            { TableData },
+            { TFoot },
+            { TableHeader },
+            { A },
+            { Img }
+        };
+
+        public const string Body = "body";
         public const string Table = "table";
         public const string Thead = "thead";
         public const string TFoot = "tfoot";
@@ -31,13 +47,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         public const string A = "a";
         public const string Span = "span";
         public const string ColGroup = "colgroup";
-        public const string Img = "img";
-    }
-
-    //NOTE: If more are added must be added to HTMLElement constructor as well.
-    internal static class HtmlVoidElements
-    {
-        public const string Col = "col";
         public const string Img = "img";
     }
 }

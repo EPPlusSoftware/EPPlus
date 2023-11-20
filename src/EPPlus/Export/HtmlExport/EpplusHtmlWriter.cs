@@ -130,13 +130,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (element._childElements.Count > 0)
             {
                 var name = element.ElementName;
-                bool noIndent = minify == true ?
-                    true :
-                    name == HtmlElements.TableData ||
-                    name == HtmlElements.TFoot ||
-                    name == HtmlElements.TableHeader ||
-                    name == HtmlElements.A ||
-                    name == HtmlElements.Img;
+                bool noIndent = minify == true ? true : HtmlElements.NoIndentElements.Contains(name);
 
                 ApplyFormatIncreaseIndent(noIndent);
 

@@ -163,7 +163,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
             // table rows
             htmlTable.AddChildElement(AddTableRowsAlt(range, range._fromRow + _settings.HeaderRows, range._toRow));
-           // RenderTableRows(range, htmlTable, table, accessibilitySettings);
 
             writer.RenderHTMLElement(htmlTable, Settings.Minify);
         }
@@ -207,98 +206,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             return string.Format(htmlDocument, html, css);
         }
 
-        private void RenderTableRows(ExcelRangeBase range, HTMLElement element, ExcelTable table, AccessibilitySettings accessibilitySettings)
-        {
-            var tBody = new HTMLElement(HtmlElements.Tbody);
-            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))
-            {
-                tBody.AddAttribute("role", accessibilitySettings.TableSettings.TbodyRole);
-            }
-
-            var row = range._fromRow + _settings.HeaderRows;
-            var endRow = range._toRow;
-            var ws = range.Worksheet;
-            HtmlImage image = null;
-            bool hasFooter = table != null && table.ShowTotal;
-            while (row <= endRow)
-            {
-                EpplusHtmlAttribute attribute = null;
-                if (HandleHiddenRow(attribute, range.Worksheet, Settings, ref row))
-                {
-                    continue; //The row is hidden and should not be included.
-                }
-
-                HTMLElement tFoot = null;
-                if (hasFooter && row == endRow)
-                {
-                    tFoot = new HTMLElement(HtmlElements.TFoot);
-                    if(attribute != null) { tFoot.AddAttribute(attribute.AttributeName, attribute.Value); }
-                    attribute = null;
-                }
-
-                var tr = new HTMLElement(HtmlElements.TableRow);
-
-                if (attribute != null) { tr.AddAttribute(attribute.AttributeName, attribute.Value); }
-
-                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
-                {
-                    tr.AddAttribute("role", "row");
-                    tr.AddAttribute("scope", "row");
-                }
-
-                if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
-
-                foreach (var col in _columns)
-                {
-                    if (InMergeCellSpan(row, col)) continue;
-                    var colIx = col - range._fromCol;
-                    var cell = ws.Cells[row, col];
-                    var cv = cell.Value;
-                    var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
-
-                    var tblData = new HTMLElement(HtmlElements.TableData);
-
-                    SetColRowSpan(range, tblData, cell);
-
-                    if (Settings.Pictures.Include == ePictureInclude.Include)
-                    {
-                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
-                    }
-
-                    if (cell.Hyperlink == null)
-                    {
-                        _cellDataWriter.Write(cell, dataType, tblData, Settings, false, image, _exporterContext);
-                    }
-                    else
-                    {
-                        var imageCellClassName = GetImageCellClassName(image, Settings);
-    
-                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
-
-                        if (!string.IsNullOrEmpty(classString))
-                        {
-                            tblData.AddAttribute("class", classString);
-                        }
-
-                        AddImage(tblData, Settings, image, cell.Value);
-                        AddHyperlink(tblData, cell, Settings);
-                    }
-                    tr.AddChildElement(tblData);
-                }
-
-                tBody.AddChildElement(tr);
-
-                if (tFoot != null)
-                {
-                    tBody.AddChildElement(tFoot);
-                }
-                row++;
-            }
-
-            element.AddChildElement(tBody);
-            //writer.RenderHTMLElement(tBody, Settings.Minify);
-        }
-
         private void RenderHeaderRow(ExcelRangeBase range, HTMLElement element, ExcelTable table, List<string> headers)
         {
             if (table != null && table.ShowHeader == false) return;
@@ -308,15 +215,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             element.AddChildElement(thead);
         }
-
-        //private void RenderHeaderRow(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings, List<string> headers)
-        //{
-        //    if (table != null && table.ShowHeader == false) return;
-
-        //    var thead = GetThead(range, table, accessibilitySettings, headers);
-
-        //    writer.RenderHTMLElement(thead, Settings.Minify);
-        //}
 
         protected override int GetHeaderRows(ExcelTable table)
         {
@@ -332,89 +230,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
 
             return headerRows;
-        }
-
-        HTMLElement GetThead(ExcelRangeBase range, ExcelTable table, AccessibilitySettings accessibilitySettings, List<string> headers)
-        {
-            var thead = new HTMLElement(HtmlElements.Thead);
-
-            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TheadRole))
-            {
-                thead.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
-            }
-            //- only here
-            int headerRows;
-
-            if (table == null)
-            {
-                headerRows = _settings.HeaderRows == 0 ? 1 : _settings.HeaderRows;
-            }
-            else
-            {
-                headerRows = table.ShowHeader ? 1 : 0;
-            }
-            //
-            HtmlImage image = null;
-            //- only here
-            for (int i = 0; i < headerRows; i++)
-            {
-                //
-                var tr = new HTMLElement(HtmlElements.TableRow);
-                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
-                {
-                    tr.AddAttribute("role", "row");
-                }
-                var row = range._fromRow + i;
-
-                if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
-
-                foreach (var col in _columns)
-                {
-                    var th = new HTMLElement(HtmlElements.TableHeader);
-                    if (InMergeCellSpan(row, col)) continue;
-                    var cell = range.Worksheet.Cells[row, col];
-                    if (Settings.RenderDataTypes)
-                    {
-                        th.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
-                    }
-                    SetColRowSpan(range, th, cell);
-                    if (Settings.IncludeCssClassNames)
-                    {
-                        var imageCellClassName = GetImageCellClassName(image, Settings);
-                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _exporterContext);
-
-                        if (!string.IsNullOrEmpty(classString))
-                        {
-                            th.AddAttribute("class", classString);
-                        }
-                    }
-                    if (Settings.Pictures.Include == ePictureInclude.Include)
-                    {
-                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
-                    }
-
-                    AddImage(th, Settings, image, cell.Value);
-
-                    if (headerRows > 0 || table != null)
-                    {
-                        if (cell.Hyperlink == null)
-                        {
-                            th.Content = GetCellText(cell, Settings);
-                        }
-                        else
-                        {
-                            AddHyperlink(th, cell, Settings);
-                        }
-                    }
-                    else if (headers.Count < col)
-                    {
-                        th.Content = headers[col];
-                    }
-                    tr.AddChildElement(th);
-                }
-                thead.AddChildElement(tr);
-            }
-            return thead;
         }
     }
 }
