@@ -82,7 +82,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        private void RenderHeaderRow(HTMLElement table)
+        private void AddHeaderRow(HTMLElement table)
         {
             table.AddChildElement(GetTheadAlt(_table.Range));
         }
@@ -181,17 +181,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             if (_table.ShowHeader)
             {
-                RenderHeaderRow(htmlTable);
+                AddHeaderRow(htmlTable);
             }
 
-            htmlTable.AddChildElement
-                (
-                    AddTableRowsAlt
-                    (_table.Range,
-                        _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow,
-                        _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow
-                    )
-                );
+            AddTableRows(htmlTable);
 
             if (_table.ShowTotal)
             {
@@ -199,6 +192,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
 
             writer.RenderHTMLElement(htmlTable, Settings.Minify);
+        }
+
+        void AddTableRows(HTMLElement htmlTable)
+        {
+            var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
+            var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
+
+            var body = GetTableBody(_table.Range, row, endRow);
+            htmlTable.AddChildElement(body);
         }
 
         /// <summary>

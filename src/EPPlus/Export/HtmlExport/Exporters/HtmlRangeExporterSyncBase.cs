@@ -35,12 +35,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         protected void SetColumnGroup(HTMLElement element, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
-            var group = GetGroup(_range, settings, isMultiSheet);
+            var group = GetColumnGroup(_range, settings, isMultiSheet);
             element.AddChildElement(group);
-            //writer.RenderHTMLElement(group, settings.Minify);
         }
 
-        HTMLElement GetGroup(ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
+        HTMLElement GetColumnGroup(ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
             var group = new HTMLElement("colgroup");
 
@@ -58,7 +57,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     {
                         var clsName = HtmlExportTableUtil.GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
                         element.AddAttribute("class", clsName);
-                        // writer.AddAttribute("class", clsName);
                     }
                     else
                     {
@@ -246,7 +244,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
         }
 
-        protected HTMLElement AddTableRowsAlt(ExcelRangeBase range, int row, int endRow)
+        protected HTMLElement GetTableBody(ExcelRangeBase range, int row, int endRow)
         {
             var tBody = new HTMLElement(HtmlElements.Tbody);
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
@@ -296,8 +294,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     if (InMergeCellSpan(row, col)) continue;
                     var colIx = col - range._fromCol;
                     var cell = ws.Cells[row, col];
-                    //possibly make virtual
-                    //var dataType = _dataTypes[colIx];
+
                     var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
                     var tblData = new HTMLElement(HtmlElements.TableData);
@@ -340,7 +337,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 row++;
             }
 
-            //element.AddChildElement(tBody);
             return tBody;
         }
 
