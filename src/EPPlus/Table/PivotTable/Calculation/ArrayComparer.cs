@@ -20,7 +20,11 @@ namespace OfficeOpenXml.Table.PivotTable
         internal static Dictionary<int[], object> GetNewCalculatedItems()
         {
             return new Dictionary<int[], object>(new ArrayComparer());
-        }        
+        }
+        internal static Dictionary<int[], HashSet<int[]>> GetNewKeys()
+        {
+            return new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+        }
     }
     internal class ArrayComparer : IEqualityComparer<int[]>
     {

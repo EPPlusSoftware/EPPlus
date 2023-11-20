@@ -7,16 +7,16 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal class PivotFunctionMin : PivotFunction
     {
-        internal override void AddItems(int[] key, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], int> keyCount)
+        internal override void AddItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
         {
             var d = GetValueDouble(value);
             if (double.IsNaN(d))
             {
-                AddItemsToKeys<ExcelErrorValue>(key, dataFieldItems, keyCount, (ExcelErrorValue)value, SetError);
+                AddItemsToKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
             }
             else
             {
-                AddItemsToKeys(key, dataFieldItems, keyCount, d, MinValue);
+                AddItemsToKeys(key, colStartIx, dataFieldItems, keys, d, MinValue);
             }
         }
     }

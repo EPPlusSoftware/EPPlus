@@ -297,14 +297,14 @@ namespace OfficeOpenXml.Table.PivotTable
         }        
         internal bool IsCalculated { get; set; }
         List<Dictionary<int[], object>> CalculatedItems = null;
-        Dictionary<int[], int> KeyCount = null;
+        List<Dictionary<int[], HashSet<int[]>>> Keys = null;
         public void Calculate(bool refreshCache=false)
         {
             if(refreshCache)
             {
                 CacheDefinition.Refresh();
             }
-            PivotTableCalculation.Calculate(this, out CalculatedItems, out KeyCount);
+            PivotTableCalculation.Calculate(this, out CalculatedItems, out Keys);
             IsCalculated = true;
         }
         internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
@@ -336,9 +336,9 @@ namespace OfficeOpenXml.Table.PivotTable
             var dfIx = DataFields.IndexOf(dataField);
             if(IsReferencingUngroupableKey(key, dataField.Field.PivotTable.RowFields.Count))
             {
-                if(KeyCount.TryGetValue(key, out int uniqueItems))
+                if (Keys[dfIx].TryGetValue(key, out HashSet<int[]> uniqueItems))
                 {
-                    if(uniqueItems!=1)
+                    if(uniqueItems.Count!=1)
                     {
                         return ErrorValues.RefError; 
                     }
