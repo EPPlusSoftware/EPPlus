@@ -1008,7 +1008,7 @@ namespace OfficeOpenXml
             {
                 if (tokens == null)
                 {
-                    tokens = tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+                    tokens = SourceCodeTokenizer.Default.Tokenize(formula);
                 }
                 var f = "";
                 //string wsName = "";

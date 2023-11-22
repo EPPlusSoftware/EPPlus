@@ -1393,11 +1393,11 @@ namespace OfficeOpenXml
                                 {
                                     try
                                     {
-                                        hl = new ExcelHyperLink(uri.AbsoluteUri);
+                                        hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
                                     }
                                     catch
                                     {
-                                        hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
+                                        hl = new ExcelHyperLink(uri.AbsoluteUri);
                                     }
                                 }
                                 else

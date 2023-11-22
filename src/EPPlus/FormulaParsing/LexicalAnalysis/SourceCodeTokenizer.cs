@@ -190,6 +190,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         if (c == '!' && current.Length > 0 && current[0] == '#')
                         {
                             var currentString = current.ToString();
+                            if((flags & statFlags.isNegator) == statFlags.isNegator)
+                            {
+                                AddNegatorOrOperator(l, current, flags);
+                            }
+
                             if (currentString.Equals("#NUM", StringComparison.OrdinalIgnoreCase))
                             {
                                 l.Add(new Token("#NUM!", TokenType.NumericError));
@@ -428,53 +433,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             if ((flags & statFlags.isNegator) == statFlags.isNegator)
             {
-                if (l.Count == 0)
-                {
-                    if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
-                    {
-                        current.Insert(0, '-');
-                    }
-                    else
-                    {
-                        l.Add(new Token("-", TokenType.Negator));
-                    }
-                }
-                else
-                {
-                    var pt = GetLastTokenIgnore(l, out int index, TokenType.SingleQuote, TokenType.WorksheetNameContent, TokenType.ExternalReference, TokenType.OpeningBracket, TokenType.ClosingBracket, TokenType.WhiteSpace);
-                    if (pt.TokenType == TokenType.Operator
-                        ||
-                        pt.TokenType == TokenType.Negator
-                        ||
-                        pt.TokenType == TokenType.OpeningParenthesis
-                        ||
-                        pt.TokenType == TokenType.Comma
-                        ||
-                        pt.TokenType == TokenType.SemiColon
-                        ||
-                        pt.TokenType == TokenType.OpeningEnumerable)
-                    {
-                        if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
-                        {
-                            current.Insert(0, '-');
-                        }
-                        else
-                        {
-                            if (pt != l[l.Count - 1])
-                            {
-                                l.Insert(index + 1, new Token("-", TokenType.Negator));
-                            }
-                            else
-                            {
-                                l.Add(new Token("-", TokenType.Negator));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        l.Add(_charTokens['-']);
-                    }
-                }
+                AddNegatorOrOperator(l, current, flags);
             }
             if (current.Length == 0)
             {
@@ -688,6 +647,58 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             //Clear sb
             current = new StringBuilder();
         }
+
+        private void AddNegatorOrOperator(List<Token> l, StringBuilder current, statFlags flags)
+        {
+            if (l.Count == 0)
+            {
+                if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
+                {
+                    current.Insert(0, '-');
+                }
+                else
+                {
+                    l.Add(new Token("-", TokenType.Negator));
+                }
+            }
+            else
+            {
+                var pt = GetLastTokenIgnore(l, out int index, TokenType.SingleQuote, TokenType.WorksheetNameContent, TokenType.ExternalReference, TokenType.OpeningBracket, TokenType.ClosingBracket, TokenType.WhiteSpace);
+                if (pt.TokenType == TokenType.Operator
+                    ||
+                    pt.TokenType == TokenType.Negator
+                    ||
+                    pt.TokenType == TokenType.OpeningParenthesis
+                    ||
+                    pt.TokenType == TokenType.Comma
+                    ||
+                    pt.TokenType == TokenType.SemiColon
+                    ||
+                    pt.TokenType == TokenType.OpeningEnumerable)
+                {
+                    if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
+                    {
+                        current.Insert(0, '-');
+                    }
+                    else
+                    {
+                        if (pt != l[l.Count - 1])
+                        {
+                            l.Insert(index + 1, new Token("-", TokenType.Negator));
+                        }
+                        else
+                        {
+                            l.Add(new Token("-", TokenType.Negator));
+                        }
+                    }
+                }
+                else
+                {
+                    l.Add(_charTokens['-']);
+                }
+            }
+        }
+
         private static readonly char[] _addressChars = new char[] { ':', '$', '[', ']', '\'' };
         private static bool IsName(string s)
         {

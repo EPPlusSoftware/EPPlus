@@ -104,19 +104,19 @@ namespace OfficeOpenXml.Packaging
                 rel.TargetMode = c.GetAttribute("TargetMode").Equals("external",StringComparison.OrdinalIgnoreCase) ? TargetMode.External : TargetMode.Internal;
                 if(target.StartsWith("#"))
                 {
-                    rel.Target = c.GetAttribute("Target");
+                    rel.Target = target;
                 }
                 else
                 {                    
                     try
                     {
-                        rel.TargetUri = new Uri(c.GetAttribute("Target"), UriKind.RelativeOrAbsolute);
+                        rel.TargetUri = new Uri(target, UriKind.RelativeOrAbsolute);
                     }
                     catch
                     {
                         //The URI is not a valid URI. Encode it to make i valid.
-                        rel.TargetUri = new Uri("Invalid:URI "+ Uri.EscapeDataString(c.GetAttribute("Target")), UriKind.RelativeOrAbsolute);
-                        rel.Target = c.GetAttribute("Target");
+                        rel.TargetUri = new Uri("Invalid:URI "+ Uri.EscapeDataString(target), UriKind.RelativeOrAbsolute);
+                        rel.Target = target;
                     }
                 }
                 if (!string.IsNullOrEmpty(source))
