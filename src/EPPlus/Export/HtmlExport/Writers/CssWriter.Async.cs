@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace OfficeOpenXml.Export.HtmlExport.Writers
 {
 #if !NET35 && !NET40
-    internal partial class CssTrueWriter
+    internal partial class CssWriter
     {
         internal async Task WritePropertyDeclarationAsync(Declaration declaration, bool minify)
         {
@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
             await WriteClassAsync($"{selector}{{", minify);
         }
 
-        internal async Task WriteAndClearCollectionAsync(CssRuleCollection collection, bool minify)
+        internal async Task WriteAndClearFlushAsync(CssRuleCollection collection, bool minify)
         {
             for (int i = 0; i < collection.CssRules.Count(); i++)
             {
@@ -42,6 +42,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
             }
 
             collection.CssRules.Clear();
+            await _writer.FlushAsync();
         }
     }
 #endif

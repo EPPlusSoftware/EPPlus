@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Writers
 {
-    internal abstract partial class TrueWriterBase
+    internal abstract partial class BaseWriter
     {
         protected readonly Stream _stream;
         protected readonly StreamWriter _writer;
@@ -16,12 +16,23 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
 
         internal protected HashSet<string> _images = new HashSet<string>();
 
-        internal TrueWriterBase(Stream stream, Encoding encoding)
+        internal BaseWriter(Stream stream, Encoding encoding)
         {
             _stream = stream;
             _writer = new StreamWriter(stream, encoding);
         }
-        public TrueWriterBase(StreamWriter writer)
+
+        internal BaseWriter(Stream stream)
+        {
+            if (!stream.CanWrite)
+            {
+                throw new IOException("Parameter stream must be a writable System.IO.Stream");
+            }
+            _stream = stream;
+            _writer = new StreamWriter(stream);
+        }
+
+        public BaseWriter(StreamWriter writer)
         {
             _stream = writer.BaseStream;
             _writer = writer;

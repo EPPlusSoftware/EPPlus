@@ -8,67 +8,78 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/07/2021         EPPlus Software AB       Added Html Export
+  05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
-using System;
+using OfficeOpenXml.Export.HtmlExport.Writers;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Utils;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
-#if !NET35 && !NET40
+#if !NET35
 using System.Threading.Tasks;
 #endif
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal partial class EpplusHtmlWriter
+    internal partial class HtmlWriter : BaseWriter
     {
-#if !NET35 && !NET40
-        public async Task RenderBeginTagAsync(string elementName, List<EpplusHtmlAttribute> attributes, bool closeElement = false)
+        internal HtmlWriter(Stream stream, Encoding encoding) : base(stream, encoding)
         {
-            _newLine = false;
-            if (elementName != HtmlElements.A && elementName != HtmlElements.Img)
-            {
-                await WriteIndentAsync();
-            }
-            await _writer.WriteAsync($"<{elementName}");
-            foreach (var attribute in attributes)
-            {
-                await _writer.WriteAsync($" {attribute.AttributeName}=\"{attribute.Value}\"");
-            }
-            attributes.Clear();
-
-            if (closeElement)
-            {
-                await _writer.WriteAsync("/>");
-                await _writer.FlushAsync();
-            }
-            else
-            {
-                await _writer.WriteAsync(">");
-            }
         }
 
-        public async Task RenderEndTagAsync(string elementName)
+        public void RenderEndTag(string elementName)
         {
             if (_newLine)
             {
-                await WriteIndentAsync();
+                WriteIndent();
             }
 
-            await _writer.WriteAsync($"</{elementName}>");
-            await _writer.FlushAsync();
+            _writer.Write($"</{elementName}>");
+            _writer.Flush();
         }
 
-        public async Task RenderHTMLElementAsync(HTMLElement element, bool minify)
+        public void RenderBeginTag(string elementName, List<EpplusHtmlAttribute> attributes = null, bool closeElement = false)
         {
-            await RenderBeginTagAsync(element.ElementName, element._attributes, element.IsVoidElement);
+            _newLine = false;
+            // avoid writing indent characters for a hyperlinks or images inside a td element
+            if (elementName != HtmlElements.A && elementName != HtmlElements.Img)
+            {
+                WriteIndent();
+            }
+            _writer.Write($"<{elementName}");
+
+
+            if (attributes != null)
+            {
+                foreach (var attribute in attributes)
+                {
+                    _writer.Write($" {attribute.AttributeName}=\"{attribute.Value}\"");
+                }
+                attributes.Clear();
+            }
+
+            if (closeElement)
+            {
+                _writer.Write("/>");
+                _writer.Flush();
+            }
+            else
+            {
+                _writer.Write(">");
+            }
+        }
+
+        public void RenderHTMLElement(HTMLElement element, bool minify)
+        {
+            RenderBeginTag(element.ElementName, element._attributes, element.IsVoidElement);
 
             if (element.IsVoidElement)
             {
-                if (element.ElementName != HtmlElements.Img)
+                if(element.ElementName != HtmlElements.Img)
                 {
-                    await ApplyFormatAsync(minify);
+                    ApplyFormat(minify);
                 }
                 return;
             }
@@ -78,26 +89,25 @@ namespace OfficeOpenXml.Export.HtmlExport
                 var name = element.ElementName;
                 bool noIndent = minify == true ? true : HtmlElements.NoIndentElements.Contains(name);
 
-                await ApplyFormatIncreaseIndentAsync(noIndent);
+                ApplyFormatIncreaseIndent(noIndent);
 
                 foreach (var child in element._childElements)
                 {
-                    await RenderHTMLElementAsync(child, minify);
+                    RenderHTMLElement(child, minify);
                 }
 
-                if (noIndent == false)
+                if(noIndent == false)
                 {
                     Indent--;
                 }
             }
             else
             {
-                await WriteAsync(element.Content);
+                Write(element.Content);
             }
 
-            await RenderEndTagAsync(element.ElementName);
-            await ApplyFormatAsync(minify);
+            RenderEndTag(element.ElementName);
+            ApplyFormat(minify);
         }
-#endif
     }
 }

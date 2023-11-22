@@ -118,7 +118,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
 
             return cls.Trim();
-           // AddAttribute("class", cls.Trim());
         }
 
     }

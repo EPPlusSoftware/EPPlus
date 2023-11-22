@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Export.HtmlExport.Exporters
+namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
     internal abstract class AbstractHtmlExporter
     {
@@ -29,7 +29,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         internal const string TableClass = "epplus-table";
         internal List<HtmlImage> _rangePictures = null;
         protected List<string> _dataTypes = new List<string>();
-        protected readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         protected ExporterContext _exporterContext;
 
         internal void SetExporterContext(ExporterContext context)
@@ -96,7 +95,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         protected string GetImageCellClassName(HtmlImage image, HtmlExportSettings settings, bool isTable = false)
         {
-            if(isTable)
+            if (isTable)
             {
                 return image == null ? "" : settings.StyleClassPrefix + "image-cell";
             }

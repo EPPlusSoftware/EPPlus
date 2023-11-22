@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using OfficeOpenXml.Export.HtmlExport.Translators;
-using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {

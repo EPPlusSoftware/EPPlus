@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -24,20 +25,14 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class HtmlRangeExporterAsync : HtmlRangeExporterAsyncBase
+    internal class HtmlRangeExporterAsync : HtmlRangeExporterBase
     {
         internal HtmlRangeExporterAsync
            (HtmlRangeExportSettings settings, ExcelRangeBase range) : base(settings, range)
-        {
-            _settings = settings;
-        }
+        {}
 
         internal HtmlRangeExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges) : base(settings, ranges)
-        {
-            _settings = settings;
-        }
-
-        private readonly HtmlRangeExportSettings _settings;
+        {}
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -106,65 +101,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <exception cref="IOException"></exception>
         public async Task RenderHtmlAsync(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
         {
-            ValidateRangeIndex(rangeIndex);
-            if (!stream.CanWrite)
-            {
-                throw new IOException("Parameter stream must be a writeable System.IO.Stream");
-            }
-            _mergedCells.Clear();
-            var range = _ranges[rangeIndex];
-            GetDataTypes(range, _settings);
+            ValidateStream(stream);
+            var htmlTable = GenerateHTML(rangeIndex, overrideSettings);
 
-            ExcelTable table = null;
-            if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
-            {
-                table = range.GetTable();
-            }
-
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
-
-            var tableId = GetTableId(rangeIndex, overrideSettings);
-            var additionalClassNames = GetAdditionalClassNames(overrideSettings);
-            var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
-            var headerRows = overrideSettings != null ? overrideSettings.HeaderRows : _settings.HeaderRows;
-            var headers = overrideSettings != null ? overrideSettings.Headers : _settings.Headers;
-
-            var htmlTable = new HTMLElement(HtmlElements.Table);
-
-            AddClassesAttributes(htmlTable, table, tableId, additionalClassNames);
-            AddTableAccessibilityAttributes(accessibilitySettings, htmlTable);
-
-            LoadVisibleColumns(range);
-            if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
-            {
-                SetColumnGroup(htmlTable, range, Settings, IsMultiSheet);
-            }
-
-            if (headerRows > 0 || headers.Count > 0)
-            {
-                AddHeaderRow(range, htmlTable, table, headers);
-            }
-            // table rows
-            AddTableRows(htmlTable, range);
-
+            var writer = new HtmlWriter(stream, Settings.Encoding);
             await writer.RenderHTMLElementAsync(htmlTable, Settings.Minify);
-        }
-
-        void AddTableRows(HTMLElement htmlTable, ExcelRangeBase range)
-        {
-            var row = range._fromRow + _settings.HeaderRows;
-
-            var body = GetTableBody(range, row, range._toRow);
-            htmlTable.AddChildElement(body);
-        }
-
-        private void AddHeaderRow(ExcelRangeBase range, HTMLElement element, ExcelTable table, List<string> headers)
-        {
-            if (table != null && table.ShowHeader == false) return;
-
-            var thead = GetThead(range, headers);
-
-            element.AddChildElement(thead);
         }
 
         /// <summary>

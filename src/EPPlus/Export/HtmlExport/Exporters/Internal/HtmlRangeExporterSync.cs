@@ -20,22 +20,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace OfficeOpenXml.Export.HtmlExport.Exporters
+namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
     internal class HtmlRangeExporterSync : HtmlRangeExporterBase
     {
         internal HtmlRangeExporterSync
             (HtmlRangeExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
-            _settings = settings;
         }
 
         internal HtmlRangeExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges) : base(settings, ranges)
         {
-            _settings = settings;
         }
-
-        private readonly HtmlRangeExportSettings _settings;
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -122,57 +118,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public void RenderHtml(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
         {
-            ValidateRangeIndex(rangeIndex);
+            ValidateStream(stream);
+            var htmlTable = GenerateHTML(rangeIndex, overrideSettings);
 
-            if (!stream.CanWrite)
-            {
-                throw new IOException("Parameter stream must be a writeable System.IO.Stream");
-            }
-            _mergedCells.Clear();
-            var range = _ranges[rangeIndex];
-            GetDataTypes(range, _settings);
-
-            ExcelTable table = null;
-            if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
-            {
-                table = range.GetTable();
-            }
-
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
-
-            var tableId = GetTableId(rangeIndex, overrideSettings);
-            var additionalClassNames = GetAdditionalClassNames(overrideSettings);
-            var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
-            var headerRows = overrideSettings != null ? overrideSettings.HeaderRows : _settings.HeaderRows;
-            var headers = overrideSettings != null ? overrideSettings.Headers : _settings.Headers;
-
-            var htmlTable = new HTMLElement(HtmlElements.Table);
-
-            AddClassesAttributes(htmlTable, table, tableId, additionalClassNames);
-            AddTableAccessibilityAttributes(accessibilitySettings, htmlTable);
-
-            LoadVisibleColumns(range);
-            if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
-            {
-                SetColumnGroup(htmlTable, range, Settings, IsMultiSheet);
-            }
-
-            if (_settings.HeaderRows > 0 || _settings.Headers.Count > 0)
-            {
-                AddHeaderRow(range, htmlTable, table, headers);
-            }
-            // table rows
-            AddTableRows(htmlTable, range);
-
+            var writer = new HtmlWriter(stream, Settings.Encoding);
             writer.RenderHTMLElement(htmlTable, Settings.Minify);
-        }
 
-        void AddTableRows(HTMLElement htmlTable, ExcelRangeBase range)
-        {
-            var row = range._fromRow + _settings.HeaderRows;
-
-            var body = GetTableBody(range, row, range._toRow);
-            htmlTable.AddChildElement(body);
         }
 
         /// <summary>
@@ -201,31 +152,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, _ranges, _exporterContext);
             var css = exporter.GetCssString();
             return string.Format(htmlDocument, html, css);
-        }
-
-        private void AddHeaderRow(ExcelRangeBase range, HTMLElement element, ExcelTable table, List<string> headers)
-        {
-            if (table != null && table.ShowHeader == false) return;
-
-            var thead = GetThead(range, headers);
-
-            element.AddChildElement(thead);
-        }
-
-        protected override int GetHeaderRows(ExcelTable table)
-        {
-            int headerRows;
-
-            if (table == null)
-            {
-                headerRows = _settings.HeaderRows == 0 ? 1 : _settings.HeaderRows;
-            }
-            else
-            {
-                headerRows = table.ShowHeader ? 1 : 0;
-            }
-
-            return headerRows;
         }
     }
 }

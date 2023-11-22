@@ -26,11 +26,11 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 
-namespace OfficeOpenXml.Export.HtmlExport.Exporters
+namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
-    internal abstract class HtmlRangeExporterBase : AbstractHtmlExporter
+    internal abstract class HtmlExporterBaseInternal : AbstractHtmlExporter
     {
-        public HtmlRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
+        public HtmlExporterBaseInternal(HtmlExportSettings settings, ExcelRangeBase range)
         {
             Settings = settings;
             Require.Argument(range).IsNotNull("range");
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             LoadRangeImages(_ranges._list);
         }
 
-        public HtmlRangeExporterBase(HtmlExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
+        public HtmlExporterBaseInternal(HtmlExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
         {
             Settings = settings;
             Require.Argument(ranges).IsNotNull("ranges");
@@ -272,8 +272,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                     if (cell.Hyperlink == null)
                     {
-                        var addRowScope = table == null ? false : (table.ShowFirstColumn && col == table.Address._fromCol) || (table.ShowLastColumn && col == table.Address._toCol);
-                        _cellDataWriter.AddTableDataFromCell(cell, dataType, tblData, Settings, addRowScope, image, _exporterContext);
+                        var addRowScope = table == null ? false : table.ShowFirstColumn && col == table.Address._fromCol || table.ShowLastColumn && col == table.Address._toCol;
+                        AddTableDataFromCell(cell, dataType, tblData, Settings, addRowScope, image, _exporterContext);
                     }
                     else
                     {
@@ -380,7 +380,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             for (int col = range._fromCol; col <= range._toCol; col++)
             {
                 var c = ws.GetColumn(col);
-                if (c == null || (c.Hidden == false && c.Width > 0))
+                if (c == null || c.Hidden == false && c.Width > 0)
                 {
                     _columns.Add(col);
                 }
@@ -406,6 +406,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (rangeIndex < 0 || rangeIndex >= _ranges.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(rangeIndex));
+            }
+        }
+
+        protected void ValidateStream(Stream stream)
+        {
+            if (!stream.CanWrite)
+            {
+                throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
         }
 
@@ -462,7 +470,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             for (int i = 0; i < _mergedCells.Count; i++)
             {
                 var adr = _mergedCells[i];
-                if (adr._toRow < row || (adr._toRow == row && adr._toCol < col))
+                if (adr._toRow < row || adr._toRow == row && adr._toCol < col)
                 {
                     _mergedCells.RemoveAt(i);
                     i--;
@@ -607,6 +615,43 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (!string.IsNullOrEmpty(tableId))
             {
                 element.AddAttribute(HtmlAttributes.Id, tableId);
+            }
+        }
+
+        public void AddTableDataFromCell(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
+        {
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
+            {
+                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
+                if (string.IsNullOrEmpty(v) == false)
+                {
+                    element.AddAttribute($"data-{settings.DataValueAttributeName}", v);
+                }
+            }
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                element.AddAttribute("role", "cell");
+                if (addRowScope)
+                {
+                    element.AddAttribute("scope", "row");
+                }
+            }
+            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
+            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
+
+            if (!string.IsNullOrEmpty(classString))
+            {
+                element.AddAttribute("class", classString);
+            }
+
+            HtmlExportImageUtil.AddImage(element, settings, image, cell.Value);
+            if (cell.IsRichText)
+            {
+                element.Content = cell.RichText.HtmlText;
+            }
+            else
+            {
+                element.Content = ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
             }
         }
     }

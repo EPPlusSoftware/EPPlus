@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace OfficeOpenXml.Export.HtmlExport.Writers
 {
 #if !NET35 && !NET40
-    internal abstract partial class TrueWriterBase
+    internal abstract partial class BaseWriter
     {
         public async Task WriteLineAsync()
         {

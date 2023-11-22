@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
 using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -58,22 +59,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns></returns>
         public async Task RenderCssAsync(Stream stream)
         {
-            if (!stream.CanWrite)
-            {
-                throw new IOException("Parameter stream must be a writable System.IO.Stream");
-            }
-
-            var sw = new StreamWriter(stream);
-            await WriteCellAsync(sw);
-        }
-
-        private async Task WriteCellAsync(StreamWriter sw)
-        {
-            var trueWriter = new CssTrueWriter(sw);
+            var trueWriter = new CssWriter(stream);
             var cssRules = CreateRuleCollection(_settings);
 
-            await trueWriter.WriteAndClearCollectionAsync(cssRules, Settings.Minify);
-            await sw.FlushAsync();
+            await trueWriter.WriteAndClearFlushAsync(cssRules, Settings.Minify);
         }
     }
 }

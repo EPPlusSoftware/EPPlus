@@ -19,12 +19,15 @@ using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
+using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime;
 
-namespace OfficeOpenXml.Export.HtmlExport.Exporters
+namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
     internal abstract class CssExporterBase : AbstractHtmlExporter
     {
@@ -98,7 +101,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             foreach (var range in _ranges._list)
             {
-                if(tableSettings == null || tableSettings.Css.IncludeCellStyles)
+                if (tableSettings == null || tableSettings.Css.IncludeCellStyles)
                 {
                     AddCellCss(cssTranslator, range, tableSettings != null);
                 }
@@ -110,7 +113,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                        table.TableStyle != TableStyles.None &&
                        addedTableStyles.Contains(table.TableStyle) == false)
                     {
-                        if(tableSettings == null)
+                        if (tableSettings == null)
                         {
                             tableSettings = new HtmlTableExportSettings() { Minify = Settings.Minify };
                         }
@@ -204,7 +207,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                 foreach (var cf in items)
                 {
-                    if(cf.Value.Style.HasValue)
+                    if (cf.Value.Style.HasValue)
                     {
                         var style = new StyleDxf(cf.Value.Style);
                         if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id) || _addedToCss.Contains(id) == false)
@@ -232,6 +235,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             tableRules.AddTableToCollection(table, datatypes, tableClass);
 
             return tableRules;
+        }
+
+        internal CssWriter GetTableCssWriter(Stream stream, ExcelTable table, HtmlTableExportSettings tableSettings)
+        {
+            if ((table.TableStyle == TableStyles.None || tableSettings.Css.IncludeTableStyles == false) && tableSettings.Css.IncludeCellStyles == false)
+            {
+                return null;
+            }
+            var cssWriter = new CssWriter(stream);
+
+            if (_dataTypes.Count == 0) GetDataTypes(table.Address, table);
+            return cssWriter;
         }
     }
 }

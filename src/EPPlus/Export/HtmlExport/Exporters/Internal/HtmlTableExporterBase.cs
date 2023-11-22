@@ -10,25 +10,28 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
+using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
-using OfficeOpenXml.Export.HtmlExport.Accessibility;
-using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Export.HtmlExport.Parsers;
+using System.Runtime;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class HtmlTableExporterSync : HtmlRangeExporterSyncBase
+    internal abstract class HtmlTableExporterBase : HtmlExporterBaseInternal
     {
-        internal HtmlTableExporterSync(HtmlTableExportSettings settings, ExcelTable table)
-            : base(settings, table.Range)
+        internal HtmlTableExporterBase
+            (HtmlTableExportSettings settings, ExcelTable table, ExcelRangeBase range) : base(settings, range)
         {
             Require.Argument(table).IsNotNull("table");
             _table = table;
@@ -37,22 +40,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             LoadRangeImages(new List<ExcelRangeBase>() { table.Range });
         }
 
-        private readonly ExcelTable _table;
-        private readonly HtmlTableExportSettings _tableExportSettings;
+        protected readonly ExcelTable _table;
+        protected readonly HtmlTableExportSettings _tableExportSettings;
 
-        private void LoadVisibleColumns()
-        {
-            _columns = new List<int>();
-            var r = _table.Range;
-            for (int col = r._fromCol; col <= r._toCol; col++)
-            {
-                var c = _table.WorkSheet.GetColumn(col);
-                if (c == null || (c.Hidden == false && c.Width > 0))
-                {
-                    _columns.Add(col);
-                }
-            }
-        }
 
         protected override void AddTableData(ExcelTable table, HTMLElement th, int col)
         {
@@ -82,12 +72,65 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
+        private void LoadVisibleColumns()
+        {
+            _columns = new List<int>();
+            var r = _table.Range;
+            for (int col = r._fromCol; col <= r._toCol; col++)
+            {
+                var c = _table.WorkSheet.GetColumn(col);
+                if (c == null || c.Hidden == false && c.Width > 0)
+                {
+                    _columns.Add(col);
+                }
+            }
+        }
+
+        protected HTMLElement GenerateHtml()
+        {
+            GetDataTypes(_table.Address, _table);
+
+            var htmlTable = new HTMLElement(HtmlElements.Table);
+
+            HtmlExportTableUtil.AddClassesAttributes(htmlTable, _table, _tableExportSettings);
+            AddTableAccessibilityAttributes(Settings.Accessibility, htmlTable);
+
+            LoadVisibleColumns();
+            if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
+            {
+                SetColumnGroup(htmlTable, _table.Range, Settings, false);
+            }
+
+            if (_table.ShowHeader)
+            {
+                AddHeaderRow(htmlTable);
+            }
+
+            AddTableRows(htmlTable);
+
+            if (_table.ShowTotal)
+            {
+                AddTotalRow(htmlTable);
+            }
+
+            return htmlTable;
+        }
+
+        private void AddTableRows(HTMLElement htmlTable)
+        {
+            var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
+            var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
+
+            var body = GetTableBody(_table.Range, row, endRow);
+            htmlTable.AddChildElement(body);
+        }
+
         private void AddHeaderRow(HTMLElement table)
         {
             table.AddChildElement(GetThead(_table.Range));
         }
 
-        private void RenderTotalRow(HTMLElement table)
+        private void AddTotalRow(HTMLElement table)
         {
             // table header row
             var tFoot = new HTMLElement(HtmlElements.TFoot);
@@ -135,87 +178,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
             tFoot.AddChildElement(row);
             table.AddChildElement(tFoot);
-        }
-
-        /// <summary>
-        /// Exports an <see cref="ExcelTable"/> to a html string
-        /// </summary>
-        /// <returns>A html table</returns>
-        public string GetHtmlString()
-        {
-            using (var ms = RecyclableMemory.GetStream())
-            {
-                RenderHtml(ms);
-                ms.Position = 0;
-                using (var sr = new StreamReader(ms))
-                {
-                    return sr.ReadToEnd();
-                }
-            }
-        }
-        /// <summary>
-        /// Exports the html part of an <see cref="ExcelTable"/> to a html string.
-        /// </summary>
-        /// <param name="stream">The stream to write to.</param>
-        /// <exception cref="IOException"></exception>
-        public void RenderHtml(Stream stream)
-        {
-            if (!stream.CanWrite)
-            {
-                throw new IOException("Parameter stream must be a writeable System.IO.Stream");
-            }
-
-            GetDataTypes(_table.Address, _table);
-
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
-            var htmlTable = new HTMLElement(HtmlElements.Table);
-
-            HtmlExportTableUtil.AddClassesAttributes(htmlTable, _table, _tableExportSettings);
-            AddTableAccessibilityAttributes(Settings.Accessibility, htmlTable);
-
-            LoadVisibleColumns();
-            if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
-            {
-                SetColumnGroup(htmlTable, _table.Range, Settings, false);
-            }
-
-            if (_table.ShowHeader)
-            {
-                AddHeaderRow(htmlTable);
-            }
-
-            AddTableRows(htmlTable);
-
-            if (_table.ShowTotal)
-            {
-                RenderTotalRow(htmlTable);
-            }
-
-            writer.RenderHTMLElement(htmlTable, Settings.Minify);
-        }
-
-        void AddTableRows(HTMLElement htmlTable)
-        {
-            var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
-            var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
-
-            var body = GetTableBody(_table.Range, row, endRow);
-            htmlTable.AddChildElement(body);
-        }
-
-        /// <summary>
-        /// Renders both the Css and the Html to a single page. 
-        /// </summary>
-        /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
-        /// <returns>The html document</returns>
-        public string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
-        {
-            if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
-            var html = GetHtmlString();
-            var cssExporter = HtmlExporterFactory.CreateCssExporterTableSync(_tableExportSettings, _table, _exporterContext);
-            var css = cssExporter.GetCssString();
-            return string.Format(htmlDocument, html, css);
-
         }
     }
 }

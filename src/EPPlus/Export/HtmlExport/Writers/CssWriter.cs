@@ -9,14 +9,19 @@ using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Writers
 {
-    internal partial class CssTrueWriter : TrueWriterBase
+    internal partial class CssWriter : BaseWriter
     {
-        internal CssTrueWriter(StreamWriter writer) : base(writer)
+        internal CssWriter(StreamWriter writer) : base(writer)
         {
 
         }
 
-        internal CssTrueWriter(Stream stream, Encoding encoding): base(stream, encoding)
+        internal CssWriter(Stream stream): base(stream)
+        {
+
+        }
+
+        internal CssWriter(Stream stream, Encoding encoding): base(stream, encoding)
         {
 
         }
@@ -56,7 +61,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
             WriteClassEnd(minify);
         }
 
-        internal void WriteAndClearCollection(CssRuleCollection collection, bool minify)
+        internal void WriteAndClearFlush(CssRuleCollection collection, bool minify)
         {
             for (int i = 0; i < collection.CssRules.Count(); i++)
             {
@@ -64,6 +69,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
             }
 
             collection.CssRules.Clear();
+            _writer.Flush();
         }
     }
 }

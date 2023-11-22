@@ -8,73 +8,71 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/16/2020         EPPlus Software AB           ExcelTable Html Export
+  11/07/2021         EPPlus Software AB       Added Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
-using OfficeOpenXml.Export.HtmlExport.Writers;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Text;
-#if !NET35
+#if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal partial class EpplusHtmlWriter : TrueWriterBase
+    internal partial class HtmlWriter
     {
-        internal EpplusHtmlWriter(Stream stream, Encoding encoding) : base(stream, encoding)
-        {
-        }
-
-        public void RenderEndTag(string elementName)
-        {
-            if (_newLine)
-            {
-                WriteIndent();
-            }
-
-            _writer.Write($"</{elementName}>");
-            _writer.Flush();
-        }
-
-        public void RenderBeginTag(string elementName, List<EpplusHtmlAttribute> attributes, bool closeElement = false)
+#if !NET35 && !NET40
+        public async Task RenderBeginTagAsync(string elementName, List<EpplusHtmlAttribute> attributes = null, bool closeElement = false)
         {
             _newLine = false;
-            // avoid writing indent characters for a hyperlinks or images inside a td element
             if (elementName != HtmlElements.A && elementName != HtmlElements.Img)
             {
-                WriteIndent();
+                await WriteIndentAsync();
             }
-            _writer.Write($"<{elementName}");
-            foreach (var attribute in attributes)
+            await _writer.WriteAsync($"<{elementName}");
+
+            if (attributes != null)
             {
-                _writer.Write($" {attribute.AttributeName}=\"{attribute.Value}\"");
+                foreach (var attribute in attributes)
+                {
+                    await _writer.WriteAsync($" {attribute.AttributeName}=\"{attribute.Value}\"");
+                }
+                attributes.Clear();
             }
-            attributes.Clear();
 
             if (closeElement)
             {
-                _writer.Write("/>");
-                _writer.Flush();
+                await _writer.WriteAsync("/>");
+                await _writer.FlushAsync();
             }
             else
             {
-                _writer.Write(">");
+                await _writer.WriteAsync(">");
             }
         }
 
-        public void RenderHTMLElement(HTMLElement element, bool minify)
+        public async Task RenderEndTagAsync(string elementName)
         {
-            RenderBeginTag(element.ElementName, element._attributes, element.IsVoidElement);
+            if (_newLine)
+            {
+                await WriteIndentAsync();
+            }
+
+            await _writer.WriteAsync($"</{elementName}>");
+            await _writer.FlushAsync();
+        }
+
+        public async Task RenderHTMLElementAsync(HTMLElement element, bool minify)
+        {
+            await RenderBeginTagAsync(element.ElementName, element._attributes, element.IsVoidElement);
 
             if (element.IsVoidElement)
             {
-                if(element.ElementName != HtmlElements.Img)
+                if (element.ElementName != HtmlElements.Img)
                 {
-                    ApplyFormat(minify);
+                    await ApplyFormatAsync(minify);
                 }
                 return;
             }
@@ -84,25 +82,26 @@ namespace OfficeOpenXml.Export.HtmlExport
                 var name = element.ElementName;
                 bool noIndent = minify == true ? true : HtmlElements.NoIndentElements.Contains(name);
 
-                ApplyFormatIncreaseIndent(noIndent);
+                await ApplyFormatIncreaseIndentAsync(noIndent);
 
                 foreach (var child in element._childElements)
                 {
-                    RenderHTMLElement(child, minify);
+                    await RenderHTMLElementAsync(child, minify);
                 }
 
-                if(noIndent == false)
+                if (noIndent == false)
                 {
                     Indent--;
                 }
             }
             else
             {
-                Write(element.Content);
+                await WriteAsync(element.Content);
             }
 
-            RenderEndTag(element.ElementName);
-            ApplyFormat(minify);
+            await RenderEndTagAsync(element.ElementName);
+            await ApplyFormatAsync(minify);
         }
+#endif
     }
 }

@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Export.HtmlExport.Exporters;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.Translators;

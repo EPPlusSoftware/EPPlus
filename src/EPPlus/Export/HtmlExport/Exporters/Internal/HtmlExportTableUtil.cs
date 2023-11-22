@@ -23,7 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 #endif
 
-namespace OfficeOpenXml.Export.HtmlExport.Exporters
+namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
     internal static class HtmlExportTableUtil
     {
@@ -42,16 +42,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 var c = className[i];
                 if (i == 0)
                 {
-                    if (c == '-' || (c >= '0' && c <= '9'))
+                    if (c == '-' || c >= '0' && c <= '9')
                     {
                         newClassName = "_";
                         continue;
                     }
                 }
 
-                if ((c >= '0' && c <= '9') ||
-                   (c >= 'a' && c <= 'z') ||
-                   (c >= 'A' && c <= 'Z') ||
+                if (c >= '0' && c <= '9' ||
+                   c >= 'a' && c <= 'z' ||
+                   c >= 'A' && c <= 'Z' ||
                     c >= 0x00A0)
                 {
                     newClassName += c;

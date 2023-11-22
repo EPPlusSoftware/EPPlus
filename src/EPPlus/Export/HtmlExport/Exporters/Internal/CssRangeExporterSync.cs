@@ -10,24 +10,29 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.IO;
 
-namespace OfficeOpenXml.Export.HtmlExport.Exporters
+namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
-    internal class CssTableExporterSync : CssExporterBase
+    internal class CssRangeExporterSync : CssExporterBase
     {
-        public CssTableExporterSync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
+        public CssRangeExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
+            : base(settings, ranges)
         {
-            _table = table;
-            _tableSettings = settings;
+            _settings = settings;
         }
 
-        private readonly ExcelTable _table;
-        private readonly HtmlTableExportSettings _tableSettings;
+        public CssRangeExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range)
+            : base(settings, range)
+        {
+            _settings = settings;
+        }
+
+        HtmlRangeExportSettings _settings;
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -46,28 +51,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
         /// <summary>
-        /// Exports the css part of an <see cref="ExcelTable"/> to a html string
+        /// Exports the css part of the html export.
         /// </summary>
-        /// <returns>A html table</returns>
+        /// <param name="stream">The stream to write the css to.</param>
+        /// <exception cref="IOException"></exception>
         public void RenderCss(Stream stream)
         {
-            if ((_table.TableStyle == TableStyles.None || _tableSettings.Css.IncludeTableStyles == false) && _tableSettings.Css.IncludeCellStyles == false)
-            {
-                return;
-            }
-            if (!stream.CanWrite)
-            {
-                throw new IOException("Parameter stream must be a writeable System.IO.Stream");
-            }
+            var trueWriter = new CssWriter(stream);
+            var cssRules = CreateRuleCollection(_settings);
 
-            if (_dataTypes.Count == 0) GetDataTypes(_table.Address, _table);
-
-            var sw = new StreamWriter(stream);
-            var trueWriter = new CssTrueWriter(sw);
-
-            var cssRules = CreateRuleCollection(_tableSettings);
-            trueWriter.WriteAndClearCollection(cssRules, Settings.Minify);
-            sw.Flush();
+            trueWriter.WriteAndClearFlush(cssRules, Settings.Minify);
         }
     }
 }

@@ -10,26 +10,17 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.Writers;
-using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-#if !NET35 && !NET40
-using System.Threading.Tasks;
 
-namespace OfficeOpenXml.Export.HtmlExport.Exporters
+namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
-    internal class CssTableExporterAsync : CssExporterBase
+    internal class CssTableExporterSync : CssExporterBase
     {
-        public CssTableExporterAsync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
+        public CssTableExporterSync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {
             _table = table;
             _tableSettings = settings;
@@ -39,18 +30,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         private readonly HtmlTableExportSettings _tableSettings;
 
         /// <summary>
-        /// Exports the css part of an <see cref="ExcelTable"/> to a html string
+        /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
         /// <returns>A html table</returns>
-        public async Task<string> GetCssStringAsync()
+        public string GetCssString()
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                await RenderCssAsync(ms);
+                RenderCss(ms);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
-                    return await sr.ReadToEndAsync();
+                    return sr.ReadToEnd();
                 }
             }
         }
@@ -58,26 +49,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// Exports the css part of an <see cref="ExcelTable"/> to a html string
         /// </summary>
         /// <returns>A html table</returns>
-        public async Task RenderCssAsync(Stream stream)
+        public void RenderCss(Stream stream)
         {
-            if ((_table.TableStyle == TableStyles.None || _tableSettings.Css.IncludeTableStyles == false) && _tableSettings.Css.IncludeCellStyles == false)
-            {
-                return;
-            }
-            if (!stream.CanWrite)
-            {
-                throw new IOException("Parameter stream must be a writeable System.IO.Stream");
-            }
-
-            if (_dataTypes.Count == 0) GetDataTypes(_table.Address, _table);
-
-            var sw = new StreamWriter(stream);
-            var trueWriter = new CssTrueWriter(sw);
+            var cssWriter = GetTableCssWriter(stream, _table, _tableSettings);
+            if (cssWriter == null) { return; }
 
             var cssRules = CreateRuleCollection(_tableSettings);
-            await trueWriter.WriteAndClearCollectionAsync(cssRules, Settings.Minify);
-            await sw.FlushAsync();
+            cssWriter.WriteAndClearFlush(cssRules, Settings.Minify);
         }
     }
 }
-#endif
