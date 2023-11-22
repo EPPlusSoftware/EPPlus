@@ -1368,9 +1368,7 @@ namespace OfficeOpenXml
 				SharedStringItem ssi = _sharedStrings[t];
 				if (ssi.isRichText)
 				{
-					cache.Append("<si>");
-					ConvertUtil.ExcelEncodeString(cache, t);
-					cache.Append("</si>");
+					cache.Append($"<si>{t}</si>");
 				}
 				else
 				{
