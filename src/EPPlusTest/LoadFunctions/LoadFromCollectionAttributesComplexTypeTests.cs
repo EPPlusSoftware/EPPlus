@@ -78,7 +78,11 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldSetupColumnsWithPath()
         {
-            var cols = new LoadFromCollectionColumns<Outer>(LoadFromCollectionParams.DefaultBindingFlags, Enumerable.Empty<string>().ToList());
+            var parameters = new LoadFromCollectionParams
+            {
+                BindingFlags = LoadFromCollectionParams.DefaultBindingFlags
+            };
+            var cols = new LoadFromCollectionColumns<Outer>(parameters);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
             Assert.AreEqual("ApprovedUtc", result[0].Path);
@@ -88,7 +92,11 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldSetupColumnsWithPathSorted()
         {
-            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(LoadFromCollectionParams.DefaultBindingFlags);
+            var parameters = new LoadFromCollectionParams
+            {
+                BindingFlags = LoadFromCollectionParams.DefaultBindingFlags
+            };
+            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(parameters);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
             Assert.AreEqual("Acknowledged", result[0].Path);
@@ -105,7 +113,8 @@ namespace EPPlusTest.LoadFunctions
                 "Acknowledged",
                 "Organization.OrgLevel5"
             };
-            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(LoadFromCollectionParams.DefaultBindingFlags, order);
+            var parameters = new LoadFromCollectionParams { BindingFlags = LoadFromCollectionParams.DefaultBindingFlags };
+            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(parameters, order);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
             Assert.AreEqual("ApprovedUtc", result[0].Path);
