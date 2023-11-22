@@ -45,6 +45,8 @@ namespace OfficeOpenXml.LoadFunctions
             if (classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
             {
                 SortOrderProperties = classSortOrderAttr.Properties.ToList();
+                var scanner = new NestedColumnsSortorderScanner(type, parameters.BindingFlags);
+                SortOrderProperties = scanner.GetSortOrder();
             }
             LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
