@@ -30,10 +30,10 @@ namespace OfficeOpenXml.LoadFunctions
 
         public LoadFromCollectionColumns(LoadFromCollectionParams parameters, List<string> sortOrderColumns)
         {
+            _params = parameters;
             _bindingFlags = parameters.BindingFlags;
             _sortOrderColumns = sortOrderColumns;
             _filterMembers = parameters.Members;
-            _keysProvider = parameters.KeysProvider;
             _includedTypes = new HashSet<Type>
             {
                 typeof(T)
@@ -50,10 +50,10 @@ namespace OfficeOpenXml.LoadFunctions
         }
 
 
+        private readonly LoadFromCollectionParams _params;
         private readonly BindingFlags _bindingFlags;
         private readonly List<string> _sortOrderColumns;
         private readonly Dictionary<Type, HashSet<string>> _members;
-        private readonly IDictionaryKeysProvider _keysProvider;
         private MemberInfo[] _filterMembers;
         private readonly HashSet<Type> _includedTypes;
         private const int SortOrderOffset = ExcelPackage.MaxColumns;
@@ -243,13 +243,17 @@ namespace OfficeOpenXml.LoadFunctions
             var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(memberPath) : -1;
             var so = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : attr.Order + SortOrderOffset;
             var columnHeaders = Enumerable.Empty<string>();
-            if(!string.IsNullOrEmpty(attr.HeadersKey) && _keysProvider != null)
+            if(!string.IsNullOrEmpty(attr.KeyId))
             {
-                columnHeaders = _keysProvider.GetKeys(attr.HeadersKey);
+                columnHeaders = _params.GetDictionaryKeys(attr.KeyId);
             }
             else if(attr.ColumnHeaders != null && attr.ColumnHeaders.Length > 0)
             {
                 columnHeaders = attr.ColumnHeaders;
+            }
+            else
+            {
+                columnHeaders = _params.GetDefaultDictionaryKeys();
             }
             foreach (var key in columnHeaders)
             {
@@ -259,7 +263,7 @@ namespace OfficeOpenXml.LoadFunctions
                     MemberInfo = member,
                     IsDictionaryProperty = true,
                     DictinaryKey = key,
-                    Path = memberPath,
+                    Path = $"{memberPath}.{key}",
                     Header = key,
                     SortOrder = so
                 });

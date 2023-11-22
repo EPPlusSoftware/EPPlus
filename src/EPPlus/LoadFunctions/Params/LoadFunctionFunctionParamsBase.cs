@@ -56,10 +56,5 @@ namespace OfficeOpenXml.LoadFunctions
             get;
             set;
         } = true;
-
-        /// <summary>
-        /// A custom class that implements the <see cref="IDictionaryKeysProvider"/>
-        /// </summary>
-        public IDictionaryKeysProvider KeysProvider { get; set; }
     }
 }

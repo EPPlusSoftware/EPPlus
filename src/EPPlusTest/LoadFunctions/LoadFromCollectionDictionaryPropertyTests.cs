@@ -19,31 +19,16 @@ namespace EPPlusTest.LoadFunctions
             [EpplusTableColumn(Order = 3)] 
             public string Name { get; set; }
 
-            [EPPlusDictionaryColumn(Order = 2, HeadersKey = "1")]
+            [EPPlusDictionaryColumn(Order = 2, KeyId = "1")]
             public Dictionary<string, object> Columns { get; set; }
         }
 
         public class TestClass2 : TestClass
         {
-            [EPPlusDictionaryColumn(Order = 1, HeadersKey = "2")]
+            [EPPlusDictionaryColumn(Order = 1, KeyId = "2")]
             public Dictionary<string, object> Columns2 { get; set; }
         }
 
-        public class MyKeysProvider : IDictionaryKeysProvider
-        {
-            public IEnumerable<string> GetKeys(string key)
-            {
-                switch(key)
-                {
-                    case "1":
-                        return new string[] { "A", "B", "C" };
-                    case "2":
-                        return new string[] { "C", "D", "E" };
-                    default:
-                        return Enumerable.Empty<string>();
-                }
-            }
-        }
 
         [TestMethod]
         public void ShouldReadColumnsAndValuesFromDictionaryProperty()
@@ -53,6 +38,8 @@ namespace EPPlusTest.LoadFunctions
                 Name = "test 1",
                 Columns = new Dictionary<string, object> { { "A", 1 }, { "B", 2 } }
             };
+            var keys1 = new string[] { "A", "B", "C" };
+            var keys2 = new string[] { "C", "D", "E" };
             var items = new List<TestClass> { item1 };
             using(var package = new ExcelPackage())
             {
@@ -60,11 +47,12 @@ namespace EPPlusTest.LoadFunctions
                 sheet.Cells["A1"].LoadFromCollection(items, c =>
                 {
                     c.PrintHeaders = true;
-                    c.KeysProvider = new MyKeysProvider();
+                    c.RegisterDictionaryKeys("1", keys1);
+                    c.RegisterDictionaryKeys("2", keys2);
                 });
-                Assert.AreEqual("C", sheet.Cells["A1"].Value);
-                Assert.AreEqual("D", sheet.Cells["B1"].Value);
-                Assert.AreEqual("E", sheet.Cells["C1"].Value);
+                Assert.AreEqual("A", sheet.Cells["A1"].Value);
+                Assert.AreEqual("B", sheet.Cells["B1"].Value);
+                Assert.AreEqual("C", sheet.Cells["C1"].Value);
                 Assert.AreEqual("Name", sheet.Cells["D1"].Value);
                 Assert.AreEqual(1, sheet.Cells["A2"].Value);
                 Assert.AreEqual(2, sheet.Cells["B2"].Value);
@@ -82,6 +70,8 @@ namespace EPPlusTest.LoadFunctions
                 Columns = new Dictionary<string, object> { { "A", 3 } },
                 Columns2 = new Dictionary<string, object> { { "C", 1 }, { "D", 2 } }
             };
+            var keys1 = new string[] { "A", "B", "C" };
+            var keys2 = new string[] { "C", "D", "E" };
             var items = new List<TestClass2> { item1 };
             using (var package = new ExcelPackage())
             {
@@ -89,7 +79,8 @@ namespace EPPlusTest.LoadFunctions
                 sheet.Cells["A1"].LoadFromCollection(items, c =>
                 {
                     c.PrintHeaders = true;
-                    c.KeysProvider = new MyKeysProvider();
+                    c.RegisterDictionaryKeys("1", keys1);
+                    c.RegisterDictionaryKeys("2", keys2);
                 });
                 Assert.AreEqual("C", sheet.Cells["A1"].Value);
                 Assert.AreEqual("D", sheet.Cells["B1"].Value);
@@ -101,8 +92,45 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual(1, sheet.Cells["A2"].Value);
                 Assert.AreEqual(2, sheet.Cells["B2"].Value);
                 Assert.IsNull(sheet.Cells["C2"].Value);
-                Assert.AreEqual(2, sheet.Cells["D2"].Value);
+                Assert.AreEqual(3, sheet.Cells["D2"].Value);
                 Assert.IsNull(sheet.Cells["E2"].Value);
+                Assert.AreEqual("test 1", sheet.Cells["G2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldReadColumnsAndValuesFromDictionaryProperty3()
+        {
+            var item1 = new TestClass2
+            {
+                Name = "test 1",
+                Columns = new Dictionary<string, object> { { "A", 3 } },
+                Columns2 = new Dictionary<string, object> { { "C", 1 }, { "D", 2 } }
+            };
+            var keys1 = new string[] { "C", "B", "A" };
+            var keys2 = new string[] { "C", "D", "E" };
+            var items = new List<TestClass2> { item1 };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.RegisterDictionaryKeys("1", keys1);
+                    c.RegisterDictionaryKeys("2", keys2);
+                });
+                Assert.AreEqual("C", sheet.Cells["A1"].Value);
+                Assert.AreEqual("D", sheet.Cells["B1"].Value);
+                Assert.AreEqual("E", sheet.Cells["C1"].Value);
+                Assert.AreEqual("C", sheet.Cells["D1"].Value);
+                Assert.AreEqual("B", sheet.Cells["E1"].Value);
+                Assert.AreEqual("A", sheet.Cells["F1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["G1"].Value);
+                Assert.AreEqual(1, sheet.Cells["A2"].Value);
+                Assert.AreEqual(2, sheet.Cells["B2"].Value);
+                Assert.IsNull(sheet.Cells["C2"].Value);
+                Assert.IsNull(sheet.Cells["E2"].Value);
+                Assert.AreEqual(3, sheet.Cells["F2"].Value);
                 Assert.AreEqual("test 1", sheet.Cells["G2"].Value);
             }
         }

@@ -201,21 +201,22 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
                             {
-                                if(colInfo.IsDictionaryProperty)
-                                {
-                                    var dict = GetValueByPath(item, colInfo.Path) as Dictionary<string, object>;
-                                    if(dict != null)
-                                    {
-                                        if (dict.ContainsKey(colInfo.DictinaryKey))
-                                        {
-                                            values[row, col++] = dict[colInfo.DictinaryKey];
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    values[row, col++] = GetValueByPath(item, colInfo.Path);
-                                }
+                                //if(colInfo.IsDictionaryProperty)
+                                //{
+                                //    var dict = GetValueByPath(item, colInfo.Path) as Dictionary<string, object>;
+                                //    if(dict != null)
+                                //    {
+                                //        if (dict.ContainsKey(colInfo.DictinaryKey))
+                                //        {
+                                //            values[row, col++] = dict[colInfo.DictinaryKey];
+                                //        }
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    values[row, col++] = GetValueByPath(item, colInfo.Path);
+                                //}
+                                values[row, col++] = GetValueByPath(item, colInfo.Path);
                                 continue;
                             }
                             var obj = item;
@@ -297,8 +298,9 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var members = path.Split('.');
             object o = obj;
-            foreach(var member in members)
+            for(var ix = 0; ix < members.Length; ix++)
             {
+                var member = members[ix];
                 if (o == null) return null;
                 var memberInfos = o.GetType().GetMember(member);
                 if(memberInfos == null || memberInfos.Length == 0)
@@ -321,6 +323,19 @@ namespace OfficeOpenXml.LoadFunctions
                 else
                 {
                     throw new NotSupportedException("Invalid member: '" + memberInfo.Name + "', not supported member type '" + memberInfo.GetType().FullName + "'");
+                }
+                if(o is Dictionary<string, object> dict && ix < members.Length + 1)
+                {
+                    var key = members[ix + 1];
+                    if(dict.ContainsKey(key))
+                    {
+                        o = dict[key];
+                    }
+                    else
+                    {
+                        o = null;
+                    }
+                    break;
                 }
             }
             return o;

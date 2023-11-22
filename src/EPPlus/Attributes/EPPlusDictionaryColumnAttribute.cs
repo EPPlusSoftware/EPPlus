@@ -38,6 +38,10 @@ namespace OfficeOpenXml.Attributes
         /// </summary>
         public string[] ColumnHeaders { get; set; }
 
-        public string HeadersKey { get; set; }
+        /// <summary>
+        /// Should be unique within all attributes. Will be used to retrieve the keys of the Dictionary
+        /// that also will be used to create the columns for this property.
+        /// </summary>
+        public string KeyId { get; set; }
     }
 }
