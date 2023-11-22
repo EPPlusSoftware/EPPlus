@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
@@ -193,38 +195,60 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
         {
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
-            for (int i = 0; i < key.Length; i++)
+
+            int max = 1 << key.Length;
+            for(int i = 1;i < max; i++)
             {
-                var newKey = (int[])key.Clone();
-                newKey[i] = -1;
+                var newKey = GetKey(key, i);
+                if (IsNonTopLevel(newKey, colStartRef))
+                {
+                    if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
+                    {
+                        hs = new HashSet<int[]>(new ArrayComparer());
+                        keys.Add(newKey, hs);
+                    }
+                    if (hs.Contains(key) == false)
+                    {
+                        hs.Add(key);
+                    }
+
+                }
                 action(newKey, dataFieldItems, d);
             }
-            var inc = 1;
-            while (inc < key.Length)
+        }
+
+        internal static bool IsNonTopLevel(int[] newKey, int colStartRef)
+        {
+           if(colStartRef > 0 && newKey[0] == -1 && HasSumLevel(newKey, 1, colStartRef)==false)
             {
-                for (int i = 0; i < key.Length - inc; i++)
-                {
-                    var newKey = (int[])key.Clone();
-                    for (int c = 0; c <= inc; c++)
-                    {
-                        newKey[i + c] = -1;
-                    }
-                    if (newKey[0]==-1 && (colStartRef < newKey.Length && newKey[colStartRef]==-1))
-                    {
-                        if(keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
-                        {
-                            hs = new HashSet<int[]>(new ArrayComparer());
-                            keys.Add(newKey, hs);
-                        }
-                        if(hs.Contains(key)==false)
-                        {
-                            hs.Add(key);
-                        }
-                    }
-                    action(newKey, dataFieldItems, d);
-                }
-                inc++;
+                return true;
             }
+            if (colStartRef < newKey.Length && newKey[colStartRef] == -1 && HasSumLevel(newKey, colStartRef+1, newKey.Length) == false)
+            {
+                return true;
+            }
+            return false;
+        }
+        private static bool HasSumLevel(int[] newKey, int start, int end)
+        {
+            for(int i = start; i < end; i++)
+            {
+                if (newKey[i] != -1) return false;
+            }
+            return true;
+        }
+
+        private static int[] GetKey(int[] key, int pos)
+        {
+            var newKey = (int[])key.Clone();
+            for (int i = 0; i < key.Length; i++)
+            {
+                if (((1 << i) & pos) != 0)
+                {
+                    newKey[i] = -1;
+                }
+            }
+            return newKey;
         }
     }
 }

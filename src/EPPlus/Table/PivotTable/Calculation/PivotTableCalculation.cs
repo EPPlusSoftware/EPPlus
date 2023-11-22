@@ -46,13 +46,13 @@ namespace OfficeOpenXml.Table.PivotTable
             { eShowDataAs.PercentOfColumn, new PivotShowAsPercentOfColumnTotal() },
             { eShowDataAs.PercentOfRow, new PivotShowAsPercentOfRowTotal() },
             { eShowDataAs.Percent, new PivotShowAsPercent() },
-            { eShowDataAs.PercentOfParentRow, new PivotShowAsPercentOfParentRowTotal()}
+            { eShowDataAs.PercentOfParentRow, new PivotShowAsPercentOfParentRowTotal()},
+            { eShowDataAs.PercentOfParentColumn, new PivotShowAsPercentOfParentColumnTotal()}
         };
         internal static bool Calculate(ExcelPivotTable pivotTable, out List<Dictionary<int[], object>> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {
             var ci = pivotTable.CacheDefinition._cacheReference;
             calculatedItems = new List<Dictionary<int[], object>>();
-            //keyCount = new Dictionary<int[], int>(new ArrayComparer());
             keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
             foreach (var df in pivotTable.DataFields)
@@ -60,6 +60,8 @@ namespace OfficeOpenXml.Table.PivotTable
                 var dataFieldItems = PivotTableCalculation.GetNewCalculatedItems();
                 var dataFieldKeys = PivotTableCalculation.GetNewKeys();
                 calculatedItems.Add(dataFieldItems);
+                var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+                keys.Add(keyDict);
                 var recs = ci.Records;
                 for (var r= 0; r < recs.RecordCount; r++)
                 {
@@ -69,7 +71,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
                     }
 
-                    _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keys[df.Index]);
+                    _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
                 }
 
                 _calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);

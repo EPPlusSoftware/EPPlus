@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
-    internal class PivotShowAsPercentOfParentColumnTotal : PivotShowAsBase
+    internal class PivotShowAsPercentOfParentRowTotal : PivotShowAsBase
     {
         internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref Dictionary<int[], object> calculatedItems)
         {   
@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             {
                 if (calculatedItems[key] is double d)
                 {
-                    var rowTotal = GetParentColumnTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
+                    var rowTotal = GetParentRowTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
                     if (double.IsNaN(rowTotal))
                     {
                         showAsCalculatedItems.Add(key,error);
@@ -31,10 +31,10 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             }
             calculatedItems = showAsCalculatedItems;
         }
-        private static double GetParentColumnTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
+        private static double GetParentRowTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
         {
             var rowKey = (int[])key.Clone();
-            for(int i=key.Length-1;i>=colStartIx;i--)
+            for(int i=colStartIx-1;i>=0;i--)
             {
                 if(rowKey[i]!=-1)
                 {

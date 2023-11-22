@@ -329,6 +329,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         {
                             return ErrorValues.RefError;
                         }
+                        break;
                     }
                 }
             }
@@ -338,7 +339,11 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (Keys[dfIx].TryGetValue(key, out HashSet<int[]> uniqueItems))
                 {
-                    if(uniqueItems.Count!=1)
+                    if(uniqueItems.Count==1)
+                    {
+                        key = uniqueItems.First();
+                    }
+                    else
                     {
                         return ErrorValues.RefError; 
                     }
