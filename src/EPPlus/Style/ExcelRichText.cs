@@ -19,6 +19,7 @@ using System.Globalization;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Style
 {
@@ -48,13 +49,14 @@ namespace OfficeOpenXml.Style
 
             get
             {
-                return GetXmlNodeString(TEXT_PATH);
+                return ConvertUtil.ExcelDecodeString(GetXmlNodeString(TEXT_PATH));
             }
             set
             {
                 if (value == null) throw new InvalidOperationException("Text can't be null");
                 _collection.ConvertRichtext();
-                SetXmlNodeString(TEXT_PATH, value, false);
+                var encodedValue = ConvertUtil.ExcelEncodeString(value);
+                SetXmlNodeString(TEXT_PATH, encodedValue, false);
                 if (PreserveSpace)
                 {
                     XmlElement elem = TopNode.SelectSingleNode(TEXT_PATH, NameSpaceManager) as XmlElement;
