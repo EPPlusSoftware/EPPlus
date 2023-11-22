@@ -36,6 +36,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Sparkline;
@@ -5803,6 +5804,30 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s554()
+        {
+            string s = "captain \t cave \n\tman";
 
+            using (var package = OpenPackage("tabDecoding.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheety");
+                sheet.Cells["A1"].RichText.Add(s);
+                var richText = sheet.Cells["A1"].RichText;
+                //cell contains the expected \t character
+                package.Save();
+            }
+           
+            //Now read the excel, the Value contains  _x0009_ instead of \t
+            using (var package = OpenPackage("tabDecoding.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var cell = sheet.Cells[1, 1];
+
+                string text = cell.Value.ToString();
+                Assert.AreEqual("captain \t cave \n\tman", text);
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

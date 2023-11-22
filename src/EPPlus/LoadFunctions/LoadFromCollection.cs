@@ -46,9 +46,11 @@ namespace OfficeOpenXml.LoadFunctions
                 ShowTotal = tableAttr.ShowTotal;
             }
             var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
-            if(classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
+            if (classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
             {
                 SortOrderProperties = classSortOrderAttr.Properties.ToList();
+                var scanner = new NestedColumnsSortorderScanner(type, parameters.BindingFlags);
+                SortOrderProperties = scanner.GetSortOrder();
             }
             LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
