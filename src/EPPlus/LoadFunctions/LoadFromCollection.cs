@@ -203,21 +203,6 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
                             {
-                                //if(colInfo.IsDictionaryProperty)
-                                //{
-                                //    var dict = GetValueByPath(item, colInfo.Path) as Dictionary<string, object>;
-                                //    if(dict != null)
-                                //    {
-                                //        if (dict.ContainsKey(colInfo.DictinaryKey))
-                                //        {
-                                //            values[row, col++] = dict[colInfo.DictinaryKey];
-                                //        }
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    values[row, col++] = GetValueByPath(item, colInfo.Path);
-                                //}
                                 values[row, col++] = GetValueByPath(item, colInfo.Path);
                                 continue;
                             }

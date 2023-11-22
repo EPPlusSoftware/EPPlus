@@ -40,6 +40,16 @@ namespace EPPlusTest.LoadFunctions
             public Dictionary<string, object> Columns { get; set; }
         }
 
+        [EpplusTable]
+        public class TestClass4
+        {
+            [EpplusTableColumn(Order = 1)]
+            public string Name { get; set; }
+
+            [EPPlusDictionaryColumn(Order = 2, ColumnHeaders = new string[] { "C", "B", "A" })]
+            public Dictionary<string, object> Columns { get; set; }
+        }
+
 
         [TestMethod]
         public void ShouldReadColumnsAndValuesFromDictionaryProperty()
@@ -163,6 +173,33 @@ namespace EPPlusTest.LoadFunctions
                 {
                     c.PrintHeaders = true;
                     c.RegisterDictionaryKeys(keys1);
+                });
+                Assert.AreEqual("Name", sheet.Cells["A1"].Value);
+                Assert.AreEqual("C", sheet.Cells["B1"].Value);
+                Assert.AreEqual("B", sheet.Cells["C1"].Value);
+                Assert.AreEqual("A", sheet.Cells["D1"].Value);
+                Assert.AreEqual("test 1", sheet.Cells["A2"].Value);
+                Assert.IsNull(sheet.Cells["B2"].Value);
+                Assert.AreEqual(2, sheet.Cells["C2"].Value);
+                Assert.AreEqual(3, sheet.Cells["D2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldUseHeadersFromAttribute()
+        {
+            var item1 = new TestClass4
+            {
+                Name = "test 1",
+                Columns = new Dictionary<string, object> { { "A", 3 }, { "B", 2 } }
+            };
+            var items = new List<TestClass4> { item1 };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
                 });
                 Assert.AreEqual("Name", sheet.Cells["A1"].Value);
                 Assert.AreEqual("C", sheet.Cells["B1"].Value);
