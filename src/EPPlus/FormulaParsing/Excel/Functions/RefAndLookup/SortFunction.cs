@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var byCol = false;
             if(arguments.Count > 3)
             {
-                byCol = ArgToBool(arguments, 3);
+                byCol = ArgToBool(arguments, 3, false);
             }
 
             //Validate

@@ -1,4 +1,21 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.1
+### Fixed issues 
+* Copying a worksheet with the ExcelWorksheet.CodeModuleName set and not having a VBA project in the workbook caused the name to be duplicated.
+* Delete and create an Auto filter caused the workbook to become corrupt.
+* Worksheet Copy did not copy images in the header/footer when the destination worksheet was in another workbook.
+* Worksheet Copy did not copy images inside group shapes correctly when the destination worksheet was in another workbook.
+* Match function did not work with single cells in lookup array argument.
+* Copying a pivot table sometimes caused the workbook to become corrupt.
+* Disposed some internal MemoryStream's were not disposed correctly.
+
+## Version 6.2.12
+### Fixed issues 
+* Copying a worksheet with the ExcelWorksheet.CodeModuleName set and not having a VBA project in the workbook caused the name to be duplicated.
+* Worksheet Copy did not copy images in the header/footer when the destination worksheet was in another workbook.
+* Worksheet Copy did not copy images inside group shapes correctly when the destination worksheet was in another workbook.
+* Copying a pivot table sometimes caused the workbook to become corrupt.
+* Disposed some internal MemoryStream's were not disposed correctly.
 
 ## Version 7.0.0
 * New calculation engine supporting array formulas. https://epplussoftware.com/en/Developers/EPPlus7
@@ -16,6 +33,71 @@
 	* Cross worksheet formula support.
 	* Extended styling options for color scales, data bars and icon sets.
 	* Added String constructor that creates an ExcelAddress internally.
+
+## Version 6.2.11
+### Fixed issues
+* ROUNDUP function sometimes rounded incorrectly.
+* Some internal MemoryStream's were not disposed correctly.
+* Setting the Pivot table SourceRange to the same range as an existing Pivot Cache sometimes caused the workbook to be corrupt.
+* LoadFromCollection MemberInfo[] now works correctly with attributes, but are ignored on nested classes.
+* The SUBSTITUTE function did incorrectly handled Excel errors as strings.
+* ExcelRangeBase.LoadFromDataTable method did now checks the data table name to be valid, or otherwise sets the table name to TableX.
+* ExcelAddressBase.IsValidAddress did not handle table addresses.
+* ExcelHyperlink did not handle sub addresses, i.e., http://xxx.yy/zzz/#aa,bb=cc. The ExcelHyperLink.ReferenceAddress will now contain the sub address path.
+* Setting the source range of a pivot table that shared the pivot cache with another pivot table caused a corrupt workbook.
+
+## Version 6.2.10
+### Minor Feature
+* Hyperlinks loaded via the LoadFromCollection method will now be styled with the built-in Hyperlink Style. This style will also be added to the NamedStyles collection of the workbook if it does not exist.
+### Fixed issue
+* LoadFromCollection filter nested class properties-based on the supplied list of MemberInfo 
+* Fixed behaviour for SUBTOTAL with filters in calculations 
+* Performance improvement and handling of DateTime null values in ToDataTable()
+* Auto filter was not always removed when when ExcelWorksheet.AutoFilterAddress was set to null.
+* Some workbooks could not be loaded due to the worksheet's rolling buffer being too small in some scenarios.
+* Fixed a performance issue when adding comments and controls. 
+
+## Version 6.2.9
+### Fixed issues
+* Fixed an issue where empty DataValidationnodes caused a corrupt workbook.
+* Ungrouping drawings put the drawings in the wrong position and sometimes caused the workbook to become corrupt.
+* VLOOKUP / HLOOKUP and MATCH did not work with external ranges.
+* The INDEX function handled row_no as col_no when the argument was only one row.
+* Deleting a worksheet that was selected sometimes caused a hidden worksheet to become visible.
+* The CEILING and FLOOR functions did not handle null values correctly in the second parameter.
+* Fix for loading classes with only EPPlusNestedTableColumn attributes in ExcelRangeBase.LoadFromCollection.
+* Fixed an issue when using concatenation operator with Excel errors.
+
+## Version 6.2.8
+### Fixed issues
+* Boolean style xml elements (like b, i or strike),  with attribute 'val' set to 'false' or 'true' did not work.
+* The ExcelRangeBase.Insert and ExcelRangeBase.Delete methods failed if a defined name referenced another defined name.
+* The AND and OR functions did'nt handle multi-cell ranges as parameters.
+
+## Version 6.2.7
+### Fixed issues
+* Copying a worksheet with more than two tables to a new workbook sometimes throws an exception due to different table ids.
+* Matching an existing pivot table cache against source data was case-sensitive.
+* Added support for hidden columns in EPPlusTableColumn attribute.
+* The Calculate method threw an exception if a defined name contained an error value.
+* Fixed an issue when updating formulas in data validations and conditional formatting’s when inserting/delete rows or columns.
+* Conditional formatting text types would fail to function correctly after deleting a column.
+* Copying a worksheet with a defined name with a formula pointing to another worksheet caused a NullReferenceException.
+
+## Version 6.2.6
+### Fixed issues
+* Updated System.Security.Cryptography.Pkcs for security vulnerability in .NET 6 and 7. See https://github.com/dotnet/runtime/issues/87498
+* An ArgumentOutOfRangeException was sometimes thrown when loading a workbook.
+
+## Version 6.2.5
+### Fixed issues
+* EPPlus now allows saving of drawing groups containing drawings with same name.
+* Copying a formula containing a table reference caused an invalid formula.
+* Deleting and inserting into worksheets with data validations sometimes blocked adding new data validations on valid ranges.
+* Data validations now allows empty formulas.
+* REPLACE function can now handle a num_char argument that exceeds the length of the text.
+* EPPlus threw an incorrect CircularReferenceException when referencing the same cell on a different worksheet in some cases.
+* When copying a worksheet, Excel displayed the save dialog on close, due to the worksheets having the same uid.
 
 ## Version 6.2.4
 ### Minor Features

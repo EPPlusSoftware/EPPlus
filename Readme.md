@@ -60,20 +60,20 @@ This might be the easiest way of configuring this. Just as above, set the variab
 **Important!** The environment variable should be set at the user or process level.
 
 ## New features in EPPlus 7
-	* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
-		* Support for calculating legacy / dynamic array formulas.
-		* Support for intersect operator.
-		* Support for implicit intersection.
-		* Support for array parameters in functions.
-		* Better support for using the colon operator with functions.
-		* Better handling of circular references
-		* 90 new functions
-		* Faster optimized calculation engine with configurable expression caching.
-		* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information.
-		* Conditional Formatting improvements
-		* Improved performance, xml is now read and written on load and save.
-		* Cross worksheet support formula support.
-		* Extended styling options for color scales, data bars and icon sets.
+* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
+	* Support for calculating legacy / dynamic array formulas.
+	* Support for intersect operator.
+	* Support for implicit intersection.
+	* Support for array parameters in functions.
+	* Better support for using the colon operator with functions.
+	* Better handling of circular references
+	* 90 new functions
+	* Faster optimized calculation engine with configurable expression caching.
+	* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information.
+	* Conditional Formatting improvements
+	* Improved performance, xml is now read and written on load and save.
+	* Cross worksheet support formula support.
+	* Extended styling options for color scales, data bars and icon sets.
 
 ## Breaking Changes
 See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7

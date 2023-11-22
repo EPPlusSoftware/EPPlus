@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>7.0.0.3</AssemblyVersion>
-    <FileVersion>7.0.0.3</FileVersion>
-    <Version>7.0.0</Version>
+    <AssemblyVersion>7.0.1.0</AssemblyVersion>
+    <FileVersion>7.0.1.0</FileVersion>
+    <Version>7.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 7.0.0
+		EPPlus 7.0.1
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,6 +26,9 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+		## Version 7.0.1
+		* Bug fixes - See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+		
 		## Version 7.0.0
 		* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
 		* Support for calculating legacy / dynamic array formulas.
@@ -43,7 +46,7 @@
 		* Extended styling options for color scales, data bars and icon sets.
 
 		## Version 6.2.11
-		* Bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+		* Bug fixes. 
 
 		## Version 6.2.10
 		* Bug fixes.
@@ -339,6 +342,7 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 		Version history
+		7.0.1			20231109 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		7.0.0			20231026 Calculation engine update for array formulas. https://epplussoftware.com/en/Developers/EPPlus7
 		6.2.12			20231026 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		6.2.11			20231023 Minor bug fixes.
@@ -509,7 +513,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.30" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.32" />
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
@@ -528,7 +532,7 @@
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.3" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.4" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
 			<Version>2.3.2</Version>
@@ -540,7 +544,7 @@
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.2" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
 		  <Version>2.3.2</Version>

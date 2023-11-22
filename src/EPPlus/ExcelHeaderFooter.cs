@@ -131,7 +131,7 @@ namespace OfficeOpenXml
             var imgBytes=new byte[PictureStream.Length];
             PictureStream.Seek(0, SeekOrigin.Begin);
             PictureStream.Read(imgBytes,0, imgBytes.Length);
-            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes,null, pictureType);
+            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
 
             return AddImage(id, ii);
         }
@@ -429,7 +429,7 @@ namespace OfficeOpenXml
                 return _firstFooter; 
             } 
         }
-        private ExcelVmlDrawingPictureCollection _vmlDrawingsHF = null;
+        internal ExcelVmlDrawingPictureCollection _vmlDrawingsHF = null;
         /// <summary>
         /// Vml drawings. Underlaying object for Header footer images
         /// </summary>
