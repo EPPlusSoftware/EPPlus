@@ -5830,5 +5830,16 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s551()
+        {
+            using (var p = OpenTemplatePackage("s551.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["AA2"].Calculate();
+
+                Assert.AreEqual(3535399.86606, ws.Cells["AA2"].Value);
+            }
+        }
     }
 }
