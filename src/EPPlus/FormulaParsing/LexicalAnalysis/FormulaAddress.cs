@@ -12,6 +12,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using System.Net;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -833,6 +834,36 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             return ExcelCellBase.GetCellId(WorksheetIx, FromRow, FromCol);
         }
 
+        internal IRangeInfo GetAsRangeInfo()
+        {
+            if(ExternalReferenceIx>0)
+            {
+                return GetAsExternalRangeInfo();
+            }
+            else
+            {
+                return new RangeInfo(this);
+            }
+        }
+
+        internal IRangeInfo GetAsExternalRangeInfo()
+        {
+            var wb = _context.GetExternalWoorkbook(ExternalReferenceIx);
+            if(wb==null)
+            {
+                return new RangeInfo(null, -1, -1, -1, -1, _context, ExternalReferenceIx);
+            }
+            else if (wb.Package == null)
+            {
+                return new EpplusExcelExternalRangeInfo(wb, this, _context);
+            }
+            else
+            {
+                var ws = wb.Package.Workbook.GetWorksheetByIndexInList(WorksheetIx);
+                return new RangeInfo(ws, FromRow, FromCol, ToRow, ToCol, _context);
+            }
+        }
+
         public FormulaRangeAddress Address => this;
     }
     public class FormulaTableAddress : FormulaRangeAddress
@@ -904,11 +935,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 FixedFlag = FixedFlag.All;
 
-                FromRow = table.ShowHeader ? table.Address._fromRow + 1 : table.Address._fromRow;
-                ToRow = table.ShowTotal ? table.Address._toRow - 1 : table.Address._toRow;
-                FromCol = table.Address._fromCol;
-                ToCol = table.Address._toCol;
-
                 if (string.IsNullOrEmpty(TablePart1) == false)
                 {
                     SetRowFromTablePart(TablePart1, table, ref FromRow, ref ToRow, ref FixedFlag);
@@ -916,6 +942,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     {
                         SetRowFromTablePart(TablePart2, table, ref FromRow, ref ToRow, ref FixedFlag);
                     }
+                }
+                else
+                {
+                    FromRow = table.ShowHeader ? table.Address._fromRow + 1 : table.Address._fromRow;
+                    ToRow = table.ShowTotal ? table.Address._toRow - 1 : table.Address._toRow;
                 }
 
                 if (string.IsNullOrEmpty(ColumnName1) == false)
@@ -925,6 +956,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     {
                         SetColFromTablePart(ColumnName2, table, ref FromCol, ref ToCol, true);
                     }
+                }
+                else
+                {
+                    FromCol = table.Address._fromCol;
+                    ToCol = table.Address._toCol;
                 }
             }
         }
