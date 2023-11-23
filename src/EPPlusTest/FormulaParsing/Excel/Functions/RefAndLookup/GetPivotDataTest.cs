@@ -535,8 +535,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_PercentOf_RC_TR");
             var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable17");
             pt.ColumnFields.Add(pt.Fields["Continent"]);
-            pt.RowFields.Add(pt.Fields["State"]);
             pt.RowFields.Add(pt.Fields["Country"]);
+            pt.RowFields.Add(pt.Fields["State"]);
 
             var df1 = pt.DataFields.Add(pt.Fields["Sales"]);
             df1.Name = "Sales";
@@ -544,11 +544,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             var df3 = pt.DataFields.Add(pt.Fields["Sales"]);
             pt.CacheDefinition.Refresh();
             df1.Function = DataFieldFunctions.Sum;
-            df1.ShowDataAs.SetPercent(pt.RowFields[1], pt.RowFields[1].Items.GetIndexByValue("USA"));
+            df1.ShowDataAs.SetPercent(pt.RowFields[0], pt.RowFields[0].Items.GetIndexByValue("USA"));
             df2.Function = DataFieldFunctions.Sum;
-            df2.ShowDataAs.SetPercent(pt.RowFields[1], ePrevNextPivotItem.Previous);
+            df2.ShowDataAs.SetPercent(pt.RowFields[0], ePrevNextPivotItem.Previous);
             df3.Function = DataFieldFunctions.Sum;
-            df3.ShowDataAs.SetPercent(pt.RowFields[1], ePrevNextPivotItem.Next);
+            df3.ShowDataAs.SetPercent(pt.RowFields[0], ePrevNextPivotItem.Next);
 
             pt.Calculate();
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Canada\")";
@@ -571,19 +571,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             ws.Calculate();
 
-            //Assert.AreEqual(ErrorValues.RefError, ws.Cells["G5"].Value);
+            Assert.AreEqual(0.264508929, (double)ws.Cells["G5"].Value, 0.0000001D);
             //Assert.AreEqual(0.694196429, (double)ws.Cells["G6"].Value, 0.0000001D);
             //Assert.AreEqual(0D, (double)ws.Cells["G7"].Value);
             //Assert.AreEqual(ErrorValues.NullError, ws.Cells["G8"].Value);
             //Assert.AreEqual(ErrorValues.NAError, ws.Cells["G9"].Value);
 
-            //Assert.AreEqual(0D, (double)ws.Cells["H5"].Value, 0.0000001D);
+            Assert.AreEqual(1D, (double)ws.Cells["H5"].Value, 0.0000001D);
             //Assert.AreEqual(1.517073171, (double)ws.Cells["H6"].Value, 0.0000001D);
             //Assert.AreEqual(0D, (double)ws.Cells["H7"].Value);
             //Assert.AreEqual(0D, ws.Cells["H8"].Value);
             //Assert.AreEqual(ErrorValues.RefError, ws.Cells["H9"].Value);
 
-            //Assert.AreEqual(0D, (double)ws.Cells["I5"].Value, 0.0000001D);
+            Assert.AreEqual(1035.863415, (double)ws.Cells["I5"].Value, 0.0000001D);
             //Assert.AreEqual(1.94984326, (double)ws.Cells["I6"].Value, 0.0000001D);
             //Assert.AreEqual(0D, (double)ws.Cells["H7"].Value);
             //Assert.AreEqual(ErrorValues.NullError, ws.Cells["I8"].Value);
