@@ -5830,5 +5830,59 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s556()
+        {
+            using (var package = OpenPackage("autofilterwithNulls.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("NewAutoFilter");
+
+                ExcelRangeBase range = ws.Cells["A1:A5"];
+
+                ws.Cells["A1:E5"].Formula = "Row()";
+
+                ws.Cells["A1:C3"].Value = null;
+
+                range.AutoFilter = true;
+                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(0);
+                colCompany.Filters.Add("");
+                colCompany.Filters.Add("Something Something");
+                colCompany.Filters.Add("AnotherSomething");
+                ws.AutoFilter.ApplyFilter(true);
+
+                Assert.AreEqual(2, colCompany.Filters.Count());
+                Assert.IsTrue(colCompany.Filters.Blank);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s556UsingNull()
+        {
+            using (var package = OpenPackage("autofilterwithNulls.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("NewAutoFilter");
+
+                ExcelRangeBase range = ws.Cells["A1:E5"];
+
+                ws.Cells["A1:E5"].Formula = "Row()";
+
+                ws.Cells["A1:C3"].Value = null;
+
+                range.AutoFilter = true;
+                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(0);
+                colCompany.Filters.Add(new ExcelFilterValueItem(null));
+                colCompany.Filters.Add("Something Something");
+                colCompany.Filters.Add("AnotherSomething");
+                ws.AutoFilter.ApplyFilter();
+
+                Assert.AreEqual(2, colCompany.Filters.Count());
+                Assert.IsTrue(colCompany.Filters.Blank);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

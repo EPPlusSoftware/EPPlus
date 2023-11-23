@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Filter
             var node = (XmlElement)CreateNode("d:filters");
             node.RemoveAll();
             if (Filters.Blank) (node).SetAttribute("blank", "1");
-            if (Filters.CalendarTyp.HasValue) (node).SetAttribute("calendarType", Filters.CalendarTyp.Value.ToEnumString());
+            if (Filters.CalendarType.HasValue) (node).SetAttribute("calendarType", Filters.CalendarType.Value.ToEnumString());
             foreach(var f in Filters)
             {
                 if(f is ExcelFilterDateGroupItem d)
