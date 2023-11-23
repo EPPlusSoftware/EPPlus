@@ -30,6 +30,10 @@ namespace OfficeOpenXml.LoadFunctions
 
         public int SortOrder { get; set; }
 
+        public bool IsDictionaryProperty { get; set; }
+
+        public string DictinaryKey { get; set; }
+
         public List<int> SortOrderLevels { get; set; }
         public int Index { get; set; }
 

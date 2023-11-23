@@ -78,7 +78,11 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldSetupColumnsWithPath()
         {
-            var cols = new LoadFromCollectionColumns<Outer>(LoadFromCollectionParams.DefaultBindingFlags, Enumerable.Empty<string>().ToList());
+            var parameters = new LoadFromCollectionParams
+            {
+                BindingFlags = LoadFromCollectionParams.DefaultBindingFlags
+            };
+            var cols = new LoadFromCollectionColumns<Outer>(parameters);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
             Assert.AreEqual("ApprovedUtc", result[0].Path);
@@ -88,7 +92,11 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldSetupColumnsWithPathSorted()
         {
-            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(LoadFromCollectionParams.DefaultBindingFlags);
+            var parameters = new LoadFromCollectionParams
+            {
+                BindingFlags = LoadFromCollectionParams.DefaultBindingFlags
+            };
+            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(parameters);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
             Assert.AreEqual("Acknowledged", result[0].Path);
@@ -105,7 +113,8 @@ namespace EPPlusTest.LoadFunctions
                 "Acknowledged",
                 "Organization.OrgLevel5"
             };
-            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(LoadFromCollectionParams.DefaultBindingFlags, order);
+            var parameters = new LoadFromCollectionParams { BindingFlags = LoadFromCollectionParams.DefaultBindingFlags };
+            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(parameters, order);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
             Assert.AreEqual("ApprovedUtc", result[0].Path);
@@ -177,7 +186,7 @@ namespace EPPlusTest.LoadFunctions
             {
                 var ws = package.Workbook.Worksheets.Add("test");
                 ws.Cells["A1"].LoadFromCollection(items);
-                var cv = ws.Cells["F1"].Value;
+                var cv = ws.Cells["G1"].Value;
                 Assert.AreEqual("Collateral Owner Email", cv);
             }
         }
@@ -190,7 +199,7 @@ namespace EPPlusTest.LoadFunctions
             {
                 var ws = package.Workbook.Worksheets.Add("test");
                 ws.Cells["A1"].LoadFromCollection(items);
-                var cv = ws.Cells["G1"].Value;
+                var cv = ws.Cells["F1"].Value;
                 Assert.AreEqual("Collateral Owner Name", cv);
             }
         }
@@ -209,15 +218,15 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void LoadComplexTest2()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var items = ExcelItems.GetItems1();
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].LoadFromCollection(items);
                 Assert.AreEqual("Product Family", sheet.Cells["A1"].Value);
                 Assert.AreEqual("PCH Die Name", sheet.Cells["B1"].Value);
-                Assert.AreEqual("Collateral Owner Email", sheet.Cells["F1"].Value);
-                Assert.AreEqual("Mission Control Lead Email", sheet.Cells["I1"].Value);
+                Assert.AreEqual("Collateral Owner Email", sheet.Cells["G1"].Value);
+                Assert.AreEqual("Mission Control Lead Email", sheet.Cells["J1"].Value);
                 Assert.AreEqual("Created (GMT)", sheet.Cells["L1"].Value);
             }
         }
