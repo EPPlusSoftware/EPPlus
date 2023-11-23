@@ -172,42 +172,44 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         adr.SetRCFromTable(ws._package, new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column));
                     }
-
-                    if(adr.WorkSheetName != null && 
-                       adr.WorkSheetName.Equals((f.ws ?? ws)?.Name,
-                       StringComparison.OrdinalIgnoreCase) && 
-                       string.IsNullOrEmpty(adr._wb) && 
-                       adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
+                    if (adr.ExternalReferenceIndex < 1)
                     {
-                        var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
-                        f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
-                        f.tokenIx++;
-                        continue;
-                        //throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}", ExcelAddressBase.GetAddress(f.Row, f.Column))));
-                    }
-
-                    if (adr._fromRow > 0 && adr._fromCol > 0)
-                    {                        
-                        if (string.IsNullOrEmpty(adr.WorkSheetName))
+                        if (adr.WorkSheetName != null &&
+                           adr.WorkSheetName.Equals((f.ws ?? ws)?.Name,
+                           StringComparison.OrdinalIgnoreCase) &&
+                           string.IsNullOrEmpty(adr._wb) &&
+                           adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column)) != ExcelAddressBase.eAddressCollition.No)
                         {
-                            if (f.iteratorWs == null)
-                            {
-                                f.iteratorWs = ws;
-                            }
-                            else if (f.ws.IndexInList != f.wsIndex)
-                            {
-                                f.iteratorWs = wb.Worksheets._worksheets[f.wsIndex];
-                            }
-                        }
-                        else
-                        {
-                            f.iteratorWs = wb.Worksheets[adr.WorkSheetName];
+                            var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
+                            f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
+                            f.tokenIx++;
+                            continue;
+                            //throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}", ExcelAddressBase.GetAddress(f.Row, f.Column))));
                         }
 
-                        if (f.iteratorWs != null)
+                        if (adr._fromRow > 0 && adr._fromCol > 0)
                         {
-                            f.iterator = new CellStoreEnumerator<object>(f.iteratorWs._formulas, adr.Start.Row, adr.Start.Column, adr.End.Row, adr.End.Column);
-                            goto iterateCells;
+                            if (string.IsNullOrEmpty(adr.WorkSheetName))
+                            {
+                                if (f.iteratorWs == null)
+                                {
+                                    f.iteratorWs = ws;
+                                }
+                                else if (f.ws.IndexInList != f.wsIndex)
+                                {
+                                    f.iteratorWs = wb.Worksheets._worksheets[f.wsIndex];
+                                }
+                            }
+                            else
+                            {
+                                f.iteratorWs = wb.Worksheets[adr.WorkSheetName];
+                            }
+
+                            if (f.iteratorWs != null)
+                            {
+                                f.iterator = new CellStoreEnumerator<object>(f.iteratorWs._formulas, adr.Start.Row, adr.Start.Column, adr.End.Row, adr.End.Column);
+                                goto iterateCells;
+                            }
                         }
                     }
                 }

@@ -1,4 +1,12 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.13
+### Fixed issues 
+* Fixed a bug where adding the same image to a worksheet twice with the same path resulted in a null reference.
+* Resolved workbooks becoming corrupt when setting ShowTotalRow on tables to true, if data existed on the row below the table. The row will now be overwritten by the total row.
+* Tab-characters in Richtext's are now decoded correctly.
+* Last character of RichText.Text were truncated under Linux. 
+* LoadFromCollection: support for SortOrder attribute on nested classes.
+
 ## Version 6.2.12
 ### Fixed issues 
 * Copying a worksheet with the ExcelWorksheet.CodeModuleName set and not having a VBA project in the workbook caused the name to be duplicated.
