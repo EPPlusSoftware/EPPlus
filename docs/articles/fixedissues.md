@@ -1,4 +1,16 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.2
+### Fixed issues 
+* External references did not work correctly with the VLOOKUP function.
+* Table addresses sometimes returned an incorrect address in the formula calculation.
+* Empty arguments was not handled correctly in the Unique, Sort and SortBy functions.
+* Corrected behaviour for comparisons between null values and empty strings in range operators.
+* Fixed a bug where adding the same image to a worksheet twice with the same path resulted in a null reference.
+* Resolved workbooks becoming corrupt when setting ShowTotalRow on tables to true, if data existed on the row below the table. The row will now be overwritten by the total row.
+* Tab-characters in Richtext's are now decoded correctly.
+* Last character of RichText.Text were truncated under Linux. 
+* LoadFromCollection: support for SortOrder attribute on nested classes.
+
 ## Version 7.0.1
 ### Fixed issues 
 * Copying a worksheet with the ExcelWorksheet.CodeModuleName set and not having a VBA project in the workbook caused the name to be duplicated.
