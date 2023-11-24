@@ -5920,6 +5920,7 @@ namespace EPPlusTest
             if (value == "")
             {
                 Filter.Filters.Blank = true;
+                Filter.Filters.Add(Guid.NewGuid().ToString());
                 ws.AutoFilter.ApplyFilter();
             }
             else
