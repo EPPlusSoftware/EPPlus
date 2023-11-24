@@ -511,42 +511,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         #endregion Conditional Formatting Rule Types
 
         #region Public Methods
-
-        ///// <summary>
-        ///// Goes through a range returning a dict with each individual address and a list of conditionalFormattings that apply to it.
-        ///// </summary>
-        ///// <returns>A dictonary of all individual addresses in the range and a list of the conditional formattings that apply to it</returns>
-        //public Dictionary<string, List<ExcelConditionalFormattingRule>> GetConditionalFormattings()
-        //{
-        //    var conditionalFormattingRules = new QuadTree<ExcelConditionalFormattingRule>(_address);
-            
-        //    var retDikt = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
-
-        //    foreach (ExcelConditionalFormattingRule cf in _worksheet.ConditionalFormatting)
-        //    {
-        //        conditionalFormattingRules.Add(new QuadRange(cf.Address), cf);
-
-        //        var intersects = conditionalFormattingRules.GetIntersectingRangeItems(new QuadRange(cf.Address));
-
-        //        foreach (var intersect in intersects)
-        //        {
-        //            var address = new ExcelAddress(intersect.Range.FromRow, intersect.Range.FromCol, intersect.Range.ToRow, intersect.Range.ToCol);
-
-        //            if (!retDikt.ContainsKey(address.Address))
-        //            {
-        //                retDikt.Add(address.Address, new List<ExcelConditionalFormattingRule>());
-        //            }
-
-        //            retDikt[address.Address].Add((ExcelConditionalFormattingRule)cf);
-        //        }
-        //    }
-
-        //    return retDikt;
-        //}
-
-        //Hey so I got this range. I want all conditionalFormattings that lie within it.
-        //Cool. Now I wanna ask that list of ranges what conditionalFormattings are on this one cell I got here
-
         public List<ExcelConditionalFormattingRule> GetConditionalFormattings()
         {
             var retList = new List<ExcelConditionalFormattingRule>();
@@ -559,42 +523,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
             }
             return retList;
-
-            //var cfList = _worksheet.ConditionalFormatting.RuleQuadTree.GetIntersectingRangeItems(new QuadRange(_address));
-
-            //var tree = _worksheet.ConditionalFormatting.RuleQuadTree;
-
-            //var conditionalFormattingRules = new QuadTree<ExcelConditionalFormattingRule>(_address);
-
-            //conditionalFormattingRules.GetIntersectingRangeItems(new);
-
-            //conditionalFormattingRules.Add()
-
-            //_worksheet.ConditionalFormatting.RuleQuadTree.Root.Dimension.ToRow
-            //_worksheet.ConditionalFormatting
-            // var conditionalFormattingRules = new QuadTree<ExcelConditionalFormattingRule>(_address);
-
-            //foreach (ExcelConditionalFormattingRule cf in _worksheet.ConditionalFormatting)
-            //{
-            //    conditionalFormattingRules.Add(new QuadRange(cf.Address), cf);
-
-            //    var intersects = conditionalFormattingRules.GetIntersectingRangeItems(new QuadRange(cf.Address));
-
-            //    foreach (var intersect in intersects)
-            //    {
-            //        var address = new ExcelAddress(intersect.Range.FromRow, intersect.Range.FromCol, intersect.Range.ToRow, intersect.Range.ToCol);
-
-
-            //        //if (!retDikt.ContainsKey(address.Address))
-            //        //{
-            //        //    retDikt.Add(address.Address, new List<ExcelConditionalFormattingRule>());
-            //        //}
-
-            //        //retDikt[address.Address].Add((ExcelConditionalFormattingRule)cf);
-            //    }
-            //}
-
-            ////return retDikt;
         }
 
         #endregion Public Methods

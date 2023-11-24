@@ -316,20 +316,20 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 if (string.IsNullOrEmpty(eurl.ReferenceAddress))
                 {
+                    var hyperlink = new HTMLElement(HtmlElements.A);
                     if (string.IsNullOrEmpty(eurl.AbsoluteUri))
                     {
-                        element.AddAttribute("href", eurl.OriginalString);
+                        hyperlink.AddAttribute("href", eurl.OriginalString);
                     }
                     else
                     {
-                        element.AddAttribute("href", eurl.AbsoluteUri);
+                        hyperlink.AddAttribute("href", eurl.AbsoluteUri);
                     }
                     if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
                     {
-                        element.AddAttribute("target", settings.HyperlinkTarget);
+                        hyperlink.AddAttribute("target", settings.HyperlinkTarget);
                     }
-                    var hyperlink = new HTMLElement(HtmlElements.A);
-                    hyperlink.Content = string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display;
+                    hyperlink.Content = !string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display;
                     element.AddChildElement(hyperlink);
                 }
                 else
@@ -340,12 +340,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
             else
             {
-                element.AddAttribute("href", cell.Hyperlink.OriginalString);
+                var hyperlink = new HTMLElement(HtmlElements.A);
+                hyperlink.AddAttribute("href", cell.Hyperlink.OriginalString);
                 if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
                 {
-                    element.AddAttribute("target", settings.HyperlinkTarget);
+                    hyperlink.AddAttribute("target", settings.HyperlinkTarget);
                 }
-                var hyperlink = new HTMLElement(HtmlElements.A);
                 hyperlink.Content = GetCellText(cell, settings);
                 element.AddChildElement(hyperlink);
             }

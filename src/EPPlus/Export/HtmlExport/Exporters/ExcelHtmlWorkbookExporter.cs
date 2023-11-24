@@ -29,6 +29,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         public ExcelHtmlWorkbookExporter(params ExcelRangeBase[] ranges) : base(ranges)
         {
             _settings = new HtmlRangeExportSettings();
+            //TODO: Ensure we can handle multiple ranges of conditionalFormatting
+            _exporterContext.InitializeQuadTree(ranges[0]);
         }
 
         private readonly HtmlRangeExportSettings _settings;
