@@ -5872,17 +5872,78 @@ namespace EPPlusTest
                 ws.Cells["A1:C3"].Value = null;
 
                 range.AutoFilter = true;
-                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(0);
+                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(2);
                 colCompany.Filters.Add(new ExcelFilterValueItem(null));
-                colCompany.Filters.Add("Something Something");
-                colCompany.Filters.Add("AnotherSomething");
-                ws.AutoFilter.ApplyFilter();
+                //colCompany.Filters.Add("2");
+                //colCompany.Filters.Add("AnotherSomething");
 
-                Assert.AreEqual(2, colCompany.Filters.Count());
+                ws.AutoFilter.ApplyFilter(true);
+
+                Assert.AreEqual(0, colCompany.Filters.Count());
                 Assert.IsTrue(colCompany.Filters.Blank);
 
                 SaveAndCleanup(package);
             }
+        }
+
+        [TestMethod]
+        public void testCase()
+        {
+            //Inputs
+            //string path = @"C:\Desktop\Source File.xlsx";
+            string sheetName = "Sheet1";
+            decimal filterColumn = 2;
+            string value = "";
+            string range = "";
+
+            var package = OpenTemplatePackage("Source_File_New.xlsx");
+
+            //ExcelPackage package = new ExcelPackage(path);
+            ExcelWorksheet ws = package.Workbook.Worksheets[sheetName];
+            ws.Cells["C4"].Value = 2;
+            if (range == "")
+            {
+                range = ExcelCellBase.GetAddress(ws.Dimension.Start.Row, ws.Dimension.Start.Column) + ":" +
+                ExcelCellBase.GetAddress(ws.Dimension.End.Row, ws.Dimension.End.Column);
+            }
+            ws.Cells[range].AutoFilter = true;
+            ExcelValueFilterColumn Filter;
+
+            if (ws.AutoFilter.Columns[Convert.ToInt32(filterColumn) - 1] == null)
+            {
+                Filter = ws.AutoFilter.Columns.AddValueFilterColumn(Convert.ToInt32(filterColumn) - 1);
+            }
+            else
+            {
+                Filter = (ExcelValueFilterColumn)ws.AutoFilter.Columns[Convert.ToInt32(filterColumn) - 1];
+            }
+            if (value == "")
+            {
+                Filter.Filters.Blank = true;
+                ws.AutoFilter.ApplyFilter();
+            }
+            else
+            {
+                string[] filters = value.Split(',');
+                foreach (var itemValue in filters)
+                {
+                    Filter.Filters.Add(itemValue);
+                }
+                ws.AutoFilter.ApplyFilter();
+            }
+            SaveAndCleanup(package);
+
+            //package.Save();
+            //package.Dispose();
+            //catch (Exception e)
+            //{
+            //    exc = "Failed. " + e.ToString();
+            //    success = false;
+            //}
+            //finally
+            //{
+            //    System.GC.Collect();
+            //}
         }
     }
 }

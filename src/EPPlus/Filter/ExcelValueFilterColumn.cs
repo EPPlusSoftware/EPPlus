@@ -83,6 +83,17 @@ namespace OfficeOpenXml.Filter
         internal override bool Match(object value, string valueText)
         {
             var match = true;
+
+            //Handle when Only Blanks filter
+            if(Filters.Count == 0 && Filters.Blank)
+            {
+                if(string.IsNullOrEmpty(valueText))
+                {
+                    return true;
+                }
+                return false;
+            }
+
             foreach (var filter in Filters)
             {
                 if(filter is ExcelFilterDateGroupItem d)
