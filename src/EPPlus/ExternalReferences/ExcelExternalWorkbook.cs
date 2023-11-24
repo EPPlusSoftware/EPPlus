@@ -144,6 +144,7 @@ namespace OfficeOpenXml.ExternalReferences
 
             int row=0, col=0;
             string type="";
+            if (reader.IsEmptyElement) return;
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "sheetData")
