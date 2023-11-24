@@ -33,6 +33,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Filter;
 using System.Globalization;
 using System.Threading;
+using System.Linq;
 
 namespace EPPlusTest.Filter
 {
@@ -77,6 +78,67 @@ namespace EPPlusTest.Filter
             Assert.AreEqual(true, ws.Row(100).Hidden);
             Assert.AreEqual(false, ws.Row(101).Hidden);
         }
+
+        [TestMethod]
+        public void ValuesFilterAddingEmpty()
+        {
+            using (var package = OpenPackage("AutoFilterAddEmpty.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("NewAutoFilter");
+
+                ExcelRangeBase range = ws.Cells["A1:A5"];
+
+                ws.Cells["A1:E5"].Formula = "Row()";
+
+                ws.Cells["A1:C3"].Value = null;
+
+                range.AutoFilter = true;
+                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(0);
+                colCompany.Filters.Add("");
+                ws.AutoFilter.ApplyFilter(true);
+
+                Assert.AreEqual(0, colCompany.Filters.Count());
+                Assert.IsTrue(colCompany.Filters.Blank);
+
+                Assert.IsTrue(ws.Row(4).Hidden);
+                Assert.IsTrue(ws.Row(5).Hidden);
+                for(int i = 1; i < 4; i++)
+                {
+                    Assert.IsFalse(ws.Row(i).Hidden);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void ValuesFilterAddingNullItem()
+        {
+            using (var package = OpenPackage("autofilterwithNulls.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("NewAutoFilter");
+
+                ExcelRangeBase range = ws.Cells["A1:E5"];
+
+                ws.Cells["A1:E5"].Formula = "Row()";
+
+                ws.Cells["A1:C3"].Value = null;
+
+                range.AutoFilter = true;
+                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(2);
+                colCompany.Filters.Add(new ExcelFilterValueItem(null));
+                ws.AutoFilter.ApplyFilter(true);
+
+                Assert.AreEqual(0, colCompany.Filters.Count());
+                Assert.IsTrue(colCompany.Filters.Blank);
+
+                Assert.IsTrue(ws.Row(4).Hidden);
+                Assert.IsTrue(ws.Row(5).Hidden);
+                for (int i = 1; i < 4; i++)
+                {
+                    Assert.IsFalse(ws.Row(i).Hidden);
+                }
+            }
+        }
+
         [TestMethod]
         public void DateFilterYear()
         {
