@@ -357,5 +357,39 @@ namespace EPPlusTest.Filter
             col.IconSet = OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingIconsSetType.ThreeTrafficLights1;
             col.IconId = 1;
         }
+
+        [TestMethod]
+        public void ValuesFilterBlankOnlyTest()
+        {
+            var pck = OpenPackage("AutofilterValuesWithBlanks.xlsx", true);
+            var ws = pck.Workbook.Worksheets.Add("Values");
+            LoadTestdata(ws);
+
+            ws.Cells["B3"].Value = null;
+            ws.Cells["B10"].Value = "";
+
+            ws.Cells["C3"].Value = "";
+
+            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            var col = ws.AutoFilter.Columns.AddValueFilterColumn(1);
+            col.Filters.Blank = true;
+
+            var col2 = ws.AutoFilter.Columns.AddValueFilterColumn(2);
+            col2.Filters.Blank = true;
+
+            ws.AutoFilter.ApplyFilter();
+
+            Assert.IsFalse(ws.Row(3).Hidden);
+
+            for (int i = 2; i < 100; i++)
+            {
+                if (i != 3)
+                {
+                    Assert.IsTrue(ws.Row(i).Hidden);
+                }
+            }
+
+            SaveAndCleanup(pck);
+        }
     }
 }
