@@ -31,6 +31,13 @@ namespace OfficeOpenXml.Export.ToDataTable
             _range = range;
             _sheet = _range.Worksheet;
             _dataTable = dataTable;
+            if (_options.AlwaysAllowNull)
+            {
+                foreach (var mapping in _options.Mappings)
+                {
+                    mapping.AllowNull = true;
+                }
+            }
         }
 
         private readonly ToDataTableOptions _options;
