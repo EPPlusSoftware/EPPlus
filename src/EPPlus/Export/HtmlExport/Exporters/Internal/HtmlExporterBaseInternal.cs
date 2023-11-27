@@ -329,7 +329,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     {
                         hyperlink.AddAttribute("target", settings.HyperlinkTarget);
                     }
-                    hyperlink.Content = !string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display;
+                    hyperlink.Content = string.IsNullOrEmpty(cell.Text) ? eurl.Display : cell.Text;
                     element.AddChildElement(hyperlink);
                 }
                 else

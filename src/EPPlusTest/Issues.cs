@@ -5805,5 +5805,26 @@ namespace EPPlusTest
             }
         }
 
+        [TestMethod]
+        public void testKingLink()
+        {
+            using (var p = OpenTemplatePackage("SwedishGeography.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[1];
+
+                var link = (ExcelHyperLink)sheet1.Cells["A2"].Hyperlink;
+
+                sheet1.Cells["A2"].Hyperlink = link;
+
+                ////var cell = sheet1.Cells["A2"];
+                //sheet1.Cells["Z51"].Value = "Something here";
+                //var link = new ExcelHyperLink("https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp/blob/master/04-Filters%20and%20validations/02-Filter/FilterSample.cs", UriKind.Absolute);
+                //link.Display = "FilterSample";
+                //sheet1.Cells["Z51"].Hyperlink = link;
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

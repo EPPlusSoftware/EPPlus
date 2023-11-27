@@ -107,7 +107,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             RenderEndTag(element.ElementName);
-            ApplyFormat(minify);
+            if(element._childElements.Count > 0)
+            {
+                ApplyFormat(minify);
+            }
         }
     }
 }
