@@ -12,6 +12,8 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -67,6 +69,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingContainsErrors(this, newWs);
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            var range = new ExcelRange(_ws, address.Address);
+            range.Calculate();
+            return ExcelErrorValue.Values.IsErrorValue(range.Value);
         }
 
         public override ExcelAddress Address 
