@@ -83,6 +83,17 @@ namespace OfficeOpenXml.Filter
         internal override bool Match(object value, string valueText)
         {
             var match = true;
+
+            //Handle when Only Blanks filter
+            if(Filters.Count == 0 && Filters.Blank)
+            {
+                if(string.IsNullOrEmpty(valueText))
+                {
+                    return true;
+                }
+                return false;
+            }
+
             foreach (var filter in Filters)
             {
                 if(filter is ExcelFilterDateGroupItem d)
@@ -110,7 +121,7 @@ namespace OfficeOpenXml.Filter
             var node = (XmlElement)CreateNode("d:filters");
             node.RemoveAll();
             if (Filters.Blank) (node).SetAttribute("blank", "1");
-            if (Filters.CalendarTyp.HasValue) (node).SetAttribute("calendarType", Filters.CalendarTyp.Value.ToEnumString());
+            if (Filters.CalendarType.HasValue) (node).SetAttribute("calendarType", Filters.CalendarType.Value.ToEnumString());
             foreach(var f in Filters)
             {
                 if(f is ExcelFilterDateGroupItem d)
