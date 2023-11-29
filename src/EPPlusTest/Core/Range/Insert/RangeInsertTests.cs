@@ -82,6 +82,9 @@ namespace EPPlusTest.Core.Range.Insert
             var ws2 = _pck.Workbook.Worksheets.Add("InsertColumn_Sheet2");
             ws.Cells["A1"].Formula = "Sum(E1:J1)";
             ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
+            ws.Cells["A2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
+            ws.Cells["B2:C2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
+
             ws2.Cells["A1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
             ws2.Cells["B1:C1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
 
@@ -92,6 +95,8 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(F1:K1)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(F1:K1)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(G1:L1)", ws.Cells["C1"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["A2"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["B2"].Formula);
 
             Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["B1"].Formula);
@@ -105,6 +110,8 @@ namespace EPPlusTest.Core.Range.Insert
             var ws2 = _pck.Workbook.Worksheets.Add("Insert2Columns_Sheet2");
             ws.Cells["A1"].Formula = "Sum(E1:J1)";
             ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
+            ws.Cells["A2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
+            ws.Cells["B2:C2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
             ws2.Cells["A1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
             ws2.Cells["B1:C1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
 
@@ -115,11 +122,14 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(G1:L1)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(G1:L1)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(H1:M1)", ws.Cells["C1"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["A2"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["B2"].Formula);
 
             Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["B1"].Formula);
             Assert.AreEqual("Sum(Insert2Columns_Sheet1!H1:M1)", ws2.Cells["C1"].Formula);
         }
+
         [TestMethod]
         public void InsertingColumnIntoTable()
         {
