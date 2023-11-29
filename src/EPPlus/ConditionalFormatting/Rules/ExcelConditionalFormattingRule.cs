@@ -34,13 +34,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public eExcelConditionalFormattingRuleType Type { get; set; }
 
-        ExcelAddress _address = null;
+        internal ExcelAddress _address = null;
 
         /// <summary>
         /// <para>The range over which these conditional formatting rules apply.</para>
         /// </summary>
-        public virtual ExcelAddress Address 
-        {   get
+        public virtual ExcelAddress Address
+        { get
             {
                 return _address;
             }
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         //internal QuadRange QuadRange { get; private set; }
         //internal QuadItem<ExcelConditionalFormattingRule> QuadItem { get; private set; }
 
-    internal int _priority = 1;
+        internal int _priority = 1;
 
         /// <summary>
         /// The priority of the rule. 
@@ -156,7 +156,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
 
-        internal bool IsIconSet 
+        internal bool IsIconSet
         {
             get
             {
@@ -167,7 +167,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal string _uid = null;
 
         internal virtual string Uid
-        { 
+        {
             get
             {
                 if (_uid == null)
@@ -182,15 +182,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 _uid = value;
             }
-            
-          
+
+
         }
 
         bool _isExtLst = false;
 
-        internal virtual bool IsExtLst 
-        { 
-            get 
+        internal virtual bool IsExtLst
+        {
+            get
             {
                 //Only databars, iconsets and anything with custom formulas can be extLst
                 if (Type == eExcelConditionalFormattingRuleType.DataBar)
@@ -198,7 +198,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     return true;
                 }
 
-                if(ExcelAddressBase.RefersToOtherWorksheet(Formula, _ws.Name) || ExcelAddressBase.RefersToOtherWorksheet(Formula2, _ws.Name))
+                if (ExcelAddressBase.RefersToOtherWorksheet(Formula, _ws.Name) || ExcelAddressBase.RefersToOtherWorksheet(Formula2, _ws.Name))
                 {
                     return true;
                 }
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             _ws = ws;
 
             Address = address;
-            if(Address == null)
+            if (Address == null)
             {
                 _isExtLst = true;
             }
@@ -233,7 +233,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 StopIfTrue = int.Parse(xr.GetAttribute("stopIfTrue")) == 1;
             }
-                
+
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("id")))
             {
@@ -245,14 +245,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                 DxfId = int.Parse(xr.GetAttribute("dxfId"));
             }
 
-            if(!string.IsNullOrEmpty(xr.GetAttribute("text")))
+            if (!string.IsNullOrEmpty(xr.GetAttribute("text")))
             {
                 _text = xr.GetAttribute("text");
             }
 
             string timePeriodString = xr.GetAttribute("timePeriod");
 
-            if(!string.IsNullOrEmpty(timePeriodString))
+            if (!string.IsNullOrEmpty(timePeriodString))
             {
                 TimePeriod = timePeriodString.ToEnum<eExcelConditionalFormattingTimePeriodType>();
             }
@@ -275,7 +275,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (address == null)
             {
-                if(xr.LocalName == "dxf")
+                if (xr.LocalName == "dxf")
                 {
                     ReadExtDxf(xr);
                 }
@@ -319,7 +319,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
             }
 
-            if(!string.IsNullOrEmpty(tempAddress))
+            if (!string.IsNullOrEmpty(tempAddress))
             {
                 Address = new ExcelAddress(tempAddress);
             }
@@ -332,27 +332,27 @@ namespace OfficeOpenXml.ConditionalFormatting
             if (xr.LocalName == "font")
             {
                 xr.Read();
-                if(xr.LocalName == "b")
+                if (xr.LocalName == "b")
                 {
                     Style.Font.Bold = ParseXMlBoolValue(xr);
                     xr.Read();
                 }
 
-                if(xr.LocalName == "i")
+                if (xr.LocalName == "i")
                 {
                     Style.Font.Italic = ParseXMlBoolValue(xr);
                     xr.Read();
                 }
 
-                if(xr.LocalName == "strike")
+                if (xr.LocalName == "strike")
                 {
                     Style.Font.Strike = ParseXMlBoolValue(xr);
                     xr.Read();
                 }
 
-                if(xr.LocalName == "u")
+                if (xr.LocalName == "u")
                 {
-                    if(xr.GetAttribute("val") == "double")
+                    if (xr.GetAttribute("val") == "double")
                     {
                         Style.Font.Underline = ExcelUnderLineType.Double;
                     }
@@ -363,7 +363,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     xr.Read();
                 }
 
-                if(xr.LocalName == "color")
+                if (xr.LocalName == "color")
                 {
                     ParseColor(Style.Font.Color, xr);
                 }
@@ -410,7 +410,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Style.Fill.Gradient.Degree = string.IsNullOrEmpty(degree) ?
                         null : (double?)double.Parse(degree, CultureInfo.InvariantCulture);
 
-                    if(!string.IsNullOrEmpty(xr.GetAttribute("type")))
+                    if (!string.IsNullOrEmpty(xr.GetAttribute("type")))
                     {
                         Style.Fill.Gradient.GradientType = xr.GetAttribute("type").ToEnum<eDxfGradientFillType>();
                     }
@@ -504,7 +504,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     col.Auto = xr.GetAttribute("auto") == "1" ? true : false;
                 }
 
-                if(!string.IsNullOrEmpty(xr.GetAttribute("tint")))
+                if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
                 {
                     col.Tint = double.Parse(xr.GetAttribute("tint"), CultureInfo.InvariantCulture);
                 }
@@ -532,7 +532,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="newWorksheet">In case cloning from another worksheet</param>
         protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original, ExcelWorksheet newWorksheet = null)
         {
-            if(newWorksheet == null)
+            if (newWorksheet == null)
             {
                 _ws = original._ws;
             }
@@ -541,7 +541,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 _ws = newWorksheet;
             }
 
-            if(original.Rank != 0)
+            if (original.Rank != 0)
             {
                 Rank = original.Rank;
             }
@@ -554,7 +554,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             _text = original._text;
             StopIfTrue = original.StopIfTrue;
 
-            if(original._stdDev != 0)
+            if (original._stdDev != 0)
             {
                 StdDev = original.StdDev;
             }
@@ -640,7 +640,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             get
             {
                 return (Type == eExcelConditionalFormattingRuleType.Bottom)
-                  || (Type == eExcelConditionalFormattingRuleType.BottomPercent) 
+                  || (Type == eExcelConditionalFormattingRuleType.BottomPercent)
                   ? true : false;
             }
         }
@@ -674,20 +674,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Formula
         /// </summary>
-        public virtual string Formula 
-        { 
-            get { return _formula; } 
+        public virtual string Formula
+        {
+            get { return _formula; }
             set
             {
-                _formula = value; 
-            } 
-        }
-
-        internal virtual bool ShouldApplyToCell(ExcelAddress address)
-        {
-            //_ws.Cells[address.Address].Value
-            if(address != null) { return true; }
-            return false;
+                _formula = value;
+            }
         }
 
         /// <summary>
@@ -698,11 +691,67 @@ namespace OfficeOpenXml.ConditionalFormatting
         public virtual string Formula2
         {
             get { return _formula2; }
-            set 
+            set
             {
                 _formula2 = value;
             }
         }
+
+        internal double? _numFormula = double.NaN;
+
+        /// <summary>
+        /// Only meant to be run once
+        /// </summary>
+        internal double? NumFormula 
+        {
+            get 
+            {
+                if(_numFormula != null && double.IsNaN(_numFormula.Value)) 
+                {
+                    bool success = double.TryParse(Formula, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
+
+                    if (success == false)
+                    {
+                        _numFormula = null;
+                        return null;
+                    }
+                    _numFormula = outNum;
+                }
+                return _numFormula;
+            }
+        }
+
+        internal double? _numFormula2 = double.NaN;
+
+        /// <summary>
+        /// Only meant to be run once
+        /// </summary>
+        internal double? NumFormula2
+        {
+            get
+            {
+                if (_numFormula2 != null && double.IsNaN(_numFormula2.Value))
+                {
+                    bool success = double.TryParse(Formula2, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
+
+                    if (success == false)
+                    {
+                        _numFormula2 = null;
+                        return null;
+                    }
+                    _numFormula2 = outNum;
+                }
+                return _numFormula2;
+            }
+        }
+
+        internal virtual bool ShouldApplyToCell(ExcelAddress address)
+        {
+            //_ws.Cells[address.Address].Value
+            if (address != null) { return true; }
+            return false;
+        }
+
         private ExcelConditionalFormattingAsType _as = null;
         /// <summary>
         /// Provides access to type conversion for all conditional formatting rules.

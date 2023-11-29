@@ -11,8 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -32,6 +36,45 @@ namespace OfficeOpenXml.ConditionalFormatting
           ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
           : base(eExcelConditionalFormattingRuleType.DuplicateValues, address, ws, xr)
         {
+        }
+
+        private bool createSet = true;
+        HashSet<string> values = null;
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if(createSet)
+            {
+                createSet = false;
+                values = new HashSet<string>();
+                var list = new List<string>();
+
+                var range = new ExcelRange(_ws, _address.Address);
+                foreach(var cell in range)
+                {
+                    if(cell.Value != null)
+                    {
+                        if (string.IsNullOrEmpty(cell.Value.ToString()) == false)
+                        {
+                            if (list.Contains(cell.Value.ToString()))
+                            {
+                                values.Add(cell.Value.ToString());
+                            }
+                            else
+                            {
+                                list.Add(cell.Value.ToString());
+                            }
+                        }
+                    }
+                }
+                list.Clear();
+            }
+
+            if(_ws.Cells[address.Address].Value != null)
+            {
+                return values.Contains(_ws.Cells[address.Address].Value.ToString());
+            }
+            return false;
         }
 
         internal ExcelConditionalFormattingDuplicateValues(ExcelConditionalFormattingDuplicateValues copy, ExcelWorksheet newWs = null) : base(copy, newWs)
