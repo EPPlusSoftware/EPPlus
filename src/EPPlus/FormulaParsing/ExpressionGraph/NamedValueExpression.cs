@@ -16,19 +16,36 @@ using System.Linq;
 using System.Text;
 using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.Utils;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
+    /// <summary>
+    /// Expression for Named values/ranges
+    /// </summary>
     public class NamedValueExpression : AtomicExpression
     {
-        public NamedValueExpression(string expression, ParsingContext parsingContext)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="parsingContext"></param>
+        /// <param name="isNegated"></param>
+        public NamedValueExpression(string expression, ParsingContext parsingContext, bool isNegated)
             : base(expression)
         {
             _parsingContext = parsingContext;
+            _isNegated = isNegated;
         }
 
         private readonly ParsingContext _parsingContext;
+        private readonly bool _isNegated;
 
+        /// <summary>
+        /// Compiles the expression
+        /// </summary>
+        /// <returns>The compile result</returns>
         public override CompileResult Compile()
         {
             var c = this._parsingContext.Scopes.Current;
@@ -69,18 +86,30 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                         return new CompileResult(null, DataType.Empty, cacheId);
                     }
                     var factory = new CompileResultFactory();
-                    return factory.Create(range.First().Value, cacheId);
+                    var retVal = GetNameValue(range.First().Value);
+                    return factory.Create(retVal, cacheId);
                 }
             }
             else
             {                
                 var factory = new CompileResultFactory();
-                return factory.Create(name.Value, cacheId);
+                var retVal = GetNameValue(name.Value);
+                return factory.Create(retVal, cacheId);
             }
 
             
             
             //return new CompileResultFactory().Create(result);
+        }
+
+        private object GetNameValue(object val)
+        {
+            if (ConvertUtil.IsNumeric(val) && _isNegated)
+            {
+                var numVal = ConvertUtil.GetValueDouble(val);
+                return numVal * -1;
+            }
+            return val;
         }
     }
 }
