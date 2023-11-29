@@ -34,6 +34,9 @@ namespace EPPlusTest.Core.Range.Delete
             var ws2 = _pck.Workbook.Worksheets.Add("DeleteRow_Sheet2");
             ws.Cells["A1"].Formula = "Sum(C5:C10)";
             ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
+            ws.Cells["C1"].Formula = "Sum(DeleteRow_Sheet2!C5:C10)";
+            ws.Cells["D1:D2"].Formula = "Sum(DeleteRow_Sheet2!C5:C10)";
+
             ws2.Cells["A1"].Formula = "Sum(DeleteRow_Sheet1!C5:C10)";
             ws2.Cells["B1:B2"].Formula = "Sum(DeleteRow_Sheet1!C5:C10)";
 
@@ -50,6 +53,8 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual("Sum(C4:C9)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(C4:C9)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(C5:C10)", ws.Cells["B2"].Formula);
+            Assert.AreEqual("Sum(DeleteRow_Sheet2!C5:C10)", ws.Cells["C1"].Formula);
+            Assert.AreEqual("Sum(DeleteRow_Sheet2!C5:C10)", ws.Cells["D1"].Formula);
 
             Assert.AreEqual("Sum(DeleteRow_Sheet1!C4:C9)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(DeleteRow_Sheet1!C4:C9)", ws2.Cells["B1"].Formula);
