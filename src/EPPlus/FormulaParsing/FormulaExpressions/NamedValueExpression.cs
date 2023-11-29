@@ -16,6 +16,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -61,7 +62,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 var range = (IRangeInfo)value;
                 if (range.GetNCells()>1)
                 {
-                    return new AddressCompileResult(value, DataType.ExcelRange, range.Address);
+                    if(_negate == -1)
+                    {
+                        range = CreateNegatedRange(range);
+                    }
+                    return new AddressCompileResult(range, DataType.ExcelRange, range.Address);
                 }
                 else
                 {                    
@@ -108,6 +113,28 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     return CompileResultFactory.Create(d * _negate, address);
                 }
             }
+        }
+
+        private InMemoryRange CreateNegatedRange(IRangeInfo range)
+        {
+            var resultRange = new InMemoryRange(range.Size);
+            for(var row = 0; row < range.Size.NumberOfRows; row++)
+            {
+                for(var col = 0; col < range.Size.NumberOfCols; col++)
+                {
+                    var v = range.GetOffset(row, col);
+                    var d = ConvertUtil.GetValueDouble(v, false, true);
+                    if (double.IsNaN(d))
+                    {
+                        resultRange.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
+                    }
+                    else
+                    {
+                        resultRange.SetValue(row, col, d * -1);
+                    }
+                }
+            }
+            return resultRange;
         }
 
         public override void Negate()
