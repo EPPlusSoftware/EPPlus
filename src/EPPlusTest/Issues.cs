@@ -5919,19 +5919,5 @@ namespace EPPlusTest
                 SaveWorkbook("s532-3.xlsx", destinationpackage);
             }
         }
-        [TestMethod]
-        public void s551_4()
-        {
-            string Path = @"C:\epplusTest\workbooks\s551\Main File.xlsx";
-            string ExternalFilepath = @"C:\epplusTest\workbooks\s551\Source File.xlsx";
-            ExcelPackage package = new ExcelPackage(Path);
-            ExcelWorksheet ws = package.Workbook.Worksheets[0];
-            var externalLinkFile = new FileInfo(ExternalFilepath);
-            package.Workbook.ExternalLinks.AddExternalWorkbook(externalLinkFile);
-            package.Workbook.ExternalLinks.UpdateCaches();
-            ws.Cells["P2"].Formula = "VLOOKUP(G2,'[1]CPM Output'!$B$2:$F$61,4,0)"; ;
-            ws.Cells["P2"].Calculate();
-            Assert.AreEqual(3535399.86606, ws.Cells["P2"].Value);
-        }
     }
 }
