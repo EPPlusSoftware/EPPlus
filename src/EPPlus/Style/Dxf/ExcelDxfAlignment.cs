@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/29/2023         EPPlus Software AB       Added
  *************************************************************************************************/
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -94,6 +95,9 @@ namespace OfficeOpenXml.Style.Dxf
         public bool? ShrinkToFit { get; set; }
         /// <summary>
         /// Reading order
+        /// 0 - Context Dependent 
+        /// 1 - Left-to-Right
+        /// 2 - Right-to-Left
         /// </summary>
         public int? ReadingOrder { get; set; }
         /// <summary>
@@ -177,7 +181,7 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueEnum(helper, path + "/@horizontal", HorizontalAlignment);
             SetValueEnum(helper, path + "/@vertical", VerticalAlignment);
             SetValue(helper, path + "/@textRotation", TextRotation);
-            SetValueBool(helper, path + "/@wraptext", WrapText);
+            SetValueBool(helper, path + "/@wrapText", WrapText);
             SetValue(helper, path + "/@indent", Indent);
             SetValue(helper, path + "/@relativeIndent", RelativeIndent);
             SetValueBool(helper, path + "/@justifyLastLine", JustifyLastLine);
@@ -199,6 +203,31 @@ namespace OfficeOpenXml.Style.Dxf
                 _callback.Invoke(eStyleClass.Style, eStyleProperty.ReadingOrder, ReadingOrder);
 
             }
+        }
+        internal override void SetValuesFromXml(XmlHelper helper)
+        {
+            HorizontalAlignment = GetEnumValue<ExcelHorizontalAlignment>(helper.GetXmlNodeString("d:alignment/@horizontal"));
+            VerticalAlignment = GetEnumValue<ExcelVerticalAlignment>(helper.GetXmlNodeString("d:alignment/@vertical"));
+            TextRotation = helper.GetXmlNodeIntNull("d:alignment/@textRotation");
+            WrapText = helper.GetXmlNodeBoolNullable("d:alignment/@wrapText");
+            Indent = helper.GetXmlNodeIntNull("d:alignment/@indent");
+            RelativeIndent = helper.GetXmlNodeIntNull("d:alignment/@relativeIndent");
+            JustifyLastLine = helper.GetXmlNodeBoolNullable("d:alignment/@justifyLastLine");
+            ShrinkToFit = helper.GetXmlNodeBoolNullable("d:alignment/@shrinkToFit");
+            ReadingOrder = helper.GetXmlNodeIntNull("d:alignment/@readingOrder");            
+        }
+
+        private T? GetEnumValue<T>(string v) where T : struct
+        {
+            if (v == null)
+            {
+                return default;
+            }
+            else
+            {
+                return v.ToEnum<T>();
+            }
+
         }
     }
 }
