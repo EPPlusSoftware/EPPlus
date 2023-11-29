@@ -5919,5 +5919,17 @@ namespace EPPlusTest
                 SaveWorkbook("s532-3.xlsx", destinationpackage);
             }
         }
+        [TestMethod]
+        public void s555_3()
+        {
+            using (var p = OpenTemplatePackage("s555-HL.xlsx"))
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets["期末试算"];
+                Assert.IsTrue(ws.Cells["E7"].Formula == "SUMIFS(调整分录!K$6:K$2762,调整分录!$D$6:$D$2762,[1]期初试算!$C7,调整分录!$B$6:$B$2762,\"\")");
+                ws.Cells["K4:K414"].Insert(eShiftTypeInsert.Right);
+                Assert.IsTrue(ws.Cells["E7"].Formula == "SUMIFS(调整分录!K$6:K$2762,调整分录!$D$6:$D$2762,[1]期初试算!$C7,调整分录!$B$6:$B$2762,\"\")");
+                SaveWorkbook("s555-3-saved.xlsx", p);
+            }
+        }
     }
 }

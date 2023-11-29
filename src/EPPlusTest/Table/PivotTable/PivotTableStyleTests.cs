@@ -139,6 +139,10 @@ namespace EPPlusTest.Table.PivotTable
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
             s.Style.Font.Name = "Times New Roman";
+            s.Style.Alignment.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            s.Style.Alignment.VerticalAlignment = ExcelVerticalAlignment.Center;
+            s.Style.Protection.Locked = false;
+            s.Style.Protection.Hidden = true;
         }
         [TestMethod]
         public void AddPivotDataGrandColumn()
