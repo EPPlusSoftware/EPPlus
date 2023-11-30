@@ -132,26 +132,30 @@ namespace OfficeOpenXml.ConditionalFormatting
                     //If we're here one formula is string another value
                     //In excel if one formula is string and another numeric all numbers higher than numeric value is considered applicable.
                     //While all strings compared less is considered applicable.
+                    double compareNum;
+                    string compareString;
+
                     if (Formula1IsNum)
                     {
-                        if (cellValueIsNum && numCellValue >= num1)
-                        {
-                            return true;
-                        }
+                        compareNum = num1;
+                        compareString = calculatedFormula2;
+                    }
+                    else
+                    {
+                        compareNum = num2;
+                        compareString = calculatedFormula1;
+                    }
 
-                        if (string.Compare(str, calculatedFormula2, true) <= 0)
+                    if (cellValueIsNum)
+                    {
+                        if (numCellValue >= compareNum)
                         {
                             return true;
                         }
                     }
                     else
                     {
-                        if (cellValueIsNum && numCellValue >= num2)
-                        {
-                            return true;
-                        }
-
-                        if (string.Compare(str, calculatedFormula1, true) <= 0)
+                        if(string.Compare(str, compareString, true) <= 0)
                         {
                             return true;
                         }

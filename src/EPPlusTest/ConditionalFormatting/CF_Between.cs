@@ -83,6 +83,55 @@ namespace EPPlusTest.ConditionalFormatting
                 numBetween.Cells["A14"].Value = "5677777";
 
                 var between = numBetween.Cells["A1:A14"].ConditionalFormatting.AddBetween();
+
+                between.Formula = "5";
+                between.Formula2 = "25";
+
+                var betweenCast = (ExcelConditionalFormattingBetween)between;
+
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(numBetween.Cells["A7"]));
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(numBetween.Cells["A8"]));
+                Assert.IsTrue(betweenCast.ShouldApplyToCell(numBetween.Cells["A9"]));
+                Assert.IsTrue(betweenCast.ShouldApplyToCell(numBetween.Cells["A10"]));
+                Assert.IsTrue(betweenCast.ShouldApplyToCell(numBetween.Cells["A11"]));
+
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(numBetween.Cells["A12"]));
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(numBetween.Cells["A13"]));
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(numBetween.Cells["A14"]));
+            }
+        }
+
+        [TestMethod]
+        public void CF_BetweenShouldApplyStrings()
+        {
+            using (var pck = OpenPackage("CF_StringBetween.xlsx", true))
+            {
+                var strBetween = pck.Workbook.Worksheets.Add("stringBetween");
+                strBetween.Cells["A1"].Value = "Abc";
+                strBetween.Cells["A2"].Value = "Def";
+                strBetween.Cells["A3"].Value = "Ghi";
+                strBetween.Cells["A4"].Value = "jkl";
+                strBetween.Cells["A5"].Value = "mno";
+                strBetween.Cells["A6"].Value = "pqr";
+                strBetween.Cells["A7"].Value = "stv";
+                strBetween.Cells["A8"].Value = "wxyz";
+
+                var between = strBetween.Cells["A1:A14"].ConditionalFormatting.AddBetween();
+
+                between.Formula = "\"Def\"";
+                between.Formula2 = "\"mno\"";
+
+                var betweenCast = (ExcelConditionalFormattingBetween)between;
+
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(strBetween.Cells["A1"]));
+                Assert.IsTrue(betweenCast.ShouldApplyToCell(strBetween.Cells["A2"]));
+                Assert.IsTrue(betweenCast.ShouldApplyToCell(strBetween.Cells["A3"]));
+                Assert.IsTrue(betweenCast.ShouldApplyToCell(strBetween.Cells["A4"]));
+                Assert.IsTrue(betweenCast.ShouldApplyToCell(strBetween.Cells["A5"]));
+
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(strBetween.Cells["A6"]));
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(strBetween.Cells["A7"]));
+                Assert.IsFalse(betweenCast.ShouldApplyToCell(strBetween.Cells["A8"]));
             }
         }
     }
