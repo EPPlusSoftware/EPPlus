@@ -1492,7 +1492,7 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual("A11+E12", tbl2.Columns[2].CalculatedColumnFormula);
         }
         [TestMethod]
-        public void DeleteColumnIssue()
+        public void DeleteEntireColumnAndShiftFormulas()
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet 1");
@@ -1507,7 +1507,7 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(3d, sheet.Cells["C1"].Value, "Column D was not correctly shifted to C");
         }
         [TestMethod]
-        public void DeleteRowIssue()
+        public void DeleteEntireRowAndShiftFormulas()
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet 1");
@@ -1518,8 +1518,8 @@ namespace EPPlusTest.Core.Range.Delete
             sheet.Cells["A5:E5"].Style.Fill.SetBackground(Color.LightYellow);
             sheet.Cells["B2"].Delete(eShiftTypeDelete.EntireRow);
             sheet.Calculate();
-            Assert.AreEqual(2d, sheet.Cells["A2"].Value, "Column C was not correctly shifted to B");
-            Assert.AreEqual(3d, sheet.Cells["A3"].Value, "Column D was not correctly shifted to C");
+            Assert.AreEqual(2d, sheet.Cells["A2"].Value, "Row 3 was not correctly shifted to 2");
+            Assert.AreEqual(3d, sheet.Cells["A3"].Value, "Row 4 was not correctly shifted to 3");
         }
 
     }
