@@ -5686,7 +5686,7 @@ namespace EPPlusTest
                 var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
 
                 Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
-                Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+                Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[1].CacheId.ToString());
 
                 sourcePackage.Dispose();
                 SaveAndCleanup(destinationpackage);
