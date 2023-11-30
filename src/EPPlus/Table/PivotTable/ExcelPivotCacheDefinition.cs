@@ -129,6 +129,13 @@ namespace OfficeOpenXml.Table.PivotTable
         internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
         internal const string _sourceAddressPath = "d:cacheSource/d:worksheetSource/@ref";
         internal ExcelRangeBase _sourceRange = null;
+        internal Uri SourceExternalReference
+        {
+            get
+            {
+                return _cacheReference.SourceExternalReferenceUri;
+            }
+        }
         /// <summary>
         /// The source data range when the pivottable has a worksheet datasource. 
         /// The number of columns in the range must be intact if this property is changed.
@@ -228,6 +235,14 @@ namespace OfficeOpenXml.Table.PivotTable
             get
             {
                 return _cacheReference.CacheSource;
+            }
+        }
+
+        internal bool IsExternalReferernce 
+        {
+            get
+            {
+                return (CacheSource == eSourceType.Worksheet && string.IsNullOrEmpty(_cacheReference.SourceRId)) == false;
             }
         }
     }

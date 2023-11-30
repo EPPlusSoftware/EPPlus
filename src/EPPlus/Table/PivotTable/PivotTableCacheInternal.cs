@@ -61,7 +61,32 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return GetXmlNodeString(_sourceNamePath);
             }
-        }        
+        }
+        internal string SourceWorksheetName
+        {
+            get
+            {
+                return GetXmlNodeString(_sourceWorksheetPath);
+            }
+            set
+            {
+                SetXmlNodeString(_sourceWorksheetPath, value);
+            }
+        }
+
+        internal const string _sourceRIdPath = "d:cacheSource/d:worksheetSource/@r:id";
+
+        internal string SourceRId
+        {
+            get
+            {
+                return GetXmlNodeString(_sourceRIdPath);
+            }
+            set
+            {
+                SetXmlNodeString(_sourceRIdPath, value);
+            }
+        }
         internal ExcelRangeBase SourceRange 
         { 
             get
@@ -69,35 +94,42 @@ namespace OfficeOpenXml.Table.PivotTable
                 ExcelRangeBase sourceRange=null;
                 if (CacheSource == eSourceType.Worksheet)
                 {
-                    var ws = _wb.Worksheets[GetXmlNodeString(_sourceWorksheetPath)];
-                    if (ws == null) //Not worksheet, check name or table name
+                    if (SourceRId == null) //External workbook
                     {
-                        var name = GetXmlNodeString(_sourceNamePath);
-                        foreach (var n in _wb.Names)
-                        {
-                            if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
-                            {
-                                sourceRange = n;
-                                return sourceRange;
-                            }
-                        }
-                        foreach (var w in _wb.Worksheets)
-                        {
-                            sourceRange = GetRangeByName(w, name);
-                            if (sourceRange != null) break;
-                        }
+                        return null;
                     }
                     else
                     {
-                        var address = Ref;
-                        if (string.IsNullOrEmpty(address))
+                        var ws = _wb.Worksheets[SourceWorksheetName];
+                        if (ws == null) //Not worksheet, check name or table name
                         {
-                            var name = SourceName;
-                            sourceRange = GetRangeByName(ws, name);
+                            var name = GetXmlNodeString(_sourceNamePath);
+                            foreach (var n in _wb.Names)
+                            {
+                                if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    sourceRange = n;
+                                    return sourceRange;
+                                }
+                            }
+                            foreach (var w in _wb.Worksheets)
+                            {
+                                sourceRange = GetRangeByName(w, name);
+                                if (sourceRange != null) break;
+                            }
                         }
                         else
                         {
-                            sourceRange = ws.Cells[address];
+                            var address = Ref;
+                            if (string.IsNullOrEmpty(address))
+                            {
+                                var name = SourceName;
+                                sourceRange = GetRangeByName(ws, name);
+                            }
+                            else
+                            {
+                                sourceRange = ws.Cells[address];
+                            }
                         }
                     }
                 }
@@ -235,14 +267,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
 
                     if (!string.IsNullOrEmpty(name) && !field.Name.StartsWith(name)) field.Name = name;
-                    //var hs = new HashSet<object>();
-                    //var dimensionToRow = ws.Dimension?._toRow ?? r._fromRow + 1;
-                    //var toRow = r._toRow < dimensionToRow ? r._toRow : dimensionToRow;
-                    //for (int row = r._fromRow + 1; row <= toRow; row++)
-                    //{
-                    //    ExcelPivotTableCacheField.AddSharedItemToHashSet(hs, ws.GetValue(row, col));
-                    //}
-                    //field.SharedItems._list = hs.ToList();
                     fields.Add(field);
                 }
             }
@@ -338,6 +362,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 ChangeIndex(tbl.PageFields, l);
                 ChangeIndex(tbl.ColumnFields, l);
                 ChangeIndex(tbl.RowFields, l);
+
+                RemoveEmptyFieldsElement(tbl.PageFields);
+                RemoveEmptyFieldsElement(tbl.ColumnFields);
+                RemoveEmptyFieldsElement(tbl.RowFields);
+
                 for (int i = 0; i < tbl.DataFields.Count; i++)
                 {
                     var df = tbl.DataFields[i];
@@ -351,7 +380,8 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     else
                     {
-                        tbl.DataFields._list.RemoveAt(i--);
+                        tbl.DataFields.Remove(df);
+                        i--;
                     }
 
                     foreach (ExcelPivotTableAreaStyle s in tbl.Styles)
@@ -367,16 +397,32 @@ namespace OfficeOpenXml.Table.PivotTable
                                 c.FieldIndex = newIx;
                             }
                         }
-                        
+
                         if (s.Conditions.DataFields.FieldIndex == df.Index)
                         {
                             s.Conditions.DataFields.FieldIndex = newIx;
                         }
                     }
                 }
+
+                if (tbl.DataFields.Count == 0)
+                {
+                    tbl.DeleteNode("d:dataFields");
+                }
             }
         }
 
+        private static void RemoveEmptyFieldsElement(ExcelPivotTableRowColumnFieldCollection col)
+        {
+            if (col.Count == 0)
+            {
+                var node = col._table.GetNode("d:" + col._topNode);
+                if (node != null)
+                {
+                    node.ParentNode.RemoveChild(node);
+                }
+            }
+        }
         private void ChangeIndex(ExcelPivotTableRowColumnFieldCollection fields, List<string> prevFields)
         {
             var newFields = new List<ExcelPivotTableField>();
@@ -481,7 +527,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 string sourceName = SourceRange.GetName();
                 if (string.IsNullOrEmpty(sourceName))
                 {
-                    SetXmlNodeString(_sourceWorksheetPath, sourceAddress.WorkSheetName);
+                    SourceWorksheetName = sourceAddress.WorkSheetName;
                     SetXmlNodeString(_sourceAddressPath, sourceAddress.Address);
                 }
                 else
@@ -654,6 +700,22 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
+        public Uri SourceExternalReferenceUri 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(SourceRId) || Part.RelationshipExists(SourceRId) == false)
+                {
+                    return null;
+                }
+                else
+                {
+                    return Part.GetRelationship(SourceRId).TargetUri;
+                }
+
+            }
+        }
+
         private void RemoveRecordsXml()
         {
             RecordRelationshipId = null;
@@ -715,5 +777,57 @@ namespace OfficeOpenXml.Table.PivotTable
             return new ExcelPivotTableCacheField(NameSpaceManager, cacheFieldNode, this, index);
         }
 
+        internal string GetSourceAddress()
+        {
+
+            if (string.IsNullOrEmpty(SourceRId))
+            {
+                if (string.IsNullOrEmpty(SourceName))
+                {
+                    var r=SourceRange?.FullAddress;
+                    if(r==null)
+                    {
+                        if(string.IsNullOrEmpty(SourceWorksheetName))
+                        {
+                            return Ref;
+                        }
+                        else
+                        {
+                            return ExcelCellBase.GetQuotedWorksheetName(SourceWorksheetName) + "!" + Ref;
+                        }                            
+                    }
+                    return r;
+                }
+                else
+                {
+                    return SourceName;
+                }
+            }
+            else
+            {
+                var uri = SourceExternalReferenceUri;
+                if (uri!=null)
+                {
+                    var refIx=_wb.ExternalLinks.GetExternalLink(uri.OriginalString);
+                    if(refIx>=0)
+                    {
+                        return $"[{refIx}]{SourceWorksheetName}!{Ref}";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var fi = new FileInfo(uri.OriginalString);
+                            return $"[{fi.Name}]{SourceWorksheetName}!{Ref}";
+                        }
+                        catch
+                        {
+                            return $"[{uri.OriginalString}]{SourceWorksheetName}!{Ref}";
+                        }
+                    }
+                }
+                return null;
+            }
+        }
     }
 }

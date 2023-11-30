@@ -860,7 +860,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             else
             {
                 var ws = wb.Package.Workbook.GetWorksheetByIndexInList(WorksheetIx);
-                return new RangeInfo(ws, FromRow, FromCol, ToRow, ToCol, _context);
+                var ri=new RangeInfo(ws, FromRow, FromCol, ToRow, ToCol, _context);
+                ri.Address.ExternalReferenceIx = ExternalReferenceIx;
+                return ri;
             }
         }
 
