@@ -31,16 +31,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     [DebuggerDisplay("Operator: {GetOperator()}")]
     public class Operator : IOperator
     {
-        private const int PrecedenceColon = 0;
-        private const int PrecedenceIntersect = 1;
-        private const int PrecedencePercent = 3;
-        private const int PrecedenceExp = 4;
-        private const int PrecedenceMultiplyDivide = 6;
-        private const int PrecedenceIntegerDivision = 8;
-        private const int PrecedenceModulus = 10;
-        private const int PrecedenceAddSubtract = 12;
-        private const int PrecedenceConcat = 15;
-        private const int PrecedenceComparison = 25;
+        internal const int PrecedenceColon = 0;
+        internal const int PrecedenceIntersect = 1;
+        internal const int PrecedencePercent = 3;
+        internal const int PrecedenceExp = 4;
+        internal const int PrecedenceMultiplyDivide = 6;
+        internal const int PrecedenceIntegerDivision = 8;
+        internal const int PrecedenceModulus = 10;
+        internal const int PrecedenceAddSubtract = 12;
+        internal const int PrecedenceConcat = 15;
+        internal const int PrecedenceComparison = 25;
 
         private Operator() { }
 

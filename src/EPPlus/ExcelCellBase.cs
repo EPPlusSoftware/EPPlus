@@ -1191,9 +1191,13 @@ namespace OfficeOpenXml
                 var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var tokens = sct.Tokenize(formula);
                 var f = "";
+                var extRef = "";
+                var adrWs = "";
                 foreach (var t in tokens)
                 {
-                    if (t.TokenTypeIsAddress)
+                    if (t.TokenTypeIsAddress && 
+                        string.IsNullOrEmpty(extRef) && 
+                        (string.IsNullOrEmpty(adrWs) || adrWs.Equals(currentSheet, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         var address = new ExcelAddressBase(t.Value);
                         if (((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed) ||
@@ -1269,10 +1273,22 @@ namespace OfficeOpenXml
                         }
 
 
-                    }
+                    }                   
                     else
                     {
                         f += t.Value;
+                        if (t.TokenType == TokenType.WorksheetNameContent)
+                        {
+                            adrWs = t.Value.ToString();
+                        }
+                        else if(t.TokenType==TokenType.ExternalReference)
+                        {
+                            extRef = t.Value.ToString(); ;
+                        }
+                        else if(!t.TokenTypeIsAddressToken)
+                        {
+                            extRef = adrWs = "";
+                        }
                     }
                 }
                 return f;

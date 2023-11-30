@@ -176,6 +176,9 @@
     <None Update="Workbooks\Template.xltx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\ToDataTableNullValues.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Workbooks\VBADecompressBug.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

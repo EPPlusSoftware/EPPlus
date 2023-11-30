@@ -134,6 +134,12 @@ namespace OfficeOpenXml.Export.ToDataTable
         public string DataTableNamespace { get; set; }
 
         /// <summary>
+        /// If true, the <see cref="DataColumnMapping.AllowNull"/> will be overridden and
+        /// null values will be allowed in all columns.
+        /// </summary>
+        public bool AlwaysAllowNull { get; set; }
+
+        /// <summary>
         /// Sets the primary key of the data table. 
         /// </summary>
         /// <param name="columnNames">The name or names of one or more column in the <see cref="System.Data.DataTable"/> that constitutes the primary key</param>

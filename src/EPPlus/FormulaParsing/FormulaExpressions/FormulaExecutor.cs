@@ -75,8 +75,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         if (operatorStack.Count > 0)
                         {
                             var o2 = operatorStack.Peek();
-                            while (o2.TokenType == TokenType.Operator &&
-                                operators[o2.Value].Precedence <= operators[token.Value].Precedence && token.TokenType != TokenType.Negator)
+                            while ((o2.TokenType == TokenType.Operator &&
+                                operators[o2.Value].Precedence <= operators[token.Value].Precedence) 
+                                || 
+                                (o2.TokenType == TokenType.Negator && 
+                                token.TokenType != TokenType.Negator && 
+                                operators[token.Value].Precedence > Operator.PrecedenceColon))
                             {
                                 expressions.Add(operatorStack.Pop());
                                 if (operatorStack.Count == 0) break;
