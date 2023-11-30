@@ -700,54 +700,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        internal double? _numFormula = double.NaN;
-
-        /// <summary>
-        /// Only meant to be run once
-        /// </summary>
-        internal double? NumFormula 
-        {
-            get 
-            {
-                if(calculatedFormula1 != null && _numFormula !=null && double.IsNaN(_numFormula.Value)) 
-                {
-                    bool success = double.TryParse(calculatedFormula1, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
-
-                    if (success == false)
-                    {
-                        _numFormula = null;
-                        return null;
-                    }
-                    _numFormula = outNum;
-                }
-                return _numFormula;
-            }
-        }
-
-        internal double? _numFormula2 = double.NaN;
-
-        /// <summary>
-        /// Only meant to be run once
-        /// </summary>
-        internal double? NumFormula2
-        {
-            get
-            {
-                if (calculatedFormula2 != null && _numFormula2 != null && double.IsNaN(_numFormula2.Value))
-                {
-                    bool success = double.TryParse(calculatedFormula2, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
-
-                    if (success == false)
-                    {
-                        _numFormula2 = null;
-                        return null;
-                    }
-                    _numFormula2 = outNum;
-                }
-                return _numFormula2;
-            }
-        }
-
         internal virtual bool ShouldApplyToCell(ExcelAddress address)
         {
             //_ws.Cells[address.Address].Value

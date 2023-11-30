@@ -24,14 +24,14 @@ namespace EPPlusTest.ConditionalFormatting
                 missMatch.Cells["A5"].Value = "Drill";
 
                 missMatch.Cells["A6"].Value = "Emperor Tamarin";
-                missMatch.Cells["A7"].Value = "2";
-                missMatch.Cells["A8"].Value = "30";
-                missMatch.Cells["A9"].Value = "20";
-                missMatch.Cells["A10"].Value = "18";
-                missMatch.Cells["A11"].Value = "19";
-                missMatch.Cells["A12"].Value = "567";
-                missMatch.Cells["A13"].Value = "5677777";
-                missMatch.Cells["A14"].Value = "5677777";
+                missMatch.Cells["A7"].Value = 2;
+                missMatch.Cells["A8"].Value = 30;
+                missMatch.Cells["A9"].Value = 20;
+                missMatch.Cells["A10"].Value = 18;
+                missMatch.Cells["A11"].Value = 19;
+                missMatch.Cells["A12"].Value = 567;
+                missMatch.Cells["A13"].Value = 5677777;
+                missMatch.Cells["A14"].Value = 5677777;
 
                 var between = missMatch.Cells["A1:A14"].ConditionalFormatting.AddBetween();
 
