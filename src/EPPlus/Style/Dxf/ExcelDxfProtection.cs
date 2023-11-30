@@ -88,5 +88,11 @@ namespace OfficeOpenXml.Style.Dxf
                 _callback.Invoke(eStyleClass.Style, eStyleProperty.Hidden, Hidden);
             }
         }
+        internal override void SetValuesFromXml(XmlHelper helper)
+        {
+            Locked = helper.GetXmlNodeBoolNullable("d:protection/@locked");
+            Hidden = helper.GetXmlNodeBoolNullable("d:protection/@hidden");
+        }
+
     }
 }

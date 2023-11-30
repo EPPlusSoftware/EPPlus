@@ -50,6 +50,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 return _style;
             }
+            internal set
+            {
+                _style = value;
+            }
         }
 
         internal int? DxfId 

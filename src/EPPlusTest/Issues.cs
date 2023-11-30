@@ -39,6 +39,7 @@ using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -5684,7 +5685,7 @@ namespace EPPlusTest
                 var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
 
                 Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
-                Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+                Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[1].CacheId.ToString());
 
                 sourcePackage.Dispose();
                 SaveAndCleanup(destinationpackage);
@@ -5829,7 +5830,6 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-
         [TestMethod]
         public void s551()
         {
@@ -5839,6 +5839,83 @@ namespace EPPlusTest
                 ws.Cells["AA2"].Calculate();
 
                 Assert.AreEqual(3535399.86606, ws.Cells["AA2"].Value);
+            }
+        }
+        /// <summary>
+        /// Customer issue with external references
+        /// </summary>
+        [TestMethod]
+        public void s542Pivot()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532\\s532_pivot_source.xlsx"))
+
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532\\s532_destination.xlsx");
+
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["Summary"];
+                var wscopied = destinationpackage.Workbook.Worksheets.Add("Pivot Data", sourceworksheet);
+                var pt = wscopied.PivotTables[5];
+                //var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                //Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                
+                SaveWorkbook("s532-1.xlsx", destinationpackage);
+            }
+        }
+
+        /// <summary>
+        /// Simplified version of above test without external references
+        /// </summary>
+        [TestMethod]
+        public void s542Pivotinternal()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532\\s532_copyInternal.xlsx"))
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532\\s532_destinationNew.xlsx");
+
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["Summary"];
+                ExcelWorksheet dataSource = sourcePackage.Workbook.Worksheets["sheet1"];
+
+                var wscopied1 = destinationpackage.Workbook.Worksheets.Add("sheet1", dataSource);
+
+                var wscopied2 = destinationpackage.Workbook.Worksheets.Add("Pivot Data", sourceworksheet);
+
+                //var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                //Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                SaveWorkbook("s532-2.xlsx", destinationpackage);
+            }
+        }
+        /// <summary>
+        /// Sanity check for the copying of a simple, non-problematic pivot table and destination
+        /// </summary>
+        [TestMethod]
+        public void CopyPivotTableAcrossWorkbooks()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532\\pivotBook.xlsx"))
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532\\emptyTarget.xlsx");
+
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["PivotTable"];
+                ExcelWorksheet dataSource = sourcePackage.Workbook.Worksheets["DataSource"];
+
+                var wscopied1 = destinationpackage.Workbook.Worksheets.Add("DataSource", dataSource);
+
+                var wscopied2 = destinationpackage.Workbook.Worksheets.Add("PivotTables", sourceworksheet);
+
+                //var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                //Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                SaveWorkbook("s532-3.xlsx", destinationpackage);
             }
         }
         [TestMethod]

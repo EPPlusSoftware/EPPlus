@@ -18,7 +18,10 @@ namespace OfficeOpenXml.RichData
             else
             {
                 ValueTypes = new ExcelRichDataValueTypeInfo(wb);
-                ValueTypes.CreateDefault();
+                if (ValueTypes.Part == null)
+                {
+                    ValueTypes.CreateDefault();
+                }
             }
             Structures = new ExcelRichValueStructureCollection(wb);
             Values = new ExcelRichValueCollection(wb, Structures);

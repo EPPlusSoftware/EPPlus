@@ -17,22 +17,32 @@ namespace OfficeOpenXml.RichData.Types
         private ExcelWorkbook _wb;
         private Uri _uri=null;
         private ZipPackagePart _part=null;
+        private const string PART_URI_PATH = "/xl/richData/rdRichValueTypes.xml";
         public ExcelRichDataValueTypeInfo(ExcelWorkbook wb)
         {
             _wb = wb;
+            _uri = new Uri(PART_URI_PATH, UriKind.Relative);
+            ReadPart(wb);
         }
-        public ExcelRichDataValueTypeInfo(ExcelWorkbook wb, ZipPackageRelationship r) : this(wb)
+        public ExcelRichDataValueTypeInfo(ExcelWorkbook wb, ZipPackageRelationship r) 
         {
-            if(r!=null)
+            _wb = wb;
+            if (r != null)
             {
                 _uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
-                if(wb._package.ZipPackage.PartExists(_uri))
-                {
-                    _part = wb._package.ZipPackage.GetPart(_uri);
-                    ReadXml(_part.GetStream());
-                }
+                ReadPart(wb);
             }
         }
+
+        private void ReadPart(ExcelWorkbook wb)
+        {
+            if (wb._package.ZipPackage.PartExists(_uri))
+            {
+                _part = wb._package.ZipPackage.GetPart(_uri);
+                ReadXml(_part.GetStream());
+            }
+        }
+
         internal ZipPackagePart Part { get { return _part; } }
         private void ReadXml(Stream stream)
         {
@@ -123,7 +133,7 @@ namespace OfficeOpenXml.RichData.Types
             if (Global.Count == 0 && Types.Count == 0 && ExtLstXml == null) return;
             if (_part == null)
             {
-                _uri = new Uri("/xl/richData/rdRichValueTypes.xml", UriKind.Relative);
+                _uri = new Uri(PART_URI_PATH, UriKind.Relative);
                 _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValueType);
                 _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueTypeRelationship);
                 _part.ShouldBeSaved = false;
@@ -169,7 +179,7 @@ namespace OfficeOpenXml.RichData.Types
         }
 
         internal void CreateDefault()
-        {
+        {            
             Global.Add("_self", new ExcelRichTypeValueKey("_Self") { Flags = RichValueKeyFlags.ExcludeFromFile | RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_DisplayString", new ExcelRichTypeValueKey("_DisplayString") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Flags", new ExcelRichTypeValueKey("_Flags") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
