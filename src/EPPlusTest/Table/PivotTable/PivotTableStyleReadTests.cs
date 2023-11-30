@@ -415,7 +415,7 @@ namespace EPPlusTest.Table.PivotTable
         }
 
         [TestMethod]
-        public void AddTopEnd()
+        public void ReadTopEnd()
         {
             var ws = TryGetWorksheet(_pck, "StyleTopEnd");
             var pt = ws.PivotTables[0];
@@ -426,7 +426,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(Color.Yellow.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
         }
         [TestMethod]
-        public void AddTopEndOffset1()
+        public void ReadTopEndOffset1()
         {
             var ws = TryGetWorksheet(_pck, "StyleTopEndOffset1");
             var pt = ws.PivotTables[0];
@@ -436,6 +436,24 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual("A1", s.Offset);
             Assert.AreEqual(eDxfFillStyle.PatternFill, s.Style.Fill.Style);
             Assert.AreEqual(Color.Yellow.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+        }
+        [TestMethod]
+        public void ReadPivotDataAlignment()
+        {
+            var ws =  TryGetWorksheet(_pck, "StyleAlignment");
+            var pt = ws.PivotTables[0];
+            var s = pt.Styles[0];
+
+            Assert.AreEqual(ExcelHorizontalAlignment.Center, s.Style.Alignment.HorizontalAlignment);
+            Assert.AreEqual(ExcelVerticalAlignment.Center, s.Style.Alignment.VerticalAlignment);
+            Assert.AreEqual(255,  s.Style.Alignment.TextRotation);
+            Assert.AreEqual(1, s.Style.Alignment.Indent);
+            Assert.AreEqual(1, s.Style.Alignment.RelativeIndent);
+            Assert.AreEqual(1, s.Style.Alignment.ReadingOrder);
+            Assert.IsTrue(s.Style.Alignment.ShrinkToFit);
+            Assert.IsTrue(s.Style.Alignment.WrapText);
+            Assert.IsFalse(s.Style.Protection.Locked);
+            Assert.IsTrue(s.Style.Protection.Hidden);
         }
 
     }
