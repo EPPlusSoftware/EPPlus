@@ -4,6 +4,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -1490,5 +1491,36 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual("A11+B11", tbl1.Columns[2].CalculatedColumnFormula);
             Assert.AreEqual("A11+E12", tbl2.Columns[2].CalculatedColumnFormula);
         }
+        [TestMethod]
+        public void DeleteColumnIssue()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+            sheet.Cells["A1:A5"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["B1:B5"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["C1:C5"].Formula = "A1:A5 + 1";
+            sheet.Cells["D1:D5"].Formula = "C1:C5 + 1";
+            sheet.Cells["A1:D5"].Style.Fill.SetBackground(Color.LightYellow);
+            sheet.Cells["B1"].Delete(eShiftTypeDelete.EntireColumn);
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["B1"].Value, "Column C was not correctly shifted to B");
+            Assert.AreEqual(3d, sheet.Cells["C1"].Value, "Column D was not correctly shifted to C");
+        }
+        [TestMethod]
+        public void DeleteRowIssue()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+            sheet.Cells["A1:E1"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["A2:E2"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["A3:E3"].Formula = "A1:E1 + 1";
+            sheet.Cells["A4:E4"].Formula = "A3:E3 + 1";
+            sheet.Cells["A5:E5"].Style.Fill.SetBackground(Color.LightYellow);
+            sheet.Cells["B2"].Delete(eShiftTypeDelete.EntireRow);
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["A2"].Value, "Column C was not correctly shifted to B");
+            Assert.AreEqual(3d, sheet.Cells["A3"].Value, "Column D was not correctly shifted to C");
+        }
+
     }
 }
