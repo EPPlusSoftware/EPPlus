@@ -117,7 +117,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         }
 
         /// <summary>
-        /// Returns true if the range represents a reference
+        /// Returns true if the range represents an invalid reference
         /// </summary>
         public bool IsRef
         {

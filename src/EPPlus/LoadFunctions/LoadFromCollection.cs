@@ -46,14 +46,16 @@ namespace OfficeOpenXml.LoadFunctions
                 ShowTotal = tableAttr.ShowTotal;
             }
             var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
-            if(classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
+            if (classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
             {
                 SortOrderProperties = classSortOrderAttr.Properties.ToList();
+                var scanner = new NestedColumnsSortorderScanner(type, parameters.BindingFlags);
+                SortOrderProperties = scanner.GetSortOrder();
             }
             LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
             {
-                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 SetHiddenColumns();
@@ -64,7 +66,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
-                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties, parameters.Members);
+                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 // the ValidateType method will throw an InvalidCastException
@@ -226,6 +228,18 @@ namespace OfficeOpenXml.LoadFunctions
                                 {
                                     v = ((MethodInfo)member).Invoke(obj, null);
                                 }
+                                if (colInfo.IsDictionaryProperty)
+                                {
+                                    var dict = v as Dictionary<string, object>;
+                                    if(dict != null && dict.ContainsKey(colInfo.DictinaryKey))
+                                    {
+                                        v = dict[colInfo.DictinaryKey];
+                                    }
+                                    else
+                                    {
+                                        v = null;
+                                    }
+                                }
 
 #if (!NET35)
                                 if (v != null)
@@ -271,8 +285,9 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var members = path.Split('.');
             object o = obj;
-            foreach(var member in members)
+            for(var ix = 0; ix < members.Length; ix++)
             {
+                var member = members[ix];
                 if (o == null) return null;
                 var memberInfos = o.GetType().GetMember(member);
                 if(memberInfos == null || memberInfos.Length == 0)
@@ -295,6 +310,19 @@ namespace OfficeOpenXml.LoadFunctions
                 else
                 {
                     throw new NotSupportedException("Invalid member: '" + memberInfo.Name + "', not supported member type '" + memberInfo.GetType().FullName + "'");
+                }
+                if(o is Dictionary<string, object> dict && ix < members.Length + 1)
+                {
+                    var key = members[ix + 1];
+                    if(dict.ContainsKey(key))
+                    {
+                        o = dict[key];
+                    }
+                    else
+                    {
+                        o = null;
+                    }
+                    break;
                 }
             }
             return o;

@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         bool IsEmpty { get; }
         /// <summary>
-        /// If the contains more than one cell  with a value.
+        /// If the range contains more than one cell with a value.
         /// </summary>
         bool IsMulti { get; }
         /// <summary>

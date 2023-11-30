@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -36,8 +36,10 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -5684,7 +5686,7 @@ namespace EPPlusTest
                 var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
 
                 Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
-                Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+                Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[1].CacheId.ToString());
 
                 sourcePackage.Dispose();
                 SaveAndCleanup(destinationpackage);
@@ -5804,6 +5806,10 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s554()
+        {
+            string s = "captain \t cave \n\tman";
 
         [TestMethod]
         public void testKingLink()
@@ -5826,5 +5832,125 @@ namespace EPPlusTest
             }
         }
 
+            using (var package = OpenPackage("tabDecoding.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheety");
+                sheet.Cells["A1"].RichText.Add(s);
+                var richText = sheet.Cells["A1"].RichText;
+                //cell contains the expected \t character
+                package.Save();
+            }
+           
+            //Now read the excel, the Value contains  _x0009_ instead of \t
+            using (var package = OpenPackage("tabDecoding.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var cell = sheet.Cells[1, 1];
+
+                string text = cell.Value.ToString();
+                Assert.AreEqual("captain \t cave \n\tman", text);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s551()
+        {
+            using (var p = OpenTemplatePackage("s551.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["AA2"].Calculate();
+
+                Assert.AreEqual(3535399.86606, ws.Cells["AA2"].Value);
+            }
+        }
+        /// <summary>
+        /// Customer issue with external references
+        /// </summary>
+        [TestMethod]
+        public void s542Pivot()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532\\s532_pivot_source.xlsx"))
+
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532\\s532_destination.xlsx");
+
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["Summary"];
+                var wscopied = destinationpackage.Workbook.Worksheets.Add("Pivot Data", sourceworksheet);
+                var pt = wscopied.PivotTables[5];
+                //var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                //Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                
+                SaveWorkbook("s532-1.xlsx", destinationpackage);
+            }
+        }
+
+        /// <summary>
+        /// Simplified version of above test without external references
+        /// </summary>
+        [TestMethod]
+        public void s542Pivotinternal()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532\\s532_copyInternal.xlsx"))
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532\\s532_destinationNew.xlsx");
+
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["Summary"];
+                ExcelWorksheet dataSource = sourcePackage.Workbook.Worksheets["sheet1"];
+
+                var wscopied1 = destinationpackage.Workbook.Worksheets.Add("sheet1", dataSource);
+
+                var wscopied2 = destinationpackage.Workbook.Worksheets.Add("Pivot Data", sourceworksheet);
+
+                //var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                //Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                SaveWorkbook("s532-2.xlsx", destinationpackage);
+            }
+        }
+        /// <summary>
+        /// Sanity check for the copying of a simple, non-problematic pivot table and destination
+        /// </summary>
+        [TestMethod]
+        public void CopyPivotTableAcrossWorkbooks()
+        {
+            using (var sourcePackage = OpenTemplatePackage("s532\\pivotBook.xlsx"))
+            {
+                ExcelPackage destinationpackage = OpenTemplatePackage("s532\\emptyTarget.xlsx");
+
+                ExcelWorksheet sourceworksheet = sourcePackage.Workbook.Worksheets["PivotTable"];
+                ExcelWorksheet dataSource = sourcePackage.Workbook.Worksheets["DataSource"];
+
+                var wscopied1 = destinationpackage.Workbook.Worksheets.Add("DataSource", dataSource);
+
+                var wscopied2 = destinationpackage.Workbook.Worksheets.Add("PivotTables", sourceworksheet);
+
+                //var nodes = wscopied.Workbook.WorkbookXml.SelectNodes("//d:pivotCache/@cacheId", wscopied.Workbook.NameSpaceManager);
+
+                //Assert.AreEqual(nodes[0].Value, wscopied.PivotTables[0].CacheId.ToString());
+                //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
+
+                sourcePackage.Dispose();
+                SaveWorkbook("s532-3.xlsx", destinationpackage);
+            }
+        }
+        [TestMethod]
+        public void s555_3()
+        {
+            using (var p = OpenTemplatePackage("s555-HL.xlsx"))
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets["期末试算"];
+                Assert.IsTrue(ws.Cells["E7"].Formula == "SUMIFS(调整分录!K$6:K$2762,调整分录!$D$6:$D$2762,[1]期初试算!$C7,调整分录!$B$6:$B$2762,\"\")");
+                ws.Cells["K4:K414"].Insert(eShiftTypeInsert.Right);
+                Assert.IsTrue(ws.Cells["E7"].Formula == "SUMIFS(调整分录!K$6:K$2762,调整分录!$D$6:$D$2762,[1]期初试算!$C7,调整分录!$B$6:$B$2762,\"\")");
+                SaveWorkbook("s555-3-saved.xlsx", p);
+            }
+        }
     }
 }

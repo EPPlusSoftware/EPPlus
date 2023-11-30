@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
 
             var ri = Context.ExcelDataProvider.GetRange(_addressInfo);
-            if (ri.IsMulti)
+            if (ri.GetNCells() > 1)
             {
                 return new AddressCompileResult(ri, DataType.ExcelRange, _addressInfo);
             }

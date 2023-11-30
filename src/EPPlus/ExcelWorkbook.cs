@@ -1368,9 +1368,7 @@ namespace OfficeOpenXml
 				SharedStringItem ssi = _sharedStrings[t];
 				if (ssi.isRichText)
 				{
-					cache.Append("<si>");
-					ConvertUtil.ExcelEncodeString(cache, t);
-					cache.Append("</si>");
+					cache.Append($"<si>{t}</si>");
 				}
 				else
 				{
@@ -1583,17 +1581,9 @@ namespace OfficeOpenXml
                 pivotCachesNode.AppendChild(item);
 			}
 
-			if (cacheReference.CacheSource == eSourceType.Worksheet && cacheReference.SourceRange!=null)
+			if (cacheReference.CacheSource == eSourceType.Worksheet)
 			{
-				string address;
-				if(string.IsNullOrEmpty(cacheReference.SourceName))
-                {
-					address = cacheReference.SourceRange.FullAddress;
-				}
-				else
-                {
-					address = cacheReference.SourceName;
-				}
+ 				string address = cacheReference.GetSourceAddress();
 				
 				if (_pivotTableCaches.TryGetValue(address, out PivotTableCacheRangeInfo cacheInfo))
 				{

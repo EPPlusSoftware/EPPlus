@@ -319,7 +319,6 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else
                     {
-                        sf.Address = a.Address;
                         sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
                         if (sf.StartRow >= rowFrom)
                         {
@@ -365,13 +364,12 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else
                     {
-                        sf.Address = a.Address;
                         sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
 
                         if (sf.StartCol > columnFrom)
                         {
                             var c = Math.Max(columnFrom, sf.StartCol - columns);
-                            sf.StartCol -= c;
+                            sf.StartCol = c;
                         }
                     }
                 }

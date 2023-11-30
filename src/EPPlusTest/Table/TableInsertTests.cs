@@ -107,6 +107,7 @@ namespace EPPlusTest.Table
             Assert.AreEqual("Don't Shift Me", ws.Cells["F5"].Value);
             Assert.AreEqual("Shift Me Down", ws.Cells["B106"].Value);
         }
+
         [TestMethod]
         public void TableInsertRowInside()
         {

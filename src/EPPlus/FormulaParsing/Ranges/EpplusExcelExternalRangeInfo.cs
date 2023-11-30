@@ -102,6 +102,8 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 }
             }
         }
+
+
         /// <summary>
         /// Get the number of cells in the range
         /// </summary>
@@ -190,7 +192,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             get { return _cell; }
         }
         /// <summary>
-        /// Not applicable for external ranges.. Returns null
+        /// Not applicable for external ranges. Returns null
         /// </summary>
         public ExcelWorksheet Worksheet
         {

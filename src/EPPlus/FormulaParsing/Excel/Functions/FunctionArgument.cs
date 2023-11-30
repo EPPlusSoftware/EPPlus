@@ -123,7 +123,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 {
                     if(_result.Address!=null)
                     {
-                        return new RangeInfo(_result.Address);
+                        return _result.Address.GetAsRangeInfo();
                     }
                     return null;
                 }

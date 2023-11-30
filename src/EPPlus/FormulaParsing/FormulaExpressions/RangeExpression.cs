@@ -54,19 +54,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
                 else
                 {
-                    var wb = Context.GetExternalWoorkbook(_addressInfo.ExternalReferenceIx);
-                    IRangeInfo ri;
-                    if(wb?.Package!=null)
-                    {
-                        var ws = wb?.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
-                        ri=new RangeInfo(ws, _addressInfo.FromRow, _addressInfo.FromCol, _addressInfo.ToRow, _addressInfo.ToCol, Context);
-                    }
-                    else
-                    {
-                        ri = new EpplusExcelExternalRangeInfo(wb, _addressInfo, Context);
-                    }
-
-                    if (ri.IsMulti)
+                    var ri = _addressInfo.GetAsRangeInfo();
+                    if (ri.GetNCells()>1)
                     {
                         _cachedCompileResult = new AddressCompileResult(ri, DataType.ExcelRange, _addressInfo);
                     }

@@ -50,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix))
                 {
                     var range = cr.Result as IRangeInfo;
-                    if(range.IsMulti)
+                    if(range.GetNCells() > 1)
                     {
                         rangeArgs[ix] = range;
                     }
