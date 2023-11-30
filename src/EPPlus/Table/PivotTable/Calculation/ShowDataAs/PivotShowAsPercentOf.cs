@@ -13,15 +13,15 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             var pt = df.Field.PivotTable;
             var colStartIx = df.Field.PivotTable.RowFields.Count;
             var keyCol = fieldIndex.IndexOf(df.BaseField);
-            var baseKey = GetKey(fieldIndex.Count, -1);
+            //var baseKey = GetKey(fieldIndex.Count);
             var isRowField = keyCol < pt.RowFields.Count;
             var baseLevel = isRowField ? keyCol : keyCol - pt.RowFields.Count;
-
+            var biType = df.BaseItem == (int)ePrevNextPivotItem.Previous ? -1 : (df.BaseItem== (int)ePrevNextPivotItem.Next ? 1 : 0);
             var maxCol = pt.Fields[df.BaseField].Items.Count - 2;
-            if(df.BaseItem>=0 && df.BaseItem < 1048828)
-            {
-                baseKey[keyCol] = df.BaseItem;
-            }
+            //if(df.BaseItem>=0 && df.BaseItem < 1048828)
+            //{
+            //    baseKey[keyCol] = df.BaseItem;
+            //}
 
             var currentKey = GetKey(fieldIndex.Count);
             var lastIx = fieldIndex.Count-1;
@@ -36,11 +36,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                          currentKey[keyCol] == df.BaseItem)
                 {
                     var tv = (int[])currentKey.Clone();
-                    if (df.BaseItem == (int)ePrevNextPivotItem.Previous)
+                    if (biType < 0)
                     {
                         tv[keyCol] = tv[keyCol] == 0 ? 0 : tv[keyCol] - 1;
                     }
-                    else if (df.BaseItem == (int)ePrevNextPivotItem.Next)
+                    else if (biType > 0)
                     {
                         tv[keyCol] = tv[keyCol] == maxCol ? maxCol : tv[keyCol] + 1;
                     }
@@ -66,29 +66,57 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                             }
                             else
                             {
-                                showAsCalculatedItems.Add(currentKey, 0D);
+                                if(biType==0)
+                                {
+                                    showAsCalculatedItems.Add(currentKey, 0D);
+                                }
+                                else
+                                {
+                                    showAsCalculatedItems.Add(currentKey, 1D);
+                                }
                             }
                         }
                         else
                         {
-                            showAsCalculatedItems.Add(currentKey, o);
+                            if (biType == 0)
+                            {
+                                showAsCalculatedItems.Add(currentKey, o);
+                            }
+                            else
+                            {
+                                showAsCalculatedItems.Add(currentKey, o);
+                            }
                         }
                     }
                     else
                     {
                         if(ArrayComparer.IsEqual(currentKey, tv))
-                        {
+                        {                            
                             showAsCalculatedItems.Add(currentKey, 0D);
                         }
                         else
                         {
-                            showAsCalculatedItems.Add(currentKey, ErrorValues.NullError);
+                            if (biType == 0)
+                            {
+                                showAsCalculatedItems.Add(currentKey, ErrorValues.NullError);
+                            }
+                            else
+                            {
+                                showAsCalculatedItems.Add(currentKey, 0);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    showAsCalculatedItems.Add(currentKey, ErrorValues.NAError);
+                    if (biType == 0)
+                    {
+                        showAsCalculatedItems.Add(currentKey, ErrorValues.NAError);
+                    }
+                    else
+                    {
+                        showAsCalculatedItems.Add(currentKey, 0);
+                    }
                 }
                 if (NextKey(ref currentKey, pt, fieldIndex) == false) break;
             }

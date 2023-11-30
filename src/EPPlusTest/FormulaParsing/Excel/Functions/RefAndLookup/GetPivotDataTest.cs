@@ -572,22 +572,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ws.Calculate();
 
             Assert.AreEqual(0.264508929, (double)ws.Cells["G5"].Value, 0.0000001D);
-            //Assert.AreEqual(0.694196429, (double)ws.Cells["G6"].Value, 0.0000001D);
-            //Assert.AreEqual(0D, (double)ws.Cells["G7"].Value);
-            //Assert.AreEqual(ErrorValues.NullError, ws.Cells["G8"].Value);
-            //Assert.AreEqual(ErrorValues.NAError, ws.Cells["G9"].Value);
+            Assert.AreEqual(0.694196429, (double)ws.Cells["G6"].Value, 0.0000001D);
+            Assert.AreEqual(0D, (double)ws.Cells["G7"].Value);
+            Assert.AreEqual(ErrorValues.NullError, ws.Cells["G8"].Value);
+            Assert.AreEqual(ErrorValues.NAError, ws.Cells["G9"].Value);
 
             Assert.AreEqual(1D, (double)ws.Cells["H5"].Value, 0.0000001D);
-            //Assert.AreEqual(1.517073171, (double)ws.Cells["H6"].Value, 0.0000001D);
-            //Assert.AreEqual(0D, (double)ws.Cells["H7"].Value);
-            //Assert.AreEqual(0D, ws.Cells["H8"].Value);
-            //Assert.AreEqual(ErrorValues.RefError, ws.Cells["H9"].Value);
+            Assert.AreEqual(1D, (double)ws.Cells["H6"].Value, 0.0000001D);
+            Assert.AreEqual(0D, (double)ws.Cells["H7"].Value);  
+            Assert.AreEqual(0D, ws.Cells["H8"].Value);
+            Assert.AreEqual(1D, ws.Cells["H9"].Value);
 
-            Assert.AreEqual(1035.863415, (double)ws.Cells["I5"].Value, 0.0000001D);
-            //Assert.AreEqual(1.94984326, (double)ws.Cells["I6"].Value, 0.0000001D);
-            //Assert.AreEqual(0D, (double)ws.Cells["H7"].Value);
-            //Assert.AreEqual(ErrorValues.NullError, ws.Cells["I8"].Value);
-            //Assert.AreEqual(ErrorValues.RefError, ws.Cells["I9"].Value);
+            Assert.AreEqual(1D, (double)ws.Cells["I5"].Value, 0.0000001D);
+            Assert.AreEqual(1D, (double)ws.Cells["I6"].Value, 0.0000001D);
+            Assert.AreEqual(0D, (double)ws.Cells["H7"].Value);
+            Assert.AreEqual(0D, (double)ws.Cells["I8"].Value);
+            Assert.AreEqual(1D, (double)ws.Cells["I9"].Value);
         }
         [TestMethod]
         public void GetPivotData_Sum_ShowValueAs_PercentOfPartentRowTotal()
@@ -645,8 +645,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-        public void KeyTests()
+        public void PivotItemKeyTests()
         {
+            //The pivot item key is used for aggregating items per row/column fields.
             Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0 }, 1));
             Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, 0 }, 1));
             Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, -1 }, 1));
