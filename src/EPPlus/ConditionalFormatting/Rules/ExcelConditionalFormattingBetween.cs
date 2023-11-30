@@ -81,14 +81,27 @@ namespace OfficeOpenXml.ConditionalFormatting
                 var str = cellValue.ToString();
                 //var formulaResult = CalculationExtension.Calculate(_ws, str);
                 //_ws.Calculate()
-                var cRes = _ws.Workbook.FormulaParserManager.Parse(str);
+                //parse =
 
-                var formulaResult = RpnFormulaExecution.ExecuteFormula(_ws, str, new ExcelCalculationOption());
+                _ws.Calculate();
 
-                if (formulaResult is string)
+                if(calculatedFormula1 == null)
                 {
-                    string stuff = (string)formulaResult;
+                    calculatedFormula1 = _ws.Workbook.FormulaParserManager.Parse(Formula, address.FullAddress).ToString();
                 }
+
+                if(calculatedFormula2 == null)
+                {
+                    calculatedFormula2 = _ws.Workbook.FormulaParserManager.Parse(Formula2, address.FullAddress).ToString();
+                }
+
+
+                //var formulaResult = RpnFormulaExecution.ExecuteFormula(_ws, str, new ExcelCalculationOption());
+
+                //if (formulaResult is string)
+                //{
+                //    string stuff = (string)formulaResult;
+                //}
 
                 if (double.TryParse(str, NumberStyles.None, CultureInfo.InvariantCulture, out double numCellValue))
                 {
@@ -129,7 +142,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         return false;
                     }
                     
-                    if(string.Compare(str, Formula2, true) <= 0)
+                    if(string.Compare(str, calculatedFormula2, true) <= 0)
                     {
                         return true;
                     }
@@ -142,16 +155,16 @@ namespace OfficeOpenXml.ConditionalFormatting
                         return false;
                     }
 
-                    if (string.Compare(str, Formula, true) <= 0)
+                    if (string.Compare(str, calculatedFormula1, true) <= 0)
                     {
                         return true;
                     }
                 }
 
-                var lesserOrGreater = string.Compare(Formula, Formula2, true);
+                var lesserOrGreater = string.Compare(calculatedFormula1, calculatedFormula2, true);
 
-                var lesserStr = lesserOrGreater >= 0 ? Formula2 : Formula;
-                var greaterStr = lesserStr == Formula ? Formula2 : Formula;
+                var lesserStr = lesserOrGreater >= 0 ? calculatedFormula2 : calculatedFormula1;
+                var greaterStr = lesserStr == calculatedFormula1 ? calculatedFormula2 : calculatedFormula1;
 
                 var result1 = string.Compare(str, lesserStr, true);
                 if (result1 >= 0)

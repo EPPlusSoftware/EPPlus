@@ -13,7 +13,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void CF_BetweenShouldApplyMissmatchWorks()
         {
-            using (var pck = OpenPackage("betweenConditionalFormattingMissMatch.xlsx"))
+            using (var pck = OpenPackage("betweenConditionalFormattingMissMatch.xlsx", true))
             {
                 var missMatch = pck.Workbook.Worksheets.Add("missMatchSheet");
 
@@ -38,7 +38,7 @@ namespace EPPlusTest.ConditionalFormatting
                 between.Style.Fill.PatternType = ExcelFillStyle.Solid;
                 between.Style.Fill.BackgroundColor.Color = Color.AliceBlue;
 
-                between.Formula = "C";
+                between.Formula = "\"C\"";
                 between.Formula2 = "20";
 
                 var betweenReal = (ExcelConditionalFormattingBetween)between;
@@ -64,6 +64,25 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.IsTrue(betweenReal.ShouldApplyToCell(missMatch.Cells["A14"]));
 
                 SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void CF_BetweenShouldApplyNumeric()
+        {
+            using (var pck = OpenPackage("CF_NumericBetween.xlsx", true))
+            {
+                var numBetween = pck.Workbook.Worksheets.Add("numericBetween");
+                numBetween.Cells["A7"].Value = "2";
+                numBetween.Cells["A8"].Value = "30";
+                numBetween.Cells["A9"].Value = "20";
+                numBetween.Cells["A10"].Value = "18";
+                numBetween.Cells["A11"].Value = "19";
+                numBetween.Cells["A12"].Value = "567";
+                numBetween.Cells["A13"].Value = "5677777";
+                numBetween.Cells["A14"].Value = "5677777";
+
+                var between = numBetween.Cells["A1:A14"].ConditionalFormatting.AddBetween();
             }
         }
     }

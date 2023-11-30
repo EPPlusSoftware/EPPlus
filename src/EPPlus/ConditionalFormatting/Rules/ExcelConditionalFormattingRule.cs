@@ -683,6 +683,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        internal string calculatedFormula1 = null;
+        internal string calculatedFormula2 = null;
+
         /// <summary>
         /// Formula2
         /// Note, no longer Requires Formula to be set before it.
@@ -706,9 +709,9 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get 
             {
-                if(_numFormula != null && double.IsNaN(_numFormula.Value)) 
+                if(calculatedFormula1 != null && _numFormula !=null && double.IsNaN(_numFormula.Value)) 
                 {
-                    bool success = double.TryParse(Formula, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
+                    bool success = double.TryParse(calculatedFormula1, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
 
                     if (success == false)
                     {
@@ -730,9 +733,9 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if (_numFormula2 != null && double.IsNaN(_numFormula2.Value))
+                if (calculatedFormula2 != null && _numFormula2 != null && double.IsNaN(_numFormula2.Value))
                 {
-                    bool success = double.TryParse(Formula2, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
+                    bool success = double.TryParse(calculatedFormula2, NumberStyles.None, CultureInfo.InvariantCulture, out double outNum);
 
                     if (success == false)
                     {
