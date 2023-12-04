@@ -90,5 +90,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// In some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.
         /// </summary>
         public PrecisionAndRoundingStrategy PrecisionAndRoundingStrategy { get; set; }
+
+        internal bool WriteToCell = true;
     }
 }

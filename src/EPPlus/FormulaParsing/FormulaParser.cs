@@ -25,6 +25,7 @@ using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using System.Diagnostics;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -110,6 +111,20 @@ namespace OfficeOpenXml.FormulaParsing
         internal virtual object Parse(string formula, FormulaCellAddress cell)
         {            
             return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, cell, new ExcelCalculationOption());
+        }
+
+        /// <summary>
+        /// Parse with option to not write result to cell but only return it
+        /// </summary>
+        /// <param name="formula"></param>
+        /// <param name="address"></param>
+        /// <param name="writeToCell">True if write result to cell false if not</param>
+        /// <returns></returns>
+        internal virtual object Parse(string formula, string address, bool writeToCell)
+        {
+            var calcOption = new ExcelCalculationOption();
+            calcOption.WriteToCell = writeToCell;
+            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, _parsingContext.RangeAddressFactory.CreateCell(address), calcOption);
         }
 
         /// <summary>

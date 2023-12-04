@@ -81,17 +81,9 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 _ws.Calculate();
 
-                //TODO:
-                //We must calculate per cell bc otherwise some formulas e.g. =ROW() will be inaccurate.
-                //This is ineffectual. Perhaps we could simply flag if a formula requires recalculation or not instead.
-                calculatedFormula1 = RpnFormulaExecution.ExecuteFormula(_ws, Formula, new ExcelCalculationOption()).ToString();
-                calculatedFormula2 = RpnFormulaExecution.ExecuteFormula(_ws, Formula2, new ExcelCalculationOption()).ToString();
+                calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula, address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
+                calculatedFormula2 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula2, address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
 
-                //TODO: Should be used instead but for some reason applies the value to the cell.
-                //calculatedFormula1 = _ws.Workbook.FormulaParserManager.Parse(Formula, address.FullAddress).ToString();
-                //calculatedFormula2 = _ws.Workbook.FormulaParserManager.Parse(Formula2, address.FullAddress).ToString();
-
-                //TODO: Date-Handling? Should be a double either way?
                 var Formula1IsNum = double.TryParse(calculatedFormula1, NumberStyles.None, CultureInfo.InvariantCulture, out double num1);
                 var Formula2IsNum = double.TryParse(calculatedFormula2, NumberStyles.None, CultureInfo.InvariantCulture, out double num2);
                 var cellValueIsNum = double.TryParse(str, NumberStyles.None, CultureInfo.InvariantCulture, out double numCellValue);
@@ -130,8 +122,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 else
                 {
                     //If we're here one formula is string another value
-                    //In excel if one formula is string and another numeric all numbers higher than numeric value is considered applicable.
-                    //While all strings compared less is considered applicable.
+                    //In excel if one formula is string and another numeric then:
+                    //All numbers higher or equal than numeric value is considered applicable.
+                    //While all strings compared less or equal is considered applicable.
                     double compareNum;
                     string compareString;
 

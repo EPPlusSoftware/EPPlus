@@ -418,7 +418,10 @@ namespace OfficeOpenXml.FormulaParsing
                     cr = f._expressionStack.Pop().Compile();
                 }
 
-                SetValueToWorkbook(depChain, f, rd, cr);
+                if(options.WriteToCell)
+                {
+                    SetValueToWorkbook(depChain, f, rd, cr);
+                }
 
                 if (hasLogger)
                 {
