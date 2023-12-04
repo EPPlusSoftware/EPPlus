@@ -25,9 +25,10 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             return new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
         }
-    }
-    internal class ArrayComparer : IEqualityComparer<int[]>
+    }    
+    internal class ArrayComparer : IEqualityComparer<int[]>, IComparer<int[]>
     {
+        internal static readonly ArrayComparer Instance = new ArrayComparer();
         public static bool IsEqual(int[] x, int[] y)
         {
             if (x.Length != y.Length) return false;
@@ -36,6 +37,18 @@ namespace OfficeOpenXml.Table.PivotTable
                 if (x[i] != y[i]) return false;
             }
             return true;
+        }
+
+        public int Compare(int[] x, int[] y)
+        {
+            for(int i=0;i<x.Length;i++)
+            {
+                if (x[i] != y[i])
+                { 
+                    return x[i].CompareTo(y[i]); ; 
+                } 
+            }
+            return 0;
         }
 
         public bool Equals(int[] x, int[] y)

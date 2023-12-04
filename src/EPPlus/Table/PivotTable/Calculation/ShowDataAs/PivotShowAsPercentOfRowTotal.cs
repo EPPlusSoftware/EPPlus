@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.ConditionalFormatting;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -6,46 +7,92 @@ using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
-    internal class PivotShowAsPercentOfRowTotal : PivotShowAsBase
+    internal class PivotShowAsRunningTotal : PivotShowAsBase
     {
         internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref Dictionary<int[], object> calculatedItems)
-        {   
-            var showAsCalculatedItems = PivotTableCalculation.GetNewCalculatedItems();
-            var colStartIx = df.Field.PivotTable.RowFields.Count;
-            var totalKey = GetKey(fieldIndex.Count);            
-            var t = calculatedItems[totalKey];
-            foreach(var key in calculatedItems.Keys.ToArray())
+        {
+            var bf = fieldIndex.IndexOf(df.BaseField);
+            var colFieldsStart = df.Field.PivotTable.RowFields.Count;
+            ExcelErrorValue prevError = null;
+            var prevValue = 0D;
+            var prevKey = -1;
+            foreach (var key in calculatedItems.Keys.ToArray().OrderBy(x => x, ArrayComparer.Instance))
             {
-                if (calculatedItems[key] is double d)
+                if (IsSumBefore(key, bf, fieldIndex, colFieldsStart) || key[bf] == -1)
                 {
-                    var rowTotal = GetRowTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
-                    if (double.IsNaN(rowTotal))
+                    calculatedItems[key] = 0D;
+                }
+                else
+                {
+                    if (prevKey != key[bf] && IsSumAfter(key, bf, fieldIndex, colFieldsStart) ==false)
                     {
-                        showAsCalculatedItems.Add(key,error);
+                        var o = calculatedItems[key];
+                        if (o is double d)
+                        {
+                            prevValue = d;
+                            prevError = null;
+                        }
+                        else
+                        {
+                            prevValue = 0D;
+                            if (o is ExcelErrorValue e)
+                            {
+                                prevError = e;
+                            }
+                            else
+                            {
+                                prevError = ErrorValues.ValueError;
+                            }
+                        }
                     }
-                    else
+                    else if (calculatedItems[key] is double d)
                     {
-                        showAsCalculatedItems.Add(key, d / rowTotal);
-                    }                    
+                        if (prevError == null)
+                        {
+                            var v = d + prevValue;
+                            calculatedItems[key] = v;
+                            prevValue = v;
+                        }
+                        else
+                        {
+                            calculatedItems[key] = prevError;
+                        }
+                    }
+                }
+                prevKey = key[bf];
+            }
+        }
+
+        private bool IsSumBefore(int[] key, int bf, List<int> fieldIndex, int colFieldsStart)
+        {
+            var start = (bf >= colFieldsStart ? colFieldsStart : 0);
+            for (int i = start; i <= bf; i++)
+            {
+                if (key[i] == -1)
+                {
+                    return true;
                 }
             }
-            calculatedItems = showAsCalculatedItems;
+            return false;
         }
-        private static double GetRowTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
+        private bool IsSumAfter(int[] key, int bf, List<int> fieldIndex, int colFieldsStart)
         {
-            var rowKey = (int[])key.Clone();
-            for (int i = colStartIx; i < key.Length; i++)
+            var start = (bf >= colFieldsStart ? colFieldsStart : 0);
+            if (start == 0)
             {
-                rowKey[i] = -1;
+
             }
-            var v = calculatedItems[rowKey];
-            if (v is ExcelErrorValue er)
+            else
             {
-                error = er;
-                return double.NaN;
+                for (int i = start; i <= bf; i++)
+                {
+                    if (key[i] == -1)
+                    {
+                        return true;
+                    }
+                }
             }
-            error = null;
-            return (double)v;
+            return false;
         }
     }
 }

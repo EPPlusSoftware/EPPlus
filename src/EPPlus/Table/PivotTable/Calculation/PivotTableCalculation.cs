@@ -47,7 +47,9 @@ namespace OfficeOpenXml.Table.PivotTable
             { eShowDataAs.PercentOfRow, new PivotShowAsPercentOfRowTotal() },
             { eShowDataAs.Percent, new PivotShowAsPercent() },
             { eShowDataAs.PercentOfParentRow, new PivotShowAsPercentOfParentRowTotal()},
-            { eShowDataAs.PercentOfParentColumn, new PivotShowAsPercentOfParentColumnTotal()}
+            { eShowDataAs.PercentOfParentColumn, new PivotShowAsPercentOfParentColumnTotal()},
+
+            { eShowDataAs.RunningTotal, new PivotShowAsRunningTotal()},
         };
         internal static bool Calculate(ExcelPivotTable pivotTable, out List<Dictionary<int[], object>> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {
