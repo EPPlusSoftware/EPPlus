@@ -939,11 +939,6 @@ namespace OfficeOpenXml
             }
         }
 
-        private string AddNamespaceToFormula(IList<Token> tokens)
-        {
-            throw new NotImplementedException();
-        }
-
         private void Set_Formula_Range(ExcelRangeBase range, string formula)
         {
             if (formula[0] == '=') formula = formula.Substring(1); // remove any starting equalsign.

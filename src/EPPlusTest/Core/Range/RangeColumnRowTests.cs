@@ -22,6 +22,31 @@ namespace EPPlusTest.Core.Range
         }
 
         [TestMethod]
+        public void Row_VerifyEnumeration()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Enum_Rows");
+            ws.Cells["A1:C5"].FillNumber(1);
+            var r = 1;
+            foreach(var row in ws.Cells["A1:C5"].EntireRow)
+            {
+                Assert.AreEqual(r, row.StartRow);
+                Assert.AreEqual(r++,(double)row.Range.Offset(0,0,1,1).Value);
+            }
+        }
+        [TestMethod]
+        public void Column_VerifyEnumeration()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Enum_Columns");
+            ws.Cells["A1:C5"].FillNumber(x=> { x.Direction = eFillDirection.Row; x.StartValue = 1; });
+            var c = 1;
+            foreach (var col in ws.Cells["A1:C5"].EntireColumn)
+            {
+                Assert.AreEqual(c, col.StartColumn);
+                Assert.AreEqual(c++, (double)col.Range.Offset(0, 0, 1, 1).Value);
+            }
+        }
+
+        [TestMethod]
         public void Column_SetWidthBestFitAndStyle()
         {
             var ws = _pck.Workbook.Worksheets.Add("Column_Width");
