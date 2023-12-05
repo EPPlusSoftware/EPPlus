@@ -74,7 +74,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             var range = new ExcelRange(_ws, address.Address);
-            range.Calculate();
             return ExcelErrorValue.Values.IsErrorValue(range.Value);
         }
 

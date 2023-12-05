@@ -702,7 +702,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal virtual bool ShouldApplyToCell(ExcelAddress address)
         {
-            //_ws.Cells[address.Address].Value
             if (address != null) { return true; }
             return false;
         }

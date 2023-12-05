@@ -104,6 +104,24 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                //Formula2 only filled if there's a cell or formula to cond
+                if (Formula2 != null)
+                {
+                    return _ws.Cells[Address.Start.Address].Formula.Contains(Formula2) ? false : true;
+                }
+                else
+                {
+                    return _ws.Cells[Address.Start.Address].Formula.Contains(_text) ? false : true;
+                }
+            }
+
+            return false;
+        }
+
         internal override bool IsExtLst
         {
             get

@@ -79,7 +79,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 var str = cellValue.ToString();
 
-                _ws.Calculate();
+               // _ws.Calculate();
 
                 calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula, address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
                 calculatedFormula2 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula2, address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
@@ -127,6 +127,23 @@ namespace OfficeOpenXml.ConditionalFormatting
                     //While all strings compared less or equal is considered applicable.
                     double compareNum;
                     string compareString;
+
+                    //Excel never applies cf if error is one of the formulas
+                    if (calculatedFormula1[0] == '#')
+                    {
+                        if(ExcelErrorValue.IsErrorValue(calculatedFormula1))
+                        {
+                            return false;
+                        }
+                    }
+                    //Excel never applies cf if error is one of the formulas
+                    if (calculatedFormula2[0] == '#')
+                    {
+                        if (ExcelErrorValue.IsErrorValue(calculatedFormula2))
+                        {
+                            return false;
+                        }
+                    }
 
                     if (Formula1IsNum)
                     {

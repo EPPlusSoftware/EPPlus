@@ -34,9 +34,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         : base(eExcelConditionalFormattingRuleType.ThisWeek, address, priority, worksheet)
         {
             TimePeriod = eExcelConditionalFormattingTimePeriodType.ThisWeek;
-            Formula = string.Format(
-              "AND(TODAY()-ROUNDDOWN({0},0)<=WEEKDAY(TODAY())-1,ROUNDDOWN({0},0)-TODAY()<=7-WEEKDAY(TODAY()))",
-              Address.Start.Address);
+            _baseFormula = "AND(TODAY()-ROUNDDOWN({0},0)<=WEEKDAY(TODAY())-1,ROUNDDOWN({0},0)-TODAY()<=7-WEEKDAY(TODAY()))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
 
         /// <summary>
