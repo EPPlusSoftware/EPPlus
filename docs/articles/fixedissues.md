@@ -2,6 +2,7 @@
 ## Version 7.0.3
 ### Minor Features
 * Added Alignment and Protection properties to ExcelDxfStyle - Affects Table and Pivot Table Stylings
+* Added Target framework .NET 8.
 ### Fixed issues 
 * Improved handling of negation of ranges in the formula calculation.
 * Added AlwaysAllowNull property to ToDataTableOptions parameter of the ExcelRangeBase.ToDataTable function.
