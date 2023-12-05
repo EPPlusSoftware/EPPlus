@@ -1,4 +1,13 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.14
+### Fixed issues 
+* Added support for negation of single cell named values in the formula calculation.
+* Added AlwaysAllowNull property to ToDataTableOptions parameter of the ExcelRangeBase.ToDataTable function.
+* ExcelValueFilterColumn.Filters.Blank property now hides rows even if it contains no other filters
+* Resolved issue where ExcelValueFilterCollection.Add("") or adding null on ExcelFilterValueItem generated corrupt worksheet. The Blank property is now set to true instead.
+* Hyperlinks were not correctly encoded if unicode characters were used.
+* The ExcelRangeBase.Text property sometimes returned a formatted value with both - and () for negative values on some cultures.
+
 ## Version 6.2.13
 ### Fixed issues 
 * Fixed a bug where adding the same image to a worksheet twice with the same path resulted in a null reference.
