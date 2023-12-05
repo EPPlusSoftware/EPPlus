@@ -307,6 +307,21 @@ namespace EPPlusTest.Style
                 Assert.AreEqual("Arial", ws.Cells["D4"].Style.Font.Name);
             }
         }
+        [TestMethod]
+        public void NegativeNumberformatWithUnicodeMinusIssueTests()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var cci = Thread.CurrentThread.CurrentCulture;
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("NO");
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cell = p.Workbook.Worksheets[0].Cells[1, 1];
+                cell.Style.Numberformat.Format = "#,##0;\\(#,##0\\);\\-";
+                cell.Value = -28868;
+                Assert.AreEqual("(28 868)", cell.Text);
+                Thread.CurrentThread.CurrentCulture = cci;
+            };
+        }
     }
 }
 

@@ -1,4 +1,18 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.3
+### Minor Features
+* Added Alignment and Protection properties to ExcelDxfStyle - Affects Table and Pivot Table Stylings
+### Fixed issues 
+* Improved handling of negation of ranges in the formula calculation.
+* Added AlwaysAllowNull property to ToDataTableOptions parameter of the ExcelRangeBase.ToDataTable function.
+* ExcelValueFilterColumn.Filters. Blank property now hides rows even if it contains no other filters.
+* Resolved issue where ExcelValueFilterCollection.Add("") or adding null on ExcelFilterValueItem generated corrupt worksheet. The Blank property is now set to true instead.
+* Hyperlinks were not correctly encoded if Unicode characters was used.
+* External references in the lookup range did not work in the VLOOKUP & HLOOKUP functions.
+* Copying worksheets with pivot tables caused a corrupt workbook in some cases.
+* Insert/Deleting in ranges sometimes affected addresses referencing other worksheets.
+* The ExcelRangeBase.Text property sometimes returned a formatted value with both - and () for negative values on some cultures.
+
 ## Version 7.0.2
 ### Fixed issues 
 * External references did not work correctly with the VLOOKUP function.
