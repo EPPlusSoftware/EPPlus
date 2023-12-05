@@ -371,7 +371,7 @@ namespace OfficeOpenXml
                 if (minCol < 0) return false;
             }
             enumCol = -1;
-            return _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow,ExcelPackage.MaxColumns);
+            return _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, 0);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace OfficeOpenXml
         public void Reset()
         {
             _cs = _worksheet._values;
-            enumRow = _fromRow-1;
+            enumRow = _fromRow - 1;
             minCol = 0;
         }
         /// <summary>
