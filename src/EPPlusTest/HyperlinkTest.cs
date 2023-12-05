@@ -85,7 +85,7 @@ namespace EPPlusTest
                 var ws = p1.Workbook.Worksheets.Add("Sheet1");
                 var hl = new ExcelHyperLink("https://epplussoftware.com");
                 hl.Display = "www.epplussoftware.com";
-                hl.ReferenceAddress = "aa,bb=cc"; //Will set uri https://epplussoftware.com/#
+                hl.ReferenceAddress = "aa,bb=cc"; //Will set uri https://epplussoftware.com#
                 ws.Cells["A1"].Hyperlink = hl;
 
                 p1.Save();
@@ -95,7 +95,7 @@ namespace EPPlusTest
                     var ws2 = p2.Workbook.Worksheets[0];
 
                     var hl2 = (ExcelHyperLink)ws2.Cells["A1"].Hyperlink;
-                    Assert.AreEqual("https://epplussoftware.com/", hl2.OriginalString);
+                    Assert.AreEqual("https://epplussoftware.com", hl2.OriginalString);
                     Assert.AreEqual("www.epplussoftware.com", hl2.Display);
                     Assert.AreEqual("aa,bb=cc", hl2.ReferenceAddress);
                 }

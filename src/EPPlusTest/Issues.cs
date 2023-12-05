@@ -5555,5 +5555,21 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s551_2()
+        {
+            using (var p = OpenTemplatePackage("s551.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var usedRange = ws.Cells["a2:b2"];
+                foreach (ExcelRangeRow dataRow in usedRange.EntireRow)
+                {
+                    if (dataRow.Hidden == false)
+                    {
+                        dataRow.Range.Formula = "f1";
+                    }
+                }
+            }
+        }
     }
 }
