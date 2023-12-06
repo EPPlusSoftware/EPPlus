@@ -76,7 +76,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         double? largestNumFormula = null;
         double? smallestNumFormula = null;
 
-
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             var cellValue = _ws.Cells[address.Address].Value;

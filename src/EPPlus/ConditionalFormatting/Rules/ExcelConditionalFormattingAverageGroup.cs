@@ -95,10 +95,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             int numDoubles = 0;
 
-            var addressList = Address.Addresses;
-            if(addressList == null) { addressList = new List<ExcelAddressBase> { Address }; }
-
-            foreach (var address in addressList)
+            foreach (var address in Address.GetAllAddresses())
             {
                 for (int i = 1; i <= address.Rows; i++)
                 {
