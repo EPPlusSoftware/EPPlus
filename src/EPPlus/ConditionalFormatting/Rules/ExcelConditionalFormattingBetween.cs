@@ -71,15 +71,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         double? largestNumFormula = null;
         double? smallestNumFormula = null;
 
-
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             var cellValue = _ws.Cells[address.Address].Value;
             if (cellValue != null)
             {
                 var str = cellValue.ToString();
-
-               // _ws.Calculate();
 
                 calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula, address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
                 calculatedFormula2 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula2, address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);

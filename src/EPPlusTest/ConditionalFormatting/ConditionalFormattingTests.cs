@@ -88,9 +88,12 @@ namespace EPPlusTest.ConditionalFormatting
 
             string lastWeek = $"{lastWeekDate.Year}-{lastWeekDate.Month}-";
 
-            string lastMonth = $"{year}-{DateTime.Now.AddMonths(-1).Month}-";
+
+            var lastMonthDT = DateTime.Now.AddMonths(-1);
+            string lastMonth = $"{lastMonthDT.Year}-{lastMonthDT.Month}-";
             string thisMonth = $"{year}-{DateTime.Now.Month}-";
-            string nextMonth = $"{year}-{DateTime.Now.AddMonths(+1).Month}-";
+            var nextMonthDT = DateTime.Now.AddMonths(+1);
+            string nextMonth = $"{nextMonthDT.Year}-{nextMonthDT.Month}-";
 
             for (int i = 1; i < 11; i++)
             {
