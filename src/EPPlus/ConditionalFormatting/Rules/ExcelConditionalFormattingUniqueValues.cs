@@ -55,8 +55,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             Rank = copy.Rank;
         }
 
-        HashSet<object> uniqueHash = new HashSet<object>();
-
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             List<object> cellValues = new List<object>();
