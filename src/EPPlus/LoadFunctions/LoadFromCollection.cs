@@ -72,6 +72,7 @@ namespace OfficeOpenXml.LoadFunctions
                 // the ValidateType method will throw an InvalidCastException
                 // if parameters.Members contains a MemberInfo that is not declared
                 // by any of the types used.
+                var scanner = new NestedColumnsTypeScanner(type, parameters.BindingFlags);
                 foreach (var member in parameters.Members)
                 {
                     cols.ValidateType(member);
@@ -82,7 +83,11 @@ namespace OfficeOpenXml.LoadFunctions
                     //Fixing inverted check for IsSubclassOf / Pullrequest from tom dam
                     if (member.DeclaringType != null && member.DeclaringType != type && !TypeCompat.IsSubclassOf(type, member.DeclaringType) && !TypeCompat.IsSubclassOf(member.DeclaringType, type))
                     {
-                        throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
+                        
+                        if(!scanner.Exists(member.DeclaringType))
+                        {
+                            throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
+                        }
                     }
                 }
             }
