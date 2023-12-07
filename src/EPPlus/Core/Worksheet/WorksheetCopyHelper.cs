@@ -278,7 +278,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             //rewrite the drawing xml with the new relID's
             streamDrawing = new StreamWriter(partDraw.GetStream(FileMode.Create, FileAccess.Write));
-            streamDrawing.Write(drawXml.OuterXml);
+            streamDrawing.Write(copy.Drawings.DrawingXml.OuterXml);
             streamDrawing.Flush();
 
             //Copy the size variables to the copy.
@@ -424,6 +424,22 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     relAtt.Value = rel.Id;
                 }
+                
+                //if (pic.Hyperlink != null)
+                //{
+                //    XmlNode relAttHLink =
+                //        drawXml.SelectSingleNode(
+                //            string.Format(
+                //                "//xdr:pic/xdr:nvPicPr/xdr:cNvPr[@name='{0}']/a:hlinkClick/@r:id",
+                //                pic.Name), copy.Drawings.NameSpaceManager);
+
+                //    if (relAttHLink != null)
+                //    {
+                //        var relToCopy = copyDraw._drawings.Part.GetRelationship(relAttHLink.Value);
+                //        rel = partDraw.CreateRelationshipFromCopy(relToCopy);
+                //        relAttHLink.Value = rel.Id;
+                //    }
+                //}
             }
             else if (copyDraw is ExcelControl ctrl)
             {

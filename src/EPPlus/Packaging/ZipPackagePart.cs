@@ -161,5 +161,17 @@ namespace OfficeOpenXml.Packaging
             _stream.Close();
             _stream.Dispose();
         }
+
+        internal ZipPackageRelationship CreateRelationshipFromCopy(ZipPackageRelationship relToCopy)
+        {
+            if (string.IsNullOrEmpty(relToCopy.Target))
+            {
+                return CreateRelationship(relToCopy.Target, relToCopy.TargetMode, relToCopy.RelationshipType);
+            }
+            else
+            {
+                return CreateRelationship(relToCopy.TargetUri, relToCopy.TargetMode, relToCopy.RelationshipType);
+            }
+        }
     }
 }
