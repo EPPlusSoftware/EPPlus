@@ -273,12 +273,12 @@ namespace OfficeOpenXml.Core.Worksheet
             for (int i = 0; i < copy.Drawings.Count; i++)
             {
                 var draw = copy.Drawings[i];
-                CopyDrawingRels(draw, pck, added, partDraw);
+                CopyDrawingRels(draw, pck, added, partDraw, ref drawXml);
             }
 
             //rewrite the drawing xml with the new relID's
             streamDrawing = new StreamWriter(partDraw.GetStream(FileMode.Create, FileAccess.Write));
-            streamDrawing.Write(copy.Drawings.DrawingXml.OuterXml);
+            streamDrawing.Write(drawXml.OuterXml);
             streamDrawing.Flush();
 
             //Copy the size variables to the copy.
@@ -361,12 +361,11 @@ namespace OfficeOpenXml.Core.Worksheet
             return retNode;
         }
 
-        private static void CopyDrawingRels(ExcelDrawing copyDraw, ExcelPackage pck, ExcelWorksheet added, ZipPackagePart partDraw)
+        private static void CopyDrawingRels(ExcelDrawing copyDraw, ExcelPackage pck, ExcelWorksheet added, ZipPackagePart partDraw, ref XmlDocument drawXml)
         {
             //var draw = drawings[i];
             var copy = copyDraw._drawings.Worksheet;
             var uriDraw = partDraw.Uri;
-            var drawXml = copyDraw._drawings.DrawingXml;
             if (copyDraw is ExcelChart chart)
             {
                 var xml = chart.ChartXml.InnerXml;
@@ -423,23 +422,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 if (relAtt != null)
                 {
                     relAtt.Value = rel.Id;
-                }
-                
-                //if (pic.Hyperlink != null)
-                //{
-                //    XmlNode relAttHLink =
-                //        drawXml.SelectSingleNode(
-                //            string.Format(
-                //                "//xdr:pic/xdr:nvPicPr/xdr:cNvPr[@name='{0}']/a:hlinkClick/@r:id",
-                //                pic.Name), copy.Drawings.NameSpaceManager);
-
-                //    if (relAttHLink != null)
-                //    {
-                //        var relToCopy = copyDraw._drawings.Part.GetRelationship(relAttHLink.Value);
-                //        rel = partDraw.CreateRelationshipFromCopy(relToCopy);
-                //        relAttHLink.Value = rel.Id;
-                //    }
-                //}
+                }                
             }
             else if (copyDraw is ExcelControl ctrl)
             {
@@ -462,7 +445,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 for (int j = 0; j < grpDraw.Drawings.Count; j++)
                 {
-                    CopyDrawingRels(grpDraw.Drawings[j], pck, added, partDraw);
+                    CopyDrawingRels(grpDraw.Drawings[j], pck, added, partDraw, ref drawXml);
                 }
             }
 
@@ -471,7 +454,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 ZipPackageRelationship rel;
                 if (string.IsNullOrEmpty(copyDraw.HypRel.Target))
                 {
-                    rel = partDraw.CreateRelationship(copyDraw.HypRel.TargetUri.OriginalString, copyDraw.HypRel.TargetMode, copyDraw.HypRel.RelationshipType);
+                    rel = partDraw.CreateRelationship(copyDraw.HypRel.TargetUri, copyDraw.HypRel.TargetMode, copyDraw.HypRel.RelationshipType);
                 }
                 else
                 {
@@ -486,6 +469,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     relAtt.Value = rel.Id;
                 }
+                
             }
         }
 
