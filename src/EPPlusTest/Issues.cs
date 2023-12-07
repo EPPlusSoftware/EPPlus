@@ -5947,5 +5947,35 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void s565()
+        {
+            try
+            {
+                using (var p = OpenTemplatePackage("FormulaRCStyle ERROR.xlsx"))
+                {
+                    var sheet = p.Workbook.Worksheets["eg1"];
+                    var formulaR1C1 = sheet.Cells["F6"].FormulaR1C1;
+                    sheet.InsertRow(7, 2);
+
+                    for (var i = 7; i <= 8; i++)
+                    {
+                        sheet.Cells[$"F{i}"].FormulaR1C1 = formulaR1C1;
+                    }
+
+                    sheet = p.Workbook.Worksheets["eg2"];
+                    formulaR1C1 = sheet.Cells["F6"].FormulaR1C1;
+                    sheet.InsertRow(7, 2);
+
+                    for (var i = 7; i <= 8; i++)
+                    {
+                        sheet.Cells[$"F{i}"].FormulaR1C1 = formulaR1C1;
+                    }
+
+                }
+            }
+            catch { }
+        
+        }
     }
 }

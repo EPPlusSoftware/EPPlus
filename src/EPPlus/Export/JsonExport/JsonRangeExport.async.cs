@@ -30,7 +30,7 @@ namespace OfficeOpenXml
                 await WriteStartAsync(sw);
                 if (_settings.FirstRowIsHeader)
                 {
-                    await WriteItemAsync(sw, $"\"name\":\"{_range.GetCellValue<string>(0, i)}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
+                    await WriteItemAsync(sw, $"\"name\":\"{JsonEscape(_range.GetCellValue<string>(0, i))}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
                 }
                 if (_settings.AddDataTypesOn == eDataTypeOn.OnColumn)
                 {
