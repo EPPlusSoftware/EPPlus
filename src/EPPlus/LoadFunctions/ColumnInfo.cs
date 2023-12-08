@@ -20,7 +20,7 @@ using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    [DebuggerDisplay("Header: {Header}, SortOrder: {SortOrder}, Index: {Index}")]
+    [DebuggerDisplay("Header: {Header}, SortOrders: {GetSortOrder()}, Index: {Index}")]
     internal class ColumnInfo
     {
         public ColumnInfo()
@@ -28,7 +28,6 @@ namespace OfficeOpenXml.LoadFunctions
             TotalsRowFunction = RowFunctions.None;
         }
 
-        public int SortOrder { get; set; }
 
         public bool IsDictionaryProperty { get; set; }
 
@@ -68,6 +67,23 @@ namespace OfficeOpenXml.LoadFunctions
                 return Header;
             }
             return base.ToString();
+        }
+
+        public string GetSortOrder()
+        {
+            var sb = new StringBuilder();
+            if (SortOrderLevels == null) return "N/A";
+            foreach(var level in SortOrderLevels)
+            {
+                sb.Append(level.ToString());
+                sb.Append(", ");
+            }
+            var result = sb.ToString();
+            if(!string.IsNullOrEmpty(result))
+            {
+                result = result.Trim().TrimEnd(',');
+            }
+            return result;
         }
     }
 }

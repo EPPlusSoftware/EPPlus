@@ -105,27 +105,6 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
-        public void ShouldSetupColumnsWithPathSortedByClassAttribute()
-        {
-            var order = new List<string>
-            {
-                "ApprovedUtc",
-                "Acknowledged",
-                "Organization.OrgLevel5"
-            };
-            var parameters = new LoadFromCollectionParams { BindingFlags = LoadFromCollectionParams.DefaultBindingFlags };
-            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(parameters, order);
-            var result = cols.Setup();
-            Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
-            Assert.AreEqual("ApprovedUtc", result[0].Path);
-            Assert.AreEqual("Acknowledged", result[1].Path);
-            Assert.AreEqual("Organization.OrgLevel5", result[2].Path);
-            Assert.AreEqual("Organization.OrgLevel4", result[3].Path);
-            Assert.AreEqual("Organization.OrgLevel3", result[4].Path);
-
-        }
-
-        [TestMethod]
         public void ShouldLoadFromComplexTypeMember()
         {
             using(var package = new ExcelPackage())

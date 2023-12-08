@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Reflection;
 
 namespace OfficeOpenXml.LoadFunctions
 {
@@ -35,6 +35,19 @@ namespace OfficeOpenXml.LoadFunctions
             TotalRowsNumberFormat = attr.TotalsRowNumberFormat;
             TotalRowLabel = attr.TotalsRowLabel;
             TotalRowFormula = attr.TotalsRowFormula;
+        }
+
+        public string GetHeader(string headerPrefix, MemberInfo member)
+        {
+            if (!string.IsNullOrEmpty(headerPrefix))
+            {
+                var header = string.IsNullOrEmpty(Header) ? member.Name : Header;
+                return $"{headerPrefix} {header}";
+            }
+            else
+            {
+                return string.IsNullOrEmpty(Header) ? member.Name : Header;
+            }
         }
         public string Header { get; set; }
 

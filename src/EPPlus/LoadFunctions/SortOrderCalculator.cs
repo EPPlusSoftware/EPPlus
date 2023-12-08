@@ -22,8 +22,9 @@ namespace OfficeOpenXml.LoadFunctions
 {
     internal class SortOrderCalculator
     {
-        public SortOrderCalculator(NestedColumnsTypeScanner scanner)
+        public SortOrderCalculator(NestedColumnsTypeScanner scanner, MemberInfo[] membersFilter)
         {
+            _membersFilter= membersFilter != null ? membersFilter.ToList() : null;
             var allTypes = scanner.GetTypes();
             foreach (var type in allTypes)
             {
@@ -39,6 +40,7 @@ namespace OfficeOpenXml.LoadFunctions
         }
 
         private readonly Dictionary<Type, List<string>> _sortOrderAttributes = new Dictionary<Type, List<string>>();
+        private readonly List<MemberInfo> _membersFilter;
 
         public void CalculateSortOrder(
             ref List<int> sortOrderList, 
@@ -46,21 +48,32 @@ namespace OfficeOpenXml.LoadFunctions
             int nestedLevel, 
             MemberInfo member)
         {
+            if(sortOrderList == null) sortOrderList = new List<int>();
             var sortOrder = memberIndex;
             var declaringType = member.DeclaringType;
-            if (_sortOrderAttributes.ContainsKey(declaringType))
+            if(_membersFilter != null && _membersFilter.Contains(member))
+            {
+                sortOrderList.Add(_membersFilter.IndexOf(member));
+            }
+            else if (_sortOrderAttributes.ContainsKey(declaringType))
             {
                 sortOrder = _sortOrderAttributes[declaringType].IndexOf(member.Name);
             }
             else if(member.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
             {
                 var attr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
-                sortOrder = attr.Order;
+                if (attr.Order > 0)
+                {
+                    sortOrder = attr.Order;
+                }
             }
             else if(member.HasPropertyOfType<EpplusTableColumnAttribute>())
             {
                 var attr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
-                sortOrder = attr.Order;
+                if(attr.Order > 0)
+                {
+                    sortOrder = attr.Order;
+                }
             }
             sortOrderList.Add(sortOrder);
         }
