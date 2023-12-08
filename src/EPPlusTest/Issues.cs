@@ -5947,5 +5947,18 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void i1203()
+        {
+            using ( var p = OpenTemplatePackage("i1203.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[0];
+                var sheet2 = p.Workbook.Worksheets.Add("sheet2", sheet1);
+                Assert.AreEqual(sheet1.Drawings[0].Hyperlink.OriginalString, sheet2.Drawings[0].Hyperlink.OriginalString);
+                Assert.IsTrue(sheet1.Drawings[0].As.Picture.Image.ImageBytes.SequenceEqual(sheet2.Drawings[0].As.Picture.Image.ImageBytes));
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
