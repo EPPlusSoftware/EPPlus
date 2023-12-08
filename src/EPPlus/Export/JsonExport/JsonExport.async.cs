@@ -52,7 +52,7 @@ namespace OfficeOpenXml
                     if (hasComment)
                     {
                         var comment = ws.Comments[commentIx];
-                        await WriteItemAsync(sw, $"\"comment\":\"{comment.Text}\"");
+                        await WriteItemAsync(sw, $"\"comment\":\"{JsonEscape(comment.Text)}\"");
                     }
 
                     if (c == dr._toCol)

@@ -39,7 +39,7 @@ namespace OfficeOpenXml
             for (int i = 0; i < _table.Columns.Count; i++)
             {
                 await WriteStartAsync(sw);
-                await WriteItemAsync(sw, $"\"name\":\"{_table.Columns[i].Name}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
+                await WriteItemAsync(sw, $"\"name\":\"{JsonEscape(_table.Columns[i].Name)}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
                 if (_settings.AddDataTypesOn == eDataTypeOn.OnColumn)
                 {
                     var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(_table.DataRange.GetCellValue<object>(0, i));
