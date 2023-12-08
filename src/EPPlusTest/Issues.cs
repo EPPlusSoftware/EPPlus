@@ -5947,8 +5947,6 @@ namespace EPPlusTest
                 }
             }
         }
-<<<<<<< Updated upstream
-=======
         [TestMethod]
         public void i1203()
         {
@@ -5976,6 +5974,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
->>>>>>> Stashed changes
     }
 }
