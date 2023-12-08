@@ -12,10 +12,17 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -203,6 +210,135 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get { return _highValue; }
             set { _highValue = value; }
+        }
+
+        internal string ApplyStyleOverride(ExcelAddress address)
+        {
+            var range = _ws.Cells[address.Address];
+            var cellValue = range.Value;
+            if (cellValue.IsNumeric())
+            {
+                var cellValues = new List<object>();
+                foreach (var cell in Address.GetAllAddresses())
+                {
+                    for (int i = 1; i <= cell.Rows; i++)
+                    {
+                        for (int j = 1; j <= cell.Columns; j++)
+                        {
+                            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                        }
+                    }
+                }
+
+                var values = cellValues.OrderBy(n => n);
+                int index = 0;
+
+                foreach(var value in values)
+                {
+                    if (value == cellValue)
+                    {
+                        break;
+                    }
+                    index++;
+                }
+
+                float percentage = (float)index / values.Count();
+
+                var lowcol = LowValue.Color;
+                var highcol = HighValue.Color;
+
+                //var lerp = Vector3.Lerp(new Vector3(lowcol.R, lowcol.G,lowcol.B), new Vector3(highcol.R, highcol.G, highcol.B), percentage);
+
+                var r = lowcol.R;
+                var g = lowcol.G;
+                var b = lowcol.B;
+
+                var hiR = highcol.R;
+                var hiG = highcol.G;
+                var hiB = highcol.B;
+
+                var originalPercent = 1.0 - percentage;
+                //var absR = r + hiR * percentage;
+                //var absG = g + hiG * percentage;
+                //var absB = b + hiB * percentage;
+
+                var absR = (int)Math.Abs(originalPercent * r - hiR * percentage);
+                var absG = (int)Math.Abs(originalPercent * g - hiG * percentage);
+                var absB = (int)Math.Abs(originalPercent * b - hiB * percentage);
+                
+
+                var newColor = Color.FromArgb(1, absR, absG, absB);
+
+                //range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                //range.Style.Fill.BackgroundColor.SetColor(newColor);
+
+                return "#" + newColor.ToArgb().ToString("x8").Substring(2);
+
+                //return "";
+                //_ws._wb.ThemeManager.CurrentTheme;
+            }
+            return "";
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                var cellValue = _ws.Cells[address.Address].Value;
+
+                if(cellValue.IsNumeric())
+                {
+                    //ApplyStyleOverride(address);
+                    return true;
+                    ////Formula2 only filled if there's a cell or formula to cond
+                    //if (Formula2 != null)
+                    //{
+                    //    return _ws.Cells[Address.Start.Address].Formula.Contains(Formula2) ? false : true;
+                    //}
+                    //else
+                    //{
+                    //    return _ws.Cells[Address.Start.Address].Formula.Contains(_text) ? false : true;
+                    //}
+                }
+            }
+
+            return false;
+        }
+
+        protected string GetColor(ExcelDxfColor c, ExcelTheme theme)
+        {
+            Color ret;
+            if (c.Color.HasValue)
+            {
+                ret = c.Color.Value;
+            }
+            else if (c.Theme.HasValue)
+            {
+                ret = Utils.ColorConverter.GetThemeColor(theme, c.Theme.Value);
+            }
+            else if (c.Index != null)
+            {
+                if (c.Index.Value >= 0)
+                {
+                    ret = ExcelColor.GetIndexedColor(c.Index.Value);
+                }
+                else
+                {
+                    ret = Color.Empty;
+                }
+            }
+            else
+            {
+                //Automatic, set to black.
+                ret = Color.Black;
+            }
+
+            if (c.Tint != 0)
+            {
+                ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+            }
+
+            return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
     }
 }

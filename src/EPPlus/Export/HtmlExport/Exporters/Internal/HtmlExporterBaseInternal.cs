@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
@@ -289,6 +290,22 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         AddImage(tblData, Settings, image, cell.Value);
                         AddHyperlink(tblData, cell, Settings);
                     }
+
+                    var cfItems = _exporterContext._cfQuadTree.GetIntersectingRangeItems
+                         (new QuadRange(new ExcelAddress(cell.Address)));
+
+                    for (int i = 0; i < cfItems.Count; i++)
+                    {
+                        if(cfItems[i].Value.Type == eExcelConditionalFormattingRuleType.TwoColorScale)
+                        {
+                            //tblData.AddAttribute("background-color:",((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell));
+
+                            //background - color:
+                            tblData.AddAttribute("style","background-color:"+((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell) + ";");
+                        }
+                    }
+
+
                     tr.AddChildElement(tblData);
                 }
 

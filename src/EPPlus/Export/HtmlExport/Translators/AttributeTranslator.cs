@@ -101,24 +101,40 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             {
                 if (cfItems[i].Value.ShouldApplyToCell(cell))
                 {
-                    dxfKey = cfItems[i].Value.Style.Id;
-
-                    if (dxfStyleCache.ContainsKey(dxfKey))
+                    if (cfItems[i].Value.Type != eExcelConditionalFormattingRuleType.TwoColorScale)
                     {
-                        dxfId = dxfStyleCache[dxfKey];
-                    }
-                    else
-                    {
-                        dxfId = dxfStyleCache.Count + 1;
-                        dxfStyleCache.Add(dxfKey, id);
-                    }
+                        dxfKey = cfItems[i].Value.Style.Id;
 
-                    cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
+                        if (dxfStyleCache.ContainsKey(dxfKey))
+                        {
+                            dxfId = dxfStyleCache[dxfKey];
+                        }
+                        else
+                        {
+                            dxfId = dxfStyleCache.Count + 1;
+                            dxfStyleCache.Add(dxfKey, id);
+                        }
+
+                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
+                    }
                 }
             }
 
             return cls.Trim();
         }
+
+        //void SpecialOperation(ExcelConditionalFormattingRule rule, ExcelAddress address)
+        //{
+        //    switch (rule.Type) 
+        //    {
+        //        case eExcelConditionalFormattingRuleType.TwoColorScale:
+        //        case eExcelConditionalFormattingRuleType.ThreeColorScale:
+
+        //            var castType = (ExcelConditionalFormattingTwoColorScale)rule.As.TwoColorScale;
+        //            castType.ApplyStyleOverride()
+        //            break;
+        //    }
+        //}
 
     }
 }

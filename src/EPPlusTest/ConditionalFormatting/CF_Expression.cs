@@ -8,6 +8,8 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.ConditionalFormatting.Rules;
+using EPPlusTest.FormulaParsing;
+using OfficeOpenXml.Core;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -24,6 +26,8 @@ namespace EPPlusTest.ConditionalFormatting
                 var expression = sheet.Cells["A1:A10"].ConditionalFormatting.AddExpression();
 
                 expression.Formula = "A1<5";
+                var translatedFormula = R1C1Translator.ToR1C1Formula(expression.Formula, 2, 2);
+                var newFormula = R1C1Translator.FromR1C1Formula(translatedFormula, 2, 1);
                 sheet.Cells["A1:A10"].Formula = "ROW()";
 
                 sheet.Cells["A1:A10"].Calculate();
