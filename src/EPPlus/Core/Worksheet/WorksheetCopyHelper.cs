@@ -265,7 +265,7 @@ namespace OfficeOpenXml.Core.Worksheet
             for (int i = 0; i < copy.Drawings.Count; i++)
             {
                 var draw = copy.Drawings[i];
-                CopyDrawingRels(draw, pck, added, partDraw);
+                CopyDrawingRels(draw, pck, added, partDraw, ref drawXml);
             }
 
             //rewrite the drawing xml with the new relID's
@@ -353,12 +353,10 @@ namespace OfficeOpenXml.Core.Worksheet
             return retNode;
         }
 
-        private static void CopyDrawingRels(ExcelDrawing copyDraw, ExcelPackage pck, ExcelWorksheet added, ZipPackagePart partDraw)
+        private static void CopyDrawingRels(ExcelDrawing copyDraw, ExcelPackage pck, ExcelWorksheet added, ZipPackagePart partDraw, ref XmlDocument drawXml)
         {
-            //var draw = drawings[i];
             var copy = copyDraw._drawings.Worksheet;
             var uriDraw = partDraw.Uri;
-            var drawXml = copyDraw._drawings.DrawingXml;
             if (copyDraw is ExcelChart chart)
             {
                 var xml = chart.ChartXml.InnerXml;
@@ -438,7 +436,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 for(int j = 0; j < grpDraw.Drawings.Count; j++)
                 {
-                    CopyDrawingRels(grpDraw.Drawings[j], pck, added, partDraw);
+                    CopyDrawingRels(grpDraw.Drawings[j], pck, added, partDraw, ref drawXml);
                 }
             }
 
@@ -447,7 +445,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 ZipPackageRelationship rel;
                 if (string.IsNullOrEmpty(copyDraw.HypRel.Target))
                 {
-                    rel = partDraw.CreateRelationship(copyDraw.HypRel.TargetUri.OriginalString, copyDraw.HypRel.TargetMode, copyDraw.HypRel.RelationshipType);
+                    rel = partDraw.CreateRelationship(copyDraw.HypRel.TargetUri, copyDraw.HypRel.TargetMode, copyDraw.HypRel.RelationshipType);
                 }
                 else
                 {
