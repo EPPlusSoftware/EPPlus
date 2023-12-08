@@ -8,7 +8,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 {
     internal class PivotCacheStore 
     {
-        internal struct CacheIndexItem : IEqualityComparer<CacheIndexItem>, IComparer<CacheIndexItem>
+        internal struct CacheIndexItem : IComparable<CacheIndexItem> //: IEqualityComparer<CacheIndexItem>, IComparer<CacheIndexItem>
         {
             internal int[] Key { get; set; }
             internal int Index { get; set; }
@@ -53,6 +53,18 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 return hash;
 
             }
+
+            public int CompareTo(CacheIndexItem other)
+            {   
+                for (int i = 0; i < Key.Length; i++)
+                {
+                    if (Key[i] != other.Key[i])
+                    {
+                        return Key[i].CompareTo(other.Key[i]);
+                    }
+                }
+                return 0;
+            }
         }
         List<object> _values=new List<object>();
         List<CacheIndexItem> _index = new List<CacheIndexItem>();
@@ -72,7 +84,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             {
                 throw (new ArgumentException("Key already exists"));
             }
-            item.Index = ix;
+            item.Index = _values.Count;
             _values.Add(value);
             _index.Insert(~ix, item);
         }
@@ -84,7 +96,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 var ix = _index.BinarySearch(item);
                 if(ix>=0)
                 {
-                    return _values[ix];
+                    return _values[_index[ix].Index];
                 }
                 return null;
             }
@@ -105,7 +117,10 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             var ix = _index.BinarySearch(item);
             if (ix >= 0)
             {
-                return _values[ix];
+                if (_index[ix].Index > 0)
+                {
+                    return _values[_index[ix].Index - 1];
+                }
             }
             ix = ~ix;
             if (ix >= 0 && ix < _values.Count)
@@ -120,7 +135,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             var ix = _index.BinarySearch(item);
             if (ix >= 0)
             {
-                return _values[ix];
+                if (_index[ix].Index + 1 < _values.Count)
+                {
+                    return _values[_index[ix].Index + 1];
+                }
+                return null;
             }
             ix = ~ix+1;
             if (ix >= 0 && ix < _values.Count)
