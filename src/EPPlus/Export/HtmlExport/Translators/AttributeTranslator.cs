@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0");
         }
 
-        internal static string GetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, 
+        internal static List<string> GetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, 
             string additionalClasses, ExporterContext context)
         {
             string cls = string.IsNullOrEmpty(additionalClasses) ? "" : additionalClasses;
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
             if (styleId < 0 || styleId >= styles.CellXfs.Count)
             {
-                return "";
+                return new List<string> { "" };
             }
 
             var xfs = styles.CellXfs[styleId];
@@ -62,8 +62,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             if (styleId == 0 || HasStyle(xfs) == false)
             {
                 if (string.IsNullOrEmpty(cls) == false)
-                    return cls;
-                return "";
+                    return new List<string> { cls };
+                return new List<string> { "" };
             }
 
             string key = GetStyleKey(xfs);
@@ -94,6 +94,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             int dxfId;
             string dxfKey;
 
+            string specials = "";
+
             var cfItems = context._cfQuadTree.GetIntersectingRangeItems
                 (new QuadRange(new ExcelAddress(cell.Address)));
 
@@ -117,10 +119,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
                         cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
                     }
+                    else
+                    {
+                        specials += ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                    }
                 }
             }
 
-            return cls.Trim();
+            return new List<string> { cls.Trim(), specials };
         }
 
         //void SpecialOperation(ExcelConditionalFormattingRule rule, ExcelAddress address)

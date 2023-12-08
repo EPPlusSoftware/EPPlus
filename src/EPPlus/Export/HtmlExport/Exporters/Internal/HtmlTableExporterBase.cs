@@ -165,9 +165,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
                 var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
 
-                if (!string.IsNullOrEmpty(classString))
+                if (!string.IsNullOrEmpty(classString[0]))
                 {
-                    tblData.AddAttribute("class", classString);
+                    tblData.AddAttribute("class", classString[0]);
+                }
+
+                if(classString.Count > 1) 
+                {
+                    tblData.AddAttribute("style", $"background-color:{classString[1]};");
                 }
 
                 AddImage(tblData, Settings, image, cell.Value);

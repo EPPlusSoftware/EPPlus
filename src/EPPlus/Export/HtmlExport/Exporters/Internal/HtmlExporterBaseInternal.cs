@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime;
 using System.Text;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -138,9 +139,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         var imageCellClassName = GetImageCellClassName(image, Settings, table != null);
                         var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _exporterContext);
 
-                        if (!string.IsNullOrEmpty(classString))
+                        if (!string.IsNullOrEmpty(classString[0]))
                         {
-                            th.AddAttribute("class", classString);
+                            th.AddAttribute("class", classString[0]);
+                        }
+
+                        if (classString.Count > 1)
+                        {
+                            th.AddAttribute("style", $"background-color:{classString[1]};");
                         }
                     }
 
@@ -267,7 +273,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     SetColRowSpan(range, tblData, cell);
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
-                    {
+                    { 
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
@@ -282,30 +288,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                         var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
 
-                        if (!string.IsNullOrEmpty(classString))
+                        if (!string.IsNullOrEmpty(classString[0]))
                         {
-                            tblData.AddAttribute("class", classString);
+                            tblData.AddAttribute("class", classString[0]);
+                        }
+
+                        if (classString.Count > 1)
+                        {
+                            tblData.AddAttribute("style", $"background-color:{classString[1]};");
                         }
 
                         AddImage(tblData, Settings, image, cell.Value);
                         AddHyperlink(tblData, cell, Settings);
                     }
-
-                    var cfItems = _exporterContext._cfQuadTree.GetIntersectingRangeItems
-                         (new QuadRange(new ExcelAddress(cell.Address)));
-
-                    for (int i = 0; i < cfItems.Count; i++)
-                    {
-                        if(cfItems[i].Value.Type == eExcelConditionalFormattingRuleType.TwoColorScale)
-                        {
-                            //tblData.AddAttribute("background-color:",((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell));
-
-                            //background - color:
-                            tblData.AddAttribute("style","background-color:"+((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell) + ";");
-                        }
-                    }
-
-
                     tr.AddChildElement(tblData);
                 }
 
@@ -656,10 +651,25 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
             var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
 
-            if (!string.IsNullOrEmpty(classString))
+            if (!string.IsNullOrEmpty(classString[0]))
             {
-                element.AddAttribute("class", classString);
+                element.AddAttribute("class", classString[0]);
             }
+
+            if (classString.Count > 1 && !string.IsNullOrEmpty(classString[1]))
+            {
+                element.AddAttribute("style", $"background-color:{classString[1]};");
+            }
+            //var cfItems = _exporterContext._cfQuadTree.GetIntersectingRangeItems
+            //     (new QuadRange(new ExcelAddress(cell.Address)));
+
+            //for (int i = 0; i < cfItems.Count; i++)
+            //{
+            //    if (cfItems[i].Value.Type == eExcelConditionalFormattingRuleType.TwoColorScale)
+            //    {
+            //        element.AddAttribute("style", "background-color:" + ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell) + ";");
+            //    }
+            //}
 
             HtmlExportImageUtil.AddImage(element, settings, image, cell.Value);
             if (cell.IsRichText)
