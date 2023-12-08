@@ -207,10 +207,12 @@ namespace OfficeOpenXml.Table
                     Table.Columns._colNames.Remove(_cols[i].Name);
                     Table.Columns._cols.RemoveAt(i);
                 }
+
                 for (int i = position; i < _cols.Count; i++)
                 {
                     _cols[i].Position = i;
                 }
+
                 _colNames = _cols.ToDictionary(x => x.Name, y => y.Position);
 
                 var range = Table.DeleteColumn(position, columns);
