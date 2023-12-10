@@ -26,29 +26,53 @@ namespace OfficeOpenXml.LoadFunctions
     /// </summary>
     internal class NestedColumnsTypeScanner
     {
-        public NestedColumnsTypeScanner(Type outerType, BindingFlags bindingFlags)
+        public NestedColumnsTypeScanner(Type outerType, MemberInfo[] filterMembers, BindingFlags bindingFlags)
         {
             _bindingFlags = bindingFlags;
+            _filterMembers= filterMembers;
             _types.Add(outerType);
             ReadTypes(outerType);
         }
 
         private readonly HashSet<Type> _types = new HashSet<Type>();
         private readonly BindingFlags _bindingFlags;
+        private readonly MemberInfo[] _filterMembers;
+        private readonly List<MemberPath> _paths = new List<MemberPath>();
 
-        private void ReadTypes(Type type)
+        private void ReadTypes(Type type, bool isNested = false, MemberPath path = null)
         {
             var properties = type.GetProperties(_bindingFlags);
             foreach(var property in properties)
             {
-                if (property.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
+                if (property.HasAttributeOfType<EpplusIgnore>()) continue;
+                var propPath = path?.Clone();
+                if(propPath == null)
                 {
+                    propPath = new MemberPath(property);
+                }
+                else
+                {
+                    propPath.Append(property);
+                }
+                if (property.HasAttributeOfType<EpplusNestedTableColumnAttribute>())
+                {
+                    propPath.Last().IsNestedProperty = true;
                     if(!_types.Contains(property.PropertyType))
                     {
                         _types.Add(property.PropertyType);
-                        ReadTypes(property.PropertyType);
+                        ReadTypes(property.PropertyType, true, propPath);
                     }
                 }
+                if (
+                    _filterMembers == null ||
+                    _filterMembers.Length == 0 ||
+                    _filterMembers.Any(x => x.Name == property.Name && x.DeclaringType == property.DeclaringType) ||
+                    isNested
+                    )
+                {
+                    _paths.Add(propPath);
+                }
+                    
             }
         }
 

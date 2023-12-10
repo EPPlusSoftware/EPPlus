@@ -28,7 +28,7 @@ namespace OfficeOpenXml.LoadFunctions
             var allTypes = scanner.GetTypes();
             foreach (var type in allTypes)
             {
-                if(type.HasPropertyOfType<EPPlusTableColumnSortOrderAttribute>())
+                if(type.HasAttributeOfType<EPPlusTableColumnSortOrderAttribute>())
                 {
                     var attr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
                     if(!_sortOrderAttributes.ContainsKey(type))
@@ -46,6 +46,7 @@ namespace OfficeOpenXml.LoadFunctions
             ref List<int> sortOrderList, 
             int memberIndex, 
             int nestedLevel, 
+            MemberPath memberPath,
             MemberInfo member)
         {
             if(sortOrderList == null) sortOrderList = new List<int>();
@@ -55,11 +56,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 sortOrderList.Add(_membersFilter.IndexOf(member));
             }
-            else if (_sortOrderAttributes.ContainsKey(declaringType))
-            {
-                sortOrder = _sortOrderAttributes[declaringType].IndexOf(member.Name);
-            }
-            else if(member.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
+            else if (member.HasAttributeOfType<EpplusNestedTableColumnAttribute>())
             {
                 var attr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
                 if (attr.Order > 0)
@@ -67,7 +64,11 @@ namespace OfficeOpenXml.LoadFunctions
                     sortOrder = attr.Order;
                 }
             }
-            else if(member.HasPropertyOfType<EpplusTableColumnAttribute>())
+            else if (_sortOrderAttributes.ContainsKey(declaringType))
+            {
+                sortOrder = _sortOrderAttributes[declaringType].IndexOf(member.Name);
+            }
+            else if(member.HasAttributeOfType<EpplusTableColumnAttribute>())
             {
                 var attr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                 if(attr.Order > 0)

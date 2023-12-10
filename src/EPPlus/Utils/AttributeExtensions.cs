@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Utils
 {
     internal static class AttributeExtensions
     {
-        internal static bool HasPropertyOfType<T>(this MemberInfo member, bool? inherit = default(bool?))
+        internal static bool HasAttributeOfType<T>(this MemberInfo member, bool? inherit = default(bool?))
         {
             //return member.GetCustomAttributes(typeof(T), false).FirstOrDefault() != null;
 
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Utils
 #endif
         }
 
-        internal static bool HasMemberWithPropertyOfType<T>(this Type type)
+        internal static bool HasMemberWithAttributeOfType<T>(this Type type)
             where T : Attribute
         {
             var members = type.GetProperties();

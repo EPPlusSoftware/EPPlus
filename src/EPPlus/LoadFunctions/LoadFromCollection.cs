@@ -45,17 +45,17 @@ namespace OfficeOpenXml.LoadFunctions
                 ShowLastColumn = tableAttr.ShowLastColumn;
                 ShowTotal = tableAttr.ShowTotal;
             }
-            var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
-            if (classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
-            {
-                SortOrderProperties = classSortOrderAttr.Properties.ToList();
-                var scanner = new NestedColumnsSortorderScanner(type, parameters.BindingFlags);
-                SortOrderProperties = scanner.GetSortOrder();
-            }
+            //var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
+            //if (classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
+            //{
+            //    SortOrderProperties = classSortOrderAttr.Properties.ToList();
+            //    var scanner = new NestedColumnsSortorderScanner(type, parameters.BindingFlags);
+            //    SortOrderProperties = scanner.GetSortOrder();
+            //}
             LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
             {
-                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 SetHiddenColumns();
@@ -66,13 +66,13 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
-                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 // the ValidateType method will throw an InvalidCastException
                 // if parameters.Members contains a MemberInfo that is not declared
                 // by any of the types used.
-                var scanner = new NestedColumnsTypeScanner(type, parameters.BindingFlags);
+                var scanner = new NestedColumnsTypeScanner(type, parameters.Members, parameters.BindingFlags);
                 foreach (var member in parameters.Members)
                 {
                     cols.ValidateType(member);

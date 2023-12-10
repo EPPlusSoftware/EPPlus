@@ -24,46 +24,46 @@ namespace OfficeOpenXml.LoadFunctions
 {
     internal class LoadFromCollectionColumns<T>
     {
-        public LoadFromCollectionColumns(LoadFromCollectionParams parameters):
-            this(parameters, Enumerable.Empty<string>().ToList())
-        { }
+        //public LoadFromCollectionColumns(LoadFromCollectionParams parameters) :
+        //    this(parameters, Enumerable.Empty<string>().ToList())
+        //{ }
 
-        public LoadFromCollectionColumns(LoadFromCollectionParams parameters, List<string> sortOrderColumns)
+        public LoadFromCollectionColumns(LoadFromCollectionParams parameters)
         {
             _params = parameters;
-            _bindingFlags = parameters.BindingFlags;
-            _sortOrderColumns = sortOrderColumns;
-            if(parameters.Members != null)
-            {
-                _filterMembers = parameters.Members.ToList();
-            }
-            var typeScanner = new NestedColumnsTypeScanner(typeof(T), _bindingFlags);
+            _membersStore = new MembersStore<T>(parameters.Members, parameters.BindingFlags);
+            var typeScanner = _membersStore.GetTypeScanner();
             _sortOrderCalculator = new SortOrderCalculator(typeScanner, parameters.Members);
-            _includedTypes = new HashSet<Type>(typeScanner.GetTypes().Distinct());
-            var members = parameters.Members;
-            _members = new Dictionary<Type, HashSet<string>>();
-            if (members != null && members.Length > 0)
-            {
-                foreach (var member in members)
-                {
-                    AddMember(member);
-                }
-            }
+            //_bindingFlags = parameters.BindingFlags;
+            //_sortOrderColumns = sortOrderColumns;
+            //if (parameters.Members != null)
+            //{
+            //    _filterMembers = parameters.Members.ToList();
+            //}
+            //var typeScanner = new NestedColumnsTypeScanner(typeof(T), _bindingFlags);
+            //_sortOrderCalculator = new SortOrderCalculator(typeScanner, parameters.Members);
+            //var members = parameters.Members;
+            //_members = new Dictionary<Type, HashSet<string>>();
+            //if (members != null && members.Length > 0)
+            //{
+            //    foreach (var member in members)
+            //    {
+            //        AddMember(member);
+            //    }
+            //}
         }
 
 
         private readonly LoadFromCollectionParams _params;
+        private readonly MembersStore<T> _membersStore;
         private readonly BindingFlags _bindingFlags;
         private readonly List<string> _sortOrderColumns;
         private readonly SortOrderCalculator _sortOrderCalculator;
-        private readonly Dictionary<Type, HashSet<string>> _members;
-        private List<MemberInfo> _filterMembers;
-        private readonly HashSet<Type> _includedTypes;
         private const int SortOrderOffset = ExcelPackage.MaxColumns;
 
-        internal List<ColumnInfo> Setup()
+        internal ColumnInfoCollection Setup()
         {
-            var result = new List<ColumnInfo>();
+            var result = new ColumnInfoCollection();
             var t = typeof(T);
             var ut = Nullable.GetUnderlyingType(t);
             if (ut != null)
@@ -71,40 +71,15 @@ namespace OfficeOpenXml.LoadFunctions
                 t = ut;
             }
 
-            bool sort=SetupInternal(t, result, null);
-            if (sort)
-            {
-                ReindexAndSortColumns(result);
-            }
+            SetupInternal(t, result, null);
+            result.ReindexAndSortColumns();
             return result;
-        }
-
-        private void AddMember(MemberInfo member)
-        {
-            if (!_members.ContainsKey(member.DeclaringType))
-            {
-                _members.Add(member.DeclaringType, new HashSet<string>());
-            }
-            
-            _members[member.DeclaringType].Add(member.Name);
         }
 
 
         internal void ValidateType(MemberInfo member)
         {
-            var isValid = false;
-            foreach (var includedType in _includedTypes)
-            {
-
-                if (member.DeclaringType == includedType
-                    || member.DeclaringType.IsAssignableFrom(includedType)
-                    || member.DeclaringType.IsSubclassOf(includedType))
-                {
-                    isValid = true;
-                    break;
-                }
-            }
-            if (!isValid) throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
+            _membersStore.ValidateType(member);
         }
 
         private List<ListType> CopyList<ListType>(List<ListType> source)
@@ -115,66 +90,71 @@ namespace OfficeOpenXml.LoadFunctions
             return copy;
         }
 
-        private bool ShouldIgnoreMember(MemberInfo member, bool isNested)
-        {
-            if (member == null) return true;
-            if (member.HasPropertyOfType<EpplusIgnore>()) return true;
-            if (_members.Count == 0) return false;
-            if (isNested && (_members == null || !_members.ContainsKey(member.DeclaringType)))
-            {
-                return false;
-            }
-            return !(_members.ContainsKey(member.DeclaringType) && _members[member.DeclaringType].Contains(member.Name));
-        }
+        
 
-        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, int nestedLevel = 0, string path = null, string headerPrefix = null)
+        private void SetupInternal(
+            Type type, 
+            List<ColumnInfo> result, 
+            List<int> sortOrderListArg, 
+            int nestedLevel = 0, 
+            MemberPath path = null, 
+            string headerPrefix = null)
         {
-            var sort = false;
-            var members = nestedLevel == 0 && _filterMembers != null ? _filterMembers.ToArray() : type.GetProperties(_bindingFlags);
-            sort = true;
+            var members = _membersStore.GetMembers(type, nestedLevel);
             var index = 0;
             foreach (var member in members)
             {
                 if (member.DeclaringType != type && !member.DeclaringType.IsAssignableFrom(type)) continue;
                 var sortOrderList = CopyList(sortOrderListArg);
-                if (ShouldIgnoreMember(member, nestedLevel > 0))
+                if(path == null)
+                {
+                    path = new MemberPath(member);
+                }
+                else
+                {
+                    path.Append(member);
+                }
+                if (_membersStore.ShouldIgnoreMember(member, path))
                 {
                     continue;
                 }
                 var cs = TableColumnSettings.Default;
-                var memberPath = path != null ? $"{path}.{member.Name}" : member.Name;
-                if (member.HasPropertyOfType<EpplusNestedTableColumnAttribute>())
+                //var memberPath = path != null ? $"{path}.{member.Name}" : member.Name;
+                _sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, path, member);
+                if (member.HasAttributeOfType<EpplusNestedTableColumnAttribute>())
                 {
-                    var memberType = GetTypeByMemberInfo(member);
+                    var memberType = MemberHelper.GetTypeByMemberInfo(member);
                     if (memberType == typeof(string) || (!memberType.IsClass && memberType.IsInterface))
                     {
-                        throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {memberPath})");
+                        throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {path.GetPath()})");
                     }
                     var nestedTableAttr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
                     var hPrefix = ColumnsHeaderReader.GetAggregatedHeaderPrefix(headerPrefix, nestedTableAttr);
-                    var so = nestedTableAttr.Order > 0 ? nestedTableAttr.Order : index;
-                    if (sortOrderList == null) sortOrderList = new List<int>();
-                    sortOrderList.Add(so);
-                    SetupInternal(memberType, result, sortOrderList, nestedLevel + 1, memberPath, hPrefix);
+                    //_sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
+                    SetupInternal(memberType, result, sortOrderList, nestedLevel + 1, path, hPrefix);
                     index++;
                     continue;
                 }
-                else if (member.HasPropertyOfType<EPPlusDictionaryColumnAttribute>())
+                else if (member.HasAttributeOfType<EPPlusDictionaryColumnAttribute>())
                 {
-                    _sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
-                    HandleDictionaryColumnsAttribute(result, member, sortOrderList, headerPrefix, memberPath, index++, nestedLevel);
+                    //_sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
+                    HandleDictionaryColumnsAttribute(result, member, sortOrderList, headerPrefix, path, index++, nestedLevel);
                     continue;
                 }
-                else if (member.HasPropertyOfType<EpplusTableColumnAttribute>())
+                else if (member.HasAttributeOfType<EpplusTableColumnAttribute>())
                 {
                     var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                     if (epplusColumnAttr != null)
                     {
-                        _sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
+                        //_sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
                         cs.SetProperties(epplusColumnAttr);
                     }
                 }
-                
+                else
+                {
+                    //_sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
+                }
+
                 result.Add(new ColumnInfo
                 {
                     Header = cs.GetHeader(headerPrefix, member),
@@ -187,14 +167,13 @@ namespace OfficeOpenXml.LoadFunctions
                     TotalsRowNumberFormat = cs.TotalRowsNumberFormat,
                     TotalsRowLabel = cs.TotalRowLabel,
                     TotalsRowFormula = cs.TotalRowFormula,
-                    Path = memberPath
+                    Path = path.GetPath()
                 });
                 index++;
             }
             var formulaColumnAttributes = type.FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
             if (formulaColumnAttributes != null && formulaColumnAttributes.Any())
             {
-                sort = true;
                 foreach (var attr in formulaColumnAttributes)
                 {
                     result.Add(new ColumnInfo
@@ -209,15 +188,14 @@ namespace OfficeOpenXml.LoadFunctions
                     });
                 }
             }
-            return sort;
         }
 
-        private void HandleDictionaryColumnsAttribute(List<ColumnInfo> result, MemberInfo member, List<int> sortOrderList, string headerPrefix, string memberPath, int index, int nestedLevel)
+        private void HandleDictionaryColumnsAttribute(List<ColumnInfo> result, MemberInfo member, List<int> sortOrderList, string headerPrefix, MemberPath memberPath, int index, int nestedLevel)
         {
             var attr = member.GetFirstAttributeOfType<EPPlusDictionaryColumnAttribute>();
-            if(member.MemberType == MemberTypes.Property)
+            if (member.MemberType == MemberTypes.Property)
             {
-                if(((PropertyInfo)member).PropertyType != typeof(Dictionary<string, object>))
+                if (((PropertyInfo)member).PropertyType != typeof(Dictionary<string, object>))
                 {
                     throw new InvalidOperationException($"Property {memberPath} is decorated with the EPPlusDictionaryColumnsAttribute. Its type must be Dictionary<string, object>");
                 }
@@ -237,11 +215,11 @@ namespace OfficeOpenXml.LoadFunctions
                 }
             }
             var columnHeaders = Enumerable.Empty<string>();
-            if(!string.IsNullOrEmpty(attr.KeyId))
+            if (!string.IsNullOrEmpty(attr.KeyId))
             {
                 columnHeaders = _params.GetDictionaryKeys(attr.KeyId);
             }
-            else if(attr.ColumnHeaders != null && attr.ColumnHeaders.Length > 0)
+            else if (attr.ColumnHeaders != null && attr.ColumnHeaders.Length > 0)
             {
                 columnHeaders = attr.ColumnHeaders;
             }
@@ -252,7 +230,7 @@ namespace OfficeOpenXml.LoadFunctions
             foreach (var key in columnHeaders)
             {
                 var sortOrderListCol = CopyList(sortOrderList);
-                _sortOrderCalculator.CalculateSortOrder(ref sortOrderListCol, index++, nestedLevel, member);
+                _sortOrderCalculator.CalculateSortOrder(ref sortOrderListCol, index++, nestedLevel, memberPath, member);
                 result.Add(new ColumnInfo
                 {
                     Index = index,
@@ -261,44 +239,9 @@ namespace OfficeOpenXml.LoadFunctions
                     DictinaryKey = key,
                     Path = $"{memberPath}.{key}",
                     Header = key,
-                    SortOrderLevels= sortOrderListCol
+                    SortOrderLevels = sortOrderListCol
                 });
             }
         }
-
-        private Type GetTypeByMemberInfo(MemberInfo member)
-        {
-            switch(member.MemberType)
-            {
-                case MemberTypes.Field:
-                    return ((FieldInfo)member).FieldType;
-                case MemberTypes.Property:
-                    return ((PropertyInfo)member).PropertyType;
-                case MemberTypes.Method:
-                    return ((MethodInfo)member).ReturnType;
-                default:
-                    throw new InvalidOperationException($"LoadFromCollection: Unsupported MemberType on member {member.Name}. Only Field, Property and Method allowed.");
-            }
-        }
-
-        private static void ReindexAndSortColumns(List<ColumnInfo> result)
-        {
-            var index = 0;
-            result.Sort((a, b) =>
-            {
-                var so1 = a.SortOrderLevels;
-                var so2 = b.SortOrderLevels;
-                var maxIx = so1.Count < so2.Count ? so1.Count : so2.Count;
-                for (var ix = 0; ix < maxIx; ix++)
-                {
-                    var aVal = so1[ix];
-                    var bVal = so2[ix];
-                    if (aVal.CompareTo(bVal) == 0) continue;
-                    return aVal.CompareTo(bVal);
-                }
-                return a.Index.CompareTo(b.Index);
-            });
-            result.ForEach(x => x.Index = index++);
-        }        
     }
 }
