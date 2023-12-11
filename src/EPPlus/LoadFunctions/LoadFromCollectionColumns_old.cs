@@ -22,19 +22,19 @@ using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    internal class LoadFromCollectionColumns<T>
+    internal class LoadFromCollectionColumns_old<T>
     {
         //public LoadFromCollectionColumns(LoadFromCollectionParams parameters) :
         //    this(parameters, Enumerable.Empty<string>().ToList())
         //{ }
 
-        public LoadFromCollectionColumns(LoadFromCollectionParams parameters)
+        public LoadFromCollectionColumns_old(LoadFromCollectionParams parameters)
         {
             _params = parameters;
             //_membersStore = new MembersStore<T>(parameters.Members, parameters.BindingFlags);
             //var typeScanner = _membersStore.GetTypeScanner();
             //_sortOrderCalculator = new SortOrderCalculator(typeScanner, parameters.Members);
-            _bindingFlags = parameters.BindingFlags;
+            //_bindingFlags = parameters.BindingFlags;
             //_sortOrderColumns = sortOrderColumns;
             //if (parameters.Members != null)
             //{
@@ -71,43 +71,7 @@ namespace OfficeOpenXml.LoadFunctions
                 t = ut;
             }
 
-            var scanner = new NestedColumnsTypeScanner(t, _params);
-            var paths = scanner.GetPaths();
-            foreach (var path in paths)
-            {
-                var pathItem = path.Last();
-                var col = new ColumnInfo
-                {
-                    Header = path.GetHeader(),
-                    Path = path,
-                    IsDictionaryProperty = pathItem.IsDictionaryColumn,
-                    MemberInfo = pathItem.Member,
-                    Hidden = pathItem.Hidden,
-                    NumberFormat = pathItem.NumberFormat,
-                    TotalsRowFunction = pathItem.TotalsRowFunction,
-                    TotalsRowNumberFormat = pathItem.TotalRowsNumberFormat,
-                    TotalsRowLabel = pathItem.TotalRowLabel,
-                    TotalsRowFormula = pathItem.TotalRowFormula,
-                };
-                result.Add(col);
-            }
-            var formulaColumnAttributes = typeof(T).FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
-            if (formulaColumnAttributes != null && formulaColumnAttributes.Any())
-            {
-                foreach (var attr in formulaColumnAttributes)
-                {
-                    result.Add(new ColumnInfo
-                    {
-                        Path = new FormulaColumnMemberPath(attr),
-                        Header = attr.Header,
-                        Formula = attr.Formula,
-                        FormulaR1C1 = attr.FormulaR1C1,
-                        NumberFormat = attr.NumberFormat,
-                        TotalsRowFunction = attr.TotalsRowFunction,
-                        TotalsRowNumberFormat = attr.TotalsRowNumberFormat
-                    });
-                }
-            }
+            SetupInternal(t, result, null);
             result.ReindexAndSortColumns();
             return result;
         }
@@ -170,7 +134,7 @@ namespace OfficeOpenXml.LoadFunctions
                     index++;
                     continue;
                 }
-                else if (member.HasAttributeOfType(out EPPlusDictionaryColumnAttribute edcAttr))
+                else if (member.HasAttributeOfType<EPPlusDictionaryColumnAttribute>())
                 {
                     //_sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
                     HandleDictionaryColumnsAttribute(result, member, sortOrderList, headerPrefix, path, index++, nestedLevel);
@@ -178,11 +142,7 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 else if (member.HasAttributeOfType(out EpplusTableColumnAttribute epplusColumnAttr))
                 {
-                    if (epplusColumnAttr != null)
-                    {
-                        //_sortOrderCalculator.CalculateSortOrder(ref sortOrderList, index, nestedLevel, member);
-                        cs.SetProperties(epplusColumnAttr);
-                    }
+                    cs.SetProperties(epplusColumnAttr);
                 }
                 else
                 {

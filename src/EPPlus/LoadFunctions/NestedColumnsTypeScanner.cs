@@ -17,6 +17,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using OfficeOpenXml.Attributes;
+using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
+using OfficeOpenXml.LoadFunctions.Params;
 
 namespace OfficeOpenXml.LoadFunctions
 {
@@ -26,10 +28,13 @@ namespace OfficeOpenXml.LoadFunctions
     /// </summary>
     internal class NestedColumnsTypeScanner
     {
-        public NestedColumnsTypeScanner(Type outerType, MemberInfo[] filterMembers, BindingFlags bindingFlags)
+        public NestedColumnsTypeScanner(
+            Type outerType, 
+            LoadFromCollectionParams parameters)
         {
-            _bindingFlags = bindingFlags;
-            _filterMembers= filterMembers;
+            _bindingFlags = parameters.BindingFlags;
+            _filterMembers= parameters.Members;
+            _params = parameters;
             _types.Add(outerType);
             ReadTypes(outerType);
         }
@@ -37,43 +42,145 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly HashSet<Type> _types = new HashSet<Type>();
         private readonly BindingFlags _bindingFlags;
         private readonly MemberInfo[] _filterMembers;
+        private readonly LoadFromCollectionParams _params;
         private readonly List<MemberPath> _paths = new List<MemberPath>();
 
-        private void ReadTypes(Type type, bool isNested = false, MemberPath path = null)
+        private bool NestedClassExistsInFilter(MemberInfo nestedClass)
         {
-            var properties = type.GetProperties(_bindingFlags);
-            foreach(var property in properties)
+            if(_filterMembers == null || _filterMembers.Length == 0) return false;
+            foreach(var filter in  _filterMembers)
             {
-                if (property.HasAttributeOfType<EpplusIgnore>()) continue;
-                var propPath = path?.Clone();
-                if(propPath == null)
+                if(filter.DeclaringType == nestedClass.DeclaringType && filter.Name == nestedClass.Name) return true;
+                if (filter.DeclaringType == nestedClass.GetMemberType()) return true;
+            }
+            return false;
+        }
+
+        private bool ShouldAddPath(MemberPath parentPath, MemberInfo member)
+        {
+            if (member.HasAttributeOfType<EpplusIgnore>()) return false;
+            if (_filterMembers == null || _filterMembers.Length == 0) return true;
+            if (!NestedClassExistsInFilter(member)) return false;
+            if(parentPath?.Last().IsNestedProperty ?? false)
+            {
+                var parentMember = parentPath.Last().Member;
+
+                // If the only filtered member is a complex type
+                // with the EpplusNestedTableColumn we should
+                // use all its members.
+                if (_filterMembers.Any(x => x.Name == parentMember.Name && x.DeclaringType == parentMember.DeclaringType))
                 {
-                    propPath = new MemberPath(property);
+                    // if there are members specified explicitly in the filter
+                    // we should only use those.
+                    if(_filterMembers.Count(x => x.DeclaringType == parentMember.DeclaringType) > 1)
+                    {
+                        return _filterMembers.Any(x => x.Name == member.Name && x.DeclaringType == parentMember.DeclaringType);
+                    }
+                    return true;
+                }
+            }
+            // Always ignore complex type members not decorated with the
+            // EpplusNestedTableColumn attribute.
+            if (member.HasAttributeOfType<EpplusNestedTableColumnAttribute>()) return true;
+            return member.GetMemberType().IsComplexType() == false;
+        }
+
+        private void ReadTypes(Type type, MemberPath path = null)
+        {
+            var members = type.GetProperties(_bindingFlags).Where(x => x.ShouldBeIncluded());
+            var parentIsNested = path != null && path.Depth > 0 && path.Last().IsNestedProperty;
+            foreach(var member in members)
+            {
+                var mType = member.GetMemberType();
+                if(parentIsNested == false && ShouldAddPath(path, member) == false)
+                {
+                    continue;
+                }
+                var sortOrder = member.GetSortOrder(_filterMembers, out bool useForAllPathItems);
+                var propPath = path?.Clone();
+                if (propPath == null)
+                {
+                    propPath = new MemberPath(member, sortOrder, useForAllPathItems);
                 }
                 else
                 {
-                    propPath.Append(property);
+                    propPath.Append(member, sortOrder, useForAllPathItems);
                 }
-                if (property.HasAttributeOfType<EpplusNestedTableColumnAttribute>())
+
+                var lastItem = propPath.Last();
+                if (member.HasAttributeOfType(out EpplusNestedTableColumnAttribute entAttr))
                 {
-                    propPath.Last().IsNestedProperty = true;
-                    if(!_types.Contains(property.PropertyType))
+                    var memberType = member.GetMemberType();
+                    if (memberType == typeof(string) || (!memberType.IsClass && memberType.IsInterface))
                     {
-                        _types.Add(property.PropertyType);
-                        ReadTypes(property.PropertyType, true, propPath);
+                        throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {propPath.GetPath()})");
                     }
+                    lastItem.SetProperties(entAttr);
+                    ReadTypes(mType, propPath);
                 }
-                if (
-                    _filterMembers == null ||
-                    _filterMembers.Length == 0 ||
-                    _filterMembers.Any(x => x.Name == property.Name && x.DeclaringType == property.DeclaringType) ||
-                    isNested
-                    )
+                if (member.HasAttributeOfType(out EPPlusDictionaryColumnAttribute edcAttr))
+                {
+                    lastItem.IsDictionaryParent = true;
+                    lastItem.DictionaryKey = edcAttr.KeyId;
+                    var dictPaths = HandleDictionaryColumnsAttribute(member, propPath);
+                    _paths.AddRange(dictPaths);
+                }
+                if(member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
+                {
+                    lastItem.SetProperties(etcAttr);
+                }
+                if(lastItem.IsNestedProperty == false && lastItem.IsDictionaryParent == false) 
                 {
                     _paths.Add(propPath);
                 }
-                    
             }
+        }
+
+        private IEnumerable<MemberPath> HandleDictionaryColumnsAttribute(MemberInfo member, MemberPath path)
+        {
+            var result = new List<MemberPath>();
+            var attr = member.GetFirstAttributeOfType<EPPlusDictionaryColumnAttribute>();
+            var memberType = member.GetMemberType();
+            var memberPath = path.GetPath();
+            if(memberType != typeof(Dictionary<string, object>))
+            {
+                throw new InvalidOperationException($"Property {memberPath} is decorated with the EPPlusDictionaryColumnsAttribute. Its type must be Dictionary<string, object>");
+            }
+            var columnHeaders = Enumerable.Empty<string>();
+            if (!string.IsNullOrEmpty(attr.KeyId))
+            {
+                columnHeaders = _params.GetDictionaryKeys(attr.KeyId);
+            }
+            else if (attr.ColumnHeaders != null && attr.ColumnHeaders.Length > 0)
+            {
+                columnHeaders = attr.ColumnHeaders;
+            }
+            else
+            {
+                columnHeaders = _params.GetDefaultDictionaryKeys();
+            }
+            var index = 0;
+            foreach (var key in columnHeaders)
+            {
+                //var sortOrderListCol = CopyList(sortOrderList);
+                // _sortOrderCalculator.CalculateSortOrder(ref sortOrderListCol, index++, nestedLevel, memberPath, member);
+                //result.Add(new ColumnInfo
+                //{
+                //    Index = index,
+                //    MemberInfo = member,
+                //    IsDictionaryProperty = true,
+                //    DictinaryKey = key,
+                //    //Path = $"{memberPath}.{key}",
+                //    Header = key,
+                //    //SortOrderLevels = sortOrderListCol
+                //});
+                //path.
+                var propPath = path.Clone();
+                var item = new MemberPathItem(member, key, index++);
+                propPath.Append(item);
+                result.Add(propPath);
+            }
+            return result;
         }
 
         /// <summary>
@@ -83,6 +190,11 @@ namespace OfficeOpenXml.LoadFunctions
         public HashSet<Type> GetTypes()
         {
             return _types;
+        }
+
+        public List<MemberPath> GetPaths()
+        {
+            return _paths;
         }
 
         /// <summary>

@@ -27,21 +27,21 @@ namespace OfficeOpenXml.LoadFunctions
             BindingFlags bindingFlags
             )
         {
-            _bindingFlags = bindingFlags;
-            _typeScanner = new NestedColumnsTypeScanner(typeof(T), filterMembers, bindingFlags);
-            _includedTypes = new HashSet<Type>(_typeScanner.GetTypes().Distinct());
-            if (filterMembers != null)
-            {
-                _filterMembers = filterMembers.ToList();
-            }
-            _members = new Dictionary<Type, HashSet<string>>();
-            if (filterMembers != null && filterMembers.Length > 0)
-            {
-                foreach (var member in filterMembers)
-                {
-                    AddMember(member);
-                }
-            }
+            //_bindingFlags = bindingFlags;
+            //_typeScanner = new NestedColumnsTypeScanner(typeof(T), filterMembers, bindingFlags);
+            //_includedTypes = new HashSet<Type>(_typeScanner.GetTypes().Distinct());
+            //if (filterMembers != null)
+            //{
+            //    _filterMembers = filterMembers.ToList();
+            //}
+            //_members = new Dictionary<Type, HashSet<string>>();
+            //if (filterMembers != null && filterMembers.Length > 0)
+            //{
+            //    foreach (var member in filterMembers)
+            //    {
+            //        AddMember(member);
+            //    }
+            //}
         }
 
         private readonly Dictionary<Type, HashSet<string>> _members;
@@ -49,19 +49,6 @@ namespace OfficeOpenXml.LoadFunctions
         private List<MemberInfo> _filterMembers;
         private readonly BindingFlags _bindingFlags;
         private readonly NestedColumnsTypeScanner _typeScanner;
-
-        private bool SubMemberIsSpecified(MemberInfo member)
-        {
-            if(_filterMembers == null || _filterMembers.Count == 0)
-            {
-                return false;
-            }
-            else if(_members.ContainsKey(member.DeclaringType))
-            {
-                return _filterMembers.Contains(member);
-            }
-            return false;
-        }
 
         internal NestedColumnsTypeScanner GetTypeScanner()
         {

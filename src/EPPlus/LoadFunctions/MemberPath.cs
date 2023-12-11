@@ -10,8 +10,14 @@
  *************************************************************************************************
   12/7/2023         EPPlus Software AB       EPPlus 7.0.4
  *************************************************************************************************/
+using OfficeOpenXml.Attributes;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+#if !NET35
+using System.ComponentModel.DataAnnotations;
+#endif
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,40 +26,104 @@ using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    [DebuggerDisplay("Path: {GetPath()}, IsNested: {Last().IsNestedProperty}")]
-    internal class MemberPath
+    [DebuggerDisplay("Path: {GetPath()}, IsNested: {Last().IsNestedProperty}, Order={GetSortOrderString()}")]
+    internal class MemberPath : MemberPathBase
     {
         public MemberPath()
         {
 
         }
-        public MemberPath(MemberInfo member)
+        public MemberPath(MemberInfo member, int sortOrder, bool useForAllPathItems = false)
         {
-            _members.Add(new MemberPathItem(member));
+            var newItem = new MemberPathItem(member, sortOrder);
+            if(_members.Any())
+            {
+                newItem.Parent = _members.Last();
+            }
+            _members.Add(newItem);
+            if (useForAllPathItems)
+            {
+                _members.ForEach(x => x.SortOrder = sortOrder);
+            }
         }
 
-        private readonly List<MemberPathItem> _members = new List<MemberPathItem>();
-
-        internal void Append(MemberInfo member)
+        internal void Append(MemberPathItem item, bool useSortOrderForAllPathItems = false)
         {
-            _members.Add(new MemberPathItem(member));
+            if (_members.Any())
+            {
+                item.Parent = _members.Last();
+            }
+            _members.Add(item);
+            if (useSortOrderForAllPathItems)
+            {
+                _members.ForEach(x => x.SortOrder = item.SortOrder);
+            }
         }
 
-        internal string GetPath()
+        internal void Append(MemberInfo member, int sortOrder, bool useForAllPathItems = false)
         {
-            var members = _members.Select(m => m.Member.Name).ToList();
-            return string.Join(".", members.ToArray());
+            var newItem = new MemberPathItem(member, sortOrder);
+            if (_members.Any())
+            {
+                newItem.Parent = _members.Last();
+            }
+            _members.Add(newItem);
+            if(useForAllPathItems )
+            {
+                _members.ForEach(x => x.SortOrder = sortOrder);
+            }
         }
 
-        public int Depth
+        public override string GetHeader()
         {
-            get => _members.Count;
-        }
-
-        public MemberPathItem Get(int index)
-        {
-            if (index >= _members.Count) throw new IndexOutOfRangeException();
-            return _members[index];
+            string prefix = string.Empty;
+            string header = string.Empty;
+            List<string> prefixes = new List<string>();
+            var last = _members.Last();
+            var tmp = last;
+            while(tmp.Parent != null)
+            {
+                tmp = tmp.Parent;
+                if(!string.IsNullOrEmpty(tmp.HeaderPrefix))
+                {
+                    prefixes.Insert(0, tmp.HeaderPrefix);
+                }
+            }
+            if(prefixes.Count > 0)
+            {
+                prefix = string.Join(" ", prefixes.ToArray());
+            }
+            if(last.IsDictionaryColumn)
+            {
+                header = last.DictionaryKey;
+            }
+            else if(last.Member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
+            {
+                header = etcAttr.Header;
+            }
+            else if (last.Member.HasAttributeOfType(out DescriptionAttribute descAttr))
+            {
+                header = descAttr.Description;
+            }
+            else if (last.Member.HasAttributeOfType(out DisplayNameAttribute displayNameAttr))
+            {
+                header = displayNameAttr.DisplayName;
+            }
+#if !NET35
+            else if (last.Member.HasAttributeOfType(out DisplayAttribute displayAttr))
+            {
+                header = displayAttr.Name;
+            }
+#endif
+            if(string.IsNullOrEmpty(header))
+            {
+                header = last.Member.Name;
+            }
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                return $"{prefix} {header}";
+            }
+            return header;
         }
 
         public bool IsParentTo(MemberPath other)
@@ -68,15 +138,6 @@ namespace OfficeOpenXml.LoadFunctions
             return true;
         }
 
-        public MemberPath Clone()
-        {
-            var c = new MemberPath();
-            for(var x = 0; x < _members.Count;x++)
-            {
-                c.Append(Get(x).Member);
-            }
-            return c;
-        }
 
         public bool IsChildTo(MemberPath other)
         {
@@ -88,11 +149,6 @@ namespace OfficeOpenXml.LoadFunctions
                 if (string.Compare(thisVal, otherVal, true) != 0) return false;
             }
             return true;
-        }
-
-        public MemberPathItem Last()
-        {
-            return _members.Last();
         }
     }
 }

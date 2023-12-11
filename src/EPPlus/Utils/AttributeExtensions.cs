@@ -20,22 +20,29 @@ namespace OfficeOpenXml.Utils
 {
     internal static class AttributeExtensions
     {
-        internal static bool HasAttributeOfType<T>(this MemberInfo member, bool? inherit = default(bool?))
+        internal static bool HasAttributeOfType<T>(this MemberInfo member, bool? inherit = default)
+            where T : Attribute
         {
-            //return member.GetCustomAttributes(typeof(T), false).FirstOrDefault() != null;
-
+             return member.HasAttributeOfType(out T attr, inherit);
+        }
+        internal static bool HasAttributeOfType<T>(this MemberInfo member, out T attr, bool? inherit = default(bool?))
+            where T : Attribute
+        {
+            attr = default(T);
 #if (NET35 || NET40)
-            return member.GetCustomAttributes(typeof(T), inherit ?? false).FirstOrDefault() != null;
+            attr = member.GetCustomAttributes(typeof(T), inherit ?? false).FirstOrDefault() as T;
 #else
+
             if (!inherit.HasValue)
             {
-                return member.GetCustomAttributes(typeof(T)).FirstOrDefault() != null;
+                attr = member.GetCustomAttributes(typeof(T)).FirstOrDefault() as T;
             }
             else
             {
-                return member.GetCustomAttributes(typeof(T), inherit.Value).FirstOrDefault() != null;
+                attr = member.GetCustomAttributes(typeof(T), inherit.Value).FirstOrDefault() as T;
             }
 #endif
+            return attr != null;
         }
 
         internal static T GetFirstAttributeOfType<T>(this MemberInfo member, bool? inherit = default(bool?))

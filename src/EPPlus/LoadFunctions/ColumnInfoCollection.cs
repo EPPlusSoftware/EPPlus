@@ -24,13 +24,24 @@ namespace OfficeOpenXml.LoadFunctions
             var index = 0;
             Sort((a, b) =>
             {
-                var so1 = a.SortOrderLevels;
-                var so2 = b.SortOrderLevels;
-                var maxIx = so1.Count < so2.Count ? so1.Count : so2.Count;
-                for (var ix = 0; ix < maxIx; ix++)
+                //var so1 = a.SortOrderLevels;
+                //var so2 = b.SortOrderLevels;
+                //var maxIx = so1.Count < so2.Count ? so1.Count : so2.Count;
+                //for (var ix = 0; ix < maxIx; ix++)
+                //{
+                //    var aVal = so1[ix];
+                //    var bVal = so2[ix];
+                //    if (aVal.CompareTo(bVal) == 0) continue;
+                //    return aVal.CompareTo(bVal);
+                //}
+                //return a.Index.CompareTo(b.Index);
+                var p1 = a.Path;
+                var p2 = b.Path;
+                var maxIx = p1.Depth < p2.Depth ? p1.Depth : p2.Depth;
+                for(var ix = 0; ix < maxIx; ix++)
                 {
-                    var aVal = so1[ix];
-                    var bVal = so2[ix];
+                    var aVal = p1.Get(ix).SortOrder;
+                    var bVal = p2.Get(ix).SortOrder;
                     if (aVal.CompareTo(bVal) == 0) continue;
                     return aVal.CompareTo(bVal);
                 }

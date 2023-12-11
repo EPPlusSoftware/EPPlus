@@ -75,9 +75,8 @@ namespace OfficeOpenXml.LoadFunctions
 
         private void ReadTypes(Type type, string path = null)
         {
-            if (type.HasAttributeOfType<EPPlusTableColumnSortOrderAttribute>())
+            if (type.HasAttributeOfType(out EPPlusTableColumnSortOrderAttribute sortOrderAttribute))
             {
-                var sortOrderAttribute = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
                 if (_sortOrder.Count == 0)
                 {
                     _sortOrder.AddRange(sortOrderAttribute.Properties);
@@ -98,7 +97,7 @@ namespace OfficeOpenXml.LoadFunctions
                     if (member.MemberType != MemberTypes.Property) continue;
                     var memberName = GetMemberName(member);
                     var memberPath = string.IsNullOrEmpty(path) ? member.Name : $"{path}.{memberName}";
-                    var isNested = member.HasAttributeOfType<EpplusNestedTableColumnAttribute>();
+                    var isNested = member.HasAttributeOfType(out EpplusNestedTableColumnAttribute entcAttr);
                     if (isNested)
                     {
                         var memberType = GetMemberType(member, memberPath);

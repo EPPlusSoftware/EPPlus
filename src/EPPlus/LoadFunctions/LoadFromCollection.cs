@@ -24,6 +24,8 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
+using System.IO;
 #if !NET35
 using System.ComponentModel.DataAnnotations;
 #endif
@@ -72,23 +74,22 @@ namespace OfficeOpenXml.LoadFunctions
                 // the ValidateType method will throw an InvalidCastException
                 // if parameters.Members contains a MemberInfo that is not declared
                 // by any of the types used.
-                var scanner = new NestedColumnsTypeScanner(type, parameters.Members, parameters.BindingFlags);
                 foreach (var member in parameters.Members)
                 {
-                    cols.ValidateType(member);
-                    if (member.DeclaringType != null && member.DeclaringType != type)
-                    {
-                        _isSameType = false;
-                    }
-                    //Fixing inverted check for IsSubclassOf / Pullrequest from tom dam
-                    if (member.DeclaringType != null && member.DeclaringType != type && !TypeCompat.IsSubclassOf(type, member.DeclaringType) && !TypeCompat.IsSubclassOf(member.DeclaringType, type))
-                    {
+                    //cols.ValidateType(member);
+                    //if (member.DeclaringType != null && member.DeclaringType != type)
+                    //{
+                    //    _isSameType = false;
+                    //}
+                    ////Fixing inverted check for IsSubclassOf / Pullrequest from tom dam
+                    //if (member.DeclaringType != null && member.DeclaringType != type && !TypeCompat.IsSubclassOf(type, member.DeclaringType) && !TypeCompat.IsSubclassOf(member.DeclaringType, type))
+                    //{
                         
-                        if(!scanner.Exists(member.DeclaringType))
-                        {
-                            throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
-                        }
-                    }
+                    //    if(!scanner.Exists(member.DeclaringType))
+                    //    {
+                    //        throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
+                    //    }
+                    //}
                 }
             }
         }
@@ -206,9 +207,10 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         foreach (var colInfo in _columns)
                         {
-                            if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
+                            var path = colInfo.Path.GetPath();
+                            if (!string.IsNullOrEmpty(path) && path.Contains("."))
                             {
-                                values[row, col++] = GetValueByPath(item, colInfo.Path);
+                                values[row, col++] = GetValueByPath(item, path);
                                 continue;
                             }
                             var obj = item;

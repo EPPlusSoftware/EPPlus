@@ -85,8 +85,8 @@ namespace EPPlusTest.LoadFunctions
             var cols = new LoadFromCollectionColumns<Outer>(parameters);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
-            Assert.AreEqual("ApprovedUtc", result[0].Path);
-            Assert.AreEqual("Organization.OrgLevel3", result[1].Path);
+            Assert.AreEqual("ApprovedUtc", result[0].Path.GetPath());
+            Assert.AreEqual("Organization.OrgLevel3", result[1].Path.GetPath());
         }
 
         [TestMethod]
@@ -99,9 +99,9 @@ namespace EPPlusTest.LoadFunctions
             var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(parameters);
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
-            Assert.AreEqual("Acknowledged", result[0].Path);
-            Assert.AreEqual("Organization.OrgLevel5", result[1].Path);
-            Assert.AreEqual("ApprovedUtc", result.Last().Path);
+            Assert.AreEqual("Acknowledged", result[0].Path.GetPath());
+            Assert.AreEqual("Organization.OrgLevel5", result[1].Path.GetPath());
+            Assert.AreEqual("ApprovedUtc", result.Last().Path.GetPath());
         }
 
         [TestMethod]
