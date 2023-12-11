@@ -103,25 +103,29 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             {
                 if (cfItems[i].Value.ShouldApplyToCell(cell))
                 {
-                    if (cfItems[i].Value.Type != eExcelConditionalFormattingRuleType.TwoColorScale)
+                    switch (cfItems[i].Value.Type)
                     {
-                        dxfKey = cfItems[i].Value.Style.Id;
+                        case eExcelConditionalFormattingRuleType.TwoColorScale:
+                            specials += ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                            break;
+                        case eExcelConditionalFormattingRuleType.ThreeColorScale:
+                            specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                            break;
+                        default:
+                            dxfKey = cfItems[i].Value.Style.Id;
 
-                        if (dxfStyleCache.ContainsKey(dxfKey))
-                        {
-                            dxfId = dxfStyleCache[dxfKey];
-                        }
-                        else
-                        {
-                            dxfId = dxfStyleCache.Count + 1;
-                            dxfStyleCache.Add(dxfKey, id);
-                        }
+                            if (dxfStyleCache.ContainsKey(dxfKey))
+                            {
+                                dxfId = dxfStyleCache[dxfKey];
+                            }
+                            else
+                            {
+                                dxfId = dxfStyleCache.Count + 1;
+                                dxfStyleCache.Add(dxfKey, id);
+                            }
 
-                        cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
-                    }
-                    else
-                    {
-                        specials += ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                            cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
+                            break;
                     }
                 }
             }

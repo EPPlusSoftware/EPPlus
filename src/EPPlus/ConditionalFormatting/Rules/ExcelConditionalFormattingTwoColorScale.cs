@@ -212,7 +212,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             set { _highValue = value; }
         }
 
-        internal string ApplyStyleOverride(ExcelAddress address)
+        internal virtual string ApplyStyleOverride(ExcelAddress address)
         {
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;

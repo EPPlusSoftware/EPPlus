@@ -12,9 +12,13 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -140,6 +144,78 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get { return _middleValue; }
             set { _middleValue = value; }
+        }
+        internal override string ApplyStyleOverride(ExcelAddress address)
+        {
+            var range = _ws.Cells[address.Address];
+            var cellValue = range.Value;
+            if (cellValue.IsNumeric())
+            {
+                var cellValues = new List<object>();
+                foreach (var cell in Address.GetAllAddresses())
+                {
+                    for (int i = 1; i <= cell.Rows; i++)
+                    {
+                        for (int j = 1; j <= cell.Columns; j++)
+                        {
+                            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                        }
+                    }
+                }
+
+                var values = cellValues.OrderBy(n => n);
+                int index = 0;
+
+                foreach (var value in values)
+                {
+                    if (value == cellValue)
+                    {
+                        break;
+                    }
+                    index++;
+                }
+
+                float percentage = (float)index / (values.Count()/2);
+
+                var lowcol = LowValue.Color;
+                var midCol = MiddleValue.Color;
+                var highcol = HighValue.Color;
+
+                var r = lowcol.R;
+                var g = lowcol.G;
+                var b = lowcol.B;
+
+                var mR = midCol.R;
+                var mG = midCol.G;
+                var mB = midCol.B;
+
+                var hiR = highcol.R;
+                var hiG = highcol.G;
+                var hiB = highcol.B;
+
+                var originalPercent = 1.0 - percentage;
+                Color newColor;
+
+                if(originalPercent > 0)
+                {
+                    var absR = (int)Math.Abs(originalPercent * r - mR * percentage);
+                    var absG = (int)Math.Abs(originalPercent * g - mG * percentage);
+                    var absB = (int)Math.Abs(originalPercent * b - mB * percentage);
+                    newColor = Color.FromArgb(1, absR, absG, absB);
+                }
+                else
+                {
+                    percentage = ((float)index - values.Count()/2) / values.Count();
+                    originalPercent = 1.0 - percentage;
+                    var absR = (int)Math.Abs(originalPercent * mR - hiR * percentage);
+                    var absG = (int)Math.Abs(originalPercent * mG - hiG * percentage);
+                    var absB = (int)Math.Abs(originalPercent * mB - hiB * percentage);
+                    newColor = Color.FromArgb(1, absR, absG, absB);
+                }
+
+                return "#" + newColor.ToArgb().ToString("x8").Substring(2);
+            }
+            return "";
         }
     }
 }
