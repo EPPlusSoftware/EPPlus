@@ -108,9 +108,9 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         internal FilterInfo FilterInfo { get; private set; }
 
-        internal virtual object Parse(string formula, FormulaCellAddress cell)
+        internal virtual object Parse(string formula, FormulaCellAddress cell, ExcelCalculationOption options = default)
         {            
-            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, cell, new ExcelCalculationOption());
+            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, cell, options ?? new ExcelCalculationOption());
         }
 
         /// <summary>
@@ -133,10 +133,11 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="formula">A string containing the formula</param>
         /// <param name="address">Address of the formula</param>
+        /// <param name="options">Calculation options</param>
         /// <returns></returns>
-        public virtual object Parse(string formula, string address)
+        public virtual object Parse(string formula, string address, ExcelCalculationOption options = default)
         {
-            return Parse(formula, _parsingContext.RangeAddressFactory.CreateCell(address));
+            return Parse(formula, _parsingContext.RangeAddressFactory.CreateCell(address), options);
         }
         
         /// <summary>
@@ -180,13 +181,6 @@ namespace OfficeOpenXml.FormulaParsing
                 var wsIx=_parsingContext.GetWorksheetIndex(worksheetName);
                 return Parse(f, new FormulaCellAddress(wsIx, row, col));
             }
-            //var dataItem = _excelDataProvider.GetRangeValues(address).FirstOrDefault();
-            //if (dataItem == null /*|| (dataItem.Value == null && dataItem.Formula == null)*/) return null;
-            //if (!string.IsNullOrEmpty(dataItem.Formula))
-            //{
-            //    return Parse(dataItem.Formula, _parsingContext.RangeAddressFactory.Create(address));
-            //}
-            //return Parse(dataItem.Value.ToString(), _parsingContext.RangeAddressFactory.Create(address));
         }
 
 

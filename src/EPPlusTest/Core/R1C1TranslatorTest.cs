@@ -160,6 +160,20 @@ namespace EPPlusTest.Core
             var v1 = ExcelCellBase.TranslateToR1C1("\" \"\" \"", 1, 2);
             Assert.AreEqual("\" \"\" \"", v1);
         }
+        [TestMethod]
+        public void ToR1C1PlusAndMinus()
+        {
+            var f = "B6+D6-E6";
+            var r1c1 = ExcelCellBase.TranslateToR1C1(f, 5, 6);
+            Assert.AreEqual(f, ExcelCellBase.TranslateFromR1C1(f, 1, 6));
+        }
+        [TestMethod]
+        public void ToR1C1FormulaPlusAndMinus()
+        {
+            var f = "Round(B6+D6-E6,2)";
+            var r1c1 = ExcelCellBase.TranslateToR1C1(f, 5, 6);
+            Assert.AreEqual(f, ExcelCellBase.TranslateFromR1C1(f, 1, 6));
+        }
         private static void AssertAddresses(string r1c1, string expectedAddress)
         {
             var address = R1C1Translator.FromR1C1(r1c1, 3, 2);  //From Cell B2

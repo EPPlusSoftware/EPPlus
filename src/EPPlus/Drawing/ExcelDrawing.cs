@@ -103,6 +103,7 @@ namespace OfficeOpenXml.Drawing
                     if (!string.IsNullOrEmpty(relID))
                     {
                         HypRel = drawings.Part.GetRelationship(relID);
+                        
                         if (HypRel.TargetUri == null)
                         {
                             if (!string.IsNullOrEmpty(HypRel.Target))

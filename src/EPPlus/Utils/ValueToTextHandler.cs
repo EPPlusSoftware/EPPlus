@@ -172,9 +172,10 @@ namespace OfficeOpenXml.Utils
         private static string FormatNumber(double d, string format, CultureInfo cultureInfo)
         {
             var s = FormatNumberExcel(d, format, cultureInfo);
+            var ns = cultureInfo?.NumberFormat?.NegativeSign ?? "-";
             if (string.IsNullOrEmpty(s) == false && (
-                    s.StartsWith("--") && format.StartsWith("-") ||
-                   (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase)>0)))
+                    s.StartsWith($"{ns}{ns}") && format.StartsWith(ns) ||
+                   (s.StartsWith($"{ns}(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0)))
             {
                 return s.Substring(1);
             }
