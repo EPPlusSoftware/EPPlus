@@ -25,7 +25,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     internal static class SortOrderExtensions
     {
-        public static int GetSortOrder(this MemberInfo member, MemberInfo[] filterMembers, out bool useForAllPathItems)
+        public static int? GetSortOrder(this MemberInfo member, MemberInfo[] filterMembers, out bool useForAllPathItems)
         {
             useForAllPathItems = false;
             if(filterMembers != null && filterMembers.Length > 0)
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
                 return displayAttr.Order;
             }
 #endif
-            return int.MaxValue;
+            return default;
         }
     }
 }

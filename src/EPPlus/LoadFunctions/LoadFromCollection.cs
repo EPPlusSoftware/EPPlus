@@ -345,7 +345,7 @@ namespace OfficeOpenXml.LoadFunctions
                 // if the header is already set and contains a space it doesn't need more formatting or validation.
                 var useExistingHeader = !string.IsNullOrEmpty(header) && header.Contains(" ");
 
-                if (colInfo.MemberInfo != null)
+                if (colInfo.MemberInfo != null && colInfo.IsDictionaryProperty == false)
                 {
                     // column data based on a property read with reflection
                     var member = colInfo.MemberInfo;
@@ -385,7 +385,7 @@ namespace OfficeOpenXml.LoadFunctions
                         }
                     }
                 }
-                else
+                else if(colInfo.IsDictionaryProperty == false)
                 {
                     // column is a FormulaColumn
                     header = colInfo.Header;

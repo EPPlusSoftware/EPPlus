@@ -179,8 +179,10 @@ namespace EPPlusTest.LoadFunctions
                 var r = sheet.Cells["A1"].LoadFromCollection(objects, true, TableStyles.Dark4);
                 var table = sheet.Tables[0];
                 Assert.AreEqual("Acknowledged...", sheet.Cells["A1"].Value);
-                Assert.AreEqual("Org Level 4", sheet.Cells["B1"].Value);
-                Assert.AreEqual("ApprovedUtc", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Org Level 3", sheet.Cells["B1"].Value);
+                Assert.AreEqual("Org Level 4", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Org Level 5", sheet.Cells["D1"].Value);
+                Assert.AreEqual("ApprovedUtc", sheet.Cells["E1"].Value);
 
             }
         }

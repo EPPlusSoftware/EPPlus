@@ -26,20 +26,23 @@ namespace OfficeOpenXml.LoadFunctions
     /// Scans a type for properties decorated with the <see cref="EpplusNestedTableColumnAttribute"/>
     /// and returns a list with all types reflected by these properties including the outer type.
     /// </summary>
-    internal class NestedColumnsTypeScanner
+    internal class MemberPathScanner
     {
-        public NestedColumnsTypeScanner(
+        public MemberPathScanner(
             Type outerType, 
             LoadFromCollectionParams parameters)
         {
             _bindingFlags = parameters.BindingFlags;
             _filterMembers= parameters.Members;
             _params = parameters;
-            _types.Add(outerType);
+            if(_filterMembers != null && _filterMembers.Length > 0)
+            {
+                var usedTypesScanner = new UsedTypesScanner(outerType);
+                usedTypesScanner.ValidateMembers(_filterMembers);
+            }
             ReadTypes(outerType);
         }
 
-        private readonly HashSet<Type> _types = new HashSet<Type>();
         private readonly BindingFlags _bindingFlags;
         private readonly MemberInfo[] _filterMembers;
         private readonly LoadFromCollectionParams _params;
@@ -89,6 +92,7 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var members = type.GetProperties(_bindingFlags).Where(x => x.ShouldBeIncluded());
             var parentIsNested = path != null && path.Depth > 0 && path.Last().IsNestedProperty;
+            var index = 0;
             foreach(var member in members)
             {
                 var mType = member.GetMemberType();
@@ -96,7 +100,17 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     continue;
                 }
-                var sortOrder = member.GetSortOrder(_filterMembers, out bool useForAllPathItems);
+                var sortOrder = index;
+                var calculatedSortOrder = member.GetSortOrder(_filterMembers, out bool useForAllPathItems);
+                if(calculatedSortOrder.HasValue)
+                {
+                    // some attributes has int.MaxValue as default value
+                    // so means that order hasn't been set.
+                    sortOrder = calculatedSortOrder.Value == int.MaxValue ?
+                        ExcelPackage.MaxColumns + index
+                        :
+                        calculatedSortOrder.Value;
+                }
                 var propPath = path?.Clone();
                 if (propPath == null)
                 {
@@ -133,6 +147,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     _paths.Add(propPath);
                 }
+                index++;
             }
         }
 
@@ -176,7 +191,8 @@ namespace OfficeOpenXml.LoadFunctions
                 //});
                 //path.
                 var propPath = path.Clone();
-                var item = new MemberPathItem(member, key, index++);
+                var itemMember = new DictionaryItemMemberInfo(key);
+                var item = new MemberPathItem(itemMember, key, index++);
                 propPath.Append(item);
                 result.Add(propPath);
             }
@@ -187,10 +203,10 @@ namespace OfficeOpenXml.LoadFunctions
         /// Returns all the scanned types, including the outer type
         /// </summary>
         /// <returns></returns>
-        public HashSet<Type> GetTypes()
-        {
-            return _types;
-        }
+        //public HashSet<Type> GetTypes()
+        //{
+        //    return _types;
+        //}
 
         public List<MemberPath> GetPaths()
         {
@@ -202,9 +218,9 @@ namespace OfficeOpenXml.LoadFunctions
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool Exists(Type type)
-        {
-            return _types.Contains(type);
-        }
+        //public bool Exists(Type type)
+        //{
+        //    return _types.Contains(type);
+        //}
     }
 }
