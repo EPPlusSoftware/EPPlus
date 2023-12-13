@@ -1,4 +1,11 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.4
+### Minor Features
+* Added follow dependency-chain option which allows calculating the given cells without calculating dependent cells
+* 
+### Fixed issues 
+* Deleting pivot tables sometimes did not clear their pivotcaches.
+
 ## Version 7.0.3
 ### Minor Features
 * Added Alignment and Protection properties to ExcelDxfStyle - Affects Table and Pivot Table Stylings
