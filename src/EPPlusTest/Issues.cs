@@ -5974,5 +5974,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I1211()
+        {
+            using (var p = OpenTemplatePackage("i1211.xlsx"))
+            {
+                p.Workbook.Worksheets[1].Cells["D4"].Calculate();
+                Assert.AreEqual(5D, p.Workbook.Worksheets[1].Cells["D4"].Value);
+            }
+        }
     }
 }
