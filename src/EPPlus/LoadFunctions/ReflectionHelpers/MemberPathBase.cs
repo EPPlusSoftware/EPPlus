@@ -13,9 +13,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
-namespace OfficeOpenXml.LoadFunctions
+namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     internal abstract class MemberPathBase
     {
@@ -26,6 +27,18 @@ namespace OfficeOpenXml.LoadFunctions
         public MemberPathItem Last()
         {
             return _members.Last();
+        }
+
+        public object GetLastMemberValue(object item, BindingFlags bindingFlags)
+        {
+            if (IsFormulaColumn) return null;
+            object v = item;
+            for (var i = 0; i < Depth && v != null; i++)
+            {
+                var pathItem = _members[i];
+                v = pathItem.Member.GetValue(v, bindingFlags);
+            }
+            return v;
         }
 
         public virtual bool IsFormulaColumn { get; } = false;

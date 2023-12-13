@@ -24,7 +24,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace OfficeOpenXml.LoadFunctions
+namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     [DebuggerDisplay("Path: {GetPath()}, IsNested: {Last().IsNestedProperty}, Order={GetSortOrderString()}")]
     internal class MemberPath : MemberPathBase
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.LoadFunctions
         public MemberPath(MemberInfo member, int sortOrder, bool useForAllPathItems = false)
         {
             var newItem = new MemberPathItem(member, sortOrder);
-            if(_members.Any())
+            if (_members.Any())
             {
                 newItem.Parent = _members.Last();
             }
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.LoadFunctions
                 newItem.Parent = _members.Last();
             }
             _members.Add(newItem);
-            if(useForAllPathItems )
+            if (useForAllPathItems)
             {
                 _members.ForEach(x => x.SortOrder = sortOrder);
             }
@@ -81,23 +81,23 @@ namespace OfficeOpenXml.LoadFunctions
             List<string> prefixes = new List<string>();
             var last = _members.Last();
             var tmp = last;
-            while(tmp.Parent != null)
+            while (tmp.Parent != null)
             {
                 tmp = tmp.Parent;
-                if(!string.IsNullOrEmpty(tmp.HeaderPrefix))
+                if (!string.IsNullOrEmpty(tmp.HeaderPrefix))
                 {
                     prefixes.Insert(0, tmp.HeaderPrefix);
                 }
             }
-            if(prefixes.Count > 0)
+            if (prefixes.Count > 0)
             {
                 prefix = string.Join(" ", prefixes.ToArray());
             }
-            if(last.IsDictionaryColumn)
+            if (last.IsDictionaryColumn)
             {
                 header = last.DictionaryKey;
             }
-            else if(last.Member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
+            else if (last.Member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
             {
                 header = etcAttr.Header;
             }
@@ -115,7 +115,7 @@ namespace OfficeOpenXml.LoadFunctions
                 header = displayAttr.Name;
             }
 #endif
-            if(string.IsNullOrEmpty(header))
+            if (string.IsNullOrEmpty(header))
             {
                 header = last.Member.Name;
             }
@@ -126,29 +126,18 @@ namespace OfficeOpenXml.LoadFunctions
             return header;
         }
 
-        public bool IsParentTo(MemberPath other)
+        public static MemberPath CreateNewOrAppend(MemberPath path, MemberInfo member, int sortOrder, bool useSortOrderForAllPathItems)
         {
-            if (other.Depth != Depth - 1) return false;
-            for(var x = 0; x < other.Depth;x++)
+            var resultPath = path?.Clone();
+            if (resultPath == null)
             {
-                var thisVal = _members[x].Member.Name;
-                var otherVal = other.Get(x).Member.Name;
-                if(string.Compare(thisVal, otherVal, true) != 0) return false;
+                resultPath = new MemberPath(member, sortOrder, useSortOrderForAllPathItems);
             }
-            return true;
-        }
-
-
-        public bool IsChildTo(MemberPath other)
-        {
-            if (other.Depth != Depth + 1) return false;
-            for (var x = 0; x < _members.Count; x++)
+            else
             {
-                var thisVal = _members[x].Member.Name;
-                var otherVal = other.Get(x).Member.Name;
-                if (string.Compare(thisVal, otherVal, true) != 0) return false;
+                resultPath.Append(member, sortOrder, useSortOrderForAllPathItems);
             }
-            return true;
+            return resultPath;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
-using OfficeOpenXml.Table;
+﻿using OfficeOpenXml.Table;
 using OfficeOpenXml.Attributes;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace OfficeOpenXml.LoadFunctions
+namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     [DebuggerDisplay("Member: {Member.Name}, SortOrder: {SortOrder}")]
     internal class MemberPathItem

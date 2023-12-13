@@ -41,6 +41,16 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
         {
             switch(memberInfo.MemberType)
             {
+#if !NET35
+                case MemberTypes.TypeInfo:
+                    return ((TypeInfo)memberInfo).GetType();
+#endif
+                case MemberTypes.Custom:
+                    if(memberInfo is DictionaryItemMemberInfo dimi)
+                    {
+                        return typeof(Dictionary<string, object>);
+                    }
+                    throw new InvalidOperationException($"Member {memberInfo.Name} is not a Field, Property or Method");
                 case MemberTypes.Field:
                     return ((FieldInfo)memberInfo).FieldType;
                 case MemberTypes.Property:
@@ -52,8 +62,18 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             }
         }
 
-        public static object GetValue(this MemberInfo memberInfo, object obj)
+        public static object GetValue(this MemberInfo memberInfo, object obj, BindingFlags bindingFlags)
         {
+            if(obj == null)
+            {
+                return null;
+            }
+            var ot = obj.GetType();
+            var mt = memberInfo.GetMemberType();
+            if(ot != mt && obj.GetType().GetMember(memberInfo.Name, bindingFlags).Length == 0)
+            {
+                return null;
+            }
             object retVal;
             if (memberInfo is PropertyInfo pi)
             {
@@ -67,6 +87,10 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             {
                 retVal = mi.Invoke(obj, null);
             }
+            else if(memberInfo is DictionaryItemMemberInfo dim)
+            {
+                retVal = dim.GetValue(obj);
+            }
             else
             {
                 throw new NotSupportedException("Invalid member: '" + memberInfo.Name + "', not supported member type '" + memberInfo.GetType().FullName + "'");
@@ -74,10 +98,15 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             return retVal;
         }
 
-        public static bool IsComplexType(this MemberInfo memberInfo)
+        public static bool ExistsInFilter(this MemberInfo member, MemberInfo[] filterMembers)
         {
-            var type = GetMemberType(memberInfo);
-            return type.IsClass || type.IsInterface || type.IsGenericType;
+            if (filterMembers == null || filterMembers.Length == 0) return false;
+            foreach (var filter in filterMembers)
+            {
+                if (filter.DeclaringType == member.DeclaringType && filter.Name == member.Name) return true;
+                if (filter.DeclaringType == member.GetMemberType()) return true;
+            }
+            return false;
         }
     }
 }

@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.Attributes;
 
-namespace OfficeOpenXml.LoadFunctions
+namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     internal class FormulaColumnMemberPath : MemberPathBase
     {

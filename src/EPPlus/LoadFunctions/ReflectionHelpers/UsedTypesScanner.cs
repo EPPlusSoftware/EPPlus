@@ -18,12 +18,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace OfficeOpenXml.LoadFunctions
+namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     internal class UsedTypesScanner
     {
         public UsedTypesScanner(Type outerType)
         {
+            if (outerType.IsNested)
+            {
+                var t = outerType;
+            }
             _outerType = outerType;
         }
 
@@ -31,17 +35,17 @@ namespace OfficeOpenXml.LoadFunctions
 
         private void ScanType(HashSet<Type> types, Type typeToScan)
         {
-            if(!types.Contains(typeToScan))
+            if (!types.Contains(typeToScan))
             {
                 types.Add(typeToScan);
             }
             var properties = typeToScan.GetProperties();
-            foreach(var property in properties)
+            foreach (var property in properties)
             {
-                if(property.HasAttributeOfType<EpplusNestedTableColumnAttribute>())
+                if (property.HasAttributeOfType<EpplusNestedTableColumnAttribute>())
                 {
                     var propType = property.PropertyType;
-                    if(!types.Contains(propType))
+                    if (!types.Contains(propType))
                     {
                         types.Add(propType);
                         ScanType(types, propType);
@@ -61,7 +65,7 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var includedTypes = new HashSet<Type>();
             ScanType(includedTypes, _outerType);
-            foreach(var typeToValidate in typesToValidate)
+            foreach (var typeToValidate in typesToValidate)
             {
                 var isValid = false;
                 Type invalidType = null;

@@ -12,10 +12,12 @@
  *************************************************************************************************/
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.LoadFunctions.Params;
+using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -25,60 +27,30 @@ namespace OfficeOpenXml.LoadFunctions
     internal class LoadFromCollectionColumns<T>
     {
         public LoadFromCollectionColumns(LoadFromCollectionParams parameters)
+            : this(new MemberPathScanner(typeof(T).GetTypeOrUnderlyingType(), parameters))
+        { }
+
+        public LoadFromCollectionColumns(MemberPathScanner scanner)
         {
-            _params = parameters;
-            _bindingFlags = parameters.BindingFlags;
+            _scanner = scanner;
         }
 
-
-        private readonly LoadFromCollectionParams _params;
-        private readonly BindingFlags _bindingFlags;
+        private readonly MemberPathScanner _scanner;
 
         internal ColumnInfoCollection Setup()
         {
             var result = new ColumnInfoCollection();
-            var t = typeof(T);
-            var ut = Nullable.GetUnderlyingType(t);
-            if (ut != null)
-            {
-                t = ut;
-            }
-
-            var memberPathScanner = new MemberPathScanner(t, _params);
-            var paths = memberPathScanner.GetPaths();
+            var paths = _scanner.GetPaths();
             foreach (var path in paths)
-            {
-                var pathItem = path.Last();
-                var col = new ColumnInfo
-                {
-                    Header = path.GetHeader(),
-                    Path = path,
-                    IsDictionaryProperty = pathItem.IsDictionaryColumn,
-                    MemberInfo = pathItem.Member,
-                    Hidden = pathItem.Hidden,
-                    NumberFormat = pathItem.NumberFormat,
-                    TotalsRowFunction = pathItem.TotalsRowFunction,
-                    TotalsRowNumberFormat = pathItem.TotalRowsNumberFormat,
-                    TotalsRowLabel = pathItem.TotalRowLabel,
-                    TotalsRowFormula = pathItem.TotalRowFormula,
-                };
-                result.Add(col);
+            { 
+                result.Add(new ColumnInfo(path));
             }
             var formulaColumnAttributes = typeof(T).FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
             if (formulaColumnAttributes != null && formulaColumnAttributes.Any())
             {
                 foreach (var attr in formulaColumnAttributes)
                 {
-                    result.Add(new ColumnInfo
-                    {
-                        Path = new FormulaColumnMemberPath(attr),
-                        Header = attr.Header,
-                        Formula = attr.Formula,
-                        FormulaR1C1 = attr.FormulaR1C1,
-                        NumberFormat = attr.NumberFormat,
-                        TotalsRowFunction = attr.TotalsRowFunction,
-                        TotalsRowNumberFormat = attr.TotalsRowNumberFormat
-                    });
+                    result.Add(new ColumnInfo(attr));
                 }
             }
             result.ReindexAndSortColumns();

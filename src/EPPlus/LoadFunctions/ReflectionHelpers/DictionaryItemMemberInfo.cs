@@ -20,13 +20,15 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     internal class DictionaryItemMemberInfo : MemberInfo
     {
-        public DictionaryItemMemberInfo(string key)
+        public DictionaryItemMemberInfo(string key, MemberInfo parentProperty)
         {
             _key = key;
+            _parentProperty = parentProperty;
         }
 
         private readonly string _key;
-        public override Type DeclaringType => typeof(Dictionary<string, string>);
+        private readonly MemberInfo _parentProperty;
+        public override Type DeclaringType => typeof(Dictionary<string, object>);
 
         public override MemberTypes MemberType => MemberTypes.Custom;
 
@@ -47,6 +49,19 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
         public override bool IsDefined(Type attributeType, bool inherit)
         {
             return false;
+        }
+
+        public object GetValue(object item)
+        {
+            if(item is not Dictionary<string, object> dict)
+            {
+                throw new InvalidCastException($"Value of property {_parentProperty.Name} was not of type Dictionary<string, object> as expected.");
+            }
+            if(dict.ContainsKey(_key))
+            {
+                return dict[_key];
+            }
+            return default;
         }
     }
 }

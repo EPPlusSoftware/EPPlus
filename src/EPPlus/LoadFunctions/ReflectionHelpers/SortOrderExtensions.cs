@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 #if !NET35
 using System.ComponentModel.DataAnnotations;
 #endif
@@ -25,9 +26,10 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     internal static class SortOrderExtensions
     {
-        public static int? GetSortOrder(this MemberInfo member, MemberInfo[] filterMembers, out bool useForAllPathItems)
+        public static int GetSortOrder(this MemberInfo member, MemberInfo[] filterMembers, int itemIndex, out bool useForAllPathItems)
         {
             useForAllPathItems = false;
+            int? sortOrder = default;
             if(filterMembers != null && filterMembers.Length > 0)
             {
                 for(int i = 0; i < filterMembers.Length; i++)
@@ -39,34 +41,44 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
                         )
                     {
                         useForAllPathItems = true;
-                        return i;
+                        sortOrder = i;
+                        break;
                     }
                 }
             }
-            if(member.DeclaringType.HasAttributeOfType<EPPlusTableColumnSortOrderAttribute>())
+            else if(member.DeclaringType.HasAttributeOfType<EPPlusTableColumnSortOrderAttribute>())
             {
                 var attr = member.DeclaringType.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
-                return attr.Properties.ToList().IndexOf(member.Name);
+                sortOrder = attr.Properties.ToList().IndexOf(member.Name);
             }
-            if (member.HasAttributeOfType(out EpplusNestedTableColumnAttribute entcAttr))
+            else if (member.HasAttributeOfType(out EpplusNestedTableColumnAttribute entcAttr))
             {
-                return entcAttr.Order;
+                sortOrder = entcAttr.Order;
             }
-            if(member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
+            else if(member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
             {
-                return etcAttr.Order;
+                sortOrder = etcAttr.Order;
             }
-            if (member.HasAttributeOfType(out EPPlusDictionaryColumnAttribute edcAttr))
+            else if (member.HasAttributeOfType(out EPPlusDictionaryColumnAttribute edcAttr))
             {
-                return edcAttr.Order;
+                sortOrder = edcAttr.Order;
             }
 #if !NET35
-            if(member.HasAttributeOfType(out DisplayAttribute displayAttr))
+            else if(member.HasAttributeOfType(out DisplayAttribute displayAttr))
             {
-                return displayAttr.Order;
+                sortOrder = displayAttr.Order;
             }
 #endif
-            return default;
+            if(sortOrder.HasValue)
+            {
+                // some attributes has int.MaxValue as default value
+                // so means that order hasn't been set.
+                return sortOrder.Value == int.MaxValue ?
+                            ExcelPackage.MaxColumns + itemIndex
+                            :
+                            sortOrder.Value;
+            }
+            return itemIndex;
         }
     }
 }

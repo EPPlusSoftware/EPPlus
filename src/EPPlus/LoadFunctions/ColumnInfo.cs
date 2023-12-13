@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml.Table;
+﻿using OfficeOpenXml.Attributes;
+using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
+using OfficeOpenXml.Table;
 using System;
 /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
@@ -23,10 +25,39 @@ namespace OfficeOpenXml.LoadFunctions
     [DebuggerDisplay("Header: {Header}, SortOrders: {GetSortOrder()}, Index: {Index}")]
     internal class ColumnInfo
     {
+        #region Constructors
         public ColumnInfo()
         {
             TotalsRowFunction = RowFunctions.None;
         }
+
+        public ColumnInfo(EpplusFormulaTableColumnAttribute attr)
+        {
+            Path = new FormulaColumnMemberPath(attr);
+            Header = attr.Header;
+            Formula = attr.Formula;
+            FormulaR1C1 = attr.FormulaR1C1;
+            NumberFormat = attr.NumberFormat;
+            TotalsRowFunction = attr.TotalsRowFunction;
+            TotalsRowNumberFormat = attr.TotalsRowNumberFormat;
+        }
+
+        public ColumnInfo(MemberPath path)
+        {
+            var pathItem = path.Last();
+            Header = path.GetHeader();
+            Path = path;
+            IsDictionaryProperty = pathItem.IsDictionaryColumn;
+            MemberInfo = pathItem.Member;
+            Hidden = pathItem.Hidden;
+            NumberFormat = pathItem.NumberFormat;
+            TotalsRowFunction = pathItem.TotalsRowFunction;
+            TotalsRowNumberFormat = pathItem.TotalRowsNumberFormat;
+            TotalsRowLabel = pathItem.TotalRowLabel;
+            TotalsRowFormula = pathItem.TotalRowFormula;
+        }
+
+        #endregion
 
 
         public bool IsDictionaryProperty { get; set; }
