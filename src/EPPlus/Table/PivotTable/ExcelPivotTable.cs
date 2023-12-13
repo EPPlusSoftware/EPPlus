@@ -296,8 +296,8 @@ namespace OfficeOpenXml.Table.PivotTable
             private set;
         }        
         internal bool IsCalculated { get; set; }
-        List<Dictionary<int[], object>> CalculatedItems = null;
-        List<Dictionary<int[], HashSet<int[]>>> Keys = null;
+        internal List<Dictionary<int[], object>> CalculatedItems = null;
+        internal List<Dictionary<int[], HashSet<int[]>>> Keys = null;
         public void Calculate(bool refreshCache=false)
         {
             if(refreshCache)

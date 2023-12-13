@@ -5959,5 +5959,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s553()
+        {
+            using (var p = OpenTemplatePackage("ExportTest2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var json = ws.Cells["C2"].ToJson();
+            }
+        }
+
     }
 }

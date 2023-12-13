@@ -23,9 +23,35 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         ExcelPivotTableField _field;
 
+        List<int> _hiddenItemIndex=null;
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
             _field = field;
+        }
+
+        internal List<int> HiddenItemIndex
+        {
+            get
+            {
+                if (_hiddenItemIndex == null)
+                {
+                    _hiddenItemIndex = GetHiddenList();
+                }
+                return _hiddenItemIndex;
+            }
+        }
+
+        private List<int> GetHiddenList()
+        {
+            List<int> hiddenItems = new List<int>();
+            for (int i = 0; i < _list.Count; i++)
+            {
+                if (_list[i].Hidden)
+                {
+                    hiddenItems.Add(i);
+                }
+            }
+            return hiddenItems;
         }
         /// <summary>
         /// It the object exists in the cache

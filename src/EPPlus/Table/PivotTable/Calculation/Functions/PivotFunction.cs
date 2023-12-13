@@ -1,14 +1,23 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal abstract class PivotFunction
     {
         internal abstract void AddItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
-        internal virtual void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems) { }
+        internal virtual void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems) 
+        { 
+            foreach(var item in dataFieldItems.ToList())
+            {
+                dataFieldItems[item.Key] = RoundingHelper.RoundToSignificantFig(((KahanSum)item.Value).Get(), 15);
+            }
+        }
         protected static bool IsNumeric(object value)
         {
             var tc = Type.GetTypeCode(value.GetType());
@@ -79,14 +88,14 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
-                if(v is double cv)
+                if(v is KahanSum cv)
                 {
                     dataFieldItems[key] = cv + d;
                 }
             }
             else
             {
-                dataFieldItems[key] = d;
+                dataFieldItems[key] = new KahanSum(d);
             }
         }
         protected static void MultiplyValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
@@ -193,6 +202,22 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
         }
         protected static void AddItemsToKeys<T>(int[] key, int colStartRef, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], Dictionary<int[], object>, T> action)
         {
+            if (key.Length == 0)
+            {
+                HashSet<int[]> hs;
+                if (keys.Count == 0)
+                {
+                    hs = new HashSet<int[]>(new ArrayComparer());
+                    keys.Add(key, hs);
+                }
+                else
+                {
+                    hs = keys[key];
+                }
+                hs.Add(key);
+                action(key, dataFieldItems, d);
+                return;
+            }
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
 

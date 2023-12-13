@@ -85,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     try
                     {
-                        var ix = (int)args[2].ResultNumeric-1;
+                        var ix = (int)args[2].ResultNumeric - 1;
                         if (ix < 0) return;
                         if (addresses == null) addresses = new Queue<FormulaRangeAddress>();
                         if (ix < 2)

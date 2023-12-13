@@ -10,17 +10,19 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using EPPlusTest.Table.PivotTable;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
+using OfficeOpenXml.Table.PivotTable.Calculation.Filters;
 using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
-
 namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
@@ -57,6 +59,7 @@ namespace OfficeOpenXml.Table.PivotTable
             calculatedItems = new List<Dictionary<int[], object>>();
             keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
+            pivotTable.Filters.ReloadTable();
             foreach (var df in pivotTable.DataFields)
             {
                 var dataFieldItems = PivotTableCalculation.GetNewCalculatedItems();
@@ -65,71 +68,27 @@ namespace OfficeOpenXml.Table.PivotTable
                 var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
                 keys.Add(keyDict);
                 var recs = ci.Records;
-                for (var r= 0; r < recs.RecordCount; r++)
+                for (var r = 0; r < recs.RecordCount; r++)
                 {
                     var key = new int[fieldIndex.Count];
-                    for (int i=0;i < fieldIndex.Count;i++)
+                    for (int i = 0; i < fieldIndex.Count; i++)
                     {
                         key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
                     }
-
-                    _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
+                    if (PivotTableFilterMatcher.IsFiltered(pivotTable, recs, r))
+                    {
+                        _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
+                    }
                 }
 
                 _calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
-                if(df.ShowDataAs.Value != eShowDataAs.Normal)
+                if (df.ShowDataAs.Value != eShowDataAs.Normal)
                 {
                     _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, ref dataFieldItems);
                     calculatedItems[calculatedItems.Count - 1] = dataFieldItems;
                 }
-            }            
+            }
             return true;
         }
     }
-    //public class PivotCalculatedItem
-    //{
-    //    PivotCalculatedItem parent;
-    //    internal PivotCalculatedItem()
-    //    {
-    //        parent = null;
-    //    }
-    //    internal PivotCalculatedItem(PivotCalculatedItem _parent)
-    //    {
-    //        _parent = parent;
-    //    }
-    //    internal void Add(int[] key, int colStartIx, double v)
-    //    {
-    //        if (parent == null)
-    //        {
-    //            if (RowFields.TryGetValue(key[r], out var field))
-    //            {
-
-    //            }
-    //        }
-    //        for (int r=0;r<colStartIx;r++)
-    //        {
-    //            if (ColumnFields.TryGetValue(key[r], out var field))
-    //            {
-    //                field.AddColumn(key[r], )
-    //            }
-    //        }
-    //        for(int c=colStartIx;c<key.Length;c++)
-    //        {
-
-    //        }
-    //    }
-    //    internal void SetError(int[] key, ExcelErrorValue ev)
-    //    {
-
-    //    }
-    //    public double Value { get; set; }
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    public Dictionary<int, PivotCalculatedItem> ColumnFields { get; set; }
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    public Dictionary<int, PivotCalculatedItem> RowFields { get; set; }
-    //}
 }

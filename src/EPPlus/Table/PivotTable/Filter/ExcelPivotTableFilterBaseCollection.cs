@@ -15,6 +15,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable.Filter
@@ -24,25 +25,17 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
     /// </summary>
     public abstract class ExcelPivotTableFilterBaseCollection : IEnumerable<ExcelPivotTableFilter>
     {
-        internal List<ExcelPivotTableFilter> _filters = new List<ExcelPivotTableFilter>();
+        internal List<ExcelPivotTableFilter> _filters;
         internal readonly ExcelPivotTable _table;
         internal readonly ExcelPivotTableField _field;
         internal ExcelPivotTableFilterBaseCollection(ExcelPivotTable table)
         {
             _table = table;
-            var filtersNode = _table.GetNode("d:filters");
-            if (filtersNode != null)
-            {
-                foreach (XmlNode node in filtersNode.ChildNodes)
-                {
-                    var f =new ExcelPivotTableFilter(_table.NameSpaceManager, node, _table.WorkSheet.Workbook.Date1904);
-                    table.SetNewFilterId(f.Id);
-                    _filters.Add(f);
-                }
-            }
+            ReloadTable();
         }
         internal ExcelPivotTableFilterBaseCollection(ExcelPivotTableField field)
-        {            
+        {
+            _filters = new List<ExcelPivotTableFilter>();
             _field = field;
             _table = field.PivotTable;
 
@@ -51,6 +44,23 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                 if(filter.Fld==field.Index)
                 {
                     _filters.Add(filter);
+                }
+            }
+        }
+        /// <summary>
+        /// Reloads the collection from the xml.
+        /// </summary>
+        internal void ReloadTable()
+        {
+            _filters = new List<ExcelPivotTableFilter>();
+            var filtersNode = _table.GetNode("d:filters");
+            if (filtersNode != null)
+            {
+                foreach (XmlNode node in filtersNode.ChildNodes)
+                {
+                    var f = new ExcelPivotTableFilter(_table.NameSpaceManager, node, _table.WorkSheet.Workbook.Date1904);
+                    _table.SetNewFilterId(f.Id);
+                    _filters.Add(f);
                 }
             }
         }

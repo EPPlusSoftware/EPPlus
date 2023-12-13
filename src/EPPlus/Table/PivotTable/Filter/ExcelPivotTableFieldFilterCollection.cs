@@ -119,7 +119,6 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                 throw new ArgumentException("This datafield is not in the pivot tables DataFields collection", "dataField");
             }
             return AddValueFilter(type, dfIx, value1, value2);
-
         }
         /// <summary>
         /// Adds a pivot table value filter.

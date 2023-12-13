@@ -35,7 +35,7 @@ namespace EPPlusTest.Table.PivotTable
                 var f = Cache.Fields[i];
                 var l = new List<object>();
                 var c = sr._fromCol + f.Index;
-                if (f.IsRowOrColumn)
+                if (f.IsRowColumnOrPage)
                 {
                     f._fieldRecordIndex = new Dictionary<int, List<int>>();
                     for (int r = sr._fromRow + 1; r <= sr._toRow; r++) //Skip first row as it contains the headers.
