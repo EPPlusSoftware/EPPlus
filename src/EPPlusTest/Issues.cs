@@ -5974,5 +5974,46 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s542_2()
+        {
+            //Inputs
+            string sourcePath = @"C:\Users\OssianEdström\Downloads\Source File.xlsx";
+            string destPath = @"C:\Users\OssianEdström\Downloads\Dest File.xlsx";
+            string copySheet = "Summary";
+            string destSheet = "Pivot Data";
+
+            //Outputs
+            bool success = false;
+            string exc = "";
+
+            try
+            {
+                ExcelPackage Destinationpackage = new ExcelPackage(destPath);
+                var sheet = Destinationpackage.Workbook.Worksheets.GetByName(destSheet);
+                Destinationpackage.Workbook.Worksheets.Delete(destSheet);
+
+                ExcelPackage Sourcepackage = new ExcelPackage(sourcePath);
+                ExcelWorksheet Sourceworksheet = Sourcepackage.Workbook.Worksheets[copySheet];
+                Destinationpackage.Workbook.Worksheets.Add(destSheet, Sourceworksheet);
+                //Destinationpackage.Workbook.Worksheets.Add("NewSheet.xlsx");
+
+                Destinationpackage.Save();
+                Destinationpackage.Dispose();
+                Sourcepackage.Dispose();
+                success = true;
+            }
+
+            catch (Exception e)
+            {
+                exc = "Failed. " + e.ToString();
+                success = false;
+            }
+
+            finally
+            {
+                System.GC.Collect();
+            }
+        }
     }
 }
