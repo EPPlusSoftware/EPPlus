@@ -5983,5 +5983,21 @@ namespace EPPlusTest
                 Assert.AreEqual(5D, p.Workbook.Worksheets[1].Cells["D4"].Value);
             }
         }
+        [TestMethod]
+        public void s542_2()
+        {
+            string copySheet = "Summary";
+            string destSheet = "Pivot Data";
+
+            ExcelPackage Destinationpackage = OpenTemplatePackage("s542_Dest_File.xlsx");
+            var sheet = Destinationpackage.Workbook.Worksheets.GetByName(destSheet);
+            Destinationpackage.Workbook.Worksheets.Delete(destSheet);
+
+            ExcelPackage Sourcepackage = OpenTemplatePackage("s542_Source_File.xlsx");
+            ExcelWorksheet Sourceworksheet = Sourcepackage.Workbook.Worksheets[copySheet];
+            Destinationpackage.Workbook.Worksheets.Add(destSheet, Sourceworksheet);
+
+            SaveAndCleanup(Destinationpackage);
+        }
     }
 }
