@@ -82,9 +82,14 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             foreach (var member in members)
             {
                 var mType = member.GetMemberType();
-                if (parentIsNested == false && ShouldAddPath(path, member) == false)
+                var shouldAddPath = ShouldAddPath(path, member);
+                if (parentIsNested == false && shouldAddPath == false)
                 {
                     continue;
+                }
+                else if(shouldAddPath == false)
+                {
+
                 }
                 var sortOrder = member.GetSortOrder(_filterMembers, index, out bool useForAllPathItems);
                 var propPath = MemberPath.CreateNewOrAppend(path, member, sortOrder, useForAllPathItems);

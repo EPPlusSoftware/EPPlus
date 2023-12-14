@@ -69,7 +69,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
                 return null;
             }
             var ot = obj.GetType();
-            var mt = memberInfo.GetMemberType();
+            var mt = memberInfo.DeclaringType;
             if(ot != mt && obj.GetType().GetMember(memberInfo.Name, bindingFlags).Length == 0)
             {
                 return null;

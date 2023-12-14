@@ -37,6 +37,15 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             return type != typeof(string) && (type.IsClass || type.IsInterface || type.IsGenericType);
         }
 
+        private static bool ListContainsMember(List<MemberInfo> members, MemberInfo member)
+        {
+            return members.Any(x => 
+                x.Name == member.Name 
+                && (x.DeclaringType == member.DeclaringType
+                ||
+                member.DeclaringType.IsSubclassOf(x.DeclaringType)));
+        }
+
         public static IEnumerable<MemberInfo> GetLoadFromCollectionMembers(this Type type, BindingFlags bindingFlags, MemberInfo[] filterMembers)
         {
             IEnumerable<MemberInfo> members = type.GetProperties(bindingFlags).Cast<MemberInfo>().Where(x => x.ShouldBeIncluded());
@@ -47,6 +56,10 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             {
                 var fmt = filterMember.DeclaringType;
                 if (fmt.IsSubclassOf(type))
+                {
+                    membersList.Add(filterMember);
+                }
+                else if(filterMember.DeclaringType == type && !ListContainsMember(membersList, filterMember))
                 {
                     membersList.Add(filterMember);
                 }

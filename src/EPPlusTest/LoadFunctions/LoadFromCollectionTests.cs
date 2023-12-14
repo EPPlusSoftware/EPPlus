@@ -104,9 +104,9 @@ namespace EPPlusTest.LoadFunctions
 
         internal class BClass
         {
-            [DisplayName("MyId")]
+            [DisplayName("MyId"), EpplusTableColumn(Order = 1)]
             public string Id { get; set; }
-            [System.ComponentModel.Description("MyName")]
+            [System.ComponentModel.Description("MyName"), EpplusTableColumn(Order = 2)]
             public string Name { get; set; }
             [EpplusTableColumn(Order = 3)]
             public int Number { get; set; }

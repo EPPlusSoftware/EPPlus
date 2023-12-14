@@ -97,7 +97,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             {
                 header = last.DictionaryKey;
             }
-            else if (last.Member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
+            else if (last.Member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr) && !string.IsNullOrEmpty(etcAttr.Header))
             {
                 header = etcAttr.Header;
             }

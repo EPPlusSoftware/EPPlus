@@ -78,7 +78,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
                             :
                             sortOrder.Value;
             }
-            return itemIndex;
+            return ExcelPackage.MaxColumns + itemIndex;
         }
     }
 }
