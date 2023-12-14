@@ -123,7 +123,6 @@ namespace OfficeOpenXml.FormulaParsing
         internal virtual object Parse(string formula, string address, bool writeToCell)
         {
             var calcOption = new ExcelCalculationOption();
-            calcOption.WriteToCell = writeToCell;
             calcOption.AllowCircularReferences = true;
             return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, _parsingContext.RangeAddressFactory.CreateCell(address), calcOption);
         }

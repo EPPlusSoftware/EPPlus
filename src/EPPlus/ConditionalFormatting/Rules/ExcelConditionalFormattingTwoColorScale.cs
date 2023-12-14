@@ -23,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -242,40 +243,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                     index++;
                 }
 
-                float percentage = (float)index / values.Count();
-
-                var lowcol = LowValue.Color;
-                var highcol = HighValue.Color;
-
-                //var lerp = Vector3.Lerp(new Vector3(lowcol.R, lowcol.G,lowcol.B), new Vector3(highcol.R, highcol.G, highcol.B), percentage);
-
-                var r = lowcol.R;
-                var g = lowcol.G;
-                var b = lowcol.B;
-
-                var hiR = highcol.R;
-                var hiG = highcol.G;
-                var hiB = highcol.B;
-
-                var originalPercent = 1.0 - percentage;
-                //var absR = r + hiR * percentage;
-                //var absG = g + hiG * percentage;
-                //var absB = b + hiB * percentage;
-
-                var absR = (int)Math.Abs(originalPercent * r - hiR * percentage);
-                var absG = (int)Math.Abs(originalPercent * g - hiG * percentage);
-                var absB = (int)Math.Abs(originalPercent * b - hiB * percentage);
-                
-
-                var newColor = Color.FromArgb(1, absR, absG, absB);
-
-                //range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                //range.Style.Fill.BackgroundColor.SetColor(newColor);
+                var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.Color, HighValue.Color);
 
                 return "#" + newColor.ToArgb().ToString("x8").Substring(2);
-
-                //return "";
-                //_ws._wb.ThemeManager.CurrentTheme;
             }
             return "";
         }
@@ -288,21 +258,53 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 if(cellValue.IsNumeric())
                 {
-                    //ApplyStyleOverride(address);
                     return true;
-                    ////Formula2 only filled if there's a cell or formula to cond
-                    //if (Formula2 != null)
-                    //{
-                    //    return _ws.Cells[Address.Start.Address].Formula.Contains(Formula2) ? false : true;
-                    //}
-                    //else
-                    //{
-                    //    return _ws.Cells[Address.Start.Address].Formula.Contains(_text) ? false : true;
-                    //}
                 }
             }
 
             return false;
+        }
+
+        //int LinearInterpolationTwoPoints(double x0, double x1, double y0, double y1, double x)
+        //{
+        //    int y;
+
+        //    //Weight of the end point influence in percent.
+        //    double endPercentage = (x - x0) / (x1 - x0);
+
+        //    //Weight of the start point influence in percent
+        //    double startPercentage = 1.0d - endPercentage;
+
+        //    y = (int)Math.Abs(y0 * startPercentage + y1 * endPercentage);
+
+        //    return y;
+        //}
+
+        double TruncateTo3Decimals(double value)
+        {
+            double ret = Math.Round(value * 10000000);
+            return ret * 0.0000001;
+        }
+
+        protected Color LinearInterpolationTwoColors(Color color1, Color color2, double startPointWeight, double endPointWeight)
+        {
+            var newR = (int)Math.Round(color1.R * startPointWeight + color2.R * endPointWeight);
+            var newG = (int)Math.Round(color1.G * startPointWeight + color2.G * endPointWeight);
+            var newB = (int)Math.Round(color1.B * startPointWeight + color2.B * endPointWeight);
+
+            return Color.FromArgb(1, newR, newG, newB);
+        }
+
+        protected Color CalculateNumberedGradient(double currentStep, double numStepsBetween, Color color1, Color color2)
+        {
+            double endPointWeight = currentStep / numStepsBetween;
+            double startPointWeight = 1.0d - endPointWeight;
+
+            //Lower accuracy to match excel
+            //startPointWeight = TruncateTo3Decimals(startPointWeight);
+            //endPointWeight = TruncateTo3Decimals(endPointWeight);
+
+            return LinearInterpolationTwoColors(color1, color2, startPointWeight, endPointWeight);
         }
 
         protected string GetColor(ExcelDxfColor c, ExcelTheme theme)
