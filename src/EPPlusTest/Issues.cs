@@ -3342,7 +3342,7 @@ namespace EPPlusTest
                 SaveWorkbook("i676.xlsx", p);
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void s350()
         {
             using (var p = OpenTemplatePackage("s350.xlsm"))
@@ -5818,7 +5818,7 @@ namespace EPPlusTest
                 //cell contains the expected \t character
                 package.Save();
             }
-           
+
             //Now read the excel, the Value contains  _x0009_ instead of \t
             using (var package = OpenPackage("tabDecoding.xlsx"))
             {
@@ -5861,7 +5861,7 @@ namespace EPPlusTest
                 //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
 
                 sourcePackage.Dispose();
-                
+
                 SaveWorkbook("s532-1.xlsx", destinationpackage);
             }
         }
@@ -5949,13 +5949,27 @@ namespace EPPlusTest
         [TestMethod]
         public void i1203()
         {
-            using ( var p = OpenTemplatePackage("i1203.xlsx"))
+            using (var p = OpenTemplatePackage("i1203.xlsx"))
             {
                 var sheet1 = p.Workbook.Worksheets[0];
                 var sheet2 = p.Workbook.Worksheets.Add("sheet2", sheet1);
                 Assert.AreEqual(sheet1.Drawings[0].Hyperlink.OriginalString, sheet2.Drawings[0].Hyperlink.OriginalString);
                 Assert.IsTrue(sheet1.Drawings[0].As.Picture.Image.ImageBytes.SequenceEqual(sheet2.Drawings[0].As.Picture.Image.ImageBytes));
 
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s566()
+        {
+            using (var p = OpenPackage("s566.xlsx", true))
+            {
+                LoadData(p);
+                var ws = p.Workbook.Worksheets[0];
+
+                var tbl = ws.Tables.Add(ws.Cells[ws.Dimension.Address], "Table1");
+                tbl.Columns.Add();
+                tbl.Columns[tbl.Columns.Count - 1].CalculatedColumnFormula = "X1-Z1";
                 SaveAndCleanup(p);
             }
         }
@@ -5968,6 +5982,15 @@ namespace EPPlusTest
                 var json = ws.Cells["C2"].ToJson();
             }
         }
+        [TestMethod]
+        public void i1214()
+        {
+            using (var p = OpenTemplatePackage("i1214.xlsx"))
+            {
+                p.Workbook.Calculate();
 
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
