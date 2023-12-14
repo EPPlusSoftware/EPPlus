@@ -503,6 +503,14 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             }
         }
         [TestMethod]
+        public void TokenizeAddressWithEncodedChars()
+        {
+            var input = "SUM(MyDataTable[[#This Row],['[Column'['''] 1\"]])";
+            var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual("[Column['] 1\"", tokens[9].Value);
+        }
+
+        [TestMethod]
         public void TokenizeKeepWhiteSpace()
         {
             var input = @"A1:B3  B2:C5";

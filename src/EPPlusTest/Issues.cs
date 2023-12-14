@@ -5975,6 +5975,15 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void I1211()
+        {
+            using (var p = OpenTemplatePackage("i1211.xlsx"))
+            {
+                p.Workbook.Worksheets[1].Cells["D4"].Calculate();
+                Assert.AreEqual(5D, p.Workbook.Worksheets[1].Cells["D4"].Value);
+            }
+        }
+        [TestMethod]
         public void s542_2()
         {
             string copySheet = "Summary";
