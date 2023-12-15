@@ -18,6 +18,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Globalization;
+using System.Threading;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable.Filter
@@ -35,9 +36,67 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             {
                 topNode.InnerXml = "<autoFilter ref=\"A1\"><filterColumn colId=\"0\"></filterColumn></autoFilter>";
             }
+            else
+            {
+                LoadValues();
+            }
+
             _filterColumnNode = GetNode("d:autoFilter/d:filterColumn");
             _date1904 = date1904;
-        } 
+
+        }
+
+        private void LoadValues()
+        {
+            if((int)Type < 100) // Caption
+            {
+                Value1 = StringValue1;
+                Value2 = StringValue2;
+            }
+            else
+            {
+                switch(Type)
+                {
+                    case ePivotTableFilterType.ValueEqual:
+                    case ePivotTableFilterType.ValueNotEqual:
+                    case ePivotTableFilterType.ValueGreaterThan:
+                    case ePivotTableFilterType.ValueGreaterThanOrEqual:
+                    case ePivotTableFilterType.ValueLessThan:
+                    case ePivotTableFilterType.ValueLessThanOrEqual:                    
+                        Value1 = GetXmlNodeDoubleNull("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
+                        break;
+                    case ePivotTableFilterType.ValueBetween:
+                    case ePivotTableFilterType.ValueNotBetween:
+                        Value1 = GetXmlNodeDoubleNull("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
+                        Value2 = GetXmlNodeDoubleNull("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[2]/@val");
+                        break;
+                    case ePivotTableFilterType.DateEqual:
+                    case ePivotTableFilterType.DateNotEqual:
+                    case ePivotTableFilterType.DateNewerThan:
+                    case ePivotTableFilterType.DateNewerThanOrEqual:
+                    case ePivotTableFilterType.DateOlderThan:
+                    case ePivotTableFilterType.DateOlderThanOrEqual:
+                        Value1=GetValueDate("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
+                        break;
+                    case ePivotTableFilterType.DateBetween:
+                    case ePivotTableFilterType.DateNotBetween:
+                        Value1 = GetValueDate("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
+                        Value2 = GetValueDate("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[2]/@val");
+                        break;
+                }
+            }
+        }
+
+        private DateTime? GetValueDate(string xPath)
+        {
+            var v = GetXmlNodeDoubleNull(xPath);
+            if (v.HasValue)
+            {
+                return DateTime.FromOADate(v.Value);
+            }
+            return null;
+        }
+
         /// <summary>
         /// The id 
         /// </summary>

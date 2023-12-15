@@ -225,5 +225,57 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
         }
+        [TestMethod]
+        public void FilterPageFieldCustomCaptionFilterEndsWithWith()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterCapEndsWith");
+            var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableCapEndsWith");
+            var rf = pt.RowFields.Add(pt.Fields[1]);
+            pt.CacheDefinition.Refresh();
+            var df = pt.DataFields.Add(pt.Fields["Price"]);
+            rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionEndsWith, "wAre");
+            pt.Calculate();
+            Assert.AreEqual(437.12, pt.CalculatedItems[0][[0]]);
+            Assert.AreEqual(437.12, pt.CalculatedItems[0][[-1]]);
+        }
+        [TestMethod]
+        public void FilterPageFieldCustomCaptionFilterNotEndsWith()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterCapNotEndsWith");
+            var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableCapNotEndsWith");
+            var rf = pt.RowFields.Add(pt.Fields[1]);
+            pt.CacheDefinition.Refresh();
+            var df = pt.DataFields.Add(pt.Fields["Price"]);
+            rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionNotEndsWith, "Ware");
+            pt.Calculate();
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
+        }
+        [TestMethod]
+        public void FilterPageFieldCustomDateEqual()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateEqual");
+            var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateEqual");
+            var rf = pt.RowFields.Add(pt.Fields[4]);
+            pt.CacheDefinition.Refresh();
+            var df = pt.DataFields.Add(pt.Fields["Price"]);
+            rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateEqual, new DateTime(2010, 01, 31));
+            pt.Calculate();
+            Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
+            Assert.AreEqual(85.2, pt.CalculatedItems[0][[-1]]);
+        }
+        [TestMethod]
+        public void FilterPageFieldCustomDateBetween()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateBetween");
+            var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateBetween");
+            var rf = pt.RowFields.Add(pt.Fields[4]);
+            pt.CacheDefinition.Refresh();
+            var df = pt.DataFields.Add(pt.Fields["Price"]);
+            rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateBetween, new DateTime(2010, 01, 01), new DateTime(2010, 5, 30));
+            pt.Calculate();
+            Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
+            Assert.AreEqual(181.4, pt.CalculatedItems[0][[-1]]);
+        }
     }
 }

@@ -74,6 +74,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             {
                 throw new ArgumentNullException("value2", "Between filters require two values");
             }
+
             ExcelPivotTableFilter filter = CreateFilter();
             filter.Type = (ePivotTableFilterType)type;
             filter.Value1 = value1;
@@ -84,7 +85,6 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             _filters.Add(filter);
             return filter;
         }
-
         /// <summary>
         /// Adds a date period filter for a pivot table field.
         /// </summary>
