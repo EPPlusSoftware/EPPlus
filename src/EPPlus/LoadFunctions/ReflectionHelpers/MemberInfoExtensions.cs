@@ -97,16 +97,5 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             }
             return retVal;
         }
-
-        public static bool ExistsInFilter(this MemberInfo member, MemberInfo[] filterMembers)
-        {
-            if (filterMembers == null || filterMembers.Length == 0) return false;
-            foreach (var filter in filterMembers)
-            {
-                if (filter.DeclaringType == member.DeclaringType && filter.Name == member.Name) return true;
-                if (filter.DeclaringType == member.GetMemberType()) return true;
-            }
-            return false;
-        }
     }
 }

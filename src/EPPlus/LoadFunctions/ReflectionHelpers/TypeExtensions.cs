@@ -46,7 +46,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
                 member.DeclaringType.IsSubclassOf(x.DeclaringType)));
         }
 
-        public static IEnumerable<MemberInfo> GetLoadFromCollectionMembers(this Type type, BindingFlags bindingFlags, MemberInfo[] filterMembers)
+        public static IEnumerable<MemberInfo> GetLoadFromCollectionMembers(this Type type, BindingFlags bindingFlags, IEnumerable<MemberInfo> filterMembers)
         {
             IEnumerable<MemberInfo> members = type.GetProperties(bindingFlags).Cast<MemberInfo>().Where(x => x.ShouldBeIncluded());
             var membersList = members.ToList();

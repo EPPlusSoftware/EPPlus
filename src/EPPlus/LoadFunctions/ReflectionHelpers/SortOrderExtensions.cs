@@ -26,13 +26,13 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
     internal static class SortOrderExtensions
     {
-        public static int GetSortOrder(this MemberInfo member, MemberInfo[] filterMembers, int itemIndex, out bool useForAllPathItems)
+        public static int GetSortOrder(this MemberInfo member, List<MemberInfo> filterMembers, int itemIndex, out bool useForAllPathItems)
         {
             useForAllPathItems = false;
             int? sortOrder = default;
-            if(filterMembers != null && filterMembers.Length > 0)
+            if(filterMembers != null && filterMembers.Count > 0)
             {
-                for(int i = 0; i < filterMembers.Length; i++)
+                for(int i = 0; i < filterMembers.Count; i++)
                 {
                     var m = filterMembers[i];
                     if(m.MemberType == member.MemberType 

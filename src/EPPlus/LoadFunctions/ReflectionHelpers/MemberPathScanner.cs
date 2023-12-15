@@ -31,50 +31,39 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             Type outerType,
             LoadFromCollectionParams parameters)
         {
-            _filterMembers = parameters.Members;
-            _params = parameters;
-            if (_filterMembers != null && _filterMembers.Length > 0)
+            if(parameters.Members != null)
             {
+                _filterMembers = new MemberFilterCollection(parameters.Members);
                 var usedTypesScanner = new UsedTypesScanner(outerType);
                 usedTypesScanner.ValidateMembers(_filterMembers);
             }
-            ReadTypes(outerType);
+            _params = parameters;
+            Scan(outerType);
         }
 
-        private readonly MemberInfo[] _filterMembers;
+        private readonly MemberFilterCollection _filterMembers = new MemberFilterCollection();
         private readonly LoadFromCollectionParams _params;
         private readonly List<MemberPath> _paths = new List<MemberPath>();
 
         private bool ShouldAddPath(MemberPath parentPath, MemberInfo member)
         {
             if (member.HasAttributeOfType<EpplusIgnore>()) return false;
-            if (_filterMembers == null || _filterMembers.Length == 0) return true;
-            if (member.ExistsInFilter(_filterMembers) == false) return false;
+            if (_filterMembers.IsEmpty) return true;
             if (parentPath?.Last().IsNestedProperty ?? false)
             {
-                var parentMember = parentPath.Last().Member;
-
-                // If the only filtered member is a complex type
-                // with the EpplusNestedTableColumn we should
-                // use all its members.
-                if (_filterMembers.Any(x => x.Name == parentMember.Name && x.DeclaringType == parentMember.DeclaringType))
-                {
-                    // if there are members specified explicitly in the filter
-                    // we should only use those.
-                    if (_filterMembers.Count(x => x.DeclaringType == parentMember.DeclaringType) > 1)
-                    {
-                        return _filterMembers.Any(x => x.Name == member.Name && x.DeclaringType == parentMember.DeclaringType);
-                    }
-                    return true;
-                }
+                // if the parent is a nested property with no child properties
+                // all child properties should be included.
+                var nChildren = _filterMembers.GetNumberOfChildrenByParent(parentPath);
+                if (nChildren == 0) return true;
             }
+            if (_filterMembers.Exists(member) == false) return false;
             // Always ignore complex type members not decorated with the
             // EpplusNestedTableColumn attribute.
             if (member.HasAttributeOfType<EpplusNestedTableColumnAttribute>()) return true;
             return member.GetMemberType().IsComplexType() == false;
         }
 
-        private void ReadTypes(Type type, MemberPath path = null)
+        private void Scan(Type type, MemberPath path = null)
         {
             var parentIsNested = path != null && path.Depth > 0 && path.Last().IsNestedProperty;
             var index = 0;
@@ -83,15 +72,11 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             {
                 var mType = member.GetMemberType();
                 var shouldAddPath = ShouldAddPath(path, member);
-                if (parentIsNested == false && shouldAddPath == false)
+                if (shouldAddPath == false)
                 {
                     continue;
                 }
-                else if(shouldAddPath == false)
-                {
-
-                }
-                var sortOrder = member.GetSortOrder(_filterMembers, index, out bool useForAllPathItems);
+                var sortOrder = member.GetSortOrder(_filterMembers.ToList(), index, out bool useForAllPathItems);
                 var propPath = MemberPath.CreateNewOrAppend(path, member, sortOrder, useForAllPathItems);
                 var lastItem = propPath.Last();
                 if (member.HasAttributeOfType(out EpplusNestedTableColumnAttribute entAttr))
@@ -102,7 +87,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
                         throw new InvalidOperationException($"EpplusNestedTableColumn attribute can only be used with complex types (member: {propPath.GetPath()})");
                     }
                     lastItem.SetProperties(entAttr);
-                    ReadTypes(mType, propPath);
+                    Scan(mType, propPath);
                 }
                 if (member.HasAttributeOfType(out EPPlusDictionaryColumnAttribute edcAttr))
                 {
