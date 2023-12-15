@@ -198,72 +198,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 else
                 {
                     newColor = CalculateNumberedGradient(realValue - average, highest - average, MiddleValue.Color, HighValue.Color);
-                    //newColor = CalculateNumberedGradient(realValue, highest, MiddleValue.Color, HighValue.Color);
                 }
 
-
-
-                //205,92,92) 
-                //(208, 102, 100);
-                //(211, 113, 108)
-                //(214, 124, 116)
-                //(217, 135, 124)
-                //(220, 146, 132)
-                //(223, 157, 140)
-                //(226, 168, 148)
-                //(229, 179, 157)
-                //(232, 190, 165)
-                //(236, 200, 173)
-                //(239, 211, 181)
-                //(242, 222, 189)
-                //(245, 233, 197)
-                //(248, 244, 205)
-
-                //int halfTotal = (int)Math.Round(((double)values.Count() * 0.5d));
-
-                ////Note: index is/must be 0 based so first cell == LowValue.Color
-                ////Therefore the midpoint cell is halftotal-1 as at e.g. row 15 out of 30 index = 14
-                //int midPoint = halfTotal - 1;
-
-                //int midPoint = halfTotal - 1;
-                //Color newColor;
-                //if (Convert.ToDouble(cellValue) < average)
-                //{
-                //    newColor = CalculateNumberedGradient(Convert.ToDouble(cellValue), average, LowValue.Color, MiddleValue.Color);
-                //}
-                //else
-                //{
-                //    newColor = CalculateNumberedGradient(Convert.ToDouble(cellValue) -average, average, MiddleValue.Color, HighValue.Color);
-                //}
-
-
-
-                //if (index < (average-1))
-                //{
-                //    newColor = CalculateNumberedGradient(index, average, LowValue.Color, MiddleValue.Color);
-                //}
-                //else
-                //{
-                //    if(index != count-1)
-                //    {
-                //        newColor = CalculateNumberedGradient(index - average, average, MiddleValue.Color, HighValue.Color);
-                //    }
-                //    else
-                //    {
-                //        newColor = HighValue.Color;
-                //    }
-                //}
-
-                //if (index < average)
-                //{
-                //    newColor = CalculateNumberedGradient(index, average, LowValue.Color, MiddleValue.Color);
-                //}
-                //else
-                //{
-                //    newColor = CalculateNumberedGradient((double)index - average, average, MiddleValue.Color, HighValue.Color);
-                //}
-
-                return "#" + newColor.ToArgb().ToString("x8").Substring(2);
+                return  "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2)+";";
             }
             return "";
         }

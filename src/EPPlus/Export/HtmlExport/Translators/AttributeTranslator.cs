@@ -111,6 +111,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                         case eExcelConditionalFormattingRuleType.ThreeColorScale:
                             specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                             break;
+                        case eExcelConditionalFormattingRuleType.DataBar:
+                            specials += ((ExcelConditionalFormattingDataBar)cfItems[i].Value).ApplyStyleOverride(cell);
+                                break;
                         default:
                             dxfKey = cfItems[i].Value.Style.Id;
 

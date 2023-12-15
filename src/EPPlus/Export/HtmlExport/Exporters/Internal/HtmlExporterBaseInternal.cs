@@ -146,7 +146,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                         if (classString.Count > 1)
                         {
-                            th.AddAttribute("style", $"background-color:{classString[1]};");
+                            if (!string.IsNullOrEmpty(classString[1]))
+                            {
+                                th.AddAttribute("style", $"{classString[1]}");
+                            }
                         }
                     }
 
@@ -295,7 +298,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                         if (classString.Count > 1)
                         {
-                            tblData.AddAttribute("style", $"background-color:{classString[1]};");
+                            if (!string.IsNullOrEmpty(classString[1]))
+                            {
+                                tblData.AddAttribute("style", $"{classString[1]}");
+                            }
                         }
 
                         AddImage(tblData, Settings, image, cell.Value);
@@ -656,9 +662,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 element.AddAttribute("class", classString[0]);
             }
 
-            if (classString.Count > 1 && !string.IsNullOrEmpty(classString[1]))
+            if (classString.Count > 1)
             {
-                element.AddAttribute("style", $"background-color:{classString[1]};");
+                if (!string.IsNullOrEmpty(classString[1]))
+                {
+                    element.AddAttribute("style", $"{classString[1]}");
+                }
             }
             //var cfItems = _exporterContext._cfQuadTree.GetIntersectingRangeItems
             //     (new QuadRange(new ExcelAddress(cell.Address)));

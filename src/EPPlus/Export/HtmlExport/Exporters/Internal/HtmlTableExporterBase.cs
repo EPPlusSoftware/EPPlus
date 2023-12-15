@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
+using System.Xml.Linq;
 
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
@@ -170,9 +171,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     tblData.AddAttribute("class", classString[0]);
                 }
 
-                if(classString.Count > 1) 
+                if (classString.Count > 1)
                 {
-                    tblData.AddAttribute("style", $"background-color:{classString[1]};");
+                    if (!string.IsNullOrEmpty(classString[1]))
+                    {
+                        tblData.AddAttribute("style", $"{classString[1]}");
+                    }
                 }
 
                 AddImage(tblData, Settings, image, cell.Value);

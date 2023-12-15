@@ -245,7 +245,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.Color, HighValue.Color);
 
-                return "#" + newColor.ToArgb().ToString("x8").Substring(2);
+                return "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2) + ";";
             }
             return "";
         }
@@ -282,8 +282,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         double TruncateTo3Decimals(double value)
         {
-            double ret = Math.Round(value * 10000000);
-            return ret * 0.0000001;
+            double ret = Math.Round(value * 100);
+            return ret * 0.01;
         }
 
         protected Color LinearInterpolationTwoColors(Color color1, Color color2, double startPointWeight, double endPointWeight)
@@ -301,8 +301,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             double startPointWeight = 1.0d - endPointWeight;
 
             //Lower accuracy to match excel
-            //startPointWeight = TruncateTo3Decimals(startPointWeight);
-            //endPointWeight = TruncateTo3Decimals(endPointWeight);
+            startPointWeight = TruncateTo3Decimals(startPointWeight);
+            endPointWeight = TruncateTo3Decimals(endPointWeight);
 
             return LinearInterpolationTwoColors(color1, color2, startPointWeight, endPointWeight);
         }

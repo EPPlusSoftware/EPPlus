@@ -22,6 +22,10 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -291,6 +295,83 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             {
                 FillColor.Color = value;
             }
+        }
+
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                var cellValue = _ws.Cells[address.Address].Value;
+
+                if (cellValue.IsNumeric())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal virtual string ApplyStyleOverride(ExcelAddress address)
+        {
+            var range = _ws.Cells[address.Address];
+            var cellValue = range.Value;
+
+            if (cellValue.IsNumeric())
+            {
+                var cellValues = new List<object>();
+                double average = 0;
+                int count = 0;
+                foreach (var cell in Address.GetAllAddresses())
+                {
+                    for (int i = 1; i <= cell.Rows; i++)
+                    {
+                        for (int j = 1; j <= cell.Columns; j++)
+                        {
+                            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                            average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                            count++;
+                        }
+                    }
+                }
+
+                average = average / count;
+
+                var values = cellValues.OrderBy(n => n);
+
+                var highest = Convert.ToDouble(values.Last());
+                var lowest = Convert.ToDouble(values.First());
+
+                var realValue = Convert.ToDouble(cellValue);
+
+                var percentage = (realValue - lowest) / (highest - lowest);
+
+                string ret = "";
+
+                switch (Direction)
+                {
+                    case eDatabarDirection.RightToLeft:
+                        ret += ".25turn";
+                        break;
+
+                    case eDatabarDirection.LeftToRight:
+                        ret += ".75turn";
+                        break;
+                        //TODO: handle context, default for now.
+                    case eDatabarDirection.Context:
+                        ret += "to right";
+                        break;
+                }
+
+                var color = FillColor.Color.Value;
+
+                ret = $"background-image: linear-gradient({ret}, rgba(0,{color.R},{color.G},{color.B}));";
+                ret += "background-repeat: no-repeat;";
+                ret += $"background-size: {percentage * 100}% 90%";
+                return ret;
+            }
+            return "";
         }
 
         public ExcelDxfColor FillColor { get; private set; }
