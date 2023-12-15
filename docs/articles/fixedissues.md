@@ -1,4 +1,9 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.15
+### Fixed issues 
+* The JSON export did not encode column header cells and comment texts.
+* Worksheet Copy did not copy images with hyperlinks correctly.
+
 ## Version 6.2.14
 ### Fixed issues 
 * Added support for negation of single cell named values in the formula calculation.
