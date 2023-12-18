@@ -47,10 +47,6 @@ namespace OfficeOpenXml.VBA
             }
             set
             {
-                if (value.Any(c => c > 255))
-                {
-                    throw (new InvalidOperationException("Vba module names can't contain unicode characters"));
-                }
                 if (!IsValidModuleName(value))
                 {
                     throw (new InvalidOperationException("Name contains invalid characters"));
@@ -75,10 +71,9 @@ namespace OfficeOpenXml.VBA
         internal static bool IsValidModuleName(string name)
         {
             //return Regex.IsMatch(name, _validModulePattern);
-            if (string.IsNullOrEmpty(name) ||           //Not null or empty
-               (name[0] >= '0' && name[0] <= '9') ||        //Don't start with a number
-               name[0] == '_' ||                        //Don't start with a underscore
-               name.Any(x => x < 0x20 || x > 255 || _nonValidChars.Contains(x)))      //Don't contain invalid or unicode chars 
+            if (string.IsNullOrEmpty(name) ||   //Not null or empty
+               char.IsLetter(name[0]) == false ||        //Don't start with a number or underscore
+               name.Any(x => x != '_' && (char.IsLetterOrDigit(x) == false))) //Don't contain invalid chars. Allow unicode
             {
                 return false;
             }

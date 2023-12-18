@@ -5593,7 +5593,6 @@ namespace EPPlusTest
             var target = "C:\\Users\\OssianEdström\\Downloads\\targetFilePath.xlsm";
 
             var sheetName = "披露表(国资)";
-            //"模块1";
 
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
             using (var p = new ExcelPackage(source))
@@ -5608,32 +5607,6 @@ namespace EPPlusTest
                     tP.SaveAs("C:\\Users\\OssianEdström\\Downloads\\TestChars.xlsm");
                 }
             }
-
-
-    //            Dim sourceFilePath As String = "C:\Users\wangj\Desktop\eg\sourceFilePath.xlsx"
-    //    Dim targetFilePath As String = "C:\Users\wangj\Desktop\eg\targetFilePath.xlsm"
-    //    Dim SheetName As String = "披露表(国资)"
-    //    ExcelPackage.LicenseContext = LicenseContext.Commercial
-    //    Using sourcePackage As New ExcelPackage(New FileInfo(sourceFilePath))
-    //        Dim SourceBook As ExcelWorkbook = sourcePackage.Workbook
-    //        Using targetPackage As New ExcelPackage(New FileInfo(targetFilePath))
-    //            ' 获取源工作表
-    //            Try
-    //                Dim targetBook As ExcelWorkbook = targetPackage.Workbook
-    //                With targetBook
-    //                    Dim PaperSheet As ExcelWorksheet
-    //                    Dim sourceSheet As ExcelWorksheet = sourcePackage.Workbook.Worksheets(Sheetname)
-    //                    PaperSheet = .Worksheets.Add(Sheetname, sourceSheet)
-    //                End With
-    //                Await targetPackage.SaveAsync()
-    //            Catch Err As Exception
-    //                Windows.Forms.MessageBox.Show(Err.ToString, "提示！", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Error)
-    //            Finally
-
-    //            End Try
-    //        End Using
-    //    End Using
-    //End Sub
         }
     }
 }
