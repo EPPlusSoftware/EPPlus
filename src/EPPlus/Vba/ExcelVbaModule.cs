@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -25,8 +25,7 @@ namespace OfficeOpenXml.VBA
     {
         string _name = "";
         ModuleNameChange _nameChangeCallback = null;
-        private static readonly char[] _nonValidChars = new char[] { '!', '\\', '"', '@', '#', '$', '%', '&', '/', '{', '}', '[', ']', '(', ')', '<', '>', '=', '+', '-', '?', '`', '~', '^', '\'', '*', ';', ':' };
-        //private const string _validModulePattern = "^[a-zA-Z][a-zA-Z0-9_ ]*$";
+        private static readonly char[] _nonValidChars = new char[] { '!', '\\', '"', '@', '#', '$', '%', '&', '/', '{', '}', '[', ']', '(', ')', '<', '>', '=', '+', '-', '?', '`', '~', '^', '\'', '*', ';', ':', ' ', '.', ' ', '«', '»' };
         internal ExcelVBAModule()
         {
             Attributes = new ExcelVbaModuleAttributesCollection();
@@ -47,10 +46,6 @@ namespace OfficeOpenXml.VBA
             }
             set
             {
-                if (value.Any(c => c > 255))
-                {
-                    throw (new InvalidOperationException("Vba module names can't contain unicode characters"));
-                }
                 if (!IsValidModuleName(value))
                 {
                     throw (new InvalidOperationException("Name contains invalid characters"));
@@ -74,17 +69,23 @@ namespace OfficeOpenXml.VBA
 
         internal static bool IsValidModuleName(string name)
         {
-            //return Regex.IsMatch(name, _validModulePattern);
-            if (string.IsNullOrEmpty(name) ||           //Not null or empty
-               (name[0] >= '0' && name[0] <= '9') ||        //Don't start with a number
-               name[0] == '_' ||                        //Don't start with a underscore
-               name.Any(x => x < 0x20 || x > 255 || _nonValidChars.Contains(x)))      //Don't contain invalid or unicode chars 
+            if (string.IsNullOrEmpty(name) ||   //Not null or empty
+               char.IsLetter(name[0]) == false ||        //Don't start with a number or underscore
+               name.Any(x => x < 0x30 || IsAbove255AndNotLetter(x) || _nonValidChars.Contains(x))) //Don't contain invalid chars. Allow unicode
             {
                 return false;
             }
             return true;
         }
 
+        static bool IsAbove255AndNotLetter(char c)
+        {
+            if (c > 255)
+            {
+                return (char.IsLetter(c) == false);
+            }
+            return false;
+        }
         /// <summary>
         /// A description of the module
         /// </summary>
