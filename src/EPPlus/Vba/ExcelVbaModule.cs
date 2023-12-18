@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -25,7 +25,7 @@ namespace OfficeOpenXml.VBA
     {
         string _name = "";
         ModuleNameChange _nameChangeCallback = null;
-        private static readonly char[] _nonValidChars = new char[] { '!', '\\', '"', '@', '#', '$', '%', '&', '/', '{', '}', '[', ']', '(', ')', '<', '>', '=', '+', '-', '?', '`', '~', '^', '\'', '*', ';', ':' };
+        private static readonly char[] _nonValidChars = new char[] { '!', '\\', '"', '@', '#', '$', '%', '&', '/', '{', '}', '[', ']', '(', ')', '<', '>', '=', '+', '-', '?', '`', '~', '^', '\'', '*', ';', ':',' ','.',' ','«','»'}; 
         //private const string _validModulePattern = "^[a-zA-Z][a-zA-Z0-9_ ]*$";
         internal ExcelVBAModule()
         {
@@ -70,14 +70,22 @@ namespace OfficeOpenXml.VBA
 
         internal static bool IsValidModuleName(string name)
         {
-            //return Regex.IsMatch(name, _validModulePattern);
             if (string.IsNullOrEmpty(name) ||   //Not null or empty
                char.IsLetter(name[0]) == false ||        //Don't start with a number or underscore
-               name.Any(x => x != '_' && (char.IsLetterOrDigit(x) == false))) //Don't contain invalid chars. Allow unicode
+               name.Any(x => x < 0x30 || IsAbove255AndNotLetter(x) || _nonValidChars.Contains(x))) //Don't contain invalid chars. Allow unicode
             {
                 return false;
             }
             return true;
+        }
+
+        static bool IsAbove255AndNotLetter(char c)
+        {
+            if(c > 255)
+            {
+                return (char.IsLetter(c) == false);
+            }
+            return false;
         }
 
         /// <summary>
