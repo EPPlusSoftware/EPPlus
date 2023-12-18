@@ -5588,23 +5588,19 @@ namespace EPPlusTest
         [TestMethod]
         public void s569()
         {
-
-            var source = "C:\\Users\\OssianEdström\\Downloads\\sourceFilePath.xlsx";
-            var target = "C:\\Users\\OssianEdström\\Downloads\\targetFilePath.xlsm";
-
             var sheetName = "披露表(国资)";
 
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
-            using (var p = new ExcelPackage(source))
+            using (var p = OpenTemplatePackage("s569source.xlsx"))
             {
                 var SourceWB = p.Workbook;
-                using(var tP = new ExcelPackage(target))
+                using(var tP = OpenTemplatePackage("s569target.xlsm"))
                 {
                     var tBook = tP.Workbook;
                     var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
                     tBook.Worksheets.Add(sheetName, sSheet);
 
-                    tP.SaveAs("C:\\Users\\OssianEdström\\Downloads\\TestChars.xlsm");
+                    SaveAndCleanup(tP);
                 }
             }
         }
