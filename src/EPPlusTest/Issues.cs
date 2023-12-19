@@ -6000,6 +6000,24 @@ namespace EPPlusTest
             SaveAndCleanup(Destinationpackage);
         }
         [TestMethod]
+        public void s569()
+        {
+            var sheetName = "披露表(国资)";
+
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+            using (var p = OpenTemplatePackage("s569source.xlsx"))
+            {
+                var SourceWB = p.Workbook;
+                using (var tP = OpenTemplatePackage("s569target.xlsm"))
+                {
+                    var tBook = tP.Workbook;
+                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
+                    tBook.Worksheets.Add(sheetName, sSheet);
+
+                    SaveAndCleanup(tP);
+                }
+            }
+        }
         public void I1216()
         {
             using(var p=new ExcelPackage())
