@@ -177,5 +177,26 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet1.Cells["F5"].Value);
             }
         }
+        [TestMethod]
+        public void DoubleNegationsWithCells()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                ws.Cells["A1"].Value = -1.5;
+                ws.Cells["B1"].Value = -5;
+                ws.Cells["C1"].Value = 1.5;
+                ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
+                ws.Cells["E1"].Formula = "IF((A1+B1)<0,(-A1+--B1)*C1,0)";
+                ws.Cells["F1"].Formula = "IF((A1+B1)<0,(-A1+-(-B1))*C1,0)";
+                ws.Cells["G1"].Formula = "IF((A1+B1)<0,(--A1+-(-B1))*C1,0)";
+                ws.Calculate();
+
+                Assert.AreEqual(9.75, ws.Cells["D1"].Value);
+                Assert.AreEqual(-5.25, ws.Cells["E1"].Value);
+                Assert.AreEqual(-5.25, ws.Cells["F1"].Value);
+                Assert.AreEqual(-9.75, ws.Cells["G1"].Value);
+            }
+        }
     }
 }
