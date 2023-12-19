@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -5582,6 +5582,26 @@ namespace EPPlusTest
                 Assert.IsTrue(sheet1.Drawings[0].As.Picture.Image.ImageBytes.SequenceEqual(sheet2.Drawings[0].As.Picture.Image.ImageBytes));
 
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void s569()
+        {
+            var sheetName = "披露表(国资)";
+
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+            using (var p = OpenTemplatePackage("s569source.xlsx"))
+            {
+                var SourceWB = p.Workbook;
+                using(var tP = OpenTemplatePackage("s569target.xlsm"))
+                {
+                    var tBook = tP.Workbook;
+                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
+                    tBook.Worksheets.Add(sheetName, sSheet);
+
+                    SaveAndCleanup(tP);
+                }
             }
         }
         [TestMethod]

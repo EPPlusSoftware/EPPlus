@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Core.Worksheet
             string relID = worksheets.CreateWorkbookRel(name, sheetID, uriWorksheet, false, null);
 
             ExcelWorksheet added = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, worksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
-            added.SetNewUid();
+            //added.SetNewUid();
             //Copy comments
             if (copy.ThreadedComments.Count > 0)
             {
