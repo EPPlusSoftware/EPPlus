@@ -23,7 +23,7 @@ namespace EPPlusTest.FormulaParsing
             var tbl = _ws.Tables.Add(_ws.Cells["A1:E101"], "Table1");
             tbl.Columns[4].CalculatedColumnFormula = "TableFormulaName";            
             _package.Workbook.Names.AddFormula("TableFormulaName", "Table1[[#This Row],[NumValue]]");
-            _ws.Cells["F2:F101"].CreateArrayFormula("TableFormulaName");
+            _ws.Cells["F2:F101"].CreateArrayFormula("TableFormulaName");            
         }
 
         [ClassCleanup]

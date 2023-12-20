@@ -67,15 +67,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.Operator:
                     case TokenType.Negator:
-                        if(token.TokenType== TokenType.Operator && i > 0 && i < tokens.Count-2 && token.Value==":" && tokens[i-1].Value=="]" && tokens[i+1].Value=="[")
+                        if(token.TokenType == TokenType.Operator && i > 0 && i < tokens.Count-2 && token.Value==":" && tokens[i-1].Value=="]" && tokens[i+1].Value=="[")
                         {
                             expressions.Add(token);
                             break;
                         }
                         if (operatorStack.Count > 0)
+
                         {
                             var o2 = operatorStack.Peek();
-                            while ((o2.TokenType == TokenType.Operator &&
+                            while ((o2.TokenType == TokenType.Operator && token.TokenType!=TokenType.Negator &&
                                 operators[o2.Value].Precedence <= operators[token.Value].Precedence) 
                                 || 
                                 (o2.TokenType == TokenType.Negator && 

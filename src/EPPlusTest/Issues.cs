@@ -5993,6 +5993,15 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void I1211()
+        {
+            using (var p = OpenTemplatePackage("i1211.xlsx"))
+            {
+                p.Workbook.Worksheets[1].Cells["D4"].Calculate();
+                Assert.AreEqual(5D, p.Workbook.Worksheets[1].Cells["D4"].Value);
+            }
+        }
+        [TestMethod]
         public void s542_2()
         {
             string copySheet = "Summary";
@@ -6007,6 +6016,39 @@ namespace EPPlusTest
             Destinationpackage.Workbook.Worksheets.Add(destSheet, Sourceworksheet);
 
             SaveAndCleanup(Destinationpackage);
+        }
+        [TestMethod]
+        public void s569()
+        {
+            var sheetName = "披露表(国资)";
+
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+            using (var p = OpenTemplatePackage("s569source.xlsx"))
+            {
+                var SourceWB = p.Workbook;
+                using (var tP = OpenTemplatePackage("s569target.xlsm"))
+                {
+                    var tBook = tP.Workbook;
+                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
+                    tBook.Worksheets.Add(sheetName, sSheet);
+
+                    SaveAndCleanup(tP);
+                }
+            }
+        }
+        public void I1216()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                ws.Cells["A1"].Value = -1.5;
+                ws.Cells["B1"].Value = -5;
+                ws.Cells["C1"].Value = 1.5;
+                ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
+                ws.Calculate();
+                
+                Assert.AreEqual(9.75, ws.Cells["D1"].Value);
+            }            
         }
     }
 }
