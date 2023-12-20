@@ -6022,11 +6022,32 @@ namespace EPPlusTest
                     SaveAndCleanup(tP);
                 }
             }
+        }        
+        [TestMethod]
+        public void PerformanceIssueGetAsByteArray()
+        {
+            using (var p = OpenTemplatePackage("TemplateWithPivot.xlsx"))
+            {
+                /* Raw Data Sheet only */
+                ExcelWorksheet ws = p.Workbook.Worksheets[1];  // second sheet
+
+                //var usedData =
+                //    reportData.Select(item => new ExportReportData(ref item)).ToArray();
+
+                // write data
+                ExcelTable table = ws.Tables[0];
+                table.InsertRow(position: 1, rows: 6620);  // necessary to have the formulas available.
+
+                // write data to buffer. This takes too long.
+                var pt = p.Workbook.Worksheets[0].PivotTables[0];
+                p.Workbook.Calculate();
+                SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
+            }
         }
-		[TestMethod]
+        [TestMethod]
 		public void I1216()
         {
-            using(var p=new ExcelPackage())
+            using(var p=OpenPackage("i1216.xlsx"))
             {
                 var ws = p.Workbook.Worksheets.Add("sheet1");
                 ws.Cells["A1"].Value = -1.5;
@@ -6038,16 +6059,16 @@ namespace EPPlusTest
                 Assert.AreEqual(9.75, ws.Cells["D1"].Value);
             }            
         }
-		[TestMethod]
-		public void I1220()
-		{
-			using (var p = OpenTemplatePackage("i1220.xlsx"))
-			{
-                p.Workbook.Worksheets.Delete("A");
-				p.Workbook.Worksheets.Delete("B");
-                SaveAndCleanup(p);
-			}
-		}
+        [TestMethod]
+        public void VBA_ModuleName()
+        {
+            using (var p = OpenTemplatePackage("VBAModuleName.xlsm"))
+            {
+                var vba = p.Workbook.VbaProject;
+                
+            }
+        }
+
 
 	}
 }
