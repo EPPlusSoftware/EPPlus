@@ -5593,5 +5593,24 @@ namespace EPPlusTest
                 var json = ws.Cells["C2"].ToJson();
             }
         }
-    }
+		[TestMethod]
+		public void PerformanceIssueGetAsByteArray()
+		{
+			using (var p = OpenTemplatePackage("TemplateWithPivot.xlsx"))
+			{
+				/* Raw Data Sheet only */
+				ExcelWorksheet ws = p.Workbook.Worksheets[1];  // second sheet
+
+
+				// write data
+				ExcelTable table = ws.Tables[0];
+				table.InsertRow(position: 1, rows: 6620);  // necessary to have the formulas available.
+
+				// write data to buffer. This takes too long.
+				var pt = p.Workbook.Worksheets[0].PivotTables[0];
+				p.Workbook.Calculate();
+				SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
+			}
+		}
+	}
 }
