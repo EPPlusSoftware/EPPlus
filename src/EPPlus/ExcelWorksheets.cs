@@ -492,7 +492,7 @@ namespace OfficeOpenXml
             for (int i = 0; i < rels.Count; i++)
             {
                 var rel = rels[i];
-                if (rel.RelationshipType != ExcelPackage.schemaImage && rel.TargetMode == Packaging.TargetMode.Internal)
+                if (rel.RelationshipType != ExcelPackage.schemaImage && rel.TargetMode == Packaging.TargetMode.Internal && rel.TargetUri!=null)
                 {
                     var relUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
                     if (_pck.ZipPackage.PartExists(relUri))
