@@ -256,7 +256,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         internal int match_start;     // start of matching string
         internal int lookahead;       // number of valid bytes ahead in window
 
-        // Length of the best match at previous step. Matches not greater than this
+        // Length of the best match at previous step. MatchesLable not greater than this
         // are discarded. This is used in the lazy match evaluation.
         internal int prev_length;
 

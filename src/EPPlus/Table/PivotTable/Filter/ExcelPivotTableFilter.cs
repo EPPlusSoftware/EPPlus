@@ -10,15 +10,16 @@
  *************************************************************************************************
   09/02/2020         EPPlus Software AB       EPPlus 5.4
  *************************************************************************************************/
+using EPPlusTest.Table.PivotTable;
 using OfficeOpenXml;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Globalization;
-using System.Threading;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable.Filter
@@ -48,21 +49,21 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
 
         private void LoadValues()
         {
-            if((int)Type < 100) // Caption
+            if ((int)Type < 100) // Caption
             {
                 Value1 = StringValue1;
                 Value2 = StringValue2;
             }
             else
             {
-                switch(Type)
+                switch (Type)
                 {
                     case ePivotTableFilterType.ValueEqual:
                     case ePivotTableFilterType.ValueNotEqual:
                     case ePivotTableFilterType.ValueGreaterThan:
                     case ePivotTableFilterType.ValueGreaterThanOrEqual:
                     case ePivotTableFilterType.ValueLessThan:
-                    case ePivotTableFilterType.ValueLessThanOrEqual:                    
+                    case ePivotTableFilterType.ValueLessThanOrEqual:
                         Value1 = GetXmlNodeDoubleNull("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
                         break;
                     case ePivotTableFilterType.ValueBetween:
@@ -76,7 +77,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                     case ePivotTableFilterType.DateNewerThanOrEqual:
                     case ePivotTableFilterType.DateOlderThan:
                     case ePivotTableFilterType.DateOlderThanOrEqual:
-                        Value1=GetValueDate("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
+                        Value1 = GetValueDate("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
                         break;
                     case ePivotTableFilterType.DateBetween:
                     case ePivotTableFilterType.DateNotBetween:
@@ -190,7 +191,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         {
             _filterColumnNode.InnerXml = "<dynamicFilter />";
             var df = new ExcelDynamicFilterColumn(NameSpaceManager, _filterColumnNode);
-            switch(type)
+            switch (type)
             {
                 case ePivotTableDatePeriodFilterType.LastMonth:
                     df.Type = eDynamicFilterType.LastMonth;
@@ -291,7 +292,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                 default:
                     throw new Exception($"Unsupported Pivottable filter type {type}");
             }
-            
+
             _filter = df;
         }
 
@@ -304,7 +305,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             tf.Top = isTop;
             tf.Value = value;
             tf.FilterValue = value;
-            
+
             _filter = tf;
         }
 
@@ -315,7 +316,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
 
             eFilterOperator t;
             var v = StringValue1;
-            switch(type)
+            switch (type)
             {
                 case ePivotTableCaptionFilterType.CaptionNotBeginsWith:
                 case ePivotTableCaptionFilterType.CaptionNotContains:
@@ -359,7 +360,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             var item1 = new ExcelFilterCustomItem(v, t);
             cf.Filters.Add(item1);
 
-            if(type==ePivotTableCaptionFilterType.CaptionBetween)
+            if (type == ePivotTableCaptionFilterType.CaptionBetween)
             {
                 cf.And = true;
                 cf.Filters.Add(new ExcelFilterCustomItem(StringValue2, eFilterOperator.LessThanOrEqual));
@@ -438,67 +439,66 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             _filter = f;
         }
 
-        internal bool Matches(ExcelPivotTable pivotTable, int index)
+        internal bool MatchesLabel(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int index)
         {
             var t = (int)Type;
+            var recordIndex = (int)recs.CacheItems[Fld][index];
+
             if (t < 100)     //Caption(string)
             {
-                return MatchCaptions(pivotTable, index);
+                return MatchCaptions(pivotTable, recordIndex);
             }
-            else if(t < 300) //Date
+            else if (t < 300) //Date
             {
-                return MatchDate(pivotTable, index);
+                return MatchDate(pivotTable, recordIndex);
             }
-            else
-            {
-                return MatchNumeric(pivotTable, index);
-            }
+            return false;
         }
-        /// <summary>
-        /// Handle caption(String) filters and the unknown filter type. This is filter enum values below 100.
-        /// </summary>
-        /// <param name="pivotTable"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        private bool MatchCaptions(ExcelPivotTable pivotTable, int index)
+		/// <summary>
+		/// Handle caption(String) filters and the unknown filter type. This is filter enum values below 100.
+		/// </summary>
+		/// <param name="pivotTable"></param>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		private bool MatchCaptions(ExcelPivotTable pivotTable, int index)
+    {
+        var value = pivotTable.Fields[Fld].CacheField.SharedItems[index].ToString();
+        switch (Type)
         {
-            var value = pivotTable.Fields[Fld].CacheField.SharedItems[index].ToString();
-            switch (Type)
-            {
-                //Caption filters (Text)
-                case ePivotTableFilterType.CaptionEqual:
-                    return value.Equals(StringValue1, StringComparison.InvariantCultureIgnoreCase);
-                case ePivotTableFilterType.CaptionNotEqual:
-                    return !value.Equals(StringValue1, StringComparison.InvariantCultureIgnoreCase);
-                case ePivotTableFilterType.CaptionBeginsWith:
-                    return value.StartsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
-                case ePivotTableFilterType.CaptionNotBeginsWith:
-                    return !value.StartsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
-                case ePivotTableFilterType.CaptionEndsWith:
-                    return value.EndsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
-                case ePivotTableFilterType.CaptionNotEndsWith:
-                    return !value.EndsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
-                case ePivotTableFilterType.CaptionGreaterThan:
-                    return string.Compare(value, StringValue1, true) > 0;
-                case ePivotTableFilterType.CaptionGreaterThanOrEqual:
-                    return string.Compare(value, StringValue1, true) >= 0;
-                case ePivotTableFilterType.CaptionLessThan:
-                    return string.Compare(value, StringValue1, true) < 0;
-                case ePivotTableFilterType.CaptionLessThanOrEqual:
-                    return string.Compare(value, StringValue1, true) <= 0;
-                case ePivotTableFilterType.CaptionContains:
-                    return value.IndexOf(StringValue1, StringComparison.InvariantCultureIgnoreCase) >= 0;
-                case ePivotTableFilterType.CaptionNotContains:
-                    return value.IndexOf(StringValue1, StringComparison.InvariantCultureIgnoreCase) < 0;
-                case ePivotTableFilterType.CaptionBetween:
-                    return string.Compare(value, StringValue1, true) >= 0 && string.Compare(value, StringValue2, true) <= 0;
-                case ePivotTableFilterType.CaptionNotBetween:
-                    return !(string.Compare(value, StringValue1, true) >= 0 && string.Compare(value, StringValue2, true) <= 0);
-                case ePivotTableFilterType.Unknown:
-                default:
-                    return false;
-            }
+            //Caption filters (Text)
+            case ePivotTableFilterType.CaptionEqual:
+                return value.Equals(StringValue1, StringComparison.InvariantCultureIgnoreCase);
+            case ePivotTableFilterType.CaptionNotEqual:
+                return !value.Equals(StringValue1, StringComparison.InvariantCultureIgnoreCase);
+            case ePivotTableFilterType.CaptionBeginsWith:
+                return value.StartsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
+            case ePivotTableFilterType.CaptionNotBeginsWith:
+                return !value.StartsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
+            case ePivotTableFilterType.CaptionEndsWith:
+                return value.EndsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
+            case ePivotTableFilterType.CaptionNotEndsWith:
+                return !value.EndsWith(StringValue1, StringComparison.InvariantCultureIgnoreCase);
+            case ePivotTableFilterType.CaptionGreaterThan:
+                return string.Compare(value, StringValue1, true) > 0;
+            case ePivotTableFilterType.CaptionGreaterThanOrEqual:
+                return string.Compare(value, StringValue1, true) >= 0;
+            case ePivotTableFilterType.CaptionLessThan:
+                return string.Compare(value, StringValue1, true) < 0;
+            case ePivotTableFilterType.CaptionLessThanOrEqual:
+                return string.Compare(value, StringValue1, true) <= 0;
+            case ePivotTableFilterType.CaptionContains:
+                return value.IndexOf(StringValue1, StringComparison.InvariantCultureIgnoreCase) >= 0;
+            case ePivotTableFilterType.CaptionNotContains:
+                return value.IndexOf(StringValue1, StringComparison.InvariantCultureIgnoreCase) < 0;
+            case ePivotTableFilterType.CaptionBetween:
+                return string.Compare(value, StringValue1, true) >= 0 && string.Compare(value, StringValue2, true) <= 0;
+            case ePivotTableFilterType.CaptionNotBetween:
+                return !(string.Compare(value, StringValue1, true) >= 0 && string.Compare(value, StringValue2, true) <= 0);
+            case ePivotTableFilterType.Unknown:
+            default:
+                return false;
         }
+    }
         /// <summary>
         /// Handle date filters. This is filter enum values below 100.
         /// </summary>
@@ -606,9 +606,9 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             }
             return false;
         }
-        private bool MatchNumeric(ExcelPivotTable pivotTable, int index)
+        internal bool MatchNumeric(object value)
         {
-            var num = ConvertUtil.GetValueDouble(pivotTable.Fields[Fld].CacheField.SharedItems[index], false, true);
+            var num = ConvertUtil.GetValueDouble(value);
             var value1 = ConvertUtil.GetValueDouble(Value1, false, true);
             if (double.IsNaN(num) == false && double.IsNaN(value1) == false)
             {
@@ -711,7 +711,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             }
         }
         /// <summary>
-        /// The value 1 to compare the filter to
+        /// The valueOrIndex 1 to compare the filter to
         /// </summary>
         public object Value1
         {
@@ -720,7 +720,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         }
 
         /// <summary>
-        /// The value 2 to compare the filter to
+        /// The valueOrIndex 2 to compare the filter to
         /// </summary>
         public object Value2
         {
@@ -728,7 +728,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             set;
         }
         /// <summary>
-        /// The string value 1 used by caption filters.
+        /// The string valueOrIndex 1 used by caption filters.
         /// </summary>
         internal string StringValue1
         {
@@ -742,7 +742,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             }
         }
         /// <summary>
-        /// The string value 2 used by caption filters.
+        /// The string valueOrIndex 2 used by caption filters.
         /// </summary>
         internal string StringValue2
         {

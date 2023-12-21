@@ -1,17 +1,20 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Windows.Input;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal abstract class PivotFunction
     {
         internal abstract void AddItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
-        internal virtual void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems) 
+		//internal abstract void AggregateItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
+		internal virtual void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems) 
         { 
             foreach(var item in dataFieldItems.ToList())
             {
@@ -200,7 +203,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 }
             }
         }
-        protected static void AddItemsToKeys<T>(int[] key, int colStartRef, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], Dictionary<int[], object>, T> action)
+        protected static void AddItemsToKey<T>(int[] key, int colStartRef, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], Dictionary<int[], object>, T> action)
         {
             if (key.Length == 0)
             {
@@ -220,29 +223,30 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
-
-            int max = 1 << key.Length;
-            for(int i = 1;i < max; i++)
-            {
-                var newKey = GetKey(key, i);
-                if (IsNonTopLevel(newKey, colStartRef))
-                {
-                    if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
-                    {
-                        hs = new HashSet<int[]>(new ArrayComparer());
-                        keys.Add(newKey, hs);
-                    }
-                    if (hs.Contains(key) == false)
-                    {
-                        hs.Add(key);
-                    }
-
-                }
-                action(newKey, dataFieldItems, d);
-            }
         }
+        protected static void AggregateKeys<T>(int[] key, int colStartRef, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], Dictionary<int[], object>, T> action)
+        {
+			int max = 1 << key.Length;
+			for (int i = 1; i < max; i++)
+			{
+				var newKey = GetKey(key, i);
+				if (IsNonTopLevel(newKey, colStartRef))
+				{
+					if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
+					{
+						hs = new HashSet<int[]>(new ArrayComparer());
+						keys.Add(newKey, hs);
+					}
+					if (hs.Contains(key) == false)
+					{
+						hs.Add(key);
+					}
 
-        internal static bool IsNonTopLevel(int[] newKey, int colStartRef)
+				}
+				action(newKey, dataFieldItems, d);
+			}
+		}
+		internal static bool IsNonTopLevel(int[] newKey, int colStartRef)
         {
            if(colStartRef > 0 && newKey[0] == -1 && HasSumLevel(newKey, 1, colStartRef)==false)
             {
@@ -275,5 +279,22 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
             return newKey;
         }
-    }
+
+		internal void FilterValueFields(ExcelPivotTable pivotTable, Dictionary<int[], object> dataFieldItems)
+		{
+			foreach(var valueFilter in pivotTable.Filters.Where(x=>x.Type>=ePivotTableFilterType.ValueBetween))
+            {
+                List<int[]> keys = new List<int[]>();
+                foreach(var keyPair in dataFieldItems)
+                {
+                    if(valueFilter.MatchNumeric(keyPair.Value)==false)
+                    {
+                        keys.Add(keyPair.Key);
+                    }
+                }
+                keys.ForEach(x => dataFieldItems.Remove(x));
+            }
+            
+		}
+	}
 }

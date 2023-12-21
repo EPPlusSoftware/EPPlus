@@ -18,9 +18,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
     {
         internal static bool IsFiltered(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
         {
-            var pfCount = pivotTable.PageFields.Count;
-            var filterCount = pivotTable.Filters.Count;
-
             if (pfCount > 0)
             {
                 if(IsHiddenByPageField(pivotTable, recs, r))
@@ -28,14 +25,12 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
                     return true;
                 }
             }
-            if (filterCount > 0)
-            {
-                foreach (var f in pivotTable.Filters)
-                {
-                    if(IsHiddenByFilter(pivotTable, recs, r))
-                    { 
-                        return true; 
-                    }
+
+			if (filterCount > 0)
+            {                
+                if(IsHiddenByRowColumnFilter(pivotTable, recs, r))
+                { 
+                    return true; 
                 }
             }
             return false;
@@ -78,13 +73,17 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
         /// <param name="recs"></param>
         /// <param name="r"></param>
         /// <returns></returns>
-        private static bool IsHiddenByFilter(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
+        private static bool IsHiddenByRowColumnFilter(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
         {
-            foreach(var f in pivotTable.Filters)
-            {                
-                if(f.Matches(pivotTable, (int)recs.CacheItems[f.Fld][r]))
+            foreach (var f in pivotTable.Filters)
+            {
+				var fld = pivotTable.Fields[f.Fld];
+				if (fld.IsColumnField || fld.IsRowField)
                 {
-                    return true;
+                    if (f.MatchesLabel(pivotTable, recs, r))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

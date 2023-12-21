@@ -277,5 +277,96 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
             Assert.AreEqual(181.4, pt.CalculatedItems[0][[-1]]);
         }
-    }
+		[TestMethod]
+		public void FilterPageFieldCustomDateNotBetween()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateNotBetween");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateNotBetween");
+			var rf = pt.RowFields.Add(pt.Fields[4]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateNotBetween, new DateTime(2010, 01, 01), new DateTime(2010, 5, 30));
+			pt.Calculate();
+			Assert.AreEqual(173.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(264.12, pt.CalculatedItems[0][[-1]]);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomDateOlderThan()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateDateOlderThanOrEqual");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateOlderThan");
+			var rf = pt.RowFields.Add(pt.Fields[4]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateOlderThan, new DateTime(2010, 5, 31));
+			pt.Calculate();
+			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(181.4, pt.CalculatedItems[0][[-1]]);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomDateDateOlderThanOrEqual()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateDateOlderThanOrEqual");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateDateOlderThanOrEqual");
+			var rf = pt.RowFields.Add(pt.Fields[4]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateOlderThanOrEqual, new DateTime(2010, 5, 31));
+			pt.Calculate();
+			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(354.6, pt.CalculatedItems[0][[-1]]);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomDateNewerThan()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateDateNewerThan");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateNewerThan");
+			var rf = pt.RowFields.Add(pt.Fields[4]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateNewerThan, new DateTime(2010, 5, 31));
+			pt.Calculate();
+			Assert.AreEqual(4.2, pt.CalculatedItems[0][[5]]);
+			Assert.AreEqual(90.92, pt.CalculatedItems[0][[-1]]);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomDateNewerThanOrEqual()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateNewerThanOrEqual");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateNewerThanOrEqual");
+			var rf = pt.RowFields.Add(pt.Fields[4]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateNewerThanOrEqual, new DateTime(2010, 5, 31));
+			pt.Calculate();
+			Assert.AreEqual(173.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(264.12, pt.CalculatedItems[0][[-1]]);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueEqual()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueEqualThan");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueEqualThan");
+			var rf = pt.RowFields.Add(pt.Fields[4]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueEqual, df, 173.2);
+			pt.Calculate();
+			Assert.AreEqual(173.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(173.2, pt.CalculatedItems[0][[-1]]);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueNotEqual()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueEqualThan");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueEqualThan");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueEqual, df, 173.2);
+			pt.Calculate();
+			Assert.AreEqual(12.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(360.32, pt.CalculatedItems[0][[-1]]);
+		}
+	}
 }

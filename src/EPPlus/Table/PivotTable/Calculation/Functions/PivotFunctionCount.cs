@@ -11,7 +11,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
         {
             if (value != null)
             {
-                AddItemsToKeys(key, colStartIx , dataFieldItems, keys, 1d, SumValue);
+                AddItemsToKey(key, colStartIx , dataFieldItems, keys, 1d, SumValue);
             }
         }
     }

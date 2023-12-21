@@ -16,11 +16,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             var d = GetValueDouble(value);
             if (double.IsNaN(d))
             {
-                AddItemsToKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
+                AddItemsToKey<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
             }
             else
             {
-                AddItemsToKeys<object>(key, colStartIx, dataFieldItems, keys, d, ValueList);
+                AddItemsToKey<object>(key, colStartIx, dataFieldItems, keys, d, ValueList);
             }
         }
         internal override void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems)

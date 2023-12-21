@@ -68,20 +68,26 @@ namespace OfficeOpenXml.Table.PivotTable
                 var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
                 keys.Add(keyDict);
                 var recs = ci.Records;
-                for (var r = 0; r < recs.RecordCount; r++)
+                var captionFilters = pivotTable.Filters.Where(x => x.Type <= ePivotTableFilterType.ValueBetween).ToList();
+				var pageFilterExists = pivotTable.PageFields.Count>0;
+				var captionFilterExists = pivotTable.Filters.Count>0;
+d
+				for (var r = 0; r < recs.RecordCount; r++)
                 {
                     var key = new int[fieldIndex.Count];
                     for (int i = 0; i < fieldIndex.Count; i++)
                     {
                         key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
                     }
-                    if (PivotTableFilterMatcher.IsFiltered(pivotTable, recs, r))
+                    
+                    if((pageFilterExists == false && PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) ||
+					   (captionFilterExists == false && PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r))
                     {
                         _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
                     }
                 }
-
-                _calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
+                _calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems);
+				_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
                 if (df.ShowDataAs.Value != eShowDataAs.Normal)
                 {
                     _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, ref dataFieldItems);

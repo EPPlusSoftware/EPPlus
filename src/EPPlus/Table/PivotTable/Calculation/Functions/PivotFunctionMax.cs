@@ -13,11 +13,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             var d = GetValueDouble(value);
             if (double.IsNaN(d))
             {
-                AddItemsToKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
+                AddItemsToKey<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
             }
             else
             {
-                AddItemsToKeys<double>(key, colStartIx, dataFieldItems, keys, d, MaxValue);
+                AddItemsToKey<double>(key, colStartIx, dataFieldItems, keys, d, MaxValue);
             }
         }
     }
