@@ -846,7 +846,8 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (var pt in _cache._pivotTables)
             {
                 var existingItems = new HashSet<object>(new InvariantObjectComparer());
-                var list = pt.Fields[Index].Items._list;
+                var ptField = pt.Fields[Index];
+                var list = ptField.Items._list;
                 
                 for (var ix = 0; ix < list.Count; ix++)
                 {
@@ -870,9 +871,9 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                 }
 
-                if (list.Count > 0 && list[list.Count - 1].Type != eItemType.Default && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
+                if (list.Count > 0 && list[list.Count - 1].Type != eItemType.Default && ptField.GetXmlNodeBool("@defaultSubtotal", true) == true)
                 {
-                    list.Add(new ExcelPivotTableFieldItem() { Type = eItemType.Default, X = -1 });
+                    list.Add(new ExcelPivotTableFieldItem() { Type = GetItemTypeFromFunction(ptField.SubTotalFunctions), X = -1 });
                 }
             }
             SharedItems._list = hs.ToList();
@@ -882,6 +883,38 @@ namespace OfficeOpenXml.Table.PivotTable
                 UpdateSlicers();
             }
         }
+
+        private eItemType GetItemTypeFromFunction(eSubTotalFunctions subTotalFunctions)
+        {
+            switch (subTotalFunctions)
+            {
+                case eSubTotalFunctions.Sum:
+                    return eItemType.Sum;
+                case eSubTotalFunctions.Min:
+                    return eItemType.Min;
+                case eSubTotalFunctions.Max:
+                    return eItemType.Max;
+                case eSubTotalFunctions.Avg:
+                    return eItemType.Avg;
+                case eSubTotalFunctions.Count:
+                    return eItemType.Count;
+                case eSubTotalFunctions.CountA:
+                    return eItemType.CountA;
+                case eSubTotalFunctions.Product:
+                    return eItemType.Product;
+                case eSubTotalFunctions.StdDev:
+                    return eItemType.StdDev;
+                case eSubTotalFunctions.StdDevP:
+                    return eItemType.StdDevP;
+                case eSubTotalFunctions.Var:
+                    return eItemType.Var;
+                case eSubTotalFunctions.VarP:
+                    return eItemType.VarP;                
+                default:
+                    return eItemType.Default;
+            }
+        }
+
         internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)
         {
             if (o == null)
