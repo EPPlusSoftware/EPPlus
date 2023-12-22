@@ -77,7 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             else
             {
-                var d = ConvertUtil.GetValueDouble(value, false, true);
+                var d = ConvertUtil.GetValueDouble(value??0D, false, true);
                 if (double.IsNaN(d))
                 {
                     return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value), addressInfo);
