@@ -198,5 +198,19 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(-9.75, ws.Cells["G1"].Value);
             }
         }
-    }
+		[TestMethod]
+		public void NegateAnEmptyCellShouldReturnZero()
+		{
+			using (var p = new ExcelPackage())
+			{
+				var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+				ws.Cells["A1"].Formula = "-B1";
+				ws.Calculate();
+
+				Assert.AreEqual(0d, ws.Cells["A1"].Value);
+			}
+		}
+
+	}
 }
