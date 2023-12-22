@@ -1,4 +1,11 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.5
+### Fixed issues 
+* Calculating formulas with expressions that had double cell negations, returned an incorrect result.
+* Calculating a formula that had a negation of an empty cell returned a #VALUE! error.
+* Pivot table fields with a specified subtotal function sometimes caused the workbook to become corrupt.
+* Deleting a worksheet with hyperlinks that referes to an intenal address caused an exception.
+
 ## Version 7.0.4
 ### Minor Features
 * Added follow dependency-chain option which allows calculating the given cells without calculating dependent cells
