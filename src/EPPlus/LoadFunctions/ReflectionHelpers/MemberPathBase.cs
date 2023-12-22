@@ -36,7 +36,14 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             for (var i = 0; i < Depth && v != null; i++)
             {
                 var pathItem = _members[i];
-                v = pathItem.Member.GetValue(v, bindingFlags);
+                if (pathItem.Member.MemberType == MemberTypes.Property)
+                {
+                    v = pathItem.GetPropertyValue(v);
+                }
+                else
+                {
+                    v = pathItem.Member.GetValue(v, bindingFlags);
+                }
             }
             return v;
         }

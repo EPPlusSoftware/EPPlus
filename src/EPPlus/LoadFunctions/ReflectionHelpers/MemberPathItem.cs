@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
@@ -96,6 +97,50 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
         {
             IsNestedProperty = true;
             HeaderPrefix = attr.HeaderPrefix;
+        }
+
+        private Dictionary<Type, Func<object, object>> _lambdas = new Dictionary<Type, Func<object, object>>();
+
+        private void CreatePropertyGetter(Type outerType)
+        {
+            if(outerType.GetProperty(Member.Name) != null)
+            {
+                var parameter = Expression.Parameter(typeof(object), "x");
+                Expression expression = Expression.Convert(parameter, outerType);
+
+                expression = Expression.Property(expression, Member.Name);
+
+                var lambda = Expression.Lambda<Func<object, object>>(Expression.Convert(expression, typeof(object)), parameter);
+                _lambdas[outerType] = lambda.Compile();
+            }
+            else
+            {
+                _lambdas[outerType] = null;
+            }
+        }
+
+        public object GetPropertyValue(object item)
+        {
+            var type = item.GetType();
+            if(_lambdas.ContainsKey(type))
+            {
+                var l = _lambdas[type];
+                if(l != null)
+                {
+                    return l(item);
+                }
+                return null;
+            }
+            else
+            {
+                CreatePropertyGetter(type);
+                var l = _lambdas[type];
+                if (l != null)
+                {
+                    return l(item);
+                }
+                return null;
+            }
         }
     }
 }
