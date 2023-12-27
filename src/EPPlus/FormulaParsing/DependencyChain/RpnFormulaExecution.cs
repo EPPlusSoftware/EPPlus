@@ -266,14 +266,14 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         f = ws._sharedFormulas[ix].GetRpnArrayFormula(depChain, sf.StartRow, sf.StartCol, sf.EndRow, sf.EndCol);
                     }
-                    f._arrayIndex = ix;
-                }
-                else
+					f._arrayIndex = ix;
+				}
+				else
                 {
                     f = ws._sharedFormulas[ix].GetRpnFormula(depChain, row, column);
                 }
-            }
-            else
+			}
+			else
             {
                 var s = value.ToString();
                 //compiler
