@@ -437,5 +437,20 @@ namespace EPPlusTest.Export.ToDataTable
 
             }
         }
+
+        [TestMethod]
+        public void ShouldHandleRichText()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells["B1"].Value = "2";
+                var rt = sheet.Cells["A1"].RichText.Add("1");
+                rt.Bold = true;
+                var dt = sheet.Cells["A1:B2"].ToDataTable(opt => opt.FirstRowIsColumnNames = false);
+                var val = dt.Rows[0][0];
+                Assert.AreEqual("1", val);
+            }
+        }
     }
 }
