@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                 foreach (var mapping in _options.Mappings)
                 {
                     var col = mapping.ZeroBasedColumnIndexInRange + _range.Start.Column;
-                    var val = _sheet.GetValueInner(row, col);
+                    var val = _sheet.GetValue(row, col);
                     if (val != null && rowIsEmpty) rowIsEmpty = false;
                     if(!mapping.AllowNull && val == null)
                     {
