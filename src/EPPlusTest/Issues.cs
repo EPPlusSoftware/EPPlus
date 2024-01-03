@@ -65,7 +65,7 @@ namespace EPPlusTest
     /// All tests requiering an template should be set to ignored as it's not practical to include all xlsx templates in the project.
     /// </summary>
     [TestClass]
-    public class Issues : TestBase
+    public class IssueTests : TestBase
     {
         [ClassInitialize]
         public static void Init(TestContext context)

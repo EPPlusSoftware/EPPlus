@@ -520,7 +520,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Threading.Tasks" />
 	<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		<Version>1.4.1</Version>
+		<Version>3.0.0</Version>
 	</PackageReference>
   </ItemGroup>
 
@@ -535,7 +535,7 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		  <Version>2.3.2</Version>
+		  <Version>3.0.0</Version>
 	  </PackageReference>
   </ItemGroup>
 
@@ -550,7 +550,7 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		  <Version>2.3.2</Version>
+		  <Version>3.0.0</Version>
 	  </PackageReference>
   </ItemGroup>
 
@@ -561,10 +561,10 @@
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.4" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-			<Version>2.3.2</Version>
-		</PackageReference>
-	</ItemGroup>
+	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+		  <Version>3.0.0</Version>
+	  </PackageReference>
+  </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
@@ -574,7 +574,7 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		  <Version>2.3.2</Version>
+		  <Version>3.0.0</Version>
 	  </PackageReference>
   </ItemGroup>
 
@@ -586,7 +586,7 @@
 		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-			<Version>2.3.2</Version>
+			<Version>3.0.0</Version>
 		</PackageReference>
 	</ItemGroup>
 
