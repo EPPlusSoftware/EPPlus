@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Text;
 using OfficeOpenXml.Style;
 using System.Data;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 namespace OfficeOpenXml
 {
     /// <summary>
@@ -166,6 +167,28 @@ namespace OfficeOpenXml
                 throw (new ArgumentException("Column out of range"));
             }
         }
-
-    }
+		
+        /// <summary>
+        /// Set the formula for the range.
+        /// </summary>
+        /// <param name="formula">The formula for the range.</param>
+        /// <param name="asSharedFormula">If the formula should be created as a shared formula. If false each cell will be set individually. This can be useful if the formula returns a dynamic array result.</param>
+        public void SetFormula(string formula, bool asSharedFormula = true)
+		{
+			if(asSharedFormula || IsName || formula == null || formula.Trim() == "")
+            {
+                Formula = formula;
+            }
+            else
+            {
+                for(int c=_fromCol; c<=_toCol; c++) 
+                { 
+                   for(int r=_fromRow; r<=_toRow; r++)
+                    {
+						Set_Formula(this, formula, r, c);
+					}
+				}
+            }
+		}
+	}
 }
