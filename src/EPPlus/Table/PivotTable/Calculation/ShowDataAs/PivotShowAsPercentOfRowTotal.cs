@@ -9,24 +9,24 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal class PivotShowAsRunningTotal : PivotShowAsBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref Dictionary<int[], object> calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
         {
             var bf = fieldIndex.IndexOf(df.BaseField);
             var colFieldsStart = df.Field.PivotTable.RowFields.Count;
             ExcelErrorValue prevError = null;
             var prevValue = 0D;
             var prevKey = -1;
-            foreach (var key in calculatedItems.Keys.ToArray().OrderBy(x => x, ArrayComparer.Instance))
+            foreach (var key in calculatedItems.Index.OrderBy(x => x.Key, ArrayComparer.Instance))
             {
-                if (IsSumBefore(key, bf, fieldIndex, colFieldsStart) || key[bf] == -1)
+                if (IsSumBefore(key.Key, bf, fieldIndex, colFieldsStart) || key.Key[bf] == -1)
                 {
-                    calculatedItems[key] = 0D;
+                    calculatedItems[key.Key] = 0D;
                 }
                 else
                 {
-                    if (prevKey != key[bf] && IsSumAfter(key, bf, fieldIndex, colFieldsStart) ==false)
+                    if (prevKey != key.Key[bf] && IsSumAfter(key.Key, bf, fieldIndex, colFieldsStart) ==false)
                     {
-                        var o = calculatedItems[key];
+                        var o = calculatedItems[key.Key];
                         if (o is double d)
                         {
                             prevValue = d;
@@ -45,21 +45,21 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                             }
                         }
                     }
-                    else if (calculatedItems[key] is double d)
+                    else if (calculatedItems[key.Key] is double d)
                     {
                         if (prevError == null)
                         {
                             var v = d + prevValue;
-                            calculatedItems[key] = v;
+                            calculatedItems[key.Key] = v;
                             prevValue = v;
                         }
                         else
                         {
-                            calculatedItems[key] = prevError;
+                            calculatedItems[key.Key] = prevError;
                         }
                     }
                 }
-                prevKey = key[bf];
+                prevKey = key.Key[bf];
             }
         }
 

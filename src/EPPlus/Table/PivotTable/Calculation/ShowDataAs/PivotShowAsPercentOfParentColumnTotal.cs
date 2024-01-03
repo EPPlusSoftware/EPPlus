@@ -8,30 +8,30 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal class PivotShowAsPercentOfParentRowTotal : PivotShowAsBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref Dictionary<int[], object> calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
         {   
             var showAsCalculatedItems = PivotTableCalculation.GetNewCalculatedItems();
             var colStartIx = df.Field.PivotTable.RowFields.Count;
             var totalKey = GetKey(fieldIndex.Count);            
             var t = calculatedItems[totalKey];
-            foreach(var key in calculatedItems.Keys.ToArray())
+            foreach(var key in calculatedItems.Index)
             {
-                if (calculatedItems[key] is double d)
+                if (calculatedItems[key.Key] is double d)
                 {
-                    var rowTotal = GetParentRowTotal(key, colStartIx, calculatedItems, out ExcelErrorValue error);
+                    var rowTotal = GetParentRowTotal(key.Key, colStartIx, calculatedItems, out ExcelErrorValue error);
                     if (double.IsNaN(rowTotal))
                     {
-                        showAsCalculatedItems.Add(key,error);
+                        showAsCalculatedItems.Add(key.Key, error);
                     }
                     else
                     {
-                        showAsCalculatedItems.Add(key, d / rowTotal);
+                        showAsCalculatedItems.Add(key.Key, d / rowTotal);
                     }                    
                 }
             }
             calculatedItems = showAsCalculatedItems;
         }
-        private static double GetParentRowTotal(int[] key, int colStartIx, Dictionary<int[], object> calculatedItems, out ExcelErrorValue error)
+        private static double GetParentRowTotal(int[] key, int colStartIx, PivotCalculationStore calculatedItems, out ExcelErrorValue error)
         {
             var rowKey = (int[])key.Clone();
             for(int i=colStartIx-1;i>=0;i--)

@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Table.PivotTable.Calculation;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -17,11 +18,15 @@ namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
     {
-        internal static Dictionary<int[], object> GetNewCalculatedItems()
-        {
-            return new Dictionary<int[], object>(new ArrayComparer());
-        }
-        internal static Dictionary<int[], HashSet<int[]>> GetNewKeys()
+        //internal static Dictionary<int[], object> GetNewCalculatedItems()
+        //{
+        //    return new Dictionary<int[], object>(new ArrayComparer());
+        //}
+		internal static PivotCalculationStore GetNewCalculatedItems()
+		{
+			return new PivotCalculationStore();
+		}
+		internal static Dictionary<int[], HashSet<int[]>> GetNewKeys()
         {
             return new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
         }

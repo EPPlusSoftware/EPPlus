@@ -7,7 +7,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal class PivotFunctionAverage : PivotFunction
     {
-        internal override void AddItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+        internal override void AddItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
         {
             var d = GetValueDouble(value);
             if (double.IsNaN(d))
@@ -32,11 +32,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 		//	}
 		//}
 
-		internal override void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems)
+		internal override void Calculate(List<object> list, PivotCalculationStore dataFieldItems)
         {
-            foreach (var key in dataFieldItems.Keys.ToArray())
+            foreach (var key in dataFieldItems.Index)
             {
-                dataFieldItems[key] = ((AverageItem)dataFieldItems[key]).Average;
+                dataFieldItems[key.Key] = ((AverageItem)dataFieldItems[key.Key]).Average;
             }
         }
     }

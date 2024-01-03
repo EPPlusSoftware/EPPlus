@@ -1,12 +1,14 @@
 ﻿using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation
 {
-    internal class PivotCalculationStore 
+    internal class PivotCalculationStore : IEnumerable
     {
         internal struct CacheIndexItem : IComparable<CacheIndexItem> 
         {
@@ -67,92 +69,125 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 return 0;
             }
         }
-        List<object> _values=new List<object>();
-        List<CacheIndexItem> _index = new List<CacheIndexItem>();
-
+        internal List<object> Values { get; set; } = new List<object>();
+		internal List<CacheIndexItem> Index { get; set; } = new List<CacheIndexItem>();
+        
         public int Count 
         {
             get
             {
-                return _values.Count;
+                return Index.Count;
             }
         }
-        internal void Add (int[] key, object value)
+
+		internal void Add (int[] key, object value)
         {
             var item=new CacheIndexItem(key);
-            var ix=_index.BinarySearch(item);
+            var ix=Index.BinarySearch(item);
             if(ix >= 0) 
             {
                 throw (new ArgumentException("Key already exists"));
             }
-            item.Index = _values.Count;
-            _values.Add(value);
-            _index.Insert(~ix, item);
+            item.Index = Values.Count;
+            Values.Add(value);
+            Index.Insert(~ix, item);
         }
         internal object this[int[] key]
         {
             get
             {
                 var item = new CacheIndexItem(key);
-                var ix = _index.BinarySearch(item);
+                var ix = Index.BinarySearch(item);
                 if(ix>=0)
                 {
-                    return _values[_index[ix].Index];
+                    return Values[Index[ix].Index];
                 }
                 return null;
             }
-        }
+            set
+            {
+				var item = new CacheIndexItem(key);
+				var ix = Index.BinarySearch(item);
+				if (ix < 0)
+				{
+					Add(key, value);
+				}
+                else
+                {
+					Values[Index[ix].Index] = ((double)Values[Index[ix].Index])+(double)value;
+				}
+			}
+		}
         internal object GetByIndex(int index)
         {
-            if(index < 0 || index >= _values.Count) 
+            if(index < 0 || index >= Values.Count) 
             { 
                 return null; 
             }
-            var key = _index[index];
-            return _values[key.Index];
+            var key = Index[index];
+            return Values[key.Index];
         }
         internal int GetIndex(int[] key)
         {
             var item = new CacheIndexItem(key);
-            return _index.BinarySearch(item);
+            return Index.BinarySearch(item);
         }
-        internal object GetPreviousValue(int[] key)
+        internal bool ContainsKey(int[] key)
+        {
+			var item = new CacheIndexItem(key);
+			return Index.BinarySearch(item) >= 0;
+		}
+		internal object GetPreviousValue(int[] key)
         {
             var item = new CacheIndexItem(key);
-            var ix = _index.BinarySearch(item);
+            var ix = Index.BinarySearch(item);
             if (ix >= 0)
             {
                 if (ix-1 >= 0)
                 {
-                    return _values[_index[ix - 1].Index];
+                    return Values[Index[ix - 1].Index];
                 }
                 return null;
             }
             ix = ~ix - 1;
-            if (ix >= 0 && ix < _values.Count)
+            if (ix >= 0 && ix < Values.Count)
             {
-                return _values[_index[ix].Index];
+                return Values[Index[ix].Index];
             }
             return null;
         }
         internal object GetNextValue(int[] key)
         {
             var item = new CacheIndexItem(key);
-            var ix = _index.BinarySearch(item);
+            var ix = Index.BinarySearch(item);
             if (ix >= 0)
             {
-                if (ix + 1 < _index.Count)
+                if (ix + 1 < Index.Count)
                 {
-                    return _values[_index[ix+1].Index];
+                    return Values[Index[ix+1].Index];
                 }
                 return null;
             }
             ix = ~ix;
-            if (ix >= 0 && ix < _values.Count)
+            if (ix >= 0 && ix < Values.Count)
             {
-                return _values[_index[ix].Index];
+                return Values[Index[ix].Index];
             }
             return null;
         }
-    }
+        internal void Remove(CacheIndexItem item)
+        {
+            Index.Remove(item);
+        }
+		public IEnumerator GetEnumerator()
+		{
+			return Index.GetEnumerator();
+		}
+
+		internal bool TryGetValue(int[] key, out object o)
+		{
+            o = this[key];
+            return o != null;
+		}
+	}
 }

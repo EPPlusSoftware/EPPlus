@@ -7,7 +7,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal class PivotFunctionSum : PivotFunction
     {
-        internal override void AddItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+        internal override void AddItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
         {
             double d = GetValueDouble(value);
             if (double.IsNaN(d))

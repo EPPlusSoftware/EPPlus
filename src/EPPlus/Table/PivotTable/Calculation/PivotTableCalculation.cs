@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using OfficeOpenXml.Table.PivotTable.Calculation;
 namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
@@ -53,17 +54,17 @@ namespace OfficeOpenXml.Table.PivotTable
 
             { eShowDataAs.RunningTotal, new PivotShowAsRunningTotal()},
         };
-        internal static bool Calculate(ExcelPivotTable pivotTable, out List<Dictionary<int[], object>> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
+        internal static bool Calculate(ExcelPivotTable pivotTable, out List<PivotCalculationStore> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {
             var ci = pivotTable.CacheDefinition._cacheReference;
-            calculatedItems = new List<Dictionary<int[], object>>();
+            calculatedItems = new List<PivotCalculationStore>();
             keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
             pivotTable.Filters.ReloadTable();
             foreach (var df in pivotTable.DataFields)
             {
-                var dataFieldItems = PivotTableCalculation.GetNewCalculatedItems();
-                var dataFieldKeys = PivotTableCalculation.GetNewKeys();
+                //var dataFieldItems = PivotTableCalculation.GetNewCalculatedItems();
+                var dataFieldItems = new PivotCalculationStore();
                 calculatedItems.Add(dataFieldItems);
                 var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
                 keys.Add(keyDict);
@@ -71,7 +72,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var captionFilters = pivotTable.Filters.Where(x => x.Type <= ePivotTableFilterType.ValueBetween).ToList();
 				var pageFilterExists = pivotTable.PageFields.Count>0;
 				var captionFilterExists = pivotTable.Filters.Count>0;
-d
+
 				for (var r = 0; r < recs.RecordCount; r++)
                 {
                     var key = new int[fieldIndex.Count];
@@ -80,8 +81,8 @@ d
                         key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
                     }
                     
-                    if((pageFilterExists == false && PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) ||
-					   (captionFilterExists == false && PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r))
+                    if((pageFilterExists == false && PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r)) ||
+					   (captionFilterExists == false && PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r)))
                     {
                         _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
                     }

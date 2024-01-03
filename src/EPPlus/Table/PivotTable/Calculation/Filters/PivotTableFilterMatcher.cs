@@ -1,6 +1,8 @@
 ﻿using EPPlusTest.Table.PivotTable;
 using System;
-/*************************************************************************************************
+using System.Collections.Generic;
+using OfficeOpenXml.Table.PivotTable.Filter;
+ /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -16,25 +18,25 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
 {
     internal static class PivotTableFilterMatcher
     {
-        internal static bool IsFiltered(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
-        {
-            if (pfCount > 0)
-            {
-                if(IsHiddenByPageField(pivotTable, recs, r))
-                {
-                    return true;
-                }
-            }
+   //     internal static bool IsFiltered(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
+   //     {
+   //         if (pfCount > 0)
+   //         {
+   //             if(IsHiddenByPageField(pivotTable, recs, r))
+   //             {
+   //                 return true;
+   //             }
+   //         }
 
-			if (filterCount > 0)
-            {                
-                if(IsHiddenByRowColumnFilter(pivotTable, recs, r))
-                { 
-                    return true; 
-                }
-            }
-            return false;
-        }
+			//if (filterCount > 0)
+   //         {                
+   //             if(IsHiddenByRowColumnFilter(pivotTable, recs, r))
+   //             { 
+   //                 return true; 
+   //             }
+   //         }
+   //         return false;
+   //     }
 
         /// <summary>
         /// Returns true if the record is hidden by a page filter in the pivot table
@@ -43,7 +45,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
         /// <param name="recs">The pivot cache records</param>
         /// <param name="r">The record index</param>
         /// <returns></returns>
-        private static bool IsHiddenByPageField(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
+        internal static bool IsHiddenByPageField(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
         {
             foreach (var p in pivotTable.PageFields)
             {
@@ -70,12 +72,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
         /// Returns true if a record is hidden by a caption/date or numeric filter
         /// </summary>
         /// <param name="pivotTable"></param>
+        /// <param name="captionFilters"></param>
         /// <param name="recs"></param>
         /// <param name="r"></param>
         /// <returns></returns>
-        private static bool IsHiddenByRowColumnFilter(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
+        internal static bool IsHiddenByRowColumnFilter(ExcelPivotTable pivotTable, List<ExcelPivotTableFilter> captionFilters, PivotTableCacheRecords recs, int r)
         {
-            foreach (var f in pivotTable.Filters)
+            foreach (var f in captionFilters)
             {
 				var fld = pivotTable.Fields[f.Fld];
 				if (fld.IsColumnField || fld.IsRowField)

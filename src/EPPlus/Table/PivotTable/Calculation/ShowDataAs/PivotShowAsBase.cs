@@ -4,7 +4,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal abstract class PivotShowAsBase 
     {
-        internal abstract void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref Dictionary<int[], object> calculatedItems);
+        internal abstract void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems);
         protected static int[] GetKey(int size, int iv = -1)
         {
             var key = new int[size];

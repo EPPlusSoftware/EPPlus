@@ -11,7 +11,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal class PivotFunctionVar : PivotFunction
     {
-        internal override void AddItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+        internal override void AddItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
         {
             var d = GetValueDouble(value);
             if (double.IsNaN(d))
@@ -23,11 +23,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 AddItemsToKey<object>(key, colStartIx, dataFieldItems, keys, d, ValueList);
             }
         }
-        internal override void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems)
+        internal override void Calculate(List<object> list, PivotCalculationStore dataFieldItems)
         {
-            foreach (var key in dataFieldItems.Keys.ToArray())
+            foreach (var key in dataFieldItems.Index.ToArray())
             {
-                if (dataFieldItems[key] is List<double> l)
+                if (dataFieldItems[key.Key] is List<double> l)
                 { 
                     if (l.Count > 1)
                     {
@@ -37,16 +37,16 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                         var div = ExcelFunction.Divide(d, (l.Count - 1));
                         if (double.IsPositiveInfinity(div))
                         {
-                            dataFieldItems[key] = ErrorValues.Div0Error;
+                            dataFieldItems[key.Key] = ErrorValues.Div0Error;
                         }
                         else
                         {
-                            dataFieldItems[key] = div;
+                            dataFieldItems[key.Key] = div;
                         }
                     }
                     else
                     {
-                        dataFieldItems[key] = ErrorValues.Div0Error;
+                        dataFieldItems[key.Key] = ErrorValues.Div0Error;
                     }
                 }
             }

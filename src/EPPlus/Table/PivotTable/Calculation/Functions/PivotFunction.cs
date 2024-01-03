@@ -12,13 +12,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
     internal abstract class PivotFunction
     {
-        internal abstract void AddItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
+        internal abstract void AddItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
 		//internal abstract void AggregateItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
-		internal virtual void Calculate(List<object> list, Dictionary<int[], object> dataFieldItems) 
+		internal virtual void Calculate(List<object> list, PivotCalculationStore dataFieldItems) 
         { 
-            foreach(var item in dataFieldItems.ToList())
+            foreach(var item in dataFieldItems.Index)
             {
-                dataFieldItems[item.Key] = RoundingHelper.RoundToSignificantFig(((KahanSum)item.Value).Get(), 15);
+                dataFieldItems[item.Key] = RoundingHelper.RoundToSignificantFig(((KahanSum)dataFieldItems[item.Key]).Get(), 15);
             }
         }
         protected static bool IsNumeric(object value)
@@ -83,11 +83,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                     return 0D;
             }
         }
-        protected static void SetError(int[] key, Dictionary<int[], object> dataFieldItems, ExcelErrorValue v)
+        protected static void SetError(int[] key, PivotCalculationStore dataFieldItems, ExcelErrorValue v)
         {
             dataFieldItems[key] = v;
         }
-        protected static void SumValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
+        protected static void SumValue(int[] key, PivotCalculationStore dataFieldItems, double d)
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = new KahanSum(d);
             }
         }
-        protected static void MultiplyValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
+        protected static void MultiplyValue(int[] key, PivotCalculationStore dataFieldItems, double d)
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
@@ -115,7 +115,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = d;
             }
         }
-        protected static void MinValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
+        protected static void MinValue(int[] key, PivotCalculationStore dataFieldItems, double d)
         {
             if (dataFieldItems.TryGetValue(key, out object o))
             {
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
 
         }
-        protected static void MaxValue(int[] key, Dictionary<int[], object> dataFieldItems, double d)
+        protected static void MaxValue(int[] key, PivotCalculationStore dataFieldItems, double d)
         {
             if (dataFieldItems.TryGetValue(key, out object o))
             {
@@ -144,7 +144,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = d;
             }
         }
-        protected static void AverageValue(int[] key, Dictionary<int[], object> dataFieldItems, object value)
+        protected static void AverageValue(int[] key, PivotCalculationStore dataFieldItems, object value)
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = new AverageItem((double)value);
             }
         }
-        protected static void ValueList(int[] key, Dictionary<int[], object> dataFieldItems, object value)
+        protected static void ValueList(int[] key, PivotCalculationStore dataFieldItems, object value)
         {
             if (dataFieldItems.TryGetValue(key, out object cv))
             {
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = new List<double>() { (double)value };
             }
         }
-        private static void GetMinMaxValue(int[] key, Dictionary<int[], object> dataFieldItems, object value, bool isMin)
+        private static void GetMinMaxValue(int[] key, PivotCalculationStore dataFieldItems, object value, bool isMin)
         {
             double v;
             if (dataFieldItems.TryGetValue(key, out object currentValue))
@@ -203,7 +203,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 }
             }
         }
-        protected static void AddItemsToKey<T>(int[] key, int colStartRef, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], Dictionary<int[], object>, T> action)
+        protected static void AddItemsToKey<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action)
         {
             if (key.Length == 0)
             {
@@ -280,16 +280,16 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             return newKey;
         }
 
-		internal void FilterValueFields(ExcelPivotTable pivotTable, Dictionary<int[], object> dataFieldItems)
+		internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems)
 		{
 			foreach(var valueFilter in pivotTable.Filters.Where(x=>x.Type>=ePivotTableFilterType.ValueBetween))
             {
-                List<int[]> keys = new List<int[]>();
-                foreach(var keyPair in dataFieldItems)
+                var keys = new List<PivotCalculationStore.CacheIndexItem>();
+                foreach(var cacheItem in dataFieldItems.Index)
                 {
-                    if(valueFilter.MatchNumeric(keyPair.Value)==false)
+                    if (valueFilter.MatchNumeric(dataFieldItems.GetByIndex(cacheItem.Index)) ==false)
                     {
-                        keys.Add(keyPair.Key);
+                        keys.Add(cacheItem);
                     }
                 }
                 keys.ForEach(x => dataFieldItems.Remove(x));
