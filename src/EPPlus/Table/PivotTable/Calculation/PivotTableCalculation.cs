@@ -57,8 +57,8 @@ namespace OfficeOpenXml.Table.PivotTable
         internal static bool Calculate(ExcelPivotTable pivotTable, out List<PivotCalculationStore> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {
             var ci = pivotTable.CacheDefinition._cacheReference;
-            calculatedItems = new List<PivotCalculationStore>();
-            keys = new List<Dictionary<int[], HashSet<int[]>>>();
+			calculatedItems = new List<PivotCalculationStore>();
+			keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
             pivotTable.Filters.ReloadTable();
             foreach (var df in pivotTable.DataFields)
@@ -73,21 +73,22 @@ namespace OfficeOpenXml.Table.PivotTable
 				var pageFilterExists = pivotTable.PageFields.Count>0;
 				var captionFilterExists = pivotTable.Filters.Count>0;
 
-				for (var r = 0; r < recs.RecordCount; r++)
+                for (var r = 0; r < recs.RecordCount; r++)
                 {
                     var key = new int[fieldIndex.Count];
                     for (int i = 0; i < fieldIndex.Count; i++)
                     {
                         key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
                     }
-                    
-                    if((pageFilterExists == false && PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r)) ||
-					   (captionFilterExists == false && PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r)))
+
+                    if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
+                       (captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
                     {
                         _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
                     }
                 }
-                _calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems);
+                _calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count-1]);
+				_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems);
 				_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
                 if (df.ShowDataAs.Value != eShowDataAs.Normal)
                 {

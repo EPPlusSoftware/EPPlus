@@ -13,13 +13,9 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
     internal abstract class PivotFunction
     {
         internal abstract void AddItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
-		//internal abstract void AggregateItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
+		internal abstract void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
 		internal virtual void Calculate(List<object> list, PivotCalculationStore dataFieldItems) 
-        { 
-            foreach(var item in dataFieldItems.Index)
-            {
-                dataFieldItems[item.Key] = RoundingHelper.RoundToSignificantFig(((KahanSum)dataFieldItems[item.Key]).Get(), 15);
-            }
+        {
         }
         protected static bool IsNumeric(object value)
         {
@@ -69,6 +65,10 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 case TypeCode.DateTime:
                     return ((DateTime)value).ToOADate();
                 case TypeCode.Object:
+                    if (value is KahanSum ks)
+                    {
+                        return ks;
+                    }
                     if (value is TimeSpan ts)
                     {
                         //return ts.TotalDays;
@@ -101,7 +101,21 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = new KahanSum(d);
             }
         }
-        protected static void MultiplyValue(int[] key, PivotCalculationStore dataFieldItems, double d)
+		protected static void CountValue(int[] key, PivotCalculationStore dataFieldItems, double c)
+		{
+			if (dataFieldItems.TryGetValue(key, out object v))
+			{
+				if (v is double cv)
+				{
+					dataFieldItems[key] = cv + c;
+				}
+			}
+			else
+			{
+				dataFieldItems[key] = c;
+			}
+		}
+		protected static void MultiplyValue(int[] key, PivotCalculationStore dataFieldItems, double d)
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
@@ -144,7 +158,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = d;
             }
         }
-        protected static void AverageValue(int[] key, PivotCalculationStore dataFieldItems, object value)
+        protected static void AverageValue(int[] key, PivotCalculationStore dataFieldItems, AverageItem value)
         {
             if (dataFieldItems.TryGetValue(key, out object v))
             {
@@ -155,10 +169,24 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
             else
             {
-                dataFieldItems[key] = new AverageItem((double)value);
+                dataFieldItems[key] = value;
             }
         }
-        protected static void ValueList(int[] key, PivotCalculationStore dataFieldItems, object value)
+		protected static void AverageValue(int[] key, PivotCalculationStore dataFieldItems, double value)
+		{
+			if (dataFieldItems.TryGetValue(key, out object v))
+			{
+				if (v is AverageItem ai)
+				{
+					dataFieldItems[key] = ai + value;
+				}
+			}
+			else
+			{
+				dataFieldItems[key] = new AverageItem(value);
+			}
+		}
+		protected static void ValueList(int[] key, PivotCalculationStore dataFieldItems, object value)
         {
             if (dataFieldItems.TryGetValue(key, out object cv))
             {
@@ -224,7 +252,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
         }
-        protected static void AggregateKeys<T>(int[] key, int colStartRef, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], Dictionary<int[], object>, T> action)
+        protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action)
         {
 			int max = 1 << key.Length;
 			for (int i = 1; i < max; i++)
@@ -295,6 +323,14 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 keys.ForEach(x => dataFieldItems.Remove(x));
             }
             
+		}
+
+		internal void Aggregate(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+		{
+			foreach(var key in dataFieldItems.Index.ToArray())
+            {   
+                AggregateItems(key.Key, pivotTable.RowFields.Count, dataFieldItems[key.Key], dataFieldItems, keys);
+            }
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -71,7 +72,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
         }
         internal List<object> Values { get; set; } = new List<object>();
 		internal List<CacheIndexItem> Index { get; set; } = new List<CacheIndexItem>();
-        
+        internal Dictionary<int, ExcelErrorValue> _errorValues = new Dictionary<int, ExcelErrorValue>();
         public int Count 
         {
             get
@@ -79,7 +80,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 return Index.Count;
             }
         }
-
 		internal void Add (int[] key, object value)
         {
             var item=new CacheIndexItem(key);
@@ -92,7 +92,20 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             Values.Add(value);
             Index.Insert(~ix, item);
         }
-        internal object this[int[] key]
+		internal void Add(int[] key, ExcelErrorValue errorValue)
+		{
+			var item = new CacheIndexItem(key);
+			var ix = Index.BinarySearch(item);
+			if (ix >= 0)
+			{
+				throw (new ArgumentException("Key already exists"));
+			}
+			item.Index = Values.Count;
+			Values.Add(double.NaN);
+			Index.Insert(~ix, item);
+            _errorValues.Add(item.Index, errorValue);
+		}
+		internal object this[int[] key]
         {
             get
             {
@@ -114,7 +127,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 				}
                 else
                 {
-					Values[Index[ix].Index] = ((double)Values[Index[ix].Index])+(double)value;
+			        Values[Index[ix].Index] = value;
 				}
 			}
 		}
@@ -132,7 +145,20 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             var item = new CacheIndexItem(key);
             return Index.BinarySearch(item);
         }
-        internal bool ContainsKey(int[] key)
+        internal ExcelErrorValue GetErrorValue(int index)
+        {
+            if(_errorValues.TryGetValue(index, out ExcelErrorValue value))
+            {
+                return value;
+            }
+            return null;
+        }
+		internal void SetErrorValue(int index, ExcelErrorValue errorValue)
+		{
+            Values[index] = double.NaN;
+            _errorValues[index] = errorValue;
+		}
+		internal bool ContainsKey(int[] key)
         {
 			var item = new CacheIndexItem(key);
 			return Index.BinarySearch(item) >= 0;

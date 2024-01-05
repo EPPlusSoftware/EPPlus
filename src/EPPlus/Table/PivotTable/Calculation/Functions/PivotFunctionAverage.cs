@@ -16,21 +16,23 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
             else
             {
-                AddItemsToKey<object>(key, colStartIx, dataFieldItems, keys, d, AverageValue);
+                AddItemsToKey<double>(key, colStartIx, dataFieldItems, keys, d, AverageValue);
             }
         }
-		//internal override void AggregateItems(int[] key, int colStartIx, object value, Dictionary<int[], object> dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
-		//{
-		//	var d = GetValueDouble(value);
-		//	if (double.IsNaN(d))
-		//	{
-		//		AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
-		//	}
-		//	else
-		//	{
-		//		AggregateKeys<object>(key, colStartIx, dataFieldItems, keys, d, AverageValue);
-		//	}
-		//}
+
+		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+		{
+
+            var ai = value as AverageItem;
+            if (ai==null)
+			{
+				AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
+			}
+			else
+			{
+				AggregateKeys<AverageItem>(key, colStartIx, dataFieldItems, keys, ai, AverageValue);
+			}
+		}
 
 		internal override void Calculate(List<object> list, PivotCalculationStore dataFieldItems)
         {

@@ -11,8 +11,16 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
         {
             if (value != null)
             {
-                AddItemsToKey(key, colStartIx , dataFieldItems, keys, 1d, SumValue);
+                AddItemsToKey(key, colStartIx , dataFieldItems, keys, 1D, CountValue);
             }
         }
-    }
+
+		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+		{
+			if (value != null)
+			{
+				AggregateKeys(key, colStartIx, dataFieldItems, keys, (double)value, CountValue);
+			}
+		}
+	}
 }
