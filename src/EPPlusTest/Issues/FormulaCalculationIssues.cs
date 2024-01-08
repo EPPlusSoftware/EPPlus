@@ -80,5 +80,13 @@ namespace EPPlusTest.Issues
 
 			}
 		}
+		[TestMethod]
+		public void i1234()
+		{
+			using (var p = OpenTemplatePackage("i1234.xlsx"))
+			{
+				SaveAndCleanup(p);
+			}
+		}
 	}
 }

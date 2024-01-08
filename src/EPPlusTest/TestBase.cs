@@ -225,7 +225,7 @@ namespace EPPlusTest
         /// <param name="startRow">The start row</param>
         /// <param name="addHyperlinkColumn">Add a column with hyperlinks</param>
         /// <param name="addTimeSpan">Adds a TimeSpan column. Requires add hyperlink to be true</param>
-        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false, bool addTimeSpan=false, DateTime? startDate=null)
+        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false, bool addTimeSpan=false, DateTime? startDate = null)
         {
             ws.SetValue(1, startColumn, "Date");
             ws.SetValue(1, startColumn + 1, "NumValue");

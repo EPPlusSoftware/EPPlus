@@ -459,16 +459,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             {
                                 if (f.FormulaType == FormulaType.Array)
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
                                 else if (f.FormulaType == FormulaType.DataTable)
                                 {
                                     var dataTableAttributes = GetDataTableAttributes(f);
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"dataTable\"{dataTableAttributes} {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}></{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"dataTable\"{dataTableAttributes} {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}></{cTag}>");
                                 }
                                 else
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
 
                             }
@@ -499,12 +499,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             // We can also have a single cell array formula
                             if (f.FormulaType == FormulaType.Array)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                             else
                             {
                                 cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
-                                cache.Append($"<{fTag}{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{fTag}{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                     }
@@ -512,7 +512,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     {
                         var f= SharedFormula.UpdateFormulaNamespaces(formula.ToString(), nsf);
                         cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
-                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                     }
                     else
                     {
