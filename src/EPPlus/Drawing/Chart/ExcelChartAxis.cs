@@ -243,7 +243,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _textBody;
             }
         }
-        void IDrawingStyleBase.CreatespPr()
+		ExcelDrawingTextSettings _textSettings = null;
+		/// <summary>
+		/// Text settings like fills, text outlines and effects 
+		/// </summary>
+		public ExcelDrawingTextSettings TextSettings
+		{
+			get
+			{
+				if (_textSettings == null)
+				{
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+				}
+				return _textSettings;
+			}
+		}
+
+		void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode($"{_nsPrefix}:spPr");
         }

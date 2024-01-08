@@ -169,8 +169,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _textBody;
             }
         }
+		ExcelDrawingTextSettings _textSettings = null;
+		/// <summary>
+		/// Text settings like fills, text outlines and effects 
+		/// </summary>
+		public ExcelDrawingTextSettings TextSettings
+		{
+			get
+			{
+				if (_textSettings == null)
+				{
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+				}
+				return _textSettings;
+			}
+		}
 
-        ExcelDrawingEffectStyle _effect = null;
+		ExcelDrawingEffectStyle _effect = null;
         /// <summary>
         /// Effects
         /// </summary>
