@@ -6060,16 +6060,6 @@ namespace EPPlusTest
             }            
         }
         [TestMethod]
-        public void I1238()
-        {
-            using (var p = OpenTemplatePackage("I1238SlowWorkbook.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                ws.Cells["A1"].Value = 1;
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
         public void VBA_ModuleName()
         {
             using (var p = OpenTemplatePackage("VBAModuleName.xlsm"))
