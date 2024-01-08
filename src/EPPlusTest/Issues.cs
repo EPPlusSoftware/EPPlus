@@ -5632,5 +5632,16 @@ namespace EPPlusTest
 				SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
 			}
 		}
+		[TestMethod]
+		public void s580()
+		{
+			using (var p = OpenTemplatePackage("s580.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets[0];
+
+				SaveAndCleanup(p);
+			}
+		}
+
 	}
 }

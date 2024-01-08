@@ -1281,8 +1281,10 @@ namespace OfficeOpenXml
             xr.WhitespaceHandling = WhitespaceHandling.Significant;
 #endif            
             LoadColumns(xr);    //columnXml
-            var lastXmlElement = "sheetData";
-            xml = stream.GetBufferAsStringRemovingElement(false, lastXmlElement);
+			var lastXmlElement = "sheetData";
+			xr.ReadUntil(1, lastXmlElement);
+
+			xml = stream.GetBufferAsStringRemovingElement(false, lastXmlElement);
             long start = stream.Position;
             LoadCells(xr);
             var nextElementLength = GetAttributeLength(xr);
