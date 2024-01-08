@@ -1,4 +1,8 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.6
+### Fixed issues 
+* Improved performance when opening files with many defined names in excel.
+
 ## Version 7.0.5
 ### Fixed issues 
 * Calculating formulas with expressions that had double cell negations, returned an incorrect result.
