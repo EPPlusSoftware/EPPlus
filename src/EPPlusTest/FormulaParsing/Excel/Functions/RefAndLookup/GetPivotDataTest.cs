@@ -589,10 +589,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(0D, (double)ws.Cells["I8"].Value);
             Assert.AreEqual(1D, (double)ws.Cells["I9"].Value);
         }
-        [TestMethod]
+
+		[TestMethod]
         public void GetPivotData_Sum_ShowValueAs_PercentOfPartentRowTotal()
         {
             var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_ParentRowTotal");
+            ws.Cells[ws.Dimension.Address].ToText();
             var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable18");
             pt.ColumnFields.Add(pt.Fields["Continent"]);
             pt.RowFields.Add(pt.Fields["Country"]);
@@ -609,6 +611,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ws.Calculate();
             Assert.AreEqual(0.790820829655781, (double)ws.Cells["G5"].Value, 0.0000001);
             Assert.AreEqual(0.823529412, (double)ws.Cells["G6"].Value, 0.0000001);
+
             Assert.AreEqual(0.172991071, (double)ws.Cells["G7"].Value, 0.0000001);
             Assert.AreEqual(0D, ws.Cells["G8"].Value);
             Assert.AreEqual(0.65830721, (double)ws.Cells["G9"].Value, 0.0000001);

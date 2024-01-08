@@ -776,15 +776,20 @@ namespace OfficeOpenXml.FormulaParsing
                         s.Peek().Negate();
                         break;
                     case TokenType.CellAddress:
-                    case TokenType.ExcelAddress:                    
-                        var e = f._expressions[f._tokenIndex];
+                    case TokenType.ExcelAddress:
+						var e = f._expressions[f._tokenIndex];
                         s.Push(e);
                         if(returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek())==false))
                         {
                            return e.GetAddress();
                         }
                         break;
-                    case TokenType.NameValue:
+					case TokenType.FullColumnAddress:
+					case TokenType.FullRowAddress:
+						var frce = f._expressions[f._tokenIndex];
+						s.Push(frce);
+                        break;
+					case TokenType.NameValue:
                         var ne = (NamedValueExpression)f._expressions[f._tokenIndex];
                         s.Push(ne);
                         if (ne._name != null)
@@ -908,7 +913,15 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                 }
                 f._tokenIndex++;
-            }
+                if(f._tokenIndex==f._tokens.Count)
+                {
+					if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress)
+					{
+						var cr = s.Peek().Compile();
+						return cr.Address;
+					}
+				}
+			}
             return null;
         }
 

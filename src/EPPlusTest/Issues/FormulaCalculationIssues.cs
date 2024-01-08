@@ -80,5 +80,27 @@ namespace EPPlusTest.Issues
 
 			}
 		}
+		[TestMethod]
+		public void ImplicitIntersection_ColumnReference()
+		{
+			using (var pck = new ExcelPackage())
+			{
+				var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+				sheet1.Cells["E2"].Value = 12;
+				sheet1.Cells["E3"].Value = 23;
+				sheet1.Cells["E4"].Value = 34;
+				sheet1.Cells["E5"].Value = 45;
+
+				sheet1.Cells["C3"].Formula = "E:E";
+				sheet1.Cells["C4"].Formula = "E1:E5";
+
+				sheet1.Cells["C3:C4"].UseImplicitItersection = true;
+
+				pck.Workbook.Calculate();
+
+				Assert.AreEqual(23D, sheet1.Cells["C3"].GetValue<double>());
+				Assert.AreEqual(34D, sheet1.Cells["C4"].GetValue<double>());
+			}
+		}
 	}
 }
