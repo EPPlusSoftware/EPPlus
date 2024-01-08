@@ -215,7 +215,7 @@ namespace EPPlusTest
             }
             pck.SaveAs(fi);
         }
-        protected static readonly DateTime _loadDataStartDate = new DateTime(DateTime.Today.Year-1, 11, 1);
+        protected static readonly DateTime _loadDataStartDate = new DateTime(2022, 11, 1);
         /// <summary>
         /// Loads 4 columns of {date, numeric, string, numeric}
         /// </summary>
@@ -393,9 +393,9 @@ namespace EPPlusTest
             _ws.Cells[1, 1, noItems, 1].Style.Numberformat.Format = "yyyy-MM-dd";
             _ws.Cells[2, 4, noItems, 4].Style.Numberformat.Format = "#,##0.00";
         }
-        protected int GetRowFromDate(DateTime date)
+        protected int GetRowFromDate(DateTime date, DateTime? initStartDate=null)
         {
-            var startDate = new DateTime(DateTime.Today.Year-1, 11, 1);
+            var startDate = initStartDate ?? _loadDataStartDate; //new DateTime(DateTime.Today.Year-1, 11, 1);
             if (startDate > date)
                 return 2;
             else

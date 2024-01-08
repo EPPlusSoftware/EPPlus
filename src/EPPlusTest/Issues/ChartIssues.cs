@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 namespace EPPlusTest.Issues
 {
@@ -54,13 +55,18 @@ namespace EPPlusTest.Issues
 
 				var chartSerie = chart.Series.Add(DataRange, LabelRange);
 				chartSerie.Header = "test";
-				//chart.Legend.Border.LineStyle = OfficeOpenXml.Drawing.eLineStyle.Solid;
-				//chart.Legend.Border.Width=1;
-				//chart.Legend.Position = eLegendPosition.Right;
-				//chart.Legend.Effect.SetPresetReflection(OfficeOpenXml.Drawing.ePresetExcelReflectionType.FullTouching);
-				//chart.Legend.Effect.Reflection.Distance = 1.0;
-
-
+				chart.Legend.Border.LineStyle = eLineStyle.Solid;
+				chart.Legend.Border.Width = 1;
+				chart.Legend.Position = eLegendPosition.Right;
+				chart.Legend.TextSettings.Effect.SetPresetReflection(ePresetExcelReflectionType.FullTouching);
+				chart.XAxis.TextSettings.Effect.SetPresetReflection(ePresetExcelReflectionType.HalfTouching);
+				chart.XAxis.TextSettings.Fill.Style = eFillStyle.GradientFill;
+				chart.XAxis.TextSettings.Fill.GradientFill.Colors.AddRgb(0, System.Drawing.Color.DarkSeaGreen);
+				chart.XAxis.TextSettings.Fill.GradientFill.Colors.AddRgb(50, System.Drawing.Color.LightCoral);
+				chart.XAxis.TextSettings.Outline.Fill.Style = eFillStyle.SolidFill;
+				chart.XAxis.TextSettings.Outline.LineStyle = eLineStyle.Dash;
+				chart.Title.Text = "Title 1";
+				chart.Title.TextSettings.Effect.SetPresetGlow(ePresetExcelGlowType.Accent1_5Pt);
 				SaveAndCleanup(p);
 			}
 		}
