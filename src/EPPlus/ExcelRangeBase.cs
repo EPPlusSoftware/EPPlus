@@ -256,7 +256,7 @@ namespace OfficeOpenXml
             range._worksheet._flags.Clear(row, col, 1, 1);
             range._worksheet._metadataStore.Clear(row, col, 1, 1);
         }
-        private static void Set_Formula(ExcelRangeBase range, object value, int row, int col)
+        internal static void Set_Formula(ExcelRangeBase range, object value, int row, int col)
         {
             var f = range._worksheet._formulas.GetValue(row, col);
             if (f is int && (int)f >= 0) range.SplitFormulas(range._worksheet.Cells[row, col]);

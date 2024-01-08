@@ -61,6 +61,9 @@ using System.Xml.Linq;
 namespace EPPlusTest
 {
     /// <summary>
+    /// Dont Use! 
+    /// This class is not used any more and contains old test cases for issues.
+    /// 
     /// This class contains testcases for issues on Codeplex and Github.
     /// All tests requiering an template should be set to ignored as it's not practical to include all xlsx templates in the project.
     /// </summary>
@@ -6068,6 +6071,17 @@ namespace EPPlusTest
                 
             }
         }
+		[TestMethod]
+		public void i1229()
+		{
+			using (var p = OpenTemplatePackage("Data.template.xlsx"))
+			{
+				/* Raw Data Sheet only */
+				foreach (var wb in p.Workbook.Worksheets)
+					Debug.WriteLine(wb.Name);                          // working as expected 
+				SaveAndCleanup(p);
+			}
+		}
 
 	}
 }

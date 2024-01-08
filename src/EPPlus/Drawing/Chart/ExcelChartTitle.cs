@@ -149,7 +149,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _textBody;
             }
         }
-        ExcelDrawingEffectStyle _effect = null;
+		ExcelDrawingTextSettings _textSettings = null;
+		/// <summary>
+		/// Text settings like fills, text outlines and effects 
+		/// </summary>
+		public ExcelDrawingTextSettings TextSettings
+		{
+			get
+			{
+				if (_textSettings == null)
+				{
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+				}
+				return _textSettings;
+			}
+		}
+
+		ExcelDrawingEffectStyle _effect = null;
         /// <summary>
         /// Effects
         /// </summary>
@@ -227,7 +243,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         /// <summary>
-        /// Show without overlaping the chart.
+        /// Show without overlaping the _chart.
         /// </summary>
         public bool Overlay
         {
@@ -358,7 +374,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
         }
         /// <summary>
-        /// The chart title text
+        /// The _chart title text
         /// </summary>
         public override string Text 
         {

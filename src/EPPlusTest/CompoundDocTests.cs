@@ -41,12 +41,12 @@ using System.Linq;
 namespace EPPlusTest
 {
     /// <summary>
-    /// Summary description for CompoundDoc
+    /// Summary description for CompoundDocTests
     /// </summary>
     [TestClass]
-    public class CompoundDoc
+    public class CompoundDocTests
     {
-        public CompoundDoc()
+        public CompoundDocTests()
         {
             //
             // TODO: Add constructor logic here

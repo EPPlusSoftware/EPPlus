@@ -251,7 +251,8 @@ namespace OfficeOpenXml.Drawing.Chart
 
         ExcelDrawingEffectStyle _effect = null;
         /// <summary>
-        /// Effects
+        /// Effects on the legend shape. 
+        /// Note that the Text effects are set using the <see cref="TextSettings"/> property.
         /// </summary>
         public ExcelDrawingEffectStyle Effect
         {
@@ -264,7 +265,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _effect;
             }
         }
-        ExcelDrawing3D _threeD = null;
+		ExcelDrawingTextSettings _textSettings = null;
+		/// <summary>
+		/// Text settings like fills, text outlines and effects 
+		/// </summary>
+		public ExcelDrawingTextSettings TextSettings
+		{
+			get
+			{
+				if (_textSettings == null)
+				{
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+				}
+				return _textSettings;
+			}
+		}
+
+		ExcelDrawing3D _threeD = null;
         /// <summary>
         /// 3D properties
         /// </summary>
