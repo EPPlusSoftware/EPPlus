@@ -13,6 +13,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -49,10 +50,16 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if(address != null && _ws.Cells[address.Address].Value != null)
             {
-                //if(double.TryParse(string.Format(_ws.Cells[address.Address].Value.ToString(), CultureInfo.InvariantCulture), out double addressValue))
                 if (_ws.Cells[address.Address].Value.IsNumeric())
                 {
-                    if (average == null) { FillValues(); }
+                    if (average == null) 
+                    {
+                        var avgFormula = $"AVERAGE({Address})";
+
+                        var avgResult = _ws.Workbook.FormulaParserManager.Parse(avgFormula, address.FullAddress, false).ToString();
+
+                        average = double.TryParse(avgResult, out double avgDouble) ? avgDouble : null;
+                    }
 
                     if (average != null)
                     {
@@ -89,36 +96,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
             }
             return false;
-        }
-
-        private void FillValues()
-        {
-            int numDoubles = 0;
-
-            foreach (var address in Address.GetAllAddresses())
-            {
-                for (int i = 1; i <= address.Rows; i++)
-                {
-                    for (int j = 1; j <= address.Columns; j++)
-                    {
-                        if (_ws.Cells[address._fromRow + i - 1, address._fromCol + j - 1].Value.IsNumeric())
-                        {
-                            if (average == null)
-                            {
-                                average = 0;
-                            }
-                            var cellValue = Convert.ToDouble(_ws.Cells[address._fromRow - 1 + i, address._fromCol + j - 1].Value);
-                            average += cellValue;
-                            numDoubles++;
-                        }
-                    }
-                }
-            }
-
-            if(average != null)
-            {
-                average = average / numDoubles;
-            }
         }
 
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet ws = null)

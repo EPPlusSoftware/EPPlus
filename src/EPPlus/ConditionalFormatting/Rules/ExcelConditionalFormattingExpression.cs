@@ -69,9 +69,6 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             var cellValue = _ws.Cells[address.Address].Value;
             if (cellValue != null)
             {
-                //address.Address;
-                //cellValue;
-                //var str = cellValue.ToString();
                 calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula, address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
                 return bool.Parse(calculatedFormula1);
             }

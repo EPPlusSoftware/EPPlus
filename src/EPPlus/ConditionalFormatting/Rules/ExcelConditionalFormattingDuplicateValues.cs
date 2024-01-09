@@ -16,11 +16,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingDuplicateValues : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingDuplicateValues : CachingCF,
     IExcelConditionalFormattingDuplicateValues
     {
         internal ExcelConditionalFormattingDuplicateValues(
@@ -38,41 +39,22 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        private bool createSet = true;
-        HashSet<string> values = null;
+        //HashSet<string> duplicates = new HashSet<string>();
+        IEnumerable<object> duplicates;
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if(createSet)
+            if(cellValueCache.Count == 0)
             {
-                createSet = false;
-                values = new HashSet<string>();
-                var list = new List<string>();
-
-                var range = new ExcelRange(_ws, _address.Address);
-                foreach(var cell in range)
-                {
-                    if(cell.Value != null)
-                    {
-                        if (string.IsNullOrEmpty(cell.Value.ToString()) == false)
-                        {
-                            if (list.Contains(cell.Value.ToString()))
-                            {
-                                values.Add(cell.Value.ToString());
-                            }
-                            else
-                            {
-                                list.Add(cell.Value.ToString());
-                            }
-                        }
-                    }
-                }
-                list.Clear();
+                UpdateCellValueCache(true);
+                duplicates = cellValueCache.GroupBy(value => value)
+                                           .Where(key => key.Count() > 1)
+                                           .Select(group => group.Key);
             }
 
             if(_ws.Cells[address.Address].Value != null)
             {
-                return values.Contains(_ws.Cells[address.Address].Value.ToString());
+                return duplicates.Contains(_ws.Cells[address.Address].Value.ToString());
             }
             return false;
         }

@@ -16,11 +16,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingTopBottomGroup : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingTopBottomGroup : CachingCF,
     IExcelConditionalFormattingTopBottomGroup
     {
         internal ExcelConditionalFormattingTopBottomGroup(
@@ -60,44 +61,36 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_ws.Cells[address.Address].Value.IsNumeric())
             {
-                List<object> cellValues = new List<object>();
-                foreach (var cell in Address.GetAllAddresses())
+                if(cellValueCache.Count == 0)
                 {
-                    for (int i = 1; i <= cell.Rows; i++)
-                    {
-                        for (int j = 1; j <= cell.Columns; j++)
-                        {
-                            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                            //uniqueDict.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value, $"{cell._fromRow + i - 1},{cell._fromCol + j - 1}");
-                        }
-                    }
+                    UpdateCellValueCache();
                 }
 
                 switch (Type)
                 {
                     case eExcelConditionalFormattingRuleType.Top:
-                        var sorted = cellValues.OrderByDescending(n => n).Take(Rank);
+                        var sorted = cellValueCache.OrderByDescending(n => n).Take(Rank);
                         if (sorted.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;
                         }
                         break;
                     case eExcelConditionalFormattingRuleType.TopPercent:
-                        var percentDescending = cellValues.OrderByDescending(n => n).Take(cellValues.Count * Rank / 100);
+                        var percentDescending = cellValueCache.OrderByDescending(n => n).Take(cellValueCache.Count * Rank / 100);
                         if (percentDescending.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;
                         }
                         break;
                     case eExcelConditionalFormattingRuleType.Bottom:
-                        var bottomSorted = cellValues.OrderBy(n => n).Take(Rank);
+                        var bottomSorted = cellValueCache.OrderBy(n => n).Take(Rank);
                         if (bottomSorted.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;
                         }
                         break;
                     case eExcelConditionalFormattingRuleType.BottomPercent:
-                        var percentAscending = cellValues.OrderBy(n => n).Take(cellValues.Count * Rank / 100);
+                        var percentAscending = cellValueCache.OrderBy(n => n).Take(cellValueCache.Count * Rank / 100);
                         if (percentAscending.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;

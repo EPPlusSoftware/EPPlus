@@ -16,12 +16,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingUniqueValues : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingUniqueValues : CachingCF,
     IExcelConditionalFormattingUniqueValues
     {
         #region Constructors
@@ -55,24 +56,22 @@ namespace OfficeOpenXml.ConditionalFormatting
             Rank = copy.Rank;
         }
 
+        IEnumerable<object> uniques;
+
+        protected override void ClearValueCache()
+        {
+            uniques = null;
+        }
+
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            List<object> cellValues = new List<object>();
-            foreach(var cell in Address.GetAllAddresses()) 
+            if(cellValueCache.Count == 0)
             {
-                for (int i = 1; i <= cell.Rows; i++)
-                {
-                    for (int j = 1; j <= cell.Columns; j++)
-                    {
-                        cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                        //uniqueDict.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value, $"{cell._fromRow + i - 1},{cell._fromCol + j - 1}");
-                    }
-                }
+                UpdateCellValueCache();
+                uniques = cellValueCache.GroupBy(i => i)
+                             .Where(g => g.Count() == 1)
+                             .Select(g => g.First());
             }
-
-            var uniques = cellValues.GroupBy(i => i)
-                .Where(g => g.Count() == 1)
-                .Select(g => g.First());
             
             if(uniques.Contains(_ws.Cells[address.Address].Value))
             {
