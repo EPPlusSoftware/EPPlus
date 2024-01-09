@@ -1445,9 +1445,12 @@ namespace OfficeOpenXml
 				{
 					var result = x.Name.CompareTo(y.Name);
 
-                    if (result == 0 && x.LocalSheetId != -1 && y.LocalSheetId != -1)
+                    if (result == 0)
 					{
-						result = x.LocalSheet.Name.CompareTo(y.LocalSheet.Name);
+						var nameX = x.LocalSheetId <= -1 ? "" : x.LocalSheet.Name;
+						var nameY = y.LocalSheetId <= -1 ? "" : y.LocalSheet.Name;
+
+                        result = nameX.CompareTo(nameY);
                     }
 					return result; 
 				});
