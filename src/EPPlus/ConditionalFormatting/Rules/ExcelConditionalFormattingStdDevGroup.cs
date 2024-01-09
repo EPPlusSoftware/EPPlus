@@ -85,7 +85,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             var stdParsable = double.TryParse(stdDevRes, out double stdDevDouble);
             var avgParsable = double.TryParse(avgResult, out double avgDouble);
 
-
             if (!(stdParsable && avgParsable)) { return false; }
 
             switch (Type)
