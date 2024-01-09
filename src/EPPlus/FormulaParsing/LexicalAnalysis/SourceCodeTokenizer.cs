@@ -690,8 +690,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     {
                         if (pt != l[l.Count - 1])
                         {
-                            l.Insert(index + 1, new Token("-", TokenType.Negator));
-                        }
+                            if (l[index+1].TokenType == TokenType.WhiteSpace)
+                            {
+								l.Insert(index + 2, new Token("-", TokenType.Negator));
+							}
+							else
+                            {
+								l.Insert(index + 1, new Token("-", TokenType.Negator));
+							}
+						}
                         else
                         {
                             l.Add(new Token("-", TokenType.Negator));

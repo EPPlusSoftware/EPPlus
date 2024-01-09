@@ -127,5 +127,25 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.Negator), "First token was not a negator");
             Assert.IsTrue(tokens.ElementAt(1).TokenTypeIsSet(TokenType.Integer), "second token was not an integer");
         }
-    }
+		[TestMethod]
+		public void ShouldHandleWhiteSpacesWithNegator()
+		{
+			var context = ParsingContext.Create();
+			var _tokenizerWs = new SourceCodeTokenizer(context.Configuration.FunctionRepository, null,false,true);
+
+			var input = "1+(  -A1)";
+			var tokens = _tokenizerWs.Tokenize(input);
+			Assert.AreEqual(7, tokens.Count, "tokens.Count() was not 2, but " + tokens.Count);
+			Assert.AreEqual(TokenType.WhiteSpace, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.Negator, tokens[4].TokenType);
+
+			input = "1+(  -'Sheet 1'!A1:A2)";
+			tokens = _tokenizerWs.Tokenize(input);
+			Assert.AreEqual(13, tokens.Count, "tokens.Count() was not 2, but " + tokens.Count);
+			Assert.AreEqual(TokenType.WhiteSpace, tokens[3].TokenType);
+			Assert.AreEqual(TokenType.Negator, tokens[4].TokenType);
+			Assert.AreEqual(TokenType.CellAddress, tokens[9].TokenType);
+		}
+
+	}
 }
