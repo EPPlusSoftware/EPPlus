@@ -20,10 +20,10 @@ namespace OfficeOpenXml.ExcelXMLWriter
 {
     internal class ExtLstHelper
     {
-        List<string> listOfExts = new List<string>();
-        internal int extCount { get { return listOfExts.Count; } }
+        List<string> _listOfExts = new List<string>();
+        internal int extCount { get { return _listOfExts.Count; } }
 
-        Dictionary<string, int> uriToIndex = new Dictionary<string, int>();
+        Dictionary<string, int> _uriToIndex = new Dictionary<string, int>();
 
         public ExtLstHelper(string xml, ExcelWorksheet ws)
         {
@@ -49,17 +49,25 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 string extNodesOnly = xml.Substring(contentStart, end - contentStart - "</ExtLst>".Length);
 
                 string[] strLst = { "</ext>" };
-                listOfExts = extNodesOnly.Split(strLst, StringSplitOptions.RemoveEmptyEntries).ToList();
+                _listOfExts = extNodesOnly.Split(strLst, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                for (int i = 0; i < listOfExts.Count; i++)
+                for (int i = 0; i < _listOfExts.Count; i++)
                 {
-                    int startOfUri = listOfExts[i].LastIndexOf("{");
-                    int endOfUri = listOfExts[i].LastIndexOf("}") + 1;
+                    int startOfUri = _listOfExts[i].LastIndexOf("{");
+                    int endOfUri = _listOfExts[i].LastIndexOf("}") + 1;
 
-                    string uri = listOfExts[i].Substring(startOfUri, endOfUri - startOfUri);
+                    string uri;
 
-                    uriToIndex.Add(uri, i);
-                    listOfExts[i] += "</ext>";
+					if (startOfUri >= 0)
+                    {
+						uri = _listOfExts[i].Substring(startOfUri, endOfUri - startOfUri);
+					}
+                    else
+                    {
+						_uriToIndex.Add(i.ToString(), i);
+					}
+
+					_listOfExts[i] += "</ext>";
                 }
             }
         }
@@ -81,38 +89,38 @@ namespace OfficeOpenXml.ExcelXMLWriter
             int indexOfNode = -1;
             if (uriOfNodeBefore != "")
             {
-                indexOfNode = uriToIndex[uriOfNodeBefore];
+                indexOfNode = _uriToIndex[uriOfNodeBefore];
             }
 
-            List<string> keys = new List<string>(uriToIndex.Keys);
+            List<string> keys = new List<string>(_uriToIndex.Keys);
 
             if (indexOfNode == -1)
             {
-                listOfExts.Insert(0, content);
+                _listOfExts.Insert(0, content);
                 foreach (string key in keys)
                 {
-                    uriToIndex[key] += 1;
+                    _uriToIndex[key] += 1;
                 }
-                uriToIndex.Add(uri, 0);
+                _uriToIndex.Add(uri, 0);
             }
             else
             {
-                if (indexOfNode + 1 > listOfExts.Count)
+                if (indexOfNode + 1 > _listOfExts.Count)
                 {
-                    listOfExts.Add(content);
+                    _listOfExts.Add(content);
                 }
                 else
                 {
-                    listOfExts.Insert(indexOfNode + 1, content);
+                    _listOfExts.Insert(indexOfNode + 1, content);
                     foreach (string key in keys)
                     {
-                        if (indexOfNode + 1 >= uriToIndex[key])
+                        if (indexOfNode + 1 >= _uriToIndex[key])
                         {
-                            uriToIndex[key] += 1;
+                            _uriToIndex[key] += 1;
                         }
                     }
                 }
-                uriToIndex.Add(uri, indexOfNode + 1);
+                _uriToIndex.Add(uri, indexOfNode + 1);
             }
         }
 
@@ -120,9 +128,9 @@ namespace OfficeOpenXml.ExcelXMLWriter
         {
             string extLstString = "<extLst>";
 
-            for (int i = 0; i < listOfExts.Count; i++)
+            for (int i = 0; i < _listOfExts.Count; i++)
             {
-                extLstString += listOfExts[i];
+                extLstString += _listOfExts[i];
             }
 
             extLstString += "</extLst>";

@@ -43,6 +43,7 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual("F2:F11", _ws.Cells["F2"].FormulaRange.Address);
             Assert.AreEqual("F2:F11", _ws.GetFormulaRange(2,6).Address);
         }
+
         [TestMethod]
         public void DynamicArrayFormulaReferencedBySharedFormula()
         {

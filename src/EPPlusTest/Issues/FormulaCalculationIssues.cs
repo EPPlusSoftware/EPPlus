@@ -102,5 +102,13 @@ namespace EPPlusTest.Issues
 				Assert.AreEqual(34D, sheet1.Cells["C4"].GetValue<double>());
 			}
 		}
+		[TestMethod]
+		public void i1234()
+		{
+			using (var p = OpenTemplatePackage("i1234.xlsx"))
+			{
+				SaveAndCleanup(p);
+			}
+		}		
 	}
 }

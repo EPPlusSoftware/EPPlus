@@ -109,7 +109,7 @@ namespace EPPlusTest.FormulaParsing
             using(var p=OpenPackage("NameWorkbook"))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                LoadTestdata(ws);
+                LoadTestdata(ws, 100, 1,1,false,false,new DateTime(2022,11,1));
 
                 p.Workbook.Names.AddFormula("SumOfSheet1", "Sum(Sheet1!$A$2:$A$10)");
                 ws.Cells["L1"].Formula = "Sheet1!$B$2+SumOfSheet1+15";
