@@ -99,7 +99,6 @@ namespace OfficeOpenXml.RichData
             if (_part == null)
             {
                 _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValueStructure);
-                _part.ShouldBeSaved = false;
                 _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueStructureRelationship);
             }
             _part.SaveHandler = Save;

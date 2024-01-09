@@ -136,7 +136,6 @@ namespace OfficeOpenXml.RichData.Types
                 _uri = new Uri(PART_URI_PATH, UriKind.Relative);
                 _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValueType);
                 _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueTypeRelationship);
-                _part.ShouldBeSaved = false;
             }
             _part.SaveHandler = Save;
         }
