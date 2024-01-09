@@ -977,7 +977,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     else
                     {
-                        item.X = -1;
+                        item.X = -1;                        
                     }
                     item.GetXmlString(sb);
                 }

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -239,7 +240,24 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             var pck = _ws._package.ZipPackage;
 
-            PivotTable.CacheDefinition._cacheReference._pivotTables.Remove(PivotTable);
+            var cacheReference = PivotTable.CacheDefinition._cacheReference;
+
+            cacheReference._pivotTables.Remove(PivotTable);
+
+            if (cacheReference._pivotTables.Count == 0)
+            {
+                var cacheAddress = cacheReference.GetSourceAddress();
+                var pivotCache = _ws.Workbook._pivotTableCaches[cacheAddress];
+                pivotCache.PivotCaches.Remove(cacheReference);
+                PivotTable.CacheDefinition._cacheReference.Delete();
+
+                if (pivotCache.PivotCaches.Count == 0)
+                {
+                    _ws.Workbook._pivotTableIds.Remove(cacheReference.CacheDefinitionUri);
+                    _ws.Workbook._pivotTableCaches.Remove(cacheAddress);
+                }
+            }
+
             pck.DeletePart(PivotTable.Part.Uri);
 
             _pivotTables.Remove(PivotTable);

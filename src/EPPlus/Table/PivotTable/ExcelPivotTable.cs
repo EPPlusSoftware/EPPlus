@@ -1166,14 +1166,6 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void Save()
         {
-            //if(CacheDefinition.CacheSource==eSourceType.Worksheet)
-            //{
-            //    if(CacheDefinition.SourceRange.Columns!=Fields.Count)
-            //    {   
-            //        //if(Fields.Count)
-            //        //CacheDefinition.Refresh();
-            //    }
-            //}
             if (DataFields.Count > 1)
             {
                 XmlElement parentNode;

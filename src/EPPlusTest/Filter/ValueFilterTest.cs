@@ -147,7 +147,7 @@ namespace EPPlusTest.Filter
 
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
-            var year = DateTime.Today.Year - 1;
+            var year = _loadDataStartDate.Year;
             col.Filters.Add(new ExcelFilterDateGroupItem(year));
             ws.AutoFilter.ApplyFilter();
 
@@ -166,7 +166,7 @@ namespace EPPlusTest.Filter
 
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             col.Filters.Add(new ExcelFilterDateGroupItem(year,1));
             ws.AutoFilter.ApplyFilter();
 
@@ -187,7 +187,7 @@ namespace EPPlusTest.Filter
 
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             col.Filters.Add(new ExcelFilterDateGroupItem(year, 1, 12));
             ws.AutoFilter.ApplyFilter();
 
@@ -203,7 +203,7 @@ namespace EPPlusTest.Filter
         {
             var ws = _pck.Workbook.Worksheets.Add("DateHour");
             LoadTestdata(ws, 200);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 13, 11, 33));
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
@@ -223,7 +223,7 @@ namespace EPPlusTest.Filter
         {
             var ws = _pck.Workbook.Worksheets.Add("DateMinute");
             LoadTestdata(ws, 200);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 12, 12, 33));
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
@@ -243,7 +243,7 @@ namespace EPPlusTest.Filter
         {
             var ws = _pck.Workbook.Worksheets.Add("DateSecond");
             LoadTestdata(ws, 200);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 12, 11, 35));
             ws.AutoFilterAddress = ws.Cells["A1:D200"];

@@ -1,4 +1,26 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.6
+### Fixed issues 
+* Improved performance when opening files with many defined names in excel.
+
+## Version 7.0.5
+### Fixed issues 
+* Calculating formulas with expressions that had double cell negations, returned an incorrect result.
+* Calculating a formula that had a negation of an empty cell returned a #VALUE! error.
+* Pivot table fields with a specified subtotal function sometimes caused the workbook to become corrupt.
+* Deleting a worksheet with hyperlinks that referes to an intenal address caused an exception.
+
+## Version 7.0.4
+### Minor Features
+* Added follow dependency-chain option which allows calculating the given cells without calculating dependent cells
+ 
+### Fixed issues 
+* Deleting pivot tables sometimes did not clear their pivot caches.
+* The formula tokenizer did not handle single/double quotes and encoding correctly in table addresses.
+* The JSON export did not encode column header cells and comment texts.
+* Worksheet Copy did not copy images with hyperlinks correctly
+* ExcelRangeBase.FormulaR1C1 translation did return a correct value when having a minus operator in some cases.
+
 ## Version 7.0.3
 ### Minor Features
 * Added Alignment and Protection properties to ExcelDxfStyle - Affects Table and Pivot Table Stylings

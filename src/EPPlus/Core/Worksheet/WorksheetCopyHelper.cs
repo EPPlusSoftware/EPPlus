@@ -193,7 +193,9 @@ namespace OfficeOpenXml.Core.Worksheet
             //Shared Formulas   
             foreach (int key in Copy._sharedFormulas.Keys)
             {
-                added._sharedFormulas.Add(key, Copy._sharedFormulas[key].Clone());
+                var sh = Copy._sharedFormulas[key].Clone();
+                sh._ws = added;
+				added._sharedFormulas.Add(key, sh);
             }
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();

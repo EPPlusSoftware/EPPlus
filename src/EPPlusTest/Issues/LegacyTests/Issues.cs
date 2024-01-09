@@ -61,11 +61,14 @@ using System.Xml.Linq;
 namespace EPPlusTest
 {
     /// <summary>
+    /// Dont Use! 
+    /// This class is not used any more and contains old test cases for issues.
+    /// 
     /// This class contains testcases for issues on Codeplex and Github.
     /// All tests requiering an template should be set to ignored as it's not practical to include all xlsx templates in the project.
     /// </summary>
     [TestClass]
-    public class Issues : TestBase
+    public class IssueTests : TestBase
     {
         [ClassInitialize]
         public static void Init(TestContext context)
@@ -5994,5 +5997,111 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-    }
+		public void I1211()
+		{
+			using (var p = OpenTemplatePackage("i1211.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets.Add("sheet1");
+				ws.Cells["A1"].Value = -1.5;
+				ws.Cells["B1"].Value = -5;
+				ws.Cells["C1"].Value = 1.5;
+				ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
+				ws.Calculate();
+
+				Assert.AreEqual(9.75, ws.Cells["D1"].Value);
+			}
+		}
+        [TestMethod]
+        public void s542_2()
+        {
+            string copySheet = "Summary";
+            string destSheet = "Pivot Data";
+
+            ExcelPackage Destinationpackage = OpenTemplatePackage("s542_Dest_File.xlsx");
+            var sheet = Destinationpackage.Workbook.Worksheets.GetByName(destSheet);
+            Destinationpackage.Workbook.Worksheets.Delete(destSheet);
+
+            ExcelPackage Sourcepackage = OpenTemplatePackage("s542_Source_File.xlsx");
+            ExcelWorksheet Sourceworksheet = Sourcepackage.Workbook.Worksheets[copySheet];
+            Destinationpackage.Workbook.Worksheets.Add(destSheet, Sourceworksheet);
+
+            SaveAndCleanup(Destinationpackage);
+        }
+        [TestMethod]
+        public void s569()
+        {
+            var sheetName = "披露表(国资)";
+
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+            using (var p = OpenTemplatePackage("s569source.xlsx"))
+            {
+                var SourceWB = p.Workbook;
+                using (var tP = OpenTemplatePackage("s569target.xlsm"))
+                {
+                    var tBook = tP.Workbook;
+                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
+                    tBook.Worksheets.Add(sheetName, sSheet);
+
+                    SaveAndCleanup(tP);
+                }
+            }
+        }        
+        [TestMethod]
+        public void PerformanceIssueGetAsByteArray()
+        {
+            using (var p = OpenTemplatePackage("TemplateWithPivot.xlsx"))
+            {
+                /* Raw Data Sheet only */
+                ExcelWorksheet ws = p.Workbook.Worksheets[1];  // second sheet
+
+                //var usedData =
+                //    reportData.Select(item => new ExportReportData(ref item)).ToArray();
+
+                // write data
+                ExcelTable table = ws.Tables[0];
+                table.InsertRow(position: 1, rows: 6620);  // necessary to have the formulas available.
+
+                // write data to buffer. This takes too long.
+                var pt = p.Workbook.Worksheets[0].PivotTables[0];
+                p.Workbook.Calculate();
+                SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
+            }
+        }
+        [TestMethod]
+		public void I1216()
+        {
+            using(var p=OpenPackage("i1216.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                ws.Cells["A1"].Value = -1.5;
+                ws.Cells["B1"].Value = -5;
+                ws.Cells["C1"].Value = 1.5;
+                ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
+                ws.Calculate();
+                
+                Assert.AreEqual(9.75, ws.Cells["D1"].Value);
+            }            
+        }
+        [TestMethod]
+        public void VBA_ModuleName()
+        {
+            using (var p = OpenTemplatePackage("VBAModuleName.xlsm"))
+            {
+                var vba = p.Workbook.VbaProject;
+                
+            }
+        }
+		[TestMethod]
+		public void i1229()
+		{
+			using (var p = OpenTemplatePackage("Data.template.xlsx"))
+			{
+				/* Raw Data Sheet only */
+				foreach (var wb in p.Workbook.Worksheets)
+					Debug.WriteLine(wb.Name);                          // working as expected 
+				SaveAndCleanup(p);
+			}
+		}
+
+	}
 }

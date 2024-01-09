@@ -21,6 +21,8 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace OfficeOpenXml
 {    
@@ -48,7 +50,10 @@ namespace OfficeOpenXml
     /// </summary>
 	public class ExcelHeaderFooterText
 	{
-        ExcelWorksheet _ws;
+        const string ARG_TO_LONG_EXCEPTION_TEXT = "Header and Footer texts cannot exceed 255 characters.";
+
+
+		ExcelWorksheet _ws;
         string _hf;
         internal ExcelHeaderFooterText(XmlNode TextNode, ExcelWorksheet ws, string hf)
         {
@@ -86,24 +91,70 @@ namespace OfficeOpenXml
                     break;
             }
         }
+        string _leftAlignedText = null;
 		/// <summary>
 		/// Get/set the text to appear on the left hand side of the header (or footer) on the worksheet.
 		/// </summary>
-		public string LeftAlignedText = null;
+		public string LeftAlignedText 
+        {
+            get
+            {
+                return _leftAlignedText;
+
+			}
+            set
+            {
+                _leftAlignedText = ValidateAndTrimText(value);
+            }
+        }
+		string _centeredText = null;
 		/// <summary>
-        /// Get/set the text to appear in the center of the header (or footer) on the worksheet.
+		/// Get/set the text to appear in the center of the header (or footer) on the worksheet.
 		/// </summary>
-		public string CenteredText = null;
+		public string CenteredText 
+        {
+			get
+			{
+				return _centeredText;
+
+			}
+			set
+			{
+				_centeredText = ValidateAndTrimText(value);
+			}
+		}
+		string _rightAlignedText = null;
 		/// <summary>
-        /// Get/set the text to appear on the right hand side of the header (or footer) on the worksheet.
+		/// Get/set the text to appear on the right hand side of the header (or footer) on the worksheet.
 		/// </summary>
-		public string RightAlignedText = null;
-        /// <summary>
-        /// Inserts a picture at the end of the text in the header or footer
-        /// </summary>
-        /// <param name="PictureFile">The image object containing the Picture</param>
-        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
-        public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
+		public string RightAlignedText
+		{
+			get
+			{
+				return _centeredText;
+
+			}
+			set
+			{
+				_centeredText = ValidateAndTrimText(value);
+			}
+		}
+
+		private string ValidateAndTrimText(string value)
+		{
+			value = value?.Trim();
+			if (value != null && value.Length > 255)
+			{
+				throw new ArgumentOutOfRangeException(ARG_TO_LONG_EXCEPTION_TEXT);
+			}
+			return value;
+		}
+		/// <summary>
+		/// Inserts a picture at the end of the text in the header or footer
+		/// </summary>
+		/// <param name="PictureFile">The image object containing the Picture</param>
+		/// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+		public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
         {
             string id = ValidateImage(Alignment);
 
@@ -240,7 +291,7 @@ namespace OfficeOpenXml
         /// The code for "shadow style"
         /// </summary>
         public const string ShadowStyle = @"&H";
-#endregion
+		#endregion
 
 #region ExcelHeaderFooter Private Properties
 		internal ExcelHeaderFooterText _oddHeader;
