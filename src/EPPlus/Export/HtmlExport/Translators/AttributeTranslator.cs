@@ -1,11 +1,13 @@
 ﻿using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
@@ -95,6 +97,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             string dxfKey;
 
             string specials = "";
+            List<string> extraClasses = new List<string>();
 
             var cfItems = context._cfQuadTree.GetIntersectingRangeItems
                 (new QuadRange(new ExcelAddress(cell.Address)));
@@ -112,8 +115,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
-                            specials += ((ExcelConditionalFormattingDataBar)cfItems[i].Value).ApplyStyleOverride(cell);
-                                break;
+                            cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
+                            //var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
+                            //specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
+                            //if(bar.NegativeFillColor != null)
+                            //{
+                            //    specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1";
+                            //}
+                            //specials += bar.ApplyStyleOverride(cell);
+                            break;
                         default:
                             dxfKey = cfItems[i].Value.Style.Id;
 
@@ -134,6 +144,57 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
 
             return new List<string> { cls.Trim(), specials };
+        }
+
+        internal static List<HTMLElement> ConditionalFormattingsDatabarToHTML(ExcelRangeBase cell, HtmlExportSettings settings, 
+            ExporterContext context, HTMLElement parentElement, string parentClasses)
+        {
+            var dataBarElements = new List<HTMLElement>();
+
+            var cfItems = context._cfQuadTree.GetIntersectingRangeItems
+                (new QuadRange(new ExcelAddress(cell.Address)));
+
+            for (int i = 0; i < cfItems.Count(); i++)
+            {
+                if (cfItems[i].Value.ShouldApplyToCell(cell))
+                {
+                    switch (cfItems[i].Value.Type)
+                    {
+
+                        case eExcelConditionalFormattingRuleType.DataBar:
+                            var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
+                            parentClasses += $"{settings.StyleClassPrefix}fp ";
+
+                            if (bar.NegativeFillColor != null)
+                            {
+                               // dataBarElements.Add(new HTMLElement("div"));
+                                var divNeg = new HTMLElement("div");
+                                var divPos = new HTMLElement("div");
+                                if(Convert.ToDouble(cell.Value) < 0)
+                                {
+                                    divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1");
+                                    divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
+                                    
+                                }
+                                else
+                                {
+                                    divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
+                                    divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1");
+                                }
+                                divPos.Content = cell.Value.ToString();
+                            }
+                            else
+                            {
+                                parentClasses += bar.ApplyStyleOverride(cell);
+                                parentClasses += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
+                            }
+
+                            break;
+                    }
+                }
+            }
+
+            return dataBarElements;
         }
 
         //void SpecialOperation(ExcelConditionalFormattingRule rule, ExcelAddress address)

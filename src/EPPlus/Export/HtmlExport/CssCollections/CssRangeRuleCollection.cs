@@ -1,17 +1,18 @@
-﻿using OfficeOpenXml.Drawing.Theme;
+﻿using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
+using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
+using OfficeOpenXml.Export.HtmlExport.Translators;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
-using OfficeOpenXml.Export.HtmlExport.Translators;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
-using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
@@ -80,6 +81,12 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             //Text-alignment classes
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}al ", "text-align", "left");
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}ar ", "text-align", "right");
+            //Border classes
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbr ","border-right", "dashed"); //Dashed Border Right
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbl ","border-left", "dashed"); //Dashed Border Left
+
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fp ", "display", "flex"); //Flex Parent
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fch ", "flex", "1"); //Flex Child
 
             AddWorksheetDimensions();
             AddImageAlignment();
@@ -122,6 +129,34 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _ruleCollection.AddRule(widthRule);
                 _ruleCollection.AddRule(heightRule);
             }
+        }
+
+        internal void AddDatabar(ExcelConditionalFormattingDataBar bar)
+        {
+            AddDatabar("1", bar.FillColor.GetColorAsColor());
+            if(bar.NegativeFillColor != null)
+            {
+                AddDatabar("1", bar.NegativeFillColor.GetColorAsColor(), false);
+            }
+        }
+
+        internal void AddDatabar(string id, Color col, bool isPositive = true)
+        {
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-databar-";
+            ruleName += isPositive ? $"positive-{id}" : $"negative-{id}";
+            string turnDir = isPositive ? "0.25" : "0.75";
+
+            var declarationVal = $"linear-gradient({turnDir}turn, rgba(0,{col.R},{col.G},{col.B}), 60%, white)";
+
+            var barClass = new CssRule(ruleName);
+
+            barClass.AddDeclaration("background-image", declarationVal);
+            barClass.AddDeclaration("background-repeat", "no-repeat");
+
+            //barClass.AddDeclaration("border-color", databar.axisColor);
+            //barClass.AddDeclaration("image-border-color", databar.bordercolor);
+
+            _ruleCollection.CssRules.Add(barClass);
         }
 
         internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id, string altName = null)

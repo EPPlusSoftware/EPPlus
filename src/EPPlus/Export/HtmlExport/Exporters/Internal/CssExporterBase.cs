@@ -207,18 +207,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                 foreach (var cf in items)
                 {
-                    if(cf.Value.Type != eExcelConditionalFormattingRuleType.TwoColorScale)
+                    switch(cf.Value.Type)
                     {
-                        if (cf.Value.Style.HasValue)
-                        {
-                            var style = new StyleDxf(cf.Value.Style);
-                            if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id) || _addedToCss.Contains(id) == false)
+                        case eExcelConditionalFormattingRuleType.TwoColorScale:
+                        case eExcelConditionalFormattingRuleType.ThreeColorScale:
+                            break;
+                        case eExcelConditionalFormattingRuleType.DataBar:
+                            var bar = (ExcelConditionalFormattingDataBar)cf.Value;
+                            cssTranslator.AddDatabar(bar);
+                            break;
+                        default:
+                            if (cf.Value.Style.HasValue)
                             {
-                                _addedToCss.Add(id);
-                                var name = $".{Settings.StyleClassPrefix}{Settings.CellStyleClassName}-dxf.id{id}";
-                                cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id, name);
+                                var style = new StyleDxf(cf.Value.Style);
+                                if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id) || _addedToCss.Contains(id) == false)
+                                {
+                                    _addedToCss.Add(id);
+                                    var name = $".{Settings.StyleClassPrefix}{Settings.CellStyleClassName}-dxf.id{id}";
+                                    cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id, name);
+                                }
                             }
-                        }
+                            break;
                     }
                 }
             }

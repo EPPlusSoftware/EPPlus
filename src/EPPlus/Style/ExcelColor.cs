@@ -93,17 +93,86 @@ namespace OfficeOpenXml.Style
                 "#FF333333", // 63
             };
 
+        internal static Color[] indexedColorAsColor =
+        {   
+                Color.FromArgb(0xFF,0x00,0x00,0x00), //#FF000000
+                Color.FromArgb(0xFF,0xFF,0xFF,0xFF), //#FFFFFFFF
+                Color.FromArgb(0xFF,0xFF,0x00,0x00), //#FFFF0000 
+                Color.FromArgb(0xFF,0x00,0xFF,0x00), //#FF00FF00 
+                Color.FromArgb(0xFF,0x00,0x00,0xFF), //#FF0000FF 
+                Color.FromArgb(0xFF,0xFF,0xFF,0x00), //#FFFFFF00 
+                Color.FromArgb(0xFF,0xFF,0x00,0xFF), //#FFFF00FF 
+                Color.FromArgb(0xFF,0x00,0xFF,0xFF), //#FF00FFFF
+                Color.FromArgb(0xFF,0x00,0x00,0x00), //#FF000000 // 8
+                Color.FromArgb(0xFF,0xFF,0xFF,0xFF), //#FFFFFFFF
+                Color.FromArgb(0xFF,0xFF,0x00,0x00), //#FFFF0000 
+                Color.FromArgb(0xFF,0x00,0xFF,0x00), //#FF00FF00 
+                Color.FromArgb(0xFF,0x00,0x00,0xFF), //#FF0000FF 
+                Color.FromArgb(0xFF,0xFF,0xFF,0x00), //#FFFFFF00 
+                Color.FromArgb(0xFF,0xFF,0x00,0xFF), //#FFFF00FF 
+                Color.FromArgb(0xFF,0x00,0xFF,0xFF), //#FF00FFFF //15
+                Color.FromArgb(0xFF,0x80,0x00,0x00), //#FF800000
+                Color.FromArgb(0xFF,0x00,0x80,0x00), //#FF008000
+                Color.FromArgb(0xFF,0x00,0x00,0x80), //#FF000080
+                Color.FromArgb(0xFF,0x80,0x80,0x00), //#FF808000
+                Color.FromArgb(0xFF,0x80,0x00,0x80), //#FF800080
+                Color.FromArgb(0xFF,0x00,0x80,0x80), //#FF008080
+                Color.FromArgb(0xFF,0xC0,0xC0,0xC0), //#FFC0C0C0
+                Color.FromArgb(0xFF,0x80,0x80,0x80), //#FF808080
+                Color.FromArgb(0xFF,0x99,0x99,0xFF), //#FF9999FF
+                Color.FromArgb(0xFF,0x99,0x33,0x66), //#FF993366
+                Color.FromArgb(0xFF,0xFF,0xFF,0xCC), //#FFFFFFCC
+                Color.FromArgb(0xFF,0xCC,0xFF,0xFF), //#FFCCFFFF
+                Color.FromArgb(0xFF,0x66,0x00,0x66), //#FF660066
+                Color.FromArgb(0xFF,0xFF,0x80,0x80), //#FFFF8080
+                Color.FromArgb(0xFF,0x00,0x66,0xCC), //#FF0066CC
+                Color.FromArgb(0xFF,0xCC,0xCC,0xFF), //#FFCCCCFF
+                Color.FromArgb(0xFF,0x00,0x00,0x80), //#FF000080
+                Color.FromArgb(0xFF,0xFF,0x00,0xFF), //#FFFF00FF
+                Color.FromArgb(0xFF,0xFF,0xFF,0x00), //#FFFFFF00
+                Color.FromArgb(0xFF,0x00,0xFF,0xFF), //#FF00FFFF
+                Color.FromArgb(0xFF,0x80,0x00,0x80), //#FF800080
+                Color.FromArgb(0xFF,0x80,0x00,0x00), //#FF800000
+                Color.FromArgb(0xFF,0x00,0x80,0x80), //#FF008080
+                Color.FromArgb(0xFF,0x00,0x00,0xFF), //#FF0000FF
+                Color.FromArgb(0xFF,0x00,0xCC,0xFF), //#FF00CCFF
+                Color.FromArgb(0xFF,0xCC,0xFF,0xFF), //#FFCCFFFF
+                Color.FromArgb(0xFF,0xCC,0xFF,0xCC), //#FFCCFFCC
+                Color.FromArgb(0xFF,0xFF,0xFF,0x99), //#FFFFFF99
+                Color.FromArgb(0xFF,0x99,0xCC,0xFF), //#FF99CCFF
+                Color.FromArgb(0xFF,0xFF,0x99,0xCC), //#FFFF99CC
+                Color.FromArgb(0xFF,0xCC,0x99,0xFF), //#FFCC99FF
+                Color.FromArgb(0xFF,0xFF,0xCC,0x99), //#FFFFCC99
+                Color.FromArgb(0xFF,0x33,0x66,0xFF), //#FF3366FF
+                Color.FromArgb(0xFF,0x33,0xCC,0xCC), //#FF33CCCC
+                Color.FromArgb(0xFF,0x99,0xCC,0x00), //#FF99CC00
+                Color.FromArgb(0xFF,0xFF,0xCC,0x00), //#FFFFCC00
+                Color.FromArgb(0xFF,0xFF,0x99,0x00), //#FFFF9900
+                Color.FromArgb(0xFF,0xFF,0x66,0x00), //#FFFF6600
+                Color.FromArgb(0xFF,0x66,0x66,0x99), //#FF666699
+                Color.FromArgb(0xFF,0x96,0x96,0x96), //#FF969696
+                Color.FromArgb(0xFF,0x00,0x33,0x66), //#FF003366
+                Color.FromArgb(0xFF,0x33,0x99,0x66), //#FF339966
+                Color.FromArgb(0xFF,0x00,0x33,0x00), //#FF003300
+                Color.FromArgb(0xFF,0x33,0x33,0x00), //#FF333300
+                Color.FromArgb(0xFF,0x99,0x33,0x00), //#FF993300
+                Color.FromArgb(0xFF,0x99,0x33,0x66), //#FF993366
+                Color.FromArgb(0xFF,0x33,0x33,0x99), //#FF333399
+                Color.FromArgb(0xFF,0x33,0x33,0x33), //#FF333333 // 63
+        };
+
         internal static Color GetIndexedColor(int index)
         {
             if(index >= 0 && index < indexedColors.Length)
             {
-                var s = indexedColors[index];
-                var a = int.Parse(s.Substring(1, 2), NumberStyles.HexNumber);
-                var r = int.Parse(s.Substring(3, 2), NumberStyles.HexNumber);
-                var g = int.Parse(s.Substring(5, 2), NumberStyles.HexNumber);
-                var b = int.Parse(s.Substring(7, 2), NumberStyles.HexNumber);
+                //var s = indexedColors[index];
+                //var a = int.Parse(s.Substring(1, 2), NumberStyles.HexNumber);
+                //var r = int.Parse(s.Substring(3, 2), NumberStyles.HexNumber);
+                //var g = int.Parse(s.Substring(5, 2), NumberStyles.HexNumber);
+                //var b = int.Parse(s.Substring(7, 2), NumberStyles.HexNumber);
 
-                return Color.FromArgb(a, r, g, b);
+                //return Color.FromArgb(a, r, g, b);
+                return indexedColorAsColor[index];
             }
             return Color.Empty;
         }

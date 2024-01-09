@@ -317,8 +317,9 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
         {
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
+            var color = FillColor.GetColorAsColor();
 
-            if (cellValue.IsNumeric())
+            if (cellValue.IsNumeric() && color != Color.Empty)
             {
                 var cellValues = new List<object>();
                 double average = 0;
@@ -345,30 +346,29 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
                 var realValue = Convert.ToDouble(cellValue);
 
-                var percentage = (realValue - lowest) / (highest - lowest);
+                var percentage = realValue / highest;
 
                 string ret = "";
 
-                switch (Direction)
-                {
-                    case eDatabarDirection.RightToLeft:
-                        ret += ".25turn";
-                        break;
+                //switch (Direction)
+                //{
+                //    case eDatabarDirection.RightToLeft:
+                //        ret += ".25turn";
+                //        break;
 
-                    case eDatabarDirection.LeftToRight:
-                        ret += ".75turn";
-                        break;
-                        //TODO: handle context, default for now.
-                    case eDatabarDirection.Context:
-                        ret += "to right";
-                        break;
-                }
+                //    case eDatabarDirection.LeftToRight:
+                //        ret += ".75turn";
+                //        break;
+                //        //TODO: handle context, default for now.
+                //    case eDatabarDirection.Context:
+                //        ret += ".25turn";
+                //        break;
+                //}
 
-                var color = FillColor.Color.Value;
 
-                ret = $"background-image: linear-gradient({ret}, rgba(0,{color.R},{color.G},{color.B}));";
-                ret += "background-repeat: no-repeat;";
-                ret += $"background-size: {percentage * 100}% 90%";
+                //ret = $"background-image: linear-gradient({ret}, rgba(0,{color.R},{color.G},{color.B}), white);";
+                //ret += "background-repeat: no-repeat;";
+                ret += $"background-size: {(percentage * 100).ToString(CultureInfo.InvariantCulture)}% 80%";
                 return ret;
             }
             return "";

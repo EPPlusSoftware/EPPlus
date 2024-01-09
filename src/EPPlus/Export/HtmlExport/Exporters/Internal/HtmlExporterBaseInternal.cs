@@ -659,6 +659,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             if (!string.IsNullOrEmpty(classString[0]))
             {
+                AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, settings, content, element, classString[0]);
                 element.AddAttribute("class", classString[0]);
             }
 
@@ -669,6 +670,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     element.AddAttribute("style", $"{classString[1]}");
                 }
             }
+
             //var cfItems = _exporterContext._cfQuadTree.GetIntersectingRangeItems
             //     (new QuadRange(new ExcelAddress(cell.Address)));
 

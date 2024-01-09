@@ -11,11 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Xml;
 using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.Style.Dxf
@@ -220,6 +216,76 @@ namespace OfficeOpenXml.Style.Dxf
         internal override void CreateNodes(XmlHelper helper, string path)
         {
             throw new NotImplementedException();
+        }
+
+        internal Color GetColorAsColor()
+        {
+            if (Index != null)
+            {
+                return ExcelColor.GetIndexedColor(Index.Value);
+            }
+            else if (Color != null)
+            {
+                return Color.Value;
+            }
+            else if (Theme.HasValue)
+            {
+                var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(Theme.Value);
+                return Utils.ColorConverter.GetThemeColor(themeColor);
+            }
+            else if (Auto.Value)
+            {
+                var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
+                return Utils.ColorConverter.GetThemeColor(themeColor);
+            }
+
+            return System.Drawing.Color.Empty;
+        }
+
+        /// <summary>
+        /// Return the RGB value as a string for the color object that uses the Indexed or Tint property
+        /// </summary>
+        /// <param name="theColor">The color object</param>
+        /// <returns>The RGB color starting with a #FF (alpha)</returns>
+        internal string LookupColor()
+        {
+            if (Index >= 0 && Index < ExcelColor.indexedColors.Length)
+            {
+                return ExcelColor.indexedColors[Index.Value];
+            }
+            else if (Color != null)
+            {
+                return "#" + Color.Value.ToArgb().ToString("x8").Substring(2);
+            }
+            else if (Theme.HasValue)
+            {
+                return GetThemeColor(Theme.Value, Convert.ToDouble(Tint));
+            }
+            else if (Auto.Value)
+            {
+                return GetThemeColor(eThemeSchemeColor.Background1, Convert.ToDouble(Tint));
+            }
+            else
+            {
+                string c = "F";
+                if(Tint != null)
+                {
+                    c = ((int)(Math.Round((Tint.Value + 1) * 128))).ToString("X");
+                }
+                return "#FF" + c + c + c;
+            }
+        }
+
+        private string GetThemeColor(eThemeSchemeColor theme, double tint)
+        {
+            var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
+            var color = Utils.ColorConverter.GetThemeColor(themeColor);
+            if (tint != 0)
+            {
+                color = Utils.ColorConverter.ApplyTint(color, tint);
+            }
+
+            return "#" + color.ToArgb().ToString("X");
         }
     }
 }
