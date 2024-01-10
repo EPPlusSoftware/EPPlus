@@ -1392,6 +1392,7 @@ namespace OfficeOpenXml
         }
         private void UpdateDefinedNamesXml()
         {
+            List<ExcelNamedRange> nameList = new List<ExcelNamedRange>();
             try
             {
                 XmlNode top = WorkbookXml.SelectSingleNode("//d:definedNames", NameSpaceManager);
@@ -1413,13 +1414,7 @@ namespace OfficeOpenXml
                     }
                     foreach (ExcelNamedRange name in _names)
                     {
-
-                        XmlElement elem = WorkbookXml.CreateElement("definedName", ExcelPackage.schemaMain);
-                        top.AppendChild(elem);
-                        elem.SetAttribute("name", name.Name);
-                        if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
-                        if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
-                        SetNameElement(name, elem);
+                        nameList.Add(name);
                     }
                 }
                 foreach (ExcelWorksheet ws in _worksheets)
@@ -1428,15 +1423,37 @@ namespace OfficeOpenXml
                     {
                         foreach (ExcelNamedRange name in ws.Names)
                         {
-                            XmlElement elem = WorkbookXml.CreateElement("definedName", ExcelPackage.schemaMain);
-                            top.AppendChild(elem);
-                            elem.SetAttribute("name", name.Name);
-                            elem.SetAttribute("localSheetId", name.LocalSheetId.ToString());
-                            if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
-                            if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
-                            SetNameElement(name, elem);
+                            nameList.Add(name);
                         }
                     }
+                }
+
+                nameList.Sort(delegate (ExcelNamedRange x, ExcelNamedRange y)
+                {
+                    var result = x.Name.CompareTo(y.Name);
+
+                    if (result == 0)
+                    {
+                        var nameX = x.LocalSheetId <= -1 ? "" : x.LocalSheet.Name;
+                        var nameY = y.LocalSheetId <= -1 ? "" : y.LocalSheet.Name;
+
+                        result = nameX.CompareTo(nameY);
+                    }
+                    return result;
+                });
+
+                foreach (var name in nameList)
+                {
+                    XmlElement elem = WorkbookXml.CreateElement("definedName", ExcelPackage.schemaMain);
+                    top.AppendChild(elem);
+                    elem.SetAttribute("name", name.Name);
+                    if (name.LocalSheetId != -1)
+                    {
+                        elem.SetAttribute("localSheetId", name.LocalSheetId.ToString());
+                    }
+                    if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
+                    if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
+                    SetNameElement(name, elem);
                 }
             }
             catch (Exception ex)
