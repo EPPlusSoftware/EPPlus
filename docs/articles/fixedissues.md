@@ -1,8 +1,17 @@
 ﻿# Features / Fixed issues - EPPlus 7
 ## Version 7.0.6
+# Minor Features
+* Added new property TextSettings to set text fills, outlines and effects on chart elements to ExcelChartTitle, ExcelChartLegend, ExcelChartAxis and ExcelChartDatalabel.
+* Upgraded RecyclableMemoryStream to 3.0.0.
+
 ### Fixed issues 
 * Improved performance when opening files with many defined names in excel.
 * ToDataTable didn't handle RichText correctly when exporting values
+* Calculation threw a NullReferenceException on calculating a copied worksheet with shared formulas in some cases.
+* Calculation of XLOOKUP failed if it was set as a shared formula that did not return a dynamic result.
+* Fixed an issue where the formula tokenizer in the formula calculation handled whitespaces in the wrong order compared to negators.
+* Added a check for maximum header and footer text length.
+* RichData parts did not add the content types to the [Content_Types].xml.
 
 ## Version 7.0.5
 ### Fixed issues 
