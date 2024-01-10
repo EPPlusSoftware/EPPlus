@@ -18,10 +18,6 @@ namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
     {
-        //internal static Dictionary<int[], object> GetNewCalculatedItems()
-        //{
-        //    return new Dictionary<int[], object>(new ArrayComparer());
-        //}
 		internal static PivotCalculationStore GetNewCalculatedItems()
 		{
 			return new PivotCalculationStore();
@@ -30,7 +26,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             return new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
         }
-    }    
+    }
     internal class ArrayComparer : IEqualityComparer<int[]>, IComparer<int[]>
     {
         internal static readonly ArrayComparer Instance = new ArrayComparer();
@@ -50,7 +46,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (x[i] != y[i])
                 { 
-                    return x[i].CompareTo(y[i]); ; 
+                    return x[i].CompareTo(y[i]); 
                 } 
             }
             return 0;

@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             ExcelErrorValue prevError = null;
             var prevValue = 0D;
             var prevKey = -1;
-            foreach (var key in calculatedItems.Index.OrderBy(x => x.Key, ArrayComparer.Instance))
+            foreach (var key in calculatedItems.Index.OrderBy(x => x.Key, ArrayComparer.Instance).Where(x => x.Key[0]!=-1))
             {
                 if (IsSumBefore(key.Key, bf, fieldIndex, colFieldsStart) || key.Key[bf] == -1)
                 {

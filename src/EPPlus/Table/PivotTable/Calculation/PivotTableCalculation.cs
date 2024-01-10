@@ -63,7 +63,6 @@ namespace OfficeOpenXml.Table.PivotTable
             pivotTable.Filters.ReloadTable();
             foreach (var df in pivotTable.DataFields)
             {
-                //var dataFieldItems = PivotTableCalculation.GetNewCalculatedItems();
                 var dataFieldItems = new PivotCalculationStore();
                 calculatedItems.Add(dataFieldItems);
                 var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());

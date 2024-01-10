@@ -200,7 +200,21 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 dataFieldItems[key] = new List<double>() { (double)value };
             }
         }
-        private static void GetMinMaxValue(int[] key, PivotCalculationStore dataFieldItems, object value, bool isMin)
+		protected static void DoubleListToList(int[] key, PivotCalculationStore dataFieldItems, List<double> list)
+		{
+			if (dataFieldItems.TryGetValue(key, out object cv))
+			{
+				if (cv is List<double> l)
+				{
+					l.AddRange(list);
+				}
+			}
+			else
+			{
+                dataFieldItems[key] = new List<double>(list);
+			}
+		}
+		private static void GetMinMaxValue(int[] key, PivotCalculationStore dataFieldItems, object value, bool isMin)
         {
             double v;
             if (dataFieldItems.TryGetValue(key, out object currentValue))

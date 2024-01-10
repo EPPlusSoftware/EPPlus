@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 		{
 			foreach (var item in dataFieldItems.Index)
 			{
-				dataFieldItems[item.Key] = RoundingHelper.RoundToSignificantFig(((KahanSum)dataFieldItems[item.Key]).Get(), 15);
+				dataFieldItems[item.Key] = RoundingHelper.RoundToSignificantFig(((double)dataFieldItems[item.Key]), 15);
 			}
 		}
 	}

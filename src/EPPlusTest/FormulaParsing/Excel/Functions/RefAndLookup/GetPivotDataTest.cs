@@ -159,7 +159,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(21022650D, ws.Cells["G5"].Value);
             Assert.AreEqual(2733102395100D, ws.Cells["G6"].Value);
-            Assert.AreEqual(214276220630101580000000000000000000D, ws.Cells["G7"].Value);
+            Assert.AreEqual(2.14276220630102E+35D, (double)ws.Cells["G7"].Value, 1E20);
             Assert.AreEqual(0D, ws.Cells["G8"].Value);
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["G9"].Value);
         }
@@ -410,7 +410,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(0D, (double)ws.Cells["I5"].Value, 0.0000001D);
             Assert.AreEqual(1.94984326, (double)ws.Cells["I6"].Value, 0.0000001D);
-            Assert.AreEqual(0D, (double)ws.Cells["H7"].Value);
+            Assert.AreEqual(0D, (double)ws.Cells["I7"].Value);
             Assert.AreEqual(ErrorValues.NullError, ws.Cells["I8"].Value);
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["I9"].Value);
         }
@@ -594,7 +594,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         public void GetPivotData_Sum_ShowValueAs_PercentOfPartentRowTotal()
         {
             var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_ParentRowTotal");
-            ws.Cells[ws.Dimension.Address].ToText();
             var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable18");
             pt.ColumnFields.Add(pt.Fields["Continent"]);
             pt.RowFields.Add(pt.Fields["Country"]);
@@ -649,8 +648,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         [TestMethod]
         public void GetPivotData_Sum_ShowValueAs_RunningTotal()
         {
-            var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_ParentColTotal");
-            var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable19");
+            var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_RunningTotal");
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable20");
             pt.ColumnFields.Add(pt.Fields["Continent"]);
             pt.RowFields.Add(pt.Fields["Country"]);
             pt.RowFields.Add(pt.Fields["State"]);

@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
         }
         internal List<object> Values { get; set; } = new List<object>();
 		internal List<CacheIndexItem> Index { get; set; } = new List<CacheIndexItem>();
-        internal Dictionary<int, ExcelErrorValue> _errorValues = new Dictionary<int, ExcelErrorValue>();
+        //internal Dictionary<int, ExcelErrorValue> _errorValues = new Dictionary<int, ExcelErrorValue>();
         public int Count 
         {
             get
@@ -101,9 +101,8 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 				throw (new ArgumentException("Key already exists"));
 			}
 			item.Index = Values.Count;
-			Values.Add(double.NaN);
+			Values.Add(errorValue);
 			Index.Insert(~ix, item);
-            _errorValues.Add(item.Index, errorValue);
 		}
 		internal object this[int[] key]
         {
@@ -145,19 +144,19 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             var item = new CacheIndexItem(key);
             return Index.BinarySearch(item);
         }
-        internal ExcelErrorValue GetErrorValue(int index)
-        {
-            if(_errorValues.TryGetValue(index, out ExcelErrorValue value))
-            {
-                return value;
-            }
-            return null;
-        }
-		internal void SetErrorValue(int index, ExcelErrorValue errorValue)
-		{
-            Values[index] = double.NaN;
-            _errorValues[index] = errorValue;
-		}
+  //      internal ExcelErrorValue GetErrorValue(int index)
+  //      {
+  //          if(_errorValues.TryGetValue(index, out ExcelErrorValue value))
+  //          {
+  //              return value;
+  //          }
+  //          return null;
+  //      }
+		//internal void SetErrorValue(int index, ExcelErrorValue errorValue)
+		//{
+  //          Values[index] = double.NaN;
+  //          _errorValues[index] = errorValue;
+		//}
 		internal bool ContainsKey(int[] key)
         {
 			var item = new CacheIndexItem(key);

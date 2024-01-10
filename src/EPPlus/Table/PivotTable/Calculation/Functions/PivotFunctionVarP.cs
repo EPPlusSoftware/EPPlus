@@ -30,14 +30,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 
 		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
 		{
-			var d = GetValueDouble(value);
-			if (double.IsNaN(d))
+			if (value is List<Double> d)
 			{
-				AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
+				AggregateKeys<List<double>>(key, colStartIx, dataFieldItems, keys, d, DoubleListToList);
 			}
 			else
 			{
-				AggregateKeys<object>(key, colStartIx, dataFieldItems, keys, d, ValueList);
+				AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
 			}
 		}
 
