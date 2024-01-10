@@ -104,9 +104,13 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if(!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                if(highType != eExcelConditionalFormattingValueObjectType.Formula)
+                if (double.TryParse(xr.GetAttribute("val"), out double result))
                 {
-                    HighValue.Value = Double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
+                    HighValue.Value = result;
+                }
+                else
+                {
+                    HighValue.Formula = xr.GetAttribute("val");
                 }
             }
 
@@ -116,9 +120,13 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                if(lowType != eExcelConditionalFormattingValueObjectType.Formula)
+                if (double.TryParse(xr.GetAttribute("val"), out double result))
                 {
-                    LowValue.Value = Double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
+                    LowValue.Value = result;
+                }
+                else
+                {
+                    LowValue.Formula = xr.GetAttribute("val");
                 }
             }
 
@@ -130,6 +138,13 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             //enter databar exit node ->(local) extLst -> ext -> id
             xr.Read();
+            if (xr.LocalName != "extLst")
+            {
+                _uid = null;
+                //Databar is local only/incorrectly written
+                //by an earlier version of Epplus. Escape.
+                return;
+            }
             xr.Read();
             xr.Read();
 

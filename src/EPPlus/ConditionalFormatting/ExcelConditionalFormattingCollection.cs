@@ -82,7 +82,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 var cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
 
                                 //If cf exists in both local and ExtLst spaces
-                                if(cf.IsExtLst)
+                                if(cf.IsExtLst && cf._uid != null)
                                 {
                                     localAndExtDict.Add(cf._uid, cf);
                                 }
@@ -186,13 +186,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                             if (dataBar.LowValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
-                                if (dataBar.LowValue.Type == eExcelConditionalFormattingValueObjectType.Formula)
+                                var content = xr.ReadContentAsString();
+                                if (double.TryParse(content, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
                                 {
-                                    dataBar.LowValue.Formula = xr.ReadContentAsString();
+                                    dataBar.LowValue.Value = result;
                                 }
                                 else
                                 {
-                                    dataBar.LowValue.Value = double.Parse(xr.ReadContentAsString(), CultureInfo.InvariantCulture);
+                                    dataBar.LowValue.Formula = content;
                                 }
                                 xr.Read();
                                 xr.Read();
@@ -207,13 +208,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                             if (dataBar.HighValue.HasValueOrFormula && xr.Name == "xm:f")
                             {
                                 xr.Read();
-                                if (dataBar.HighValue.Type == eExcelConditionalFormattingValueObjectType.Formula)
+                                var content = xr.ReadContentAsString();
+                                if (double.TryParse(content, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
                                 {
-                                    dataBar.HighValue.Formula = xr.ReadContentAsString();
+                                    dataBar.HighValue.Value = result;
                                 }
                                 else
                                 {
-                                    dataBar.HighValue.Value = double.Parse(xr.ReadContentAsString(), CultureInfo.InvariantCulture);
+                                    dataBar.HighValue.Formula = content;
                                 }
                                 xr.Read();
                                 xr.Read();
