@@ -2,6 +2,10 @@
 ## Version 6.2.16
 ### Fixed issues 
 * ToDataTable didn't handle RichText correctly when exporting values
+* Pivot table fields with a specified subtotal function sometimes caused the workbook to become corrupt.
+* Improved performance when opening files with many defined names in Excel.
+* Fixes and issue where reading a workbook fails due to invalid xml.
+
 ## Version 6.2.15
 ### Fixed issues 
 * The JSON export did not encode column header cells and comment texts.
