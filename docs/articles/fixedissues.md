@@ -1,4 +1,7 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.16
+### Fixed issues 
+* ToDataTable didn't handle RichText correctly when exporting values
 ## Version 6.2.15
 ### Fixed issues 
 * The JSON export did not encode column header cells and comment texts.
