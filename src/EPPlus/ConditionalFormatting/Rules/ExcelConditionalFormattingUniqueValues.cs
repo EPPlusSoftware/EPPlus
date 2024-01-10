@@ -58,8 +58,9 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         IEnumerable<object> uniques;
 
-        protected override void ClearValueCache()
+        internal override void RemoveTempExportData()
         {
+            base.RemoveTempExportData();
             uniques = null;
         }
 

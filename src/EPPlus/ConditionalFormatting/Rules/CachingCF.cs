@@ -24,8 +24,6 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
         {
         }
 
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -60,7 +58,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
                     for (int j = 1; j <= cell.Columns; j++)
                     {
                         var value = _ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value;
-                        if(value != null)
+                        if (value != null)
                         {
                             if (asStrings)
                             {
@@ -76,8 +74,9 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             }
         }
 
-        protected virtual void ClearValueCache()
+        internal override void RemoveTempExportData()
         {
+            base.RemoveTempExportData();
             cellValueCache.Clear();
         }
     }

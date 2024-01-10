@@ -733,5 +733,11 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
         internal abstract ExcelConditionalFormattingRule Clone(ExcelWorksheet sheet = null);
+
+        internal virtual void RemoveTempExportData()
+        {
+            calculatedFormula1 = null;
+            calculatedFormula2 = null;
+        }
     }
 }

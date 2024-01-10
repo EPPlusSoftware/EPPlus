@@ -160,36 +160,38 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 {
                     switch (cfItems[i].Value.Type)
                     {
-
                         case eExcelConditionalFormattingRuleType.DataBar:
                             var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
                             parentClasses += $"{settings.StyleClassPrefix}fp ";
 
                             if (bar.NegativeFillColor != null)
                             {
-                               // dataBarElements.Add(new HTMLElement("div"));
+                                // dataBarElements.Add(new HTMLElement("div"));
                                 var divNeg = new HTMLElement("div");
                                 var divPos = new HTMLElement("div");
-                                if(Convert.ToDouble(cell.Value) < 0)
+                                if (Convert.ToDouble(cell.Value) < 0)
                                 {
                                     divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1");
                                     divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
-                                    
+                                    divNeg.AddAttribute("style", bar.ApplyStyleOverride(cell));
                                 }
                                 else
                                 {
                                     divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
                                     divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1");
+                                    divPos.AddAttribute("style", bar.ApplyStyleOverride(cell));
                                 }
                                 divPos.Content = cell.Value.ToString();
+
+                                parentElement.AddChildElement(divNeg);
+                                parentElement.AddChildElement(divPos);
                             }
                             else
                             {
                                 parentClasses += bar.ApplyStyleOverride(cell);
                                 parentClasses += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
                             }
-
-                            break;
+                        break;
                     }
                 }
             }

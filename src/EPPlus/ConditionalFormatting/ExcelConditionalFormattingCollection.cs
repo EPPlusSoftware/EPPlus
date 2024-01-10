@@ -46,7 +46,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             string address = null;
             while (xr.ReadUntil(1, "conditionalFormatting", "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst", "pageMargins"))
             {
-                //string lastAddress = address.ToString();
                 address = null;
 
                 do
@@ -657,6 +656,14 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             // Return the newly created rule
             return cfRule;
+        }
+
+        internal void ClearTempExportCacheForAllCFs()
+        {
+            foreach(var cf in _rules)
+            {
+                cf.RemoveTempExportData();
+            }
         }
 
         /// <summary>

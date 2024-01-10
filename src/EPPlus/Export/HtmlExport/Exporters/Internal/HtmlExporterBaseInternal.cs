@@ -319,6 +319,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 row++;
             }
 
+            range.Worksheet.ConditionalFormatting.ClearTempExportCacheForAllCFs();
             return tBody;
         }
 
@@ -670,17 +671,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     element.AddAttribute("style", $"{classString[1]}");
                 }
             }
-
-            //var cfItems = _exporterContext._cfQuadTree.GetIntersectingRangeItems
-            //     (new QuadRange(new ExcelAddress(cell.Address)));
-
-            //for (int i = 0; i < cfItems.Count; i++)
-            //{
-            //    if (cfItems[i].Value.Type == eExcelConditionalFormattingRuleType.TwoColorScale)
-            //    {
-            //        element.AddAttribute("style", "background-color:" + ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell) + ";");
-            //    }
-            //}
 
             HtmlExportImageUtil.AddImage(element, settings, image, cell.Value);
             if (cell.IsRichText)

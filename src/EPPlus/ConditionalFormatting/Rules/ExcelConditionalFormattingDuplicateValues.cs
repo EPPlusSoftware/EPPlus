@@ -59,6 +59,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            duplicates = null;
+        }
+
         internal ExcelConditionalFormattingDuplicateValues(ExcelConditionalFormattingDuplicateValues copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }

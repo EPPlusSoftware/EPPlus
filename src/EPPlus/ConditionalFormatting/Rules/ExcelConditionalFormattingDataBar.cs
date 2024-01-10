@@ -368,7 +368,22 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
                 //ret = $"background-image: linear-gradient({ret}, rgba(0,{color.R},{color.G},{color.B}), white);";
                 //ret += "background-repeat: no-repeat;";
-                ret += $"background-size: {(percentage * 100).ToString(CultureInfo.InvariantCulture)}% 80%";
+
+                ret += $"background-position: center left;";
+                ret += $"background-size: {(percentage * 100).ToString(CultureInfo.InvariantCulture)}% 80%;";
+
+                string fillColorStr = "";
+
+                if(realValue < 0)
+                {
+                    fillColorStr = $"rgba({color.R},{color.G},{color.B})";
+                }
+                else
+                {
+                    fillColorStr = $"rgba({NegativeFillColor.Color.Value.R},{NegativeFillColor.Color.Value.G},{NegativeFillColor.Color.Value.B})";
+                }
+
+                ret += $"background-image: linear-gradient(0.25turn, {fillColorStr},255), 60%, white);";
                 return ret;
             }
             return "";
