@@ -2,6 +2,7 @@
 ## Version 7.0.6
 ### Fixed issues 
 * Improved performance when opening files with many defined names in excel.
+* ToDataTable didn't handle RichText correctly when exporting values
 
 ## Version 7.0.5
 ### Fixed issues 
