@@ -187,7 +187,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                             {
                                 xr.Read();
                                 var content = xr.ReadContentAsString();
-                                if (double.TryParse(content, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
+                                if (double.TryParse(content, NumberStyles.Any, CultureInfo.InvariantCulture, out double result)
+                                    && dataBar.LowValue.Type != eExcelConditionalFormattingValueObjectType.Formula)
                                 {
                                     dataBar.LowValue.Value = result;
                                 }
@@ -209,7 +210,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                             {
                                 xr.Read();
                                 var content = xr.ReadContentAsString();
-                                if (double.TryParse(content, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
+                                if (double.TryParse(content, NumberStyles.Any, CultureInfo.InvariantCulture, out double result)
+                                    && dataBar.HighValue.Type != eExcelConditionalFormattingValueObjectType.Formula)
                                 {
                                     dataBar.HighValue.Value = result;
                                 }
