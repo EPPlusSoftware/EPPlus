@@ -66,6 +66,7 @@ namespace OfficeOpenXml
 
             var filterInfo = new FilterInfo(workbook);
             workbook.FormulaParser.InitNewCalc(filterInfo);
+
             if (workbook.FormulaParser.Logger != null)
             {
                 var msg = string.Format("Starting formula calculation.");
