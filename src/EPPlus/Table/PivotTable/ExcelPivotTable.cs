@@ -317,7 +317,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             for (int i=0;i < keyFieldIndex.Count;i++)
             {
-                key[i] = -1;
+                key[i] = PivotCalculationStore.SumLevelValue;
                 for (int j = 0; j < criteria.Count; j++)
                 {
                     if (criteria[j].Field.Index == keyFieldIndex[i])
@@ -365,7 +365,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {                        
             for(var i=1;i<rf;i++)
             {
-                if (key[i-1] == -1 && key[i]>-1)
+                if (key[i - 1] == PivotCalculationStore.SumLevelValue && key[i] != PivotCalculationStore.SumLevelValue)
                 {
                     return true;
                 }
@@ -373,7 +373,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             for (var i = rf+1; i <= key.Length-1; i++)
             {
-                if (key[i - 1] == -1 && key[i] > -1)
+                if (key[i - 1] == PivotCalculationStore.SumLevelValue && key[i] != PivotCalculationStore.SumLevelValue)
                 {
                     return true;
                 }

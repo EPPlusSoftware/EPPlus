@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
+using OfficeOpenXml.Table.PivotTable.Calculation;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
@@ -681,32 +682,31 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         {
             //The pivot item key is used for aggregating items per row/column fields.
             Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, -1 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, -1 }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0 }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 1));
 
             //2 row and 1 col
             Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, 0 }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, -1 }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, -1, 0 }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, -1, -1 }, 2));            
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, -1, 0 }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, -1, -1 }, 2));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, PivotCalculationStore.SumLevelValue }, 2));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, 0 }, 2));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 2));            
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, 0 }, 2));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 2));
             
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { -1, 0, -1 }, 2));
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { -1, 0, 0 }, 2));
-
+            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, PivotCalculationStore.SumLevelValue }, 2));
+            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, 0 }, 2));
 
             //1 row and 2 col
             Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, -1 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, -1, -1 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, 0, -1 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, 0, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { -1, -1, -1 }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, PivotCalculationStore.SumLevelValue }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, PivotCalculationStore.SumLevelValue }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, 0 }, 1));
+            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 1));
 
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { -1, -1, 0 }, 1));
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { 0, -1, 0 }, 1));
+            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, 0 }, 1));
+            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, 0 }, 1));
         }
     }
 }

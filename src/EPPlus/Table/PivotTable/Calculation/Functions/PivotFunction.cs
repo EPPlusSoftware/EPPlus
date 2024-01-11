@@ -290,11 +290,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 		}
 		internal static bool IsNonTopLevel(int[] newKey, int colStartRef)
         {
-           if(colStartRef > 0 && newKey[0] == -1 && HasSumLevel(newKey, 1, colStartRef)==false)
+           if(colStartRef > 0 && newKey[0] == PivotCalculationStore.SumLevelValue && HasSumLevel(newKey, 1, colStartRef)==false)
             {
                 return true;
             }
-            if (colStartRef < newKey.Length && newKey[colStartRef] == -1 && HasSumLevel(newKey, colStartRef+1, newKey.Length) == false)
+            if (colStartRef < newKey.Length && newKey[colStartRef] == PivotCalculationStore.SumLevelValue && HasSumLevel(newKey, colStartRef+1, newKey.Length) == false)
             {
                 return true;
             }
@@ -304,7 +304,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
         {
             for(int i = start; i < end; i++)
             {
-                if (newKey[i] != -1) return false;
+                if (newKey[i] != PivotCalculationStore.SumLevelValue) return false;
             }
             return true;
         }
@@ -316,7 +316,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             {
                 if (((1 << i) & pos) != 0)
                 {
-                    newKey[i] = -1;
+                    newKey[i] = PivotCalculationStore.SumLevelValue;
                 }
             }
             return newKey;

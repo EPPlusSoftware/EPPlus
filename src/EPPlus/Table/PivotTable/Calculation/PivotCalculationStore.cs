@@ -11,7 +11,9 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 {
     internal class PivotCalculationStore : IEnumerable
     {
-        internal struct CacheIndexItem : IComparable<CacheIndexItem> 
+        internal const int SumLevelValue = int.MaxValue;
+
+		internal struct CacheIndexItem : IComparable<CacheIndexItem> 
         {
             internal int[] Key { get; set; }
             internal int Index { get; set; }
@@ -144,19 +146,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             var item = new CacheIndexItem(key);
             return Index.BinarySearch(item);
         }
-  //      internal ExcelErrorValue GetErrorValue(int index)
-  //      {
-  //          if(_errorValues.TryGetValue(index, out ExcelErrorValue value))
-  //          {
-  //              return value;
-  //          }
-  //          return null;
-  //      }
-		//internal void SetErrorValue(int index, ExcelErrorValue errorValue)
-		//{
-  //          Values[index] = double.NaN;
-  //          _errorValues[index] = errorValue;
-		//}
 		internal bool ContainsKey(int[] key)
         {
 			var item = new CacheIndexItem(key);

@@ -23,9 +23,9 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 			var currentKey = GetKey(fieldIndex.Count);
             var lastIx = fieldIndex.Count-1;
             var lastItemIx = pt.Fields[fieldIndex[lastIx]].Items.Count - 1;
-            while (currentKey[lastIx] < lastItemIx)
+            while (currentKey[lastIx] < lastItemIx  || currentKey[lastIx] == PivotCalculationStore.SumLevelValue)
             {
-                if (currentKey[keyCol] == -1)
+                if (currentKey[keyCol] == PivotCalculationStore.SumLevelValue)
                 {
                     showAsCalculatedItems.Add(currentKey, 0D);
                 }
@@ -97,14 +97,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                         }
                         else
                         {
-                            //if (biType == 0)
-                            //{
-                                showAsCalculatedItems.Add(currentKey, ErrorValues.NullError);
-                            //}
-                            //else
-                            //{
-                            //    showAsCalculatedItems.Add(currentKey, 0);
-                            //}
+                            showAsCalculatedItems.Add(currentKey, ErrorValues.NullError);
                         }
                     }
                 }
@@ -129,13 +122,15 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
         {
             currentKey = (int[])currentKey.Clone();
             int i = 0;
-            while (++currentKey[i] == pt.Fields[fieldIndex[i]].Items.Count - 1)
+            currentKey[i] = (currentKey[i] == PivotCalculationStore.SumLevelValue ? 0 : currentKey[i] + 1);
+			while (currentKey[i] == pt.Fields[fieldIndex[i]].Items.Count - 1)
             {
-                currentKey[i] = -1;
+                currentKey[i] = PivotCalculationStore.SumLevelValue;
                 i++;
                 if (i == currentKey.Length) return false;
-            }
-            return true;
+				currentKey[i] = (currentKey[i] == PivotCalculationStore.SumLevelValue ? 0 : currentKey[i] + 1);
+			}
+			return true;
         }
 
         private bool IsSameLevelAs(int[] key, bool isRowField, int baseLevel, int keyCol, ExcelPivotTableDataField df)
@@ -144,7 +139,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             {
                 for (int i = baseLevel + 1; i < df.Field.PivotTable.RowFields.Count; i++)
                 {
-                    if (key[i] != -1)
+                    if (key[i] != PivotCalculationStore.SumLevelValue)
                     {
                         return false;
                     }
@@ -155,7 +150,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             {
                 for (int i = baseLevel + 1; i < df.Field.PivotTable.ColumnFields.Count; i++)
                 {
-                    if (key[i] != -1)
+                    if (key[i] != PivotCalculationStore.SumLevelValue)
                     {
                         return false;
                     }

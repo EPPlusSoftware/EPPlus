@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             var colKey = (int[])key.Clone();
             for (int i = 0;i < colStartIx;i++)
             {
-                colKey[i] = -1;
+                colKey[i] = PivotCalculationStore.SumLevelValue;
             }
             var v = calculatedItems[colKey];
             if (v is ExcelErrorValue er)
