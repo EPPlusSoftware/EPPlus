@@ -112,32 +112,13 @@ namespace EPPlusTest.Issues
                 // Update the value of two cells
                 sht.Cells["B3"].Value = 500.0;
                 sht.Cells["B4"].Value = 500.0;
-                sht.Cells["B5"].Value = 600.0;
-                sht.Cells["B6"].Value = 700.0;
-                sht.Cells["B7"].Value = 800.0;
 
 
                 var form1 = sht.Cells["C3"].Formula;
                 var form2 = sht.Cells["C4"].Formula;
 
-                //// Output from the logger will be written to the following file
-                //var logfile = new FileInfo(@"C:\epplusTest\logfile.txt");
-                //// Attach the logger before the calculation is performed.
-                //p.Workbook.FormulaParserManager.AttachLogger(logfile);
-
-                // Call calculate again
                 wbk.Calculate();
 
-                //wbk.Calculate(new ExcelCalculationOption() { CacheExpressions = false });
-
-                //p.Workbook.FormulaParserManager.DetachLogger();
-
-				//for(int i = 3; i < 8; i++)
-				//{
-				//	var result = sht.Cells[i, 3].Value;
-    //            }
-
-                // C3 and C4 have formulae in them which double the value to their left
                 Assert.AreEqual(1000.0, sht.Cells["C3"].Value);
                 Assert.AreEqual(1000.0, sht.Cells["C4"].Value);
 
