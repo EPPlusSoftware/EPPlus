@@ -323,7 +323,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                                 SetRangeOffsetToken(l);
                                 flags |= statFlags.isColon;
                             }
-                            else if ((flags & statFlags.isNumeric) == statFlags.isNumeric && (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric && (c == 'E' || c == 'e')) //Handle exponential values in a formula.
+                            else if ((flags == statFlags.isNumeric || 
+                                      flags == (statFlags.isNumeric | statFlags.isDecimal) || 
+                                      flags == (statFlags.isNumeric | statFlags.isDecimal | statFlags.isNegator) || 
+                                      flags == (statFlags.isNumeric | statFlags.isNegator)) 
+                                      && 
+                                      (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric 
+                                      && 
+                                      (c == 'E' || c == 'e')) //Handle exponential values in a formula.
                             {
                                 current.Append(c);
                                 flags |= statFlags.isExponential;
