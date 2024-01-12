@@ -92,6 +92,15 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
+		[TestMethod]
+		public void s568()
+		{
+			using (var p = OpenTemplatePackage("s568.xlsx"))
+			{
+				p.Workbook.Calculate();
+				SaveAndCleanup(p);
+			}
+		}
         [TestMethod]
         public void i1244()
         {

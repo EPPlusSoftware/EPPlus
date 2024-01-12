@@ -586,5 +586,13 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             //Assert.AreEqual(TokenType.WorksheetNameContent, tokens[3].TokenType);
             //Assert.AreEqual(TokenType.WorksheetName, tokens[4].TokenType);
         }
-    }
+		[TestMethod]
+		public void TokenizeTableAddressShouldNotBeExponential()
+        {
+            var input = "SUM(Sheet1[2024E])";
+			var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual(7, tokens.Count);
+			Assert.AreEqual(TokenType.TableColumn, tokens[4].TokenType);
+		}
+	}
 }
