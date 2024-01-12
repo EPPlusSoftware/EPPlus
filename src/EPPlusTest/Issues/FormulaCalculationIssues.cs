@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing;
+using System.IO;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace EPPlusTest.Issues
 {
@@ -88,5 +92,38 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
-	}
+        [TestMethod]
+        public void i1244()
+        {
+            using (var p = OpenTemplatePackage("i1245.xlsx"))
+            {
+                var wbk = p.Workbook;
+                var sht = wbk.Worksheets["TestSheet"];
+
+                // Call calculate
+                wbk.Calculate();
+
+                // Check everything is initially in order
+                Assert.AreEqual(1.0, sht.Cells["B3"].Value);
+                Assert.AreEqual(2.0, sht.Cells["C3"].Value);
+                Assert.AreEqual(2.0, sht.Cells["B4"].Value);
+                Assert.AreEqual(4.0, sht.Cells["C4"].Value);
+
+                // Update the value of two cells
+                sht.Cells["B3"].Value = 500.0;
+                sht.Cells["B4"].Value = 500.0;
+
+
+                var form1 = sht.Cells["C3"].Formula;
+                var form2 = sht.Cells["C4"].Formula;
+
+                wbk.Calculate();
+
+                Assert.AreEqual(1000.0, sht.Cells["C3"].Value);
+                Assert.AreEqual(1000.0, sht.Cells["C4"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+    }
 }
