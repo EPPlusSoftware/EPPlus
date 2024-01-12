@@ -105,21 +105,12 @@ namespace EPPlusTest.Issues
             sheetA.Cells[1, 1].Value = 3;
             sheetA.Cells[1, 2].Formula = MinusQuoteFormula;
 
-            var tempFilePath = Path.GetTempFileName();
+			var stream = new MemoryStream();
+			setupPackage.SaveAs(stream);
 
-            try
-            {
-                setupPackage.SaveAs(tempFilePath);
-                setupPackage.Dispose();
-
-                using var testPackage = new ExcelPackage(tempFilePath);
-                string savedMinusQuoteFormula = testPackage.Workbook.Worksheets[SheetA].Cells[1, 2].Formula;
-                Assert.AreEqual(MinusQuoteFormula, savedMinusQuoteFormula);
-            }
-            finally
-            {
-                File.Delete(tempFilePath);
-            }
+            using var testPackage = new ExcelPackage(stream);
+            string savedMinusQuoteFormula = testPackage.Workbook.Worksheets[SheetA].Cells[1, 2].Formula;
+            Assert.AreEqual(MinusQuoteFormula, savedMinusQuoteFormula);
         }
 
 		[TestMethod]
