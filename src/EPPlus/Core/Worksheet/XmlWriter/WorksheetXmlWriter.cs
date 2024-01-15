@@ -1193,22 +1193,22 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 cache.Append("/>");
                             }
 
-                            if(dataBar.BorderColor != null)
+                            if(dataBar.BorderColor != null && dataBar.Border == true)
                             {
                                 WriteDxfColor(prefix, cache, dataBar.BorderColor, "borderColor");
                             }
 
-                            if(dataBar.NegativeFillColor != null) 
+                            if(dataBar.NegativeFillColor != null && dataBar.NegativeBarColorSameAsPositive == false) 
                             {
                                 WriteDxfColor(prefix, cache, dataBar.NegativeFillColor, "negativeFillColor");
                             }
 
-                            if (dataBar.NegativeBorderColor != null)
+                            if (dataBar.NegativeBorderColor != null && dataBar.NegativeBarColorSameAsPositive == false && dataBar.Border == true)
                             {
                                 WriteDxfColor(prefix, cache, dataBar.NegativeBorderColor, "negativeBorderColor");
                             }
 
-                            if (dataBar.AxisColor != null)
+                            if (dataBar.AxisColor != null && dataBar.AxisPosition != eExcelDatabarAxisPosition.None)
                             {
                                 WriteDxfColor(prefix, cache, dataBar.AxisColor, "axisColor");
                             }

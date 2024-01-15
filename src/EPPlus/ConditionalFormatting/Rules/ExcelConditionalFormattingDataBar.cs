@@ -346,44 +346,30 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
                 var realValue = Convert.ToDouble(cellValue);
 
-                var percentage = realValue / highest;
+                var percentage = 0.0d;
 
                 string ret = "";
 
-                //switch (Direction)
-                //{
-                //    case eDatabarDirection.RightToLeft:
-                //        ret += ".25turn";
-                //        break;
-
-                //    case eDatabarDirection.LeftToRight:
-                //        ret += ".75turn";
-                //        break;
-                //        //TODO: handle context, default for now.
-                //    case eDatabarDirection.Context:
-                //        ret += ".25turn";
-                //        break;
-                //}
-
-
-                //ret = $"background-image: linear-gradient({ret}, rgba(0,{color.R},{color.G},{color.B}), white);";
-                //ret += "background-repeat: no-repeat;";
-
-                ret += $"background-position: center left;";
-                ret += $"background-size: {(percentage * 100).ToString(CultureInfo.InvariantCulture)}% 80%;";
-
                 string fillColorStr = "";
+                string direction = "0.25";
 
-                if(realValue < 0)
+                if (realValue < 0)
                 {
-                    fillColorStr = $"rgba({color.R},{color.G},{color.B})";
+                    fillColorStr = $"rgba({NegativeFillColor.Color.Value.R},{NegativeFillColor.Color.Value.G},{NegativeFillColor.Color.Value.B}";
+                    direction = "0.75";
+                    percentage = realValue / lowest;
+                    ret += $"background-position: center right;";
                 }
                 else
                 {
-                    fillColorStr = $"rgba({NegativeFillColor.Color.Value.R},{NegativeFillColor.Color.Value.G},{NegativeFillColor.Color.Value.B})";
+                    fillColorStr = $"rgba({color.R},{color.G},{color.B}";
+                    percentage = realValue / highest;
+                    ret += $"background-position: center left;";
                 }
+                ret += $"background-size: {(percentage * 100).ToString(CultureInfo.InvariantCulture)}% 90%;";
+                ret += "background-repeat: no-repeat;";
 
-                ret += $"background-image: linear-gradient(0.25turn, {fillColorStr},255), 60%, white);";
+                ret += $"background-image: linear-gradient({direction}turn, {fillColorStr},255), 60%, white);";
                 return ret;
             }
             return "";

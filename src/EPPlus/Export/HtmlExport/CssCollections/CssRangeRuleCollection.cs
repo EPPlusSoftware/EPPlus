@@ -142,21 +142,21 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         internal void AddDatabar(string id, Color col, bool isPositive = true)
         {
-            var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-databar-";
-            ruleName += isPositive ? $"positive-{id}" : $"negative-{id}";
-            string turnDir = isPositive ? "0.25" : "0.75";
+            //var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-databar-";
+            //ruleName += isPositive ? $"positive-{id}" : $"negative-{id}";
+            //string turnDir = isPositive ? "0.25" : "0.75";
 
-            var declarationVal = $"linear-gradient({turnDir}turn, rgba(0,{col.R},{col.G},{col.B}), 60%, white)";
+            //var declarationVal = $"linear-gradient({turnDir}turn, rgba(0,{col.R},{col.G},{col.B}), 60%, white)";
 
-            var barClass = new CssRule(ruleName);
+            //var barClass = new CssRule(ruleName);
 
-            barClass.AddDeclaration("background-image", declarationVal);
-            barClass.AddDeclaration("background-repeat", "no-repeat");
+            //barClass.AddDeclaration("background-image", declarationVal);
+            //barClass.AddDeclaration("background-repeat", "no-repeat");
 
             //barClass.AddDeclaration("border-color", databar.axisColor);
             //barClass.AddDeclaration("image-border-color", databar.bordercolor);
 
-            _ruleCollection.CssRules.Add(barClass);
+            //_ruleCollection.CssRules.Add(barClass);
         }
 
         internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id, string altName = null)

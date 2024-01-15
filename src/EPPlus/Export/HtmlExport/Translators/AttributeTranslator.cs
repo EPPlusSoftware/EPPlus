@@ -162,29 +162,33 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     {
                         case eExcelConditionalFormattingRuleType.DataBar:
                             var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
-                            parentClasses += $"{settings.StyleClassPrefix}fp ";
+                            var flexParent = new HTMLElement("div");
+                            flexParent.AddAttribute("class", $"{settings.StyleClassPrefix}fp");
+                            flexParent.AddAttribute("style", $"height: 100%;");
+                            parentElement.AddChildElement(flexParent);
 
                             if (bar.NegativeFillColor != null)
                             {
-                                // dataBarElements.Add(new HTMLElement("div"));
                                 var divNeg = new HTMLElement("div");
                                 var divPos = new HTMLElement("div");
                                 if (Convert.ToDouble(cell.Value) < 0)
                                 {
                                     divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1");
                                     divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
+                                    divPos.AddAttribute("style", $"align-self: end;");
+
                                     divNeg.AddAttribute("style", bar.ApplyStyleOverride(cell));
                                 }
                                 else
                                 {
                                     divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
                                     divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1");
-                                    divPos.AddAttribute("style", bar.ApplyStyleOverride(cell));
+                                    divPos.AddAttribute("style", bar.ApplyStyleOverride(cell)+";align-self: end;");
                                 }
                                 divPos.Content = cell.Value.ToString();
 
-                                parentElement.AddChildElement(divNeg);
-                                parentElement.AddChildElement(divPos);
+                                flexParent.AddChildElement(divNeg);
+                                flexParent.AddChildElement(divPos);
                             }
                             else
                             {
@@ -195,7 +199,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     }
                 }
             }
-
             return dataBarElements;
         }
 

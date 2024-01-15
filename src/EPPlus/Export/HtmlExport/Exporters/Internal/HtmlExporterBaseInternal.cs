@@ -662,6 +662,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, settings, content, element, classString[0]);
                 element.AddAttribute("class", classString[0]);
+                element.AddAttribute("style", $"{"height: 100%;"}");
             }
 
             if (classString.Count > 1)
