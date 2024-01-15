@@ -97,5 +97,23 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
+		[TestMethod]
+		public void InsertRows_CalculatedColumnFormula()
+		{
+			using (var pck = OpenTemplatePackage("i1243.xlsx"))
+			{
+				var sheet1 = TryGetWorksheet(pck, "Sheet1");
+				var table1 = sheet1.Tables["Table1"];
+
+				var calculatedColumnFormula1 = table1.Columns[3].CalculatedColumnFormula;
+				var calculatedColumnFormula2 = table1.Columns[0].CalculatedColumnFormula;
+
+				//table1.AddRow(5);
+				//table1.InsertRow(4, 5);
+				//sheet1.Calculate();
+
+				sheet1.InsertRow(30, 5);   // throws InvalidFormulaException
+			}
+		}
 	}
 }
