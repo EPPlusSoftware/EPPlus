@@ -92,6 +92,27 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
+
+        [TestMethod]
+        public void SubtractWorksheetReference()
+        {
+            const string MinusQuoteFormula = "10-'Sheet A'!A1";
+            const string SheetA = "Sheet A";
+
+            using var setupPackage = new ExcelPackage();
+            setupPackage.Workbook.Worksheets.Add(SheetA);
+            var sheetA = setupPackage.Workbook.Worksheets[SheetA];
+            sheetA.Cells[1, 1].Value = 3;
+            sheetA.Cells[1, 2].Formula = MinusQuoteFormula;
+
+			var stream = new MemoryStream();
+			setupPackage.SaveAs(stream);
+
+            using var testPackage = new ExcelPackage(stream);
+            string savedMinusQuoteFormula = testPackage.Workbook.Worksheets[SheetA].Cells[1, 2].Formula;
+            Assert.AreEqual(MinusQuoteFormula, savedMinusQuoteFormula);
+        }
+
 		[TestMethod]
 		public void s568()
 		{
