@@ -238,5 +238,38 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual("abcd", result);
             }
         }
+
+        [TestMethod]
+        public void CachedRangeExpressionShouldCalculateTwice()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var workbook = p.Workbook;
+                var sheet = workbook.Worksheets.Add("ws");
+
+                for (int i = 3; i < 9; i++)
+                {
+                    sheet.Cells[i, 2].Value = i - 2.0d;
+                }
+
+                sheet.Cells["C3"].Formula = "B3*2";
+                sheet.Cells["C4:C8"].Formula = "B4*2";
+
+                workbook.Calculate();
+
+                Assert.AreEqual(1.0, sheet.Cells["B3"].Value);
+                Assert.AreEqual(2.0, sheet.Cells["C3"].Value);
+                Assert.AreEqual(2.0, sheet.Cells["B4"].Value);
+                Assert.AreEqual(4.0, sheet.Cells["C4"].Value);
+
+                sheet.Cells["B3"].Value = 300.0;
+                sheet.Cells["B4"].Value = 300.0;
+
+                workbook.Calculate();
+
+                Assert.AreEqual(600.0, sheet.Cells["C3"].Value);
+                Assert.AreEqual(600.0, sheet.Cells["C4"].Value);
+            }
+        }
     }
 }

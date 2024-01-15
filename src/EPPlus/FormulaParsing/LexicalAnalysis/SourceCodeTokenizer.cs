@@ -695,27 +695,33 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else
                     {
-                        if (pt != l[l.Count - 1])
-                        {
-                            if (l[index+1].TokenType == TokenType.WhiteSpace)
-                            {
-								l.Insert(index + 2, new Token("-", TokenType.Negator));
-							}
-							else
-                            {
-								l.Insert(index + 1, new Token("-", TokenType.Negator));
-							}
-						}
-                        else
-                        {
-                            l.Add(new Token("-", TokenType.Negator));
-                        }
+                        InsertNegatorToken(l, pt, index, new Token("-", TokenType.Negator));
                     }
                 }
                 else
                 {
-                    l.Add(_charTokens['-']);
+                    InsertNegatorToken(l, pt, index, _charTokens['-']);
                 }
+            }
+        }
+
+        private static void InsertNegatorToken(List<Token> l, Token pt, int index, Token token)
+        {
+
+            if (pt != l[l.Count - 1])
+            {
+                if (l[index + 1].TokenType == TokenType.WhiteSpace)
+                {
+                    l.Insert(index + 2, token);
+                }
+                else
+                {
+                    l.Insert(index + 1, token);
+                }
+            }
+            else
+            {
+                l.Add(token);
             }
         }
 

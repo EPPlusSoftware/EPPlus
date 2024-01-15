@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing;
+using System.IO;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace EPPlusTest.Issues
 {
@@ -88,6 +92,27 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
+
+        [TestMethod]
+        public void SubtractWorksheetReference()
+        {
+            const string MinusQuoteFormula = "10-'Sheet A'!A1";
+            const string SheetA = "Sheet A";
+
+            using var setupPackage = new ExcelPackage();
+            setupPackage.Workbook.Worksheets.Add(SheetA);
+            var sheetA = setupPackage.Workbook.Worksheets[SheetA];
+            sheetA.Cells[1, 1].Value = 3;
+            sheetA.Cells[1, 2].Formula = MinusQuoteFormula;
+
+			var stream = new MemoryStream();
+			setupPackage.SaveAs(stream);
+
+            using var testPackage = new ExcelPackage(stream);
+            string savedMinusQuoteFormula = testPackage.Workbook.Worksheets[SheetA].Cells[1, 2].Formula;
+            Assert.AreEqual(MinusQuoteFormula, savedMinusQuoteFormula);
+        }
+
 		[TestMethod]
 		public void s568()
 		{
@@ -97,23 +122,38 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
-		[TestMethod]
-		public void InsertRows_CalculatedColumnFormula()
-		{
-			using (var pck = OpenTemplatePackage("i1243.xlsx"))
-			{
-				var sheet1 = TryGetWorksheet(pck, "Sheet1");
-				var table1 = sheet1.Tables["Table1"];
+        [TestMethod]
+        public void i1244()
+        {
+            using (var p = OpenTemplatePackage("i1245.xlsx"))
+            {
+                var wbk = p.Workbook;
+                var sht = wbk.Worksheets["TestSheet"];
 
-				var calculatedColumnFormula1 = table1.Columns[3].CalculatedColumnFormula;
-				var calculatedColumnFormula2 = table1.Columns[0].CalculatedColumnFormula;
+                // Call calculate
+                wbk.Calculate();
 
-				//table1.AddRow(5);
-				//table1.InsertRow(4, 5);
-				//sheet1.Calculate();
+                // Check everything is initially in order
+                Assert.AreEqual(1.0, sht.Cells["B3"].Value);
+                Assert.AreEqual(2.0, sht.Cells["C3"].Value);
+                Assert.AreEqual(2.0, sht.Cells["B4"].Value);
+                Assert.AreEqual(4.0, sht.Cells["C4"].Value);
 
-				sheet1.InsertRow(30, 5);   // throws InvalidFormulaException
-			}
-		}
-	}
+                // Update the value of two cells
+                sht.Cells["B3"].Value = 500.0;
+                sht.Cells["B4"].Value = 500.0;
+
+
+                var form1 = sht.Cells["C3"].Formula;
+                var form2 = sht.Cells["C4"].Formula;
+
+                wbk.Calculate();
+
+                Assert.AreEqual(1000.0, sht.Cells["C3"].Value);
+                Assert.AreEqual(1000.0, sht.Cells["C4"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+    }
 }
