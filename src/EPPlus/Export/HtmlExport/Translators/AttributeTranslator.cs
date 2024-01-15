@@ -115,7 +115,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
-                            cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
+                            specials += "height: 100%";
+                            //cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
                             //var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
                             //specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
                             //if(bar.NegativeFillColor != null)

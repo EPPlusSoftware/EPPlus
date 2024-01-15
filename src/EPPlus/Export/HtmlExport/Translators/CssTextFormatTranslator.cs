@@ -17,6 +17,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         bool _wrapText;
         int _indent;
         int _textRotation;
+        bool _rightDefault;
 
         internal CssTextFormatTranslator(StyleXml xfs) : base(xfs)
         {
@@ -37,20 +38,32 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 AddDeclaration("white-space", _wrapText ? " break-spaces" : " nowrap");
             }
 
-            if (_applyAlignment ?? false)
+            var hAlign = "";
+            var vAlign = "";
+
+            if (_horizontalAlignment != ExcelHorizontalAlignment.General && context.Exclude.HorizontalAlignment == false)
             {
-                var hAlign = GetHorizontalAlignment();
-                var vAlign = GetVerticalAlignment();
+                hAlign = GetHorizontalAlignment();
+            }
 
-                if (string.IsNullOrEmpty(hAlign) == false && context.Exclude.HorizontalAlignment == false)
-                {
-                    AddDeclaration("text-align", hAlign);
-                }
+            if (_verticalAlignment != ExcelVerticalAlignment.Bottom && context.Exclude.VerticalAlignment == false)
+            {
+                vAlign = GetVerticalAlignment();
+            }
 
-                if (_verticalAlignment != ExcelVerticalAlignment.Bottom && context.Exclude.VerticalAlignment == false)
-                {
-                    AddDeclaration("vertical-align", vAlign);
-                }
+            if (string.IsNullOrEmpty(hAlign) && _rightDefault)
+            {
+                hAlign = "right";
+            }
+
+            if (string.IsNullOrEmpty(hAlign) == false && context.Exclude.HorizontalAlignment == false)
+            {
+                AddDeclaration("text-align", hAlign);
+            }
+
+            if (_verticalAlignment != ExcelVerticalAlignment.Bottom && context.Exclude.VerticalAlignment == false)
+            {
+                AddDeclaration("vertical-align", vAlign);
             }
 
             if (_textRotation != 0 && context.Exclude.TextRotation == false)
@@ -73,38 +86,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
             return declarations;
         }
-
-        //protected string GetVerticalAlignment()
-        //{
-        //    switch (_verticalAlignment)
-        //    {
-        //        case ExcelVerticalAlignment.Top:
-        //            return "top";
-        //        case ExcelVerticalAlignment.Center:
-        //            return "middle";
-        //        case ExcelVerticalAlignment.Bottom:
-        //            return "bottom";
-        //    }
-
-        //    return "";
-        //}
-
-        //protected string GetHorizontalAlignment()
-        //{
-        //    switch (_horizontalAlignment)
-        //    {
-        //        case ExcelHorizontalAlignment.Right:
-        //            return "right";
-        //        case ExcelHorizontalAlignment.Center:
-        //        case ExcelHorizontalAlignment.CenterContinuous:
-        //            return "center";
-        //        case ExcelHorizontalAlignment.Left:
-        //            return "left";
-        //    }
-
-        //    return "";
-        //}
-
-
     }
 }
