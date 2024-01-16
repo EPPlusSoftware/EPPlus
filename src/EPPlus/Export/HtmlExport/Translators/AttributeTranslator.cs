@@ -116,7 +116,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
                             specials += "height: 100%";
-                            //cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
+                            cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
                             //var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
                             //specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
                             //if(bar.NegativeFillColor != null)
@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
                             var flexParent = new HTMLElement("div");
                             flexParent.AddAttribute("class", $"{settings.StyleClassPrefix}fp");
-                            flexParent.AddAttribute("style", $"height: 100%;");
+                            //flexParent.AddAttribute("style", $"height: 100%; position: relative;");
                             parentElement.AddChildElement(flexParent);
 
                             if (bar.NegativeFillColor != null)
@@ -176,20 +176,23 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 {
                                     divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1");
                                     divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
-                                    divPos.AddAttribute("style", $"align-self: end;");
 
-                                    divNeg.AddAttribute("style", bar.ApplyStyleOverride(cell));
+                                    divNeg.AddAttribute("style", bar.ApplyStyleOverride(cell) + "border-right: dashed;");
                                 }
                                 else
                                 {
                                     divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
                                     divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1");
-                                    divPos.AddAttribute("style", bar.ApplyStyleOverride(cell)+";align-self: end;");
+                                    divPos.AddAttribute("style", bar.ApplyStyleOverride(cell) + "border-left: dashed;");
                                 }
-                                divPos.Content = cell.Value.ToString();
+                                var divContent = new HTMLElement("div");
+                                divContent.AddAttribute("style", "width: 100%; height: 100%; position: absolute; justify-content: left; align-items: center; display: flex;");
+                                divContent.Content = cell.Value.ToString();
+                                divContent.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
 
                                 flexParent.AddChildElement(divNeg);
                                 flexParent.AddChildElement(divPos);
+                                flexParent.AddChildElement(divContent);
                             }
                             else
                             {

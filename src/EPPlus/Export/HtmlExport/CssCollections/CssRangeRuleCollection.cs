@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbr ","border-right", "dashed"); //Dashed Border Right
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbl ","border-left", "dashed"); //Dashed Border Left
 
-            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fp ", "display", "flex"); //Flex Parent
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fp ", "display", "flex; height: 100%; position: relative;"); //Flex Parent
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fch ", "flex", "1"); //Flex Child
 
             AddWorksheetDimensions();
@@ -142,8 +142,24 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         internal void AddDatabar(string id, Color col, bool isPositive = true)
         {
-            //var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-databar-";
-            //ruleName += isPositive ? $"positive-{id}" : $"negative-{id}";
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-databar-";
+            ruleName += isPositive ? $"positive-{id}" : $"negative-{id}";
+            if (_ruleCollection.CssRules.Select(db => db.Selector == ruleName).FirstOrDefault() == false)
+            {
+                string turnDir = isPositive ? "0.25" : "0.75";
+
+                var declarationVal = $"linear-gradient({turnDir}turn, rgba(0,{col.R},{col.G},{col.B}), 60%, white)";
+
+                var barClass = new CssRule(ruleName);
+
+                barClass.AddDeclaration("background-image", declarationVal);
+                barClass.AddDeclaration("background-repeat", "no-repeat");
+
+                //barClass.AddDeclaration("border-color", databar.axisColor);
+                //barClass.AddDeclaration("image-border-color", databar.bordercolor);
+
+                _ruleCollection.CssRules.Add(barClass);
+            }
             //string turnDir = isPositive ? "0.25" : "0.75";
 
             //var declarationVal = $"linear-gradient({turnDir}turn, rgba(0,{col.R},{col.G},{col.B}), 60%, white)";
