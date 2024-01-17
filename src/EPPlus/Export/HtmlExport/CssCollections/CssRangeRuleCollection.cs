@@ -6,6 +6,7 @@ using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.Translators;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
@@ -184,6 +185,10 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 string turnDir = "0.25";
                 Color col = Color.Empty;
                 Color borderColor = Color.Empty;
+
+                var res = Math.Abs(bar.highest) + Math.Abs(bar.lowest);
+
+                var axisPercent = bar.lowest < 0 && bar.highest > 0 ? Math.Abs(bar.lowest) / Math.Abs(bar.highest) : 0;
 
                 if (isPositive) 
                 { 
