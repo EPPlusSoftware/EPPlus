@@ -660,7 +660,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             if (!string.IsNullOrEmpty(classString[0]))
             {
-                AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, settings, content, element, classString[0]);
+                AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, settings, content, element);
                 element.AddAttribute("class", classString[0]);
                 //element.AddAttribute("style", $"{"height: 100%;"}");
             }

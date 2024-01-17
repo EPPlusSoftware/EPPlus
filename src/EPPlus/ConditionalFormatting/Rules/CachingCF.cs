@@ -47,7 +47,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
 
         protected List<object> cellValueCache = new List<object>();
 
-        protected void UpdateCellValueCache(bool asStrings = false)
+        protected virtual void UpdateCellValueCache(bool asStrings = false)
         {
             cellValueCache.Clear();
 

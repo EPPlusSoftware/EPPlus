@@ -33,6 +33,8 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         TranslatorContext _context;
 
+        bool _hasAddedDBGenerics = false;
+
         internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
         {
             _settings = settings;
@@ -68,6 +70,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _wb.ThemeManager.CreateDefaultTheme();
             }
             _theme = _wb.ThemeManager.CurrentTheme;
+            _hasAddedDBGenerics = false;
         }
 
         internal void AddSharedClasses(string tableClass)
@@ -87,6 +90,8 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fp ", "display", "flex; height: 100%; position: relative;"); //Flex Parent
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fch ", "flex", "1"); //Flex Child
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fch.dbc", "width", "100%; height: 100%; position: absolute; display: flex"); //Flex Child with databarcontent
+
 
             AddWorksheetDimensions();
             AddImageAlignment();
@@ -133,46 +138,102 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         internal void AddDatabar(ExcelConditionalFormattingDataBar bar)
         {
-            AddDatabar("1", bar.FillColor.GetColorAsColor());
-            if(bar.NegativeFillColor != null)
+            AddDatabar(bar, true);
+            AddDatabar(bar, false);
+
+            if (_hasAddedDBGenerics == false)
             {
-                AddDatabar("1", bar.NegativeFillColor.GetColorAsColor(), false);
+                AddDatabarGeneric(".pos-dbar", true);
+                AddDatabarGeneric(".neg-dbar", false);
+                _hasAddedDBGenerics = true;
             }
         }
 
-        internal void AddDatabar(string id, Color col, bool isPositive = true)
+        internal void AddDatabarGeneric(string ruleName, bool isPositive)
         {
-            var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-databar-";
-            ruleName += isPositive ? $"positive-{id}" : $"negative-{id}";
-            if (_ruleCollection.CssRules.Select(db => db.Selector == ruleName).FirstOrDefault() == false)
+            var barClass = new CssRule(ruleName);
+
+            barClass.AddDeclaration("background-repeat", "no-repeat");
+
+            if (isPositive)
             {
-                string turnDir = isPositive ? "0.25" : "0.75";
+                barClass.AddDeclaration("background-position", "center left");
+            }
+            else
+            {
+                barClass.AddDeclaration("background-position", "center right");
+            }
 
-                var declarationVal = $"linear-gradient({turnDir}turn, rgba(0,{col.R},{col.G},{col.B}), 60%, white)";
+            _ruleCollection.CssRules.Add(barClass);
+        }
 
+
+        internal void AddDatabar(ExcelConditionalFormattingDataBar bar, bool isPositive = true)
+        {
+            var id = bar.DxfId;
+
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}-db-";
+
+            ruleName += isPositive ? $"pos{id}" : $"neg{id}";
+
+            var firstTest = _ruleCollection.CssRules.Where(db => db.Selector == ruleName).Select(db => db);
+            var test = firstTest.FirstOrDefault();
+            if (test == null)
+            {
                 var barClass = new CssRule(ruleName);
+                string turnDir = "0.25";
+                Color col = Color.Empty;
+                Color borderColor = Color.Empty;
 
+                if (isPositive) 
+                { 
+                    col = bar.FillColor.GetColorAsColor();
+                    borderColor = bar.BorderColor.GetColorAsColor();
+
+                    if (bar.AxisPosition != eExcelDatabarAxisPosition.None && bar.lowest < 0)
+                    {
+                        barClass.AddDeclaration("border-left", "dotted");
+
+                        var aColor = bar.AxisColor.GetColorAsColor();
+                        if (aColor == Color.Empty)
+                        {
+                            aColor = Color.Black;
+                        }
+                        barClass.AddDeclaration($"border-left-color", $"rgb({aColor.R}, {aColor.G}, {aColor.B})");
+                    }
+                }
+                else
+                {
+                    turnDir = "0.75";
+                    col = bar.NegativeFillColor.GetColorAsColor();
+                    borderColor = bar.NegativeBorderColor.GetColorAsColor();
+
+                    if (bar.AxisPosition != eExcelDatabarAxisPosition.None && bar.highest > 0)
+                    {
+                        barClass.AddDeclaration("border-right", "dotted");
+
+                        var aColor = bar.AxisColor.GetColorAsColor();
+                        if (aColor == Color.Empty)
+                        {
+                            aColor = Color.Black;
+                        }
+                        barClass.AddDeclaration($"border-right-color",$"rgb({aColor.R}, {aColor.G}, {aColor.B})");
+                    }
+                }
+
+                var declarationVal = $"linear-gradient({turnDir}turn, rgb({col.R},{col.G},{col.B}), 60%, white)";
+                if (bar.Border)
+                {
+                    var borderRGB = $"{borderColor.R},{borderColor.G},{borderColor.B}";
+                    declarationVal += $", linear-gradient({turnDir}turn, rgb({borderRGB}), 60%, rgb({borderRGB}))";
+                }
                 barClass.AddDeclaration("background-image", declarationVal);
-                barClass.AddDeclaration("background-repeat", "no-repeat");
 
-                //barClass.AddDeclaration("border-color", databar.axisColor);
-                //barClass.AddDeclaration("image-border-color", databar.bordercolor);
+                //barClass.AddDeclaration("border-color", barClass.AxisColor);
+                //barClass.AddDeclaration("image-border-color", barClass.);
 
                 _ruleCollection.CssRules.Add(barClass);
             }
-            //string turnDir = isPositive ? "0.25" : "0.75";
-
-            //var declarationVal = $"linear-gradient({turnDir}turn, rgba(0,{col.R},{col.G},{col.B}), 60%, white)";
-
-            //var barClass = new CssRule(ruleName);
-
-            //barClass.AddDeclaration("background-image", declarationVal);
-            //barClass.AddDeclaration("background-repeat", "no-repeat");
-
-            //barClass.AddDeclaration("border-color", databar.axisColor);
-            //barClass.AddDeclaration("image-border-color", databar.bordercolor);
-
-            //_ruleCollection.CssRules.Add(barClass);
         }
 
         internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id, string altName = null)

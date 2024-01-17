@@ -26,6 +26,7 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -48,8 +49,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         RightToLeft = 2
     }
 
-internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRule,
-        IExcelConditionalFormattingDataBarGroup
+    internal class ExcelConditionalFormattingDataBar : CachingCF,
+            IExcelConditionalFormattingDataBarGroup
     {
         internal ExcelConditionalFormattingDataBar(
          ExcelAddress address,
@@ -89,16 +90,16 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
         internal void ValueWasSet(eStyleClass styleClass, eStyleProperty styleProperty, object value)
         {
-            if(styleClass == eStyleClass.Border)
+            if (styleClass == eStyleClass.Border)
             {
                 Border = true;
-                if(NegativeBorderColor.HasValue)
+                if (NegativeBorderColor.HasValue)
                 {
                     NegativeBarBorderColorSameAsPositive = false;
                 }
             }
 
-            if(styleClass == eStyleClass.Fill)
+            if (styleClass == eStyleClass.Fill)
             {
                 NegativeBarColorSameAsPositive = false;
             }
@@ -112,9 +113,9 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             var highType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
             HighValue = new ExcelConditionalFormattingIconDataBarValue(highType, eExcelConditionalFormattingRuleType.DataBar);
 
-            if(!string.IsNullOrEmpty(xr.GetAttribute("val")))
+            if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                if(highType != eExcelConditionalFormattingValueObjectType.Formula)
+                if (highType != eExcelConditionalFormattingValueObjectType.Formula)
                 {
                     HighValue.Value = Double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
                 }
@@ -126,7 +127,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
             {
-                if(lowType != eExcelConditionalFormattingValueObjectType.Formula)
+                if (lowType != eExcelConditionalFormattingValueObjectType.Formula)
                 {
                     LowValue.Value = Double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
                 }
@@ -166,24 +167,24 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
             {
                 case "fillColor":
                     col = FillColor;
-                break;
+                    break;
 
                 case "borderColor":
                     col = BorderColor;
-                break;
+                    break;
 
                 case "negativeFillColor":
                     col = NegativeFillColor;
-                break;
+                    break;
 
                 case "negativeBorderColor":
                     col = NegativeBorderColor;
-                break;
+                    break;
 
                 case "axisColor":
                     col = AxisColor;
-                break;
-                
+                    break;
+
                 default: throw new Exception($"{xr.LocalName} is not a CT_Color node and cannot be read.");
             }
 
@@ -215,7 +216,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             xr.Read();
 
-            if(xr.LocalName.Contains("Color"))
+            if (xr.LocalName.Contains("Color"))
             {
                 ReadInCTColor(xr);
             }
@@ -278,11 +279,11 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
         /// <summary>
         /// Shorthand for the Fillcolor.Color property as it is the most commonly used
         /// </summary>
-        public Color Color 
-        { 
-            get 
+        public Color Color
+        {
+            get
             {
-                if(FillColor.Color != null)
+                if (FillColor.Color != null)
                 {
                     return (Color)FillColor.Color;
                 }
@@ -290,7 +291,7 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
                 {
                     return Color.Empty;
                 }
-            } 
+            }
             set
             {
                 FillColor.Color = value;
@@ -321,64 +322,159 @@ internal class ExcelConditionalFormattingDataBar : ExcelConditionalFormattingRul
 
             if (cellValue.IsNumeric() && color != Color.Empty)
             {
-                var cellValues = new List<object>();
-                double average = 0;
-                int count = 0;
-                foreach (var cell in Address.GetAllAddresses())
-                {
-                    for (int i = 1; i <= cell.Rows; i++)
-                    {
-                        for (int j = 1; j <= cell.Columns; j++)
-                        {
-                            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                            average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                            count++;
-                        }
-                    }
-                }
+                //var cellValues = new List<object>();
+                //double average = 0;
+                //int count = 0;
+                //foreach (var cell in Address.GetAllAddresses())
+                //{
+                //    for (int i = 1; i <= cell.Rows; i++)
+                //    {
+                //        for (int j = 1; j <= cell.Columns; j++)
+                //        {
+                //            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                //            average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                //            count++;
+                //        }
+                //    }
+                //}
 
-                average = average / count;
+                //average = average / count;
 
-                var values = cellValues.OrderBy(n => n);
+                //var values = cellValues.OrderBy(n => n);
 
-                var highest = Convert.ToDouble(values.Last());
-                var lowest = Convert.ToDouble(values.First());
+                //var highest = Convert.ToDouble(values.Last());
+                //var lowest = Convert.ToDouble(values.First());
 
                 var realValue = Convert.ToDouble(cellValue);
 
-                var percentage = 0.0d;
-
                 string ret = "";
+                string borderAdd = "";
+                var percentage = 0.0d;
+                Color borderColor = Color.Empty;
 
-                string fillColorStr = "";
-                string direction = "0.25";
-
-                if (realValue < 0)
+                if (realValue > 0)
                 {
-                    fillColorStr = $"rgba({NegativeFillColor.Color.Value.R},{NegativeFillColor.Color.Value.G},{NegativeFillColor.Color.Value.B}";
-                    direction = "0.75";
-                    percentage = realValue / lowest;
-                    ret += $"background-position: center right;";
+                    percentage = realValue / highest;
+                    borderColor = BorderColor.GetColorAsColor();
                 }
                 else
                 {
-                    fillColorStr = $"rgba({color.R},{color.G},{color.B}";
-                    percentage = realValue / highest;
-                    ret += $"background-position: center left;";
+                    percentage = realValue / lowest;
+                    borderColor = NegativeBorderColor.GetColorAsColor();
                 }
-                ret += $"background-size: {(percentage * 100).ToString(CultureInfo.InvariantCulture)}% 90%;";
-                ret += "background-repeat: no-repeat;";
+                double added = percentage == 0.0d ? 0 : 1.5;
+                borderAdd = borderColor == Color.Empty ? "" : $", {((percentage * 98) + added).ToString(CultureInfo.InvariantCulture)}% 95%";
 
-                ret += $"background-image: linear-gradient({direction}turn, {fillColorStr},255), 60%, white);";
+                ret += $"background-size: {(percentage * 98).ToString(CultureInfo.InvariantCulture)}% 90%";
+                ret += borderAdd + ";";
+
                 return ret;
             }
             return "";
         }
 
+
+
+        internal double highest
+        {
+            get
+            {
+                if (double.IsNaN(_highest))
+                {
+                    UpdateCellValueCache();
+                }
+
+                return _highest;
+            }
+            set 
+            { 
+                _highest = value;
+            }
+        }
+
+        internal double lowest
+        {
+            get
+            {
+                if (double.IsNaN(_lowest))
+                {
+                    UpdateCellValueCache();
+                }
+
+                return _lowest;
+            }
+            set
+            {
+                _lowest = value;
+            }
+        }
+
+        double _highest = double.NaN;
+        double _lowest = double.NaN;
+
+        protected override void UpdateCellValueCache(bool asStrings = false)
+        {
+            base.UpdateCellValueCache();
+            var values = cellValueCache.OrderBy(n => n);
+            highest = Convert.ToDouble(values.Last());
+            lowest = Convert.ToDouble(values.First());
+        }
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            highest = double.NaN;
+            lowest = double.NaN;
+        }
+
+        //internal bool GetHasNegativeBar()
+        //{
+        //    UpdateCellValueCache();
+        //    foreach(var val in )
+        //}
+
+        ExcelDxfColor _negativeFillColor;
+        ExcelDxfColor _negativeBorderColor;
+
         public ExcelDxfColor FillColor { get; private set; }
         public ExcelDxfColor BorderColor { get; private set; }
-        public ExcelDxfColor NegativeFillColor { get; private set; }
-        public ExcelDxfColor NegativeBorderColor { get; private set; }
+        public ExcelDxfColor NegativeFillColor 
+        {   get 
+            { 
+                if (NegativeBarColorSameAsPositive) 
+                { 
+                    return FillColor; 
+                } 
+                else 
+                { 
+                    return _negativeFillColor; 
+                } 
+            }
+            private set 
+            {
+                NegativeBarColorSameAsPositive = false;
+                _negativeFillColor = value; 
+            } 
+        }
+        public ExcelDxfColor NegativeBorderColor
+        {
+            get
+            {
+                if (NegativeBarBorderColorSameAsPositive)
+                {
+                    return BorderColor;
+                }
+                else
+                {
+                    return _negativeBorderColor;
+                }
+            }
+            private set
+            {
+                NegativeBarBorderColorSameAsPositive = false;
+                _negativeBorderColor = value;
+            }
+        }
         public ExcelDxfColor AxisColor { get; private set; }
 
         public eDatabarDirection Direction { get; set; }

@@ -233,7 +233,7 @@ namespace OfficeOpenXml.Style.Dxf
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(Theme.Value);
                 return Utils.ColorConverter.GetThemeColor(themeColor);
             }
-            else if (Auto.Value)
+            else if (Auto.HasValue)
             {
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
                 return Utils.ColorConverter.GetThemeColor(themeColor);

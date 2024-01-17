@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         }
 
         internal static List<HTMLElement> ConditionalFormattingsDatabarToHTML(ExcelRangeBase cell, HtmlExportSettings settings, 
-            ExporterContext context, HTMLElement parentElement, string parentClasses)
+            ExporterContext context, HTMLElement parentElement)
         {
             var dataBarElements = new List<HTMLElement>();
 
@@ -165,40 +165,37 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
                             var flexParent = new HTMLElement("div");
                             flexParent.AddAttribute("class", $"{settings.StyleClassPrefix}fp");
-                            //flexParent.AddAttribute("style", $"height: 100%; position: relative;");
+
                             parentElement.AddChildElement(flexParent);
 
-                            if (bar.NegativeFillColor != null)
+                            var divNeg = new HTMLElement("div");
+                            var divPos = new HTMLElement("div");
+                            var divContent = new HTMLElement("div");
+
+                            var prefix = $"{settings.StyleClassPrefix}{settings.CellStyleClassName}";
+
+                            if (Convert.ToDouble(cell.Value) < 0)
                             {
-                                var divNeg = new HTMLElement("div");
-                                var divPos = new HTMLElement("div");
-                                if (Convert.ToDouble(cell.Value) < 0)
-                                {
-                                    divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1");
-                                    divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
+                                divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch neg-dbar {prefix}-db-neg{bar.DxfId}");
+                                divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
 
-                                    divNeg.AddAttribute("style", bar.ApplyStyleOverride(cell) + "border-right: dashed;");
-                                }
-                                else
-                                {
-                                    divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
-                                    divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch {settings.StyleClassPrefix}bdr {settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1");
-                                    divPos.AddAttribute("style", bar.ApplyStyleOverride(cell) + "border-left: dashed;");
-                                }
-                                var divContent = new HTMLElement("div");
-                                divContent.AddAttribute("style", "width: 100%; height: 100%; position: absolute; justify-content: left; align-items: center; display: flex;");
-                                divContent.Content = cell.Value.ToString();
-                                divContent.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
-
-                                flexParent.AddChildElement(divNeg);
-                                flexParent.AddChildElement(divPos);
-                                flexParent.AddChildElement(divContent);
+                                divNeg.AddAttribute("style", bar.ApplyStyleOverride(cell));
                             }
                             else
                             {
-                                parentClasses += bar.ApplyStyleOverride(cell);
-                                parentClasses += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
+                                divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}fch");
+                                divPos.AddAttribute("class", $"{settings.StyleClassPrefix}fch pos-dbar {prefix}-db-pos{bar.DxfId}");
+                                divPos.AddAttribute("style", bar.ApplyStyleOverride(cell));
                             }
+
+                            divContent.AddAttribute("style", "justify-content: left; align-items: center;");
+                            divContent.Content = cell.Value.ToString();
+                            divContent.AddAttribute("class", $"{settings.StyleClassPrefix}fch dbc");
+
+                            flexParent.AddChildElement(divNeg);
+                            flexParent.AddChildElement(divPos);
+                            flexParent.AddChildElement(divContent);
+
                         break;
                     }
                 }
