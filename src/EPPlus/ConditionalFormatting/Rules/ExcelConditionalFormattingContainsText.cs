@@ -105,10 +105,20 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_text != null)
             {
-                base.Formula = string.Format(
-                  "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
-                  Address.Start.Address,
-                  _text);
+                if(Address != null)
+                {
+                    base.Formula = string.Format(
+                      "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
+                      Address.Start.Address,
+                      _text);
+                }
+                else
+                {
+                    base.Formula = string.Format(
+                      "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
+                      "#REF!",
+                      _text);
+                }
             }
             else if(Formula2 != null) 
             {
