@@ -6,13 +6,12 @@ using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.Translators;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style.XmlAccess;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
@@ -89,9 +88,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbr ","border-right", "dashed"); //Dashed Border Right
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbl ","border-left", "dashed"); //Dashed Border Left
 
-            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fp ", "display", "flex; height: 100%; position: relative;"); //Flex Parent
-            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fch ", "flex", "1"); //Flex Child
-            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}fch.dbc", "width", "100%; height: 100%; position: absolute; display: flex"); //Flex Child with databarcontent
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}pRelParent", "position", "relative; width: 100%; height: 100%"); //Relative position parent
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}relChildLeft", "float", "left; height: 100%"); //LeftChild
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}relChildRight", "overflow", "hidden; height: 100%"); //Right child
+
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbc", "width", "100%; height: 100%; position: absolute; display: flex"); //databarcontent
 
 
             AddWorksheetDimensions();
@@ -142,6 +143,18 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             AddDatabar(bar, true);
             AddDatabar(bar, false);
 
+            if(bar.AxisPosition == eExcelDatabarAxisPosition.Automatic)
+            {
+                var res = Math.Abs(bar.highest) + Math.Abs(bar.lowest);
+                var axisPercent = bar.lowest < 0 && bar.highest > 0 ? Math.Abs(bar.lowest) / Math.Abs(bar.highest) : 0;
+
+                var resFinal = (axisPercent * 100) >= 100 ? 90 : 0;
+
+                var barClass = new CssRule($".leftWidth{bar.DxfId}");
+                barClass.AddDeclaration("width", $" {(resFinal).ToString(CultureInfo.InvariantCulture)}%");
+                _ruleCollection.CssRules.Add(barClass);
+            }
+
             if (_hasAddedDBGenerics == false)
             {
                 AddDatabarGeneric(".pos-dbar", true);
@@ -185,10 +198,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 string turnDir = "0.25";
                 Color col = Color.Empty;
                 Color borderColor = Color.Empty;
-
-                var res = Math.Abs(bar.highest) + Math.Abs(bar.lowest);
-
-                var axisPercent = bar.lowest < 0 && bar.highest > 0 ? Math.Abs(bar.lowest) / Math.Abs(bar.highest) : 0;
 
                 if (isPositive) 
                 { 
