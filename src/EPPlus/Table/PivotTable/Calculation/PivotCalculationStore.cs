@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using System;
 using System.Collections;
@@ -71,10 +72,18 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 }
                 return 0;
             }
-        }
+			public override string ToString()
+			{
+                var key = "";
+                foreach(var i in Key)
+                {
+                    key+=i.ToString()+",";
+                }
+                return (key.Length > 0 ? key.Substring(0, key.Length - 1):"") + " : " + Index;
+			}
+		}
         internal List<object> Values { get; set; } = new List<object>();
 		internal List<CacheIndexItem> Index { get; set; } = new List<CacheIndexItem>();
-        //internal Dictionary<int, ExcelErrorValue> _errorValues = new Dictionary<int, ExcelErrorValue>();
         public int Count 
         {
             get

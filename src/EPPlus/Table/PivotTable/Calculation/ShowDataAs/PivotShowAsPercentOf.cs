@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
-    internal class PivotShowAsPercent : PivotShowAsBase
+    internal class PivotShowAsPercentOf : PivotShowAsBase
     {
         internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
         {   

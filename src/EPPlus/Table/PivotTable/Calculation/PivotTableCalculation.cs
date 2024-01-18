@@ -48,12 +48,13 @@ namespace OfficeOpenXml.Table.PivotTable
             { eShowDataAs.PercentOfTotal, new PivotShowAsPercentOfGrandTotal() },
             { eShowDataAs.PercentOfColumn, new PivotShowAsPercentOfColumnTotal() },
             { eShowDataAs.PercentOfRow, new PivotShowAsPercentOfRowTotal() },
-            { eShowDataAs.Percent, new PivotShowAsPercent() },
+            { eShowDataAs.Percent, new PivotShowAsPercentOf() },
             { eShowDataAs.PercentOfParentRow, new PivotShowAsPercentOfParentRowTotal()},
             { eShowDataAs.PercentOfParentColumn, new PivotShowAsPercentOfParentColumnTotal()},
-
             { eShowDataAs.RunningTotal, new PivotShowAsRunningTotal()},
-        };
+			{ eShowDataAs.PercentOfRunningTotal, new PivotShowAsPercentOfRunningTotal()},
+			{ eShowDataAs.RankAscending, new PivotShowAsRankAscending()},
+		};
         internal static bool Calculate(ExcelPivotTable pivotTable, out List<PivotCalculationStore> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {
             var ci = pivotTable.CacheDefinition._cacheReference;
@@ -86,6 +87,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
                     }
                 }
+
                 _calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count-1]);
 				_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems);
 				_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);

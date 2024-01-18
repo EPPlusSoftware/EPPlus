@@ -36,6 +36,5 @@ namespace EPPlusTest.FormulaParsing
         {
             _ws.Calculate();
         }
-            
     }
 }
