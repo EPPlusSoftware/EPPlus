@@ -19,5 +19,22 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
         }
+
+        //Contains blanks when address ref.
+        [TestMethod]
+        public void ContainsBlanksTest()
+        {
+            using (var p = OpenTemplatePackage("i1254.xlsx"))
+            {
+
+                var sheet = p.Workbook.Worksheets[0];
+
+                sheet.Cells["Z1"].Value = 1;
+
+                sheet.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
