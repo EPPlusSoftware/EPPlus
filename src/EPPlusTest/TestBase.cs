@@ -194,8 +194,30 @@ namespace EPPlusTest
             }
             return null;
         }
+		protected static FileInfo GetTemplateFile(string name)
+		{
+			var t = new FileInfo(_testInputPath + name);
+			if (t.Exists)
+			{
+				return new FileInfo(_worksheetPath + name);
+			}
+			else
+			{
+				t = new FileInfo(_testInputPathOptional + name);
+				if (t.Exists)
+				{
+					return t;
+				}
+				t = new FileInfo(_worksheetPath + name);
+				if (t.Exists)
+				{
+                    return t;
+				}
+			}
+			return null;
+		}
 
-        internal void IsNullRange(ExcelRange address)
+		internal void IsNullRange(ExcelRange address)
         {
             for(int row=address._fromRow;row<=address._toRow;row++)
             {
