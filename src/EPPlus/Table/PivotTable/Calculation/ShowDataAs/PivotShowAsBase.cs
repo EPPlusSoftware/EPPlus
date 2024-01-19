@@ -11,6 +11,8 @@
  01/18/2024         EPPlus Software AB       EPPlus 7.1
 *************************************************************************************************/
 using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
@@ -26,6 +28,36 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             }
             return key;
         }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="colFieldsStart">Where row fields end and colfields start in the key</param>
+		/// <returns></returns>
+		internal static int[] GetColumnTotalKey(int[] key, int colFieldsStart)
+		{
+			var newKey = (int[])key.Clone();
+			for (int i = 0; i < colFieldsStart; i++)
+			{
+				newKey[i] = PivotCalculationStore.SumLevelValue;
+			}
+			return newKey;
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="colFieldsStart">Where row fields end and colfields start in the key</param>
+		/// <returns></returns>
+		internal static int[] GetRowTotalKey(int[] key, int colFieldsStart)
+		{
+			var newKey = (int[])key.Clone();
+			for (int i = colFieldsStart; i < newKey.Length; i++)
+			{
+				newKey[i] = PivotCalculationStore.SumLevelValue;
+			}
+			return newKey;
+		}
 		internal static int[] GetParentKey(int[] key, int keyCol)
 		{
 			var newKey = (int[])key.Clone();

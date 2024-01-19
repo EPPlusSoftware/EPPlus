@@ -55,6 +55,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			{ eShowDataAs.PercentOfRunningTotal, new PivotShowAsPercentOfRunningTotal()},
 			{ eShowDataAs.RankAscending, new PivotShowAsRankAscending()},
             { eShowDataAs.RankDescending, new PivotShowAsRankDescending()},
+			{ eShowDataAs.Index, new PivotShowAsIndex()},
 		};
         internal static bool Calculate(ExcelPivotTable pivotTable, out List<PivotCalculationStore> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {

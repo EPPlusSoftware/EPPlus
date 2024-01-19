@@ -795,8 +795,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			Assert.AreEqual(5D, (double)ws.Cells["G15"].Value, 0.0000001);
 			Assert.AreEqual(3D, (double)ws.Cells["G16"].Value, 0.0000001);
 		}
+		[TestMethod]
+		public void GetPivotData_Sum_ShowValueAs_Index()
+		{
+			var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_Index");
+			var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable24");
+			pt.ColumnFields.Add(pt.Fields["Continent"]);
+			pt.RowFields.Add(pt.Fields["Country"]);
+			pt.RowFields.Add(pt.Fields["State"]);
+			var df = pt.DataFields.Add(pt.Fields["Sales"]);
+			df.Function = DataFieldFunctions.Sum;
+			df.ShowDataAs.SetIndex();
+			pt.Calculate(true);
 
+			ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
+			ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\",\"State\",\"Västerås\")";
+			ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\",\"State\",\"San Fransico\")";
+			ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\")";
+			ws.Cells["G9"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"State\",\"Berlin\")";
+			ws.Cells["G10"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
+			ws.Cells["G11"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Asia\")";
+			ws.Cells["G12"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\")";
+			ws.Calculate();
 
+			Assert.AreEqual(2.8137687555, (double)ws.Cells["G5"].Value, 0.0000001);
+			Assert.AreEqual(3.89731051345, (double)ws.Cells["G6"].Value, 0.0000001);
+			Assert.AreEqual(2.81376875552, (double)ws.Cells["G7"].Value, 0.0000001);
+			Assert.AreEqual(0D, ws.Cells["G8"].Value);
+			Assert.AreEqual(1D, (double)ws.Cells["G9"].Value, 0.0000001);
+			Assert.AreEqual(1D, (double)ws.Cells["G10"].Value, 0.0000001);
+			Assert.AreEqual(1D, (double)ws.Cells["G11"].Value, 0.0000001);
+			Assert.AreEqual(1D, (double)ws.Cells["G12"].Value, 0.0000001);
+		}
 
 		[TestMethod]
         public void PivotItemKeyTests()

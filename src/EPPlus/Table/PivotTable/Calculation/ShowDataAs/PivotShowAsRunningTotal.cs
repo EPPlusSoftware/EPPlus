@@ -18,46 +18,66 @@ using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
-    internal class PivotShowAsPercentOfRowTotal : PivotShowAsBase
+    internal class PivotShowAsRunningTotal : PivotShowAsBase
     {
         internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
-        {   
-            var showAsCalculatedItems = PivotTableCalculation.GetNewCalculatedItems();
-            var colStartIx = df.Field.PivotTable.RowFields.Count;
-            var totalKey = GetKey(fieldIndex.Count);            
-            var t = calculatedItems[totalKey];
-            foreach(var key in calculatedItems.Index)
-            {
-                if (calculatedItems[key.Key] is double d)
-                {
-                    var rowTotal = GetRowTotal(key.Key, colStartIx, calculatedItems, out ExcelErrorValue error);
-                    if (double.IsNaN(rowTotal))
-                    {
-                        showAsCalculatedItems.Add(key.Key,error);
-                    }
-                    else
-                    {
-                        showAsCalculatedItems.Add(key.Key, d / rowTotal);
-                    }                    
-                }
-            }
-            calculatedItems = showAsCalculatedItems;
-        }
-        private static double GetRowTotal(int[] key, int colStartIx, PivotCalculationStore calculatedItems, out ExcelErrorValue error)
-        {
-            var rowKey = (int[])key.Clone();
-            for (int i = colStartIx; i < key.Length; i++)
-            {
-                rowKey[i] = PivotCalculationStore.SumLevelValue;
-            }
-            var v = calculatedItems[rowKey];
-            if (v is ExcelErrorValue er)
-            {
-                error = er;
-                return double.NaN;
-            }
-            error = null;
-            return (double)v;
-        }
-    }
+		{
+			CalculateRunningTotal(df, fieldIndex, ref calculatedItems, false);
+		}
+
+		internal static void CalculateRunningTotal(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems, bool leaveParentSum)
+		{
+			var bf = fieldIndex.IndexOf(df.BaseField);
+			var colFieldsStart = df.Field.PivotTable.RowFields.Count;
+			var keyCol = fieldIndex.IndexOf(df.BaseField);
+			var record = df.Field.PivotTable.CacheDefinition._cacheReference.Records;
+			var maxBfKey = 0;
+			if (record.CacheItems[df.BaseField].Count(x => x is int) > 0)
+			{
+				maxBfKey = (int)record.CacheItems[df.BaseField].Where(x => x is int).Max();
+			}
+
+			foreach (var key in calculatedItems.Index.OrderBy(x => x.Key, ArrayComparer.Instance))
+			{
+				if (IsSumBefore(key.Key, bf, fieldIndex, colFieldsStart))
+				{
+					if(!(leaveParentSum == true && key.Key[keyCol] == PivotCalculationStore.SumLevelValue))
+					{
+						calculatedItems[key.Key] = null;
+					}
+				}
+				else if (IsSumAfter(key.Key, bf, fieldIndex, colFieldsStart) == true)
+				{
+					if (key.Key[keyCol] > 0)
+					{
+						var prevKey = GetPrevKey(key.Key, keyCol);
+						if (calculatedItems.ContainsKey(prevKey))
+						{
+							if (calculatedItems[key.Key] is double current)
+							{
+								if (calculatedItems[prevKey] is double prev)
+								{
+									calculatedItems[key.Key] = current + prev;
+								}
+								else
+								{
+									calculatedItems[key.Key] = calculatedItems[prevKey]; //The prev key is an error, set the value to that error.
+								}
+							}
+						}
+					}
+
+					if (key.Key[keyCol] < maxBfKey)
+					{
+						var nextKey = GetNextKey(key.Key, keyCol);
+						while (nextKey[keyCol] < maxBfKey && calculatedItems.ContainsKey(nextKey) == false)
+						{
+							calculatedItems[nextKey] = calculatedItems[key.Key];
+							nextKey = GetNextKey(nextKey, keyCol);
+						}
+					}
+				}
+			}
+		}
+	}
 }

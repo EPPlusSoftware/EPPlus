@@ -1,14 +1,14 @@
 ﻿/*************************************************************************************************
- Required Notice: Copyright (C) EPPlus Software AB. 
- This software is licensed under PolyForm Noncommercial License 1.0.0 
- and may only be used for noncommercial purposes 
- https://polyformproject.org/licenses/noncommercial/1.0.0/
+Required Notice: Copyright (C) EPPlus Software AB. 
+This software is licensed under PolyForm Noncommercial License 1.0.0 
+and may only be used for noncommercial purposes 
+https://polyformproject.org/licenses/noncommercial/1.0.0/
 
- A commercial license to use this software can be purchased at https://epplussoftware.com
+A commercial license to use this software can be purchased at https://epplussoftware.com
 *************************************************************************************************
- Date               Author                       Change
+Date               Author                       Change
 *************************************************************************************************
- 01/18/2024         EPPlus Software AB       EPPlus 7.1
+01/18/2024         EPPlus Software AB       EPPlus 7.1
 *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using System;
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 					{
 						var parentKey = GetParentKey(key.Key, keyCol);
 						var parentValue = calculatedItems[parentKey];
-						if(parentValue is double pv)
+						if (parentValue is double pv)
 						{
 							calculatedItems[key.Key] = (double)calculatedItems[key.Key] / pv;
 						}
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 					{
 						calculatedItems[key.Key] = 1D;
 					}
-				}				
+				}
 			}
 		}
 	}
