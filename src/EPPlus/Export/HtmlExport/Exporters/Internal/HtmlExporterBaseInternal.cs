@@ -141,6 +141,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                         if (!string.IsNullOrEmpty(classString[0]))
                         {
+                            AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, Settings, _exporterContext, th);
                             th.AddAttribute("class", classString[0]);
                         }
 
