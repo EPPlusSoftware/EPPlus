@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
+using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -188,7 +189,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 divPos.AddAttribute("style", bar.ApplyStyleOverride(cell));
                             }
 
-                            divContent.AddAttribute("style", "justify-content: left; align-items: center;");
+                            string hAlign = GetHorizontalAlignmentDBar(cell.Style.HorizontalAlignment);
+                            string vAlign = GetVerticalAlignmentDBar(cell.Style.VerticalAlignment);
+
+                            divContent.AddAttribute("style", $"justify-content: {hAlign}; align-items: {vAlign}");
                             divContent.Content = cell.Value.ToString();
                             divContent.AddAttribute("class", $"{settings.StyleClassPrefix}dbc");
 
@@ -200,6 +204,37 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 }
             }
             return dataBarElements;
+        }
+
+        static string GetVerticalAlignmentDBar(ExcelVerticalAlignment vAlign)
+        {
+            switch (vAlign)
+            {
+                case ExcelVerticalAlignment.Top:
+                    return "top";
+                case ExcelVerticalAlignment.Center:
+                    return "center";
+                case ExcelVerticalAlignment.Bottom:
+                    return "bottom";
+            }
+
+            return "";
+        }
+
+        static string GetHorizontalAlignmentDBar(ExcelHorizontalAlignment hAlign)
+        {
+            switch (hAlign)
+            {
+                case ExcelHorizontalAlignment.Right:
+                    return "right";
+                case ExcelHorizontalAlignment.Center:
+                case ExcelHorizontalAlignment.CenterContinuous:
+                    return "center";
+                case ExcelHorizontalAlignment.Left:
+                    return "left";
+            }
+
+            return "";
         }
 
         //void SpecialOperation(ExcelConditionalFormattingRule rule, ExcelAddress address)
