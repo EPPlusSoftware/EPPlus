@@ -21,6 +21,9 @@ using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Style;
 using System.Globalization;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Collections.Generic;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -740,110 +743,117 @@ namespace OfficeOpenXml.ConditionalFormatting
             calculatedFormula2 = null;
         }
 
-        //internal void SetTokens(string worksheet)
-        //{
-        //    if (Tokens == null)
-        //    {
-        //        Tokens = _tokenizer.Tokenize(Formula, worksheet);
-        //    }
-        //}
+        internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
+        internal IList<Token> Tokens;
 
+        internal void SetTokens(string worksheet, string aFormula)
+        {
+            if (Tokens == null)
+            {
+                Tokens = _tokenizer.Tokenize(aFormula, worksheet);
+            }
+        }
 
-        //internal string GetFormula(int row, int column, string worksheet)
-        //{
-        //    if (StartRow == row && StartCol == column)
-        //    {
-        //        return Formula;
-        //    }
+        internal string GetCellFormula(ExcelAddress address, bool getFormula2 = false)
+        {
+            return GetFormula(address._fromRow, address._fromCol, getFormula2);
+        }
 
-        //    SetTokens(worksheet);
-        //    string f = "";
-        //    for (int i = 0; i < Tokens.Count; i++)
-        //    {
-        //        var token = Tokens[i];
-        //        if (token.TokenTypeIsSet(TokenType.CellAddress))
-        //        {
-        //            var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
-        //            if (a.IsFullColumn)
-        //            {
-        //                if (a.IsFullRow)
-        //                {
-        //                    f += token.Value;
-        //                }
-        //                else
-        //                {
-        //                    f += a.GetOffset(0, column - StartCol, true);
-        //                }
-        //            }
-        //            else if (a.IsFullRow)
-        //            {
-        //                f += a.GetOffset(row - StartRow, 0, true);
-        //            }
-        //            else
-        //            {
-        //                if (a.Table != null)
-        //                {
-        //                    f += token.Value;
-        //                }
-        //                else
-        //                {
-        //                    f += a.GetOffset(row - StartRow, column - StartCol, true);
-        //                }
-        //            }
-        //        }
-        //        else if (token.TokenTypeIsSet(TokenType.FullRowAddress))
-        //        {
-        //            if (token.Value.StartsWith("$") == false)
-        //            {
-        //                if (int.TryParse(token.Value, out int r))
-        //                {
-        //                    r += row - StartRow;
-        //                    if (r >= 1 && r <= ExcelPackage.MaxRows)
-        //                    {
-        //                        f += r.ToString(CultureInfo.InvariantCulture);
-        //                    }
-        //                    else
-        //                    {
-        //                        f += "#REF!";
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    f += "#REF!";
-        //                }
-        //            }
-        //            else
-        //            {
-        //                f += token.Value;
-        //            }
-        //        }
-        //        else if (token.TokenTypeIsSet(TokenType.FullColumnAddress))
-        //        {
-        //            if (token.Value.StartsWith("$") == false)
-        //            {
-        //                var c = ExcelCellBase.GetColumn(token.Value);
-        //                c += column - StartCol;
-        //                if (c >= 1 && c <= ExcelPackage.MaxColumns)
-        //                {
-        //                    f += ExcelCellBase.GetColumnLetter(c);
-        //                }
-        //                else
-        //                {
-        //                    f += "#REF!";
-        //                }
-        //            }
-        //            else
-        //            {
-        //                f += token.Value;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            f += token.Value;
-        //        }
+        internal string GetFormula(int row, int column, bool isFormula2 = false)
+        {
+            if (Address.Start.Row == row && Address.Start.Column == column)
+            {
+                return isFormula2 == true ? Formula : Formula;
+            }
 
-        //    }
-        //    return f;
-        //}
+            SetTokens(_ws.Name, isFormula2 == true ? Formula : Formula) ;
+            string f = "";
+            for (int i = 0; i < Tokens.Count; i++)
+            {
+                var token = Tokens[i];
+                if (token.TokenTypeIsSet(TokenType.CellAddress))
+                {
+                    var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
+                    if (a.IsFullColumn)
+                    {
+                        if (a.IsFullRow)
+                        {
+                            f += token.Value;
+                        }
+                        else
+                        {
+                            f += a.GetOffset(0, column - Address.Start.Column, true);
+                        }
+                    }
+                    else if (a.IsFullRow)
+                    {
+                        f += a.GetOffset(row - Address.Start.Row, 0, true);
+                    }
+                    else
+                    {
+                        if (a.Table != null)
+                        {
+                            f += token.Value;
+                        }
+                        else
+                        {
+                            f += a.GetOffset(row - Address.Start.Row, column - Address.Start.Column, true);
+                        }
+                    }
+                }
+                else if (token.TokenTypeIsSet(TokenType.FullRowAddress))
+                {
+                    if (token.Value.StartsWith("$") == false)
+                    {
+                        if (int.TryParse(token.Value, out int r))
+                        {
+                            r += row - Address.Start.Row;
+                            if (r >= 1 && r <= ExcelPackage.MaxRows)
+                            {
+                                f += r.ToString(CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                f += "#REF!";
+                            }
+                        }
+                        else
+                        {
+                            f += "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        f += token.Value;
+                    }
+                }
+                else if (token.TokenTypeIsSet(TokenType.FullColumnAddress))
+                {
+                    if (token.Value.StartsWith("$") == false)
+                    {
+                        var c = ExcelCellBase.GetColumn(token.Value);
+                        c += column - Address.Start.Column;
+                        if (c >= 1 && c <= ExcelPackage.MaxColumns)
+                        {
+                            f += ExcelCellBase.GetColumnLetter(c);
+                        }
+                        else
+                        {
+                            f += "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        f += token.Value;
+                    }
+                }
+                else
+                {
+                    f += token.Value;
+                }
+
+            }
+            return f;
+        }
     }
 }

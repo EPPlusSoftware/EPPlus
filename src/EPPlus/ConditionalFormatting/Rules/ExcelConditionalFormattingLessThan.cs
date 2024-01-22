@@ -51,7 +51,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             var cellValue = _ws.Cells[address.Address].Value;
             if (cellValue != null)
             {
-                calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(Formula).ToString(), CultureInfo.InvariantCulture);
+                calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address)).ToString(), CultureInfo.InvariantCulture);
                 if (double.TryParse(calculatedFormula1, out double result))
                 {
                     if (cellValue.IsNumeric())
