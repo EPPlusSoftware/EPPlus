@@ -12,20 +12,11 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.Excel;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using System.Diagnostics;
-using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -124,6 +115,9 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var calcOption = new ExcelCalculationOption();
             calcOption.AllowCircularReferences = true;
+            //var formulaAddr = _parsingContext.RangeAddressFactory.Create(address);
+            //formulaAddr
+            //GetRpnFormula
             return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, _parsingContext.RangeAddressFactory.CreateCell(address), calcOption);
         }
 

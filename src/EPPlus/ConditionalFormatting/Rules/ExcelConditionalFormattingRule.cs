@@ -739,5 +739,111 @@ namespace OfficeOpenXml.ConditionalFormatting
             calculatedFormula1 = null;
             calculatedFormula2 = null;
         }
+
+        //internal void SetTokens(string worksheet)
+        //{
+        //    if (Tokens == null)
+        //    {
+        //        Tokens = _tokenizer.Tokenize(Formula, worksheet);
+        //    }
+        //}
+
+
+        //internal string GetFormula(int row, int column, string worksheet)
+        //{
+        //    if (StartRow == row && StartCol == column)
+        //    {
+        //        return Formula;
+        //    }
+
+        //    SetTokens(worksheet);
+        //    string f = "";
+        //    for (int i = 0; i < Tokens.Count; i++)
+        //    {
+        //        var token = Tokens[i];
+        //        if (token.TokenTypeIsSet(TokenType.CellAddress))
+        //        {
+        //            var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
+        //            if (a.IsFullColumn)
+        //            {
+        //                if (a.IsFullRow)
+        //                {
+        //                    f += token.Value;
+        //                }
+        //                else
+        //                {
+        //                    f += a.GetOffset(0, column - StartCol, true);
+        //                }
+        //            }
+        //            else if (a.IsFullRow)
+        //            {
+        //                f += a.GetOffset(row - StartRow, 0, true);
+        //            }
+        //            else
+        //            {
+        //                if (a.Table != null)
+        //                {
+        //                    f += token.Value;
+        //                }
+        //                else
+        //                {
+        //                    f += a.GetOffset(row - StartRow, column - StartCol, true);
+        //                }
+        //            }
+        //        }
+        //        else if (token.TokenTypeIsSet(TokenType.FullRowAddress))
+        //        {
+        //            if (token.Value.StartsWith("$") == false)
+        //            {
+        //                if (int.TryParse(token.Value, out int r))
+        //                {
+        //                    r += row - StartRow;
+        //                    if (r >= 1 && r <= ExcelPackage.MaxRows)
+        //                    {
+        //                        f += r.ToString(CultureInfo.InvariantCulture);
+        //                    }
+        //                    else
+        //                    {
+        //                        f += "#REF!";
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    f += "#REF!";
+        //                }
+        //            }
+        //            else
+        //            {
+        //                f += token.Value;
+        //            }
+        //        }
+        //        else if (token.TokenTypeIsSet(TokenType.FullColumnAddress))
+        //        {
+        //            if (token.Value.StartsWith("$") == false)
+        //            {
+        //                var c = ExcelCellBase.GetColumn(token.Value);
+        //                c += column - StartCol;
+        //                if (c >= 1 && c <= ExcelPackage.MaxColumns)
+        //                {
+        //                    f += ExcelCellBase.GetColumnLetter(c);
+        //                }
+        //                else
+        //                {
+        //                    f += "#REF!";
+        //                }
+        //            }
+        //            else
+        //            {
+        //                f += token.Value;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            f += token.Value;
+        //        }
+
+        //    }
+        //    return f;
+        //}
     }
 }

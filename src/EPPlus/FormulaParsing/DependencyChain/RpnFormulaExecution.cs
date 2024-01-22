@@ -53,6 +53,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelRangeBase cells, ExcelCalculationOption options)
         {
+            //Range chain
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(cells._workbook, options);
 
