@@ -13,6 +13,8 @@
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Security;
 using System.Security.Cryptography;
@@ -812,16 +814,39 @@ namespace OfficeOpenXml.Encryption
             using (var dataStream = RecyclableMemory.GetStream(encryptedData))
             {
 
-                CryptoStream cryptoStream = new CryptoStream(dataStream,
-                                                                decryptor,
-                                                                CryptoStreamMode.Read);
-
-                var decryptedData = new byte[size];
-
-                cryptoStream.Read(decryptedData, 0, (int)size);
-                return decryptedData;
+                using (var cryptoStream = new CryptoStream(dataStream, decryptor, CryptoStreamMode.Read))
+                {
+                    var decryptedData = ReadCryptoStream(cryptoStream, size);
+                    cryptoStream.Close();
+                    return decryptedData;
+                }   
             }
         }
+
+        private static byte[] ReadCryptoStream(CryptoStream cryptoStream, long size)
+        {
+            // This method uses different approaches to read a certain number of bytes
+            // from a CryptoStream depending .NET Framework or .NET Core. On .NET Core
+            // CryptoStream.Read only reads the blocksize, for example if size is 20 and
+            // blocksize is 16 the four last bytes will be zero. /MA 2024-01-22
+            var decryptedData = new byte[size];
+#if (Core)
+
+            for (var x = 0; x < size; x++)
+            {
+                var b = cryptoStream.ReadByte();
+                if(b == -1)
+                {
+                    throw new InvalidOperationException($"Could not read CryptoStream to expected position ({size}), stopped at {x}");
+                }
+                decryptedData[x] = (byte)b;
+            }
+#else
+            cryptoStream.Read(decryptedData, 0, (int)size);
+#endif
+            return decryptedData;
+        }
+
 
 #if (Core)
         private SymmetricAlgorithm GetEncryptionAlgorithm(EncryptionInfoAgile.EncryptionKeyData encr)
