@@ -1122,8 +1122,17 @@ namespace OfficeOpenXml
         private static ExcelAddressBase GetFullAddressFromToken(IList<Token> tokens, ref int i)
         {
             var sb = new StringBuilder();
-            while (tokens.Count > i && tokens[i].TokenTypeIsAddressToken)
+            var bracketCount = 0;
+            while (tokens.Count > i && (tokens[i].TokenTypeIsAddressToken || (tokens[i].TokenType==TokenType.Comma && bracketCount>0)))
             {
+                if (tokens[i].TokenType==TokenType.OpeningBracket)
+                {
+                    bracketCount++;
+                }
+                else if(tokens[i].TokenType == TokenType.ClosingBracket)
+                {
+					bracketCount--;
+				}
                 sb.Append(tokens[i].Value);
                 i++;
             }

@@ -323,7 +323,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                                 SetRangeOffsetToken(l);
                                 flags |= statFlags.isColon;
                             }
-                            else if ((flags & statFlags.isNumeric) == statFlags.isNumeric && (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric && (c == 'E' || c == 'e')) //Handle exponential values in a formula.
+                            else if ((flags == statFlags.isNumeric || 
+                                      flags == (statFlags.isNumeric | statFlags.isDecimal) || 
+                                      flags == (statFlags.isNumeric | statFlags.isDecimal | statFlags.isNegator) || 
+                                      flags == (statFlags.isNumeric | statFlags.isNegator)) 
+                                      && 
+                                      (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric 
+                                      && 
+                                      (c == 'E' || c == 'e')) //Handle exponential values in a formula.
                             {
                                 current.Append(c);
                                 flags |= statFlags.isExponential;
@@ -688,27 +695,33 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else
                     {
-                        if (pt != l[l.Count - 1])
-                        {
-                            if (l[index+1].TokenType == TokenType.WhiteSpace)
-                            {
-								l.Insert(index + 2, new Token("-", TokenType.Negator));
-							}
-							else
-                            {
-								l.Insert(index + 1, new Token("-", TokenType.Negator));
-							}
-						}
-                        else
-                        {
-                            l.Add(new Token("-", TokenType.Negator));
-                        }
+                        InsertNegatorToken(l, pt, index, new Token("-", TokenType.Negator));
                     }
                 }
                 else
                 {
-                    l.Add(_charTokens['-']);
+                    InsertNegatorToken(l, pt, index, _charTokens['-']);
                 }
+            }
+        }
+
+        private static void InsertNegatorToken(List<Token> l, Token pt, int index, Token token)
+        {
+
+            if (pt != l[l.Count - 1])
+            {
+                if (l[index + 1].TokenType == TokenType.WhiteSpace)
+                {
+                    l.Insert(index + 2, token);
+                }
+                else
+                {
+                    l.Insert(index + 1, token);
+                }
+            }
+            else
+            {
+                l.Add(token);
             }
         }
 

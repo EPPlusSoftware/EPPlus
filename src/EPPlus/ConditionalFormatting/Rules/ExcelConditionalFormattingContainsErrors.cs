@@ -85,9 +85,18 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            Formula = string.Format(
-              "ISERROR({0})",
-              Address.Start.Address);
+            if (Address != null)
+            {
+                Formula = string.Format(
+                  "ISERROR({0})",
+                  Address.Start.Address);
+            }
+            else
+            {
+                Formula = string.Format(
+                    "ISERROR({0})",
+                    "#REF!");
+            }
         }
 
         #endregion Constructors

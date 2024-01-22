@@ -390,5 +390,14 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual("Sheet 1''21", tokens[6].Value);
             
         }
+        [TestMethod]
+        public void NegatorHandlingWhenTokenizingIntegersAndAddresses()
+        {
+            var input = "10-'Sheet A'!A1";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(7,tokens.Length);
+            Assert.AreEqual(TokenType.Operator, tokens[1].TokenType);
+            Assert.AreEqual("-", tokens[1].Value);
+        }
     }
 }

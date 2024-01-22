@@ -1,7 +1,29 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.7
+### Fixed issues 
+* Implicit intersection in formulas with full row or full column addresses incorrectly calculated to #VALUE!.
+* Inserting in a range with a formula that has a table address with two parts, ie Table1[[#This Row],[column1], caused the formula to become corrupt.
+* Conditional formatting’s with #REF! addresses caused an Exception.
+* HeaderFooter - Fixed issue introduced 7.0.6 where RightAlignedText was set as CenterAlignedText.
+* Formula parser handled negation incorrectly in some cases before addresses with worksheet name specified.
+* Conditional formatting data bars can now take formula addresses and formulas for high and low input.
+* Calculating the first cell of a shared formula was incorrectly cached the value causing a second calculation to to use the previously cached value.
+* Disposed internal Memory Stream’s in package parts were not disposed correctly.
+* Formula Tokenizer could incorrectly identify a token as exponential causing an exception in the formula calculation.
+
 ## Version 7.0.6
+### Minor Features
+* Added new property TextSettings to set text fills, outlines and effects on chart elements to ExcelChartTitle, ExcelChartLegend, ExcelChartAxis and ExcelChartDatalabel.
+* Upgraded RecyclableMemoryStream to 3.0.0.
+
 ### Fixed issues 
 * Improved performance when opening files with many defined names in excel.
+* ToDataTable didn't handle RichText correctly when exporting values
+* Calculation threw a NullReferenceException on calculating a copied worksheet with shared formulas in some cases.
+* Calculation of XLOOKUP failed if it was set as a shared formula that did not return a dynamic result.
+* Fixed an issue where the formula tokenizer in the formula calculation handled whitespaces in the wrong order compared to negators.
+* Added a check for maximum header and footer text length.
+* RichData parts did not add the content types to the [Content_Types].xml.
 
 ## Version 7.0.5
 ### Fixed issues 

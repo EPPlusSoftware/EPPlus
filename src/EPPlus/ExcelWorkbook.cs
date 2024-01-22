@@ -1397,12 +1397,10 @@ namespace OfficeOpenXml
 			//Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
 		}
 
-		SortedList<string, List<ExcelNamedRange>> sortedNames = new SortedList<string, List<ExcelNamedRange>>();
-        List<ExcelNamedRange> nameList = new List<ExcelNamedRange>();
-
         private void UpdateDefinedNamesXml()
 		{
-			try
+            List<ExcelNamedRange> nameList = new List<ExcelNamedRange>();
+            try
 			{
 				Dictionary<string, string> nsf;
                 XmlNode top = WorkbookXml.SelectSingleNode("//d:definedNames", NameSpaceManager);

@@ -131,12 +131,12 @@ namespace OfficeOpenXml
 		{
 			get
 			{
-				return _centeredText;
+				return _rightAlignedText;
 
 			}
 			set
 			{
-				_centeredText = ValidateAndTrimText(value);
+				_rightAlignedText = ValidateAndTrimText(value);
 			}
 		}
 

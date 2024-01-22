@@ -844,16 +844,18 @@ namespace OfficeOpenXml
                 {
                     _stream.Close();
                     _stream.Dispose();
-                }
-                _zipPackage.Close();
-                if (_workbook != null)
+					_stream = null;
+				}
+
+				_zipPackage.Close();
+				_zipPackage.Dispose();
+				if (_workbook != null)
                 {
                     _workbook.Dispose();
                 }
-                _zipPackage = null;
+
+                    _zipPackage = null;
                 File = null;
-                _workbook = null;
-                _stream = null;
                 _workbook = null;
 
                 _isDisposed = true;

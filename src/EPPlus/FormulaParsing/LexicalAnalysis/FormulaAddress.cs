@@ -272,8 +272,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
         private Dictionary<int, Expression> CloneExpressions(int row, int col)
         {
-            if (row == StartRow && col == StartCol) return _compiledExpressions;
-            
             var l=new Dictionary<int, Expression>();
             foreach(var expression in _compiledExpressions)
             {
