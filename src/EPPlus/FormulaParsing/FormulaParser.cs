@@ -115,9 +115,6 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var calcOption = new ExcelCalculationOption();
             calcOption.AllowCircularReferences = true;
-            //var formulaAddr = _parsingContext.RangeAddressFactory.Create(address);
-            //formulaAddr
-            //GetRpnFormula
             
             return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, _parsingContext.RangeAddressFactory.CreateCell(address), calcOption);
         }

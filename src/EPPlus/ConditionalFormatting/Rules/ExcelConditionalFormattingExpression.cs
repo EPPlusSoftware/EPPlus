@@ -70,6 +70,10 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             if (cellValue != null)
             {
                 calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
+                if (ExcelErrorValue.IsErrorValue(calculatedFormula1))
+                {
+                    return false;
+                }
                 return bool.Parse(calculatedFormula1);
             }
 

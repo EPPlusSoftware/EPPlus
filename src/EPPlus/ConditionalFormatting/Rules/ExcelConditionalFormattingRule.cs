@@ -750,7 +750,10 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (Tokens == null)
             {
-                Tokens = _tokenizer.Tokenize(aFormula, worksheet);
+                if(aFormula != null)
+                {
+                    Tokens = _tokenizer.Tokenize(aFormula, worksheet);
+                }
             }
         }
 
@@ -761,13 +764,23 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal string GetFormula(int row, int column, bool isFormula2 = false)
         {
+            var relevantFormula = isFormula2 == true ? Formula2 : Formula;
             if (Address.Start.Row == row && Address.Start.Column == column)
             {
-                return isFormula2 == true ? Formula : Formula;
+                if(relevantFormula == null)
+                {
+                    return "";
+                }
+                return relevantFormula;
             }
 
-            SetTokens(_ws.Name, isFormula2 == true ? Formula : Formula) ;
+            SetTokens(_ws.Name, relevantFormula);
+
             string f = "";
+            if(Tokens == null)
+            {
+                return "";
+            }
             for (int i = 0; i < Tokens.Count; i++)
             {
                 var token = Tokens[i];
@@ -853,6 +866,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
 
             }
+            Tokens = null;
             return f;
         }
     }
