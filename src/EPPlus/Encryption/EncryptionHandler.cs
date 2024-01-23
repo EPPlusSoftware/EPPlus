@@ -825,25 +825,24 @@ namespace OfficeOpenXml.Encryption
 
         private static byte[] ReadCryptoStream(CryptoStream cryptoStream, long size)
         {
-            // This method uses different approaches to read a certain number of bytes
-            // from a CryptoStream depending .NET Framework or .NET Core. On .NET Core
-            // CryptoStream.Read only reads the blocksize, for example if size is 20 and
+            // This method was added to handle that on .NET Core/.NET 5+
+            // CryptoStream.Read only reads whole blocks, for example if size is 20 and
             // blocksize is 16 the four last bytes will be zero. /MA 2024-01-22
             var decryptedData = new byte[size];
-#if (Core)
-
-            for (var x = 0; x < size; x++)
+            var nBytes = cryptoStream.Read(decryptedData, 0, (int)size);
+            // if number of read bytes is less than size, read last bytes into the array
+            if (nBytes > 0 && nBytes < size)
             {
-                var b = cryptoStream.ReadByte();
-                if(b == -1)
+                for (int i = nBytes; i < size; i++)
                 {
-                    throw new InvalidOperationException($"Could not read CryptoStream to expected position ({size}), stopped at {x}");
+                    var b = cryptoStream.ReadByte();
+                    if (b == -1)
+                    {
+                        throw new InvalidOperationException($"Could not read CryptoStream to expected position ({size}), stopped at {i}");
+                    }
+                    decryptedData[i] = (byte)b;
                 }
-                decryptedData[x] = (byte)b;
             }
-#else
-            cryptoStream.Read(decryptedData, 0, (int)size);
-#endif
             return decryptedData;
         }
 
