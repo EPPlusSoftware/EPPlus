@@ -10,9 +10,7 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
-using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
@@ -24,9 +22,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -136,22 +131,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                     if (Settings.IncludeCssClassNames)
                     {
-                        var imageCellClassName = GetImageCellClassName(image, Settings, table != null);
-                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, true, Settings, imageCellClassName, _exporterContext);
-
-                        if (!string.IsNullOrEmpty(classString[0]))
-                        {
-                            AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, Settings, _exporterContext, th);
-                            th.AddAttribute("class", classString[0]);
-                        }
-
-                        if (classString.Count > 1)
-                        {
-                            if (!string.IsNullOrEmpty(classString[1]))
-                            {
-                                th.AddAttribute("style", $"{classString[1]}");
-                            }
-                        }
+                        GetClassData(th, true, image, cell, Settings, _exporterContext, true);
                     }
 
                     AddTableData(table, th, col);
@@ -160,6 +140,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
+
                     AddImage(th, Settings, image, cell.Value);
 
                     if (headerRows > 0 || table != null)
@@ -288,22 +269,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     }
                     else
                     {
-                        var imageCellClassName = GetImageCellClassName(image, Settings);
-
-                        var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
-
-                        if (!string.IsNullOrEmpty(classString[0]))
-                        {
-                            tblData.AddAttribute("class", classString[0]);
-                        }
-
-                        if (classString.Count > 1)
-                        {
-                            if (!string.IsNullOrEmpty(classString[1]))
-                            {
-                                tblData.AddAttribute("style", $"{classString[1]}");
-                            }
-                        }
+                        GetClassData(tblData, table != null, image, cell, Settings, _exporterContext);
 
                         AddImage(tblData, Settings, image, cell.Value);
                         AddHyperlink(tblData, cell, Settings);
@@ -385,7 +351,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
                 child.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
                 parent._childElements.Add(child);
-                //parent.RenderBeginTag(HtmlElements.Img, true);
             }
         }
 
@@ -638,6 +603,26 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
         }
 
+        internal void GetClassData(HTMLElement element, bool isTable, HtmlImage image, ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext content, bool isHeader = false)
+        {
+            var imageCellClassName = GetImageCellClassName(image, Settings, isTable); ;
+            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, isHeader, settings, imageCellClassName, content);
+
+            if (!string.IsNullOrEmpty(classString[0]))
+            {
+                AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, settings, content, element);
+                element.AddAttribute("class", classString[0]);
+            }
+
+            if (classString.Count > 1)
+            {
+                if (!string.IsNullOrEmpty(classString[1]))
+                {
+                    element.AddAttribute("style", $"{classString[1]}");
+                }
+            }
+        }
+
         public void AddTableDataFromCell(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
@@ -656,25 +641,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     element.AddAttribute("scope", "row");
                 }
             }
-            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, settings, imageCellClassName, content);
 
-            if (!string.IsNullOrEmpty(classString[0]))
-            {
-                AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, settings, content, element);
-                element.AddAttribute("class", classString[0]);
-                //element.AddAttribute("style", $"{"height: 100%;"}");
-            }
+            GetClassData(element, true, image, cell, settings, content);
 
-            if (classString.Count > 1)
-            {
-                if (!string.IsNullOrEmpty(classString[1]))
-                {
-                    element.AddAttribute("style", $"{classString[1]}");
-                }
-            }
-
-            HtmlExportImageUtil.AddImage(element, settings, image, cell.Value);
+            AddImage(element, settings, image, cell.Value);
             if (cell.IsRichText)
             {
                 element.Content = cell.RichText.HtmlText;

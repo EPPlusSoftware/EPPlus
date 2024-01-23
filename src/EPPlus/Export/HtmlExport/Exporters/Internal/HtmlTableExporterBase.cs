@@ -10,22 +10,13 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Core;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
-using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Runtime;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
-using System.Xml.Linq;
-
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -162,22 +153,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 {
                     tblData.AddAttribute("role", "cell");
                 }
-                var imageCellClassName = GetImageCellClassName(image, Settings);
-
-                var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, false, Settings, imageCellClassName, _exporterContext);
-
-                if (!string.IsNullOrEmpty(classString[0]))
-                {
-                    tblData.AddAttribute("class", classString[0]);
-                }
-
-                if (classString.Count > 1)
-                {
-                    if (!string.IsNullOrEmpty(classString[1]))
-                    {
-                        tblData.AddAttribute("style", $"{classString[1]}");
-                    }
-                }
+                GetClassData(tblData, true, image, cell, Settings, _exporterContext);
 
                 AddImage(tblData, Settings, image, cell.Value);
 
