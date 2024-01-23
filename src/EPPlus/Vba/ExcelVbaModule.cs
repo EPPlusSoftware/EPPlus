@@ -25,7 +25,7 @@ namespace OfficeOpenXml.VBA
     {
         string _name = "";
         ModuleNameChange _nameChangeCallback = null;
-        private static readonly char[] _nonValidChars = new char[] { '!', '\\', '"', '@', '#', '$', '%', '&', '/', '{', '}', '[', ']', '(', ')', '<', '>', '=', '+', '-', '?', '`', '~', '^', '\'', '*', ';', ':', ' ', '.', ' ', '«', '»' };
+        private static readonly char[] _nonValidChars = new char[] { '!', '\\', '"', '@', '#', '$', '%', '&', '/', '{', '}', '[', ']', '(', ')', '<', '>', '=', '+', '-', '?', '`', '~', '^', '\'', '*', ';', ':', '.', '«', '»' };
         internal ExcelVBAModule()
         {
             Attributes = new ExcelVbaModuleAttributesCollection();
@@ -71,7 +71,7 @@ namespace OfficeOpenXml.VBA
         {
             if (string.IsNullOrEmpty(name) ||   //Not null or empty
                char.IsLetter(name[0]) == false ||        //Don't start with a number or underscore
-               name.Any(x => x < 0x30 || IsAbove255AndNotLetter(x) || _nonValidChars.Contains(x))) //Don't contain invalid chars. Allow unicode
+               name.Any(x => (x < 0x30 && x != 0x20) || IsAbove255AndNotLetter(x) || _nonValidChars.Contains(x))) //Don't contain invalid chars. Allow unicode
             {
                 return false;
             }
