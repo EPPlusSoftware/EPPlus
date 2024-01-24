@@ -97,6 +97,16 @@ namespace OfficeOpenXml.Table
             }
         }
 
+        internal void UpdateColName(int dictIndex, string newName)
+        {
+            var pair = _colNames.FirstOrDefault(t => t.Value == dictIndex);
+            if (pair.Key != null)
+            {
+                _colNames.Remove(pair.Key);
+                _colNames.Add(newName, dictIndex);
+            }
+        }
+
         IEnumerator<ExcelTableColumn> IEnumerable<ExcelTableColumn>.GetEnumerator()
         {
             return _cols.GetEnumerator();
