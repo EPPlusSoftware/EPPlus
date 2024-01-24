@@ -82,6 +82,8 @@ namespace OfficeOpenXml.Table
             set
             {
                 var v = ConvertUtil.ExcelEncodeString(value);
+                _tbl.Columns.UpdateColName(Position, v);
+
                 SetXmlNodeString("@name", v);
                 if (_tbl.ShowHeader)
                 {

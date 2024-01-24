@@ -84,19 +84,22 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             //Text-alignment classes
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}al ", "text-align", "left");
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}ar ", "text-align", "right");
-            //Border classes
-            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbr ","border-right", "dashed"); //Dashed Border Right
-            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbl ","border-left", "dashed"); //Dashed Border Left
 
+            AddWorksheetDimensions();
+            AddImageAlignment();
+        }
+
+        internal void AddDatabarSharedClasses()
+        {
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}pRelParent", "position", "relative; width: 100%; height: 100%"); //Relative position parent
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}relChildLeft", "float", "left; height: 100%"); //LeftChild
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}relChildRight", "overflow", "hidden; height: 100%"); //Right child
 
+            //Border classes
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbr ", "border-right", "dashed"); //Dashed Border Right
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbl ", "border-left", "dashed"); //Dashed Border Left
+
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbc", "width", "100%; height: 100%; position: absolute; display: flex"); //databarcontent
-
-
-            AddWorksheetDimensions();
-            AddImageAlignment();
         }
 
         private void AddTableRule(string tableClass)
@@ -157,6 +160,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             if (_hasAddedDBGenerics == false)
             {
+                AddDatabarSharedClasses();
                 AddDatabarGeneric(".pos-dbar", true);
                 AddDatabarGeneric(".neg-dbar", false);
                 _hasAddedDBGenerics = true;

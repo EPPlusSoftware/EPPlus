@@ -312,7 +312,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void CF_ColorScaleShouldApply()
         {
-            using (var p = OpenPackage("colorScaleTest.xlsx"))
+            using (var p = OpenPackage("colorScaleTest.xlsx", true))
             {
                 var sheet = p.Workbook.Worksheets.Add("colorScaleSheet");
 
