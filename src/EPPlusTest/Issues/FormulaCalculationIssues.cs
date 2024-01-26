@@ -155,5 +155,13 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+		[TestMethod]
+		public void ExpressionEvaluatorTextPotentialOperatorsShouldNotChangeExpression()
+		{
+			using (var p = new ExcelPackage())
+			{
+				var sheet = p.Workbook.Worksheets.Add("SumIfCheck");
+			}
+		}
     }
 }

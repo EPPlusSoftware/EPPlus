@@ -102,6 +102,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="left">The object to evaluate</param>
         /// <param name="expressions">The expressions to evaluate the object against</param>
         /// <returns>True if any of the supplied expressions evaluates to true</returns>
+        /// <param name="useLimitedOperators">If true only runs operator candidate check on a subset of operators</param>
         public bool Evaluate(object left, IEnumerable<string> expressions)
         {
             if (expressions == null || !expressions.Any()) return false;
@@ -119,6 +120,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// </summary>
         /// <param name="left">The object to evaluate</param>
         /// <param name="expression">The expressions to evaluate the object against</param>
+        /// <param name="useLimitedOperators">If true only runs operator candidate check on a subset of operators</param>
         /// <returns></returns>
         public bool Evaluate(object left, string expression)
         {
@@ -131,6 +133,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="left">The object to evaluate</param>
         /// <param name="expression">The expressions to evaluate the object against</param>
         /// <param name="convertNumericString">If true and <paramref name="left"/> is a numeric string it will be converted to a number</param>
+        /// <param name="useLimitedOperators">If true only runs operator candidate check on a subset of operators</param>
         /// <returns></returns>
         public bool Evaluate(object left, string expression, bool convertNumericString)
         {
@@ -153,7 +156,16 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     IOperator op;
                     if (OperatorsDict.Instance.TryGetValue(operatorCandidate, out op))
                     {
-                        var right = expression.Replace(operatorCandidate, string.Empty);
+                        string right;
+                        if (Enum.IsDefined(typeof(LimitedOperators), (LimitedOperators)op.Operator))
+                        {
+                            right = expression.Replace(operatorCandidate, string.Empty);
+                        }
+                        else
+                        {
+                            right = expression;
+                        }
+                        
                         if (left == null && string.IsNullOrEmpty(right))
                         {
                             return op.Operator == Operators.Equals;

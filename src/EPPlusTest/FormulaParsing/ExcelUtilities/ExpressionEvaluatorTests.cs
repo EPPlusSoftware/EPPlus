@@ -95,6 +95,12 @@ namespace EPPlusTest
             Assert.IsFalse(result);
         }
         [TestMethod]
+        public void EvaluateShouldHandleNegativeSignsCorrectly()
+        {
+            var result = _evaluator.Evaluate(" -1", " -1");
+            Assert.IsTrue(result);
+        }
+        [TestMethod]
         public void EvaluateShouldEvaluateToGreaterThanMinusOne ()
         {
             var result = _evaluator.Evaluate(1d, "<>-1");
