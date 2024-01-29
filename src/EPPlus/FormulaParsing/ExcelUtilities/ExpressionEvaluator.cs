@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
@@ -156,15 +157,15 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     IOperator op;
                     if (OperatorsDict.Instance.TryGetValue(operatorCandidate, out op))
                     {
-                        string right;
-                        if (Enum.IsDefined(typeof(LimitedOperators), (LimitedOperators)op.Operator))
-                        {
-                            right = expression.Replace(operatorCandidate, string.Empty);
-                        }
-                        else
-                        {
-                            right = expression;
-                        }
+                        var right = expression.Replace(operatorCandidate, string.Empty);
+                        //if (Enum.IsDefined(typeof(LimitedOperators), (LimitedOperators)op.Operator))
+                        //{
+                        //    right = expression.Replace(operatorCandidate, string.Empty);
+                        //}
+                        //else
+                        //{
+                        //    right = expression;
+                        //}
                         
                         if (left == null && string.IsNullOrEmpty(right))
                         {
@@ -195,6 +196,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         if (leftIsNumeric != rightIsNumeric)
                         {
                             return op.Operator == Operators.NotEqualTo;
+                        }
+                        if (rightIsNumeric == false && Enum.IsDefined(typeof(LimitedOperators), (LimitedOperators)op.Operator) == false)
+                        {
+                            return _wildCardValueMatcher.IsMatch(expression, left) == 0;
                         }
                         return EvaluateOperator(left, right, op);
                     }
