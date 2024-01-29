@@ -38,4 +38,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         Colon,
         Intersect
     }
+    public enum LimitedOperators
+    {
+        Equals = Operators.Equals,
+        GreaterThan = Operators.GreaterThan,
+        GreaterThanOrEqual = Operators.GreaterThanOrEqual,
+        LessThan = Operators.LessThan,
+        LessThanOrEqual = Operators.LessThanOrEqual,
+        NotEqualTo = Operators.NotEqualTo,
+    }
 }
