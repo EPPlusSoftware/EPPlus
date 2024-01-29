@@ -13,6 +13,8 @@
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Security;
 using System.Security.Cryptography;
@@ -812,16 +814,38 @@ namespace OfficeOpenXml.Encryption
             using (var dataStream = RecyclableMemory.GetStream(encryptedData))
             {
 
-                CryptoStream cryptoStream = new CryptoStream(dataStream,
-                                                                decryptor,
-                                                                CryptoStreamMode.Read);
-
-                var decryptedData = new byte[size];
-
-                cryptoStream.Read(decryptedData, 0, (int)size);
-                return decryptedData;
+                using (var cryptoStream = new CryptoStream(dataStream, decryptor, CryptoStreamMode.Read))
+                {
+                    var decryptedData = ReadCryptoStream(cryptoStream, size);
+                    cryptoStream.Close();
+                    return decryptedData;
+                }   
             }
         }
+
+        private static byte[] ReadCryptoStream(CryptoStream cryptoStream, long size)
+        {
+            // This method was added to handle that on .NET Core/.NET 5+
+            // CryptoStream.Read only reads whole blocks, for example if size is 20 and
+            // blocksize is 16 the four last bytes will be zero. /MA 2024-01-22
+            var decryptedData = new byte[size];
+            var nBytes = cryptoStream.Read(decryptedData, 0, (int)size);
+            // if number of read bytes is less than size, read last bytes into the array
+            if (nBytes > 0 && nBytes < size)
+            {
+                for (int i = nBytes; i < size; i++)
+                {
+                    var b = cryptoStream.ReadByte();
+                    if (b == -1)
+                    {
+                        throw new InvalidOperationException($"Could not read CryptoStream to expected position ({size}), stopped at {i}");
+                    }
+                    decryptedData[i] = (byte)b;
+                }
+            }
+            return decryptedData;
+        }
+
 
 #if (Core)
         private SymmetricAlgorithm GetEncryptionAlgorithm(EncryptionInfoAgile.EncryptionKeyData encr)

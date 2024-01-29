@@ -31,6 +31,7 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace EPPlusTest
@@ -55,6 +56,35 @@ namespace EPPlusTest
             using (var package = new ExcelPackage(path, "pwd123"))
             {
 
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow(EncryptionAlgorithm.AES128)]
+        [DataRow(EncryptionAlgorithm.AES192)]
+        [DataRow(EncryptionAlgorithm.AES256)]
+        public void ShouldEncryptAndDecryptPackage(EncryptionAlgorithm algorithm)
+        {
+            byte[] bytes;
+            var pwd = "pwd123";
+            using (var ms = new MemoryStream())
+            { 
+                using (var encryptedPackage = new ExcelPackage())
+                {
+                    encryptedPackage.Encryption.Algorithm = algorithm;
+                    var sheet = encryptedPackage.Workbook.Worksheets.Add("Sheet1");
+                    sheet.Cells["A1"].Value = 1;
+                    encryptedPackage.SaveAs(ms, pwd);
+                    bytes = ms.ToArray();
+                }
+            }
+            using(var ms2 = new MemoryStream(bytes))
+            {
+                using (var decryptedPackage = new ExcelPackage(ms2, pwd))
+                {
+                    var sheet = decryptedPackage.Workbook.Worksheets.First();
+                    Assert.AreEqual(1d, sheet.Cells["A1"].Value);
+                }
             }
         }
     }

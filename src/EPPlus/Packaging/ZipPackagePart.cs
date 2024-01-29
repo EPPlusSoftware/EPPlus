@@ -158,9 +158,16 @@ namespace OfficeOpenXml.Packaging
         }
         public void Dispose()
         {
-            _stream.Close();
-            _stream.Dispose();
-        }
+            if(_stream != null)
+            {
+                try
+                {
+					_stream.Close();
+					_stream.Dispose();
+				}
+                catch { }
+			}
+		}
 
         internal ZipPackageRelationship CreateRelationshipFromCopy(ZipPackageRelationship relToCopy)
         {
