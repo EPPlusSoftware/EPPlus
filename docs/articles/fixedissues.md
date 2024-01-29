@@ -1,4 +1,9 @@
 ﻿# Features / Fixed issues - EPPlus 7
+
+## Version 7.0.8
+### Fixed issues
+* Changing the property ExcelTable.Columns[x].Name after adding a new column would sometimes result in div/0 in totalrow after Calculate()
+
 ## Version 7.0.7
 ### Fixed issues 
 * Implicit intersection in formulas with full row or full column addresses incorrectly calculated to #VALUE!.
