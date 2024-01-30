@@ -341,7 +341,8 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 var keys = new List<PivotCalculationStore.CacheIndexItem>();
                 foreach(var cacheItem in dataFieldItems.Index)
                 {
-                    if (valueFilter.MatchNumeric(dataFieldItems.GetByIndex(cacheItem.Index)) ==false)
+                    var v = dataFieldItems.GetByIndex(cacheItem.Index);
+					if (valueFilter.MatchNumeric(v) ==false)
                     {
                         keys.Add(cacheItem);
                     }

@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
 				var fld = pivotTable.Fields[f.Fld];
 				if (fld.IsColumnField || fld.IsRowField)
                 {
-                    if (f.MatchesLabel(pivotTable, recs, r))
+                    if (f.MatchesLabel(pivotTable, recs, r)==false)
                     {
                         return true;
                     }

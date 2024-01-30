@@ -340,13 +340,13 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             var dfIx = DataFields.IndexOf(dataField);
-            if(IsReferencingUngroupableKey(key, dataField.Field.PivotTable.RowFields.Count))
+            if(PivotTableCalculation.IsReferencingUngroupableKey(key, dataField.Field.PivotTable.RowFields.Count))
             {
                 if (Keys[dfIx].TryGetValue(key, out HashSet<int[]> uniqueItems))
                 {
                     if(uniqueItems.Count==1)
                     {
-                        key = uniqueItems.First();
+                        key = PivotTableCalculation.GetKeyWithParentLevel(key, uniqueItems.First(), dataField.Field.PivotTable.RowFields.Count);
                     }
                     else
                     {
@@ -364,27 +364,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return 0d;
         }
-
-        private bool IsReferencingUngroupableKey(int[] key, int rf)
-        {                        
-            for(var i=1;i<rf;i++)
-            {
-                if (key[i - 1] == PivotCalculationStore.SumLevelValue && key[i] != PivotCalculationStore.SumLevelValue)
-                {
-                    return true;
-                }
-            }
-
-            for (var i = rf+1; i <= key.Length-1; i++)
-            {
-                if (key[i - 1] == PivotCalculationStore.SumLevelValue && key[i] != PivotCalculationStore.SumLevelValue)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private string CleanDisplayName(string name)
         {
             return Regex.Replace(name, @"[^\w\.-_]", "_");

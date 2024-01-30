@@ -74,7 +74,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionEqual, "Groceries");
             pt.Calculate();
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterNotEquals()
@@ -87,7 +87,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionNotEqual, "Groceries");
             pt.Calculate();
             Assert.AreEqual(437.12, pt.CalculatedItems[0][[0]]);
-            Assert.AreEqual(437.12, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(437.12, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterGreaterThan()
@@ -100,7 +100,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionGreaterThan, "Groceries");
             pt.Calculate();
             Assert.AreEqual(437.12, pt.CalculatedItems[0][[0]]);
-            Assert.AreEqual(437.12, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(437.12, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterGreaterEqualThan()
@@ -114,7 +114,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             pt.Calculate();
             Assert.AreEqual(437.12, pt.CalculatedItems[0][[0]]);
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(445.52, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterLessThan()
@@ -127,7 +127,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionLessThan, "Hardware");
             pt.Calculate();
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterLessEqualThan()
@@ -141,7 +141,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             pt.Calculate();
             Assert.AreEqual(437.12, pt.CalculatedItems[0][[0]]);
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(445.52, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterBetween()
@@ -155,7 +155,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             pt.Calculate();
             Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
             Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
-            Assert.AreEqual(277.8, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(277.8, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterNotBetween()
@@ -171,7 +171,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
             Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
             Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
-            Assert.AreEqual(167.72, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(167.72, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterContains()
@@ -184,7 +184,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionContains, "oCer");
             pt.Calculate();
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterNotContains()
@@ -197,7 +197,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionNotContains, "wAre");
             pt.Calculate();
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterBeginsWith()
@@ -210,7 +210,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionBeginsWith, "HarD");
             pt.Calculate();
             Assert.AreEqual(437.12, pt.CalculatedItems[0][[0]]);
-            Assert.AreEqual(437.12, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(437.12, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterNotBeginsWith()
@@ -223,7 +223,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionNotBeginsWith, "HarD");
             pt.Calculate();
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterEndsWithWith()
@@ -236,7 +236,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionEndsWith, "wAre");
             pt.Calculate();
             Assert.AreEqual(437.12, pt.CalculatedItems[0][[0]]);
-            Assert.AreEqual(437.12, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(437.12, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterNotEndsWith()
@@ -249,7 +249,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddCaptionFilter(ePivotTableCaptionFilterType.CaptionNotEndsWith, "Ware");
             pt.Calculate();
             Assert.AreEqual(8.4, pt.CalculatedItems[0][[1]]);
-            Assert.AreEqual(8.4, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(8.4, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomDateEqual()
@@ -262,7 +262,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateEqual, new DateTime(2010, 01, 31));
             pt.Calculate();
             Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
-            Assert.AreEqual(85.2, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(85.2, pt.CalculatedItems[0][[int.MaxValue]]);
         }
         [TestMethod]
         public void FilterPageFieldCustomDateBetween()
@@ -275,7 +275,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateBetween, new DateTime(2010, 01, 01), new DateTime(2010, 5, 30));
             pt.Calculate();
             Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
-            Assert.AreEqual(181.4, pt.CalculatedItems[0][[-1]]);
+            Assert.AreEqual(181.4, pt.CalculatedItems[0][[int.MaxValue]]);
         }
 		[TestMethod]
 		public void FilterPageFieldCustomDateNotBetween()
@@ -288,7 +288,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateNotBetween, new DateTime(2010, 01, 01), new DateTime(2010, 5, 30));
 			pt.Calculate();
 			Assert.AreEqual(173.2, pt.CalculatedItems[0][[4]]);
-			Assert.AreEqual(264.12, pt.CalculatedItems[0][[-1]]);
+			Assert.AreEqual(264.12, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 		[TestMethod]
 		public void FilterPageFieldCustomDateOlderThan()
@@ -301,7 +301,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateOlderThan, new DateTime(2010, 5, 31));
 			pt.Calculate();
 			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
-			Assert.AreEqual(181.4, pt.CalculatedItems[0][[-1]]);
+			Assert.AreEqual(181.4, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 		[TestMethod]
 		public void FilterPageFieldCustomDateDateOlderThanOrEqual()
@@ -314,7 +314,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateOlderThanOrEqual, new DateTime(2010, 5, 31));
 			pt.Calculate();
 			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0]]);
-			Assert.AreEqual(354.6, pt.CalculatedItems[0][[-1]]);
+			Assert.AreEqual(354.6, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 		[TestMethod]
 		public void FilterPageFieldCustomDateNewerThan()
@@ -327,7 +327,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateNewerThan, new DateTime(2010, 5, 31));
 			pt.Calculate();
 			Assert.AreEqual(4.2, pt.CalculatedItems[0][[5]]);
-			Assert.AreEqual(90.92, pt.CalculatedItems[0][[-1]]);
+			Assert.AreEqual(90.92, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 		[TestMethod]
 		public void FilterPageFieldCustomDateNewerThanOrEqual()
@@ -340,7 +340,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			rf.Filters.AddDateValueFilter(ePivotTableDateValueFilterType.DateNewerThanOrEqual, new DateTime(2010, 5, 31));
 			pt.Calculate();
 			Assert.AreEqual(173.2, pt.CalculatedItems[0][[4]]);
-			Assert.AreEqual(264.12, pt.CalculatedItems[0][[-1]]);
+			Assert.AreEqual(264.12, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 		[TestMethod]
 		public void FilterPageFieldCustomValueEqual()
@@ -353,7 +353,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueEqual, df, 173.2);
 			pt.Calculate();
 			Assert.AreEqual(173.2, pt.CalculatedItems[0][[4]]);
-			Assert.AreEqual(173.2, pt.CalculatedItems[0][[-1]]);
+			Assert.AreEqual(173.2, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 		[TestMethod]
 		public void FilterPageFieldCustomValueNotEqual()
@@ -366,7 +366,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueEqual, df, 173.2);
 			pt.Calculate();
 			Assert.AreEqual(12.2, pt.CalculatedItems[0][[4]]);
-			Assert.AreEqual(360.32, pt.CalculatedItems[0][[-1]]);
+			Assert.AreEqual(360.32, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 	}
 }

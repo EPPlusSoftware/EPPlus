@@ -43,6 +43,7 @@ namespace OfficeOpenXml.Table.PivotTable
             { DataFieldFunctions.Var,  new PivotFunctionVar() },
             { DataFieldFunctions.VarP,  new PivotFunctionVarP() }
         };
+
         static Dictionary<eShowDataAs, PivotShowAsBase> _calculateShowAs = new Dictionary<eShowDataAs, PivotShowAsBase>
         {
             { eShowDataAs.PercentOfTotal, new PivotShowAsPercentOfGrandTotal() },
@@ -90,8 +91,8 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                 }
 
-                _calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count-1]);
 				_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems);
+				_calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count-1]);
 				_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
                 if (df.ShowDataAs.Value != eShowDataAs.Normal)
                 {
@@ -101,5 +102,68 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return true;
         }
-    }
+		internal static int[] GetKeyWithParentLevel(int[] key, int[] childKey, int rf)
+		{
+			if (IsKeyGrandTotal(key, 0, rf) == false)
+			{
+				for (var i = 0; i < rf; i++)
+				{
+					if (key[i] == PivotCalculationStore.SumLevelValue)
+					{
+						key[i] = childKey[i];
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			if (IsKeyGrandTotal(key, rf, childKey.Length) == false)
+			{
+				for (var i = rf; i <= key.Length - 1; i++)
+				{
+					if (key[i] == PivotCalculationStore.SumLevelValue)
+					{
+						key[i] = childKey[i];
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			return key;
+		}
+		internal static bool IsKeyGrandTotal(int[] key, int startIx, int endIx)
+		{
+			for (int i = startIx; i < endIx; i++)
+			{
+				if (key[i] != PivotCalculationStore.SumLevelValue)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+		internal static bool IsReferencingUngroupableKey(int[] key, int rf)
+		{
+			for (var i = 1; i < rf; i++)
+			{
+				if (key[i - 1] == PivotCalculationStore.SumLevelValue && key[i] != PivotCalculationStore.SumLevelValue)
+				{
+					return true;
+				}
+			}
+
+			for (var i = rf + 1; i <= key.Length - 1; i++)
+			{
+				if (key[i - 1] == PivotCalculationStore.SumLevelValue && key[i] != PivotCalculationStore.SumLevelValue)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+	}
 }

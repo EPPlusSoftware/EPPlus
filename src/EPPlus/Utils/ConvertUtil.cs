@@ -26,6 +26,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -246,8 +247,15 @@ namespace OfficeOpenXml.Utils
                 }
                 else
                 {
-                    d = retNaN ? double.NaN : 0;
-                }
+					if (v is KahanSum ks)
+					{
+						d = ks.Get();
+					}
+                    else
+                    {
+						d = retNaN ? double.NaN : 0;
+					}
+				}
             }
 
             catch
