@@ -81,9 +81,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
                 calculatedFormula2 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address, true), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
 
-                var Formula1IsNum = double.TryParse(calculatedFormula1, NumberStyles.None, CultureInfo.InvariantCulture, out double num1);
-                var Formula2IsNum = double.TryParse(calculatedFormula2, NumberStyles.None, CultureInfo.InvariantCulture, out double num2);
-                var cellValueIsNum = double.TryParse(str, NumberStyles.None, CultureInfo.InvariantCulture, out double numCellValue);
+                var Formula1IsNum = double.TryParse(calculatedFormula1, NumberStyles.Float, CultureInfo.InvariantCulture, out double num1);
+                var Formula2IsNum = double.TryParse(calculatedFormula2, NumberStyles.Float, CultureInfo.InvariantCulture, out double num2);
+                var cellValueIsNum = double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out double numCellValue);
 
                 if (Formula1IsNum && Formula2IsNum)
                 {
