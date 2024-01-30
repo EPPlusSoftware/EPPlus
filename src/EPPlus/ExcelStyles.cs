@@ -1000,7 +1000,7 @@ namespace OfficeOpenXml
         {
             if (templateStyle == Table.TableStyles.Custom)
             {
-                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´PivotTableStyles?overload of this method.", nameof(templateStyle));
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the 'PivotTableStyles' overload of this method.", nameof(templateStyle));
             }
 
             var s = CreateTableAndPivotTableStyle(name);
@@ -1017,7 +1017,7 @@ namespace OfficeOpenXml
         {
             if (templateStyle == PivotTableStyles.Custom)
             {
-                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´ExcelTableNamedStyleBase?overload of this method.", nameof(templateStyle));
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the 'ExcelTableNamedStyleBase' overload of this method.", nameof(templateStyle));
             }
 
             var s = CreateTableAndPivotTableStyle(name);
@@ -1087,7 +1087,7 @@ namespace OfficeOpenXml
         {
             if(templateStyle==eSlicerStyle.Custom)
             {
-                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´ExcelSlicerNamedStyle?overload of this method.", nameof(templateStyle));
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the 'ExcelSlicerNamedStyle' overload of this method.", nameof(templateStyle));
             }
             var s = CreateSlicerStyle(name);
             s.SetFromTemplate(templateStyle);
