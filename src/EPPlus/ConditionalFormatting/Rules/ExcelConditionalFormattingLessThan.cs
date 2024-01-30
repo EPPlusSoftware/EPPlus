@@ -49,7 +49,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             var cellValue = _ws.Cells[address.Address].Value;
-            if (cellValue != null)
+            if (cellValue != null && string.IsNullOrEmpty(Formula) == false)
             {
                 calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address)).ToString(), CultureInfo.InvariantCulture);
                 if (double.TryParse(calculatedFormula1, out double result))

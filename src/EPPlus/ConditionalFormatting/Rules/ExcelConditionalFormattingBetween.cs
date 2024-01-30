@@ -74,7 +74,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             var cellValue = _ws.Cells[address.Address].Value;
-            if (cellValue != null)
+            if (cellValue != null && string.IsNullOrEmpty(Formula) == false && string.IsNullOrEmpty(Formula2) == false)
             {
                 var str = cellValue.ToString();
 
