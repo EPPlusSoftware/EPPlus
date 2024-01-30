@@ -1449,7 +1449,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                         if (i == ruleList.Value.Count - 1)
                         {
-                            cache.Append($"<xm:sqref>{format.Address}</xm:sqref>");
+                            cache.Append($"<xm:sqref>{format.Address.AddressSpaceSeparated}</xm:sqref>");
                             cache.Append($"</{prefix}conditionalFormatting>");
                         }
                     }
@@ -1561,7 +1561,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if(i == 0)
                     {
-                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address}\">");
+                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\">");
                     }
 
                     cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
