@@ -1,8 +1,8 @@
 ﻿# Features / Fixed issues - EPPlus 7
-
 ## Version 7.0.8
-### Fixed issues
-* Changing the property ExcelTable.Columns[x].Name after adding a new column would sometimes result in div/0 in totalrow after Calculate()
+### Fixed issues 
+* Validation of VBA module names failed when containing a space
+* Decryption of workbooks where the hash algorithm SHA1 was used sometimes failed.
 
 ## Version 7.0.7
 ### Fixed issues 
