@@ -56,11 +56,15 @@ namespace OfficeOpenXml.Style.Dxf
                 return Position.ToString() + "|" + Color.Id;
             }
         }
+		internal static string GetEmptyId()
+		{
+			return $"|{ExcelDxfColor.GetEmptyId()}";
+		}
 
-        /// <summary>
-        /// Clears all colors
-        /// </summary>
-        public override void Clear()
+		/// <summary>
+		/// Clears all colors
+		/// </summary>
+		public override void Clear()
         {
             Color.Clear();
         }

@@ -101,13 +101,17 @@ namespace OfficeOpenXml.Style.Dxf
                 return Format;
             }
         }
+		internal static string GetEmptyId()
+		{
+			return $"";
+		}
 
-        /// <summary>
-        /// Creates the the xml node
-        /// </summary>
-        /// <param name="helper">The xml helper</param>
-        /// <param name="path">The X Path</param>
-        internal override void CreateNodes(XmlHelper helper, string path)
+		/// <summary>
+		/// Creates the the xml node
+		/// </summary>
+		/// <param name="helper">The xml helper</param>
+		/// <param name="path">The X Path</param>
+		internal override void CreateNodes(XmlHelper helper, string path)
         {
             if (NumFmtID < 0 && !string.IsNullOrEmpty(Format))
             {

@@ -92,16 +92,23 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return Top.Id + Bottom.Id + Left.Id + Right.Id + Vertical.Id + Horizontal.Id;
+                return GetId() + ExcelDxfFill.GetEmptyId() + ExcelDxfFont.GetEmptyId() + ExcelDxfNumberFormat.GetEmptyId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId();
             }
         }
-
-        /// <summary>
-        /// Creates the the xml node
-        /// </summary>
-        /// <param name="helper">The xml helper</param>
-        /// <param name="path">The X Path</param>
-        internal override void CreateNodes(XmlHelper helper, string path)
+        internal string GetId()
+        {
+            return Top.Id + Bottom.Id + Left.Id + Right.Id + Vertical.Id + Horizontal.Id;
+		}
+		internal static string GetEmptyId()
+		{
+			return ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId();
+		}
+		/// <summary>
+		/// Creates the the xml node
+		/// </summary>
+		/// <param name="helper">The xml helper</param>
+		/// <param name="path">The X Path</param>
+		internal override void CreateNodes(XmlHelper helper, string path)
         {
             Left.CreateNodes(helper, path + "/d:left");
             Right.CreateNodes(helper, path + "/d:right");

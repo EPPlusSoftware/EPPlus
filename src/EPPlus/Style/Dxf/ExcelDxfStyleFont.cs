@@ -37,13 +37,18 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return base.Id + Font.Id;
+                return GetId() + ExcelDxfNumberFormat.GetEmptyId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId();
             }
         }
-        /// <summary>
-        /// If the object has any properties set
-        /// </summary>
-        public override bool HasValue
+		internal virtual string GetId()
+		{
+			return base.GetId() + Font.Id;
+		}
+
+		/// <summary>
+		/// If the object has any properties set
+		/// </summary>
+		public override bool HasValue
         {
             get
             {

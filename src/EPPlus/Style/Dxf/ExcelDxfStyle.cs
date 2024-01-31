@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return base.Id + Font.Id + NumberFormat.Id + Alignment.Id + Protection.Id;
+                return base.GetId() + Font.Id + NumberFormat.Id + Alignment.Id + Protection.Id;
             }
         }
         /// <summary>
