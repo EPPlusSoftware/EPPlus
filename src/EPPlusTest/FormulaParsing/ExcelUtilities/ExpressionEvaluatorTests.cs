@@ -100,6 +100,12 @@ namespace EPPlusTest
             var result = _evaluator.Evaluate(1d, "<>-1");
             Assert.IsTrue(result);
         }
+        [TestMethod]
+        public void NegativeNumerics()
+        {
+            var result = _evaluator.Evaluate(" -1", " -1");
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region Date tests
@@ -355,6 +361,12 @@ namespace EPPlusTest
             result = _evaluator.Evaluate("b", "< a");
             Assert.IsFalse(result);
         }
-#endregion
+        [TestMethod]
+        public void EvaluateShouldHandleNegativeSignsCorrectlyWithText()
+        {
+            var result = _evaluator.Evaluate(" -something", " -something");
+            Assert.IsTrue(result);
+        }
+        #endregion
     }
 }
