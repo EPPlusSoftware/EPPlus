@@ -82,7 +82,14 @@ namespace OfficeOpenXml.Table
             set
             {
                 var v = ConvertUtil.ExcelEncodeString(value);
+
+                if(ExistsNode("@name"))
+                {
+                    _tbl.Columns.UpdateColName(Name, v);
+                }
+
                 SetXmlNodeString("@name", v);
+
                 if (_tbl.ShowHeader)
                 {
                     var cellValue = _tbl.WorkSheet.GetValue(_tbl.Address._fromRow, _tbl.Address._fromCol + Position);

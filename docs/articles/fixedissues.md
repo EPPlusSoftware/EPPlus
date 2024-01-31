@@ -1,4 +1,9 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.8
+### Fixed issues 
+* Validation of VBA module names failed when containing a space
+* Decryption of workbooks where the hash algorithm SHA1 was used sometimes failed.
+
 ## Version 7.0.7
 ### Fixed issues 
 * Implicit intersection in formulas with full row or full column addresses incorrectly calculated to #VALUE!.
