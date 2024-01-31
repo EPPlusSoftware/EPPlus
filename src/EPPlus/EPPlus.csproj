@@ -585,8 +585,7 @@
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
-	  <PackageReference Include="Microsoft.IO.
-						">
+	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
 		  <Version>3.0.0</Version>
 	  </PackageReference>
   </ItemGroup>
