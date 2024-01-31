@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>7.0.7.0</AssemblyVersion>
-    <FileVersion>7.0.7.0</FileVersion>
-    <Version>7.0.7</Version>
+    <AssemblyVersion>7.0.8.0</AssemblyVersion>
+    <FileVersion>7.0.8.0</FileVersion>
+    <Version>7.0.8</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 7.0.7
+		EPPlus 7.0.8
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,11 +26,14 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-		## Version 7.0.7
+		## Version 7.0.8
 		* Bug fixes - See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
 
+		## Version 7.0.7
+		* Bug fixes
+
 		## Version 7.0.6
-		* Bug fixes 
+		* Bug fixes
 
 		## Version 7.0.5
 		* Bug fixes
@@ -366,7 +369,8 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 		Version history
-		7.0.7			20240119 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
+		7.0.8			20240124 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
+		7.0.7			20240119 Minor bug fixes.
 		7.0.6			20240110 Minor bug fixes.
 		7.0.5			20231222 Minor bug fixes.
 		7.0.4			20231215 Minor bug fixes.
