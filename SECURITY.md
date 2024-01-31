@@ -2,10 +2,11 @@
 
 ## Supported Versions
 
-EPPlus 5 and 6 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. Security patches will be provided via new revisions released in our public Nuget feed.
+EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. Security patches will be provided via new revisions released in our public Nuget feed.
 
 | Version | Supported          | Comment            |
 | ------- | ------------------ | ------------------ |
+| 7.x.x   | :white_check_mark: |                    |
 | 6.x.x   | :white_check_mark: |                    |
 | 5.x.x   | :white_check_mark: |                    |
 | < 4.3   | :x:                |Deprecated/unsupported versions|
