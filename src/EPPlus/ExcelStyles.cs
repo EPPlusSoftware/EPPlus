@@ -1677,7 +1677,18 @@ namespace OfficeOpenXml
                 return new ExcelDxfStyle(NameSpaceManager, null, this, callback);
             }
         }
-        internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+		internal ExcelDxfBorderBase GetDxfBorder(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+		{
+			if (dxfId.HasValue && dxfId < Dxfs.Count)
+			{
+				return Dxfs[dxfId.Value].ToDxfBorderBaseStyle();
+			}
+			else
+			{
+				return new ExcelDxfBorderBase(this, callback);
+			}
+		}
+		internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
         {
             if (dxfId.HasValue && dxfId < Dxfs.Count)
             {

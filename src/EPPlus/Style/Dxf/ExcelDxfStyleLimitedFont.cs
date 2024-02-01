@@ -84,8 +84,12 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return base.Id + Font.Id;                    
+                return GetId() + ExcelDxfNumberFormat.GetEmptyId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId();                    
             }
         }
-    }
+		internal override string GetId()
+		{
+			return base.GetId() + Font.Id;
+		}
+	}
 }

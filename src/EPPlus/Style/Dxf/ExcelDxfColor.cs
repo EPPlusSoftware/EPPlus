@@ -118,6 +118,10 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get { return GetAsString(Theme) + "|" + GetAsString(Index) + "|" + GetAsString(Auto) + "|" + GetAsString(Tint) + "|" + GetAsString(Color==null ? "" : Color.Value.ToArgb().ToString("x")); }
         }
+        internal static string GetEmptyId()
+        {
+			return "||||";
+		}
         /// <summary>
         /// Set the color of the drawing based on an RGB color. This method will remove any previous 
         /// <see cref="eThemeSchemeColor">ThemeSchemeColor</see>, <see cref="ExcelIndexedColor">IndexedColor</see> 

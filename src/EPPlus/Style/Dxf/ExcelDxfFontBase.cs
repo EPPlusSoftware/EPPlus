@@ -107,17 +107,21 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color == null ? "" : Color.Id) + "|" + GetAsString(Underline)
+                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color == null ? ExcelDxfColor.GetEmptyId() : Color.Id) + "|" + GetAsString(Underline)
                     + "|||||||||";
             }
         }
+		internal static string GetEmptyId()
+		{
+			return $"|||{ExcelDxfColor.GetEmptyId()}||||||||||";
+		}
 
-        /// <summary>
-        /// Creates the the xml node
-        /// </summary>
-        /// <param name="helper">The xml helper</param>
-        /// <param name="path">The X Path</param>
-        internal override void CreateNodes(XmlHelper helper, string path)
+		/// <summary>
+		/// Creates the the xml node
+		/// </summary>
+		/// <param name="helper">The xml helper</param>
+		/// <param name="path">The X Path</param>
+		internal override void CreateNodes(XmlHelper helper, string path)
         {
             helper.CreateNode(path);
             SetValueBool(helper, path + "/d:b/@val", Bold);
