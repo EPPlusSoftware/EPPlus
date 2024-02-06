@@ -73,7 +73,9 @@ namespace OfficeOpenXml
                 int index = 0;
                 foreach (XmlNode node in colorNodes)
                 {
-                    ExcelColor.indexedColors[index++] = "#" + node.Attributes["rgb"].InnerText;
+                    // Max number of indexed colors is 66
+                    if (index > 65) break;
+                    ExcelColor.IndexedColors[index++] = "#" + node.Attributes["rgb"].InnerText;
                 }
             }
 
