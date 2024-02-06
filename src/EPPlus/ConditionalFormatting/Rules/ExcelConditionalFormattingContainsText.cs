@@ -12,6 +12,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 
@@ -129,14 +130,16 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if(Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
             {
+                Formula = Formula2;
+                var stringValue = _ws.Cells[address.Start.Address].Value.ToString();
                 //Formula2 only filled if there's a cell or formula to cond
-                if(Formula2 != null)
+                if (Formula2 != null)
                 {
-                    return _ws.Cells[Address.Start.Address].Formula.Contains(Formula2);
+                    return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, Formula2, CompareOptions.IgnoreCase) >= 0;
                 }
                 else
                 {
-                    return _ws.Cells[Address.Start.Address].Formula.Contains(_text);
+                    return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, _text, CompareOptions.IgnoreCase) >= 0;
                 }
             }
 

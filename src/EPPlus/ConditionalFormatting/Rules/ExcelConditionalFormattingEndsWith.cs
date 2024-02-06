@@ -159,7 +159,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if(_ws.Cells[Address.Start.Address].Value != null)
                 {
-                    var cellString = _ws.Cells[Address.Start.Address].Value.ToString();
+                    var cellString = _ws.Cells[address.Start.Address].Value.ToString();
 
                     if (Formula2 != null)
                     {
