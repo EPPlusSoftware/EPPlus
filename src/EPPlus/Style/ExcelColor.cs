@@ -25,7 +25,8 @@ namespace OfficeOpenXml.Style
     /// </summary>
     public sealed class ExcelColor :  StyleBase, IColor
     {
-        internal static string[] indexedColors =
+
+        private static readonly string[] _indexedColors = new string[]
         {
                 "#FF000000", // 0
                 "#FFFFFFFF",
@@ -43,7 +44,7 @@ namespace OfficeOpenXml.Style
                 "#FFFFFF00",
                 "#FFFF00FF",
                 "#FF00FFFF",
-                "#FF800000",
+                "#FF800000", // 16
                 "#FF008000",
                 "#FF000080",
                 "#FF808000",
@@ -51,7 +52,7 @@ namespace OfficeOpenXml.Style
                 "#FF008080",
                 "#FFC0C0C0",
                 "#FF808080",
-                "#FF9999FF",
+                "#FF9999FF", // 24
                 "#FF993366",
                 "#FFFFFFCC",
                 "#FFCCFFFF",
@@ -59,7 +60,7 @@ namespace OfficeOpenXml.Style
                 "#FFFF8080",
                 "#FF0066CC",
                 "#FFCCCCFF",
-                "#FF000080",
+                "#FF000080", // 32
                 "#FFFF00FF",
                 "#FFFFFF00",
                 "#FF00FFFF",
@@ -67,7 +68,7 @@ namespace OfficeOpenXml.Style
                 "#FF800000",
                 "#FF008080",
                 "#FF0000FF",
-                "#FF00CCFF",
+                "#FF00CCFF", // 40
                 "#FFCCFFFF",
                 "#FFCCFFCC",
                 "#FFFFFF99",
@@ -75,7 +76,7 @@ namespace OfficeOpenXml.Style
                 "#FFFF99CC",
                 "#FFCC99FF",
                 "#FFFFCC99",
-                "#FF3366FF",
+                "#FF3366FF", // 48
                 "#FF33CCCC",
                 "#FF99CC00",
                 "#FFFFCC00",
@@ -83,27 +84,33 @@ namespace OfficeOpenXml.Style
                 "#FFFF6600",
                 "#FF666699",
                 "#FF969696",
-                "#FF003366",
+                "#FF003366", // 56
                 "#FF339966",
                 "#FF003300",
                 "#FF333300",
                 "#FF993300",
                 "#FF993366",
                 "#FF333399",
-                "#FF333333", // 63
+                "#FF333333", // 64
+                null,        // last two are specified as N/A in OOXML docs
+                null
             };
+
+        internal static string[] IndexedColors { get { return _indexedColors; } }
 
         internal static Color GetIndexedColor(int index)
         {
-            if(index >= 0 && index < indexedColors.Length)
+            if(index >= 0 && index < IndexedColors.Length)
             {
-                var s = indexedColors[index];
-                var a = int.Parse(s.Substring(1, 2), NumberStyles.HexNumber);
-                var r = int.Parse(s.Substring(3, 2), NumberStyles.HexNumber);
-                var g = int.Parse(s.Substring(5, 2), NumberStyles.HexNumber);
-                var b = int.Parse(s.Substring(7, 2), NumberStyles.HexNumber);
-
-                return Color.FromArgb(a, r, g, b);
+                var s = IndexedColors[index];
+                if (s != null)
+                { 
+                    var a = int.Parse(s.Substring(1, 2), NumberStyles.HexNumber);
+                    var r = int.Parse(s.Substring(3, 2), NumberStyles.HexNumber);
+                    var g = int.Parse(s.Substring(5, 2), NumberStyles.HexNumber);
+                    var b = int.Parse(s.Substring(7, 2), NumberStyles.HexNumber);
+                    return Color.FromArgb(a, r, g, b);
+                }
             }
             return Color.Empty;
         }
@@ -306,9 +313,11 @@ namespace OfficeOpenXml.Style
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
         public string LookupColor(ExcelColor theColor)
         {
-            if (theColor.Indexed >= 0 && theColor.Indexed < indexedColors.Length)
+            if (theColor.Indexed >= 0 && theColor.Indexed < IndexedColors.Length)
             {
-                return indexedColors[theColor.Indexed];
+                var color = IndexedColors[theColor.Indexed];
+                if (string.IsNullOrEmpty(color)) return "0";
+                return IndexedColors[theColor.Indexed];
             }
             else if (theColor.Rgb != null && theColor.Rgb.Length > 0)
             {
