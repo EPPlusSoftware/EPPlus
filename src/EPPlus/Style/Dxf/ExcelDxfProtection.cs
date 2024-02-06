@@ -54,11 +54,15 @@ namespace OfficeOpenXml.Style.Dxf
                        GetAsString(Locked);
             }
         }
+		internal static string GetEmptyId()
+		{
+			return "|";
+		}
 
-        /// <summary>
-        /// Clears all properties
-        /// </summary>
-        public override void Clear()
+		/// <summary>
+		/// Clears all properties
+		/// </summary>
+		public override void Clear()
         {
 
             Locked = null;

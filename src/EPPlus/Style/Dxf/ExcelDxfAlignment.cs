@@ -142,11 +142,14 @@ namespace OfficeOpenXml.Style.Dxf
 
             }
         }
-
-        /// <summary>
-        /// Clears all properties
-        /// </summary>
-        public override void Clear()
+        internal static string GetEmptyId()
+        {
+            return "||||||||";
+		}
+		/// <summary>
+		/// Clears all properties
+		/// </summary>
+		public override void Clear()
         {
 
             HorizontalAlignment = null;

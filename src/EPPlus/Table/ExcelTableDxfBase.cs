@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Table
             _tableColumn = tableColumn;
             HeaderRowStyle = styles.GetDxf(HeaderRowDxfId, SetHeaderStyle);
             DataStyle = styles.GetDxf(DataDxfId, SetDataStyle);
-            TotalsRowStyle = styles.GetDxf(TotalsRowDxfId, SetTotalsStyle);
+            TotalsRowStyle = styles.GetDxf(TotalsRowDxfId, SetTotalsStyle);            
         }
         internal int? HeaderRowDxfId
         {
@@ -135,7 +135,14 @@ namespace OfficeOpenXml.Table
             }
             SetStyle(totalRange, styleClass, styleProperty, value);
         }
-        private void SetStyle(ExcelRangeBase headerRange, eStyleClass styleClass, eStyleProperty styleProperty, object value)
+		internal void SetTableBorderStyle(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+		{
+			if ((_table ?? _tableColumn.Table).ShowHeader == false || value == null) return;
+			SetStyle(_table.Range, styleClass, styleProperty, value);
+		}
+
+
+		private void SetStyle(ExcelRangeBase headerRange, eStyleClass styleClass, eStyleProperty styleProperty, object value)
         {
             switch(styleClass)
             {

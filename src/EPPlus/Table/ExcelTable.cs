@@ -80,9 +80,13 @@ namespace OfficeOpenXml.Table
             TopNode = TableXml.DocumentElement;
             SchemaNodeOrder = new string[] { "autoFilter", "sortState", "tableColumns", "tableStyleInfo" };
             InitDxf(WorkSheet.Workbook.Styles, this, null);
-            TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
-            HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
-            _tableSorter = new TableSorter(this);
+            //TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+            //HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+			var styles = WorkSheet.Workbook.Styles;
+            TableBorderStyle = styles.GetDxfBorder(TableBorderDxfId, SetTableBorderStyle);
+			HeaderRowBorderStyle = styles.GetDxfBorder(HeaderRowBorderDxfId, SetHeaderStyle);
+
+			_tableSorter = new TableSorter(this);
         }
 
         private string GetStartXml(string name, int tblId)

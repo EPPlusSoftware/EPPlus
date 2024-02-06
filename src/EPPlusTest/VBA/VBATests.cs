@@ -280,5 +280,25 @@ namespace EPPlusTest.VBA
                 SaveWorkbook("v3Signing\\EPPlusV3ContentSigning.xlsm", package);
             }
         }
+
+        [TestMethod]
+        public void VbaModuleNameShouldAllowSpace()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Public Sub CreateBubbleChart()");
+            sb.AppendLine("Dim co As ChartObject");
+            sb.AppendLine("Set co = Inventory.ChartObjects.Add(10, 100, 400, 200)");
+            sb.AppendLine("co.Chart.SetSourceData Source:=Range(\"'Inventory'!$B$1:$E$5\")");
+            sb.AppendLine("co.Chart.ChartType = xlBubble3DEffect         'Add a bubblechart");
+            sb.AppendLine("End Sub");
+
+            package.Workbook.CreateVBAProject();
+            //Create a new module and set the code
+            var module = package.Workbook.VbaProject.Modules.AddModule("My BubbleChartModule");
+            module.Code = sb.ToString();
+        }
     }
 }

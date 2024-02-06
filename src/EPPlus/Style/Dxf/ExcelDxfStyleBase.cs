@@ -60,17 +60,19 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return Border.Id + Fill.Id +
-                    (AllowChange ? "" : DxfId.ToString());
+                return GetId() + ExcelDxfFont.GetEmptyId() + ExcelDxfNumberFormat.GetEmptyId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId();
             }
         }
-        
-        /// <summary>
-        /// Creates the node
-        /// </summary>
-        /// <param name="helper">The helper</param>
-        /// <param name="path">The XPath</param>
-        internal override void CreateNodes(XmlHelper helper, string path)
+        internal virtual string GetId()
+        {
+			return Border.GetId() + Fill.Id;
+		}
+		/// <summary>
+		/// Creates the node
+		/// </summary>
+		/// <param name="helper">The helper</param>
+		/// <param name="path">The XPath</param>
+		internal override void CreateNodes(XmlHelper helper, string path)
         {
             if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
             if (Border.HasValue) Border.CreateNodes(helper, "d:border");
@@ -183,7 +185,8 @@ namespace OfficeOpenXml.Style.Dxf
                 return ns;
             }
         }
-        internal ExcelDxfStyleConditionalFormatting ToDxfConditionalFormattingStyle()
+
+		internal ExcelDxfStyleConditionalFormatting ToDxfConditionalFormattingStyle()
         {
             if (this is ExcelDxfStyleConditionalFormatting s)
             {

@@ -31,6 +31,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 
@@ -769,6 +770,54 @@ namespace EPPlusTest.Table
 
                 SaveAndCleanup(package);
             }
+        }
+        private void InitDataTable(out DataTable table)
+        {
+            table = new DataTable();
+            table.Columns.Add("Country", typeof(string));
+            table.Columns.Add("Population", typeof(int));
+            var areaCol = table.Columns.Add("Area", typeof(int));
+            areaCol.Caption = "Area (km2)";
+
+            table.Rows.Add("Sweden", 10409248, 450295);
+            table.Rows.Add("Norway", 5402171, 385178);
+            table.Rows.Add("Netherlands", 17553530, 41198);
+        }
+
+        [TestMethod]
+        public void ColNamesAndColumnNameShouldBeEqual()
+        {
+            using (var p = OpenPackage("totalTable.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("colWs");
+
+                DataTable data = new DataTable();
+                InitDataTable(out data);
+
+                TableStyles style = TableStyles.Dark1;
+                var tableRange = sheet.Cells["A1"].LoadFromDataTable(data, true, style);
+
+                // configure the table
+                var table = sheet.Tables.GetFromRange(tableRange);
+                table.Sort(x => x.SortBy.ColumnNamed("Population", eSortOrder.Descending));
+                table.ShowTotal = true;
+                table.Columns[0].TotalsRowLabel = "Total";
+                table.Columns[1].TotalsRowFunction = RowFunctions.Sum;
+                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+
+                // add column for population density
+                table.Columns.Add(1);
+                tableRange = table.Range;
+                table.Columns[3].CalculatedColumnFormula = $"{table.Name}[[#This Row],[Population]]/{table.Name}[[#This Row],[Area (km2)]]";
+                table.Columns[3].Name = "Density";
+                table.Columns[3].TotalsRowFunction = RowFunctions.Average;
+                sheet.Calculate();
+
+                var totalRow = tableRange.End.Row;
+                Assert.AreEqual(table.Columns.GetIndexOfColName("Density"), 3);
+                Assert.AreEqual(154.40629115594086d, sheet.Cells[totalRow, 4].Value);
+            }
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -6102,6 +6102,33 @@ namespace EPPlusTest
 				SaveAndCleanup(p);
 			}
 		}
+    [TestMethod]
+    public void i1272()
+    {
+      using (var pck = OpenTemplatePackage("i1272.xlsx"))
+      {
+         var sheet = pck.Workbook.Worksheets["Sheet2"];
 
+         var cellToCopy = sheet.Cells["A1"];
+         var newCellRange = sheet.Cells["B1"];
+
+         cellToCopy.Copy(newCellRange);
+
+         var cf = cellToCopy.ConditionalFormatting;
+         var cfNew = newCellRange.ConditionalFormatting;
+
+
+         var conditionalFormattingCollection = sheet.ConditionalFormatting; // still contains 1 rule even though it is gone in file
+
+         SaveAndCleanup(pck);
+                // After save conditional formatting is not copied and is deleted from the original cell
+
+         using (var pck2 = new ExcelPackage("C:\\epplusTest\\Testoutput\\i1272.xlsx"))
+         {
+            var conditionalFormattingRules = pck2.Workbook.Worksheets["Sheet2"].ConditionalFormatting.Count;
+            Assert.AreEqual(1, conditionalFormattingRules); // this returns a success, however when opening the file the rule is gone
+         }
+      }
     }
+  }
 }

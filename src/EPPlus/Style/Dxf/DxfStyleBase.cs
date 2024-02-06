@@ -37,10 +37,10 @@ namespace OfficeOpenXml.Style.Dxf
         /// The id
         /// </summary>
         internal abstract string Id { get; }
-        /// <summary>
-        /// If the style has any value set
-        /// </summary>
-        public abstract bool HasValue{get;}
+		/// <summary>
+		/// If the style has any value set
+		/// </summary>
+		public abstract bool HasValue{get;}
         /// <summary>
         /// Create the nodes
         /// </summary>
@@ -218,5 +218,26 @@ namespace OfficeOpenXml.Style.Dxf
                     return null;
             }
         }
-    }
+		internal ExcelDxfBorderBase ToDxfBorderBaseStyle()
+		{
+			if (this is ExcelDxfBorderBase bb)
+			{
+				return bb;
+			}
+			else
+			{
+                var dxf = (ExcelDxfStyleBase)this;
+                var ns = new ExcelDxfBorderBase(_styles, _callback)
+				{
+					Bottom = dxf.Border.Bottom,
+                    Left = dxf.Border.Left,
+                    Right = dxf.Border.Right,
+                    Top = dxf.Border.Top,
+                    Horizontal = dxf.Border.Horizontal,
+                    Vertical = dxf.Border.Vertical,
+				};
+				return ns;
+			}
+		}
+	}
 }

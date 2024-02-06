@@ -46,6 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         private readonly TimeValue _timeValueFunc = new TimeValue();
 
         public override int ArgumentMinLength => 1;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var val = ArgToString(arguments, 0);

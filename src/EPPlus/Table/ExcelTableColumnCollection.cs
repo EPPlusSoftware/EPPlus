@@ -232,5 +232,19 @@ namespace OfficeOpenXml.Table
             }
         }
 
+        internal void UpdateColName(string oldName, string newName)
+        {
+            if(_colNames.ContainsKey(oldName))
+            {
+                var columnIndex = _colNames[oldName];
+                _colNames.Remove(oldName);
+                _colNames.Add(newName, columnIndex);
+            }
+        }
+
+        internal int GetIndexOfColName(string name)
+        {
+            return _colNames[name];
+        }
     }
 }
