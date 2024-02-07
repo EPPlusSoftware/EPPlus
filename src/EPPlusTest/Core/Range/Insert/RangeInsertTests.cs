@@ -922,8 +922,30 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("B2:B5,C3:D6,E2:E5", cf.Address.Address);
         }
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftRightBetweenCols()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightBetweenCols");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
 
+            ws.Cells["C4:C7"].Insert(eShiftTypeInsert.Right);
 
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Collide(new ExcelAddress("B2:B10,E8,F5:F7,C4:C7")));
+        }
+        //TODO: Add test for past from row one E
+        //So same test but C6:C7 insert which should result in: 
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftEntireRowBetweenCols()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightBetweenCols");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C4:C7"].Insert(eShiftTypeInsert.EntireRow);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Collide(new ExcelAddress("E9:E12,B2:B14")));
+        }
         [TestMethod]
         public void ValidateConditionalFormattingShiftDown_Right()
         {

@@ -2013,5 +2013,45 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void InsertRowShouldExtendCFIfRowUnderIt()
+        {
+            using (var package = OpenPackage("ConditionalFormattingExtend.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("cfExtend");
+
+                var cf = ws.Cells["C1:C10,F1:F10"].ConditionalFormatting.AddBetween();
+                cf.Formula = "1";
+                cf.Formula = "10";
+
+                ws.InsertRow(11, 2);
+
+                Assert.AreEqual(12, cf.Address.End.Row);
+                Assert.AreEqual(12, cf.Address.Addresses[1].End.Row);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void InsertColumnShouldExtendCFIfAdjacent()
+        {
+            using (var package = OpenPackage("ConditionalFormattingExtend.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("cfExtend");
+
+                var cf = ws.Cells["C1:C10,F1:F10"].ConditionalFormatting.AddBetween();
+                cf.Formula = "1";
+                cf.Formula = "10";
+
+                ws.InsertColumn(7, 2);
+
+                Assert.AreEqual(3, cf.Address.Addresses[0].End.Column);
+                Assert.AreEqual(8, cf.Address.Addresses[1].End.Column);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
