@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Packaging
                     int id;
                     if (int.TryParse(rel.Id.Substring(3), out id))
                     {
-                        if (id >= maxRId && id < int.MaxValue - 10000) //Not likly to have this high id's but make sure we have space to avoid overflow.
+                        if (id >= maxRId && id < int.MaxValue - 10000) //Not likely to have this high id's but make sure we have space to avoid overflow.
                         {
                             maxRId = id + 1;
                         }

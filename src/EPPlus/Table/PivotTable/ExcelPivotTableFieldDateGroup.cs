@@ -68,5 +68,35 @@ namespace OfficeOpenXml.Table.PivotTable
                 return GetXmlNodeBool("@autoStart", false);
             }
         }
-    }
+        /// <summary>
+        /// Start date for the grouping
+        /// </summary>
+        public DateTime? StartDate 
+        {
+            get
+            {
+                return GetXmlNodeDateTime("@startDate");
+            }
+        }
+        /// <summary>
+        /// End date for the grouping
+        /// </summary>
+		public DateTime? EndDate
+		{
+			get
+			{
+				return GetXmlNodeDateTime("@endDate");
+			}
+		}
+		/// <summary>
+		/// Intervall if for day grouping
+		/// </summary>
+		public int? GroupInterval
+		{
+			get
+			{
+				return GetXmlNodeIntNull("@groupInterval");
+			}
+		}
+	}
 }

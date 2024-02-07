@@ -94,6 +94,12 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         } = new EPPlusReadOnlyList<object>();
+        internal struct GroupObject<T>
+        {
+            internal int Index { get; set; }
+            internal T MinValue { get; set; }
+            internal T MaxValue { get; set; }
+        }
         internal Dictionary<object, int> _cacheLookup = null;
         internal Dictionary<int, List<int>> _fieldRecordIndex { get; set; }
 
