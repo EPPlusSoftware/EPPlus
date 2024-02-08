@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Table.PivotTable
             base(ns, topNode)
         {
         }
-        const string startPath = "d:fieldGroup/d:rangePr/@startNum";
+        const string startPath = "d:rangePr/@startNum";
         /// <summary>
         /// Start value
         /// </summary>
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString(startPath,value.ToString(CultureInfo.InvariantCulture));
             }
         }
-        const string endPath = "d:fieldGroup/d:rangePr/@endNum";
+        const string endPath = "d:rangePr/@endNum";
         /// <summary>
         /// End value
         /// </summary>
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString(endPath, value.ToString(CultureInfo.InvariantCulture));
             }
         }
-        const string groupIntervalPath = "d:fieldGroup/d:rangePr/@groupInterval";
+        const string groupIntervalPath = "d:rangePr/@groupInterval";
         /// <summary>
         /// Interval
         /// </summary>

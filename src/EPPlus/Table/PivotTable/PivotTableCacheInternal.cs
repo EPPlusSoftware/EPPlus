@@ -806,5 +806,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 return null;
             }
         }
-    }
+
+		internal int GetMaxRow()
+		{
+            var range = SourceRange;
+
+			var dimensionToRow = range.Worksheet?.Dimension?._toRow + 1 ?? range._fromRow + 1; //We add 1 to dimension to row so we get one row with null values.
+			var toRow = range._toRow < dimensionToRow ? range._toRow : dimensionToRow;
+			return toRow;
+		}
+	}
 }

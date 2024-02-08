@@ -33,7 +33,8 @@ namespace EPPlusTest.Table.PivotTable
         {
             var sr = Cache.SourceRange;
             var ws = sr.Worksheet;
-            for (int i = 0; i < Cache.Fields.Count; i++)
+			var toRow = Cache.GetMaxRow();
+			for (int i = 0; i < Cache.Fields.Count; i++)
             {
                 var f = Cache.Fields[i];
                 var l = new List<object>();
@@ -43,9 +44,10 @@ namespace EPPlusTest.Table.PivotTable
                     f._fieldRecordIndex = new Dictionary<int, List<int>>();
 					if (f.Grouping == null)
                     {
-						for (int r = sr._fromRow + 1; r <= sr._toRow; r++) //Skip first row as it contains the headers.
+						for (int r = sr._fromRow + 1; r <= toRow; r++) //Skip first row as it contains the headers.
 						{
-							var ix = f._cacheLookup[ws.GetValue(r, c)];
+							var v = ws.GetValue(r, c) ?? ExcelPivotTable.PivotNullValue;
+							var ix = f._cacheLookup[v];
 							l.Add(ix);
 							var ciIx = r - (sr._fromRow + 1);
 							if (f._fieldRecordIndex.ContainsKey(ix))
@@ -60,9 +62,9 @@ namespace EPPlusTest.Table.PivotTable
 					}
                     else
                     {
-						for (int r = sr._fromRow + 1; r <= sr._toRow; r++) //Skip first row as it contains the headers.
+						for (int r = sr._fromRow + 1; r <= toRow; r++) //Skip first row as it contains the headers.
 						{
-							var ix = GetGroupIndex(f, ws.GetValue(r, c));
+							var ix = GetGroupIndex(f, ws.GetValue(r, c) ?? ExcelPivotTable.PivotNullValue);
 
 							l.Add(ix);
 							var ciIx = r - (sr._fromRow + 1);
@@ -80,9 +82,9 @@ namespace EPPlusTest.Table.PivotTable
 
                 else
                 {
-                    for (int r = sr._fromRow + 1; r <= sr._toRow; r++)
+                    for (int r = sr._fromRow + 1; r <= toRow; r++)
                     {
-                        l.Add(ws.GetValue(r, c));
+                        l.Add(ws.GetValue(r, c) ?? ExcelPivotTable.PivotNullValue);
                     }
                 }
                 CacheItems.Add(l);
