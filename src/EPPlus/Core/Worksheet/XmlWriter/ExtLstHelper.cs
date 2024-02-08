@@ -46,7 +46,8 @@ namespace OfficeOpenXml.ExcelXMLWriter
             }
             else
             {
-                bool hasNoContent = extNode[extNode.IndexOf('<') - 1] == '>';
+                var contentString = extNode.Substring(extNode.IndexOf('>'), extNode.LastIndexOf('<') - extNode.IndexOf('>') - 1);
+                bool hasNoContent = string.IsNullOrEmpty(contentString);
                 if(hasNoContent)
                 {
                     isPlaceHolder = true;
