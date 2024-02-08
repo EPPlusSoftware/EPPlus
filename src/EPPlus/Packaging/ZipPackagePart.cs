@@ -63,7 +63,6 @@ namespace OfficeOpenXml.Packaging
         }
         internal override ZipPackageRelationship CreateRelationship(string target, TargetMode targetMode, string relationshipType)
         {
-
             var rel = base.CreateRelationship(target, targetMode, relationshipType);
             rel.SourceUri = Uri;
             return rel;
@@ -180,5 +179,5 @@ namespace OfficeOpenXml.Packaging
                 return CreateRelationship(relToCopy.TargetUri, relToCopy.TargetMode, relToCopy.RelationshipType);
             }
         }
-    }
+	}
 }

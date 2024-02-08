@@ -70,7 +70,9 @@ namespace OfficeOpenXml
                 int index = 0;
                 foreach (XmlNode node in colorNodes)
                 {
-                    ExcelColor.indexedColors[index++] = "#" + node.Attributes["rgb"].InnerText;
+                    // Max number of indexed colors is 66
+                    if (index > 65) break;
+                    ExcelColor.IndexedColors[index++] = "#" + node.Attributes["rgb"].InnerText;
                 }
             }
 
@@ -1677,7 +1679,18 @@ namespace OfficeOpenXml
                 return new ExcelDxfStyle(NameSpaceManager, null, this, callback);
             }
         }
-        internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+		internal ExcelDxfBorderBase GetDxfBorder(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+		{
+			if (dxfId.HasValue && dxfId < Dxfs.Count)
+			{
+				return Dxfs[dxfId.Value].ToDxfBorderBaseStyle();
+			}
+			else
+			{
+				return new ExcelDxfBorderBase(this, callback);
+			}
+		}
+		internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
         {
             if (dxfId.HasValue && dxfId < Dxfs.Count)
             {

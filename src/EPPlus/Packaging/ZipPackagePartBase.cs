@@ -28,11 +28,11 @@ namespace OfficeOpenXml.Packaging
         /// Relationships collection
         /// </summary>
         protected internal ZipPackageRelationshipCollection _rels = new ZipPackageRelationshipCollection();        
-        int maxRId = 1;
+        int _maxRId = 1;
         internal void DeleteRelationship(string id)
         {
             _rels.Remove(id);
-            UpdateMaxRId(id, ref maxRId);
+            UpdateMaxRId(id, ref _maxRId);
         }
         /// <summary>
         /// Updates the maximum id for the relationship
@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Packaging
             rel.TargetUri = targetUri;
             rel.TargetMode = targetMode;
             rel.RelationshipType = relationshipType;
-            rel.Id = "rId" + (maxRId++).ToString();
+            rel.Id = "rId" + (_maxRId++).ToString();
             _rels.Add(rel);
             return rel;
         }
@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Packaging
             rel.Target = target;
             rel.TargetMode = targetMode;
             rel.RelationshipType = relationshipType;
-            rel.Id = "rId" + (maxRId++).ToString();
+            rel.Id = "rId" + (_maxRId++).ToString();
             _rels.Add(rel);
             return rel;
         }
@@ -123,19 +123,25 @@ namespace OfficeOpenXml.Packaging
                 {
                     rel.SourceUri = new Uri(source, UriKind.Relative);
                 }
+
                 if (rel.Id.StartsWith("rid", StringComparison.OrdinalIgnoreCase))
                 {
                     int id;
                     if (int.TryParse(rel.Id.Substring(3), out id))
                     {
-                        if (id >= maxRId && id < int.MaxValue - 10000) //Not likely to have this high id's but make sure we have space to avoid overflow.
+                        if (id >= _maxRId && id < int.MaxValue - 10000) //Not likly to have this high id's but make sure we have space to avoid overflow.
                         {
-                            maxRId = id + 1;
+                            _maxRId = id + 1;
                         }
                     }
                 }
                 _rels.Add(rel);
             }
         }
-    }
+		internal void SetMaxRelId(int maxRelId)
+		{
+			_maxRId = maxRelId;
+		}
+
+	}
 }

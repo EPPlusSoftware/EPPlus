@@ -61,6 +61,11 @@ namespace OfficeOpenXml.Utils
 
             if (v is decimal || TypeCompat.IsPrimitive(v))
             {
+                if(v is bool)
+                {
+                    return v.ToString().ToUpper();
+                }
+
                 double d;
                 try
                 {

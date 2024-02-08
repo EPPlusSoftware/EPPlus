@@ -34,6 +34,7 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -861,7 +862,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         /// <param name="prefix">The namespace prefix for the main schema</param>
         private void UpdateHyperLinks(StreamWriter sw, string prefix)
         {
-            Dictionary<string, string> hyps = new Dictionary<string, string>();
+			ClearHyperlinks();
+			Dictionary<string, string> hyps = new Dictionary<string, string>();
             var cse = new CellStoreEnumerator<Uri>(_ws._hyperLinks);
             bool first = true;
             while (cse.Next())
@@ -934,7 +936,34 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             }
         }
 
-        private void UpdateRowBreaks(StreamWriter sw, string prefix)
+		private void ClearHyperlinks()
+		{
+            var maxRelId = 0;
+			foreach(var rel in _ws.Part._rels.ToList())
+            {
+                if(rel.RelationshipType.Equals(ExcelPackage.schemaHyperlink, StringComparison.OrdinalIgnoreCase))
+                {
+                    _ws.Part.DeleteRelationship(rel.Id);
+                }
+                else
+                {
+					if (rel.Id.StartsWith("rId"))
+					{
+						if (int.TryParse(rel.Id.Substring(3), out int id))
+						{
+							if (id > maxRelId)
+							{
+								maxRelId = id;
+							}
+						}
+					}
+
+				}
+			}
+            _ws.Part.SetMaxRelId(maxRelId+1);
+		}
+
+		private void UpdateRowBreaks(StreamWriter sw, string prefix)
         {
             StringBuilder breaks = new StringBuilder();
             int count = 0;

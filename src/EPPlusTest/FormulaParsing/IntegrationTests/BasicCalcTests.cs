@@ -213,7 +213,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
         [TestMethod]
         public void ShouldHandlePercentStrings()
         {
-            using(var pck = new ExcelPackage())
+            using (var pck = new ExcelPackage())
             {
                 var sheet = pck.Workbook.Worksheets.Add("test");
 
@@ -226,6 +226,26 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
                 sheet.Cells["B1"].Formula = "A1 * 5";
                 sheet.Calculate();
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["B1"].Value);
+            }
+        }
+        [TestMethod]
+        public void ShouldReturnDisplayTextForBooleanValues()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("boolTest");
+                sheet.Cells["A1"].Formula = "1 = 1";
+                sheet.Cells["B1"].Formula = "1 = 0";
+
+                sheet.Cells["C1"].Value = true;
+                sheet.Cells["D1"].Value = false;
+
+                sheet.Calculate();
+
+                Assert.AreEqual("TRUE", sheet.Cells["A1"].Text);
+                Assert.AreEqual("FALSE", sheet.Cells["B1"].Text);
+                Assert.AreEqual("TRUE", sheet.Cells["C1"].Text);
+                Assert.AreEqual("FALSE", sheet.Cells["D1"].Text);
             }
         }
     }

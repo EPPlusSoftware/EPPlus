@@ -274,7 +274,8 @@ namespace EPPlusTest.Filter
         {
             //Setup
             var ws = _pck.Workbook.Worksheets.Add("NextMonth");
-            LoadTestdata(ws, 500);
+            var startDate = DateTime.Today.AddMonths(-5);
+            LoadTestdata(ws, 500, 1, 1, false, false, startDate);
 
             //Act
             ws.AutoFilterAddress = ws.Cells["A1:D500"];
@@ -285,8 +286,8 @@ namespace EPPlusTest.Filter
 
             //Assert
             var dt = DateTime.Today.AddMonths(1);
-            var startRow = GetRowFromDate(new DateTime(dt.Year, dt.Month, 1));
-            var endRow = GetRowFromDate(new DateTime(dt.Year, dt.Month, 1).AddMonths(1).AddDays(-1));
+            var startRow = GetRowFromDate(new DateTime(dt.Year, dt.Month, 1), startDate);
+            var endRow = GetRowFromDate(new DateTime(dt.Year, dt.Month, 1).AddMonths(1).AddDays(-1), startDate);
             Assert.AreEqual(true, ws.Row(startRow - 1).Hidden);
             Assert.AreEqual(false, ws.Row(startRow).Hidden);
             Assert.AreEqual(false, ws.Row(endRow).Hidden);
