@@ -91,8 +91,8 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                 }
 
-				_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems);
 				_calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count-1]);
+				_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems);
 				_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
                 if (df.ShowDataAs.Value != eShowDataAs.Normal)
                 {

@@ -293,7 +293,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 		[TestMethod]
 		public void FilterPageFieldCustomDateOlderThan()
 		{
-			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateDateOlderThan");
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateOlderThan");
 			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateOlderThan");
 			var rf = pt.RowFields.Add(pt.Fields[4]);
 			pt.CacheDefinition.Refresh();
@@ -306,7 +306,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 		[TestMethod]
 		public void FilterPageFieldCustomDateDateOlderThanOrEqual()
 		{
-			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateDateOlderThanOrEqual");
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateOlderThanOrEqual");
 			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateDateOlderThanOrEqual");
 			var rf = pt.RowFields.Add(pt.Fields[4]);
 			pt.CacheDefinition.Refresh();
@@ -319,7 +319,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 		[TestMethod]
 		public void FilterPageFieldCustomDateNewerThan()
 		{
-			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateDateNewerThan");
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterDateNewerThan");
 			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDateNewerThan");
 			var rf = pt.RowFields.Add(pt.Fields[4]);
 			pt.CacheDefinition.Refresh();

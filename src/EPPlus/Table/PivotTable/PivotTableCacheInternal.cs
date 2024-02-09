@@ -724,7 +724,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTableCacheField AddDateGroupField(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime startDate, DateTime endDate, int interval)
         {
             ExcelPivotTableCacheField cacheField = CreateField(groupBy.ToString(), field.Index, false);
-            cacheField.SetDateGroup(field, groupBy, startDate, endDate, interval);
+            cacheField.SetDateGroup(field, groupBy, startDate, endDate, interval, false);
 
             Fields.Add(cacheField);
             return cacheField;

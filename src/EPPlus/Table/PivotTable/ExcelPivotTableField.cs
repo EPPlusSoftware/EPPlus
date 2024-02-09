@@ -825,7 +825,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 firstField = false;
                 Compact = false;
-                CacheField.SetDateGroup(this, groupBy, startDate, endDate, interval);
+                CacheField.SetDateGroup(this, groupBy, startDate, endDate, interval, true);
                 UpdatePivotTableGroupItems(this, PivotTable.CacheDefinition._cacheReference, true);
                 return this;
             }

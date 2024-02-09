@@ -336,7 +336,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 
 		internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems)
 		{
-			foreach(var valueFilter in pivotTable.Filters.Where(x=>x.Type>=ePivotTableFilterType.ValueBetween))
+			foreach(var valueFilter in pivotTable.Filters.Where(x=>x.Type >= ePivotTableFilterType.ValueBetween))
             {
                 var keys = new List<PivotCalculationStore.CacheIndexItem>();
                 foreach(var cacheItem in dataFieldItems.Index)

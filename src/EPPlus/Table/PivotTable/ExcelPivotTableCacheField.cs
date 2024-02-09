@@ -59,6 +59,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     Format = styles.NumberFormats[ix].Format;
                 }
             }
+            SchemaNodeOrder = ["sharedItems", "fieldGroup", "mpMap"];
         }
         /// <summary>
         /// The index in the collection of the pivot field
@@ -602,13 +603,17 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         #region Grouping
-        internal ExcelPivotTableFieldDateGroup SetDateGroup(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime StartDate, DateTime EndDate, int interval)
+        internal ExcelPivotTableFieldDateGroup SetDateGroup(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime StartDate, DateTime EndDate, int interval, bool firstGroupField)
         {
+            if (firstGroupField)
+            {
+				SetXmlNodeBool("d:sharedItems/@containsDate", true);
+				SetXmlNodeBool("d:sharedItems/@containsNonDate", false);
+				SetXmlNodeBool("d:sharedItems/@containsSemiMixedTypes", false);
+			}
+
 			var groupNode = CreateNode("d:fieldGroup"); //Create group topNode
 			var group = new ExcelPivotTableFieldDateGroup(NameSpaceManager, groupNode);
-            SetXmlNodeBool("d:sharedItems/@containsDate", true);
-            SetXmlNodeBool("d:sharedItems/@containsNonDate", false);
-            SetXmlNodeBool("d:sharedItems/@containsSemiMixedTypes", false);
             
             group.BaseIndex = field.BaseIndex;
 			group.TopNode.InnerXml += string.Format("<rangePr groupBy=\"{0}\" /><groupItems />",  groupBy.ToString().ToLower(CultureInfo.InvariantCulture));
