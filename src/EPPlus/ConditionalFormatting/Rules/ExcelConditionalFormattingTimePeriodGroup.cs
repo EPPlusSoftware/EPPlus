@@ -13,6 +13,7 @@
 using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -68,8 +69,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             _baseFormula,
             address.Start.Address);
 
-            var formResult = _ws.Workbook.FormulaParserManager.Parse(formAtAddress, address.FullAddress, false).ToString();
-            var formattedResult = string.Format(formResult, CultureInfo.InvariantCulture);
+            var formResult = _ws.Workbook.FormulaParserManager.Parse(formAtAddress, address.FullAddress, false);
+            if(ExcelErrorValue.Values.IsErrorValue(formResult))
+            {
+                return false;
+            }
+            var formattedResult = string.Format(formResult.ToString(), CultureInfo.InvariantCulture);
 
             return bool.Parse(formattedResult);
         }

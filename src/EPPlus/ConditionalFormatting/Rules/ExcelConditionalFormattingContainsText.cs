@@ -131,7 +131,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             if(Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
             {
                 Formula = Formula2;
-                var stringValue = _ws.Cells[address.Start.Address].Value.ToString();
+                var val = _ws.Cells[address.Start.Address].Value;
+                var stringValue = val == null ? "" : val.ToString();
                 //Formula2 only filled if there's a cell or formula to cond
                 if (Formula2 != null)
                 {

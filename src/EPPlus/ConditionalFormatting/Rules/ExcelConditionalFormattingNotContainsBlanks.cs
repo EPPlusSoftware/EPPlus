@@ -66,7 +66,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            return _ws.Cells[Address.Start.Address].Value == null ? false : true;
+            return _ws.Cells[address.Start.Address].Value == null ? false : true;
         }
 
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
