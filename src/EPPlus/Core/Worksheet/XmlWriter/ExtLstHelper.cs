@@ -15,6 +15,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.ExcelXMLWriter
 {
@@ -37,9 +38,20 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             bool isPlaceHolder = false;
 
-            if (!xml.Substring(start + 1, end - start - 1).Contains("<"))
+            var extNode = xml.Substring(start + 1, end - start - 1);
+            var containsEndNode = extNode.Contains("<");
+            if (containsEndNode == false)
             {
                 isPlaceHolder = true;
+            }
+            else
+            {
+                var contentString = extNode.Substring(extNode.IndexOf('>'), extNode.LastIndexOf('<') - extNode.IndexOf('>') - 1);
+                bool hasNoContent = string.IsNullOrEmpty(contentString);
+                if(hasNoContent)
+                {
+                    isPlaceHolder = true;
+                }
             }
 
             //If the node isn't just a placeholder
