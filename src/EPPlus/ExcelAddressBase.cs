@@ -1153,9 +1153,9 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false, bool setRefOnMinMax=true)
+        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false, bool setRefOnMinMax=true, bool extendIfLastCol = false)
         {
-            if (col > _toCol)
+            if (col > _toCol && (col != _toCol + 1 || extendIfLastCol == false))
             {
                 return this;
             }
