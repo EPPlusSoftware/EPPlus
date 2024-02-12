@@ -263,6 +263,38 @@ namespace OfficeOpenXml
             throw new InvalidOperationException("The worksheets collection must have at least one visible worksheet");
         }
 
+        internal int? GetLastVisibleSheetIndex()
+        {
+            for (int i = _worksheets.Count - 1; i > - 1; i--)
+            {
+                if (_worksheets[i].Hidden == eWorkSheetHidden.Visible)
+                {
+                    return i;
+                }
+            }
+            throw new InvalidOperationException("The worksheets collection must have at least one visible worksheet");
+        }
+        //Get first visible index counted from a given index
+        internal int? GetNextVisibleSheetIndex(int index)
+        {
+            //Forward until end
+            for (int i = index; i < _worksheets.Count; i++)
+            {
+                if (_worksheets[i].Hidden == eWorkSheetHidden.Visible)
+                {
+                    return i;
+                }
+            }
+            //Backwards until start
+            for (int i = index; i > - 1; i--)
+            {
+                if (_worksheets[i].Hidden == eWorkSheetHidden.Visible)
+                {
+                    return i;
+                }
+            }
+            throw new InvalidOperationException("The worksheets collection must have at least one visible worksheet");
+        }
 
         internal string CreateWorkbookRel(string Name, int sheetID, Uri uriWorksheet, bool isChart, XmlElement sheetElement)
         {
@@ -448,41 +480,71 @@ namespace OfficeOpenXml
             //If none are start going backwards until one isn't.
             if (_pck.Workbook.Worksheets.Count > 0)
             {
-                var sheetIndex = 0;
+                int activeWorksheetIndex = _pck.Workbook.View.ActiveTab;
 
-                if (_pck.Workbook.View.ActiveTab >= _pck.Workbook.Worksheets.Count)
+                activeWorksheetIndex += _pck._worksheetAdd;
+
+                if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
                 {
+                    _pck.Workbook.View.ActiveTab = GetLastVisibleSheetIndex().Value;
+                }
+                else if(activeWorksheetIndex == Index)
+                {
+                    // The sheet that used to exist at activeWorksheetIndex was deleted.
+                    // it may be indexed correctly. If the next sheet after it exists/was visible.
+                    // or incorrectly if not.
 
-                    for (int i = 1; i < _pck.Workbook.Worksheets.Count + 1; i++)
-                    {
-                        sheetIndex = Math.Min(_pck.Workbook.View.ActiveTab - i, _pck.Workbook.Worksheets.Count - i);
-                        if (_pck.Workbook.Worksheets[sheetIndex].Hidden == eWorkSheetHidden.Visible)
-                        {
-                            i = _pck.Workbook.Worksheets.Count;
-                        }
-                    }
-                    _pck.Workbook.View.ActiveTab = sheetIndex;
+                    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(activeWorksheetIndex).Value;
+                }
+                else if (Index < activeWorksheetIndex)
+                {
+                    //Technically here activeWorksheetIndex should always become -= 1 since we know it was visible before delete but but we check anyway 
+                    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(activeWorksheetIndex - 1).Value;
                 }
                 else
                 {
-                    for (int i = _pck.Workbook.View.ActiveTab; i < _pck.Workbook.Worksheets.Count; i++)
-                    {
-                        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
-                        {
-                            _pck.Workbook.View.ActiveTab = i;
-                            return;
-                        }
-                    }
-
-                    for (int i = _pck.Workbook.View.ActiveTab - 1; i > 0; i--)
-                    {
-                        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
-                        {
-                            _pck.Workbook.View.ActiveTab = i;
-                            return;
-                        }
-                    }
+                    //Index>activeWorksheetIndex no change neccesary index has not moved.
                 }
+
+
+                //if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
+                //{
+                //    _pck.Workbook.View.ActiveTab = GetFirstVisibleSheetIndex().Value;
+                //}
+                ////if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
+                ////{
+                ////    _pck.Workbook.View.ActiveTab = GetFirstVisibleSheetIndex();
+
+                ////    //for (int i = 1; i < _pck.Workbook.Worksheets.Count + 1; i++)
+                ////    //{
+                ////    //    sheetIndex = Math.Min(_pck.Workbook.View.ActiveTab - i, _pck.Workbook.Worksheets.Count - i);
+                ////    //    if (_pck.Workbook.Worksheets[sheetIndex].Hidden == eWorkSheetHidden.Visible)
+                ////    //    {
+                ////    //        i = _pck.Workbook.Worksheets.Count;
+                ////    //    }
+                ////    //}
+                ////    //_pck.Workbook.View.ActiveTab = sheetIndex;
+                ////}
+                //else
+                //{
+                //    for (int i = _pck.Workbook.View.ActiveTab; i < _pck.Workbook.Worksheets.Count; i++)
+                //    {
+                //        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
+                //        {
+                //            _pck.Workbook.View.ActiveTab = i;
+                //            return;
+                //        }
+                //    }
+
+                //    for (int i = _pck.Workbook.View.ActiveTab - 1; i > 0; i--)
+                //    {
+                //        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
+                //        {
+                //            _pck.Workbook.View.ActiveTab = i;
+                //            return;
+                //        }
+                //    }
+                //}
             }
         }
 
