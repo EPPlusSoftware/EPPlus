@@ -334,22 +334,90 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             return newKey;
         }
 
-		internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems)
+		internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<int> fieldIndex)
 		{
-			foreach(var valueFilter in pivotTable.Filters.Where(x=>x.Type >= ePivotTableFilterType.ValueBetween))
+            var matchingSumLevels = new List<int[]>();
+            bool itemsRemoved = false;
+            foreach(var valueFilter in pivotTable.Filters.Where(x=>x.Type >= ePivotTableFilterType.ValueBetween))
             {
-                var keys = new List<PivotCalculationStore.CacheIndexItem>();
-                foreach(var cacheItem in dataFieldItems.Index)
+                var keysToRemove = new List<PivotCalculationStore.CacheIndexItem>();
+				//var dataField = pivotTable.DataFields[valueFilter.MeasureFldIndex];
+				//var filterField = pivotTable.Fields[valueFilter.Fld];
+                var keyIx = fieldIndex.IndexOf(valueFilter.Fld);
+                var filterItems = new PivotCalculationStore();
+				foreach (var cacheItem in dataFieldItems.Index)
                 {
-                    var v = dataFieldItems.GetByIndex(cacheItem.Index);
-					if (valueFilter.MatchNumeric(v) ==false)
-                    {
-                        keys.Add(cacheItem);
-                    }
-                }
-                keys.ForEach(x => dataFieldItems.Remove(x));
+                    var newKey = new int[] { cacheItem.Key[keyIx] };
+					AddItems(newKey, pivotTable.RowFields.Count, dataFieldItems.Values[cacheItem.Index], filterItems, keys);
+				}
+								//foreach (var cacheItem in 
+								//                dataFieldItems.Index.
+								//                    OrderByDescending(x => x.Key, ArrayComparer.Instance).
+								//                    Where(x=>x.Key.Any(x=>x != PivotCalculationStore.SumLevelValue))) //Include all sum leveles except the grand total.
+								//            {
+								//                var v = dataFieldItems.GetByIndex(cacheItem.Index);
+								//	if (valueFilter.MatchNumeric(v))
+								//                {
+								//                    if(HasSumLevel(cacheItem.Key, 0, cacheItem.Key.Length))
+								//                    {
+								//                        matchingSumLevels.Add(cacheItem.Key);
+								//                    }
+								//                }
+								//                else if(ParentMatch(matchingSumLevels, cacheItem.Key)==false)
+								//                {
+								//                    keysToRemove.Add(cacheItem);
+								//		itemsRemoved=true;
+
+								//	}
+								//            }
+								keysToRemove.ForEach(x => dataFieldItems.Remove(x));
             }
+
+            if(itemsRemoved)
+            {
+                //Reaggregate items.
+                RemoveSumLevels(ref dataFieldItems);
+                Aggregate(pivotTable, dataFieldItems, keys);
+            }
+		}
+
+		private void RemoveSumLevels(ref PivotCalculationStore dataFieldItems)
+		{
+            if (dataFieldItems.Index.Count == 0) return;
             
+            var keyLen = dataFieldItems.Index[0].Key.Length;
+
+			for (int i=0;i<dataFieldItems.Index.Count; i++)
+            {
+                if (HasSumLevel(dataFieldItems.Index[i].Key,0, keyLen))
+                {
+                    dataFieldItems.Index.RemoveAt(i--);
+                }
+            }
+		}
+
+		private bool ParentMatch(List<int[]> matchingSumLevels, int[] key)
+		{
+			foreach(var pKey in matchingSumLevels)
+            {
+                if(KeyMatches(key, pKey)==false)
+                {
+                    return true;
+                }
+            }
+            return false;
+		}
+
+		private bool KeyMatches(int[] key, int[] pKey)
+		{
+			for(int i=0; i<key.Length; i++)
+            {
+                if(key[i] != pKey[i] && pKey[i] < PivotCalculationStore.SumLevelValue)
+                {
+                    return false;
+                }
+            }
+			return true;
 		}
 
 		internal void Aggregate(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)

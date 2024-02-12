@@ -666,6 +666,9 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                 SetXmlNodeInt("@evalOrder", value);
             }
         }
+        /// <summary>
+        /// The index to the row/column field the filter is applied on 
+        /// </summary>
         internal int Fld
         {
             get
@@ -677,6 +680,9 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                 SetXmlNodeInt("@fld", value);
             }
         }
+        /// <summary>
+        /// The index to the data field a value field is evaluated on.
+        /// </summary>
         internal int MeasureFldIndex
         {
             get

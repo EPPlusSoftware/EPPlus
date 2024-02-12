@@ -225,15 +225,4 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             return o != null;
 		}
 	}
- //   internal class PivotTreeStore
- //   {
- //       public Dictionary<string, PivotColumnItem> Columns { get; } = new Dictionary<string, PivotColumnItem>();
- //       public Dictionary<string, double> RowValues { get; } = new Dictionary<string, double>()
- //   }
-
-	//public class PivotItem
-	//{
- //       public bool IsColumn { get;  }
- //       public Dictionary<string, PivotItem> Columns { get; } = new Dictionary<string, PivotColumnItem>();
-	//}
 }

@@ -52,21 +52,21 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
                 if (p.MultipleItemSelectionAllowed == false)
                 {
                     var ix = p.PageFieldSettings.SelectedItem;
-                    if(ix < 0 || ix > p.Items.Count || ix.Equals(recs.CacheItems[p.Index][r]))
+                    if(ix < 0 || ix > p.Items.Count || ix.Equals(recs.CacheItems[p.Index][r])==false)
                     {
-                        return true;
+                        return true; //The item is hidden
                     }
                 }
                 else
                 {
                     var itemIx = recs.CacheItems[p.Index][r];
-                    if(!p.Items.HiddenItemIndex.Exists(x => x.Equals(itemIx)))
+                    if(p.Items.HiddenItemIndex.Exists(x => x.Equals(itemIx)))
                     {
-                        return true;
-                    }
+                        return true; //The item is hidden
+					}
                 }
             }
-            return false;
+            return false;   //The item should be visible.
         }
         /// <summary>
         /// Returns true if a record is hidden by a caption/date or numeric filter
