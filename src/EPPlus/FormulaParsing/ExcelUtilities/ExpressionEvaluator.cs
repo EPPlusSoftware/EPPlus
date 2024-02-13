@@ -184,6 +184,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         {
                             return op.Operator == Operators.NotEqualTo;
                         }
+                        if (rightIsNumeric == false && Enum.IsDefined(typeof(LimitedOperators), (LimitedOperators)op.Operator) == false)
+                        {
+                            return _wildCardValueMatcher.IsMatch(expression, left) == 0;
+                        }
                         return EvaluateOperator(left, right, op);
                     }
                 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing;
 using System;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests
@@ -46,6 +47,25 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
                 Assert.AreEqual(1, sheetB.GetValue(1, 3));
                 Assert.AreEqual(1, sheetB.Names[0].Value);
                 Assert.AreEqual(2, sheetB.Names[1].Value);
+            }
+        }
+        [TestMethod]
+        public void CalculateSingleFormulaShouldNotSetCellValue()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.SetValue(1, 1, 1);
+                ws.SetFormula(2, 1, "A1+1");
+
+                var v=package.Workbook.FormulaParser.Parse("A1+A2", "Sheet1!A3", new ExcelCalculationOption() { FollowDependencyChain=false });
+                
+                Assert.AreEqual(1D, v);
+                Assert.IsNull(ws.Cells["A3"].Value);
+
+                v = package.Workbook.FormulaParser.Parse("A1+A2", "Sheet1!A3");
+                Assert.AreEqual(3D, v);
+                Assert.IsNull(ws.Cells["A3"].Value);
             }
         }
         string QStr(string s)

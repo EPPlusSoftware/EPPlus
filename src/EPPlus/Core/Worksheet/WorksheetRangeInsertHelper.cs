@@ -228,6 +228,39 @@ namespace OfficeOpenXml.Core.Worksheet
                 else
                 {
                     var cfr = ((ExcelConditionalFormattingRule)cf);
+
+                    if (newAddress.Addresses != null)
+                    {
+                        string addressList = "";
+                        for (int i = 0; i < newAddress.Addresses.Count(); i++)
+                        {
+                            if ((newAddress.Addresses[i]._toRow + 1 == range._fromRow) && shift != eShiftTypeInsert.Right)
+                            {
+                                newAddress.Addresses[i] = newAddress.Addresses[i].AddRow(range._fromRow, range.Rows, true, true, true);
+                            }
+
+                            if(newAddress.Addresses[i]._toCol + 1 == range._fromCol && shift != eShiftTypeInsert.Down)
+                            {
+                                if(range.IsFullColumn)
+                                {
+                                    newAddress.Addresses[i] = newAddress.Addresses[i].AddColumn(range._fromCol, range.Columns, true, true, true);
+                                }
+                                else if(newAddress.Addresses.Contains(range) == false)
+                                {
+                                    newAddress.Addresses.Add(range);
+                                }
+                            }
+
+                            addressList += newAddress.Addresses[i].Address;
+
+                            if (i < (newAddress.Addresses.Count()-1))
+                            {
+                                addressList += ",";
+                            }
+                        }
+                        newAddress = new ExcelAddress(addressList);
+                    }
+
                     if (cfr.Address.Address != newAddress.Address)
                     {
                         cfr.Address = new ExcelAddress(newAddress.Address);

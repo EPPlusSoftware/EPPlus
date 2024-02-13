@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -61,11 +61,14 @@ using System.Xml.Linq;
 namespace EPPlusTest
 {
     /// <summary>
+    /// Dont Use! 
+    /// This class is not used any more and contains old test cases for issues.
+    /// 
     /// This class contains testcases for issues on Codeplex and Github.
     /// All tests requiering an template should be set to ignored as it's not practical to include all xlsx templates in the project.
     /// </summary>
     [TestClass]
-    public class Issues : TestBase
+    public class IssueTests : TestBase
     {
         [ClassInitialize]
         public static void Init(TestContext context)
@@ -3343,7 +3346,7 @@ namespace EPPlusTest
                 SaveWorkbook("i676.xlsx", p);
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void s350()
         {
             using (var p = OpenTemplatePackage("s350.xlsm"))
@@ -5819,7 +5822,7 @@ namespace EPPlusTest
                 //cell contains the expected \t character
                 package.Save();
             }
-           
+
             //Now read the excel, the Value contains  _x0009_ instead of \t
             using (var package = OpenPackage("tabDecoding.xlsx"))
             {
@@ -5862,7 +5865,7 @@ namespace EPPlusTest
                 //Assert.AreEqual(nodes[1].Value, wscopied.PivotTables[1].CacheId.ToString());
 
                 sourcePackage.Dispose();
-                
+
                 SaveWorkbook("s532-1.xlsx", destinationpackage);
             }
         }
@@ -5947,5 +5950,165 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void i1203()
+        {
+            using (var p = OpenTemplatePackage("i1203.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[0];
+                var sheet2 = p.Workbook.Worksheets.Add("sheet2", sheet1);
+                Assert.AreEqual(sheet1.Drawings[0].Hyperlink.OriginalString, sheet2.Drawings[0].Hyperlink.OriginalString);
+                Assert.IsTrue(sheet1.Drawings[0].As.Picture.Image.ImageBytes.SequenceEqual(sheet2.Drawings[0].As.Picture.Image.ImageBytes));
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s566()
+        {
+            using (var p = OpenPackage("s566.xlsx", true))
+            {
+                LoadData(p);
+                var ws = p.Workbook.Worksheets[0];
+
+                var tbl = ws.Tables.Add(ws.Cells[ws.Dimension.Address], "Table1");
+                tbl.Columns.Add();
+                tbl.Columns[tbl.Columns.Count - 1].CalculatedColumnFormula = "X1-Z1";
+                SaveAndCleanup(p);
+            }
+        }
+		public void I1211()
+		{
+			using (var p = OpenTemplatePackage("i1211.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets.Add("sheet1");
+				ws.Cells["A1"].Value = -1.5;
+				ws.Cells["B1"].Value = -5;
+				ws.Cells["C1"].Value = 1.5;
+				ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
+				ws.Calculate();
+
+				Assert.AreEqual(9.75, ws.Cells["D1"].Value);
+			}
+		}
+        [TestMethod]
+        public void s542_2()
+        {
+            string copySheet = "Summary";
+            string destSheet = "Pivot Data";
+
+            ExcelPackage Destinationpackage = OpenTemplatePackage("s542_Dest_File.xlsx");
+            var sheet = Destinationpackage.Workbook.Worksheets.GetByName(destSheet);
+            Destinationpackage.Workbook.Worksheets.Delete(destSheet);
+
+            ExcelPackage Sourcepackage = OpenTemplatePackage("s542_Source_File.xlsx");
+            ExcelWorksheet Sourceworksheet = Sourcepackage.Workbook.Worksheets[copySheet];
+            Destinationpackage.Workbook.Worksheets.Add(destSheet, Sourceworksheet);
+
+            SaveAndCleanup(Destinationpackage);
+        }
+        [TestMethod]
+        public void s569()
+        {
+            var sheetName = "披露表(国资)";
+
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+            using (var p = OpenTemplatePackage("s569source.xlsx"))
+            {
+                var SourceWB = p.Workbook;
+                using (var tP = OpenTemplatePackage("s569target.xlsm"))
+                {
+                    var tBook = tP.Workbook;
+                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
+                    tBook.Worksheets.Add(sheetName, sSheet);
+
+                    SaveAndCleanup(tP);
+                }
+            }
+        }        
+        [TestMethod]
+        public void PerformanceIssueGetAsByteArray()
+        {
+            using (var p = OpenTemplatePackage("TemplateWithPivot.xlsx"))
+            {
+                /* Raw Data Sheet only */
+                ExcelWorksheet ws = p.Workbook.Worksheets[1];  // second sheet
+
+                //var usedData =
+                //    reportData.Select(item => new ExportReportData(ref item)).ToArray();
+
+                // write data
+                ExcelTable table = ws.Tables[0];
+                table.InsertRow(position: 1, rows: 6620);  // necessary to have the formulas available.
+
+                // write data to buffer. This takes too long.
+                var pt = p.Workbook.Worksheets[0].PivotTables[0];
+                p.Workbook.Calculate();
+                SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
+            }
+        }
+        [TestMethod]
+		public void I1216()
+        {
+            using(var p=OpenPackage("i1216.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                ws.Cells["A1"].Value = -1.5;
+                ws.Cells["B1"].Value = -5;
+                ws.Cells["C1"].Value = 1.5;
+                ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
+                ws.Calculate();
+                
+                Assert.AreEqual(9.75, ws.Cells["D1"].Value);
+            }            
+        }
+        [TestMethod]
+        public void VBA_ModuleName()
+        {
+            using (var p = OpenTemplatePackage("VBAModuleName.xlsm"))
+            {
+                var vba = p.Workbook.VbaProject;
+                
+            }
+        }
+		[TestMethod]
+		public void i1229()
+		{
+			using (var p = OpenTemplatePackage("Data.template.xlsx"))
+			{
+				/* Raw Data Sheet only */
+				foreach (var wb in p.Workbook.Worksheets)
+					Debug.WriteLine(wb.Name);                          // working as expected 
+				SaveAndCleanup(p);
+			}
+		}
+    [TestMethod]
+    public void i1272()
+    {
+      using (var pck = OpenTemplatePackage("i1272.xlsx"))
+      {
+         var sheet = pck.Workbook.Worksheets["Sheet2"];
+
+         var cellToCopy = sheet.Cells["A1"];
+         var newCellRange = sheet.Cells["B1"];
+
+         cellToCopy.Copy(newCellRange);
+
+         var cf = cellToCopy.ConditionalFormatting;
+         var cfNew = newCellRange.ConditionalFormatting;
+
+
+         var conditionalFormattingCollection = sheet.ConditionalFormatting; // still contains 1 rule even though it is gone in file
+
+         SaveAndCleanup(pck);
+                // After save conditional formatting is not copied and is deleted from the original cell
+
+         using (var pck2 = new ExcelPackage("C:\\epplusTest\\Testoutput\\i1272.xlsx"))
+         {
+            var conditionalFormattingRules = pck2.Workbook.Worksheets["Sheet2"].ConditionalFormatting.Count;
+            Assert.AreEqual(1, conditionalFormattingRules); // this returns a success, however when opening the file the rule is gone
+         }
+      }
     }
+  }
 }

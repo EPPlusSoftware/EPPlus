@@ -19,7 +19,7 @@ using OfficeOpenXml.Style;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
-    /// Datalabel on chart level. 
+    /// Data labels on the chart level. 
     /// This class is inherited by ExcelChartSerieDataLabel
     /// </summary>
     public abstract class ExcelChartDataLabel : XmlHelper, IDrawingStyle
@@ -223,7 +223,22 @@ namespace OfficeOpenXml.Drawing.Chart
                return _font;
            }
        }
-        void IDrawingStyleBase.CreatespPr()
+		ExcelDrawingTextSettings _textSettings = null;
+		/// <summary>
+		/// Text settings like fills, text outlines and effects 
+		/// </summary>
+		public ExcelDrawingTextSettings TextSettings
+		{
+			get
+			{
+				if (_textSettings == null)
+				{
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+				}
+				return _textSettings;
+			}
+		}
+		void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode();
         }

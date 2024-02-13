@@ -207,10 +207,12 @@ namespace OfficeOpenXml.Table
                     Table.Columns._colNames.Remove(_cols[i].Name);
                     Table.Columns._cols.RemoveAt(i);
                 }
+
                 for (int i = position; i < _cols.Count; i++)
                 {
                     _cols[i].Position = i;
                 }
+
                 _colNames = _cols.ToDictionary(x => x.Name, y => y.Position);
 
                 var range = Table.DeleteColumn(position, columns);
@@ -218,5 +220,19 @@ namespace OfficeOpenXml.Table
             }
         }
 
+        internal void UpdateColName(string oldName, string newName)
+        {
+            if(_colNames.ContainsKey(oldName))
+            {
+                var columnIndex = _colNames[oldName];
+                _colNames.Remove(oldName);
+                _colNames.Add(newName, columnIndex);
+            }
+        }
+
+        internal int GetIndexOfColName(string name)
+        {
+            return _colNames[name];
+        }
     }
 }

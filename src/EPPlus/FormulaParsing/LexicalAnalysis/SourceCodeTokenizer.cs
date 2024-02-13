@@ -104,7 +104,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             isExtRef = 0x400,
             isIntersect = 0x800,
             isError = 0x1000,
-            isExponential = 0x2000
+            isExponential = 0x2000,
+            isLastCharQuote = 0x4000
         }
         public IList<Token> Tokenize(string input, string worksheet)
         {
@@ -130,7 +131,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             while (ix < length)
             {
                 var c = input[ix];
-                if (c == '\"' && isInString != 2)
+                if (c == '\"' && isInString != 2 && bracketCount==0)
                 {
                     current.Append(c);
                     flags |= statFlags.isString;
@@ -150,9 +151,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         }
                         isInString ^= 2;
                     }
-                    else if (pc == '\'')
+                    else if (pc == '\'' && (flags & statFlags.isLastCharQuote)==0)
                     {
                         current.Append(c);
+                        flags |= statFlags.isLastCharQuote;
+                    }
+                    else
+                    {
+                        flags &= ~statFlags.isLastCharQuote;
                     }
                 }
                 else
@@ -187,6 +193,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else if (isInString == 0 && _charTokens.ContainsKey(c) && (flags & statFlags.isExponential) == 0)
                     {
+                        
                         if (c == '!' && current.Length > 0 && current[0] == '#')
                         {
                             var currentString = current.ToString();
@@ -213,7 +220,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         {
                             current.Append(c); //We have a #n/a
                         }
-                        else if ((((c != '[' && c != ']' && c != '\'')) || ((c == '[' || c == ']' || c == '\'') && pc == '\'')) && !(c == ',' && pc == ']' && current.Length == 0) && bracketCount > 0)
+                        else if ((((c != '[' && c != ']' && c != '\'')) || ((c == '[' || c == ']' || c == '\'') && (pc == '\'' && (flags & statFlags.isLastCharQuote) == 0))) && !(c == ',' && pc == ']' && current.Length == 0) && bracketCount > 0)
                         {
                             current.Append(c);
                         }
@@ -223,6 +230,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             current.Append(c);
                             if (ix == input.Length - 1)
                             {
+                                if ((flags & statFlags.isNegator) == statFlags.isNegator)
+                                {
+                                    HandleNegator(l, current, flags);
+                                }
                                 l.Add(new Token(current.ToString(), TokenType.ExcelAddressR1C1));
                                 return l;
                             }
@@ -288,11 +299,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             {
                                 paranthesesCount--;
                             }
-                            else if (c == '[' && pc != '\'')
+                            else if (c == '[' && (pc != '\'' || (flags & statFlags.isLastCharQuote) == 0))
                             {
                                 bracketCount++;
                             }
-                            else if (c == ']' && pc != '\'')
+                            else if (c == ']' && (pc != '\'' || (flags & statFlags.isLastCharQuote) == 0))
                             {
                                 bracketCount--;
                                 if (bracketCount == 0)
@@ -312,7 +323,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                                 SetRangeOffsetToken(l);
                                 flags |= statFlags.isColon;
                             }
-                            else if ((flags & statFlags.isNumeric) == statFlags.isNumeric && (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric && (c == 'E' || c == 'e')) //Handle exponential values in a formula.
+                            else if ((flags == statFlags.isNumeric || 
+                                      flags == (statFlags.isNumeric | statFlags.isDecimal) || 
+                                      flags == (statFlags.isNumeric | statFlags.isDecimal | statFlags.isNegator) || 
+                                      flags == (statFlags.isNumeric | statFlags.isNegator)) 
+                                      && 
+                                      (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric 
+                                      && 
+                                      (c == 'E' || c == 'e')) //Handle exponential values in a formula.
                             {
                                 current.Append(c);
                                 flags |= statFlags.isExponential;
@@ -428,53 +446,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             if ((flags & statFlags.isNegator) == statFlags.isNegator)
             {
-                if (l.Count == 0)
-                {
-                    if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
-                    {
-                        current.Insert(0, '-');
-                    }
-                    else
-                    {
-                        l.Add(new Token("-", TokenType.Negator));
-                    }
-                }
-                else
-                {
-                    var pt = GetLastTokenIgnore(l, out int index, TokenType.SingleQuote, TokenType.WorksheetNameContent, TokenType.ExternalReference, TokenType.OpeningBracket, TokenType.ClosingBracket, TokenType.WhiteSpace);
-                    if (pt.TokenType == TokenType.Operator
-                        ||
-                        pt.TokenType == TokenType.Negator
-                        ||
-                        pt.TokenType == TokenType.OpeningParenthesis
-                        ||
-                        pt.TokenType == TokenType.Comma
-                        ||
-                        pt.TokenType == TokenType.SemiColon
-                        ||
-                        pt.TokenType == TokenType.OpeningEnumerable)
-                    {
-                        if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
-                        {
-                            current.Insert(0, '-');
-                        }
-                        else
-                        {
-                            if (pt != l[l.Count - 1])
-                            {
-                                l.Insert(index + 1, new Token("-", TokenType.Negator));
-                            }
-                            else
-                            {
-                                l.Add(new Token("-", TokenType.Negator));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        l.Add(_charTokens['-']);
-                    }
-                }
+                HandleNegator(l, current, flags);
             }
             if (current.Length == 0)
             {
@@ -688,6 +660,71 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             //Clear sb
             current = new StringBuilder();
         }
+
+        private void HandleNegator(List<Token> l, StringBuilder current, statFlags flags)
+        {
+            if (l.Count == 0)
+            {
+                if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
+                {
+                    current.Insert(0, '-');
+                }
+                else
+                {
+                    l.Add(new Token("-", TokenType.Negator));
+                }
+            }
+            else
+            {
+                var pt = GetLastTokenIgnore(l, out int index, TokenType.SingleQuote, TokenType.WorksheetNameContent, TokenType.ExternalReference, TokenType.OpeningBracket, TokenType.ClosingBracket, TokenType.WhiteSpace);
+                if (pt.TokenType == TokenType.Operator
+                    ||
+                    pt.TokenType == TokenType.Negator
+                    ||
+                    pt.TokenType == TokenType.OpeningParenthesis
+                    ||
+                    pt.TokenType == TokenType.Comma
+                    ||
+                    pt.TokenType == TokenType.SemiColon
+                    ||
+                    pt.TokenType == TokenType.OpeningEnumerable)
+                {
+                    if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
+                    {
+                        current.Insert(0, '-');
+                    }
+                    else
+                    {
+                        InsertNegatorToken(l, pt, index, new Token("-", TokenType.Negator));
+                    }
+                }
+                else
+                {
+                    InsertNegatorToken(l, pt, index, _charTokens['-']);
+                }
+            }
+        }
+
+        private static void InsertNegatorToken(List<Token> l, Token pt, int index, Token token)
+        {
+
+            if (pt != l[l.Count - 1])
+            {
+                if (l[index + 1].TokenType == TokenType.WhiteSpace)
+                {
+                    l.Insert(index + 2, token);
+                }
+                else
+                {
+                    l.Insert(index + 1, token);
+                }
+            }
+            else
+            {
+                l.Add(token);
+            }
+        }
+
         private static readonly char[] _addressChars = new char[] { ':', '$', '[', ']', '\'' };
         private static bool IsName(string s)
         {

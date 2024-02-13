@@ -1,4 +1,68 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.8
+### Fixed issues 
+* Validation of VBA module names failed when containing a space
+* Decryption of workbooks where the hash algorithm SHA1 was used sometimes failed.
+
+## Version 7.0.7
+### Fixed issues 
+* Implicit intersection in formulas with full row or full column addresses incorrectly calculated to #VALUE!.
+* Inserting in a range with a formula that has a table address with two parts, ie Table1[[#This Row],[column1], caused the formula to become corrupt.
+* Conditional formatting’s with #REF! addresses caused an Exception.
+* HeaderFooter - Fixed issue introduced 7.0.6 where RightAlignedText was set as CenterAlignedText.
+* Formula parser handled negation incorrectly in some cases before addresses with worksheet name specified.
+* Conditional formatting data bars can now take formula addresses and formulas for high and low input.
+* Calculating the first cell of a shared formula was incorrectly cached the value causing a second calculation to to use the previously cached value.
+* Disposed internal Memory Stream’s in package parts were not disposed correctly.
+* Formula Tokenizer could incorrectly identify a token as exponential causing an exception in the formula calculation.
+
+## Version 7.0.6
+### Minor Features
+* Added new property TextSettings to set text fills, outlines and effects on chart elements to ExcelChartTitle, ExcelChartLegend, ExcelChartAxis and ExcelChartDatalabel.
+* Upgraded RecyclableMemoryStream to 3.0.0.
+
+### Fixed issues 
+* Improved performance when opening files with many defined names in excel.
+* ToDataTable didn't handle RichText correctly when exporting values
+* Calculation threw a NullReferenceException on calculating a copied worksheet with shared formulas in some cases.
+* Calculation of XLOOKUP failed if it was set as a shared formula that did not return a dynamic result.
+* Fixed an issue where the formula tokenizer in the formula calculation handled whitespaces in the wrong order compared to negators.
+* Added a check for maximum header and footer text length.
+* RichData parts did not add the content types to the [Content_Types].xml.
+
+## Version 7.0.5
+### Fixed issues 
+* Calculating formulas with expressions that had double cell negations, returned an incorrect result.
+* Calculating a formula that had a negation of an empty cell returned a #VALUE! error.
+* Pivot table fields with a specified subtotal function sometimes caused the workbook to become corrupt.
+* Deleting a worksheet with hyperlinks that referes to an intenal address caused an exception.
+
+## Version 7.0.4
+### Minor Features
+* Added follow dependency-chain option which allows calculating the given cells without calculating dependent cells
+ 
+### Fixed issues 
+* Deleting pivot tables sometimes did not clear their pivot caches.
+* The formula tokenizer did not handle single/double quotes and encoding correctly in table addresses.
+* The JSON export did not encode column header cells and comment texts.
+* Worksheet Copy did not copy images with hyperlinks correctly
+* ExcelRangeBase.FormulaR1C1 translation did return a correct value when having a minus operator in some cases.
+
+## Version 7.0.3
+### Minor Features
+* Added Alignment and Protection properties to ExcelDxfStyle - Affects Table and Pivot Table Stylings
+* Added Target framework .NET 8.
+### Fixed issues 
+* Improved handling of negation of ranges in the formula calculation.
+* Added AlwaysAllowNull property to ToDataTableOptions parameter of the ExcelRangeBase.ToDataTable function.
+* ExcelValueFilterColumn.Filters. Blank property now hides rows even if it contains no other filters.
+* Resolved issue where ExcelValueFilterCollection.Add("") or adding null on ExcelFilterValueItem generated corrupt worksheet. The Blank property is now set to true instead.
+* Hyperlinks were not correctly encoded if Unicode characters was used.
+* External references in the lookup range did not work in the VLOOKUP & HLOOKUP functions.
+* Copying worksheets with pivot tables caused a corrupt workbook in some cases.
+* Insert/Deleting in ranges sometimes affected addresses referencing other worksheets.
+* The ExcelRangeBase.Text property sometimes returned a formatted value with both - and () for negative values on some cultures.
+
 ## Version 7.0.2
 ### Fixed issues 
 * External references did not work correctly with the VLOOKUP function.

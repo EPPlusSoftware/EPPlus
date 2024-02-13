@@ -38,12 +38,10 @@ namespace OfficeOpenXml
             WriteItem(sw, $"\"{_settings.ColumnsElementName}\":[", true);
             for (int i = 0; i < _range.Columns; i++)
             {
-                //if (i > 0) sw.Write(",");
-                //sw.Write("{");
                 WriteStart(sw);
                 if (_settings.FirstRowIsHeader)
                 {
-                    WriteItem(sw, $"\"name\":\"{_range.GetCellValue<string>(0,i)}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
+                    WriteItem(sw, $"\"name\":\"{JsonEscape(_range.GetCellValue<string>(0,i))}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
                 }
                 if (_settings.AddDataTypesOn==eDataTypeOn.OnColumn)
                 {

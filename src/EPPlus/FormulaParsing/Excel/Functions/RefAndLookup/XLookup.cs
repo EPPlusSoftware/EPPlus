@@ -29,7 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     {
         private Stopwatch _stopwatch = null;
         public override string NamespacePrefix => "_xlfn.";
-        private int GetMatchIndex(object lookupValue, IRangeInfo lookupRange, IRangeInfo returnArray, bool asc, LookupMatchMode matchMode)
+		public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+		private int GetMatchIndex(object lookupValue, IRangeInfo lookupRange, IRangeInfo returnArray, bool asc, LookupMatchMode matchMode)
         {
             var comparer = new LookupComparer(matchMode);
             var ix = LookupBinarySearch.BinarySearch(lookupValue, lookupRange, asc, comparer);
@@ -103,7 +104,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             if (ix < 0 || ix > (lookupDirection == LookupRangeDirection.Vertical ? returnArray.Size.NumberOfRows - 1 : returnArray.Size.NumberOfCols - 1))
             {
-                return string.IsNullOrEmpty(notFoundText) ? CompileResult.GetDynamicArrayResultError(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
+                return string.IsNullOrEmpty(notFoundText) ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
             }
             var result = default(IRangeInfo);
             if (lookupDirection == LookupRangeDirection.Vertical)
@@ -120,15 +121,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if (string.IsNullOrEmpty(notFoundText))
                 {
-                    return CompileResult.GetDynamicArrayResultError(eErrorType.NA);
+                    return CreateResult(eErrorType.NA);
                 }
                 else
                 {
-                    return CreateDynamicArrayResult(notFoundText, DataType.String);
+                    return CreateResult(notFoundText, DataType.String);
                 }
             }
             //return CreateResult(result, DataType.ExcelRange);
-            return CreateDynamicArrayResult(result, DataType.ExcelRange);
+            if (result.GetNCells() > 1)
+            {
+                return CreateDynamicArrayResult(result, DataType.ExcelRange);
+            }
+            else
+            {
+                var v = result.GetOffset(0, 0);
+                return CompileResultFactory.Create(v, result.Address);
+			}
         }
     }
 }

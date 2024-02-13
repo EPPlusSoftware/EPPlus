@@ -63,7 +63,6 @@ namespace OfficeOpenXml.Packaging
         }
         internal override ZipPackageRelationship CreateRelationship(string target, TargetMode targetMode, string relationshipType)
         {
-
             var rel = base.CreateRelationship(target, targetMode, relationshipType);
             rel.SourceUri = Uri;
             return rel;
@@ -158,8 +157,27 @@ namespace OfficeOpenXml.Packaging
         }
         public void Dispose()
         {
-            _stream.Close();
-            _stream.Dispose();
+            if(_stream != null)
+            {
+                try
+                {
+					_stream.Close();
+					_stream.Dispose();
+				}
+                catch { }
+			}
+		}
+
+        internal ZipPackageRelationship CreateRelationshipFromCopy(ZipPackageRelationship relToCopy)
+        {
+            if (string.IsNullOrEmpty(relToCopy.Target))
+            {
+                return CreateRelationship(relToCopy.Target, relToCopy.TargetMode, relToCopy.RelationshipType);
+            }
+            else
+            {
+                return CreateRelationship(relToCopy.TargetUri, relToCopy.TargetMode, relToCopy.RelationshipType);
+            }
         }
-    }
+	}
 }

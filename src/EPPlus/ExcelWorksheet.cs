@@ -1829,7 +1829,7 @@ namespace OfficeOpenXml
         private object GetErrorFromMetaData(MetaDataReference md, object v)
         {
             var metaData = Workbook.Metadata;
-            var valueMetaData = metaData.ValueMetadata[md.vm-1];
+            var valueMetaData = metaData.ValueMetadata[md.vm - 1];
             var valueRecord = valueMetaData.Records[0];
             var type = metaData.MetadataTypes[valueRecord.RecordTypeIndex - 1];
             if (type.Name.Equals("XLRICHVALUE"))

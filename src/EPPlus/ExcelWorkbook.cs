@@ -39,6 +39,7 @@ using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml
 {
@@ -1395,9 +1396,11 @@ namespace OfficeOpenXml
 			// Issue 15252: Save SharedStrings only once
 			//Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
 		}
-		private void UpdateDefinedNamesXml()
+
+        private void UpdateDefinedNamesXml()
 		{
-			try
+            List<ExcelNamedRange> nameList = new List<ExcelNamedRange>();
+            try
 			{
 				Dictionary<string, string> nsf;
                 XmlNode top = WorkbookXml.SelectSingleNode("//d:definedNames", NameSpaceManager);
@@ -1408,8 +1411,8 @@ namespace OfficeOpenXml
 				}
 				else
 				{
-                    nsf = FormulaParser.ParsingContext.Configuration.FunctionRepository.NamespaceFunctions;
-                    if (top == null)
+					nsf = FormulaParser.ParsingContext.Configuration.FunctionRepository.NamespaceFunctions;
+					if (top == null)
 					{
 						CreateNode("d:definedNames");
 						top = WorkbookXml.SelectSingleNode("//d:definedNames", NameSpaceManager);
@@ -1418,35 +1421,53 @@ namespace OfficeOpenXml
 					{
 						top.RemoveAll();
 					}
+
 					foreach (ExcelNamedRange name in _names)
 					{
-
-						XmlElement elem = WorkbookXml.CreateElement("definedName", ExcelPackage.schemaMain);
-						top.AppendChild(elem);
-						elem.SetAttribute("name", name.Name);
-						if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
-						if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
-						SetNameElement(name, elem, nsf);
+						nameList.Add(name);
 					}
-				}
+                }
+
 				foreach (ExcelWorksheet ws in _worksheets)
 				{
 					if (!(ws is ExcelChartsheet))
 					{
 						foreach (ExcelNamedRange name in ws.Names)
 						{
-							XmlElement elem = WorkbookXml.CreateElement("definedName", ExcelPackage.schemaMain);
-							top.AppendChild(elem);
-							elem.SetAttribute("name", name.Name);
-							elem.SetAttribute("localSheetId", name.LocalSheetId.ToString());
-							if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
-							if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
-							SetNameElement(name, elem, nsf);
-						}
+                            nameList.Add(name);
+                        }
 					}
 				}
+
+				nameList.Sort(delegate(ExcelNamedRange x, ExcelNamedRange y) 
+				{
+					var result = x.Name.CompareTo(y.Name);
+
+                    if (result == 0)
+					{
+						var nameX = x.LocalSheetId <= -1 ? "" : x.LocalSheet.Name;
+						var nameY = y.LocalSheetId <= -1 ? "" : y.LocalSheet.Name;
+
+                        result = nameX.CompareTo(nameY);
+                    }
+					return result; 
+				});
+
+				foreach (var name in nameList)
+				{
+					XmlElement elem = WorkbookXml.CreateElement("definedName", ExcelPackage.schemaMain);
+					top.AppendChild(elem);
+					elem.SetAttribute("name", name.Name);
+					if (name.LocalSheetId != -1)
+					{
+						elem.SetAttribute("localSheetId", name.LocalSheetId.ToString());
+					}
+					if (name.IsNameHidden) elem.SetAttribute("hidden", "1");
+					if (!string.IsNullOrEmpty(name.NameComment)) elem.SetAttribute("comment", name.NameComment);
+					SetNameElement(name, elem, nsf);
+				}
 			}
-			catch (Exception ex)
+            catch (Exception ex)
 			{
 				throw new Exception("Internal error updating named ranges ", ex);
 			}

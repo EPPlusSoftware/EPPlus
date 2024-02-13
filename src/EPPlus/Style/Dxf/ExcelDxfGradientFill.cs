@@ -48,7 +48,10 @@ namespace OfficeOpenXml.Style.Dxf
                 return Colors.Id + "|" + GetAsString(Degree) + "|" + GetAsString(Left) + "|" + GetAsString(Right) + "|" + GetAsString(Top) + "|" + GetAsString(Bottom) + "|" + GetAsString(GradientType);
             }
         } 
-
+        internal static string GetEmptyId()
+        {
+            return $"{ExcelDxfColor.GetEmptyId()}||||||";
+        }
         /// <summary>
         /// Clears all properties
         /// </summary>

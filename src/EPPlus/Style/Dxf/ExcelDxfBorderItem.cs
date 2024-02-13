@@ -60,7 +60,10 @@ namespace OfficeOpenXml.Style.Dxf
                 return GetAsString(Style) + "|" + (Color == null ? "" : Color.Id);
             }
         }
-
+		internal static string GetEmptyId()
+        {
+            return "|";
+        }
         /// <summary>
         /// Creates the the xml node
         /// </summary>

@@ -503,6 +503,14 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             }
         }
         [TestMethod]
+        public void TokenizeAddressWithEncodedChars()
+        {
+            var input = "SUM(MyDataTable[[#This Row],['[Column'['''] 1\"]])";
+            var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual("[Column['] 1\"", tokens[9].Value);
+        }
+
+        [TestMethod]
         public void TokenizeKeepWhiteSpace()
         {
             var input = @"A1:B3  B2:C5";
@@ -578,5 +586,13 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             //Assert.AreEqual(TokenType.WorksheetNameContent, tokens[3].TokenType);
             //Assert.AreEqual(TokenType.WorksheetName, tokens[4].TokenType);
         }
-    }
+		[TestMethod]
+		public void TokenizeTableAddressShouldNotBeExponential()
+        {
+            var input = "SUM(Sheet1[2024E])";
+			var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual(7, tokens.Count);
+			Assert.AreEqual(TokenType.TableColumn, tokens[4].TokenType);
+		}
+	}
 }

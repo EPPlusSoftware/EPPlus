@@ -34,6 +34,7 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -459,16 +460,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             {
                                 if (f.FormulaType == FormulaType.Array)
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
                                 else if (f.FormulaType == FormulaType.DataTable)
                                 {
                                     var dataTableAttributes = GetDataTableAttributes(f);
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"dataTable\"{dataTableAttributes} {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}></{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"dataTable\"{dataTableAttributes} {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}></{cTag}>");
                                 }
                                 else
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
 
                             }
@@ -499,12 +500,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             // We can also have a single cell array formula
                             if (f.FormulaType == FormulaType.Array)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                             else
                             {
                                 cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
-                                cache.Append($"<{fTag}{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{fTag}{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                     }
@@ -512,7 +513,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     {
                         var f= SharedFormula.UpdateFormulaNamespaces(formula.ToString(), nsf);
                         cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
-                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                     }
                     else
                     {
@@ -861,7 +862,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         /// <param name="prefix">The namespace prefix for the main schema</param>
         private void UpdateHyperLinks(StreamWriter sw, string prefix)
         {
-            Dictionary<string, string> hyps = new Dictionary<string, string>();
+			ClearHyperlinks();
+			Dictionary<string, string> hyps = new Dictionary<string, string>();
             var cse = new CellStoreEnumerator<Uri>(_ws._hyperLinks);
             bool first = true;
             while (cse.Next())
@@ -934,7 +936,34 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             }
         }
 
-        private void UpdateRowBreaks(StreamWriter sw, string prefix)
+		private void ClearHyperlinks()
+		{
+            var maxRelId = 0;
+			foreach(var rel in _ws.Part._rels.ToList())
+            {
+                if(rel.RelationshipType.Equals(ExcelPackage.schemaHyperlink, StringComparison.OrdinalIgnoreCase))
+                {
+                    _ws.Part.DeleteRelationship(rel.Id);
+                }
+                else
+                {
+					if (rel.Id.StartsWith("rId"))
+					{
+						if (int.TryParse(rel.Id.Substring(3), out int id))
+						{
+							if (id > maxRelId)
+							{
+								maxRelId = id;
+							}
+						}
+					}
+
+				}
+			}
+            _ws.Part.SetMaxRelId(maxRelId+1);
+		}
+
+		private void UpdateRowBreaks(StreamWriter sw, string prefix)
         {
             StringBuilder breaks = new StringBuilder();
             int count = 0;
@@ -1193,22 +1222,22 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 cache.Append("/>");
                             }
 
-                            if(dataBar.BorderColor != null)
+                            if (dataBar.BorderColor != null && dataBar.Border == true)
                             {
                                 WriteDxfColor(prefix, cache, dataBar.BorderColor, "borderColor");
                             }
 
-                            if(dataBar.NegativeFillColor != null) 
+                            if (dataBar.NegativeFillColor != null && dataBar.NegativeBarColorSameAsPositive == false)
                             {
                                 WriteDxfColor(prefix, cache, dataBar.NegativeFillColor, "negativeFillColor");
                             }
 
-                            if (dataBar.NegativeBorderColor != null)
+                            if (dataBar.NegativeBorderColor != null && dataBar.NegativeBarColorSameAsPositive == false && dataBar.Border == true)
                             {
                                 WriteDxfColor(prefix, cache, dataBar.NegativeBorderColor, "negativeBorderColor");
                             }
 
-                            if (dataBar.AxisColor != null)
+                            if (dataBar.AxisColor != null && dataBar.AxisPosition != eExcelDatabarAxisPosition.None)
                             {
                                 WriteDxfColor(prefix, cache, dataBar.AxisColor, "axisColor");
                             }
@@ -1449,7 +1478,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                         if (i == ruleList.Value.Count - 1)
                         {
-                            cache.Append($"<xm:sqref>{format.Address}</xm:sqref>");
+                            cache.Append($"<xm:sqref>{format.Address.AddressSpaceSeparated}</xm:sqref>");
                             cache.Append($"</{prefix}conditionalFormatting>");
                         }
                     }
@@ -1561,7 +1590,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if(i == 0)
                     {
-                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address}\">");
+                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\">");
                     }
 
                     cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");

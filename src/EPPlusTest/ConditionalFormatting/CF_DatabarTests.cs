@@ -362,8 +362,9 @@ namespace EPPlusTest.ConditionalFormatting
                 databar.Border = true;
                 databar.Direction = eDatabarDirection.RightToLeft;
 
-                //Ensure we read and write the color even if its not currently applied
-                databar.NegativeFillColor.Color = Color.DarkBlue;
+                //Do not do this. Excel will read wrong colors on other nodes in some cases.
+                /*////Ensure we read and write the color even if its not currently applied
+                //databar.NegativeFillColor.Color = Color.DarkBlue;*/
 
                 databar.NegativeBarColorSameAsPositive = true;
                 databar.NegativeBarBorderColorSameAsPositive = false;
@@ -382,8 +383,8 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(true, bar.NegativeBarColorSameAsPositive);
                 Assert.AreEqual(false, bar.NegativeBarBorderColorSameAsPositive);
                 Assert.AreEqual(eExcelDatabarAxisPosition.Middle, bar.AxisPosition);
-                //Ensure we read and write the color even if its not currently applied
-                Assert.AreEqual(Color.FromArgb(255, Color.DarkBlue), bar.NegativeFillColor.Color);
+                ////Do not do this
+                //*Assert.AreEqual(Color.FromArgb(255, Color.DarkBlue), bar.NegativeFillColor.Color);*/
             }
         }
     }
