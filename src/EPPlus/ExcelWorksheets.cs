@@ -96,19 +96,6 @@ namespace OfficeOpenXml
             var ws = _worksheets.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
             return (short)(ws == null ? -1 : ws.IndexInList);
         }
-
-        private eWorkSheetHidden TranslateHidden(string value)
-        {
-            switch (value)
-            {
-                case "hidden":
-                    return eWorkSheetHidden.Hidden;
-                case "veryHidden":
-                    return eWorkSheetHidden.VeryHidden;
-                default:
-                    return eWorkSheetHidden.Visible;
-            }
-        }
         #endregion
         #region ExcelWorksheets Public Properties
         /// <summary>
@@ -274,9 +261,22 @@ namespace OfficeOpenXml
             }
             throw new InvalidOperationException("The worksheets collection must have at least one visible worksheet");
         }
-        //Get first visible index counted from a given index
+
+        /// <summary>
+        /// Get first visible index counted from input index.
+        /// </summary>
+        /// <param name="index">The index to start checking from</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         internal int? GetNextVisibleSheetIndex(int index)
         {
+            if (index >= _worksheets.Count())
+            {
+                throw new InvalidOperationException(
+                    $"index: {index} is out of bounds. Number of worksheets is: " +
+                    $"{_worksheets.Count()}. Max index is: {_worksheets.Count() -1 + _pck._worksheetAdd}");
+            }
+
             //Forward until end
             for (int i = index; i < _worksheets.Count; i++)
             {
@@ -285,8 +285,9 @@ namespace OfficeOpenXml
                     return i;
                 }
             }
-            //Backwards until start
-            for (int i = index; i > - 1; i--)
+
+            //Backwards until start. We don't need to check index position again
+            for (int i = index -1; i > - 1; i--)
             {
                 if (_worksheets[i].Hidden == eWorkSheetHidden.Visible)
                 {
@@ -477,73 +478,50 @@ namespace OfficeOpenXml
             _worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
             ReindexWorksheetDictionary();
             //If the active sheet is deleted, set the next visible sheet as active.
-            //If none are start going backwards until one isn't.
+            //If none are visible start going backwards until one isn't.
             if (_pck.Workbook.Worksheets.Count > 0)
             {
-                int activeWorksheetIndex = _pck.Workbook.View.ActiveTab;
+                //ActiveTab is always 0-based
+                int activeTabAdjustedIndex = _pck.Workbook.View.ActiveTab + _pck._worksheetAdd;
 
-                activeWorksheetIndex += _pck._worksheetAdd;
-
-                if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
+                if (Index < activeTabAdjustedIndex)
                 {
-                    _pck.Workbook.View.ActiveTab = GetLastVisibleSheetIndex().Value;
+                    //wsIndexActiveTab can impossibly be 0 since it's larger than Index with min value 0
+                    //visibility shouldn't have changed from delete, therefore
+                    _pck.Workbook.View.ActiveTab -= 1;
                 }
-                else if(activeWorksheetIndex == Index)
+                else if(Index == activeTabAdjustedIndex)
                 {
-                    // The sheet that used to exist at activeWorksheetIndex was deleted.
-                    // it may be indexed correctly. If the next sheet after it exists/was visible.
-                    // or incorrectly if not.
-
-                    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(activeWorksheetIndex).Value;
-                }
-                else if (Index < activeWorksheetIndex)
-                {
-                    //Technically here activeWorksheetIndex should always become -= 1 since we know it was visible before delete but but we check anyway 
-                    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(activeWorksheetIndex - 1).Value;
-                }
-                else
-                {
-                    //Index>activeWorksheetIndex no change neccesary index has not moved.
+                    if (activeTabAdjustedIndex >= _worksheets.Count())
+                    {
+                        _pck.Workbook.View.ActiveTab = GetLastVisibleSheetIndex().Value;
+                    }
+                    else
+                    {
+                        _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(activeTabAdjustedIndex).Value;
+                    }
                 }
 
-
-                //if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
+                //    if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
                 //{
-                //    _pck.Workbook.View.ActiveTab = GetFirstVisibleSheetIndex().Value;
+                //    _pck.Workbook.View.ActiveTab = GetLastVisibleSheetIndex().Value;
                 //}
-                ////if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
-                ////{
-                ////    _pck.Workbook.View.ActiveTab = GetFirstVisibleSheetIndex();
+                //else if(activeWorksheetIndex == (Index - _pck._worksheetAdd))
+                //{
+                //    // The sheet that used to exist at activeWorksheetIndex was deleted.
+                //    // it may be indexed correctly. If the next sheet after it exists/was visible.
+                //    // or incorrectly if not.
 
-                ////    //for (int i = 1; i < _pck.Workbook.Worksheets.Count + 1; i++)
-                ////    //{
-                ////    //    sheetIndex = Math.Min(_pck.Workbook.View.ActiveTab - i, _pck.Workbook.Worksheets.Count - i);
-                ////    //    if (_pck.Workbook.Worksheets[sheetIndex].Hidden == eWorkSheetHidden.Visible)
-                ////    //    {
-                ////    //        i = _pck.Workbook.Worksheets.Count;
-                ////    //    }
-                ////    //}
-                ////    //_pck.Workbook.View.ActiveTab = sheetIndex;
-                ////}
+                //    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(wsIndexActiveTab).Value;
+                //}
+                //else if (Index < activeWorksheetIndex)
+                //{
+                //    //Technically here activeWorksheetIndex should always become -= 1 since we know it was visible before delete but but we check anyway 
+                //    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(wsIndexActiveTab - 1).Value;
+                //}
                 //else
                 //{
-                //    for (int i = _pck.Workbook.View.ActiveTab; i < _pck.Workbook.Worksheets.Count; i++)
-                //    {
-                //        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
-                //        {
-                //            _pck.Workbook.View.ActiveTab = i;
-                //            return;
-                //        }
-                //    }
-
-                //    for (int i = _pck.Workbook.View.ActiveTab - 1; i > 0; i--)
-                //    {
-                //        if (_pck.Workbook.Worksheets[i].Hidden == eWorkSheetHidden.Visible)
-                //        {
-                //            _pck.Workbook.View.ActiveTab = i;
-                //            return;
-                //        }
-                //    }
+                //    //Index>activeWorksheetIndex no change neccesary index has not moved.
                 //}
             }
         }
