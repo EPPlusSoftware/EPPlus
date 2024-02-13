@@ -273,7 +273,7 @@ namespace OfficeOpenXml
             if (index >= _worksheets.Count())
             {
                 throw new InvalidOperationException(
-                    $"index: {index} is out of bounds. Number of worksheets is: " +
+                    $"index: {index} is out of range. Number of worksheets is: " +
                     $"{_worksheets.Count()}. Max index is: {_worksheets.Count() -1 + _pck._worksheetAdd}");
             }
 
@@ -501,28 +501,6 @@ namespace OfficeOpenXml
                         _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(activeTabAdjustedIndex).Value;
                     }
                 }
-
-                //    if (activeWorksheetIndex >= _pck.Workbook.Worksheets.Count)
-                //{
-                //    _pck.Workbook.View.ActiveTab = GetLastVisibleSheetIndex().Value;
-                //}
-                //else if(activeWorksheetIndex == (Index - _pck._worksheetAdd))
-                //{
-                //    // The sheet that used to exist at activeWorksheetIndex was deleted.
-                //    // it may be indexed correctly. If the next sheet after it exists/was visible.
-                //    // or incorrectly if not.
-
-                //    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(wsIndexActiveTab).Value;
-                //}
-                //else if (Index < activeWorksheetIndex)
-                //{
-                //    //Technically here activeWorksheetIndex should always become -= 1 since we know it was visible before delete but but we check anyway 
-                //    _pck.Workbook.View.ActiveTab = GetNextVisibleSheetIndex(wsIndexActiveTab - 1).Value;
-                //}
-                //else
-                //{
-                //    //Index>activeWorksheetIndex no change neccesary index has not moved.
-                //}
             }
         }
 
