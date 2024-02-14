@@ -51,6 +51,7 @@ namespace EPPlusTest
                 Assert.IsTrue(p.Workbook.Protection.WriteProtection.ReadOnlyRecommended);
                 //Assert.IsTrue(p.Workbook.Protection.WriteProtection.IsReadOnly);
                 SaveAndCleanup(p);
+                
             }
         }
         [TestMethod]
@@ -66,7 +67,7 @@ namespace EPPlusTest
                 Assert.IsTrue(p.Workbook.Protection.WriteProtection.IsReadOnly);
                 p.Workbook.Protection.WriteProtection.RemoveReadOnly();
                 Assert.IsFalse(p.Workbook.Protection.WriteProtection.IsReadOnly);
-                Assert.IsFalse(p.Workbook.Protection.WriteProtection.ReadOnlyRecommended);
+                Assert.IsFalse(p.Workbook.Protection.WriteProtection.ReadOnlyRecommended);                
             }
         }
     }

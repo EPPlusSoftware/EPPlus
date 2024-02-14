@@ -11,6 +11,7 @@
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
  using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -148,7 +149,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 if (drawing.EditAs != eEditAs.Absolute)
                 {
-                    if (drawing.From.Row >= rowFrom-1)
+					drawing._doNotAdjust = true;
+					if (drawing.From.Row >= rowFrom-1)
                     {                       
                         if (drawing.From.Row + rows < rowFrom - 1)
                         {
@@ -184,7 +186,8 @@ namespace OfficeOpenXml.Core.Worksheet
                         }
                     }
                     if (drawing.From.Row < 0) drawing.From.Row = 0;
-                    drawing.AdjustPositionAndSize();
+					drawing._doNotAdjust = false;
+					drawing.AdjustPositionAndSize();
                 }
             }
 
@@ -199,17 +202,17 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     continue;
                 }
-
                 if (drawing.CellAnchor==eEditAs.TwoCell && 
                     columns < 0 && drawing.From.Column >= columnFrom - 1 &&
                     ((drawing.To.Column <= (columnFrom - columns - 1) && drawing.To.ColumnOff == 0) || drawing.To.Column <= (columnFrom - columns - 2))) //If delete and the entire drawing is withing the deleted range, remove it.
                 {
                     deletedDrawings.Add(drawing);
                     continue;
-                }
+                }                
                 if (drawing.EditAs != eEditAs.Absolute)
                 {
-                    if (drawing.From.Column >= columnFrom - 1)
+                    drawing._doNotAdjust = true;
+					if (drawing.From.Column >= columnFrom - 1)
                     {
                         if (drawing.From.Column + columns < columnFrom - 1)
                         {
@@ -242,8 +245,9 @@ namespace OfficeOpenXml.Core.Worksheet
                         }
                     }
                     if (drawing.From.Column < 0) drawing.From.Column = 0;
-                    drawing.AdjustPositionAndSize();
-                }
+					drawing._doNotAdjust = false;
+					drawing.AdjustPositionAndSize();
+				}
             }
 
             deletedDrawings.ForEach(d => ws.Drawings.Remove(d));

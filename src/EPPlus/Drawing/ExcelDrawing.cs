@@ -97,8 +97,8 @@ namespace OfficeOpenXml.Drawing
                     AdjustXPathsForGrouping(false);
                     CellAnchor = GetAnchorFromName(node.LocalName);
                     SetPositionProperties(drawings, node);
-                    GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
-
+                    GetPositionSize();          //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
+                    
                     string relID = GetXmlNodeString(_hyperLinkPath + "/@r:id");
                     if (!string.IsNullOrEmpty(relID))
                     {
