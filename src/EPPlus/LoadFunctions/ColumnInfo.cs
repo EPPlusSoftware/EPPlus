@@ -63,8 +63,6 @@ namespace OfficeOpenXml.LoadFunctions
         public bool IsDictionaryProperty { get; set; }
 
         public string DictinaryKey { get; set; }
-
-        //public List<int> SortOrderLevels { get; set; }
         public int Index { get; set; }
 
         public MemberInfo MemberInfo { get; set; }
@@ -89,8 +87,6 @@ namespace OfficeOpenXml.LoadFunctions
 
         public string TotalsRowLabel { get; set; }
 
-        //internal string Path { get; set; }
-
         public MemberPathBase Path { get; set; }
 
         public override string ToString()
@@ -104,20 +100,6 @@ namespace OfficeOpenXml.LoadFunctions
 
         public string GetSortOrder()
         {
-            //var sb = new StringBuilder();
-            //if (SortOrderLevels == null) return "N/A";
-            //foreach(var level in SortOrderLevels)
-            //{
-            //    sb.Append(level.ToString());
-            //    sb.Append(", ");
-            //}
-            //var result = sb.ToString();
-            //if(!string.IsNullOrEmpty(result))
-            //{
-            //    result = result.Trim().TrimEnd(',');
-            //}
-            //return result;
-
             return Path.GetSortOrderString();
         }
     }

@@ -205,49 +205,6 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 row++;
             }
-
-            //var path = colInfo.Path.GetPath();
-            //if (!string.IsNullOrEmpty(path) && path.Contains("."))
-            //{
-            //    values[row, col++] = GetValueByPath(item, path);
-            //    continue;
-            //}
-            //var obj = item;
-            //if (colInfo.MemberInfo != null)
-            //{
-            //    var member = colInfo.MemberInfo;
-            //    object v=null;
-            //    if (_isSameType == false && obj.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
-            //    {
-            //        col++;
-            //        continue; //Check if the property exists if and inherited class is used
-            //    }
-            //    v = member.GetValue(obj);
-            //else if (member is PropertyInfo)
-            //{
-            //    v = ((PropertyInfo)member).GetValue(obj, null);
-            //}
-            //else if (member is FieldInfo)
-            //{
-            //    v = ((FieldInfo)member).GetValue(obj);
-            //}
-            //else if (member is MethodInfo)
-            //{
-            //    v = ((MethodInfo)member).Invoke(obj, null);
-            //}
-            //if (colInfo.IsDictionaryProperty)
-            //{
-            //    var dict = v as Dictionary<string, object>;
-            //    if(dict != null && dict.ContainsKey(colInfo.DictinaryKey))
-            //    {
-            //        v = dict[colInfo.DictinaryKey];
-            //    }
-            //    else
-            //    {
-            //        v = null;
-            //    }
-            //}
-
         }
 
         private static string GetEnumValue(object item, Type t)
@@ -261,54 +218,6 @@ namespace OfficeOpenXml.LoadFunctions
             return da?.Description ?? v;
 #endif            
         }
-
-        //private object GetValueByPath(object obj, string path)
-        //{
-        //    var members = path.Split('.');
-        //    object o = obj;
-        //    for(var ix = 0; ix < members.Length; ix++)
-        //    {
-        //        var member = members[ix];
-        //        if (o == null) return null;
-        //        var memberInfos = o.GetType().GetMember(member);
-        //        if(memberInfos == null || memberInfos.Length == 0)
-        //        {
-        //            return null;
-        //        }
-        //        var memberInfo = memberInfos.First();
-        //        if(memberInfo is PropertyInfo pi)
-        //        {
-        //            o = pi.GetValue(o, null);
-        //        }
-        //        else if(memberInfo is FieldInfo fi)
-        //        {
-        //            o = fi.GetValue(obj);
-        //        }
-        //        else if(memberInfo is MethodInfo mi)
-        //        {
-        //            o = mi.Invoke(obj, null);
-        //        }
-        //        else
-        //        {
-        //            throw new NotSupportedException("Invalid member: '" + memberInfo.Name + "', not supported member type '" + memberInfo.GetType().FullName + "'");
-        //        }
-        //        if(o is Dictionary<string, object> dict && ix < members.Length + 1)
-        //        {
-        //            var key = members[ix + 1];
-        //            if(dict.ContainsKey(key))
-        //            {
-        //                o = dict[key];
-        //            }
-        //            else
-        //            {
-        //                o = null;
-        //            }
-        //            break;
-        //        }
-        //    }
-        //    return o;
-        //}
-        
 
         private void SetHeaders(object[,] values, Dictionary<int, string> columnFormats, ref int col, ref int row)
         {
