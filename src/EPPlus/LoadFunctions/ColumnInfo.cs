@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml.Table;
+﻿using OfficeOpenXml.Attributes;
+using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
+using OfficeOpenXml.Table;
 using System;
 /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
@@ -20,21 +22,47 @@ using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    [DebuggerDisplay("Header: {Header}, SortOrder: {SortOrder}, Index: {Index}")]
+    [DebuggerDisplay("Header: {Header}, SortOrders: {GetSortOrder()}, Index: {Index}")]
     internal class ColumnInfo
     {
+        #region Constructors
         public ColumnInfo()
         {
             TotalsRowFunction = RowFunctions.None;
         }
 
-        public int SortOrder { get; set; }
+        public ColumnInfo(EpplusFormulaTableColumnAttribute attr)
+        {
+            Path = new FormulaColumnMemberPath(attr);
+            Header = attr.Header;
+            Formula = attr.Formula;
+            FormulaR1C1 = attr.FormulaR1C1;
+            NumberFormat = attr.NumberFormat;
+            TotalsRowFunction = attr.TotalsRowFunction;
+            TotalsRowNumberFormat = attr.TotalsRowNumberFormat;
+        }
+
+        public ColumnInfo(MemberPath path)
+        {
+            var pathItem = path.Last();
+            Header = path.GetHeader();
+            Path = path;
+            IsDictionaryProperty = pathItem.IsDictionaryColumn;
+            MemberInfo = pathItem.Member;
+            Hidden = pathItem.Hidden;
+            NumberFormat = pathItem.NumberFormat;
+            TotalsRowFunction = pathItem.TotalsRowFunction;
+            TotalsRowNumberFormat = pathItem.TotalRowsNumberFormat;
+            TotalsRowLabel = pathItem.TotalRowLabel;
+            TotalsRowFormula = pathItem.TotalRowFormula;
+        }
+
+        #endregion
+
 
         public bool IsDictionaryProperty { get; set; }
 
         public string DictinaryKey { get; set; }
-
-        public List<int> SortOrderLevels { get; set; }
         public int Index { get; set; }
 
         public MemberInfo MemberInfo { get; set; }
@@ -59,7 +87,7 @@ namespace OfficeOpenXml.LoadFunctions
 
         public string TotalsRowLabel { get; set; }
 
-        internal string Path { get; set; }
+        public MemberPathBase Path { get; set; }
 
         public override string ToString()
         {
@@ -68,6 +96,11 @@ namespace OfficeOpenXml.LoadFunctions
                 return Header;
             }
             return base.ToString();
+        }
+
+        public string GetSortOrder()
+        {
+            return Path.GetSortOrderString();
         }
     }
 }

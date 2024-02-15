@@ -602,6 +602,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Remove="LoadFunctions\HeaderReader.cs" />
+	</ItemGroup>
+
 
 	<ItemGroup>
     <None Remove="resources\DefaultTableStyles.cst" />

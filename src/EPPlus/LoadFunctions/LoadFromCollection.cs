@@ -19,11 +19,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using OfficeOpenXml.LoadFunctions.Params;
-using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.IO;
 #if !NET35
 using System.ComponentModel.DataAnnotations;
 #endif
@@ -45,17 +44,10 @@ namespace OfficeOpenXml.LoadFunctions
                 ShowLastColumn = tableAttr.ShowLastColumn;
                 ShowTotal = tableAttr.ShowTotal;
             }
-            var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
-            if (classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
-            {
-                SortOrderProperties = classSortOrderAttr.Properties.ToList();
-                var scanner = new NestedColumnsSortorderScanner(type, parameters.BindingFlags);
-                SortOrderProperties = scanner.GetSortOrder();
-            }
             LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
             {
-                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 SetHiddenColumns();
@@ -66,25 +58,9 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
-                cols = new LoadFromCollectionColumns<T>(parameters, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
-                // the ValidateType method will throw an InvalidCastException
-                // if parameters.Members contains a MemberInfo that is not declared
-                // by any of the types used.
-                foreach (var member in parameters.Members)
-                {
-                    cols.ValidateType(member);
-                    if (member.DeclaringType != null && member.DeclaringType != type)
-                    {
-                        _isSameType = false;
-                    }
-                    //Fixing inverted check for IsSubclassOf / Pullrequest from tom dam
-                    if (member.DeclaringType != null && member.DeclaringType != type && !TypeCompat.IsSubclassOf(type, member.DeclaringType) && !TypeCompat.IsSubclassOf(member.DeclaringType, type))
-                    {
-                        throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
-                    }
-                }
             }
         }
 
@@ -92,7 +68,6 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly ColumnInfo[] _columns;
         private readonly HeaderParsingTypes _headerParsingType;
         private readonly IEnumerable<T> _items;
-        private readonly bool _isSameType = true;
 
         internal List<string> SortOrderProperties
         {
@@ -201,58 +176,21 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         foreach (var colInfo in _columns)
                         {
-                            if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
+                            object v = null;
+                            if (colInfo.Path != null && colInfo.Path.IsFormulaColumn == false && colInfo.Path.Depth > 0)
                             {
-                                values[row, col++] = GetValueByPath(item, colInfo.Path);
-                                continue;
-                            }
-                            var obj = item;
-                            if (colInfo.MemberInfo != null)
-                            {
-                                var member = colInfo.MemberInfo;
-                                object v=null;
-                                if (_isSameType == false && obj.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
-                                {
-                                    col++;
-                                    continue; //Check if the property exists if and inherited class is used
-                                }
-                                else if (member is PropertyInfo)
-                                {
-                                    v = ((PropertyInfo)member).GetValue(obj, null);
-                                }
-                                else if (member is FieldInfo)
-                                {
-                                    v = ((FieldInfo)member).GetValue(obj);
-                                }
-                                else if (member is MethodInfo)
-                                {
-                                    v = ((MethodInfo)member).Invoke(obj, null);
-                                }
-                                if (colInfo.IsDictionaryProperty)
-                                {
-                                    var dict = v as Dictionary<string, object>;
-                                    if(dict != null && dict.ContainsKey(colInfo.DictinaryKey))
-                                    {
-                                        v = dict[colInfo.DictinaryKey];
-                                    }
-                                    else
-                                    {
-                                        v = null;
-                                    }
-                                }
-
+                                v = colInfo.Path.GetLastMemberValue(item, _bindingFlags);
 #if (!NET35)
                                 if (v != null)
                                 {
                                     var type = v.GetType();
                                     if (type.IsEnum)
                                     {
-                                        v=GetEnumValue(v, type);
+                                        v = GetEnumValue(v, type);
                                     }
                                 }
 #endif
-
-                                values[row, col++] = v;                                
+                                values[row, col++] = v;
                             }
                             else if (!string.IsNullOrEmpty(colInfo.Formula))
                             {
@@ -281,54 +219,6 @@ namespace OfficeOpenXml.LoadFunctions
 #endif            
         }
 
-        private object GetValueByPath(object obj, string path)
-        {
-            var members = path.Split('.');
-            object o = obj;
-            for(var ix = 0; ix < members.Length; ix++)
-            {
-                var member = members[ix];
-                if (o == null) return null;
-                var memberInfos = o.GetType().GetMember(member);
-                if(memberInfos == null || memberInfos.Length == 0)
-                {
-                    return null;
-                }
-                var memberInfo = memberInfos.First();
-                if(memberInfo is PropertyInfo pi)
-                {
-                    o = pi.GetValue(o, null);
-                }
-                else if(memberInfo is FieldInfo fi)
-                {
-                    o = fi.GetValue(obj);
-                }
-                else if(memberInfo is MethodInfo mi)
-                {
-                    o = mi.Invoke(obj, null);
-                }
-                else
-                {
-                    throw new NotSupportedException("Invalid member: '" + memberInfo.Name + "', not supported member type '" + memberInfo.GetType().FullName + "'");
-                }
-                if(o is Dictionary<string, object> dict && ix < members.Length + 1)
-                {
-                    var key = members[ix + 1];
-                    if(dict.ContainsKey(key))
-                    {
-                        o = dict[key];
-                    }
-                    else
-                    {
-                        o = null;
-                    }
-                    break;
-                }
-            }
-            return o;
-        }
-        
-
         private void SetHeaders(object[,] values, Dictionary<int, string> columnFormats, ref int col, ref int row)
         {
             foreach (var colInfo in _columns)
@@ -338,7 +228,7 @@ namespace OfficeOpenXml.LoadFunctions
                 // if the header is already set and contains a space it doesn't need more formatting or validation.
                 var useExistingHeader = !string.IsNullOrEmpty(header) && header.Contains(" ");
 
-                if (colInfo.MemberInfo != null)
+                if (colInfo.MemberInfo != null && colInfo.IsDictionaryProperty == false)
                 {
                     // column data based on a property read with reflection
                     var member = colInfo.MemberInfo;
@@ -351,7 +241,7 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 header = epplusColumnAttribute.Header;
                             }
-                            else
+                            else if(string.IsNullOrEmpty(colInfo.Header))
                             {
                                 header = ParseHeader(member.Name);
                             }
@@ -378,7 +268,7 @@ namespace OfficeOpenXml.LoadFunctions
                         }
                     }
                 }
-                else
+                else if(colInfo.IsDictionaryProperty == false)
                 {
                     // column is a FormulaColumn
                     header = colInfo.Header;
