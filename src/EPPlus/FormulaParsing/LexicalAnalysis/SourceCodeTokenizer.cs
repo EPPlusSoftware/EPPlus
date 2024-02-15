@@ -676,7 +676,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             else
             {
-                var pt = GetLastTokenIgnore(l, out int index, TokenType.SingleQuote, TokenType.WorksheetNameContent, TokenType.ExternalReference, TokenType.OpeningBracket, TokenType.ClosingBracket, TokenType.WhiteSpace);
+                var pt = GetLastTokenIgnore(l, out int index, TokenType.SingleQuote, TokenType.WorksheetNameContent, TokenType.ExternalReference, TokenType.OpeningBracket, TokenType.WhiteSpace);
                 if (pt.TokenType == TokenType.Operator
                     ||
                     pt.TokenType == TokenType.Negator

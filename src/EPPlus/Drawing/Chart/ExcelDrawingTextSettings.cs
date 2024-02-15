@@ -27,7 +27,12 @@ namespace OfficeOpenXml.Drawing.Chart
 		{
 			_chart = chart;
 			_topPath = topPath;
-			SchemaNodeOrder = schemaNodeOrder;
+			AddSchemaNodeOrder(schemaNodeOrder, ["txPr","bodyPr", "lstStyle","p", "ln", "noFill", "solidFill", "gradFill", "blipFill", "pattFill", "grpFill", "effectLst", "effectDag", "highlight", "uLnTx", "uLn", "uFillTx", "uFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl"]);
+		}
+		private void InitXml()
+		{
+			var node = CreateNode(_topPath);
+			CreateNode(node, "../../../a:bodyPr");
 		}
 		ExcelDrawingFill _fill = null;
 		/// <summary>
@@ -39,7 +44,7 @@ namespace OfficeOpenXml.Drawing.Chart
 			{
 				if (_fill == null)
 				{
-					_fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, _topPath, SchemaNodeOrder);
+					_fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, _topPath, SchemaNodeOrder, InitXml);
 				}
 				return _fill;
 			}
@@ -54,6 +59,7 @@ namespace OfficeOpenXml.Drawing.Chart
 			{
 				if (_border == null)
 				{
+					InitXml();
 					_border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{_topPath}/a:ln", SchemaNodeOrder);
 				}
 				return _border;
@@ -70,6 +76,7 @@ namespace OfficeOpenXml.Drawing.Chart
 			{
 				if (_effect == null)
 				{
+					InitXml();
 					_effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{_topPath}/a:effectLst", SchemaNodeOrder);
 				}
 				return _effect;

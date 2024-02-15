@@ -119,8 +119,18 @@ namespace EPPlusTest
 
 				SaveAndCleanup(package);
 			}
-
-
+		}
+		[TestMethod]
+		public void s610()
+		{
+			using(var p=OpenTemplatePackage("s610.xlsx"))
+			{
+				var wTestSheet = p.Workbook.Worksheets[0];
+				//wTestSheet.Name = "Sheet2";
+				//wTestSheet.View.UnFreezePanes();
+				wTestSheet.InsertColumn(1, 2);
+				SaveAndCleanup(p);
+			}
 		}
 	}
 }
