@@ -358,16 +358,16 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 		[TestMethod]
 		public void FilterPageFieldCustomValueEqual_TopLevel()
 		{
-			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueEqual");
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueEqualTl");
 			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueEqual");
 			var rf1 = pt.RowFields.Add(pt.Fields[1]);
 			var rf2 = pt.RowFields.Add(pt.Fields[0]);
 			pt.CacheDefinition.Refresh();
 			var df = pt.DataFields.Add(pt.Fields["Price"]);
-			rf1.Filters.AddValueFilter(ePivotTableValueFilterType.ValueEqual, df, 445.52);
+			rf1.Filters.AddValueFilter(ePivotTableValueFilterType.ValueEqual, df, 437.12);
 			pt.Calculate();
-			Assert.AreEqual(173.2, pt.CalculatedItems[0][[4]]);
-			Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue]]);
+			Assert.AreEqual(270.6, pt.CalculatedItems[0][[0,0]]);
+			Assert.AreEqual(437.12, pt.CalculatedItems[0][[0, int.MaxValue]]);
 		}
 		[TestMethod]
 		public void FilterPageFieldCustomValueNotEqual()
@@ -387,6 +387,120 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
 
 			Assert.AreEqual(445.52-88.2, pt.CalculatedItems[0][[int.MaxValue]]); 
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueLess()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueLess");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueLess");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueLessThan, df, 88.2);
+			pt.Calculate();
+			//Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			//Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(445.52 - 270.6 - 88.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueLessEqual()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueLessEq");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueLessEq");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueLessThanOrEqual, df, 88.2);
+			pt.Calculate();
+			//Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(445.52 - 270.6, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueGreater()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueGt");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueGt");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueGreaterThan, df, 88.2);
+			pt.Calculate();
+			Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			//Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			//Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			//Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			//Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			//Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(270.6, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueGreaterEqual()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueGtEq");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueGtEq");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueGreaterThanOrEqual, df, 88.2);
+			pt.Calculate();
+			Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			//Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			//Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			//Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			//Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(270.6 + 88.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueBetween()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueBtwn");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueBtwn");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueBetween, df, 34, 89);
+			pt.Calculate();
+			//Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			//Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			//Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			//Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(88.2+45.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomValueNotBetween()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterValueNBtwn");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableValueNBtwn");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddValueFilter(ePivotTableValueFilterType.ValueNotBetween, df, 34, 89);
+			pt.Calculate();
+			Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			//Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			//Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(270.6 + 33.12 + 7.2 + 1.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
 		}
 	}
 }

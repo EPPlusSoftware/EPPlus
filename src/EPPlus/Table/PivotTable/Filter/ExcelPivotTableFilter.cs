@@ -14,6 +14,7 @@ using EPPlusTest.Table.PivotTable;
 using OfficeOpenXml;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
@@ -608,8 +609,8 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         }
         internal bool MatchNumeric(object value)
         {
-            var num = ConvertUtil.GetValueDouble(value);
-            var value1 = ConvertUtil.GetValueDouble(Value1, false, true);
+            var num = RoundingHelper.RoundToSignificantFig(ConvertUtil.GetValueDouble(value), 15); 
+            var value1 = RoundingHelper.RoundToSignificantFig(ConvertUtil.GetValueDouble(Value1, false, true), 15);
             if (double.IsNaN(num) == false && double.IsNaN(value1) == false)
             {
                 switch (Type)
@@ -631,7 +632,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                         return double.IsNaN(value2)==false && num >= value1 && num <= value2;
                     case ePivotTableFilterType.ValueNotBetween:
                         value2 = ConvertUtil.GetValueDouble(Value2, false, true);
-                        return double.IsNaN(value2) == false && num >= value1 && num <= value2;                    
+                        return double.IsNaN(value2) == false && !(num >= value1 && num <= value2);
                 }
             }
             return false;

@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
                 keys.Add(keyDict);
                 var recs = ci.Records;
-                var captionFilters = pivotTable.Filters.Where(x => x.Type <= ePivotTableFilterType.ValueBetween).ToList();
+                var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
 				var pageFilterExists = pivotTable.PageFields.Count>0;
 				var captionFilterExists = pivotTable.Filters.Count>0;
 
@@ -94,6 +94,7 @@ namespace OfficeOpenXml.Table.PivotTable
 				_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems, keys[calculatedItems.Count - 1], fieldIndex);
 				_calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count-1]);
 				_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
+
                 if (df.ShowDataAs.Value != eShowDataAs.Normal)
                 {
                     _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, ref dataFieldItems);

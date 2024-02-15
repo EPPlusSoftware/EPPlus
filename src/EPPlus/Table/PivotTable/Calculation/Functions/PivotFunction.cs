@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Input;
+using static OfficeOpenXml.Table.PivotTable.Calculation.PivotCalculationStore;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
@@ -336,51 +337,58 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 
 		internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<int> fieldIndex)
 		{
-            var matchingSumLevels = new List<int[]>();
-            bool itemsRemoved = false;
-            foreach(var valueFilter in pivotTable.Filters.Where(x=>x.Type >= ePivotTableFilterType.ValueBetween))
-            {
-                var keysToRemove = new List<PivotCalculationStore.CacheIndexItem>();
-				//var dataField = pivotTable.DataFields[valueFilter.MeasureFldIndex];
-				//var filterField = pivotTable.Fields[valueFilter.Fld];
-                var keyIx = fieldIndex.IndexOf(valueFilter.Fld);
-                var filterItems = new PivotCalculationStore();
-				foreach (var cacheItem in dataFieldItems.Index)
-                {
-                    var newKey = new int[] { cacheItem.Key[keyIx] };
+			var matchingSumLevels = new List<int[]>();
+			foreach (var valueFilter in pivotTable.Filters.Where(x => x.Type >= ePivotTableFilterType.ValueBetween))
+			{
+				var keyIx = fieldIndex.IndexOf(valueFilter.Fld);
+				var startIx = keyIx < pivotTable.RowFields.Count ? 0 : pivotTable.RowFields.Count;
+				var keySize = keyIx - startIx + 1;
+				var filterItems = new PivotCalculationStore();
+				foreach (CacheIndexItem cacheItem in dataFieldItems.Index)
+				{
+					var newKey = new int[keySize];
+					for (int i = startIx; i <= keyIx; i++)
+					{
+						newKey[i] = cacheItem.Key[startIx + i];
+					}
 					AddItems(newKey, pivotTable.RowFields.Count, dataFieldItems.Values[cacheItem.Index], filterItems, keys);
 				}
-								//foreach (var cacheItem in 
-								//                dataFieldItems.Index.
-								//                    OrderByDescending(x => x.Key, ArrayComparer.Instance).
-								//                    Where(x=>x.Key.Any(x=>x != PivotCalculationStore.SumLevelValue))) //Include all sum leveles except the grand total.
-								//            {
-								//                var v = dataFieldItems.GetByIndex(cacheItem.Index);
-								//	if (valueFilter.MatchNumeric(v))
-								//                {
-								//                    if(HasSumLevel(cacheItem.Key, 0, cacheItem.Key.Length))
-								//                    {
-								//                        matchingSumLevels.Add(cacheItem.Key);
-								//                    }
-								//                }
-								//                else if(ParentMatch(matchingSumLevels, cacheItem.Key)==false)
-								//                {
-								//                    keysToRemove.Add(cacheItem);
-								//		itemsRemoved=true;
 
-								//	}
-								//            }
-								keysToRemove.ForEach(x => dataFieldItems.Remove(x));
-            }
+				var keysToRemove = new List<int[]>();
+				foreach (CacheIndexItem item in filterItems)
+				{
+					if (valueFilter.MatchNumeric(filterItems[item.Key]) == false)
+					{
+						keysToRemove.Add(item.Key);
+					}
+				}
 
-            if(itemsRemoved)
-            {
-                //Reaggregate items.
-                RemoveSumLevels(ref dataFieldItems);
-                Aggregate(pivotTable, dataFieldItems, keys);
-            }
+				for (int i = 0; i < dataFieldItems.Index.Count; i++)
+				{
+					if (SumKeyMatches(dataFieldItems.Index[i].Key, startIx, keyIx, keysToRemove))
+					{
+						dataFieldItems.Index.RemoveAt(i--);
+					}
+				}
+			}
 		}
 
+		private bool SumKeyMatches(int[] key, int startIx, int keyIx, List<int[]> keysToRemove)
+		{
+			foreach(var rk in keysToRemove)
+            {
+                var match = true;
+                for(int i=startIx;i<=keyIx;i++)
+                {
+                    if (rk[i - startIx] != key[i])
+                    {
+                        match = false; 
+                    }
+                }
+                if (match) return true;
+            }
+            return false;
+		}
 		private void RemoveSumLevels(ref PivotCalculationStore dataFieldItems)
 		{
             if (dataFieldItems.Index.Count == 0) return;

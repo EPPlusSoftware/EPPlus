@@ -22,7 +22,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation
 {
-    internal class PivotCalculationStore : IEnumerable
+    internal class PivotCalculationStore : IEnumerable<PivotCalculationStore.CacheIndexItem>
     {
         internal const int SumLevelValue = int.MaxValue;
 
@@ -214,15 +214,21 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
         {
             Index.Remove(item);
         }
-		public IEnumerator GetEnumerator()
-		{
-			return Index.GetEnumerator();
-		}
-
+        
 		internal bool TryGetValue(int[] key, out object o)
 		{
             o = this[key];
             return o != null;
+		}
+
+		IEnumerator<CacheIndexItem> IEnumerable<CacheIndexItem>.GetEnumerator()
+		{
+			return Index.GetEnumerator();
+		}
+
+		public IEnumerator GetEnumerator()
+		{
+            return Index.GetEnumerator();
 		}
 	}
 }
