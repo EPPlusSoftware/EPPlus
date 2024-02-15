@@ -1,7 +1,14 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.17
+### Fixed issues 
+* EPPlus can now handle up to 66 indexed colors.
+* Formatted text for cells with Boolean values now returns TRUE or FALSE.
+* Deleting the first worksheet in a workbook that has "IsWorksheets1Based = true" no longer throws out of range exception 
+* Ensured workbooks do not become corrupted after SaveAs if they have certain empty xml nodes
+
 ## Version 6.2.16
 ### Fixed issues 
-* ToDataTable didn't handle RichText correctly when exporting values
+* ToDataTable didn't handle RichText correctly when exporting values.
 * Pivot table fields with a specified subtotal function sometimes caused the workbook to become corrupt.
 * Improved performance when opening files with many defined names in Excel.
 * Fixes and issue where reading a workbook fails due to invalid xml.
