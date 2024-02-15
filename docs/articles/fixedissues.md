@@ -1,4 +1,20 @@
 ﻿# Features / Fixed issues - EPPlus 7
+## Version 7.0.9
+### Fixed issues 
+* The formula tokenizer did not handle minus correctly before table addresses.
+* Inserting rows/columns could cause drawings to get a incorrect width/height.
+* Saving multiple times caused hyperlinks to multiply.
+* Saving multiple times caused dxf border styles for tables to become corrupt if set.
+* EPPlus can now handle up to 66 indexed colors
+* VALUE function did not support multicell input
+* Deleting the first worksheet in a workbook that has "IsWorksheets1Based = true" no longer throws out of range exception.
+* Ensured workbooks do not become corrupted after SaveAs if they have certain empty xml nodes.
+* Inserting cells, rows or columns next to Conditional Formatting ranges now automatically extends those ranges to the new cells as in Excel. 
+* Cell with bool value no longer returns "0" and "1" on text property now returns "TRUE" or "FALSE" instead as in Excel.
+* Conditional formatting’s with space separated addresses now saves appropriately.
+* Text input with a "-" such as " -ACat" in some functions such as e.g. SumIf resulted in faulty error calculations.
+* Adding a new table column and change the Name property caused the total row to incorrectly return #DIV/0. 
+
 ## Version 7.0.8
 ### Fixed issues 
 * Validation of VBA module names failed when containing a space
