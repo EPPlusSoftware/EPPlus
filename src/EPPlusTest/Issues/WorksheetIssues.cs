@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
+using System.IO;
 namespace EPPlusTest
 {
 	[TestClass]
@@ -130,6 +131,28 @@ namespace EPPlusTest
 				//wTestSheet.View.UnFreezePanes();
 				wTestSheet.InsertColumn(1, 2);
 				SaveAndCleanup(p);
+			}
+		}
+		[TestMethod]
+		public void s614()
+		{
+			using (var package = OpenTemplatePackage("s614.xlsx"))
+			{
+				int sheetIndex = 5;
+				var sheetName = $"Data Sheet_{sheetIndex}";
+				var worksheet = package.Workbook.Worksheets[sheetName];
+				worksheet.Name = "TestSheet_{sheetIndex}";
+
+				worksheet.InsertColumn(1, 2);
+				worksheet.Cells.Style.Font.Name = "ＭＳ Ｐゴシック";
+				worksheet.Cells.Style.Font.Size = 11;
+
+				worksheet.Cells[1, 1].Value = "TextTextTextTextTextTextTextTextTextTextTextText";
+
+				worksheet.Column(1).AutoFit();
+				worksheet.Column(2).AutoFit();
+
+				package.Save();
 			}
 		}
 	}
