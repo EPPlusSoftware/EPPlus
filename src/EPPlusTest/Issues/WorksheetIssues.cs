@@ -155,5 +155,20 @@ namespace EPPlusTest
 				package.Save();
 			}
 		}
+		[TestMethod]
+		public void s616()
+		{
+			using (var package = OpenTemplatePackage("s616.xlsx"))
+			{
+				var Sheet1 = package.Workbook.Worksheets[$"Data Sheet_1"];
+				Sheet1.InsertColumn(1, 2);
+				var Sheet2 = package.Workbook.Worksheets[$"Data Sheet_2"];
+				Sheet2.InsertColumn(1, 2);
+				var Sheet3 = package.Workbook.Worksheets[$"Data Sheet_3"];
+				Sheet3.InsertColumn(1, 2);
+
+				SaveAndCleanup(package);
+			}
+		}
 	}
 }
