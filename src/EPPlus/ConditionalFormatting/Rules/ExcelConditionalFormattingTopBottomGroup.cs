@@ -69,28 +69,28 @@ namespace OfficeOpenXml.ConditionalFormatting
                 switch (Type)
                 {
                     case eExcelConditionalFormattingRuleType.Top:
-                        var sorted = cellValueCache.OrderByDescending(n => n).Take(Rank);
+                        var sorted = cellValueCache.OrderByDescending(n => n.IsNumeric()).Take(Rank);
                         if (sorted.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;
                         }
                         break;
                     case eExcelConditionalFormattingRuleType.TopPercent:
-                        var percentDescending = cellValueCache.OrderByDescending(n => n).Take(cellValueCache.Count * Rank / 100);
+                        var percentDescending = cellValueCache.OrderByDescending(n => n.IsNumeric()).Take(cellValueCache.Count * Rank / 100);
                         if (percentDescending.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;
                         }
                         break;
                     case eExcelConditionalFormattingRuleType.Bottom:
-                        var bottomSorted = cellValueCache.OrderBy(n => n).Take(Rank);
+                        var bottomSorted = cellValueCache.OrderBy(n => n.IsNumeric()).Take(Rank);
                         if (bottomSorted.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;
                         }
                         break;
                     case eExcelConditionalFormattingRuleType.BottomPercent:
-                        var percentAscending = cellValueCache.OrderBy(n => n).Take(cellValueCache.Count * Rank / 100);
+                        var percentAscending = cellValueCache.OrderBy(n => n.IsNumeric()).Take(cellValueCache.Count * Rank / 100);
                         if (percentAscending.Contains(_ws.Cells[address.Address].Value))
                         {
                             return true;

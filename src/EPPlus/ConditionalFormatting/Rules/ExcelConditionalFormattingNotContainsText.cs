@@ -120,15 +120,18 @@ namespace OfficeOpenXml.ConditionalFormatting
             if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
             {
                 //Formula2 only filled if there's a cell or formula to cond
-                var stringValue = _ws.Cells[address.Start.Address].Value.ToString();
+                if (_ws.Cells[address.Start.Address].Value != null)
+                {
+                    var stringValue = _ws.Cells[address.Start.Address].Value.ToString();
 
-                if (Formula2 != null)
-                {
-                    return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, Formula2, CompareOptions.IgnoreCase) >= 0 ? false : true;
-                }
-                else
-                {
-                    return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, _text, CompareOptions.IgnoreCase) >= 0 ? false : true;
+                    if (Formula2 != null)
+                    {
+                        return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, Formula2, CompareOptions.IgnoreCase) >= 0 ? false : true;
+                    }
+                    else
+                    {
+                        return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, _text, CompareOptions.IgnoreCase) >= 0 ? false : true;
+                    }
                 }
             }
 
