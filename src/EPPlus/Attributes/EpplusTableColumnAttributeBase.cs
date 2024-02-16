@@ -52,6 +52,16 @@ namespace OfficeOpenXml.Attributes
         }
 
         /// <summary>
+        /// A number to be used in a NumberFormatProvider.
+        /// Default value is int.MinValue, which means it will be ignored.
+        /// </summary>
+        public int NumberFormatId
+        {
+            get;
+            set;
+        } = int.MinValue;
+
+        /// <summary>
         /// If true, the entire column will be hidden.
         /// </summary>
         public bool Hidden
