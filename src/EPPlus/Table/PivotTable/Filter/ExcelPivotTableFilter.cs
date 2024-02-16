@@ -85,8 +85,16 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                         Value1 = GetValueDate("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[1]/@val");
                         Value2 = GetValueDate("d:autoFilter/d:filterColumn/d:customFilters/d:customFilter[2]/@val");
                         break;
-                }
-            }
+                    case ePivotTableFilterType.Count:
+                    case ePivotTableFilterType.Sum:
+                    case ePivotTableFilterType.Percent:
+                        //<top10 val="2" top="1" percent="0" filterVal="2"/>
+                        var f = new ExcelTop10FilterColumn(NameSpaceManager, GetNode("d:autoFilter/d:filterColumn"));
+						Filter = f;
+                        Value1 = f.Value;
+						break;
+				}
+			}
         }
 
         private DateTime? GetValueDate(string xPath)

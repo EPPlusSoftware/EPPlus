@@ -10,10 +10,12 @@
 *************************************************************************************************
  01/18/2024         EPPlus Software AB       EPPlus 7.1
 *************************************************************************************************/
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.Table.PivotTable.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -335,42 +337,166 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             return newKey;
         }
 
-		internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<int> fieldIndex)
+        internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<int> fieldIndex)
+        {
+            foreach (var valueFilter in pivotTable.Filters.Where(x => x.Type >= ePivotTableFilterType.ValueBetween))
+            {
+                var keyIx = fieldIndex.IndexOf(valueFilter.Fld);
+                var startIx = keyIx < pivotTable.RowFields.Count ? 0 : pivotTable.RowFields.Count;
+                var keySize = keyIx - startIx + 1;
+                var filterItems = new PivotCalculationStore();
+                foreach (CacheIndexItem cacheItem in dataFieldItems.Index)
+                {
+                    var newKey = new int[keySize];
+                    for (int i = startIx; i <= keyIx; i++)
+                    {
+                        newKey[i] = cacheItem.Key[startIx + i];
+                    }
+                    AddItems(newKey, pivotTable.RowFields.Count, dataFieldItems.Values[cacheItem.Index], filterItems, keys);
+                }
+
+                var keysToRemove = new List<int[]>();
+                if (valueFilter.Type == ePivotTableFilterType.Sum ||
+                   valueFilter.Type == ePivotTableFilterType.Count ||
+                   valueFilter.Type == ePivotTableFilterType.Percent)
+                {
+                    var totDict = GetTop10TotalDictionary(filterItems);
+                    var totSum = GetTop10SumDict(totDict, valueFilter);
+                    foreach (CacheIndexItem item in filterItems.OrderBy(x => x.Key, new ArrayComparer()))
+                    {
+                        var pk = GetParentKey(item.Key);
+                        HandleTopBottom(valueFilter, filterItems, keysToRemove, totSum, item, pk);
+                    }
+                }
+                else
+                {
+                    foreach (CacheIndexItem item in filterItems)
+                    {
+                        if (valueFilter.MatchNumeric(filterItems[item.Key]) == false)
+                        {
+                            keysToRemove.Add(item.Key);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < dataFieldItems.Index.Count; i++)
+                {
+                    if (SumKeyMatches(dataFieldItems.Index[i].Key, startIx, keyIx, keysToRemove))
+                    {
+                        dataFieldItems.Index.RemoveAt(i--);
+                    }
+                }
+            }
+        }
+		private Dictionary<int[], double> GetTop10SumDict(Dictionary<int[], List<double>> totDict, ExcelPivotTableFilter valueFilter)
 		{
-			var matchingSumLevels = new List<int[]>();
-			foreach (var valueFilter in pivotTable.Filters.Where(x => x.Type >= ePivotTableFilterType.ValueBetween))
+			var dic=new Dictionary<int[], double>(ArrayComparer.Instance);
+            foreach (var key in totDict.Keys)
+            {
+                var l = totDict[key];
+                var isTop = ((ExcelTop10FilterColumn)valueFilter.Filter).Top;
+                switch (valueFilter.Type)
+                {
+                    case ePivotTableFilterType.Count:
+                        var v = Convert.ToInt32(valueFilter.Value1)-1;
+                        if(l.Count >= v)
+                        {
+                            if(isTop)
+                            {
+								dic.Add(key, l.OrderByDescending(x => x).ElementAt(v));
+							}
+							else
+                            {
+								dic.Add(key, l.OrderBy(x => x).ElementAt(v));
+							}
+                        }
+                        else
+                        {
+                            dic.Add(key, isTop?double.MaxValue : double.MinValue);
+                        }
+                        break;
+                    case ePivotTableFilterType.Sum:
+						var d = Convert.ToDouble(valueFilter.Value1) - 1;
+                        var sum = 0d;
+                        foreach(var sv in (isTop?l.OrderByDescending(x=>x):l.OrderBy(x=>x)))
+                        {
+                            if(d<=sum + sv)
+                            {
+                                sum += sv;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        dic.Add(key, sum);
+						break;
+                    case ePivotTableFilterType.Percent:
+						d = Convert.ToDouble(valueFilter.Value1) - 1;
+						sum = l.Sum();
+                        dic.Add(key, sum * (d / 100));
+                        break;
+                }
+            }
+            return dic;
+		}	
+
+		private static void HandleTopBottom(ExcelPivotTableFilter valueFilter, PivotCalculationStore filterItems, List<int[]> keysToRemove, Dictionary<int[], double> totSum, CacheIndexItem item, int[] pk)
+		{
+			if (filterItems[item.Key] is KahanSum d)
 			{
-				var keyIx = fieldIndex.IndexOf(valueFilter.Fld);
-				var startIx = keyIx < pivotTable.RowFields.Count ? 0 : pivotTable.RowFields.Count;
-				var keySize = keyIx - startIx + 1;
-				var filterItems = new PivotCalculationStore();
-				foreach (CacheIndexItem cacheItem in dataFieldItems.Index)
+				var sum = totSum[pk];
+                var isTop = ((ExcelTop10FilterColumn)valueFilter.Filter).Top;
+				if (isTop==false && d.Get() > sum)
 				{
-					var newKey = new int[keySize];
-					for (int i = startIx; i <= keyIx; i++)
-					{
-						newKey[i] = cacheItem.Key[startIx + i];
-					}
-					AddItems(newKey, pivotTable.RowFields.Count, dataFieldItems.Values[cacheItem.Index], filterItems, keys);
+					keysToRemove.Add(item.Key);
 				}
-
-				var keysToRemove = new List<int[]>();
-				foreach (CacheIndexItem item in filterItems)
+				else if (isTop && d.Get() < sum)
 				{
-					if (valueFilter.MatchNumeric(filterItems[item.Key]) == false)
-					{
-						keysToRemove.Add(item.Key);
-					}
-				}
-
-				for (int i = 0; i < dataFieldItems.Index.Count; i++)
-				{
-					if (SumKeyMatches(dataFieldItems.Index[i].Key, startIx, keyIx, keysToRemove))
-					{
-						dataFieldItems.Index.RemoveAt(i--);
-					}
+					keysToRemove.Add(item.Key);
 				}
 			}
+			else
+			{
+				keysToRemove.Add(item.Key);
+			}
+		}
+
+		private Dictionary<int[], List<double>> GetTop10TotalDictionary(PivotCalculationStore filterItems)
+		{
+            var di=new Dictionary<int[], List<double>>(ArrayComparer.Instance);
+			foreach (CacheIndexItem fi in filterItems)
+            {
+				var parentKey = GetParentKey(fi.Key);
+                if(!di.TryGetValue(parentKey, out var l) ) 
+                {
+                    l=new List<double>();
+                    di.Add(parentKey, l);
+                }
+
+                if (filterItems[fi.Key] is KahanSum d)
+                {
+                    l.Add(d.Get());
+                }
+			}
+            return di;
+		}
+
+		private int[] GetParentKey(int[] key)
+		{
+			if(key.Length <=1)
+            {
+                return new int[0];
+            }
+            else
+            {
+                var newKey = new int[key.Length-1];
+                for(int i=1;i<key.Length; i++)
+                {
+                    newKey[i] = key[i];
+                }
+                return newKey;
+            }
 		}
 
 		private bool SumKeyMatches(int[] key, int startIx, int keyIx, List<int[]> keysToRemove)

@@ -502,5 +502,43 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 
 			Assert.AreEqual(270.6 + 33.12 + 7.2 + 1.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
 		}
+		[TestMethod]
+		public void FilterPageFieldCustomTop2Count()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterTop2Cnt");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTable2Cnt");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddTop10Filter(ePivotTableTop10FilterType.Count, df, 2);
+			pt.Calculate(); 
+			Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			//Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			//Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			//Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			//Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(270.6 + 88.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomBottom2Count()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterBottom2Cnt");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTable2BottomCnt");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddTop10Filter(ePivotTableTop10FilterType.Count, df, 2, false);
+			pt.Calculate();
+			//Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			//Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			//Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			//Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(1.2 + 7.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
 	}
 }
