@@ -415,31 +415,34 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                             dic.Add(key, isTop?double.MaxValue : double.MinValue);
                         }
                         break;
-                    case ePivotTableFilterType.Sum:
+					case ePivotTableFilterType.Sum:
 						var d = Convert.ToDouble(valueFilter.Value1) - 1;
-                        var sum = 0d;
-                        foreach(var sv in (isTop?l.OrderByDescending(x=>x):l.OrderBy(x=>x)))
-                        {
-                            if(d<=sum + sv)
-                            {
-                                sum += sv;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        dic.Add(key, sum);
+						AddBreakItem(dic, key, l, isTop, d);
 						break;
-                    case ePivotTableFilterType.Percent:
-						d = Convert.ToDouble(valueFilter.Value1) - 1;
-						sum = l.Sum();
-                        dic.Add(key, sum * (d / 100));
-                        break;
+					case ePivotTableFilterType.Percent:
+						var p = Convert.ToDouble(valueFilter.Value1);
+						var sum = l.Sum();
+						AddBreakItem(dic, key, l, isTop, sum * (p / 100));
+
+						break;
                 }
             }
             return dic;
-		}	
+		}
+
+		private static void AddBreakItem(Dictionary<int[], double> dic, int[] key, List<double> l, bool isTop, double d)
+		{
+			var sum = new KahanSum(0d);
+			foreach (var sv in (isTop ? l.OrderByDescending(x => x) : l.OrderBy(x => x)))
+			{
+				sum += sv;
+				if (sum >= d)
+				{
+					dic.Add(key, sv);
+					break;
+				}
+			}
+		}
 
 		private static void HandleTopBottom(ExcelPivotTableFilter valueFilter, PivotCalculationStore filterItems, List<int[]> keysToRemove, Dictionary<int[], double> totSum, CacheIndexItem item, int[] pk)
 		{

@@ -540,5 +540,81 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 
 			Assert.AreEqual(1.2 + 7.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
 		}
+		[TestMethod]
+		public void FilterPageFieldCustomTopSum300()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterTop2Sum");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTablBtm2Sum");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddTop10Filter(ePivotTableTop10FilterType.Sum, df, 300);
+			pt.Calculate();
+			Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			//Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			//Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			//Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			//Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(270.6 + 88.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomBottomSum300()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterBottom2Sum");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableBtm2Sum");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddTop10Filter(ePivotTableTop10FilterType.Sum, df, 80.3, false);
+			pt.Calculate();
+			//Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			//Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(33.12+45.2+1.2+7.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomTopPercent300()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterTop82Perc");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTablTop82Perc");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddTop10Filter(ePivotTableTop10FilterType.Percent, df, 82);
+			pt.Calculate();
+			Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			//Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			//Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			//Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			//Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(270.6 + 88.2+ 45.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
+		[TestMethod]
+		public void FilterPageFieldCustomBottomPercent300()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotCustomFilterBtm18Perc");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTablBtm18Perc");
+			var rf = pt.RowFields.Add(pt.Fields[0]);
+			pt.CacheDefinition.Refresh();
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			rf.Filters.AddTop10Filter(ePivotTableTop10FilterType.Percent, df, 18, false);
+			pt.Calculate();
+			//Assert.AreEqual(270.6, pt.CalculatedItems[0][[0]]);
+			//Assert.AreEqual(88.2, pt.CalculatedItems[0][[1]]);
+			Assert.AreEqual(33.12, pt.CalculatedItems[0][[2]]);
+			Assert.AreEqual(45.2, pt.CalculatedItems[0][[3]]);
+			Assert.AreEqual(1.2, pt.CalculatedItems[0][[4]]);
+			Assert.AreEqual(7.2, pt.CalculatedItems[0][[5]]);
+
+			Assert.AreEqual(1.2 + 7.2 + 33.12 + 45.2, (double)pt.CalculatedItems[0][[int.MaxValue]], 0.0000001D);
+		}
 	}
 }
