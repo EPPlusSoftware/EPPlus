@@ -3,6 +3,7 @@
 ### Fixed issues 
 * Having a workbook with group drawings in group drawings caused EPPlus to fail on load.
 * Having #REF with a sheet reference when inserting a Row/Column caused the formula to become corrupt.
+* Epplus generated files from 7.0.6 and prior that contained DataValidations could not be read in some cases.
 ## Version 7.0.9
 ### Fixed issues 
 * The formula tokenizer did not handle minus correctly before table addresses.
