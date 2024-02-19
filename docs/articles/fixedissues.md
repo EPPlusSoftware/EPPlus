@@ -1,6 +1,10 @@
 ﻿# Features / Fixed issues - EPPlus 7
 ## Version 7.0.9
 ### Fixed issues 
+* Having a workbook with group drawings in group drawings caused EPPlus to fail on load.
+* Having #REF with a sheet reference when inserting a Row/Column caused the formula to become corrupt.
+## Version 7.0.9
+### Fixed issues 
 * The formula tokenizer did not handle minus correctly before table addresses.
 * Inserting rows/columns could cause drawings to get a incorrect width/height.
 * Saving multiple times caused hyperlinks to multiply.
