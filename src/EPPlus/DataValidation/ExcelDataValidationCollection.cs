@@ -74,7 +74,7 @@ namespace OfficeOpenXml.DataValidation
         {
             while (xr.Read())
             {
-                if(xr.LocalName != "dataValidation")
+                if (xr.LocalName != "dataValidation")
                 {
                     xr.Read();
                     break;
@@ -98,6 +98,11 @@ namespace OfficeOpenXml.DataValidation
                             validation.Address._toRow, validation.Address._toCol, validation);
                     }
                     _validations.Add(validation);
+
+                    if(xr.LocalName != "dataValidation")
+                    {
+                        xr.ReadUntil("dataValidation", "dataValidations");
+                    }
                 }
             }
         }
