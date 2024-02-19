@@ -639,6 +639,13 @@ namespace EPPlusTest.DataValidation
 
                 SaveAndCleanup(pck);
             }
+
+            using (var pck2 = OpenPackage("ClearDataValidationTestAdress.xlsx"))
+            {
+                var ws2 = pck2.Workbook.Worksheets[0];
+                var address = ws2.DataValidations[0].Address;
+                Assert.IsTrue(address.Collide(new ExcelAddressBase("A3")) == ExcelAddressBase.eAddressCollition.No);
+            }
         }
 
         [TestMethod]
