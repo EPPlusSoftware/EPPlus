@@ -155,7 +155,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                        (TokenType & TokenType.TableName) == TokenType.TableName ||
                        (TokenType & TokenType.TablePart) == TokenType.TablePart ||
                        (TokenType & TokenType.TableColumn) == TokenType.TableColumn ||
-                       ((TokenType & TokenType.Operator) == TokenType.Operator && Value == ":");
+					   (TokenType & TokenType.InvalidReference) == TokenType.InvalidReference ||
+					   ((TokenType & TokenType.Operator) == TokenType.Operator && Value == ":");
             }
         }
 

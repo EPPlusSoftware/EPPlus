@@ -601,9 +601,16 @@ namespace OfficeOpenXml.Drawing
                                 {
                                     return new ExcelPivotTableSlicer(drawings, node, parent);
                                 }
-                                else if (choice.ChildNodes.Count > 0 && choice.FirstChild.LocalName=="sp")
+                                else if (choice.ChildNodes.Count > 0)
                                 {
-                                    return GetShapeOrControl(drawings, node, (XmlElement)choice.FirstChild, parent);
+                                    if (choice.FirstChild.LocalName == "sp")
+                                    {
+                                        return GetShapeOrControl(drawings, node, (XmlElement)choice.FirstChild, parent);
+                                    }
+                                    else if(choice.FirstChild.LocalName == "grpSp")
+                                    {
+										return new ExcelGroupShape(drawings, choice.FirstChild, parent);
+									}
                                 }
                                 break;
 
