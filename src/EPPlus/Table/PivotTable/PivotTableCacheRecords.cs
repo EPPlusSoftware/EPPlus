@@ -38,7 +38,16 @@ namespace EPPlusTest.Table.PivotTable
             {
                 var f = Cache.Fields[i];
                 var l = new List<object>();
-                var c = sr._fromCol + f.Index;
+				int c;
+				if(f.Grouping==null)
+				{
+					c = sr._fromCol + f.Index;
+				}
+                else
+                {
+					c = sr._fromCol + (f.Grouping.BaseIndex ?? f.Index);
+			}
+
                 if (f.IsRowColumnOrPage)
                 {
                     f._fieldRecordIndex = new Dictionary<int, List<int>>();

@@ -16,6 +16,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -603,7 +604,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         #region Grouping
-        internal ExcelPivotTableFieldDateGroup SetDateGroup(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime StartDate, DateTime EndDate, int interval, bool firstGroupField)
+        internal void SetDateGroup(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime StartDate, DateTime EndDate, int interval, bool firstGroupField)
         {
             if (firstGroupField)
             {
@@ -612,13 +613,19 @@ namespace OfficeOpenXml.Table.PivotTable
 				SetXmlNodeBool("d:sharedItems/@containsSemiMixedTypes", false);
 			}
 
-			var groupNode = CreateNode("d:fieldGroup"); //Create group topNode
-			var group = new ExcelPivotTableFieldDateGroup(NameSpaceManager, groupNode);
-            
-            group.BaseIndex = field.BaseIndex;
-			group.TopNode.InnerXml += string.Format("<rangePr groupBy=\"{0}\" /><groupItems />",  groupBy.ToString().ToLower(CultureInfo.InvariantCulture));
 
-            if (StartDate.Year < 1900)
+			var groupNode = CreateNode("d:fieldGroup"); //Create group topNode
+			Grouping = new ExcelPivotTableFieldDateGroup(NameSpaceManager, groupNode);
+            
+            Grouping.BaseIndex = field.BaseIndex;
+			Grouping.TopNode.InnerXml += string.Format("<rangePr groupBy=\"{0}\" /><groupItems />",  groupBy.ToString().ToLower(CultureInfo.InvariantCulture));
+			
+            if (StartDate == DateTime.MinValue)
+			{
+				UpdateStartEndValue(out StartDate, out EndDate);
+			}
+
+			if (StartDate.Year < 1900)
             {
                 SetXmlNodeString("d:fieldGroup/d:rangePr/@startDate", "1900-01-01T00:00:00");
             }
@@ -638,31 +645,27 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("d:fieldGroup/d:rangePr/@autoEnd", "0");
             }
 
-            int items = AddDateGroupItems(group, groupBy, StartDate, EndDate, interval);
-
-            Grouping = group;
-            DateGrouping = groupBy;
-            return group;
+			DateGrouping = groupBy;
+			
+            int items = AddDateGroupItems(Grouping, groupBy, StartDate, EndDate, interval);
         }
-        internal ExcelPivotTableFieldNumericGroup SetNumericGroup(int baseIndex, double start, double end, double interval)
+        internal void SetNumericGroup(int baseIndex, double start, double end, double interval)
         {
             var groupNode = CreateNode("d:fieldGroup"); //Create group topNode
-            var group = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
+            var Grouping = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
             SetXmlNodeBool("d:sharedItems/@containsNumber", true);
             SetXmlNodeBool("d:sharedItems/@containsInteger", true);
             SetXmlNodeBool("d:sharedItems/@containsSemiMixedTypes", false);
             SetXmlNodeBool("d:sharedItems/@containsString", false);
 
-            group.BaseIndex = baseIndex;
-            group.TopNode.InnerXml += string.Format("<rangePr autoStart=\"0\" autoEnd=\"0\" startNum=\"{0}\" endNum=\"{1}\" groupInterval=\"{2}\"/><groupItems />",
+			Grouping.BaseIndex = baseIndex;
+			Grouping.TopNode.InnerXml += string.Format("<rangePr autoStart=\"0\" autoEnd=\"0\" startNum=\"{0}\" endNum=\"{1}\" groupInterval=\"{2}\"/><groupItems />",
                 start.ToString(CultureInfo.InvariantCulture), end.ToString(CultureInfo.InvariantCulture), interval.ToString(CultureInfo.InvariantCulture));
 
-            int items = AddNumericGroupItems(group, start, end, interval);
-            Grouping = group;
-            return group;
+            int items = AddNumericGroupItems(start, end, interval);
         }
 
-        private int AddNumericGroupItems(ExcelPivotTableFieldNumericGroup group, double start, double end, double interval)
+        private int AddNumericGroupItems(double start, double end, double interval)
         {
             if (interval < 0)
             {
@@ -673,7 +676,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 throw (new Exception("Then End number must be larger than the Start number"));
             }
 
-            XmlElement groupItemsNode = group.TopNode.SelectSingleNode("d:groupItems", group.NameSpaceManager) as XmlElement;
+            XmlElement groupItemsNode = Grouping.TopNode.SelectSingleNode("d:groupItems", Grouping.NameSpaceManager) as XmlElement;
             int items = 2;
             //First date
             double index = start;
@@ -697,7 +700,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             XmlElement groupItemsNode = group.TopNode.SelectSingleNode("d:groupItems", group.NameSpaceManager) as XmlElement;
             int items = 2;
-            GroupItems.Clear();
+			GroupItems.Clear();
             //First date
             AddGroupItem(groupItemsNode, "<" + StartDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
 
@@ -822,17 +825,14 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void UpdateGroupItems()
         {
-            foreach (var pt in _cache._pivotTables)
+			foreach (var pt in _cache._pivotTables)
             {                
                 if ((pt.Fields[Index].IsRowField ||
                      pt.Fields[Index].IsColumnField ||
                      pt.Fields[Index].IsPageField || pt.Fields[Index].Cache.HasSlicer) )
                 {
-                    if (pt.Fields[Index].Items.Count == 0)
-                    {
-                        pt.Fields[Index].UpdateGroupItems(this, true);
-                    }
-                }
+                    pt.Fields[Index].UpdateGroupItems(this, true);					
+				}
                 else
                 {
                     pt.Fields[Index].DeleteNode("d:items");
@@ -840,7 +840,24 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        private void UpdateSharedItems()
+		private void UpdateStartEndValue(out DateTime startDate, out DateTime endDate)
+		{
+            startDate = DateTime.MaxValue;
+            endDate = DateTime.MinValue;
+            var ix = Grouping.BaseIndex.Value;
+            var fld = _cache.Fields[ix];
+            fld.UpdateSharedItems();
+            foreach(var item in fld.SharedItems)
+            {
+                if(item is DateTime dt)
+                {
+					if(startDate > dt) startDate = dt;
+                    if(endDate < dt) endDate = dt;
+				}
+            }
+		}
+
+		private void UpdateSharedItems()
 		{
 			var range = _cache.SourceRange;
 			if (range == null) return;
@@ -889,7 +906,7 @@ namespace OfficeOpenXml.Table.PivotTable
 				}
 			}
 			SharedItems._list = hs.ToList();
-			UpdateCacheLookupFromItems(SharedItems._list);
+			if(Grouping==null) UpdateCacheLookupFromItems(SharedItems._list);
 			if (HasSlicer)
 			{
 				UpdateSlicers();
