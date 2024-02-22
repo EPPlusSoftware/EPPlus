@@ -335,7 +335,7 @@ namespace OfficeOpenXml.DataValidation
 
             ReadClassSpecificXmlNodes(xr);
 
-            if (address == null && xr.ReadUntil(5, "sqref", "dataValidation", "extLst"))
+            if (address == null && xr.ReadToFollowing("sqref",xr.NamespaceURI))
             {
                 address = xr.ReadString();
                 if (address == null)
@@ -347,6 +347,7 @@ namespace OfficeOpenXml.DataValidation
             _address = new ExcelDatavalidationAddress
                 (CheckAndFixRangeAddress(address)
                  .Replace(" ", ","), this);
+
         }
 
         internal virtual void ReadClassSpecificXmlNodes(XmlReader xr)

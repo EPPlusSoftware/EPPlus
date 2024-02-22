@@ -70,9 +70,15 @@ namespace OfficeOpenXml.DataValidation
 
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
-            xr.ReadUntil(formulaIdentifier, "dataValidation", "extLst");
+            //if(xr.LocalName == "dataValidation")
+            //{
+            //    xr.Read();
+            //}
+            
+            xr.ReadUntil(formulaIdentifier, "dataValidations", "extLst");
 
-            bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
+            bool isExt = xr.Prefix == "x14";
+            //bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
             if (InternalValidationType == InternalValidationType.ExtLst || isExt)
                 xr.Read();
