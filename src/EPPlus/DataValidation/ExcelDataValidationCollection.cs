@@ -71,14 +71,16 @@ namespace OfficeOpenXml.DataValidation
         {
             if(xr.LocalName == "dataValidations")
             {
-                var subTree = xr.ReadSubtree();
-                var nameSpace = xr.NamespaceURI;
+                //var subTree = xr.ReadSubtree();
+                //var nameSpace = xr.NamespaceURI;
 
                 //xr.ReadUntil
-
-                while (subTree.ReadToFollowing("dataValidation", nameSpace))
+                //var depth = xr.Depth;
+                xr.Read();
+                //while(xr.ReadUntil(depth + 1,"dataValidation", "dataValidations"))
+                while (xr.LocalName != "dataValidations")
                 {
-                    var validation = ExcelDataValidationFactory.Create(subTree, _worksheet);
+                    var validation = ExcelDataValidationFactory.Create(xr, _worksheet);
 
                     if (validation.Address.Addresses != null)
                     {
@@ -94,11 +96,28 @@ namespace OfficeOpenXml.DataValidation
                             validation.Address._toRow, validation.Address._toCol, validation);
                     }
                     _validations.Add(validation);
+
+                    if(xr.LocalName != "dataValidation" && xr.LocalName != "dataValidations")
+                    {
+                        throw new AccessViolationException("DataValidations read to EOF");
+                    }
+
+                    //if(xr.LocalName != "dataValidations")
+                    //{
+                    //    xr.ReadUntil("dataValidation", "dataValidations");
+                    //    xr.ReadEndElement();
+                    //}
                 }
                 xr.Read();
-                //while (xr.ReadToDescendant("dataValidation", "dataValidations"))
+
+
+                //while (subTree.ReadToFollowing("dataValidation", nameSpace))
                 //{
-                //}
+                //    var validation = ExcelDataValidationFactory.Create(subTree, _worksheet);
+
+                    //while (xr.ReadToDescendant("dataValidation", "dataValidations"))
+                    //{
+                    //}
                     //do
                     //{
                     //    xr.Read();

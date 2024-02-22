@@ -333,21 +333,53 @@ namespace OfficeOpenXml.DataValidation
             PromptTitle = xr.GetAttribute("promptTitle");
             Prompt = xr.GetAttribute("prompt");
 
+            //if(xr.NodeType == XmlNodeType.Element && xr.NodeType == XmlNodeType.EndElement)
+            //{
+            //    xr.Read();
+            //    return;
+            //}
+
             ReadClassSpecificXmlNodes(xr);
 
-            if (address == null && xr.ReadToFollowing("sqref",xr.NamespaceURI))
+            if (address == null)
             {
                 address = xr.ReadString();
                 if (address == null)
                 {
                     throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
                 }
+                xr.Read();
             }
 
             _address = new ExcelDatavalidationAddress
                 (CheckAndFixRangeAddress(address)
                  .Replace(" ", ","), this);
 
+            if(xr.LocalName == "dataValidations")
+            {
+                return;
+            }
+
+            //Should only happen with 'legacy' files if for example an 'equals' validation has a formula2 node.
+            //Or its a one-liner dataValidation
+            if(xr.LocalName != "dataValidation" || xr.NodeType == XmlNodeType.Element && xr.LocalName == "dataValidation")
+            {
+                var type = xr.NodeType;
+                var name = xr.Name;
+                xr.ReadUntil("dataValidation", "dataValidations");
+                //If has no endNode
+                if(xr.NodeType == XmlNodeType.Element)
+                {
+                    return;
+                }
+                if (xr.LocalName == "dataValidations")
+                {
+                    return;
+                }
+            }
+
+            //Read to next dataValidation or dataValidations end node
+            xr.Read();
         }
 
         internal virtual void ReadClassSpecificXmlNodes(XmlReader xr)

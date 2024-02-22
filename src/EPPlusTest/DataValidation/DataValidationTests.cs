@@ -1025,6 +1025,30 @@ namespace EPPlusTest.DataValidation
             }
         }
 
+        [TestMethod]
+        public void DataValidationWith2FormulasThatAreNullShouldNotThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("nullformulas");
+
+                var intValidation = sheet.DataValidations.AddIntegerValidation("C2");
+                intValidation.Operator = ExcelDataValidationOperator.between;
+
+                intValidation.AllowBlank = true;
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var validation = (ExcelDataValidationInt)readPck.Workbook.Worksheets[0].DataValidations[0];
+                var address = validation.Address.Address;
+                Assert.AreEqual("C2", address);
+                //Assert.IsNull(validation.Formula);
+                //Assert.IsNull(validation.Formula2);
+            }
+        }
 
         [TestMethod]
         public void AddressContainingOwnSheetName_ShouldNotThrow()

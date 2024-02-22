@@ -56,6 +56,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace EPPlusTest
@@ -6118,6 +6119,15 @@ namespace EPPlusTest
                 Debug.Assert(package.Workbook.Worksheets.Count == 2);
                 package.Workbook.Worksheets.Delete("Sheet1");
                 Debug.Assert(package.Workbook.Worksheets.Count == 1);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s1307test()
+        {
+            using(var package = OpenTemplatePackage("DataVal2ThreeEach.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
                 SaveAndCleanup(package);
             }
         }

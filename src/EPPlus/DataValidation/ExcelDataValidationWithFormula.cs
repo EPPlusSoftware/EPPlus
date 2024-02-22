@@ -65,25 +65,32 @@ namespace OfficeOpenXml.DataValidation
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
         {
             base.ReadClassSpecificXmlNodes(xr);
+            xr.Read();
             Formula = ReadFormula(xr, "formula1");
         }
 
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
-            //if(xr.LocalName == "dataValidation")
-            //{
-            //    xr.Read();
-            //}
-            
-            xr.ReadUntil(formulaIdentifier, "dataValidations", "extLst");
+            if (xr.LocalName != formulaIdentifier)
+            {
+                return DefineFormulaClassType(null, _workSheetName);
+            }
+            //xr.ReadUntil(formulaIdentifier, "dataValidations", "extLst");
 
-            bool isExt = xr.Prefix == "x14";
-            //bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
+            //bool isExt = xr.Prefix == "x14";
+            bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
             if (InternalValidationType == InternalValidationType.ExtLst || isExt)
                 xr.Read();
 
-            return DefineFormulaClassType(xr.ReadString(), _workSheetName);
+            var retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+
+            if (InternalValidationType == InternalValidationType.ExtLst || isExt)
+                xr.Read();
+
+            xr.Read();
+
+            return retVal;
         }
 
         abstract internal T DefineFormulaClassType(string formulaValue, string worksheetName);
