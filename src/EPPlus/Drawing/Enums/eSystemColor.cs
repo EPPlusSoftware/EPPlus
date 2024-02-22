@@ -46,15 +46,15 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         WindowFrame,
         /// <summary>
-        /// Menu Text System Color
+        /// Menu String System Color
         /// </summary>
         MenuText,
         /// <summary>
-        /// Window Text System Color
+        /// Window String System Color
         /// </summary>
         WindowText,
         /// <summary>
-        /// Caption Text System Color
+        /// Caption String System Color
         /// </summary>
         CaptionText,
         /// <summary>
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Highlight,
         /// <summary>
-        /// Highlight Text System Color
+        /// Highlight String System Color
         /// </summary>
         HighlightText,
         /// <summary>
@@ -86,15 +86,15 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         ButtonShadow,
         /// <summary>
-        /// Gray Text System Color
+        /// Gray String System Color
         /// </summary>
         GrayText,
         /// <summary>
-        /// Button Text System Color
+        /// Button String System Color
         /// </summary>
         ButtonText,
         /// <summary>
-        /// Inactive Caption Text System Color
+        /// Inactive Caption String System Color
         /// </summary>
         InactiveCaptionText,
         /// <summary>
@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Light3d,
         /// <summary>
-        /// Info Text System Color (Tooltip)
+        /// Info String System Color (Tooltip)
         /// </summary>
         InfoText,
         /// <summary>

@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Style
         }
         const string TextPath = "../a:t";
         /// <summary>
-        /// Text
+        /// String
         /// </summary>
         public string Text
         {

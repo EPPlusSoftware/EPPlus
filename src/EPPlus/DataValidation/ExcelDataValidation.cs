@@ -171,7 +171,7 @@ namespace OfficeOpenXml.DataValidation
         public string PromptTitle { get; set; } = null;
 
         /// <summary>
-        /// Text of the validation message box.
+        /// String of the validation message box.
         /// </summary>
         public string Prompt { get; set; } = null;
 

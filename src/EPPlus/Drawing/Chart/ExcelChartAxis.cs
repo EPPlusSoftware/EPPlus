@@ -245,7 +245,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 		ExcelDrawingTextSettings _textSettings = null;
 		/// <summary>
-		/// Text settings like fills, text outlines and effects 
+		/// String settings like fills, text outlines and effects 
 		/// </summary>
 		public ExcelDrawingTextSettings TextSettings
 		{

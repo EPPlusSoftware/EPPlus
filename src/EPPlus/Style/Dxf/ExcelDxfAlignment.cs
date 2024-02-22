@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Style.Dxf
         public ExcelVerticalAlignment? VerticalAlignment { get; set; }
         int? _textRotation=null;
         /// <summary>
-        /// Text orientation in degrees. Values range from 0 to 180 or 255. 
+        /// String orientation in degrees. Values range from 0 to 180 or 255. 
         /// Setting the rotation to 255 will align text vertically.
         /// </summary>
         public int? TextRotation 
@@ -97,7 +97,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Reading order
         /// 0 - Context Dependent 
         /// 1 - Left-to-Right
-        /// 2 - Right-to-Left
+        /// 2 - Right-to-   
         /// </summary>
         public int? ReadingOrder { get; set; }
         /// <summary>

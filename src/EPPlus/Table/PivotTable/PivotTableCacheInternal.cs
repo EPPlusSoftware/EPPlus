@@ -265,7 +265,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         field=_fields[ix];
                         field.SharedItems.Clear();
-
+                        if(field._cacheLookup!=null) field._cacheLookup.Clear();
                         if (cacheUpdated == false && string.IsNullOrEmpty(name)==false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
                     }
 

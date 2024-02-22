@@ -294,26 +294,26 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     else
         ///     {
         ///         _saveCanceled = true;
-        ///         lblStatus.Text = "Canceled...";
+        ///         lblStatus.String = "Canceled...";
         ///         ResetState();
         ///     }
         /// }
         ///
         /// private void KickoffZipup()
         /// {
-        ///     _folderName = tbDirName.Text;
+        ///     _folderName = tbDirName.String;
         ///
         ///     if (_folderName == null || _folderName == "") return;
-        ///     if (this.tbZipName.Text == null || this.tbZipName.Text == "") return;
+        ///     if (this.tbZipName.String == null || this.tbZipName.String == "") return;
         ///
         ///     // check for existence of the zip file:
-        ///     if (System.IO.File.Exists(this.tbZipName.Text))
+        ///     if (System.IO.File.Exists(this.tbZipName.String))
         ///     {
         ///         var dlgResult = MessageBox.Show(String.Format("The file you have specified ({0}) already exists." +
-        ///                                                       "  Do you want to overwrite this file?", this.tbZipName.Text),
+        ///                                                       "  Do you want to overwrite this file?", this.tbZipName.String),
         ///                                         "Confirmation is Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         ///         if (dlgResult != DialogResult.Yes) return;
-        ///         System.IO.File.Delete(this.tbZipName.Text);
+        ///         System.IO.File.Delete(this.tbZipName.String);
         ///     }
         ///
         ///      _saveCanceled = false;
@@ -321,13 +321,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     _totalBytesAfterCompress = 0;
         ///     _totalBytesBeforeCompress = 0;
         ///     this.btnOk.Enabled = false;
-        ///     this.btnOk.Text = "Zipping...";
+        ///     this.btnOk.String = "Zipping...";
         ///     this.btnCancel.Enabled = true;
-        ///     lblStatus.Text = "Zipping...";
+        ///     lblStatus.String = "Zipping...";
         ///
         ///     var options = new WorkerOptions
         ///     {
-        ///         ZipName = this.tbZipName.Text,
+        ///         ZipName = this.tbZipName.String,
         ///         Folder = _folderName,
         ///         Encoding = "ibm437"
         ///     };
@@ -354,10 +354,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                 FlavorToString(options.ZipFlavor),
         ///                 options.Zip64.ToString(),
         ///                 System.DateTime.Now.ToString("yyyy-MMM-dd HH:mm:ss"),
-        ///                 this.Text);
+        ///                 this.String);
         ///
-        ///     if (this.tbComment.Text != TB_COMMENT_NOTE)
-        ///         options.Comment += this.tbComment.Text;
+        ///     if (this.tbComment.String != TB_COMMENT_NOTE)
+        ///         options.Comment += this.tbComment.String;
         ///
         ///     _workerThread = new Thread(this.DoSave);
         ///     _workerThread.Name = "Zip Saver thread";
@@ -373,7 +373,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     {
         ///         using (var zip1 = new ZipFile())
         ///         {
-        ///             zip1.ProvisionalAlternateEncoding = System.Text.Encoding.GetEncoding(options.Encoding);
+        ///             zip1.ProvisionalAlternateEncoding = System.String.Encoding.GetEncoding(options.Encoding);
         ///             zip1.Comment = options.Comment;
         ///             zip1.AddDirectory(options.Folder);
         ///             _entriesToZip = zip1.EntryFileNames.Count;
@@ -468,7 +468,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                     _progress2MaxFactor++;
         ///                 }
         ///                 this.progressBar2.Maximum = (int)max;
-        ///                 lblStatus.Text = String.Format("{0} of {1} files...({2})",
+        ///                 lblStatus.String = String.Format("{0} of {1} files...({2})",
         ///                     _nFilesCompleted + 1, _entriesToZip, e.CurrentEntry.FileName);
         ///             }
         ///
@@ -491,7 +491,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     }
         ///     else
         ///     {
-        ///         lblStatus.Text = String.Format("Done, Compressed {0} files, {1:N0}% of original.",
+        ///         lblStatus.String = String.Format("Done, Compressed {0} files, {1:N0}% of original.",
         ///             _nFilesCompleted, (100.00 * _totalBytesAfterCompress) / _totalBytesBeforeCompress);
         ///          ResetState();
         ///     }
@@ -501,7 +501,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     this.btnCancel.Enabled = false;
         ///     this.btnOk.Enabled = true;
-        ///     this.btnOk.Text = "Zip it!";
+        ///     this.btnOk.String = "Zip it!";
         ///     this.progressBar1.Value = 0;
         ///     this.progressBar2.Value = 0;
         ///     this.Cursor = Cursors.Default;

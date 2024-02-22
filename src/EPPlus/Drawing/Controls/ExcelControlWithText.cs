@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         /// <summary>
-        /// Text inside the shape
+        /// String inside the shape
         /// </summary>
         public string Text
         {

@@ -37,6 +37,16 @@ namespace EPPlusTest.Table.PivotTable
 			for (int i = 0; i < Cache.Fields.Count; i++)
             {
                 var f = Cache.Fields[i];
+                Dictionary<object, int> lookup;
+				if (f.Grouping?.BaseIndex==null || f.Grouping.BaseIndex == f.Index)
+                {
+                    lookup = f._cacheLookup;
+				}
+                else
+                {
+					lookup = Cache.Fields[f.Grouping.BaseIndex.Value]._cacheLookup;
+				}
+
                 var l = new List<object>();
 				int c;
 				if(f.Grouping==null)
@@ -46,49 +56,27 @@ namespace EPPlusTest.Table.PivotTable
                 else
                 {
 					c = sr._fromCol + (f.Grouping.BaseIndex ?? f.Index);
-			}
+				}
 
                 if (f.IsRowColumnOrPage)
                 {
                     f._fieldRecordIndex = new Dictionary<int, List<int>>();
-					if (f.Grouping == null)
-                    {
-						for (int r = sr._fromRow + 1; r <= toRow; r++) //Skip first row as it contains the headers.
+					for (int r = sr._fromRow + 1; r <= toRow; r++) //Skip first row as it contains the headers.
+					{
+						var v = ws.GetValue(r, c) ?? ExcelPivotTable.PivotNullValue;
+						var ix = lookup[v];
+						l.Add(ix);
+						var ciIx = r - (sr._fromRow + 1);
+						if (f._fieldRecordIndex.ContainsKey(ix))
 						{
-							var v = ws.GetValue(r, c) ?? ExcelPivotTable.PivotNullValue;
-							var ix = f._cacheLookup[v];
-							l.Add(ix);
-							var ciIx = r - (sr._fromRow + 1);
-							if (f._fieldRecordIndex.ContainsKey(ix))
-							{
-								f._fieldRecordIndex[ix].Add(ciIx);
-							}
-							else
-							{
-								f._fieldRecordIndex.Add(ix, new List<int> { ciIx });
-							}
+							f._fieldRecordIndex[ix].Add(ciIx);
 						}
-					}
-                    else
-                    {
-						for (int r = sr._fromRow + 1; r <= toRow; r++) //Skip first row as it contains the headers.
+						else
 						{
-							var ix = GetGroupIndex(f, ws.GetValue(r, c) ?? ExcelPivotTable.PivotNullValue);
-
-							l.Add(ix);
-							var ciIx = r - (sr._fromRow + 1);
-							if (f._fieldRecordIndex.ContainsKey(ix))
-							{
-								f._fieldRecordIndex[ix].Add(ciIx);
-							}
-							else
-							{
-								f._fieldRecordIndex.Add(ix, new List<int> { ciIx });
-							}
+							f._fieldRecordIndex.Add(ix, new List<int> { ciIx });
 						}
 					}
 				}
-
                 else
                 {
                     for (int r = sr._fromRow + 1; r <= toRow; r++)
@@ -99,90 +87,6 @@ namespace EPPlusTest.Table.PivotTable
                 CacheItems.Add(l);
             }
         }
-
-		private int GetGroupIndex(ExcelPivotTableCacheField f, object value)
-		{
-			if(f.Grouping is ExcelPivotTableFieldDateGroup dg)
-			{
-				return GetDateGroupIndex(dg, value);
-			}
-			else if(f.Grouping is ExcelPivotTableFieldNumericGroup ng)
-			{
-				return GetNumericGroupIndex(ng, value);
-			}
-			return 0;
-		}
-
-		private int GetNumericGroupIndex(ExcelPivotTableFieldNumericGroup ng, object value)
-		{
-			if(ConvertUtil.IsNumeric(value))
-			{
-				var d = ConvertUtil.GetValueDouble(value);
-				return (int)((d - ng.Start) / ng.Interval);
-			}
-			return 0;
-		}
-
-		private static int GetDateGroupIndex(ExcelPivotTableFieldDateGroup dg, object value)
-		{
-			var startDate = dg.StartDate ?? DateTime.MinValue;
-			var dtNull = ConvertUtil.GetValueDate(value);
-			if (dtNull == null) return -1;
-			var dt=dtNull.Value;
-			switch (dg.GroupBy)
-			{
-				case eDateGroupBy.Years:
-					return dt.Year - startDate.Year;
-				case eDateGroupBy.Quarters:
-					return (((dt.Month - (dt.Month - 1) % 3) + 1) / 3)-1;
-				case eDateGroupBy.Months:
-					return dt.Month-1;
-				case eDateGroupBy.Days:
-					return GetDayGroupIndex(dg, startDate, dt);
-				case eDateGroupBy.Hours:
-					return dt.Hour - 1;
-				case eDateGroupBy.Minutes:
-					return dt.Minute - 1;
-				case eDateGroupBy.Seconds:
-					return dt.Second - 1;
-			}
-			return -1;
-		}
-
-		private static int GetDayGroupIndex(ExcelPivotTableFieldDateGroup dg, DateTime startDate, DateTime dt)
-		{
-			if (dt < startDate)
-			{
-				return 0;
-			}
-			else
-			{
-				if ((dg.GroupInterval ?? 1) == 1)
-				{
-					var startOfYear = new DateTime(dt.Year, 1, 1);
-					if (DateTime.IsLeapYear(dt.Year))
-					{
-						return (dt - startOfYear).Days + 1;
-					}
-					else
-					{
-						if (dt.Month < 3)
-						{
-							return (dt - startOfYear).Days + 1;
-						}
-						else
-						{
-							return (dt - startOfYear).Days + 2; //Series is leap year, so add one extra if after last of feb.
-						}
-					}
-				}
-				else
-				{
-					return (int)((dt - dg.StartDate.Value).Days / dg.GroupInterval.Value);
-				}
-			}
-		}
-
 		internal PivotTableCacheInternal Cache { get; }
         public List<List<object>> CacheItems 
         { 

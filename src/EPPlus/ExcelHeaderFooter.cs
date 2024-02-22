@@ -153,7 +153,7 @@ namespace OfficeOpenXml
 		/// Inserts a picture at the end of the text in the header or footer
 		/// </summary>
 		/// <param name="PictureFile">The image object containing the Picture</param>
-		/// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+		/// <param name="Alignment">Alignment. The image object will be inserted at the end of the String.</param>
 		public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
         {
             string id = ValidateImage(Alignment);
@@ -174,7 +174,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="PictureStream">The stream containing the picture</param>
         /// <param name="pictureType">The image format of the picture stream</param>
-        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the String.</param>
         public ExcelVmlDrawingPicture InsertPicture(Stream PictureStream, ePictureType pictureType, PictureAlignment Alignment)
         {
             string id = ValidateImage(Alignment);
@@ -191,7 +191,7 @@ namespace OfficeOpenXml
         /// Inserts a picture at the end of the text in the header or footer
         /// </summary>
         /// <param name="Picture">The image object containing the Picture</param>
-        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the String.</param>
         [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
         public ExcelVmlDrawingPicture InsertPicture(Image Picture, PictureAlignment Alignment)
         {

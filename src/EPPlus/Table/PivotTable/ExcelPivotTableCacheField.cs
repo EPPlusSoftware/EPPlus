@@ -103,7 +103,8 @@ namespace OfficeOpenXml.Table.PivotTable
             internal T MaxValue { get; set; }
         }
         internal Dictionary<object, int> _cacheLookup = null;
-        internal Dictionary<int, List<int>> _fieldRecordIndex { get; set; }
+		internal Dictionary<object, int> _groupLookup = null;
+		internal Dictionary<int, List<int>> _fieldRecordIndex { get; set; }
 
         /// <summary>
         /// The type of date grouping
@@ -160,7 +161,29 @@ namespace OfficeOpenXml.Table.PivotTable
                     shNode.SetAttribute("containsMixedTypes", "1");
                 }
                 SetFlags(shNode, flags);
-            }
+                
+                //Grouped fields need to have the max and min values set.
+                if (Grouping != null)
+                {
+                    if (flags == DataTypeFlags.DateTime)
+                    {
+                        var min = (DateTime)SharedItems.Min();
+                        shNode.SetAttribute("minDate", GetDateString(min));
+                        var max = (DateTime)SharedItems.Max();
+                        shNode.SetAttribute("maxDate", GetDateString(max));
+                    }
+                    else if ((int)(flags & DataTypeFlags.Number | flags & DataTypeFlags.Int | DataTypeFlags.Float) != 0)
+                    {
+                        var min = ConvertUtil.GetValueDouble(SharedItems.Min(), true, true);
+                        var max = ConvertUtil.GetValueDouble(SharedItems.Max(), true, true);
+                        if (!(double.IsNaN(min) || double.IsNaN(max)))
+                        {
+                            shNode.SetAttribute("minValue", min.ToString(CultureInfo.InvariantCulture));
+                            shNode.SetAttribute("maxValue", max.ToString(CultureInfo.InvariantCulture));
+                        }
+                    }
+                }
+			}
             else
             {
                 if ((flags & DataTypeFlags.String) != DataTypeFlags.String &&
@@ -292,7 +315,11 @@ namespace OfficeOpenXml.Table.PivotTable
             if((flags & DataTypeFlags.DateTime) == DataTypeFlags.DateTime)
             {
                 shNode.SetAttribute("containsDate", "1");
-            }
+                if(flags == DataTypeFlags.DateTime)
+                {
+					shNode.SetAttribute("containsNonDate", "0");
+				}
+			}
             if ((flags & DataTypeFlags.Number) == DataTypeFlags.Number)
             {
                 shNode.SetAttribute("containsNumber", "1");
@@ -364,18 +391,11 @@ namespace OfficeOpenXml.Table.PivotTable
                                 AppendItem(shNode, "n", ConvertUtil.GetValueForXml(si, false));
                             }
                             break;
-                        case TypeCode.DateTime:
-                            var d = ((DateTime)si);
-                            if (d.Year > 1899)
-                            {
-                                AppendItem(shNode, "d", d.ToString("s"));
-                            }
-                            else
-                            {
-                                AppendItem(shNode, "d", d.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
-                            }
-                            break;
-                        case TypeCode.Boolean:
+						case TypeCode.DateTime:
+							var ds = GetDateString(((DateTime)si));
+                            AppendItem(shNode, "d", ds);
+							break;
+						case TypeCode.Boolean:
                             AppendItem(shNode, "b", ConvertUtil.GetValueForXml(si, false));
                             break;
                         case TypeCode.Empty:
@@ -384,17 +404,10 @@ namespace OfficeOpenXml.Table.PivotTable
                         default:
                             if (t == typeof(TimeSpan))
                             {
-                                d = new DateTime(((TimeSpan)si).Ticks);
-                                if (d.Year > 1899)
-                                {
-                                    AppendItem(shNode, "d", d.ToString("s"));
-                                }
-                                else
-                                {
-                                    AppendItem(shNode, "d", d.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
-                                }
-                            }
-                            else if (t == typeof(ExcelErrorValue))
+								ds = GetDateString(new DateTime(((TimeSpan)si).Ticks));
+								AppendItem(shNode, "d", ds);
+							}
+							else if (t == typeof(ExcelErrorValue))
                             {
                                 AppendItem(shNode, "e", si.ToString());
                             }
@@ -413,7 +426,20 @@ namespace OfficeOpenXml.Table.PivotTable
                 shNode.SetAttribute("longText", "1");
             }
         }
-        private DataTypeFlags GetFlags()
+
+		private string GetDateString(DateTime d)
+		{
+			if (d.Year > 1899)
+			{
+                return d.ToString("s");
+			}
+			else
+			{
+                return d.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
+			}
+		}
+
+		private DataTypeFlags GetFlags()
         {
             DataTypeFlags flags = 0;
             foreach (var si in SharedItems)
@@ -460,7 +486,7 @@ namespace OfficeOpenXml.Table.PivotTable
                             {
                                 flags |= DataTypeFlags.Float;
                             }
-                                break;
+                            break;
                         case TypeCode.DateTime:
                             flags |= DataTypeFlags.DateTime;
                             break;
@@ -516,24 +542,21 @@ namespace OfficeOpenXml.Table.PivotTable
                 var groupItems = groupNode.SelectSingleNode("d:groupItems", NameSpaceManager);
                 if (groupItems != null)
                 {
-                    AddItems(GroupItems, groupItems, true);
+                    AddItems(GroupItems, groupItems, _groupLookup);
                 }
             }
 
             var si = GetNode("d:sharedItems");
             if (si != null)
             {
-                AddItems(SharedItems, si, groupNode==null);
+                AddItems(SharedItems, si, _cacheLookup);
             }
 
         }
 
-        private void AddItems(EPPlusReadOnlyList<Object> items, XmlNode itemsNode, bool updateCacheLookup)
+        private void AddItems(EPPlusReadOnlyList<Object> items, XmlNode itemsNode, Dictionary<object, int> cacheLookup)
         {
-            if (updateCacheLookup)
-            {
-                _cacheLookup = new Dictionary<object, int>(new CacheComparer());
-            }
+            cacheLookup = new Dictionary<object, int>(new CacheComparer());
 
             foreach (XmlElement c in itemsNode.ChildNodes)
             {
@@ -589,17 +612,15 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     items.Add(ExcelPivotTable.PivotNullValue);
                 }
-                if(updateCacheLookup)
+                
+                var key = items[items.Count - 1];
+                if (_cacheLookup.ContainsKey(key))
                 {
-                    var key = items[items.Count - 1];
-                    if (_cacheLookup.ContainsKey(key))
-                    {
-                        items._list.Remove(key);
-                    }
-                    else
-                    {
-                        _cacheLookup.Add(key, items.Count - 1);
-                    }
+                    items._list.Remove(key);
+                }
+                else
+                {
+                    cacheLookup.Add(key, items.Count - 1);
                 }
             }
         }
@@ -652,7 +673,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void SetNumericGroup(int baseIndex, double start, double end, double interval)
         {
             var groupNode = CreateNode("d:fieldGroup"); //Create group topNode
-            var Grouping = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
+            Grouping = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
             SetXmlNodeBool("d:sharedItems/@containsNumber", true);
             SetXmlNodeBool("d:sharedItems/@containsInteger", true);
             SetXmlNodeBool("d:sharedItems/@containsSemiMixedTypes", false);
@@ -682,7 +703,9 @@ namespace OfficeOpenXml.Table.PivotTable
             double index = start;
             double nextIndex = start + interval;
             GroupItems.Clear();
-            AddGroupItem(groupItemsNode, "<" + start.ToString(CultureInfo.CurrentCulture));
+			_groupLookup = new Dictionary<object, int>();
+
+			AddGroupItem(groupItemsNode, "<" + start.ToString(CultureInfo.CurrentCulture));
 
             while (index < end)
             {
@@ -693,7 +716,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             AddGroupItem(groupItemsNode, ">" + index.ToString(CultureInfo.CurrentCulture));
 
-            UpdateCacheLookupFromItems(GroupItems._list);
+            UpdateCacheLookupFromItems(GroupItems._list, ref _groupLookup);
             return items;
         }
         private int AddDateGroupItems(ExcelPivotTableFieldGroup group, eDateGroupBy GroupBy, DateTime StartDate, DateTime EndDate, int interval)
@@ -701,6 +724,7 @@ namespace OfficeOpenXml.Table.PivotTable
             XmlElement groupItemsNode = group.TopNode.SelectSingleNode("d:groupItems", group.NameSpaceManager) as XmlElement;
             int items = 2;
 			GroupItems.Clear();
+            _groupLookup = new Dictionary<object, int>(new CacheComparer());
             //First date
             AddGroupItem(groupItemsNode, "<" + StartDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
 
@@ -777,18 +801,18 @@ namespace OfficeOpenXml.Table.PivotTable
             //Lastdate
             AddGroupItem(groupItemsNode, ">" + EndDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
             
-            UpdateCacheLookupFromItems(GroupItems._list);
+            UpdateCacheLookupFromItems(GroupItems._list, ref _groupLookup);
 
             return items;
         }
 
-        private void UpdateCacheLookupFromItems(List<object> items)
+        private void UpdateCacheLookupFromItems(List<object> items, ref Dictionary<object, int>  cacheLookup)
         {
-            _cacheLookup = new Dictionary<object, int>(new CacheComparer());
+            cacheLookup = new Dictionary<object, int>(new CacheComparer());
             for (int i = 0; i < items.Count; i++)
             {
                 var key = items[i];
-                if (!_cacheLookup.ContainsKey(key)) _cacheLookup.Add(key, i);
+                if (!cacheLookup.ContainsKey(key)) cacheLookup.Add(key, i);
             }
         }
 
@@ -805,6 +829,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var s = groupItems.OwnerDocument.CreateElement("s", ExcelPackage.schemaMain);
             s.SetAttribute("v", value);
             groupItems.AppendChild(s);
+            _groupLookup.Add(value, GroupItems.Count);
             GroupItems.Add(value);
         }
 
@@ -813,11 +838,11 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void Refresh()
         {
             if (!string.IsNullOrEmpty(Formula)) return;
-            if (Grouping == null)
+            if (IsRowColumnOrPage)
             {
                 UpdateSharedItems();
             }
-            else
+            if(Grouping!=null)
             {
                 UpdateGroupItems();
             }
@@ -906,7 +931,7 @@ namespace OfficeOpenXml.Table.PivotTable
 				}
 			}
 			SharedItems._list = hs.ToList();
-			if(Grouping==null) UpdateCacheLookupFromItems(SharedItems._list);
+			UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
 			if (HasSlicer)
 			{
 				UpdateSlicers();
@@ -976,7 +1001,18 @@ namespace OfficeOpenXml.Table.PivotTable
             return o;
         }
 
-    }
+		internal Dictionary<object, int> GetCacheLookup()
+		{
+			if(Grouping == null)
+            {
+                return _cacheLookup;
+            }
+            else
+            {
+                return _groupLookup;
+            }
+		}
+	}
 
     internal class CacheComparer : IEqualityComparer<object>
     {

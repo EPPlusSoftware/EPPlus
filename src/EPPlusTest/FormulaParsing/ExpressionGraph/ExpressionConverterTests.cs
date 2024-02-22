@@ -27,7 +27,7 @@
 //  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
 // *******************************************************************************/
 //using System;
-//using System.Text;
+//using System.String;
 //using System.Collections.Generic;
 //using System.Linq;
 //using Microsoft.VisualStudio.TestTools.UnitTesting;

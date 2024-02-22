@@ -8,26 +8,16 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/21/2020         EPPlus Software AB           Controls 
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-namespace OfficeOpenXml.Drawing.Controls
+namespace OfficeOpenXml.Style
 {
-    /// <summary>
-    /// String orientation in a shape
-    /// </summary>
-    public enum eShapeOrientation
+	internal enum NumberFormatType
     {
-        /// <summary>
-        /// Auto orientation
-        /// </summary>
-        Auto,
-        /// <summary>
-        /// Top To Bottom 
-        /// </summary>
-        TopToBottom,
-        /// <summary>
-        /// Bottom To Top
-        /// </summary>
-        BottomToTop,
-    }
+        Unset = -1,
+        General,
+        Numeric,
+		Date,
+        String
+	}
 }

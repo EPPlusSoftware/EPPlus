@@ -204,7 +204,7 @@ using FakeItEasy;
 //        {
 //            var tokens = new List<Token>
 //            {
-//                new Token("Text", TokenType.Function),
+//                new Token("String", TokenType.Function),
 //                new Token("(", TokenType.OpeningParenthesis),
 //                new Token("2", TokenType.Integer),
 //                new Token(",", TokenType.Comma),
@@ -239,7 +239,7 @@ using FakeItEasy;
 //        {
 //            var tokens = new List<Token>
 //            {
-//                new Token("Text", TokenType.Function),
+//                new Token("String", TokenType.Function),
 //                new Token("(", TokenType.OpeningParenthesis),
 //                new Token("{", TokenType.OpeningEnumerable),
 //                new Token("2", TokenType.Integer),

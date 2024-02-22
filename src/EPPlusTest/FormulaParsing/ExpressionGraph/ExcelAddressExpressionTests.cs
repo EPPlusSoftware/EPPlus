@@ -167,7 +167,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             using (var sheet = package.Workbook.Worksheets.Add("NewSheet"))
             using (var excelDataProvider = new EpplusExcelDataProvider(package))
             {
-                sheet.Cells[1, 1].RichText.Text = "Value";
+                sheet.Cells[1, 1].RichText.String = "Value";
                 var rangeAddressFactory = new RangeAddressFactory(excelDataProvider);
                 using (parsingContext.Scopes.NewScope(rangeAddressFactory.Create("NewSheet", 3, 3)))
                 {

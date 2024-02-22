@@ -49,8 +49,8 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 		[TestMethod]
 		public void DateGroupYearMonthCalculation()
 		{
-			var ws = _pck.Workbook.Worksheets.Add("PivotYearGrouping");
-			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableYearGrouping");
+			var ws = _pck.Workbook.Worksheets.Add("PivotMonthGrouping");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableMonthGrouping");
 			var rf = pt.RowFields.Add(pt.Fields[4]);
 			rf.AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months);
 			var df = pt.DataFields.Add(pt.Fields["Price"]);
@@ -61,6 +61,38 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0, 0]]);
 			Assert.AreEqual(12.2, pt.CalculatedItems[0][[0, 1]]);
 			Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue, int.MaxValue]]);
+		}
+		[TestMethod]
+		public void DateGroupYearMonthDayCalculation()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotDayGrouping");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDayGrouping");
+			var rf = pt.RowFields.Add(pt.Fields[4]);
+			rf.AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days);
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			pt.CacheDefinition.Refresh();
+
+			pt.Calculate();
+			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0, 0, 31]]);
+			Assert.AreEqual(12.2, pt.CalculatedItems[0][[0, 1, 31+28]]);
+			Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue, int.MaxValue, int.MaxValue]]);
+		}
+		[TestMethod]
+		public void DateGroupNumberCalculation()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotNumberGrouping");
+			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableNumberGrouping");
+			var rf = pt.RowFields.Add(pt.Fields["Price"]);
+			rf.AddNumericGrouping(0, 500, 50);
+			var df = pt.DataFields.Add(pt.Fields["Price"]);
+			pt.CacheDefinition.Refresh();
+
+
+			pt.Calculate();
+			Assert.AreEqual(114.42, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(157.9, pt.CalculatedItems[0][[1]]);
+			Assert.AreEqual(173.2, pt.CalculatedItems[0][[3]]);
+			Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue]]);
 		}
 
 	}

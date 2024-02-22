@@ -2122,7 +2122,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   Setting this flag to true is equivalent to setting <see
-        ///   cref="ProvisionalAlternateEncoding"/> to <c>System.Text.Encoding.UTF8</c>.
+        ///   cref="ProvisionalAlternateEncoding"/> to <c>System.String.Encoding.UTF8</c>.
         /// </para>
         ///
         /// <para>
@@ -2215,7 +2215,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code>
         ///   using (var zip = new ZipFile())
         ///   {
-        ///      zip.AlternateEnoding = System.Text.Encoding.GetEncoding("ibm861");
+        ///      zip.AlternateEnoding = System.String.Encoding.GetEncoding("ibm861");
         ///      zip.AlternateEnodingUsage = ZipOption.Always;
         ///      zip.AddFileS(arrayOfFiles);
         ///      zip.Save("Myarchive-Encoded-in-IBM861.zip");
@@ -2270,7 +2270,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         // /// </remarks>
         // ///
         // /// <seealso cref="ZipFile.ProvisionalAlternateEncoding" />
-        // public System.Text.Encoding ActualEncoding
+        // public System.String.Encoding ActualEncoding
         // {
         //     get
         //     {

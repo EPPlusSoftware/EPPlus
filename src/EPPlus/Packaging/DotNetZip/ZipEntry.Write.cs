@@ -531,9 +531,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
 
-        // private System.Text.Encoding GenerateCommentBytes()
+        // private System.String.Encoding GenerateCommentBytes()
         // {
-        //     var getEncoding = new Func<System.Text.Encoding>({
+        //     var getEncoding = new Func<System.String.Encoding>({
         //     switch (AlternateEncodingUsage)
         //     {
         //         case ZipOption.Always:

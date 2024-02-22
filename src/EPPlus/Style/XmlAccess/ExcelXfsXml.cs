@@ -226,7 +226,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         string textRotationPath = "d:alignment/@textRotation";
         int _textRotation = 0;
         /// <summary>
-        /// Text rotation angle
+        /// String rotation angle
         /// </summary>
         public int TextRotation
         {

@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         NoAutofit,
         /// <summary>
-        /// Text within the text body will be normally autofit
+        /// String within the text body will be normally autofit
         /// </summary>
         NormalAutofit,
         /// <summary>

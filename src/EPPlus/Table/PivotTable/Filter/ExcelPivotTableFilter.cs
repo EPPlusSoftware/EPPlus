@@ -474,7 +474,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         var value = pivotTable.Fields[Fld].CacheField.SharedItems[index].ToString();
         switch (Type)
         {
-            //Caption filters (Text)
+            //Caption filters (String)
             case ePivotTableFilterType.CaptionEqual:
                 return value.Equals(StringValue1, StringComparison.InvariantCultureIgnoreCase);
             case ePivotTableFilterType.CaptionNotEqual:

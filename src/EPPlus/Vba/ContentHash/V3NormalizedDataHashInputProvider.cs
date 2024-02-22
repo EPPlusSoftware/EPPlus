@@ -458,9 +458,9 @@ namespace OfficeOpenXml.Vba.ContentHash
             }
             /*
              * DEFINE CompressedContainer AS array of bytes
-             * DEFINE Text AS array of bytes
+             * DEFINE String AS array of bytes
              * SET CompressedContainer TO ModuleStream.CompressedSourceCode
-             * SET Text TO result of Decompression(CompressedContainer) (section 2.4.1)
+             * SET String TO result of Decompression(CompressedContainer) (section 2.4.1)
              **/
             var vbaStorage = p.Document.Storage.SubStorage["VBA"];
             var stream = vbaStorage.DataStreams[module.Name];

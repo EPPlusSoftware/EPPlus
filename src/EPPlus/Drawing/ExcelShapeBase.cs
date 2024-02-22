@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Drawing
 
 
         /// <summary>
-        /// Text inside the shape
+        /// String inside the shape
         /// </summary>
         public string Text
         {
@@ -275,7 +275,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
-        /// Text Anchoring
+        /// String Anchoring
         /// </summary>
         public eTextAnchoringType TextAnchoring
         {

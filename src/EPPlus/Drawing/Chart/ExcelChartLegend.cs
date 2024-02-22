@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Drawing.Chart
         ExcelDrawingEffectStyle _effect = null;
         /// <summary>
         /// Effects on the legend shape. 
-        /// Note that the Text effects are set using the <see cref="TextSettings"/> property.
+        /// Note that the String effects are set using the <see cref="TextSettings"/> property.
         /// </summary>
         public ExcelDrawingEffectStyle Effect
         {
@@ -267,7 +267,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 		ExcelDrawingTextSettings _textSettings = null;
 		/// <summary>
-		/// Text settings like fills, text outlines and effects 
+		/// String settings like fills, text outlines and effects 
 		/// </summary>
 		public ExcelDrawingTextSettings TextSettings
 		{

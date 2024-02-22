@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Drawing.Controls
             set;
         }
         /// <summary>
-        /// Text orientation
+        /// String orientation
         /// </summary>
         public eShapeOrientation Orientation
         {
@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Drawing.Controls
             set;
         }
         /// <summary>
-        /// Text Anchoring for the text body
+        /// String Anchoring for the text body
         /// </summary>
         internal eTextAnchoringType TextAnchor
         {

@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Drawing.Vml
             _ws = ws;
         }
         /// <summary>
-        /// The Text
+        /// The String
         /// </summary>
         public string Text 
         { 

@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
-    /// Text anchoring
+    /// String anchoring
     /// </summary>
     public enum eTextAnchoringType  
     {

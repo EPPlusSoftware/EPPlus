@@ -43,11 +43,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public bool HorizontalAlignment { get; set; }
         /// <summary>
-        /// Exclude Wrap Text
+        /// Exclude Wrap String
         /// </summary>
         public bool WrapText { get; set; }
         /// <summary>
-        /// Exclude Text Rotation
+        /// Exclude String Rotation
         /// </summary>
         public bool TextRotation { get; set; }
         /// <summary>

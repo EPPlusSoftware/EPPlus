@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         ExcelColorXml _color = null;
         const string _colorPath = "d:color";
         /// <summary>
-        /// Text color
+        /// String color
         /// </summary>
         public ExcelColorXml Color
         {

@@ -63,7 +63,7 @@ namespace OfficeOpenXml
         /// </summary>
         public char Delimiter { get; set; } = ',';
         /// <summary>
-        /// Text qualifier character. Default no TextQualifier (\0)
+        /// String qualifier character. Default no TextQualifier (\0)
         /// </summary>
         public char TextQualifier { get; set; } = '\0';
         /// <summary>
@@ -164,7 +164,7 @@ namespace OfficeOpenXml
         /// </summary>
         public bool FirstRowIsHeader { get; set; } = true;
         /// <summary>
-        /// Use the cells Text property with the applied culture.
+        /// Use the cells String property with the applied culture.
         /// This only applies to columns with no format set in the Formats collection.
         /// If SkipLinesBeginning is larger than zero, headers will still be read from the first row in the range.
         /// If a TextQualifier is set, non numeric and date columns will be wrapped with the TextQualifier
@@ -185,8 +185,8 @@ namespace OfficeOpenXml
         /// </summary>
         public string ThousandsSeparator { get; set; } = null;
         /// <summary>
-        /// What to replace Text Qualifiers inside a text, when Text Qualifiers is set.
-        /// Default is two Text Qualifiers characters. For example " is replaced with "".
+        /// What to replace String Qualifiers inside a text, when String Qualifiers is set.
+        /// Default is two String Qualifiers characters. For example " is replaced with "".
         /// </summary>
         public string EncodedTextQualifiers { get; set; } = null;
     }

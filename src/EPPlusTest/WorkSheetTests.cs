@@ -1392,7 +1392,7 @@ namespace EPPlusTest
             }
             catch //(Exception e)
             {
-                //Assert.AreEqual("Text delimiter is not closed in line : \"text with eol", e.Message, "Exception message");
+                //Assert.AreEqual("String delimiter is not closed in line : \"text with eol", e.Message, "Exception message");
                 exceptionThrown = true;
             }
             Assert.IsTrue(exceptionThrown, "Exception thrown");

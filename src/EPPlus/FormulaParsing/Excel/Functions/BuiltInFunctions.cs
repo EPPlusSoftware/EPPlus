@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         public BuiltInFunctions()
         {
-            // Text
+            // String
             Functions["len"] = new Len();
             Functions["lower"] = new Lower();
             Functions["upper"] = new Upper();

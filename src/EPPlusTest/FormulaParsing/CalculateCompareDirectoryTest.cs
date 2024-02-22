@@ -16,7 +16,7 @@ using System.Linq;
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;
-//using System.Text;
+//using System.String;
 //using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing
 {

@@ -1304,7 +1304,7 @@ namespace OfficeOpenXml
 				}
 				flds.Add(fldName);
 				node.SetAttribute("name", fldName);
-				if (cache.Fields[ix].Grouping == null)
+				if (cache.Fields[ix].IsRowColumnOrPage)
 				{
 					cache.Fields[ix].WriteSharedItems(node, NameSpaceManager);
 				}

@@ -37,7 +37,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         List,
         /// <summary>
-        /// Text length validation
+        /// String length validation
         /// </summary>
         TextLength,
         /// <summary>

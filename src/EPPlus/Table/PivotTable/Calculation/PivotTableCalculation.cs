@@ -71,23 +71,32 @@ namespace OfficeOpenXml.Table.PivotTable
                 calculatedItems.Add(dataFieldItems);
                 var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
                 keys.Add(keyDict);
-                var recs = ci.Records;
+				var recs = ci.Records;
                 var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
 				var pageFilterExists = pivotTable.PageFields.Count>0;
 				var captionFilterExists = pivotTable.Filters.Count>0;
+				var cacheField = df.Field.Cache;
 
-                for (var r = 0; r < recs.RecordCount; r++)
+				for (var r = 0; r < recs.RecordCount; r++)
                 {
                     var key = new int[fieldIndex.Count];
                     for (int i = 0; i < fieldIndex.Count; i++)
                     {
-                        key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
+						if (pivotTable.Fields[fieldIndex[i]].Grouping == null)
+						{
+							key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
+						}
+						else
+						{
+							key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[fieldIndex[i]][r]);
+						}
                     }
 
                     if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
-                       (captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
+                        (captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
                     {
-                        _calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, recs.CacheItems[df.Index][r], dataFieldItems, keyDict);
+						var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[df.Index][r]] : recs.CacheItems[df.Index][r];
+						_calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, v, dataFieldItems, keyDict);
                     }
                 }
 

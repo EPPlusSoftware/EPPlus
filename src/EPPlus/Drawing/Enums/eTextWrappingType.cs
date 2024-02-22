@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
-    /// Text wrapping
+    /// String wrapping
     /// </summary>
     public enum eTextWrappingType
     {

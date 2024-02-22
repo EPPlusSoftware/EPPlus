@@ -296,7 +296,7 @@ namespace OfficeOpenXml.Style
         internal const string COLOR_TINT_PATH = "d:rPr/d:color/@tint";
         internal const string RPR_PATH = "d:rPr";
         /// <summary>
-        /// Text color.
+        /// String color.
         /// Also see <seealso cref="ColorSettings"/>
         /// </summary>
         public Color Color

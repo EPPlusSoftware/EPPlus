@@ -974,7 +974,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         }
 
         /// <summary>
-        ///   A Text Encoding to use when encoding the filenames and comments for
+        ///   A String Encoding to use when encoding the filenames and comments for
         ///   all the ZipEntry items, during a ZipFile.Save() operation.
         /// </summary>
         /// <remarks>
@@ -1348,11 +1348,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             output.Password = "VerySecret!";
         ///             output.Encryption = EncryptionAlgorithm.WinZipAes256;
         ///             output.PutNextEntry("entry1.txt");
-        ///             byte[] buffer= System.Text.Encoding.ASCII.GetBytes("This is the content for entry #1.");
+        ///             byte[] buffer= System.String.Encoding.ASCII.GetBytes("This is the content for entry #1.");
         ///             output.Write(buffer,0,buffer.Length);
         ///             output.PutNextEntry("entry2.txt");  // this will be zero length
         ///             output.PutNextEntry("entry3.txt");
-        ///             buffer= System.Text.Encoding.ASCII.GetBytes("This is the content for entry #3.");
+        ///             buffer= System.String.Encoding.ASCII.GetBytes("This is the content for entry #3.");
         ///             output.Write(buffer,0,buffer.Length);
         ///         }
         ///     }
