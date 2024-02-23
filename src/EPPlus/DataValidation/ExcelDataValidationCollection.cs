@@ -71,14 +71,16 @@ namespace OfficeOpenXml.DataValidation
         {
             if(xr.LocalName == "dataValidations")
             {
-                //var subTree = xr.ReadSubtree();
-                //var nameSpace = xr.NamespaceURI;
-
-                //xr.ReadUntil
-                //var depth = xr.Depth;
+                var isEmpty = xr.IsEmptyElement;
+                var parentDepth = xr.Depth;
                 xr.Read();
-                //while(xr.ReadUntil(depth + 1,"dataValidation", "dataValidations"))
-                while (xr.LocalName != "dataValidations")
+
+                if (isEmpty)
+                {
+                    return;
+                }
+
+                while (xr.LocalName != "dataValidations" && xr.Depth > parentDepth)
                 {
                     var validation = ExcelDataValidationFactory.Create(xr, _worksheet);
 
@@ -96,55 +98,9 @@ namespace OfficeOpenXml.DataValidation
                             validation.Address._toRow, validation.Address._toCol, validation);
                     }
                     _validations.Add(validation);
-
-                    if(xr.LocalName != "dataValidation" && xr.LocalName != "dataValidations")
-                    {
-                        throw new AccessViolationException("DataValidations read to EOF");
-                    }
-
-                    //if(xr.LocalName != "dataValidations")
-                    //{
-                    //    xr.ReadUntil("dataValidation", "dataValidations");
-                    //    xr.ReadEndElement();
-                    //}
                 }
                 xr.Read();
-
-
-                //while (subTree.ReadToFollowing("dataValidation", nameSpace))
-                //{
-                //    var validation = ExcelDataValidationFactory.Create(subTree, _worksheet);
-
-                    //while (xr.ReadToDescendant("dataValidation", "dataValidations"))
-                    //{
-                    //}
-                    //do
-                    //{
-                    //    xr.Read();
-                    //    var validation = ExcelDataValidationFactory.Create(xr, _worksheet);
-
-                    //    if (validation.Address.Addresses != null)
-                    //    {
-                    //        for (int i = 0; i < validation.Address.Addresses.Count; i++)
-                    //        {
-                    //            _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
-                    //                validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol,
-                    //            validation.Address._toRow, validation.Address._toCol, validation);
-                    //    }
-                    //    _validations.Add(validation);
-
-                    //    if (xr.LocalName != "dataValidation")
-                    //    {
-                    //        xr.ReadUntil("dataValidation", "dataValidations");
-                    //    }
-
-                    //} while (xr.LocalName != "dataValidations");
-                }
+            }
             else
             {
                 IXmlLineInfo lineInfo = (IXmlLineInfo)xr;

@@ -65,12 +65,30 @@ namespace OfficeOpenXml.DataValidation
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
         {
             base.ReadClassSpecificXmlNodes(xr);
-            xr.Read();
             Formula = ReadFormula(xr, "formula1");
         }
 
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
+            T retVal;
+
+            if (xr.LocalName == "AlternateContent")
+            {
+                if(xr.IsEmptyElement == false)
+                {
+                    if (xr.ReadUntil(formulaIdentifier, "AlternateContent"))
+                    {
+                        xr.Read();
+                        retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                        xr.Read();
+
+                        xr.ReadUntil("Formula2", "dataValidation", "dataValidations");
+                        return retVal;
+                    }
+                }
+                xr.Read();
+            }
+
             if (xr.LocalName != formulaIdentifier)
             {
                 return DefineFormulaClassType(null, _workSheetName);
@@ -80,13 +98,20 @@ namespace OfficeOpenXml.DataValidation
             //bool isExt = xr.Prefix == "x14";
             bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
+            //Old Epplus files did not read extLst properly it is possible to not be extLst before DefineFormulaClassType
+            //and become extLst after. Therefore don't split the check to before and after.
             if (InternalValidationType == InternalValidationType.ExtLst || isExt)
+            {
                 xr.Read();
 
-            var retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
 
-            if (InternalValidationType == InternalValidationType.ExtLst || isExt)
                 xr.Read();
+            }
+            else
+            {
+                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+            }
 
             xr.Read();
 
