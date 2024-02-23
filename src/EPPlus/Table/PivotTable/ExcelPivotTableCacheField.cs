@@ -614,7 +614,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 
                 var key = items[items.Count - 1];
-                if (_cacheLookup.ContainsKey(key))
+                if (cacheLookup.ContainsKey(key))
                 {
                     items._list.Remove(key);
                 }

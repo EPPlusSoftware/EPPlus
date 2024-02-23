@@ -827,37 +827,36 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			Assert.AreEqual(1D, (double)ws.Cells["G11"].Value, 0.0000001);
 			Assert.AreEqual(1D, (double)ws.Cells["G12"].Value, 0.0000001);
 		}
-
 		[TestMethod]
-        public void PivotItemKeyTests()
-        {
-            //The pivot item key is used for aggregating items per row/column fields.
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 1));
+		public void GetPivotData_Grouping_Year()
+		{
+			var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_Index");
+			var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable24");
+            pt.RowFields.Add(pt.Fields[4]);
+			var df = pt.DataFields.Add(pt.Fields["Sales"]);
+			df.Function = DataFieldFunctions.Sum;
+			df.ShowDataAs.SetIndex();
+			pt.Calculate(true);
 
-            //2 row and 1 col
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, 0 }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, PivotCalculationStore.SumLevelValue }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, 0 }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 2));            
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, 0 }, 2));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 2));
-            
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, PivotCalculationStore.SumLevelValue }, 2));
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, 0 }, 2));
+			ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
+			ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\",\"State\",\"Västerås\")";
+			ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\",\"State\",\"San Fransico\")";
+			ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\")";
+			ws.Cells["G9"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"State\",\"Berlin\")";
+			ws.Cells["G10"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
+			ws.Cells["G11"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Asia\")";
+			ws.Cells["G12"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\")";
+			ws.Calculate();
 
-            //1 row and 2 col
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, 0, PivotCalculationStore.SumLevelValue }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, PivotCalculationStore.SumLevelValue }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, 0, 0 }, 1));
-            Assert.IsFalse(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue }, 1));
+			Assert.AreEqual(2.8137687555, (double)ws.Cells["G5"].Value, 0.0000001);
+			Assert.AreEqual(3.89731051345, (double)ws.Cells["G6"].Value, 0.0000001);
+			Assert.AreEqual(2.81376875552, (double)ws.Cells["G7"].Value, 0.0000001);
+			Assert.AreEqual(0D, ws.Cells["G8"].Value);
+			Assert.AreEqual(1D, (double)ws.Cells["G9"].Value, 0.0000001);
+			Assert.AreEqual(1D, (double)ws.Cells["G10"].Value, 0.0000001);
+			Assert.AreEqual(1D, (double)ws.Cells["G11"].Value, 0.0000001);
+			Assert.AreEqual(1D, (double)ws.Cells["G12"].Value, 0.0000001);
+		}
 
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, 0 }, 1));
-            Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, 0 }, 1));
-        }
-    }
+	}
 }
