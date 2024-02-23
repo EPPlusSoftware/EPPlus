@@ -114,3 +114,5 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 * ConditionalFormatting classes are now Internal. Interfaces for each class exist and have all relevant properties instead.
 #### ExcelHyperlink
 * Renamed misspelled properties `ColSpann` and `RowSpann` to `ColSpan` and `RowSpan` on the `ExcelHyperLink` class.
+#### Defined Names
+* EPPlus will now encode string values and in defined name .
