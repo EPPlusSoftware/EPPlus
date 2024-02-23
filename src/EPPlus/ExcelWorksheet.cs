@@ -3084,7 +3084,6 @@ namespace OfficeOpenXml
                     {
                         _dataValidations.ReadDataValidations(xr);
                     }
-
                     xr.Read(); //Read over ext end tag
 
                     stream.SetWriteToBuffer();

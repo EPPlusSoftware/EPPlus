@@ -1218,5 +1218,30 @@ namespace EPPlusTest.DataValidation
                 Assert.AreEqual("printOptions", xr.LocalName);
             }
         }
+
+        [TestMethod]
+        public void EnsureEmptyFormulasCanBeRead()
+        {
+            using(var package = OpenPackage("EmptyDataValidationsTest.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyValidations");
+
+                var validation = sheet.Cells["A1:B5"].DataValidation.AddDecimalDataValidation();
+
+                validation.Operator = ExcelDataValidationOperator.between;
+                validation.AllowBlank = true;
+
+                SaveAndCleanup(package);
+
+                var readPackage = OpenPackage("EmptyDataValidationsTest.xlsx");
+
+                var readSheet = readPackage.Workbook.Worksheets.FirstOrDefault();
+
+                var readValidation = readSheet.DataValidations[0].As.DecimalValidation;
+
+                Assert.IsNull(readValidation.Formula.Value);
+                Assert.IsNull(readValidation.Formula2.Value);
+            }
+        }
     }
 }

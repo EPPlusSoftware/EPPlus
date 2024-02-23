@@ -86,6 +86,8 @@ namespace OfficeOpenXml.DataValidation
                         return retVal;
                     }
                 }
+                //Read over AlternateContent end node.
+                //to DataValidation or dataValidations end node
                 xr.Read();
             }
 
@@ -93,9 +95,7 @@ namespace OfficeOpenXml.DataValidation
             {
                 return DefineFormulaClassType(null, _workSheetName);
             }
-            //xr.ReadUntil(formulaIdentifier, "dataValidations", "extLst");
 
-            //bool isExt = xr.Prefix == "x14";
             bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
             //Old Epplus files did not read extLst properly it is possible to not be extLst before DefineFormulaClassType

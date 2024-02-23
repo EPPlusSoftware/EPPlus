@@ -6122,14 +6122,5 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-        [TestMethod]
-        public void s1307test()
-        {
-            using(var package = OpenTemplatePackage("DataVal2ThreeEach.xlsx"))
-            {
-                var ws = package.Workbook.Worksheets[0];
-                SaveAndCleanup(package);
-            }
-        }
     }
 }
