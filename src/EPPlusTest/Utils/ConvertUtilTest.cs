@@ -254,15 +254,12 @@ namespace EPPlusTest.Utils
 
                 var text = cell.Text;
 
+                SwitchBackToCurrentCulture();
+
                 //Note: there are two different minus signs in the strings here intentionally.
-                //The first one should be unicode U+2212 Minus
-#if NET6_0_OR_GREATER
-                Assert.AreEqual("−4 489", text);
-#else
-                Assert.AreEqual("-4 489", text);
-#endif
+                //The oldChar should be unicode U+2212 'Minus'
+                Assert.AreEqual("-4 489", text.Replace('−','-'));
             }
-            SwitchBackToCurrentCulture();
         }
 
     }
