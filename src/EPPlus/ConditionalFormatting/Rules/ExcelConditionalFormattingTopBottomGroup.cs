@@ -17,6 +17,7 @@ using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -66,36 +67,46 @@ namespace OfficeOpenXml.ConditionalFormatting
                     UpdateCellValueCache();
                 }
 
-                switch (Type)
+
+                var rankResult = _ws.Workbook.FormulaParserManager.Parse(Formula, address.FullAddress, false).ToString();
+
+                ushort? temp = ushort.TryParse(rankResult, out ushort parseRes) ? parseRes : null;
+
+                if (temp.HasValue)
                 {
-                    case eExcelConditionalFormattingRuleType.Top:
-                        var sorted = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(Rank);
-                        if (sorted.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
-                    case eExcelConditionalFormattingRuleType.TopPercent:
-                        var percentDescending = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(cellValueCache.Count * Rank / 100);
-                        if (percentDescending.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
-                    case eExcelConditionalFormattingRuleType.Bottom:
-                        var bottomSorted = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(Rank);
-                        if (bottomSorted.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
-                    case eExcelConditionalFormattingRuleType.BottomPercent:
-                        var percentAscending = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(cellValueCache.Count * Rank / 100);
-                        if (percentAscending.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
+                    Rank = temp.Value;
+
+                    switch (Type)
+                    {
+                        case eExcelConditionalFormattingRuleType.Top:
+                            var sorted = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(Rank);
+                            if (sorted.Contains(_ws.Cells[address.Address].Value))
+                            {
+                                return true;
+                            }
+                            break;
+                        case eExcelConditionalFormattingRuleType.TopPercent:
+                            var percentDescending = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(cellValueCache.Count * Rank / 100);
+                            if (percentDescending.Contains(_ws.Cells[address.Address].Value))
+                            {
+                                return true;
+                            }
+                            break;
+                        case eExcelConditionalFormattingRuleType.Bottom:
+                            var bottomSorted = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(Rank);
+                            if (bottomSorted.Contains(_ws.Cells[address.Address].Value))
+                            {
+                                return true;
+                            }
+                            break;
+                        case eExcelConditionalFormattingRuleType.BottomPercent:
+                            var percentAscending = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(cellValueCache.Count * Rank / 100);
+                            if (percentAscending.Contains(_ws.Cells[address.Address].Value))
+                            {
+                                return true;
+                            }
+                            break;
+                    }
                 }
             }
             return false;
