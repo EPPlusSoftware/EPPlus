@@ -838,7 +838,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void Refresh()
         {
             if (!string.IsNullOrEmpty(Formula)) return;
-            if (IsRowColumnOrPage)
+            if (IsRowColumnOrPage || HasSlicer)
             {
                 UpdateSharedItems();
             }
@@ -887,50 +887,54 @@ namespace OfficeOpenXml.Table.PivotTable
 			var range = _cache.SourceRange;
 			if (range == null) return;
 			var column = range._fromCol + Index;
-			var hs = new HashSet<object>(new InvariantObjectComparer());
+			var siHs = new HashSet<object>(new InvariantObjectComparer());
 			var ws = range.Worksheet;
 			int toRow = _cache.GetMaxRow();
 
 			//Get unique values.
 			for (int row = range._fromRow + 1; row <= toRow; row++)
 			{
-				AddSharedItemToHashSet(hs, ws.GetValue(row, column));
+				AddSharedItemToHashSet(siHs, ws.GetValue(row, column));
 			}
-			//A pivot table cache can reference multiple Pivot tables, so we need to update them all
-			foreach (var pt in _cache._pivotTables)
-			{
-				var existingItems = new HashSet<object>(new InvariantObjectComparer());
-				var ptField = pt.Fields[Index];
-				var list = ptField.Items._list;
 
-				for (var ix = 0; ix < list.Count; ix++)
-				{
-					var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
-					if (!hs.Contains(v) || existingItems.Contains(v))
-					{
-						list.RemoveAt(ix);
-						ix--;
-					}
-					else
-					{
-						existingItems.Add(v);
-					}
-				}
-				var hasSubTotalSubt = list.Count > 0 && list[list.Count - 1].Type == eItemType.Default ? 1 : 0;
-				foreach (var c in hs)
-				{
-					if (!existingItems.Contains(c))
-					{
-						list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c });
-					}
-				}
+            if (Grouping == null)
+            {
+                //A pivot table cache can reference multiple Pivot tables, so we need to update them all
+                foreach (var pt in _cache._pivotTables)
+                {
+                    var existingItems = new HashSet<object>(new InvariantObjectComparer());
+                    var ptField = pt.Fields[Index];
+                    var list = ptField.Items._list;
 
-				if (list.Count > 0 && list[list.Count - 1].Type != eItemType.Default && ptField.GetXmlNodeBool("@defaultSubtotal", true) == true)
-				{
-					list.Add(new ExcelPivotTableFieldItem() { Type = GetItemTypeFromFunction(ptField.SubTotalFunctions), X = -1 });
-				}
-			}
-			SharedItems._list = hs.ToList();
+                    for (var ix = 0; ix < list.Count; ix++)
+                    {
+                        var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
+                        if (!siHs.Contains(v) || existingItems.Contains(v))
+                        {
+                            list.RemoveAt(ix);
+                            ix--;
+                        }
+                        else
+                        {
+                            existingItems.Add(v);
+                        }
+                    }
+                    var hasSubTotalSubt = list.Count > 0 && list[list.Count - 1].Type == eItemType.Default ? 1 : 0;
+                    foreach (var c in siHs)
+                    {
+                        if (!existingItems.Contains(c))
+                        {
+                            list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c });
+                        }
+                    }
+
+                    if (list.Count > 0 && list[list.Count - 1].Type != eItemType.Default && ptField.GetXmlNodeBool("@defaultSubtotal", true) == true)
+                    {
+                        list.Add(new ExcelPivotTableFieldItem() { Type = GetItemTypeFromFunction(ptField.SubTotalFunctions), X = -1 });
+                    }
+                } 
+            }
+			SharedItems._list = siHs.ToList();
 			UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
 			if (HasSlicer)
 			{

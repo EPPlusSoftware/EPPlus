@@ -856,12 +856,29 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void UpdateGroupItems(ExcelPivotTableCacheField cacheField, bool addTypeDefault)
         {
             XmlElement itemsNode = CreateNode("d:items") as XmlElement;
+
+            Dictionary<object, ExcelPivotTableFieldItem> existingHs = null;
+
+			if (_items != null)
+            {
+                existingHs = _items.ToDictionary(x => x.Value ?? ExcelPivotTable.PivotNullValue, y => y, new InvariantObjectComparer());
+            }
+
             _items = new ExcelPivotTableFieldItemsCollection(this);
             itemsNode.RemoveAll();
             for (int x = 0; x < cacheField.GroupItems.Count; x++)
             {
-                _items.AddInternal(new ExcelPivotTableFieldItem() { X = x, Value=cacheField.GroupItems[x] });               
-            }
+                var v = cacheField.GroupItems[x];
+
+				if (existingHs!=null && existingHs.TryGetValue(cacheField.GroupItems[x], out var item))
+                {
+                    _items.AddInternal(item);
+				}
+                else
+                {
+                    _items.AddInternal(new ExcelPivotTableFieldItem() { X = x, Value = v });
+				}
+			}
             if(addTypeDefault)
             {
                 _items.AddInternal(new ExcelPivotTableFieldItem() { Type = eItemType.Default});

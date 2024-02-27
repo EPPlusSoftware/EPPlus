@@ -60,7 +60,8 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns></returns>
         public bool Contains(object value)
         {
-            return _field.Cache._cacheLookup.ContainsKey(value);
+			var cl = _field.CacheField.GetCacheLookup();
+			return cl.ContainsKey(value);
         }
         /// <summary>
         /// Get the item with the value supplied. If the value does not exist, null is returned.
@@ -69,11 +70,12 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The pivot table field</returns>
         public ExcelPivotTableFieldItem GetByValue(object value)
         {
-            if(_field.Cache._cacheLookup.TryGetValue(value, out int ix))
+            var cl = _field.CacheField.GetCacheLookup();
+            if (cl.TryGetValue(value, out int ix))
             {
                 return _list[ix];
             }
-            return null;
+			return null;
         }
         /// <summary>
         /// Get the index of the item with the value supplied. If the value does not exist, null is returned.
@@ -82,7 +84,8 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The index of the item</returns>
         public int GetIndexByValue(object value)
         {
-            if (_field.Cache._cacheLookup.TryGetValue(value, out int ix))
+			var cl = _field.CacheField.GetCacheLookup();
+			if (cl.TryGetValue(value, out int ix))
             {
                 return ix;
             }
