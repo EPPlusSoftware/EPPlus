@@ -1,8 +1,11 @@
 ﻿# Features / Fixed issues - EPPlus 7
-## Version 7.0.9
+## Version 7.0.10
 ### Fixed issues 
 * Having a workbook with group drawings in group drawings caused EPPlus to fail on load.
 * Having #REF with a sheet reference when inserting a Row/Column caused the formula to become corrupt.
+* Invalid characters in the name parameter were not validated for the AddValue and AddFormula methods of ExcelNamedRangeCollection.
+* Defined names with string values was not xml encoded on saving the package.
+
 ## Version 7.0.9
 ### Fixed issues 
 * The formula tokenizer did not handle minus correctly before table addresses.

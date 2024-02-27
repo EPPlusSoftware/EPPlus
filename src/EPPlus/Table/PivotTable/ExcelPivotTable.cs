@@ -1242,7 +1242,6 @@ namespace OfficeOpenXml.Table.PivotTable
             UpdatePivotTableStyles();
             PivotTableXml.Save(Part.GetStream(FileMode.Create));
         }
-
         private void UpdatePivotTableStyles()
         {
             foreach (ExcelPivotTableAreaStyle a in Styles)
