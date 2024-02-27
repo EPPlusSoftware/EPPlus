@@ -1774,5 +1774,17 @@ namespace OfficeOpenXml.Drawing
                 d.GetPositionSize();
             }
 		}
+
+		/// <summary>
+        /// Will update positions and write it to the XML.
+        /// </summary>
+        internal void UpdatePositions()
+		{
+			foreach (ExcelDrawing d in _drawingsList)
+			{
+				d.AdjustPositionAndSize();
+				d.UpdatePositionAndSizeXml();
+			}
+		}
 	}
 }

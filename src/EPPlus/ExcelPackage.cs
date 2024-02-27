@@ -408,14 +408,15 @@ namespace OfficeOpenXml
             }
             Init();
             Load(templateStream, newStream, null);
-        }
-        /// <summary>
-        /// Create a new instance of the ExcelPackage class based on a stream
-        /// </summary>
-        /// <param name="newStream">The output stream. Must be an empty read/write stream.</param>
-        /// <param name="templateStream">This stream is copied to the output stream at load</param>
-        /// <param name="Password">Password to decrypted the template</param>
-        public ExcelPackage(Stream newStream, Stream templateStream, string Password)
+			_isExternalStream = true;
+		}
+		/// <summary>
+		/// Create a new instance of the ExcelPackage class based on a stream
+		/// </summary>
+		/// <param name="newStream">The output stream. Must be an empty read/write stream.</param>
+		/// <param name="templateStream">This stream is copied to the output stream at load</param>
+		/// <param name="Password">Password to decrypted the template</param>
+		public ExcelPackage(Stream newStream, Stream templateStream, string Password)
         {
             if (newStream.Length > 0)
             {
@@ -427,6 +428,7 @@ namespace OfficeOpenXml
             }
             Init();
             Load(templateStream, newStream, Password);
+            _isExternalStream = true;
         }
         #endregion
         /// <summary>
@@ -1331,7 +1333,7 @@ namespace OfficeOpenXml
                 _stream.Dispose();
                 _stream = null;
             }
-            _isExternalStream = true;
+            _isExternalStream = false;
             _isDisposed = false;
         }
 

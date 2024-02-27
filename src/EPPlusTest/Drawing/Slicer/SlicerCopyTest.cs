@@ -56,5 +56,27 @@ namespace EPPlusTest.Drawing.Slicer
 
             var copy = _pck.Workbook.Worksheets.Add("PivotTableSlicerCopy", ws);
         }
-    }
+		[TestMethod]
+		public void CopyPivotTableSlicerToExternalPackage()
+		{
+			var ws = _pck.Workbook.Worksheets.Add("PivotTableSlicerSourceExt");
+
+			LoadTestdata(ws);
+			var pt = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "Table3");
+			pt.RowFields.Add(pt.Fields[1]);
+			pt.DataFields.Add(pt.Fields[3]);
+			var slicer = ws.Drawings.AddPivotTableSlicer(pt.Fields[3]);
+			slicer.SetPosition(1, 0, 8, 0);
+
+			slicer.SetSize(200, 600);
+
+			using(var p2=new ExcelPackage())
+            {
+				var copy = p2.Workbook.Worksheets.Add("PivotTableSlicerCopy", ws);
+                Assert.AreEqual(8, copy.Drawings[0].From.Column);
+				Assert.AreEqual(1, copy.Drawings[0].From.Row);
+				SaveWorkbook("SlicerCopyNewWb.xlsx", p2);
+			}
+		}
+	}
 }

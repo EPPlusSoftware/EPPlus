@@ -86,8 +86,9 @@ namespace OfficeOpenXml
             {
                 await LoadAsync(stream, output, Password, cancellationToken).ConfigureAwait(false);
                 stream.Close();
-            }
-        }
+				_isExternalStream = true;
+			}
+		}
         /// <summary>
         /// Loads the specified package data from a stream.
         /// </summary>
@@ -98,14 +99,15 @@ namespace OfficeOpenXml
         public async Task LoadAsync(string filePath, Stream output, string password, CancellationToken cancellationToken = default)
         {
             await LoadAsync(new FileInfo(filePath), output, password, cancellationToken);
-        }
+			_isExternalStream = true;
+		}
 
-        /// <summary>
-        /// Loads the specified package data from a stream.
-        /// </summary>
-        /// <param name="input">The input.</param>
-        /// <param name="cancellationToken">The cancellation token</param>
-        public async Task LoadAsync(Stream input, CancellationToken cancellationToken = default)
+		/// <summary>
+		/// Loads the specified package data from a stream.
+		/// </summary>
+		/// <param name="input">The input.</param>
+		/// <param name="cancellationToken">The cancellation token</param>
+		public async Task LoadAsync(Stream input, CancellationToken cancellationToken = default)
         {
             await LoadAsync(input, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
         }

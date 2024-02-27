@@ -259,7 +259,8 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void CopyDrawing(ExcelPackage pck, XmlNamespaceManager nsm, ExcelWorksheet copy, ExcelWorksheet added)
         {
             //First copy the drawing XML                
-            string xml = copy.Drawings.DrawingXml.OuterXml;
+            copy.Drawings.UpdatePositions();
+			string xml = copy.Drawings.DrawingXml.OuterXml;
             var uriDraw = new Uri(string.Format("/xl/drawings/drawing{0}.xml", added.SheetId), UriKind.Relative);
             var partDraw = pck.ZipPackage.CreatePart(uriDraw, "application/vnd.openxmlformats-officedocument.drawing+xml", pck.Compression);
             StreamWriter streamDrawing = new StreamWriter(partDraw.GetStream(FileMode.Create, FileAccess.Write));
@@ -802,7 +803,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 var uriTbl = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
                 if (added.Workbook._nextPivotTableID < Id) added.Workbook._nextPivotTableID = Id;
 
-                xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@cacheId", tbl.NameSpaceManager).Value = Id.ToString();
                 xml = xmlDoc.OuterXml;
 
                 var partTbl = added._package.ZipPackage.CreatePart(uriTbl, ContentTypes.contentTypePivotTable, added._package.Compression);
