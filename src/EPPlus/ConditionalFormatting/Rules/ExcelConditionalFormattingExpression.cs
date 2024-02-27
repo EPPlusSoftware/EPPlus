@@ -12,6 +12,7 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Utils;
 using System.Globalization;
 using System.Xml;
 
@@ -67,12 +68,14 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             var cellValue = _ws.Cells[address.Address].Value;
             if (cellValue != null)
             {
-                calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
+                var result = _ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false);
+                calculatedFormula1 = string.Format(result.ToString(), CultureInfo.InvariantCulture);
                 if (ExcelErrorValue.IsErrorValue(calculatedFormula1))
                 {
                     return false;
                 }
-                return bool.Parse(calculatedFormula1);
+
+               return ConvertUtil.GetValueBool(result) ?? false;
             }
 
             return false;

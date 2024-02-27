@@ -17,7 +17,6 @@ namespace EPPlusTest.Style
                 var colString = "#" + ExcelColor.indexedColorAsColor[i].ToArgb().ToString("x8").ToUpper();
                 Assert.AreEqual(ExcelColor.indexedColors[i], colString);
             }
-            
         }
     }
 }

@@ -11,7 +11,6 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void CF_TopBottomShouldApply()
         {
-
             using (var pck = OpenPackage("CF_TopBottomApply.xlsx", true))
             {
                 var sheet = pck.Workbook.Worksheets.Add("topBottom");
@@ -41,18 +40,24 @@ namespace EPPlusTest.ConditionalFormatting
 
                 Assert.IsTrue(((ExcelConditionalFormattingTopBottomGroup)bottomPercent).ShouldApplyToCell(sheet.Cells["A1"]));
                 Assert.IsFalse(((ExcelConditionalFormattingTopBottomGroup)bottomPercent).ShouldApplyToCell(sheet.Cells["A18"]));
+            }
+        }
 
+        [TestMethod]
+        public void ShouldApplyDoesNotChangeCellValue()
+        {
+            using (var pck = OpenPackage("CF_TopBottomApplyCellValue.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("topBottomValue");
 
-                //var equal = sheet.Cells["B1:B10"].ConditionalFormatting.AddEqual();
+                for (int i = 1; i <= 20; i++)
+                {
+                    sheet.Cells[i, 1].Value = $"Text{i}";
+                }
 
-                //equal.Formula = "ROW()*5";
-
-                //var equalCast = (ExcelConditionalFormattingEqual)equal;
-
-                //for (int i = 1; i <= 10; i++)
-                //{
-                //    Assert.IsTrue(equalCast.ShouldApplyToCell(sheet.Cells[i, 2]));
-                //}
+                var top = sheet.Cells["A1:A20"].ConditionalFormatting.AddTop();
+                ((ExcelConditionalFormattingTopBottomGroup)top).ShouldApplyToCell(sheet.Cells["A1"]);
+                Assert.AreEqual("Text1", sheet.Cells["A1"].Value);
             }
         }
     }

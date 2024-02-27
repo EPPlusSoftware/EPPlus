@@ -115,6 +115,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var calcOption = new ExcelCalculationOption();
             calcOption.AllowCircularReferences = true;
+            calcOption.FollowDependencyChain = false;
             
             return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, _parsingContext.RangeAddressFactory.CreateCell(address), calcOption);
         }

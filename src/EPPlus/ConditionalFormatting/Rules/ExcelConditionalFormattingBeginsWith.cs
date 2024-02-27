@@ -156,7 +156,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
             {
-                if (_ws.Cells[Address.Start.Address].Value != null)
+                if (_ws.Cells[address.Start.Address].Value != null)
                 {
                     var cellString = _ws.Cells[address.Start.Address].Value.ToString();
 

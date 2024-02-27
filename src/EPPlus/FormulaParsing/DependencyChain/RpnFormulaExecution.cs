@@ -120,7 +120,10 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     catch (Exception ex)
                     {
-                        SetAndReturnValueError(depChain, ex, f);
+                        if(writeToCell)
+                        {
+                            SetAndReturnValueError(depChain, ex, f);
+                        }
                     }
                 }
             }
@@ -516,7 +519,17 @@ namespace OfficeOpenXml.FormulaParsing
             }
             catch (Exception ex)
             {
-                var errValue = SetAndReturnValueError(depChain, ex, f);
+                object errValue;
+
+                if (writeToCell)
+                {
+                    errValue = SetAndReturnValueError(depChain, ex, f);
+                }
+                else
+                {
+                    errValue = ExcelErrorValue.Create(eErrorType.Value);
+                }
+
                 f._tokenIndex=f._tokens.Count-1;
                 if(depChain._formulaStack.Count > 0)
                 {

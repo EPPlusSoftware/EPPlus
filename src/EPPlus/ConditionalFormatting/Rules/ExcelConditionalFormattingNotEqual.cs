@@ -62,7 +62,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
             {
-                if (_ws.Cells[Address.Start.Address].Value != null && string.IsNullOrEmpty(Formula) == false)
+                if (_ws.Cells[address.Start.Address].Value != null && string.IsNullOrEmpty(Formula) == false)
                 {
                     calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
                     var str = string.Format(_ws.Cells[address.Start.Address].Value.ToString(), CultureInfo.InvariantCulture);
