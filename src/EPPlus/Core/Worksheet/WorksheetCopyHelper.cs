@@ -798,11 +798,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 xmlDoc.LoadXml(xml);
                 xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@name", tbl.NameSpaceManager).Value = name;
 
-                int Id = added._package.Workbook._nextPivotTableID++;
+                int Id = added.Workbook._nextPivotTableID++;
                 var uriTbl = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
                 if (added.Workbook._nextPivotTableID < Id) added.Workbook._nextPivotTableID = Id;
 
-                xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@cacheId", tbl.NameSpaceManager).Value = Id.ToString();
                 xml = xmlDoc.OuterXml;
 
                 var partTbl = added._package.ZipPackage.CreatePart(uriTbl, ContentTypes.contentTypePivotTable, added._package.Compression);
