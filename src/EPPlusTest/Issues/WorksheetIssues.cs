@@ -241,5 +241,23 @@ namespace EPPlusTest
 				}
 			}
 		}
+		[TestMethod]
+		public void s618()
+		{
+			ExcelPackage.LicenseContext = LicenseContext.Commercial;
+
+			using (var package = OpenPackage("s618.xlsx", true))
+			{
+				var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
+				var range = worksheet.Cells[2, 1];
+				var comment = range.AddComment("Test Comment");
+				package.Save();
+				worksheet = package.Workbook.Worksheets[0];
+				range = worksheet.Cells[2, 1];
+				worksheet.Comments.Remove(range.Comment);
+				SaveAndCleanup(package);
+
+			}
+		}
 	}
 }
