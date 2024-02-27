@@ -1,11 +1,15 @@
-﻿# Features / Fixed issues - EPPlus 7
-## Version 7.0.9
+
+# Features / Fixed issues - EPPlus 7
+## Version 7.0.10
 ### Fixed issues 
 * Having a workbook with group drawings in group drawings caused EPPlus to fail on load.
 * Having #REF with a sheet reference when inserting a Row/Column caused the formula to become corrupt.
 * Files from 7.0.6 and prior with Data Validations would sometimes fail to be read.
 * Data Validations with AlternateContent nodes are now read if the Fallback node contains formulas.
 * Some cultures would sometimes get double negative signs in the .Text property of cells.
+* Invalid characters in the name parameter were not validated for the AddValue and AddFormula methods of ExcelNamedRangeCollection.
+* Defined names with string values was not xml encoded on saving the package.
+
 ## Version 7.0.9
 ### Fixed issues 
 * The formula tokenizer did not handle minus correctly before table addresses.

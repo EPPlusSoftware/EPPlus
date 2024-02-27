@@ -114,6 +114,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelNamedRange AddValue(string Name, object value)
         {
+			if (!ExcelAddressUtil.IsValidName(Name))
+			{
+				throw (new ArgumentException("Name contains invalid characters or is not valid."));
+			}
+			
             var item = new ExcelNamedRange(Name,_wb, _ws, _dic.Count);
             item.NameValue = value;
             AddName(Name, item);
@@ -128,6 +133,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelNamedRange AddFormula(string Name, string Formula)
         {
+			if (!ExcelAddressUtil.IsValidName(Name))
+			{
+				throw (new ArgumentException("Name contains invalid characters or is not valid."));
+			}
+			
             var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
             item.NameFormula = Formula;
             AddName(Name, item);
