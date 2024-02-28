@@ -73,8 +73,8 @@ namespace OfficeOpenXml.Table.PivotTable
                 keys.Add(keyDict);
 				var recs = ci.Records;
                 var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
-				var pageFilterExists = pivotTable.PageFields.Count>0;
-				var captionFilterExists = pivotTable.Filters.Count>0;
+				var captionFilterExists = captionFilters.Count > 0;
+				var pageFilterExists = pivotTable.PageFields.Count > 0;
 				var cacheField = df.Field.Cache;
 
 				for (var r = 0; r < recs.RecordCount; r++)

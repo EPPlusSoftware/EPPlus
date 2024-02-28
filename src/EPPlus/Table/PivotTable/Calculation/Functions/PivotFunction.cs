@@ -287,8 +287,8 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 			for (int i = 1; i < max; i++)
 			{
 				var newKey = GetKey(key, i);
-				if (IsNonTopLevel(newKey, colStartRef))
-				{
+				//if (IsNonTopLevel(newKey, colStartRef))
+				//{
 					if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
 					{
 						hs = new HashSet<int[]>(new ArrayComparer());
@@ -299,7 +299,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 						hs.Add(key);
 					}
 
-				}
+				//}
 				action(newKey, dataFieldItems, d);
 			}
 		}

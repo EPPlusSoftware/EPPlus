@@ -857,12 +857,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             XmlElement itemsNode = CreateNode("d:items") as XmlElement;
 
-            Dictionary<object, ExcelPivotTableFieldItem> existingHs = null;
-
-			if (_items != null)
-            {
-                existingHs = _items.ToDictionary(x => x.Value ?? ExcelPivotTable.PivotNullValue, y => y, new InvariantObjectComparer());
-            }
+            var existingHs = GetItemsDictionary();
 
             _items = new ExcelPivotTableFieldItemsCollection(this);
             itemsNode.RemoveAll();
@@ -884,7 +879,29 @@ namespace OfficeOpenXml.Table.PivotTable
                 _items.AddInternal(new ExcelPivotTableFieldItem() { Type = eItemType.Default});
             }
         }
-        private void AddDateGrouping(eDateGroupBy groupBy, DateTime startDate, DateTime endDate, int groupInterval)
+
+		private Dictionary<object, ExcelPivotTableFieldItem> GetItemsDictionary()
+		{
+            if(_items==null)
+            {
+                return null;
+            }
+            else
+            {
+				var ret = new Dictionary<object, ExcelPivotTableFieldItem>(InvariantObjectComparer.Instance); ;
+                foreach(var item in _items)
+                {
+                    var key = item.Value ?? ExcelPivotTable.PivotNullValue;
+                    if(!ret.ContainsKey(key))
+                    {
+                        ret.Add(key, item);
+                    }
+				}
+                return ret;
+			}
+		}
+
+		private void AddDateGrouping(eDateGroupBy groupBy, DateTime startDate, DateTime endDate, int groupInterval)
         {
              if (groupInterval < 1 || groupInterval >= Int16.MaxValue)
             {
@@ -1051,19 +1068,19 @@ namespace OfficeOpenXml.Table.PivotTable
 			switch (dg.GroupBy)
 			{
 				case eDateGroupBy.Years:
-					return dt.Year - startDate.Year;
+					return dt.Year - startDate.Year + 1;
 				case eDateGroupBy.Quarters:
-					return (((dt.Month - (dt.Month - 1) % 3) + 1) / 3) - 1;
+					return (((dt.Month - (dt.Month - 1) % 3) + 1) / 3) + 1;
 				case eDateGroupBy.Months:
-					return dt.Month - 1;
+					return dt.Month;
 				case eDateGroupBy.Days:
 					return GetDayGroupIndex(dg, startDate, dt);
 				case eDateGroupBy.Hours:
-					return dt.Hour - 1;
+					return dt.Hour;
 				case eDateGroupBy.Minutes:
-					return dt.Minute - 1;
+					return dt.Minute;
 				case eDateGroupBy.Seconds:
-					return dt.Second - 1;
+					return dt.Second;
 			}
 			return -1;
 		}

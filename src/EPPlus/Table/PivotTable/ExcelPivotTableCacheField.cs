@@ -662,7 +662,9 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else
             {
-                SetXmlNodeString("d:fieldGroup/d:rangePr/@endDate", EndDate.ToString("s", CultureInfo.InvariantCulture));
+                var endDate = EndDate > EndDate.Date ? EndDate.Date.AddDays(1) : EndDate.Date;
+
+				SetXmlNodeString("d:fieldGroup/d:rangePr/@endDate", endDate.ToString("s", CultureInfo.InvariantCulture));
                 SetXmlNodeString("d:fieldGroup/d:rangePr/@autoEnd", "0");
             }
 

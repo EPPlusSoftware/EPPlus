@@ -294,9 +294,8 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get;
             private set;
-        }        
-        internal bool IsCalculated { get; set; }
-        //internal List<Dictionary<int[], object>> CalculatedItems = null;
+        }
+        internal bool IsCalculated { get; set; } = false;
         internal List<Dictionary<int[], HashSet<int[]>>> Keys = null;
         internal List<PivotCalculationStore> CalculatedItems = null;
         /// <summary>
@@ -326,15 +325,30 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if (criteria[j].Field.Index == keyFieldIndex[i])
                     {
-                        if (criteria[j].Field.CacheField._cacheLookup.ContainsKey(criteria[j].Value))
+                        var cache = criteria[j].Field.CacheField.GetCacheLookup();
+                        
+                        var isGrouping = criteria[j].Field.Grouping != null;
+
+						if (isGrouping)
+						{
+							var errorValue = GetGroupingKey(criteria, ref key, i, j, cache);
+                            if(errorValue!=null)
+                            {
+                                return errorValue;
+                            }
+						}
+						else
                         {
-                            key[i] = criteria[j].Field.CacheField._cacheLookup[criteria[j].Value];
-                        }
-                        else
-                        {
-                            return ErrorValues.RefError;
-                        }
-                        break;
+							var v = criteria[j].Value;
+                            if (cache.ContainsKey(v))
+                            {
+                                key[i] = cache[v];
+                            }
+                            else
+                            {
+                                return ErrorValues.RefError;
+                            }
+						}
                     }
                 }
             }
@@ -364,7 +378,60 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return 0d;
         }
-        private string CleanDisplayName(string name)
+
+		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
+		{
+			if (criteria[j].Field.DateGrouping == eDateGroupBy.Years)
+			{
+				var sy = criteria[j].Value.ToString();
+
+				if (cache.ContainsKey(sy))
+				{
+					key[i] = cache[sy];
+				}
+				else
+				{
+					return ErrorValues.RefError;
+				}
+			}
+			else if (criteria[j].Value is string s)
+			{
+				if (cache.ContainsKey(s))
+				{
+					key[i] = cache[s];
+				}
+				else
+				{
+					return ErrorValues.RefError;
+				}
+			}
+			else
+			{
+				if (criteria[j].Value == null)
+				{
+					if (cache.ContainsKey(ExcelPivotTable.PivotNullValue))
+					{
+						key[i] = cache[ExcelPivotTable.PivotNullValue] - 1;
+					}
+				}
+				else
+				{
+					var d = ConvertUtil.GetValueDouble(criteria[j].Value, true, true);
+					if (double.IsNaN(d))
+					{
+						return ErrorValues.RefError;
+					}
+					else
+					{
+						var index = Convert.ToInt32(d);
+						key[i] = index;
+					}
+				}
+			}
+            return null;
+		}
+
+		private string CleanDisplayName(string name)
         {
             return Regex.Replace(name, @"[^\w\.-_]", "_");
         }

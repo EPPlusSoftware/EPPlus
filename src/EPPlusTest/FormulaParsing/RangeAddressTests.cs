@@ -16,7 +16,7 @@
 //    {
 //        private ParsingContext _context;
 //        private ExcelPackage _package;
-//        private ExcelWorksheet _sheet;
+//        private ExcelWorksheet _dateWs1;
 //        private ExcelDataProvider _excelDataProvider;
 //        private ExpressionGraphBuilder _graphBuilder;
 //        private RpnExpressionCompiler _expressionCompiler;
@@ -25,7 +25,7 @@
 //        public void Initialize()
 //        {
 //            _package = new ExcelPackage();
-//            _sheet = _package.Workbook.Worksheets.Add("test");
+//            _dateWs1 = _package.Workbook.Worksheets.Add("test");
 //            _context = ParsingContext.Create(_package);
 //            _excelDataProvider = new EpplusExcelDataProvider(_package, _context);
 //            _context.ExcelDataProvider = _excelDataProvider;
