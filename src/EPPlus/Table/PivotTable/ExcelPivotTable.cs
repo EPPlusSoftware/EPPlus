@@ -376,12 +376,40 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return value;
             }
-            return 0d;
-        }
+			return ErrorValues.RefError;
+		}
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
 		{
-			if (criteria[j].Field.DateGrouping == eDateGroupBy.Years)
+			if(criteria[j].Field.Grouping is ExcelPivotTableFieldNumericGroup grp)
+            {
+                var s = (criteria[j].Value ?? "").ToString();
+                if(s=="<")
+                {
+                    key[i] = -1;
+				}
+                else if(s==">")
+                {
+					key[i] = int.MaxValue-1;
+				}
+                else
+                {
+					var n = ConvertUtil.GetValueDouble(criteria[j].Value);
+					if(n==grp.End)
+                    {
+						key[i] = int.MaxValue - 1;
+					}
+                    else if (n % grp.Interval == 0)
+					{
+						key[i] = Convert.ToInt32((n- grp.Start) / grp.Interval);
+					}
+					else
+					{
+						return ErrorValues.RefError;
+					}
+				}
+			}
+            else if (criteria[j].Field.DateGrouping == eDateGroupBy.Years)
 			{
 				var sy = criteria[j].Value.ToString();
 

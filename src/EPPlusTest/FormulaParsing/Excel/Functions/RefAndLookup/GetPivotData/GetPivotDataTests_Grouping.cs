@@ -259,5 +259,59 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			Assert.AreEqual(550D, (double)ws.Cells["G9"].Value);
 			Assert.AreEqual(ErrorValues.RefError, ws.Cells["G10"].Value);
 		}
+		[TestMethod]
+		public void GetPivotData_Grouping_Numbers()
+		{
+			var ws = _package.Workbook.Worksheets.Add("NumberGroup");
+			var pt = ws.PivotTables.Add(ws.Cells["A1"], _dateWs2.Cells["A1:D100"], "PivotTable7");
+			var rf = pt.RowFields.Add(pt.Fields["NumValue"]);
+			rf.AddNumericGrouping(0,100,10);
+			var df = pt.DataFields.Add(pt.Fields["NumFormattedValue"]);
+			df.Function = DataFieldFunctions.Sum;
+			pt.Calculate(true);
+
+			ws.Cells["G5"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",0)";
+			ws.Cells["G6"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",20)";
+			ws.Cells["G7"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",60)";
+			ws.Cells["G8"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",90)";
+			ws.Cells["G9"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1)";
+			ws.Cells["G10"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",200)";
+			ws.Cells["G11"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",17)";
+
+			ws.Calculate();
+
+			Assert.AreEqual(1452D, (double)ws.Cells["G5"].Value);
+			Assert.AreEqual(8085D, (double)ws.Cells["G6"].Value);
+			Assert.AreEqual(21285D, (double)ws.Cells["G7"].Value);
+			Assert.AreEqual(34485D, (double)ws.Cells["G8"].Value);
+			Assert.AreEqual(166617D, (double)ws.Cells["G9"].Value);
+			Assert.AreEqual(ErrorValues.RefError, ws.Cells["G10"].Value);
+			Assert.AreEqual(ErrorValues.RefError, ws.Cells["G11"].Value);
+		}
+		[TestMethod]
+		public void GetPivotData_Grouping_Numbers_Intervall_Over_And_Under()
+		{
+			var ws = _package.Workbook.Worksheets.Add("NumberGroup_OverUnder");
+			var pt = ws.PivotTables.Add(ws.Cells["A1"], _dateWs2.Cells["A1:D100"], "PivotTable7");
+			var rf = pt.RowFields.Add(pt.Fields["NumValue"]);
+			rf.AddNumericGrouping(30, 70, 10);
+			var df = pt.DataFields.Add(pt.Fields["NumFormattedValue"]);
+			df.Function = DataFieldFunctions.Sum;
+			pt.Calculate(true);
+
+			ws.Cells["G5"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",\"<\")";
+			ws.Cells["G6"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",30)";
+			ws.Cells["G7"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",70)";
+			ws.Cells["G8"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1,\"NumValue\",\">\")";
+			ws.Cells["G9"].Formula = "GETPIVOTDATA(\"NumFormattedValue\",$A$1)";
+
+			ws.Calculate();
+
+			Assert.AreEqual(14322D, (double)ws.Cells["G5"].Value);
+			Assert.AreEqual(11385D, (double)ws.Cells["G6"].Value);
+			Assert.AreEqual(84645D, (double)ws.Cells["G7"].Value);
+			Assert.AreEqual(84645D, (double)ws.Cells["G8"].Value);
+			Assert.AreEqual(166617D, (double)ws.Cells["G9"].Value);
+		}
 	}
 }
