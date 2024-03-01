@@ -474,7 +474,7 @@ namespace OfficeOpenXml
                             }
                             else 
                             {
-                                cs = c.StyleID;
+                                s = cs = c.StyleID;
                                 break;
                             }
                         }
