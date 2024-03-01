@@ -13,14 +13,11 @@
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -72,21 +69,24 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public void ReadDataValidations(XmlReader xr)
         {
-            while (xr.Read())
+            if(xr.LocalName == "dataValidations")
             {
-                if(xr.LocalName != "dataValidation")
+                var isEmpty = xr.IsEmptyElement;
+                var parentDepth = xr.Depth;
+                xr.Read();
+
+                if (isEmpty)
                 {
-                    xr.Read();
-                    break;
+                    return;
                 }
 
-                if (xr.NodeType == XmlNodeType.Element)
+                while (xr.LocalName != "dataValidations" && xr.Depth > parentDepth)
                 {
                     var validation = ExcelDataValidationFactory.Create(xr, _worksheet);
 
-                    if(validation.Address.Addresses != null)
+                    if (validation.Address.Addresses != null)
                     {
-                        for(int i = 0; i< validation.Address.Addresses.Count; i++) 
+                        for (int i = 0; i < validation.Address.Addresses.Count; i++)
                         {
                             _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
                                 validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
@@ -94,11 +94,19 @@ namespace OfficeOpenXml.DataValidation
                     }
                     else
                     {
-                        _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol, 
+                        _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol,
                             validation.Address._toRow, validation.Address._toCol, validation);
                     }
                     _validations.Add(validation);
                 }
+                xr.Read();
+            }
+            else
+            {
+                IXmlLineInfo lineInfo = (IXmlLineInfo)xr;
+                throw new FormatException(
+                    $"{_worksheet} could not be read. dataValidations node could not be found." +
+                    $"Unexpected Node {xr.Name} at line {lineInfo.LineNumber} found instead.");
             }
         }
 
