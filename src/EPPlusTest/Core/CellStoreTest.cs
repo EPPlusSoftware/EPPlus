@@ -450,5 +450,23 @@ namespace EPPlusTest.Core
                 }   
             }
         }
-    }
+		[TestMethod]
+		public void DeleteVerifyRowOverPage()
+		{
+			//Setup
+			var cellStore = new CellStore<int>();
+
+            for(int row = 0; row < 15100; row++)
+            {
+                cellStore.SetValue(row,1,row);
+            }
+
+            cellStore.Delete(30, 1, 15000, 1);
+
+			Assert.AreEqual(1, cellStore.GetValue(1, 1));
+			Assert.AreEqual(29, cellStore.GetValue(29, 1));
+			Assert.AreEqual(15030, cellStore.GetValue(30, 1));
+		}
+
+	}
 }
