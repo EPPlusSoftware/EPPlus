@@ -200,5 +200,61 @@ namespace EPPlusTest
 
 			Assert.IsNotNull(workbook.Worksheets["[NEW2]"]);
         }
+
+		[TestMethod]
+		public void ShouldAdjustActiveSheetAfterMoveToStart()
+		{
+            var sheet2 = workbook.Worksheets.Add("NEW2");
+            var sheet3 = workbook.Worksheets.Add("NEW3");
+            var sheet4 = workbook.Worksheets.Add("NEW4");
+
+			workbook.View.ActiveTab = 2;
+
+			workbook.Worksheets.MoveToStart(sheet4.Name);
+
+			Assert.AreEqual(3, workbook.View.ActiveTab);
+        }
+
+        [TestMethod]
+        public void ShouldAdjustActiveSheetAfterMoveToEnd()
+        {
+            var sheet2 = workbook.Worksheets.Add("NEW2");
+            var sheet3 = workbook.Worksheets.Add("NEW3");
+            var sheet4 = workbook.Worksheets.Add("NEW4");
+
+            workbook.View.ActiveTab = 2;
+
+            workbook.Worksheets.MoveToEnd(0);
+
+            Assert.AreEqual(1, workbook.View.ActiveTab);
+        }
+
+        [TestMethod]
+        public void ShouldAdjustActiveSheetAfterMoveBefore()
+        {
+            var sheet2 = workbook.Worksheets.Add("NEW2");
+            var sheet3 = workbook.Worksheets.Add("NEW3");
+            var sheet4 = workbook.Worksheets.Add("NEW4");
+
+            workbook.View.ActiveTab = 2;
+
+			workbook.Worksheets.MoveBefore(3, 1);
+
+            Assert.AreEqual(3, workbook.View.ActiveTab);
+        }
+
+        [TestMethod]
+        public void ShouldAdjustActiveSheetAfterMoveAfter()
+        {
+            var sheet2 = workbook.Worksheets.Add("NEW2");
+            var sheet3 = workbook.Worksheets.Add("NEW3");
+            var sheet4 = workbook.Worksheets.Add("NEW4");
+
+            workbook.View.ActiveTab = 2;
+
+            workbook.Worksheets.MoveAfter(0, 3);
+
+            Assert.AreEqual(1, workbook.View.ActiveTab);
+        }
     }
 }
