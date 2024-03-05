@@ -343,6 +343,7 @@ namespace OfficeOpenXml.Core
         private void AddThreadedComments(ExcelWorksheet worksheet)
         {
             var cse = new CellStoreEnumerator<int>(worksheet._threadedCommentsStore, _sourceRange._fromRow, _sourceRange._fromCol, _sourceRange._toRow, _sourceRange._toCol);
+            
             while (cse.Next())
             {
                 var row = cse.Row;

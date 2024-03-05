@@ -322,7 +322,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if (c.Index.Value >= 0)
                 {
-                    ret = ExcelColor.GetIndexedColor(c.Index.Value);
+                    ret = c._styles.GetIndexedColor(c.Index.Value);
                 }
                 else
                 {

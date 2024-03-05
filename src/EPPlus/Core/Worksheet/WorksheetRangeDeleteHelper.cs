@@ -33,7 +33,8 @@ namespace OfficeOpenXml.Core.Worksheet
             ValidateRow(ws, rowFrom, rows);
             lock (ws)
             {
-                var delRange = new ExcelAddressBase(rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns);
+				ws.Drawings.ReadPositionsAndSize();
+				var delRange = new ExcelAddressBase(rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns);
                 WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange);
 
                 DeleteCellStores(ws, rowFrom, 0, rows, ExcelPackage.MaxColumns + 1);
@@ -93,7 +94,8 @@ namespace OfficeOpenXml.Core.Worksheet
             ValidateColumn(ws, columnFrom, columns);
             lock (ws)
             {
-                AdjustColumnMinMaxDelete(ws, columnFrom, columns);
+				ws.Drawings.ReadPositionsAndSize();
+				AdjustColumnMinMaxDelete(ws, columnFrom, columns);
                 var delRange = new ExcelAddressBase(1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1);
                 WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange);
 

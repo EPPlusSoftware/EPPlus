@@ -226,7 +226,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             if (Index != null)
             {
-                return ExcelColor.GetIndexedColor(Index.Value);
+                return _styles.GetIndexedColor(Index.Value);
             }
             else if (Color != null)
             {
@@ -253,9 +253,9 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
         internal string LookupColor()
         {
-            if (Index >= 0 && Index < ExcelColor.indexedColors.Length)
+            if (Index >= 0 && Index < _styles.IndexedColors.Length)
             {
-                return ExcelColor.indexedColors[Index.Value];
+                return _styles.IndexedColors[Index.Value];
             }
             else if (Color != null)
             {

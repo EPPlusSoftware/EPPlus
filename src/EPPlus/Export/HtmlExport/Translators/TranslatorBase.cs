@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             }
             else if (c.Indexed >= 0)
             {
-                ret = ExcelColor.GetIndexedColor(c.Indexed);
+                ret = theme._wb.Styles.GetIndexedColor(c.Indexed);
             }
             else
             {
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             {
                 if (c.Index.Value >= 0)
                 {
-                    ret = ExcelColor.GetIndexedColor(c.Index.Value);
+                    ret = c._styles.GetIndexedColor(c.Index.Value);
                 }
                 else
                 {

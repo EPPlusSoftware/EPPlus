@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
+using System.IO;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 namespace EPPlusTest
 {
 	[TestClass]
@@ -119,8 +121,143 @@ namespace EPPlusTest
 
 				SaveAndCleanup(package);
 			}
+		}
+		[TestMethod]
+		public void s610()
+		{
+			using(var p=OpenTemplatePackage("s610.xlsx"))
+			{
+				var wTestSheet = p.Workbook.Worksheets[0];
+				//wTestSheet.Name = "Sheet2";
+				//wTestSheet.View.UnFreezePanes();
+				wTestSheet.InsertColumn(1, 2);
+				SaveAndCleanup(p);
+			}
+		}
+		[TestMethod]
+		public void s614()
+		{
+			using (var package = OpenTemplatePackage("s614.xlsx"))
+			{
+				int sheetIndex = 5;
+				var sheetName = $"Data Sheet_{sheetIndex}";
+				var worksheet = package.Workbook.Worksheets[sheetName];
+				worksheet.Name = "TestSheet_{sheetIndex}";
 
+				worksheet.InsertColumn(1, 2);
+				worksheet.Cells.Style.Font.Name = "ＭＳ Ｐゴシック";
+				worksheet.Cells.Style.Font.Size = 11;
 
+				worksheet.Cells[1, 1].Value = "TextTextTextTextTextTextTextTextTextTextTextText";
+
+				worksheet.Column(1).AutoFit();
+				worksheet.Column(2).AutoFit();
+
+				package.Save();
+			}
+		}
+		[TestMethod]
+		public void s616()
+		{
+			using (var package = OpenTemplatePackage("s616.xlsx"))
+			{
+				var Sheet1 = package.Workbook.Worksheets[$"Data Sheet_1"];
+				Sheet1.InsertColumn(1, 2);
+				var Sheet2 = package.Workbook.Worksheets[$"Data Sheet_2"];
+				Sheet2.InsertColumn(1, 2);
+				var Sheet3 = package.Workbook.Worksheets[$"Data Sheet_3"];
+				Sheet3.InsertColumn(1, 2);
+
+				SaveAndCleanup(package);
+			}
+		}
+		[TestMethod]
+		public void i1313()
+		{
+			using (var package = OpenTemplatePackage("SpecialNameValue.xlsx"))
+			{
+				var sheet = package.Workbook.Worksheets[0];
+				SaveAndCleanup(package);
+			}
+		}
+		[TestMethod]
+		public void i1314()
+		{
+			using (var package = OpenTemplatePackage("i1314-2.xlsx"))
+			{
+				foreach (ExcelWorksheet w in package.Workbook.Worksheets)
+				{
+					if (w.Tables.Count() > 0)
+					{
+						var dt = w.Tables.First();
+						if (w == package.Workbook.Worksheets.First()) // First sheet contains the table to be filled by the RAT results
+						{
+							var RowIx = 2;
+							for (int r = 1; r <= 5; r++)
+							{
+								int c = 0;
+
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1418;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "AfnameNaam";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = r;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "VraagNaam";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 6.2;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "A";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "B";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 4;
+								var rowRange = dt.AddRow();
+								RowIx = rowRange.Start.Row;
+							}
+
+							//dt.WorkSheet.Calculate();
+							dt.WorkSheet.Cells.AutoFitColumns();
+							w.Calculate();
+						}
+
+					}
+				}
+				package.Save();
+				package.Dispose();
+			}
+		}
+		[TestMethod]
+		public void i1317()
+		{
+			using (var package = new ExcelPackage())
+			{
+				var sheet = package.Workbook.Worksheets.Add("Sheet1");
+				package.Workbook.Names.AddValue("ValueName1", 1);
+				package.Workbook.Names.AddValue("ValueName2", 2.23);
+				package.Workbook.Names.AddValue("ValueName3", true);
+				package.Workbook.Names.AddValue("ValueName4", "String Value");
+				package.Workbook.Names.AddValue("ValueName5", "String Value with \"");
+
+				package.Save();
+				//SaveWorkbook("i1317.xlsx",package);
+				using(var p2=new  ExcelPackage(package.Stream)) 
+				{
+					var ws = p2.Workbook.Worksheets[0];
+				}
+			}
+		}
+		[TestMethod]
+		public void s618()
+		{
+			ExcelPackage.LicenseContext = LicenseContext.Commercial;
+
+			using (var package = OpenPackage("s618.xlsx", true))
+			{
+				var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
+				var range = worksheet.Cells[2, 1];
+				var comment = range.AddComment("Test Comment");
+				package.Save();
+				worksheet = package.Workbook.Worksheets[0];
+				range = worksheet.Cells[2, 1];
+				worksheet.Comments.Remove(range.Comment);
+				SaveAndCleanup(package);
+
+			}
 		}
 	}
 }

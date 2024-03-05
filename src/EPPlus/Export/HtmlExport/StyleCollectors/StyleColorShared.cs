@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             }
             else if (color.Indexed >= 0)
             {
-                ret = ExcelColor.GetIndexedColor(color.Indexed);
+                ret = theme._wb.Styles.GetIndexedColor(color.Indexed);
             }
             else
             {

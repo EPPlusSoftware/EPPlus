@@ -594,5 +594,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(7, tokens.Count);
 			Assert.AreEqual(TokenType.TableColumn, tokens[4].TokenType);
 		}
+		[TestMethod]
+		public void ValidateMinusWithTableAddress()
+		{
+			var input = "IF(ROUND(table1[[#This Row],[Col1]],0)=ROUND(table1[[#This Row],[column2]],0),0,table1[[#This Row],[Column3]]-table1[[#This Row],[column4]])";
+			var tokens = _tokenizer.Tokenize(input);
+			Assert.AreEqual(58, tokens.Count);
+			Assert.AreEqual("]", tokens[45].Value);
+			Assert.AreEqual("-", tokens[46].Value);
+			Assert.AreEqual("table1", tokens[47].Value);
+		}
+
 	}
 }

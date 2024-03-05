@@ -39,7 +39,9 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {
-                InsertCellStores(ws, rowFrom, 0, rows, 0);
+				ws.Drawings.ReadPositionsAndSize();
+
+				InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 FixFormulasInsertRow(ws, rowFrom, rows);
 
@@ -96,6 +98,8 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {
+                ws.Drawings.ReadPositionsAndSize();
+                
                 InsertCellStores(ws, 0, columnFrom, 0, columns);
 
                 FixFormulasInsertColumn(ws, columnFrom, columns);
@@ -117,11 +121,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(ws, columnFrom, columns);
-
+			
                 //Adjust drawing positions.
-                WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
-            }
-        }
+				WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
+			}
+		}
 
         private static void InsertColumnPivotTable(ExcelWorksheet ws, int columnFrom, int columns)
         {
@@ -228,6 +232,39 @@ namespace OfficeOpenXml.Core.Worksheet
                 else
                 {
                     var cfr = ((ExcelConditionalFormattingRule)cf);
+
+                    if (newAddress.Addresses != null)
+                    {
+                        string addressList = "";
+                        for (int i = 0; i < newAddress.Addresses.Count(); i++)
+                        {
+                            if ((newAddress.Addresses[i]._toRow + 1 == range._fromRow) && shift != eShiftTypeInsert.Right)
+                            {
+                                newAddress.Addresses[i] = newAddress.Addresses[i].AddRow(range._fromRow, range.Rows, true, true, true);
+                            }
+
+                            if(newAddress.Addresses[i]._toCol + 1 == range._fromCol && shift != eShiftTypeInsert.Down)
+                            {
+                                if(range.IsFullColumn)
+                                {
+                                    newAddress.Addresses[i] = newAddress.Addresses[i].AddColumn(range._fromCol, range.Columns, true, true, true);
+                                }
+                                else if(newAddress.Addresses.Contains(range) == false)
+                                {
+                                    newAddress.Addresses.Add(range);
+                                }
+                            }
+
+                            addressList += newAddress.Addresses[i].Address;
+
+                            if (i < (newAddress.Addresses.Count()-1))
+                            {
+                                addressList += ",";
+                            }
+                        }
+                        newAddress = new ExcelAddress(addressList);
+                    }
+
                     if (cfr.Address.Address != newAddress.Address)
                     {
                         cfr.Address = new ExcelAddress(newAddress.Address);

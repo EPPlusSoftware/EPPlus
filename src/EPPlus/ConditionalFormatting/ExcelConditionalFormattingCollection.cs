@@ -72,7 +72,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 {
                                     xr.Read();
                                 }
-
+                                address = address.Replace(' ', ',');
                                 var cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
 
                                 //If cf exists in both local and ExtLst spaces

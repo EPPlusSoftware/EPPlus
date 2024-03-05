@@ -118,3 +118,5 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 ### Breaking Change From EPPlus 7.1
 #### Data Validation
 * Removed DataValidationStaleException as DataValidations cannot be stale since Epplus 7.
+#### Defined Names
+* EPPlus will now encode string values and in defined name .

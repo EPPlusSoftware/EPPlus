@@ -127,7 +127,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 if (c.Index.Value >= 0)
                 {
-                    ret = ExcelColor.GetIndexedColor(c.Index.Value);
+                    ret = theme._wb.Styles.GetIndexedColor(c.Index.Value);
                 }
                 else
                 {
