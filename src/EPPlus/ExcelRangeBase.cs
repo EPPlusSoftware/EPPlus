@@ -1364,12 +1364,12 @@ namespace OfficeOpenXml
         /// <summary>
         /// The richtext collection
         /// </summary>
-        protected internal ExcelRichTextCollection _rtc = null;
+        protected internal ExcelRichTextCollectionNew _rtc = null;
         /// <summary>
         /// The cell value is rich text formatted. 
         /// The RichText-property only apply to the left-top cell of the range.
         /// </summary>
-        public ExcelRichTextCollection RichText
+        public ExcelRichTextCollectionNew RichText
         {
             get
             {

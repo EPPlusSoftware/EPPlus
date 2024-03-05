@@ -1620,7 +1620,7 @@ namespace EPPlusTest
                 var cell = ws.Cells["D43"];
                 cell.Value += " ";
 
-                ExcelRichText rtx = cell.RichText.Add("a");
+                ExcelRichTextNew rtx = cell.RichText.Add("a");
 
                 rtx.VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
 

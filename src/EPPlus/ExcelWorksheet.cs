@@ -1305,24 +1305,6 @@ namespace OfficeOpenXml
         }
         const int BLOCKSIZE = 8192;
 
-        private string GetSheetDataTag(string s)
-        {
-            if (s.Length < 3) throw (new InvalidDataException("sheetData Tag not found"));
-            return s.Substring(1, s.Length - 2).Replace("/","");
-        }
-        private bool ReadUntil(XmlReader xr, int depth, params string[] tagName)
-        {
-            if (xr.EOF) return false;
-            while ((xr.Depth == depth && Array.Exists(tagName, tag => Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false)
-            {
-                do
-                {
-                    xr.Read();
-                    if (xr.EOF) return false;
-                } while (xr.Depth != depth);
-            }
-            return (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
-        }
         private void LoadColumns(XmlReader xr)//(string xml)
         {
             if (xr.ReadUntil(1, "cols", "sheetData"))
@@ -1456,33 +1438,19 @@ namespace OfficeOpenXml
             }
             delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
-        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r)
+        internal ExcelRichTextCollectionNew GetRichText(int row, int col, ExcelRangeBase r=null)
         {
-            XmlDocument xml = new XmlDocument();
-            var v = GetValueInner(row, col);
+            var v = GetCoreValueInner(row, col);
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
-            if (v != null)
+            
+            if(isRt)
             {
-                if (isRt)
-                {
-                    XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v.ToString() + "</d:si>", Encoding.UTF8);
-                }
-                else
-                {
-                    xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" ><d:r><d:t>" + OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(v.ToString()) + "</d:t></d:r></d:si>");
-                }
+                return (ExcelRichTextCollectionNew)v._value;
             }
             else
             {
-                xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" />");
-            }
-            if(r==null)
-            {
-                return new ExcelRichTextCollection(NameSpaceManager, xml.SelectSingleNode("d:si", NameSpaceManager), this);
-            }
-            else
-            {
-                return new ExcelRichTextCollection(NameSpaceManager, xml.SelectSingleNode("d:si", NameSpaceManager), r); 
+                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
+                return new ExcelRichTextCollectionNew(text); 
             }
         }
 
@@ -1806,8 +1774,8 @@ namespace OfficeOpenXml
             var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
             if (type == "s" && v is int ix)
             {
-                SetValueInner(row, col, _package.Workbook._sharedStringsList[ix].Text);
-                if (_package.Workbook._sharedStringsList[ix].isRichText)
+                SetValueInner(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText));
+                if (isRichText)
                 {
                     _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                 }
