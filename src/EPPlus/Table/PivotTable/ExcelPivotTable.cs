@@ -331,7 +331,8 @@ namespace OfficeOpenXml.Table.PivotTable
 
 						if (isGrouping)
 						{
-							var errorValue = GetGroupingKey(criteria, ref key, i, j, cache);                            if(errorValue!=null)
+							var errorValue = GetGroupingKey(criteria, ref key, i, j, cache);
+                            if(errorValue!=null)
                             {
                                 return errorValue;
                             }
@@ -376,7 +377,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return value;
             }
-            return hasGrouping ? ErrorValues.RefError : 0D;
+            return hasGrouping?ErrorValues.RefError:0D;
 		}
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)

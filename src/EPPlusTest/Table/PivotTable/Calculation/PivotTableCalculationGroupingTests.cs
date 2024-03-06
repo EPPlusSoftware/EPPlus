@@ -44,7 +44,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			
 
 			pt.Calculate();
-			Assert.AreEqual(445.52, pt.CalculatedItems[0][[0]]);
+			Assert.AreEqual(445.52, pt.CalculatedItems[0][[1]]);
 		}
 		[TestMethod]
 		public void DateGroupYearMonthCalculation()
@@ -58,8 +58,8 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 
 
 			pt.Calculate();
-			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0, 0]]);
-			Assert.AreEqual(12.2, pt.CalculatedItems[0][[0, 1]]);
+			Assert.AreEqual(85.2, pt.CalculatedItems[0][[1, 1]]);
+			Assert.AreEqual(12.2, pt.CalculatedItems[0][[1, 2]]);
 			Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue, int.MaxValue]]);
 		}
 		[TestMethod]
@@ -73,8 +73,8 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			pt.CacheDefinition.Refresh();
 
 			pt.Calculate();
-			Assert.AreEqual(85.2, pt.CalculatedItems[0][[0, 0, 31]]);
-			Assert.AreEqual(12.2, pt.CalculatedItems[0][[0, 1, 31+28]]);
+			Assert.AreEqual(85.2, pt.CalculatedItems[0][[1, 1, 31]]);
+			Assert.AreEqual(12.2, pt.CalculatedItems[0][[1, 2, 31+28]]);
 			Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue, int.MaxValue, int.MaxValue]]);
 		}
 		[TestMethod]
