@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTableFieldNumericGroup(XmlNamespaceManager ns, XmlNode topNode) :
             base(ns, topNode)
         {
-        }
+		}
         const string startPath = "d:rangePr/@startNum";
         /// <summary>
         /// Start value
@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return (double)GetXmlNodeDoubleNull(startPath);
+                return GetXmlNodeDoubleNull(startPath) ?? 0D;
             }
             private set
             {
@@ -47,12 +47,13 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return (double)GetXmlNodeDoubleNull(endPath);
+                return GetXmlNodeDoubleNull(endPath)??0;
             }
             private set
             {
                 SetXmlNodeString(endPath, value.ToString(CultureInfo.InvariantCulture));
-            }
+                CalculateEndIsDivisibleWithInterval();
+			}
         }
         const string groupIntervalPath = "d:rangePr/@groupInterval";
         /// <summary>
@@ -62,12 +63,20 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return (double)GetXmlNodeDoubleNull(groupIntervalPath);
+                return GetXmlNodeDoubleNull(groupIntervalPath) ?? 0D;
             }
             private set
-            {
-                SetXmlNodeString(groupIntervalPath, value.ToString(CultureInfo.InvariantCulture));
-            }
-        }
-    }
+			{
+				SetXmlNodeString(groupIntervalPath, value.ToString(CultureInfo.InvariantCulture));
+				CalculateEndIsDivisibleWithInterval();
+			}
+		}
+
+		internal void CalculateEndIsDivisibleWithInterval()
+		{
+			EndIsDivisibleWithInterval = End % Interval == 0;
+		}
+
+		internal bool EndIsDivisibleWithInterval { get; private set; }
+	}
 }

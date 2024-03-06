@@ -1058,18 +1058,18 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     return -1;
                 }
-                else if(d >= ng.End)
+                else if(d > ng.End)
                 {
-                    if(d==ng.End)
-                    {
-                        return (int)((d - ng.Start) / ng.Interval)-1;
-					}
-                    else
-                    {
-                        return int.MaxValue - 1;
-                    }
+                    return int.MaxValue - 1;
                 }
-                return (int)((d - ng.Start) / ng.Interval);
+                else if(d == ng.End && ng.EndIsDivisibleWithInterval)
+                {
+                    return (int)((d - ng.Start) / ng.Interval) - 1;
+				}
+                else
+                {
+					return (int)((d - ng.Start) / ng.Interval);
+				}
 			}
 			return 0;
 		}

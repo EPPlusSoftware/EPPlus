@@ -291,7 +291,6 @@ namespace EPPlusTest
         }
         protected static ExcelRangeBase LoadHierarkiTestData(ExcelWorksheet ws)
         {
-
             var l = new List<SalesData>
             {
                 new SalesData{ Continent="Europe", Country="Sweden", State = "Stockholm", Sales = 154 },

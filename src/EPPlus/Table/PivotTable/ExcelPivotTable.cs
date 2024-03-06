@@ -317,7 +317,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             var keyFieldIndex = RowColumnFieldIndicies;
             var key=new int[keyFieldIndex.Count];
-
+            var hasGrouping = false;
             for (int i=0;i < keyFieldIndex.Count;i++)
             {
                 key[i] = PivotCalculationStore.SumLevelValue;
@@ -331,11 +331,11 @@ namespace OfficeOpenXml.Table.PivotTable
 
 						if (isGrouping)
 						{
-							var errorValue = GetGroupingKey(criteria, ref key, i, j, cache);
-                            if(errorValue!=null)
+							var errorValue = GetGroupingKey(criteria, ref key, i, j, cache);                            if(errorValue!=null)
                             {
                                 return errorValue;
                             }
+                            hasGrouping = true;
 						}
 						else
                         {
@@ -376,7 +376,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return value;
             }
-			return ErrorValues.RefError;
+            return hasGrouping ? ErrorValues.RefError : 0D;
 		}
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
@@ -399,7 +399,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
 						key[i] = int.MaxValue - 1;
 					}
-                    else if (n % grp.Interval == 0)
+                    else if (Math.Round(n % grp.Interval, 12) == 0 || Math.Round(n % grp.Interval, 12) == grp.Interval)
 					{
 						key[i] = Convert.ToInt32((n- grp.Start) / grp.Interval);
 					}

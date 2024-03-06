@@ -675,17 +675,19 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void SetNumericGroup(int baseIndex, double start, double end, double interval)
         {
             var groupNode = CreateNode("d:fieldGroup"); //Create group topNode
-            Grouping = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
-            SetXmlNodeBool("d:sharedItems/@containsNumber", true);
+            var grp = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
+			
+			SetXmlNodeBool("d:sharedItems/@containsNumber", true);
             SetXmlNodeBool("d:sharedItems/@containsInteger", true);
             SetXmlNodeBool("d:sharedItems/@containsSemiMixedTypes", false);
             SetXmlNodeBool("d:sharedItems/@containsString", false);
 
-			Grouping.BaseIndex = baseIndex;
-			Grouping.TopNode.InnerXml += string.Format("<rangePr autoStart=\"0\" autoEnd=\"0\" startNum=\"{0}\" endNum=\"{1}\" groupInterval=\"{2}\"/><groupItems />",
+			grp.BaseIndex = baseIndex;
+			grp.TopNode.InnerXml += string.Format("<rangePr autoStart=\"0\" autoEnd=\"0\" startNum=\"{0}\" endNum=\"{1}\" groupInterval=\"{2}\"/><groupItems />",
                 start.ToString(CultureInfo.InvariantCulture), end.ToString(CultureInfo.InvariantCulture), interval.ToString(CultureInfo.InvariantCulture));
-
-            int items = AddNumericGroupItems(start, end, interval);
+            grp.CalculateEndIsDivisibleWithInterval();
+            Grouping = grp;
+			int items = AddNumericGroupItems(start, end, interval);
         }
 
         private int AddNumericGroupItems(double start, double end, double interval)
