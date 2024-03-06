@@ -1449,8 +1449,11 @@ namespace OfficeOpenXml
             }
             else
             {
+                _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                 var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
-                return new ExcelRichTextCollectionNew(text); 
+                var item = new ExcelRichTextCollectionNew(text, Workbook);
+                SetValue(row, col, item);
+                return item; 
             }
         }
 

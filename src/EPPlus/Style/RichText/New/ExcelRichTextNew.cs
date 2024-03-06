@@ -89,20 +89,20 @@ namespace OfficeOpenXml.Style
                     case "strike":
                         Strike = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
                         break;
-                    case "outline":
-                        Outline = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                        break;
-                    case "shadow":
-                        Shadow = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                        break;
-                    case "condense":
-                        Condense = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                        break;
-                    case "extend":
-                        Extend = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                        break;
+                    //case "outline":
+                    //    Outline = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                    //    break;
+                    //case "shadow":
+                    //    Shadow = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                    //    break;
+                    //case "condense":
+                    //    Condense = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                    //    break;
+                    //case "extend":
+                    //    Extend = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                    //    break;
                     case "color":
-                        ColorSettings = new ExcelRichTextColorNew(xr);
+                        ColorSettings = new ExcelRichTextColorNew(xr, this);
                         break;
                     case "sz":
                         if(ConvertUtil.TryParseNumericString(xr.GetAttribute("val"),out double num)) 
@@ -112,14 +112,14 @@ namespace OfficeOpenXml.Style
                         break;
                     case "u":
                         UnderLineType = GetUnderlineType(xr.GetAttribute("val"));
-                        UnderLine = UnderLineType != ExcelUnderLineType.None;
+                        //UnderLine = UnderLineType != ExcelUnderLineType.None;
                         break;
                     case "vertAlign":
                         VerticalAlign = xr.GetAttribute("val").ToEnum<ExcelVerticalAlignmentFont>(ExcelVerticalAlignmentFont.None);
                         break;
-                    case "scheme":
-                        Scheme = xr.GetAttribute("val").ToEnum<eThemeFontCollectionType>(eThemeFontCollectionType.None);
-                        break;
+                    //case "scheme":
+                    //    Scheme = xr.GetAttribute("val").ToEnum<eThemeFontCollectionType>(eThemeFontCollectionType.None);
+                    //    break;
                 }
             }
         }
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Style
                 case "doubleAccounting":
                     return ExcelUnderLineType.DoubleAccounting;
                 default:
-                    return ExcelUnderLineType.None;
+                    return ExcelUnderLineType.Single;
             }
         }
 
@@ -171,22 +171,6 @@ namespace OfficeOpenXml.Style
                 {
                     sb.Append($"<strike/>");
                 }
-                if (Outline)
-                {
-                    sb.Append($"<outline/>");
-                }
-                if (Shadow)
-                {
-                    sb.Append($"<shadow/>");
-                }
-                if (Condense)
-                {
-                    sb.Append($"<condense/>");
-                }
-                if (Extend)
-                {
-                    sb.Append($"<extend/>");
-                }
                 if (Color != Color.Empty)
                 {
                     ColorSettings.AppendXml(sb);
@@ -203,10 +187,27 @@ namespace OfficeOpenXml.Style
                 {
                     sb.Append($"<vertAlign val=\"{VerticalAlign.ToEnumString()}\"/>");
                 }
-                if (Scheme != null && Scheme != eThemeFontCollectionType.None)
-                {
-                    sb.Append($"<scheme val=\"{Scheme.ToEnumString()}\"/>");
-                }
+                //NOT SUPPORTED
+                //if (Outline)
+                //{
+                //    sb.Append($"<outline/>");
+                //}
+                //if (Shadow)
+                //{
+                //    sb.Append($"<shadow/>");
+                //}
+                //if (Condense)
+                //{
+                //    sb.Append($"<condense/>");
+                //}
+                //if (Extend)
+                //{
+                //    sb.Append($"<extend/>");
+                //}
+                //if (Scheme != null && Scheme != eThemeFontCollectionType.None)
+                //{
+                //    sb.Append($"<scheme val=\"{Scheme.ToEnumString()}\"/>");
+                //}
                 sb.Append("</rPr>");
             }            
             sb.Append($"<t{ValueHasWhiteSpaces()}>");
@@ -217,7 +218,7 @@ namespace OfficeOpenXml.Style
 
         string ValueHasWhiteSpaces()
         {
-            if(Text != null && Text.Length > 1)
+            if(Text != null && Text.Length > 0)
             {
                 if(char.IsWhiteSpace(Text[0]) || char.IsWhiteSpace(Text[Text.Length - 1]))
                 {
@@ -238,12 +239,12 @@ namespace OfficeOpenXml.Style
                     Color == Color.Empty &&
                     Charset == null &&
                     Family == null &&
-                    Outline == false &&
-                    Shadow == false &&
-                    Condense == false &&
-                    Extend == false &&
-                    UnderLineType == null &&
-                    Scheme == null;
+                    UnderLineType == null;
+                    //Outline == false &&
+                    //Shadow == false &&
+                    //Condense == false &&
+                    //Extend == false &&
+                    //Scheme == null;
             } 
         }
 
@@ -319,17 +320,51 @@ namespace OfficeOpenXml.Style
         /// <seealso cref="Color"/>
         /// </summary>
         public ExcelRichTextColorNew ColorSettings { get; set; }
+
         /// <summary>
         /// A referens to the richtext collection
         /// </summary>
         public ExcelRichTextCollectionNew _collection { get; set; }
-        public int? Charset { get; private set; }
-        public int? Family { get; private set; }
-        public bool Outline { get; private set; }
-        public bool Shadow { get; private set; }
-        public bool Condense { get; private set; }
-        public bool Extend { get; private set; }
-        public ExcelUnderLineType? UnderLineType { get; private set; }
-        public eThemeFontCollectionType? Scheme { get; private set; }
+
+        /// <summary>
+        /// Characterset to use
+        /// </summary>
+        public int? Charset { get; set; }
+
+        /// <summary>
+        /// Font family
+        /// </summary>
+        public int? Family { get; set; }
+
+        /// <summary>
+        /// Underline type of text
+        /// </summary>
+        public ExcelUnderLineType? UnderLineType { get; set; }
+
+        //NOT SUPPOERTED
+        ///// <summary>
+        ///// Scheme of the text
+        ///// </summary>
+        //public eThemeFontCollectionType? Scheme { get; set; }
+
+        ///// <summary>
+        ///// Outline the text
+        ///// </summary>
+        //public bool Outline { get; set; }
+
+        ///// <summary>
+        ///// Apply shadow to text
+        ///// </summary>
+        //public bool Shadow { get; set; }
+
+        ///// <summary>
+        ///// condense the text
+        ///// </summary>
+        //public bool Condense { get; set; }
+
+        ///// <summary>
+        ///// Extend the text
+        ///// </summary>
+        //public bool Extend { get; set; }
     }
 }

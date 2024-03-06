@@ -378,6 +378,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             var vTag = prefix + "v";
             var nsf = _package.Workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository.NamespaceFunctions;
             StringBuilder sbXml = new StringBuilder();
+            _package.Workbook._sharedStringsLookup = new Dictionary<string, int>();
+            _package.Workbook._sharedStringsListNew = new List<SharedStringItemBase>();
             var ssLookup = _package.Workbook._sharedStringsLookup;
             var ssList = _package.Workbook._sharedStringsListNew;
             var cache = new StringBuilder();

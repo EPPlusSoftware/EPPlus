@@ -45,6 +45,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System.Runtime.InteropServices;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml
 {
@@ -324,8 +325,10 @@ namespace OfficeOpenXml
                         }
 						else if(xr.LocalName =="r" && xr.NodeType == XmlNodeType.Element)
 						{
-                            _sharedStringsListNew.Add(new SharedStringRichTextItem() { RichText = new ExcelRichTextCollectionNew(xr, this), Position = index++ });
-						}
+							var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollectionNew(xr, this), Position = index++ };
+                            _sharedStringsListNew.Add(item);
+                            _sharedStringsLookup.Add(item.RichText.GetXML(), index++);
+                        }
 					}
 				}
 

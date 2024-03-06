@@ -54,8 +54,9 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        internal ExcelRichTextCollectionNew(string s)
+        internal ExcelRichTextCollectionNew(string s, ExcelWorkbook wb)
         {
+            _wb = wb;
             var item = new ExcelRichTextNew(this);
             item.Text = s;
             _list.Add(item);

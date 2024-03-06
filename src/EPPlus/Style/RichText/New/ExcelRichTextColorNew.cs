@@ -34,8 +34,9 @@ namespace OfficeOpenXml.Style
             _rt = rt;
         }
 
-        public ExcelRichTextColorNew(XmlReader xr)
+        public ExcelRichTextColorNew(XmlReader xr, ExcelRichTextNew rt)
         {
+            _rt = rt;
             int num;
             Auto = ConvertUtil.GetValueBool(xr.GetAttribute("auto"))??false;
             if (int.TryParse(xr.GetAttribute("indexed"), NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
@@ -51,7 +52,8 @@ namespace OfficeOpenXml.Style
             {
                 Theme = (eThemeSchemeColor)num;
             }
-            if(ConvertUtil.TryParseNumericString(xr.GetAttribute("tint"), out double d))
+            var tint = xr.GetAttribute("tint");
+            if(ConvertUtil.TryParseNumericString(tint, out double d, CultureInfo.InvariantCulture))
             {
                 Tint = d;
             }
@@ -126,7 +128,7 @@ namespace OfficeOpenXml.Style
             }
             if (Rgb != Color.Empty)
             {
-                sb.Append($" rgb=\"{(Rgb.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"");
+                sb.Append($" rgb=\"{(Rgb.ToArgb()).ToString("X").PadLeft(8, '0')}\"");
             }
             if(Theme != null)
             {
