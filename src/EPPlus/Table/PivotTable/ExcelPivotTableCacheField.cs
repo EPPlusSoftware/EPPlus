@@ -17,6 +17,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -25,6 +26,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -366,60 +368,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 else
                 {
                     _cacheLookup.Add(si, index++);
-                    var t = si.GetType();
-                    var tc = Type.GetTypeCode(t);
-
-                    switch(tc)
-                    {
-                        case TypeCode.Byte:
-                        case TypeCode.SByte:
-                        case TypeCode.UInt16:
-                        case TypeCode.UInt32:
-                        case TypeCode.UInt64:
-                        case TypeCode.Int16:
-                        case TypeCode.Int32:
-                        case TypeCode.Int64:
-                        case TypeCode.Decimal:
-                        case TypeCode.Double:
-                        case TypeCode.Single:
-                            if (t.IsEnum)
-                            {
-                                AppendItem(shNode, "s", si.ToString());
-                            }
-                            else
-                            {
-                                AppendItem(shNode, "n", ConvertUtil.GetValueForXml(si, false));
-                            }
-                            break;
-						case TypeCode.DateTime:
-							var ds = GetDateString(((DateTime)si));
-                            AppendItem(shNode, "d", ds);
-							break;
-						case TypeCode.Boolean:
-                            AppendItem(shNode, "b", ConvertUtil.GetValueForXml(si, false));
-                            break;
-                        case TypeCode.Empty:
-                            AppendItem(shNode, "m", null);
-                            break;
-                        default:
-                            if (t == typeof(TimeSpan))
-                            {
-								ds = GetDateString(new DateTime(((TimeSpan)si).Ticks));
-								AppendItem(shNode, "d", ds);
-							}
-							else if (t == typeof(ExcelErrorValue))
-                            {
-                                AppendItem(shNode, "e", si.ToString());
-                            }
-                            else
-                            {
-                                var s = si.ToString();
-                                AppendItem(shNode, "s", s);
-                                if (s.Length > 255 && isLongText == false) isLongText = true;
-                            }
-                            break;
-                    }
-                }
+                    var t = GetSharedStringText(si, out string dt);
+					if (isLongText == false && t.Length > 255) isLongText = true;
+                    AppendItem(shNode, dt, t);
+				}
             }
             if (isLongText)
             {
@@ -427,7 +379,63 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-		private string GetDateString(DateTime d)
+		internal static string GetSharedStringText(object si, out string dt)
+		{
+			var t = si.GetType();
+			var tc = Type.GetTypeCode(t);
+
+			switch (tc)
+			{
+				case TypeCode.Byte:
+				case TypeCode.SByte:
+				case TypeCode.UInt16:
+				case TypeCode.UInt32:
+				case TypeCode.UInt64:
+				case TypeCode.Int16:
+				case TypeCode.Int32:
+				case TypeCode.Int64:
+				case TypeCode.Decimal:
+				case TypeCode.Double:
+				case TypeCode.Single:
+					if (t.IsEnum)
+					{
+                        dt = "s";
+                        return si.ToString();
+					}
+					else
+					{
+                        dt = "n";
+                        return ConvertUtil.GetValueForXml(si, false);
+					}
+				case TypeCode.DateTime:
+					dt = "d";
+					return GetDateString(((DateTime)si));
+				case TypeCode.Boolean:
+                    dt = "b";
+                    return ConvertUtil.GetValueForXml(si, false);
+				case TypeCode.Empty:
+                    dt = "m";
+                    return null;
+				default:
+					if (t == typeof(TimeSpan))
+					{
+                        dt = "d";
+                        return GetDateString(new DateTime(((TimeSpan)si).Ticks));
+					}
+					else if (t == typeof(ExcelErrorValue))
+					{
+						dt = "e";
+						return si.ToString();
+					}
+					else
+					{
+						dt = "s";
+						return si.ToString();
+					}
+			}
+		}
+
+		private static string GetDateString(DateTime d)
 		{
 			if (d.Year > 1899)
 			{
@@ -705,7 +713,7 @@ namespace OfficeOpenXml.Table.PivotTable
             int items = 2;
             //First date
             double index = start;
-            double nextIndex = start + interval;
+            double nextIndex = interval >= 1 ? start + interval-1 : start + interval;
             GroupItems.Clear();
 			_groupLookup = new Dictionary<object, int>();
 
@@ -715,7 +723,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 AddGroupItem(groupItemsNode, string.Format("{0}-{1}", index.ToString(CultureInfo.CurrentCulture), nextIndex.ToString(CultureInfo.CurrentCulture)));
                 index = nextIndex;
-                nextIndex += interval;
+                nextIndex += (interval >= 1 ? interval - 1 : interval); 
                 items++;
             }
             AddGroupItem(groupItemsNode, ">" + index.ToString(CultureInfo.CurrentCulture));
@@ -1020,6 +1028,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _groupLookup;
             }
 		}
+
 	}
 
     internal class CacheComparer : IEqualityComparer<object>

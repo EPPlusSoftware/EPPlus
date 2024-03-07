@@ -65,6 +65,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
             pivotTable.Filters.ReloadTable();
+			pivotTable.Sort();
             foreach (var df in pivotTable.DataFields)
             {
                 var dataFieldItems = new PivotCalculationStore();

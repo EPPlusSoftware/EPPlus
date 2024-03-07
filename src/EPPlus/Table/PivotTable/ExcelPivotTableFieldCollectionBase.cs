@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -148,7 +149,59 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _field.Cache.Refresh();
         }
-    }
+
+		internal void Sort(eSortType sort)
+		{
+            var comparer = new PivotItemComparer(sort, _field);
+
+			_list.Sort(comparer);
+		}
+		internal class PivotItemComparer : IComparer<ExcelPivotTableFieldItem>
+		{
+			private int _mult;
+			private ExcelPivotTableField _field;
+            private bool _hasGrouping;
+			public PivotItemComparer(eSortType sort, ExcelPivotTableField field)
+			{
+				this._mult = sort==eSortType.Ascending ? 1 : -1;
+				this._field = field;
+                _hasGrouping = _field.Grouping != null;
+			}
+
+			public int Compare(ExcelPivotTableFieldItem x, ExcelPivotTableFieldItem y)
+			{
+                if (x.Type == eItemType.Data)
+                {
+                    var xText = GetTextValue(x);
+                    var yText = GetTextValue(y);
+                    return xText.CompareTo(yText) * _mult;
+                }
+                else
+                {
+					return 1;
+				}
+			}
+
+			private string GetTextValue(ExcelPivotTableFieldItem item)
+			{
+				if(string.IsNullOrEmpty(item.Text))
+                {
+                    //if(_hasGrouping)
+                    //{
+                    //    return _field.Cache.GroupItems._list[item.X].ToString();
+                    //}
+                    //else
+                    //{
+						return ExcelPivotTableCacheField.GetSharedStringText(item.Value, out _);
+					//}
+                }
+                else
+                {
+                    return item.Text;
+                }
+			}
+		}
+	}
     /// <summary>
     /// Base collection class for pivottable fields
     /// </summary>

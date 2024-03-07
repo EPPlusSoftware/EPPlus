@@ -1427,5 +1427,16 @@ namespace OfficeOpenXml.Table.PivotTable
                 a.Conditions.UpdateXml();
             }
         }
-    }
+
+		internal void Sort()
+		{
+			foreach(var field in RowFields)
+            {
+                if(field.Sort!=eSortType.None)
+                {
+                    field.Items.Sort(field.Sort);
+                }                
+            }
+		}
+	}
 }

@@ -11,16 +11,16 @@ using OfficeOpenXml.Table.PivotTable.Calculation;
 using FakeItEasy;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
-    [TestClass]
-    public class GetPivotDataTests_Grouping : TestBase
-    {
-        private static ExcelWorksheet _dateWs1, _dateWs2, _dateWs3;
-        private static ExcelPackage _package;
-        [ClassInitialize]
-        public static void TestInitialize(TestContext context)
-        {
-            _package = OpenPackage("GetPivotData_Grouping.xlsx", true);
-            _dateWs1 = _package.Workbook.Worksheets.Add("Data1");
+	[TestClass]
+	public class GetPivotDataTests_Grouping : TestBase
+	{
+		private static ExcelWorksheet _dateWs1, _dateWs2, _dateWs3;
+		private static ExcelPackage _package;
+		[ClassInitialize]
+		public static void TestInitialize(TestContext context)
+		{
+			_package = OpenPackage("GetPivotData_Grouping.xlsx", true);
+			_dateWs1 = _package.Workbook.Worksheets.Add("Data1");
 			_dateWs2 = _package.Workbook.Worksheets.Add("Data2");
 			_dateWs3 = _package.Workbook.Worksheets.Add("Data3");
 			LoadItemData(_dateWs1);
@@ -94,7 +94,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			ws.Cells["L11"].Value = "Groceries";
 			ws.Cells["M11"].Value = 52;
 			ws.Cells["N11"].Value = 7.2;
-			ws.Cells["O11"].Value = new DateTime(2010, 10, 31, 10,12, 52);
+			ws.Cells["O11"].Value = new DateTime(2010, 10, 31, 10, 12, 52);
 
 			ws.Cells["K12"].Value = "Monkey Wrench";
 			ws.Cells["L12"].Value = "Hardware";
@@ -106,17 +106,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 		}
 
 		[ClassCleanup]
-        public static void TestCleanup()
-        {
-            SaveAndCleanup(_package);
-            _package.Dispose();
-        }
+		public static void TestCleanup()
+		{
+			SaveAndCleanup(_package);
+			_package.Dispose();
+		}
 		[TestMethod]
 		public void GetPivotData_Grouping_Year()
 		{
 			var ws = _package.Workbook.Worksheets.Add("DateGroup_Year");
 			var pt = ws.PivotTables.Add(ws.Cells["A1"], _dateWs1.Cells["K1:O11"], "PivotTable1");
-            var rf = pt.RowFields.Add(pt.Fields[4]);
+			var rf = pt.RowFields.Add(pt.Fields[4]);
 			rf.AddDateGrouping(eDateGroupBy.Years);
 			var df = pt.DataFields.Add(pt.Fields["Stock"]);
 			df.Function = DataFieldFunctions.Sum;
@@ -197,13 +197,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 16)";
 			ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 22)";
 			ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Stock\",$A$1)";
-			
+
 			ws.Calculate();
 
 			Assert.AreEqual(12D, (double)ws.Cells["G5"].Value);
 			Assert.AreEqual(555D, (double)ws.Cells["G6"].Value);
 			Assert.AreEqual(1200D, (double)ws.Cells["G7"].Value);
-			Assert.AreEqual(2886D, (double)ws.Cells["G8"].Value); 
+			Assert.AreEqual(2886D, (double)ws.Cells["G8"].Value);
 		}
 		[TestMethod]
 		public void GetPivotData_Grouping_HourMinuts()
@@ -265,7 +265,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			var ws = _package.Workbook.Worksheets.Add("NumberGroup");
 			var pt = ws.PivotTables.Add(ws.Cells["A1"], _dateWs2.Cells["A1:D100"], "PivotTable7");
 			var rf = pt.RowFields.Add(pt.Fields["NumValue"]);
-			rf.AddNumericGrouping(0,100,10);
+			rf.AddNumericGrouping(0, 100, 10);
 			var df = pt.DataFields.Add(pt.Fields["NumFormattedValue"]);
 			df.Function = DataFieldFunctions.Sum;
 			pt.Calculate(true);
@@ -294,7 +294,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			var ws = _package.Workbook.Worksheets.Add("NumberGroupDecimals");
 			var pt = ws.PivotTables.Add(ws.Cells["A1"], _dateWs2.Cells["A1:D100"], "PivotTable7");
 			var rf = pt.RowFields.Add(pt.Fields["NumValue"]);
-			rf.AddNumericGrouping(0,100, 15.55);
+			rf.AddNumericGrouping(0, 100, 15.55);
 			var df = pt.DataFields.Add(pt.Fields["NumFormattedValue"]);
 			df.Function = DataFieldFunctions.Sum;
 			pt.Calculate(true);
