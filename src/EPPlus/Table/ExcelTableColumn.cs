@@ -299,7 +299,9 @@ namespace OfficeOpenXml.Table
             var colNum = _tbl.Address._fromCol + Position;
             if(clear)
             {
-                _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum].ClearFormulaValues();
+                var range = _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum];
+                range.ClearFormulas();
+                range.ClearFormulaValues();
             }
             else
             {
