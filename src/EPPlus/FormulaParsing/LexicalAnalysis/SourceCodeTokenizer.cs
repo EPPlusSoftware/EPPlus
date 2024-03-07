@@ -68,14 +68,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
 
         /// <summary>
-        /// The default tokenizer. This tokenizer will keep whitespaces and add them as tokens.
-        /// </summary>
-        public static ISourceCodeTokenizer DefaultPreserveWhiteSpace
-        {
-            get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true); }
-        }
-
-        /// <summary>
         /// The tokenizer used for r1c1 format. This tokenizer will keep whitespaces and add them as tokens.
         /// </summary>
         public static ISourceCodeTokenizer R1C1
@@ -83,6 +75,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true); }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="functionRepository">A function name provider</param>
+        /// <param name="nameValueProvider">A name value provider</param>
+        /// <param name="r1c1">If true the tokenizer will use the R1C1 format</param>
+        /// <param name="keepWhitespace">If true whitspaces in formulas will be preserved</param>
         public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
         {
             _r1c1 = r1c1;
@@ -117,6 +116,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             isExponential = 0x2000,
             isLastCharQuote = 0x4000
         }
+
+        /// <summary>
+        /// Split the input string into tokens used by the formula parser
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="worksheet"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidFormulaException"></exception>
         public IList<Token> Tokenize(string input, string worksheet)
         {
             var l = new List<Token>();
