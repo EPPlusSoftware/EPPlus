@@ -29,18 +29,29 @@ namespace OfficeOpenXml.Style
     /// <summary>
     /// A richtext part
     /// </summary>
-    public class ExcelRichTextNew
+    public class ExcelRichText
     {
-        internal ExcelRichTextNew(ExcelRichTextCollectionNew collection)
+        internal ExcelRichText(ExcelRichTextCollection collection)
         {
             _collection = collection;
-            ColorSettings = new ExcelRichTextColorNew(this);
+            ColorSettings = new ExcelRichTextColor(this);
         }
 
         /// <summary>
         /// The text
         /// </summary>
-        public string Text { get; set; }
+        public string Text 
+        {
+            get
+            {
+                return Text;
+            }
+            set 
+            {
+                if (value == null) throw new InvalidOperationException("Text can't be null");
+                Text = value;
+            } 
+        }
         /// <summary>
         /// Returns the rich text item as a html string.
         /// </summary>
@@ -63,6 +74,8 @@ namespace OfficeOpenXml.Style
             sb.Append("</span>");
         }
 
+
+
         internal void ReadrPr(XmlReader xr)
         {
             while(xr.Read())
@@ -71,15 +84,6 @@ namespace OfficeOpenXml.Style
 
                 switch (xr.LocalName)
                 {
-                    case "rFont":
-                        FontName = xr.GetAttribute("val");
-                        break;
-                    case "charset":
-                        Charset = int.Parse(xr.GetAttribute("val"));
-                        break;
-                    case "family":
-                        Family = int.Parse(xr.GetAttribute("val"));
-                        break;
                     case "b":
                         Bold = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
                         break;
@@ -89,42 +93,55 @@ namespace OfficeOpenXml.Style
                     case "strike":
                         Strike = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
                         break;
-                    //case "outline":
-                    //    Outline = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                    //    break;
-                    //case "shadow":
-                    //    Shadow = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                    //    break;
-                    //case "condense":
-                    //    Condense = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                    //    break;
-                    //case "extend":
-                    //    Extend = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
-                    //    break;
-                    case "color":
-                        ColorSettings = new ExcelRichTextColorNew(xr, this);
-                        break;
-                    case "sz":
-                        if(ConvertUtil.TryParseNumericString(xr.GetAttribute("val"),out double num)) 
-                        {
-                            Size = Convert.ToSingle( num );
-                        }
-                        break;
                     case "u":
                         UnderLineType = GetUnderlineType(xr.GetAttribute("val"));
-                        //UnderLine = UnderLineType != ExcelUnderLineType.None;
                         break;
                     case "vertAlign":
                         VerticalAlign = xr.GetAttribute("val").ToEnum<ExcelVerticalAlignmentFont>(ExcelVerticalAlignmentFont.None);
                         break;
-                    //case "scheme":
-                    //    Scheme = xr.GetAttribute("val").ToEnum<eThemeFontCollectionType>(eThemeFontCollectionType.None);
-                    //    break;
+                    case "sz":
+                        if (ConvertUtil.TryParseNumericString(xr.GetAttribute("val"), out double num))
+                        {
+                            Size = Convert.ToSingle(num);
+                        }
+                        break;
+                    case "rFont":
+                        FontName = xr.GetAttribute("val");
+                        break;
+                    case "charset":
+                        Charset = int.Parse(xr.GetAttribute("val"));
+                        break;
+                    case "family":
+                        Family = int.Parse(xr.GetAttribute("val"));
+                        break;
+                    case "color":
+                        ColorSettings = new ExcelRichTextColor(xr, this);
+                        break;
+                        //case "outline":
+                        //    Outline = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                        //    break;
+                        //case "shadow":
+                        //    Shadow = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                        //    break;
+                        //case "condense":
+                        //    Condense = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                        //    break;
+                        //case "extend":
+                        //    Extend = ConvertUtil.ToBooleanString(xr.GetAttribute("val"), true);
+                        //    break;
+                        //case "scheme":
+                        //    Scheme = xr.GetAttribute("val").ToEnum<eThemeFontCollectionType>(eThemeFontCollectionType.None);
+                        //    break;
                 }
             }
         }
 
-        private ExcelUnderLineType GetUnderlineType(string v)
+        /// <summary>
+        /// Get the underline typ for rich text
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns>returns excelunderline type</returns>
+        public static ExcelUnderLineType GetUnderlineType(string v)
         {
             switch (v)
             {
@@ -138,6 +155,26 @@ namespace OfficeOpenXml.Style
                     return ExcelUnderLineType.DoubleAccounting;
                 default:
                     return ExcelUnderLineType.Single;
+            }
+        }
+
+        /// <summary>
+        /// Get the underline typ for rich text
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns>returns excelunderline type</returns>
+        public static ExcelVerticalAlignmentFont GetUVerticalAlignmentFont(string v)
+        {
+            switch (v)
+            {
+                case "baseline":
+                    return ExcelVerticalAlignmentFont.Baseline;
+                case "subscript":
+                    return ExcelVerticalAlignmentFont.Subscript;
+                case "superscript":
+                    return ExcelVerticalAlignmentFont.Superscript;
+                default:
+                    return ExcelVerticalAlignmentFont.None;
             }
         }
 
@@ -159,15 +196,15 @@ namespace OfficeOpenXml.Style
                 {
                     sb.Append($"<family val=\"{Family}\"/>");
                 }
-                if (Bold)
+                if (Bold != null)
                 {
                     sb.Append($"<b/>");
                 }
-                if (Italic)
+                if (Italic != null)
                 {
                     sb.Append($"<i/>");
                 }
-                if (Strike)
+                if (Strike != null)
                 {
                     sb.Append($"<strike/>");
                 }
@@ -256,17 +293,17 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Bold text
         /// </summary>
-        public bool Bold { get; set; } = false;
+        public bool? Bold { get; set; } = false;
 
         /// <summary>
         /// Italic text
         /// </summary>
-        public bool Italic { get; set; } = false;
+        public bool? Italic { get; set; } = false;
 
         /// <summary>
         /// Strike-out text
         /// </summary>
-        public bool Strike { get; set; } = false;
+        public bool? Strike { get; set; } = false;
 
         /// <summary>
         /// Underlined text
@@ -286,7 +323,7 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Vertical Alignment
         /// </summary>
-        public ExcelVerticalAlignmentFont VerticalAlign { get; set; } = ExcelVerticalAlignmentFont.None;
+        public ExcelVerticalAlignmentFont? VerticalAlign { get; set; } = ExcelVerticalAlignmentFont.None;
 
         /// <summary>
         /// Font size
@@ -319,12 +356,12 @@ namespace OfficeOpenXml.Style
         /// Color settings.
         /// <seealso cref="Color"/>
         /// </summary>
-        public ExcelRichTextColorNew ColorSettings { get; set; }
+        public ExcelRichTextColor ColorSettings { get; set; }
 
         /// <summary>
         /// A referens to the richtext collection
         /// </summary>
-        public ExcelRichTextCollectionNew _collection { get; set; }
+        public ExcelRichTextCollection _collection { get; set; }
 
         /// <summary>
         /// Characterset to use

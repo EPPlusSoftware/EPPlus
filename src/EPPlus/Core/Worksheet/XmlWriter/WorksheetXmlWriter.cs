@@ -527,7 +527,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
                         else if (v != null)
                         {
-                            if (v is ExcelRichTextCollectionNew rt)
+                            if (v is ExcelRichTextCollection rt)
                             {
                                 var s = rt.GetXML();
                                 if (!ssLookup.TryGetValue(s, out int ix))

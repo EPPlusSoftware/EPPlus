@@ -100,7 +100,7 @@ namespace OfficeOpenXml
         internal class SharedStringRichTextItem : SharedStringItemBase
         {
 			public override bool IsRichText => true;
-            public ExcelRichTextCollectionNew RichText { get; set; }
+            public ExcelRichTextCollection RichText { get; set; }
         }
 
         #region Private Properties
@@ -325,7 +325,7 @@ namespace OfficeOpenXml
                         }
 						else if(xr.LocalName =="r" && xr.NodeType == XmlNodeType.Element)
 						{
-							var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollectionNew(xr, this), Position = index++ };
+							var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollection(xr, this), Position = index++ };
                             _sharedStringsListNew.Add(item);
                             _sharedStringsLookup.Add(item.RichText.GetXML(), index++);
                         }

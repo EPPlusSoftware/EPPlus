@@ -18,19 +18,21 @@ using System.Xml;
 using System.Drawing;
 using System.Globalization;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 
 namespace OfficeOpenXml.Style
 {
     /// <summary>
     /// Collection of Richtext objects
     /// </summary>
-    public class ExcelRichTextCollectionNew : IEnumerable<ExcelRichTextNew>
+    public class ExcelRichTextCollection : IEnumerable<ExcelRichText>
     {
-        List<ExcelRichTextNew> _list = new List<ExcelRichTextNew>();
+        List<ExcelRichText> _list = new List<ExcelRichText>();
         internal ExcelRangeBase _cells = null;
         internal ExcelWorkbook _wb;
 
-        internal ExcelRichTextCollectionNew(XmlReader xr, ExcelWorkbook wb)
+        internal ExcelRichTextCollection(XmlReader xr, ExcelWorkbook wb)
         {
             _wb = wb;
             while (xr.LocalName != "si" && xr.NodeType != XmlNodeType.EndElement) 
@@ -38,7 +40,7 @@ namespace OfficeOpenXml.Style
                 if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
                 {
                     XmlReaderHelper.ReadUntil(xr, "rPr", "t");
-                    var item = new ExcelRichTextNew(this);
+                    var item = new ExcelRichText(this);
                     if (xr.LocalName == "rPr" && xr.NodeType == XmlNodeType.Element)
                     {
                         item.ReadrPr(xr);
@@ -54,12 +56,43 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        internal ExcelRichTextCollectionNew(string s, ExcelWorkbook wb)
+        internal ExcelRichTextCollection(string s, ExcelRangeBase cells)
         {
-            _wb = wb;
-            var item = new ExcelRichTextNew(this);
-            item.Text = s;
-            _list.Add(item);
+            _wb = cells._workbook;
+            _cells = cells;
+            if(!string.IsNullOrEmpty(s))
+            {
+                var item = new ExcelRichText(this);
+                item.Text = s;
+                _list.Add(item);
+            }
+        }
+
+        internal ExcelRichTextCollection(XmlNamespaceManager ns, XmlNode textElem, ExcelRangeBase cells)
+        {
+            _wb = cells._workbook;
+            _cells= cells;
+            foreach(XmlNode rElement in textElem.ChildNodes)
+            {
+                if(rElement.LocalName == "r")
+                {
+                    var rt = new ExcelRichText(this);
+                    var t = rElement.SelectSingleNode("d:t", ns);
+                    rt.Text = t.InnerText;
+
+                    rt.Bold = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:b", ns));
+                    rt.Italic = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:i", ns));
+                    rt.Strike = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:strike", ns));
+                    rt.UnderLineType = XmlHelper.GetRichTextPropertyUnderlineType(rElement.SelectSingleNode("d:rPr/d:u", ns), out bool underline);
+                    rt.UnderLine = underline;
+                    rt.VerticalAlign = XmlHelper.GetRichTextPropertyVerticalAlignmentFont(rElement.SelectSingleNode("d:rPr/d:vertAlign", ns));
+                    rt.Size = XmlHelper.GetRichTextProperyFloat(rElement.SelectSingleNode("d:rPr/d:sz", ns));
+                    rt.FontName = XmlHelper.GetRichTextPropertyString(rElement.SelectSingleNode("d:rPr/d:rFont", ns));
+                    rt.ColorSettings = XmlHelper.GetRichTextPropertyColor(rElement.SelectSingleNode("d:rPr/d:color", ns), rt);
+                    rt.Charset = XmlHelper.GetRichTextPropertyInt(rElement.SelectSingleNode("d:rPr/d:charset", ns));
+                    rt.Family = XmlHelper.GetRichTextPropertyInt(rElement.SelectSingleNode("d:rPr/d:family", ns));
+                }
+            }
         }
 
         /// <summary>
@@ -67,7 +100,7 @@ namespace OfficeOpenXml.Style
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
-        public ExcelRichTextNew this[int Index]
+        public ExcelRichText this[int Index]
         {
             get
             {
@@ -91,7 +124,7 @@ namespace OfficeOpenXml.Style
         /// <param name="Text">The text to add</param>
         /// <param name="NewParagraph">Adds a new paragraph before text. This will add a new line break.</param>
         /// <returns></returns>
-        public ExcelRichTextNew Add(string Text, bool NewParagraph = false)
+        public ExcelRichText Add(string Text, bool NewParagraph = false)
         {
             if (NewParagraph) Text += "\n";
             return Insert(_list.Count, Text);
@@ -103,34 +136,52 @@ namespace OfficeOpenXml.Style
         /// <param name="index">The zero-based index at which rich text should be inserted.</param>
         /// <param name="text">The text to insert.</param>
         /// <returns></returns>
-        public ExcelRichTextNew Insert(int index, string text)
+        public ExcelRichText Insert(int index, string text)
         {
-            return null;
-        }
-
-        internal void ConvertRichtext()
-        {
-            if (_cells == null) return;
-            var isRt = _cells.Worksheet._flags.GetFlagValue(_cells._fromRow, _cells._fromCol, CellFlags.RichText);
-            if (Count == 1 && isRt == false)
+            if (text == null) throw new ArgumentException("Text can't be null", "text");
+            var rt = new ExcelRichText(this);
+            rt.Text = text;
+            rt.PreserveSpace = true;
+            int prevIndex = 0;
+            if(index > _list.Count)
             {
-                _cells.Worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
-                var s = _cells.Worksheet.GetStyleInner(_cells._fromRow, _cells._fromCol);
-                //var fnt = cell.Style.Font;
-                var fnt = _cells.Worksheet.Workbook.Styles.GetStyleObject(s, _cells.Worksheet.PositionId, ExcelAddressBase.GetAddress(_cells._fromRow, _cells._fromCol)).Font;
-                this[0].PreserveSpace = true;
-                this[0].Bold = fnt.Bold;
-                this[0].FontName = fnt.Name;
-                this[0].Italic = fnt.Italic;
-                this[0].Size = fnt.Size;
-                this[0].UnderLine = fnt.UnderLine;
-
-                int hex;
-                if (fnt.Color.Rgb != "" && int.TryParse(fnt.Color.Rgb, NumberStyles.HexNumber, null, out hex))
-                {
-                    this[0].Color = Color.FromArgb(hex);
-                }
+                prevIndex = _list.Count - 1;
             }
+            else
+            {
+                prevIndex = index - 1;
+            }
+            if(_list.Count > 0)
+            {
+                var prevRT = _list[prevIndex];
+                rt.Bold = prevRT.Bold;
+                rt.Italic = prevRT.Italic;
+                rt.Strike = prevRT.Strike;
+                rt.UnderLineType = prevRT.UnderLineType;
+                rt.VerticalAlign = prevRT.VerticalAlign;
+                rt.Size = prevRT.Size;
+                rt.FontName = prevRT.FontName;
+                rt.Charset = prevRT.Charset;
+                rt.Family = prevRT.Family;
+                rt.ColorSettings = prevRT.ColorSettings;
+                rt.PreserveSpace = prevRT.PreserveSpace;
+            }
+            else if(_cells == null)
+            {
+                rt.FontName = "Calibri";
+                rt.Size = 11;
+            }
+            else
+            {
+                var style = _cells.Offset(0, 0).Style;
+                rt.FontName = style.Font.Name;
+                rt.Size = style.Font.Size;
+                rt.Bold = style.Font.Bold;
+                rt.Italic = style.Font.Italic;
+                _cells.SetIsRichTextFlag(true);
+            }
+            _list.Insert(index, rt);
+            return rt;
         }
 
         /// <summary>
@@ -158,7 +209,7 @@ namespace OfficeOpenXml.Style
         /// Removes an item
         /// </summary>
         /// <param name="Item"></param>
-        public void Remove(ExcelRichTextNew Item)
+        public void Remove(ExcelRichText Item)
         {
             _list.Remove(Item);
             if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
@@ -214,7 +265,7 @@ namespace OfficeOpenXml.Style
         }
         #region IEnumerable<ExcelRichText> Members
 
-        IEnumerator<ExcelRichTextNew> IEnumerable<ExcelRichTextNew>.GetEnumerator()
+        IEnumerator<ExcelRichText> IEnumerable<ExcelRichText>.GetEnumerator()
         {
             return _list.GetEnumerator();
         }

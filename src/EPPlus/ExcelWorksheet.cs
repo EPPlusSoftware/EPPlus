@@ -1438,20 +1438,20 @@ namespace OfficeOpenXml
             }
             delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
-        internal ExcelRichTextCollectionNew GetRichText(int row, int col, ExcelRangeBase r=null)
+        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r=null)
         {
             var v = GetCoreValueInner(row, col);
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
             
-            if(isRt)
+            if(isRt && v._value is ExcelRichTextCollection rtc)
             {
-                return (ExcelRichTextCollectionNew)v._value;
+                return rtc;
             }
             else
             {
                 _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                 var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
-                var item = new ExcelRichTextCollectionNew(text, Workbook);
+                var item = new ExcelRichTextCollection(text, r);
                 SetValue(row, col, item);
                 return item; 
             }

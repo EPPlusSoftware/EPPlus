@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Style
         /// <param name="Item">The item</param>
         public void Remove(ExcelRichText Item)
         {
-            TopNode.RemoveChild(Item.TopNode);
+            //TopNode.RemoveChild(Item.TopNode);
         }
         /// <summary>
         /// The full text 

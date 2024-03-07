@@ -25,16 +25,16 @@ using System;
 
 namespace OfficeOpenXml.Style
 {
-    public class ExcelRichTextColorNew
+    public class ExcelRichTextColor
     {
-        private ExcelRichTextNew _rt;
+        private ExcelRichText _rt;
 
-        internal ExcelRichTextColorNew(ExcelRichTextNew rt)
+        internal ExcelRichTextColor(ExcelRichText rt)
         {
             _rt = rt;
         }
 
-        public ExcelRichTextColorNew(XmlReader xr, ExcelRichTextNew rt)
+        public ExcelRichTextColor(XmlReader xr, ExcelRichText rt)
         {
             _rt = rt;
             int num;

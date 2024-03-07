@@ -1620,7 +1620,7 @@ namespace EPPlusTest
                 var cell = ws.Cells["D43"];
                 cell.Value += " ";
 
-                ExcelRichTextNew rtx = cell.RichText.Add("a");
+                ExcelRichText rtx = cell.RichText.Add("a");
 
                 rtx.VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
 
@@ -3926,7 +3926,7 @@ namespace EPPlusTest
                     foreach (var richText in cell.RichText)
                     {
                         Debug.Write($"RichText {richText.Text} Font: [{richText.FontName}], Size: [{richText.Size}]");
-                        if (richText.Bold) Console.Write(", Bold");
+                        if (richText.Bold != null) Console.Write(", Bold");
                         Debug.WriteLine("");
                     }
                 }
