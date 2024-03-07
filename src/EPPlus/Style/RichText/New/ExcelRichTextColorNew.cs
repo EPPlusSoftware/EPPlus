@@ -38,7 +38,11 @@ namespace OfficeOpenXml.Style
         {
             _rt = rt;
             int num;
-            Auto = ConvertUtil.GetValueBool(xr.GetAttribute("auto"))??false;
+            var auto = xr.GetAttribute("auto");
+            if (int.TryParse(auto, NumberStyles.Integer, CultureInfo.InvariantCulture, out int result))
+            {
+                Auto = result > 0 || result < 0 ? true : false;
+            }
             if (int.TryParse(xr.GetAttribute("indexed"), NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
             {
                 Indexed = num;

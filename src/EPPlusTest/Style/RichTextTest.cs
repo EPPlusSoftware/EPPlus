@@ -66,6 +66,7 @@ namespace EPPlusTest.Style
             using (var p = OpenTemplatePackage("RichTextTests.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
+                //Test Normal Text
                 Assert.AreEqual("This is just a string of poor text… :(", ws.Cells["A1"].Text);
                 Assert.AreEqual("This is just a string of poor text… :(", ws.Cells["A1"].RichText[0].Text);
                 //Test Bold
@@ -100,40 +101,45 @@ namespace EPPlusTest.Style
             using (var p = OpenTemplatePackage("RichTextTests.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-
-                ws.Cells["A9"].RichText[0].Charset = 161;
-                ws.Cells["A17"].RichText[0].ColorSettings.Theme = eThemeSchemeColor.Accent5;
+                //Set bold, italic, strike and underline properties.
                 ws.Cells["A18"].RichText[0].Bold = true;
-                ws.Cells["A18"].RichText[0].Color = Color.LightBlue;
                 ws.Cells["A18"].RichText[0].Italic = true;
                 ws.Cells["A18"].RichText[0].Strike = true;
-                ws.Cells["A18"].RichText[0].VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
+                ws.Cells["A18"].RichText[0].UnderLineType = ExcelUnderLineType.Single;
+                //Set vertical align properties
                 ws.Cells["A17"].RichText[0].VerticalAlign = ExcelVerticalAlignmentFont.Subscript;
+                ws.Cells["A18"].RichText[0].VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
+                //Set font properties
+                ws.Cells["A9"].RichText[0].Charset = 161;
                 ws.Cells["A18"].RichText[0].Size = 72;
                 ws.Cells["A18"].RichText[0].FontName = "Arial";
-                ws.Cells["A18"].RichText[0].UnderLineType = ExcelUnderLineType.Single;
+                //Assign color properties
+                ws.Cells["A17"].RichText[0].ColorSettings.Theme = eThemeSchemeColor.Accent5;
+                ws.Cells["A18"].RichText[0].Color = Color.LightBlue;
                 ws.Cells["A18"].RichText[0].ColorSettings.Indexed = 3;
                 p.Save();
                 using (var p2 = new ExcelPackage(p.Stream))
                 {
                     var ws2 = p2.Workbook.Worksheets[0];
-                    Assert.AreEqual(161, ws2.Cells["A9"].RichText[0].Charset);
-                    Assert.AreEqual(eThemeSchemeColor.Accent5, ws2.Cells["A17"].RichText[0].ColorSettings.Theme);
+                    //Test reading bold, italic, strike and underline properties.
                     Assert.AreEqual(true, ws2.Cells["A18"].RichText[0].Bold);
-                    Assert.AreEqual(Color.LightBlue.ToArgb(), ws2.Cells["A18"].RichText[0].Color.ToArgb());
-                    Assert.AreEqual(Color.LightBlue.ToArgb(), ws2.Cells["A18"].RichText[0].ColorSettings.Rgb.ToArgb());
-
                     Assert.AreEqual(true, ws2.Cells["A18"].RichText[0].Italic);
                     Assert.AreEqual(true, ws2.Cells["A18"].RichText[0].Strike);
+                    Assert.AreEqual(ExcelUnderLineType.Single, ws2.Cells["A18"].RichText[0].UnderLineType);
+                    //Test reading vertical align properties
                     Assert.AreEqual(ExcelVerticalAlignmentFont.Superscript, ws2.Cells["A18"].RichText[0].VerticalAlign);
                     Assert.AreEqual(ExcelVerticalAlignmentFont.Subscript, ws2.Cells["A17"].RichText[0].VerticalAlign);
+                    //Test reading font properties
+                    Assert.AreEqual(161, ws2.Cells["A9"].RichText[0].Charset);
                     Assert.AreEqual(72, ws2.Cells["A18"].RichText[0].Size);
                     Assert.AreEqual("Arial", ws2.Cells["A18"].RichText[0].FontName);
-                    Assert.AreEqual(ExcelUnderLineType.Single, ws2.Cells["A18"].RichText[0].UnderLineType);
+                    //Test reading color properties
+                    Assert.AreEqual(eThemeSchemeColor.Accent5, ws2.Cells["A17"].RichText[0].ColorSettings.Theme);
+                    Assert.AreEqual(Color.LightBlue.ToArgb(), ws2.Cells["A18"].RichText[0].Color.ToArgb());
+                    Assert.AreEqual(Color.LightBlue.ToArgb(), ws2.Cells["A18"].RichText[0].ColorSettings.Rgb.ToArgb());
                     Assert.AreEqual(3, ws.Cells["A18"].RichText[0].ColorSettings.Indexed);
                 }
-
-                //test Color Tint
+                //Test Color Tint (tint applies to color so this one is tested separately)
                 ws.Cells["A18"].RichText[0].ColorSettings.Tint = 0.5;
                 p.Save();
                 using (var p2 = new ExcelPackage(p.Stream))
@@ -141,7 +147,7 @@ namespace EPPlusTest.Style
                     var ws2 = p2.Workbook.Worksheets[0];
                     Assert.AreEqual(0.5, ws2.Cells["A18"].RichText[0].ColorSettings.Tint);
                 }
-                //Test Color Auto
+                //Test Color Auto property
                 ws.Cells["A18"].RichText[0].ColorSettings.Auto = true;
                 p.Save();
                 using (var p2 = new ExcelPackage(p.Stream))
