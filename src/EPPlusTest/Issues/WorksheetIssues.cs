@@ -259,5 +259,38 @@ namespace EPPlusTest
 
 			}
 		}
+		[TestMethod]
+		public void DeleteRow_TableWithCalculatedColumnFormula()
+		{
+			using (var pck = new ExcelPackage())
+			{
+				// Set up a worksheet with a single table that has lots of rows and a calculated column
+				var wks = pck.Workbook.Worksheets.Add("Sheet1");
+				wks.Cells["A1:A14"].Value = "Data outside table";
+				wks.Cells["A16"].Value = "Col1";
+				wks.Cells["B16"].Value = "Col2";
+				var table = wks.Tables.Add(wks.Cells["A16:B18394"], "Table1");
+				table.Columns[0].CalculatedColumnFormula = "ROW()-16";
+
+				// The calculated column formula is only given to rows inside the table
+				for (int i = 16; i > 0; i--)
+				{
+					Assert.AreEqual("", wks.Cells["A" + i].Formula);
+				}
+				Assert.AreEqual("ROW()-16", wks.Cells["A17"].Formula);
+
+				// Delete all rows in the table except for the header row and the last row
+				var listRowsCount = table.Range.Rows;
+				wks.DeleteRow(17, listRowsCount - 2);
+
+				// Check that rows above the table haven't been given a formula
+				for (int i = 16; i > 0; i--)
+				{
+					Assert.AreEqual("", wks.Cells["A" + i].Formula, "Formula present in A" + i);
+				}
+				Assert.AreEqual("ROW()-16", wks.Cells["A17"].Formula);
+				SaveWorkbook("Issue1321.xlsx", pck);
+			}
+		}
 	}
 }

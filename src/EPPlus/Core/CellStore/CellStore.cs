@@ -784,7 +784,7 @@ namespace OfficeOpenXml.Core.CellStore
                     {
                         if (pagePos == 0)
                         {
-                            pageStartRow = 1;
+                            pageStartRow = fromRow;
                         }
                         else
                         {

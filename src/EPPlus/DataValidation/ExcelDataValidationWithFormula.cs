@@ -70,14 +70,52 @@ namespace OfficeOpenXml.DataValidation
 
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
-            xr.ReadUntil(formulaIdentifier, "dataValidation", "extLst");
+            T retVal;
+
+            if (xr.LocalName == "AlternateContent")
+            {
+                if(xr.IsEmptyElement == false)
+                {
+                    if (xr.ReadUntil(formulaIdentifier, "AlternateContent"))
+                    {
+                        xr.Read();
+                        retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                        xr.Read();
+
+                        xr.ReadUntil("Formula2", "dataValidation", "dataValidations");
+                        return retVal;
+                    }
+                }
+                //Read over AlternateContent end node.
+                //to DataValidation or dataValidations end node
+                xr.Read();
+            }
+
+            if (xr.LocalName != formulaIdentifier)
+            {
+                return DefineFormulaClassType(null, _workSheetName);
+            }
 
             bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
+            //Old Epplus files did not read extLst properly it is possible to not be extLst before DefineFormulaClassType
+            //and become extLst after. Therefore don't split the check to before and after.
             if (InternalValidationType == InternalValidationType.ExtLst || isExt)
+            {
                 xr.Read();
 
-            return DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+
+                xr.Read();
+            }
+            else
+            {
+                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+            }
+
+            xr.Read();
+
+            return retVal;
         }
 
         abstract internal T DefineFormulaClassType(string formulaValue, string worksheetName);

@@ -2238,7 +2238,7 @@ namespace OfficeOpenXml
         }
 #endregion
         /// <summary>
-        /// Get the cell value from thw worksheet
+        /// Get the cell value from the worksheet
         /// </summary>
         /// <param name="Row">The row number</param>
         /// <param name="Column">The row number</param>
