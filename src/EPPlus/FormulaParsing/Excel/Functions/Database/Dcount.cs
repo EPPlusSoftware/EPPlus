@@ -72,5 +72,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
             }
             return CreateResult(nHits, DataType.Integer);
         }
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

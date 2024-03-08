@@ -76,5 +76,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return FunctionParameterInformation.IgnoreAddress;
         }));
         public override bool IsVolatile => true; //Blank argument will return the current cells row, so set volatile
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

@@ -1438,5 +1438,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 }                
             }
 		}
+
+		internal IList<ExcelPivotTableDataField> GetFieldsToCalculate()
+		{
+            return DataFields.ToList();
+		}
 	}
 }

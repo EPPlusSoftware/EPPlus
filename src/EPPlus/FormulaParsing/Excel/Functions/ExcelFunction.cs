@@ -856,9 +856,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
         /// <summary>
-        /// Provides information about the functions parameters.
+        /// If the function is allowed in a pivot table calculated field. Default is true, if not overridden.
         /// </summary>
-        public virtual ExcelFunctionParametersInfo ParametersInfo
+        public virtual bool IsAllowedInCalculatedPivotTableField
+        {
+			get
+			{
+				return true;
+			}
+		}
+		/// <summary>
+		/// Provides information about the functions parameters.
+		/// </summary>
+		public virtual ExcelFunctionParametersInfo ParametersInfo
         {
             get;
         } = ExcelFunctionParametersInfo.Default;

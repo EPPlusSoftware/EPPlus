@@ -24,6 +24,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using OfficeOpenXml.Table.PivotTable.Calculation;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
@@ -66,53 +67,71 @@ namespace OfficeOpenXml.Table.PivotTable
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
             pivotTable.Filters.ReloadTable();
 			pivotTable.Sort();
-            foreach (var df in pivotTable.DataFields)
+			int dfIx = 0;
+			bool hasCf = false;
+			foreach (var df in pivotTable.GetFieldsToCalculate())
             {
-                var dataFieldItems = new PivotCalculationStore();
-                calculatedItems.Add(dataFieldItems);
-                var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
-                keys.Add(keyDict);
-				var recs = ci.Records;
-                var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
-				var captionFilterExists = captionFilters.Count > 0;
-				var pageFilterExists = pivotTable.PageFields.Count > 0;
-				var cacheField = df.Field.Cache;
+				dfIx++;
+				var dataFieldItems = new PivotCalculationStore();
+				calculatedItems.Add(dataFieldItems);
+				var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+				keys.Add(keyDict);
+				if (string.IsNullOrEmpty(df.Field.CacheField.Formula))
+				{
+					var recs = ci.Records;
+					var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
+					var captionFilterExists = captionFilters.Count > 0;
+					var pageFilterExists = pivotTable.PageFields.Count > 0;
+					var cacheField = df.Field.Cache;
 
-				for (var r = 0; r < recs.RecordCount; r++)
-                {
-                    var key = new int[fieldIndex.Count];
-                    for (int i = 0; i < fieldIndex.Count; i++)
-                    {
-						if (pivotTable.Fields[fieldIndex[i]].Grouping == null)
+					for (var r = 0; r < recs.RecordCount; r++)
+					{
+						var key = new int[fieldIndex.Count];
+						for (int i = 0; i < fieldIndex.Count; i++)
 						{
-							key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
+							if (pivotTable.Fields[fieldIndex[i]].Grouping == null)
+							{
+								key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
+							}
+							else
+							{
+								key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[fieldIndex[i]][r]);
+							}
 						}
-						else
+
+						if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
+							(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
 						{
-							key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[fieldIndex[i]][r]);
+							var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[df.Index][r]] : recs.CacheItems[df.Index][r];
+							_calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, v, dataFieldItems, keyDict);
 						}
-                    }
+					}
 
-                    if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
-                        (captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
-                    {
-						var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[df.Index][r]] : recs.CacheItems[df.Index][r];
-						_calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, v, dataFieldItems, keyDict);
-                    }
-                }
+					_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems, keys[calculatedItems.Count - 1], fieldIndex);
+					_calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count - 1]);
+					_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
 
-				_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems, keys[calculatedItems.Count - 1], fieldIndex);
-				_calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count-1]);
-				_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
-
-                if (df.ShowDataAs.Value != eShowDataAs.Normal)
-                {
-                    _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, ref dataFieldItems);
-                    calculatedItems[calculatedItems.Count - 1] = dataFieldItems;
-                }
+					if (df.ShowDataAs.Value != eShowDataAs.Normal)
+					{
+						_calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, ref dataFieldItems);
+						calculatedItems[dfIx] = dataFieldItems;
+					}
+				}
+				else
+				{
+					hasCf=true;
+				}
             }
-            return true;
+			
+			if(hasCf)
+			{
+				var ptCalc = new PivotTableColumnCalculation(pivotTable);
+				ptCalc.CalculateFormulaFields(fieldIndex);
+			}
+			
+			return true;
         }
+
 		internal static int[] GetKeyWithParentLevel(int[] key, int[] childKey, int rf)
 		{
 			if (IsKeyGrandTotal(key, 0, rf) == false)

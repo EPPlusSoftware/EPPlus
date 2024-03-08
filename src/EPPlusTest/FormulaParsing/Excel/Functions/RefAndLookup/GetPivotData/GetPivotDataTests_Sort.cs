@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using FakeItEasy;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
 	[TestClass]
@@ -120,8 +121,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			rf.Sort = eSortType.Descending;
 			var df = pt.DataFields.Add(pt.Fields["Stock"]);
 			df.Function = DataFieldFunctions.Sum;
-			pt.Calculate(true);
-
+			pt.Calculate(true);			
 			ws.Calculate();
 
 			//Assert.AreEqual(2881D, (double)ws.Cells["G5"].Value);

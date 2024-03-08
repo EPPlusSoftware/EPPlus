@@ -191,7 +191,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents a N/A error
         /// </summary>
         NAError = (ulong)1 << 41,
+        /// <summary>
+        /// Represents a single quote.
+        /// </summary>  
         SingleQuote = (ulong)1 << 42,
-        HashMark = (ulong)1 << 43,
-    }
+        /// <summary>
+        /// Represents a pivot field in a pivot field formula
+        /// </summary>
+        PivotField = (ulong)1 << 43,
+	}
 }

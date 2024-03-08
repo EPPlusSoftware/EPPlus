@@ -57,27 +57,37 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {"#data" },
             {"#totals" }
         };
-        private bool _r1c1, _keepWhitespace;
-        /// <summary>
-        /// The default tokenizer. This tokenizer will remove and ignore whitespaces.
-        /// </summary>
-        public static ISourceCodeTokenizer Default
+        private bool _r1c1, _keepWhitespace, _isPivotFormula;
+        private readonly TokenType _nameValueOrPivotFieldToken;
+		/// <summary>
+		/// The default tokenizer. This tokenizer will remove and ignore whitespaces.
+		/// </summary>
+		public static ISourceCodeTokenizer Default
         {
-            get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false); }
+            get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false, false); }
         }
         /// <summary>
         /// The tokenizer used for r1c1 format. This tokenizer will keep whitespaces and add them as tokens.
         /// </summary>
         public static ISourceCodeTokenizer R1C1
         {
-            get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true); }
+            get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true, false); }
         }
-
-        public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
+		/// <summary>
+		/// The default tokenizer. This tokenizer will remove and ignore whitespaces.
+		/// </summary>
+		public static ISourceCodeTokenizer PivotFormula
+		{
+			get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false, true); }
+		}
+		public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false, bool pivotFormula=false)
         {
             _r1c1 = r1c1;
             _keepWhitespace = keepWhitespace;
-        }
+            _isPivotFormula = pivotFormula;
+            _nameValueOrPivotFieldToken = _isPivotFormula ? TokenType.PivotField : TokenType.NameValue;
+
+		}
 
         /// <summary>
         /// Split the input string into tokens used by the formula parser
@@ -107,6 +117,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             isExponential = 0x2000,
             isLastCharQuote = 0x4000
         }
+        /// <summary>
+        /// Splits a formula in tokens used in when calculating for example a worksheet cell, defined name or a pivot table field formula.
+        /// </summary>
+        /// <param name="input">The formula to tokenize</param>
+        /// <param name="worksheet">The worksheet name.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidFormulaException">Thrown if the formula is not valid.</exception>
         public IList<Token> Tokenize(string input, string worksheet)
         {
             var l = new List<Token>();
@@ -141,15 +158,30 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 {
                     if (bracketCount == 0)
                     {
-                        if (current.Length == 0)
+                        if (_isPivotFormula)
                         {
-                            l.Add(_charTokens['\'']);
-                        }
+                            if(current.Length == 0)
+                            {
+                                flags |= statFlags.isNonNumeric;
+                            }
+							else if (pc == '\'')
+                            {
+								current.Append(c);
+								flags |= statFlags.isLastCharQuote;
+							}
+						}
                         else
                         {
-                            current.Append(c);
-                        }
-                        isInString ^= 2;
+							if (current.Length == 0)
+							{
+								l.Add(_charTokens['\'']);
+							}
+							else
+							{
+								current.Append(c);
+							}
+						}
+						isInString ^= 2;
                     }
                     else if (pc == '\'' && (flags & statFlags.isLastCharQuote)==0)
                     {
@@ -540,14 +572,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else
                     {
-                        l.Add(new Token(currentString, TokenType.NameValue));
+                        l.Add(new Token(currentString, _nameValueOrPivotFieldToken));
                     }
                 }
                 else
                 {
                     if (IsName(currentString))
                     {
-                        l.Add(new Token(currentString, TokenType.NameValue));
+                        l.Add(new Token(currentString, _nameValueOrPivotFieldToken));
                     }
                     else
                     {
@@ -608,7 +640,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         }
                         else
                         {
-                            l.Add(new Token(currentString, TokenType.NameValue));
+                            l.Add(new Token(currentString, _nameValueOrPivotFieldToken));
                         }
                     }
                 }
