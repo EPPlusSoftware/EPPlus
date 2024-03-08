@@ -201,7 +201,7 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ExcelComment comment = ws.Cells[1, 1].AddComment("My Comment", "Me");
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
-                ws.Cells[1, 1].IsRichText = true;
+                ws.Cells[1, 1].RichText.Add("RichText");
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
             }
         }

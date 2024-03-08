@@ -261,6 +261,19 @@ namespace OfficeOpenXml.Style
                 return sb.ToString();
             }
         }
+
+        internal string GetXML()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<si>");
+            foreach (var item in _list)
+            {
+                item.GetXML(sb);
+            }
+            sb.Append("</si>");
+            return sb.ToString();
+        }
+
         #region IEnumerable<ExcelRichText> Members
 
         IEnumerator<ExcelRichText> IEnumerable<ExcelRichText>.GetEnumerator()
@@ -275,18 +288,6 @@ namespace OfficeOpenXml.Style
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
-        }
-
-        internal string GetXML()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<si>");
-            foreach(var item in _list)
-            {
-                item.GetXML(sb);
-            }
-            sb.Append("</si>");
-            return sb.ToString();
         }
 
         #endregion
