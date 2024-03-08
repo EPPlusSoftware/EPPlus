@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false); }
         }
+
         /// <summary>
         /// The tokenizer used for r1c1 format. This tokenizer will keep whitespaces and add them as tokens.
         /// </summary>
@@ -73,6 +75,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true); }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="functionRepository">A function name provider</param>
+        /// <param name="nameValueProvider">A name value provider</param>
+        /// <param name="r1c1">If true the tokenizer will use the R1C1 format</param>
+        /// <param name="keepWhitespace">If true whitspaces in formulas will be preserved</param>
         public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
         {
             _r1c1 = r1c1;
@@ -107,6 +116,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             isExponential = 0x2000,
             isLastCharQuote = 0x4000
         }
+
+        /// <summary>
+        /// Split the input string into tokens used by the formula parser
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="worksheet"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidFormulaException"></exception>
         public IList<Token> Tokenize(string input, string worksheet)
         {
             var l = new List<Token>();
@@ -455,7 +472,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     if (c == '[' ||
                         c == '(')
                     {
-                        l.Add(new Token("isc", TokenType.Operator));
+                        l.Add(new Token(Operator.IntersectIndicator, TokenType.Operator));
                     }
                 }
 
@@ -651,7 +668,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                    pt.TokenType == TokenType.NameValue ||
                    pt.TokenType == TokenType.Function)
                 {
-                    l.Insert(l.Count - 1, new Token("isc", TokenType.Operator));
+                    l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
                 }
             }
 
