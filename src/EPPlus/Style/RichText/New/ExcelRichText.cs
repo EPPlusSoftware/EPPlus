@@ -11,18 +11,14 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Drawing;
 using System.Globalization;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Utils;
-using System.Runtime.InteropServices;
 using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.Style
 {
@@ -31,12 +27,13 @@ namespace OfficeOpenXml.Style
     /// </summary>
     public class ExcelRichText
     {
-        internal ExcelRichText(ExcelRichTextCollection collection)
+        internal ExcelRichText(string text, ExcelRichTextCollection collection)
         {
+            Text = text;
             _collection = collection;
             ColorSettings = new ExcelRichTextColor(this);
         }
-
+        private string _text;
         /// <summary>
         /// The text
         /// </summary>
@@ -44,12 +41,15 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return Text;
+                return _text;
             }
             set 
             {
-                if (value == null) throw new InvalidOperationException("Text can't be null");
-                Text = value;
+                _text = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new InvalidOperationException("Text can't be null or empty");
+                }
             } 
         }
         /// <summary>

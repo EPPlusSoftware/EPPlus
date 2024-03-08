@@ -63,7 +63,7 @@ namespace EPPlusTest.Core.Range
         public void SettingNameToEmptyStringShouldThrowInvalidOperationException()
         {
             _ws.Cells["D1"].RichText.Add(" ");
-            _ws.Cells["D1"].RichText[0].Text = null;
+            _ws.Cells["D1"].RichText[0].Text = string.Empty;
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
@@ -86,7 +86,7 @@ namespace EPPlusTest.Core.Range
         {
             _ws.Cells["D1"].RichText.Add(" ");
             Assert.IsTrue(_ws.Cells["D1"].IsRichText);
-            _ws.Cells["D1"].RichText.Text = null;
+            _ws.Cells["D1"].RichText.Text = string.Empty;
             Assert.AreEqual(0, _ws.Cells["D1"].RichText.Count);
             Assert.IsFalse(_ws.Cells["D1"].IsRichText);
         }

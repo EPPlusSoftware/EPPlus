@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Style
                 if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
                 {
                     XmlReaderHelper.ReadUntil(xr, "rPr", "t");
-                    var item = new ExcelRichText(this);
+                    var item = new ExcelRichText(" ", this);
                     if (xr.LocalName == "rPr" && xr.NodeType == XmlNodeType.Element)
                     {
                         item.ReadrPr(xr);
@@ -62,8 +62,7 @@ namespace OfficeOpenXml.Style
             _cells = cells;
             if(!string.IsNullOrEmpty(s))
             {
-                var item = new ExcelRichText(this);
-                item.Text = s;
+                var item = new ExcelRichText(s, this);
                 _list.Add(item);
             }
         }
@@ -76,9 +75,8 @@ namespace OfficeOpenXml.Style
             {
                 if(rElement.LocalName == "r")
                 {
-                    var rt = new ExcelRichText(this);
                     var t = rElement.SelectSingleNode("d:t", ns);
-                    rt.Text = t.InnerText;
+                    var rt = new ExcelRichText(t.InnerText, this);
 
                     rt.Bold = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:b", ns));
                     rt.Italic = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:i", ns));
@@ -139,7 +137,7 @@ namespace OfficeOpenXml.Style
         public ExcelRichText Insert(int index, string text)
         {
             if (text == null) throw new ArgumentException("Text can't be null", "text");
-            var rt = new ExcelRichText(this);
+            var rt = new ExcelRichText(text, this);
             rt.Text = text;
             rt.PreserveSpace = true;
             int prevIndex = 0;

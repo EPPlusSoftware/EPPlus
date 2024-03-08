@@ -1283,6 +1283,10 @@ namespace OfficeOpenXml
             }
             set
             {
+                if(value == true &&( Value == null || Value.ToString() == string.Empty))
+                {
+                    throw new InvalidOperationException("Cannot set IsRichText when Value is null or empty string");
+                }
                 SetIsRichTextFlag(value);
             }
         }

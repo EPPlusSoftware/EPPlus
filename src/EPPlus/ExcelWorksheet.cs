@@ -1443,7 +1443,12 @@ namespace OfficeOpenXml
             var v = GetCoreValueInner(row, col);
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
             
-            if(isRt && v._value is ExcelRichTextCollection rtc)
+            if(v._value == null)
+            {
+                _flags.SetFlagValue(row, col, false, CellFlags.RichText);
+                return new ExcelRichTextCollection(null, r);
+            }
+            else if(isRt && v._value is ExcelRichTextCollection rtc)
             {
                 return rtc;
             }
