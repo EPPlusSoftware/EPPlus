@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false, false); }
         }
+
         /// <summary>
         /// The tokenizer used for r1c1 format. This tokenizer will keep whitespaces and add them as tokens.
         /// </summary>
@@ -124,7 +126,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <param name="worksheet">The worksheet name.</param>
         /// <returns></returns>
         /// <exception cref="InvalidFormulaException">Thrown if the formula is not valid.</exception>
-        public IList<Token> Tokenize(string input, string worksheet)
+         public IList<Token> Tokenize(string input, string worksheet)
         {
             var l = new List<Token>();
             int ix;
@@ -487,7 +489,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     if (c == '[' ||
                         c == '(')
                     {
-                        l.Add(new Token("isc", TokenType.Operator));
+                        l.Add(new Token(Operator.IntersectIndicator, TokenType.Operator));
                     }
                 }
 
@@ -683,7 +685,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                    pt.TokenType == TokenType.NameValue ||
                    pt.TokenType == TokenType.Function)
                 {
-                    l.Insert(l.Count - 1, new Token("isc", TokenType.Operator));
+                    l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
                 }
             }
 

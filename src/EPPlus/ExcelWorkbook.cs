@@ -40,6 +40,7 @@ using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace OfficeOpenXml
 {
@@ -386,14 +387,47 @@ namespace OfficeOpenXml
                 namedRange = nameWorksheet.Names.AddName(elem.GetAttribute("name"), range);
             }
 
-            if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "\"")) //String value
+			var tokens = FormulaParser.Tokenizer.Tokenize(fullAddress);
+			if (tokens.Count == 1)
             {
-                namedRange.NameValue = fullAddress.Substring(1, fullAddress.Length - 2);
-            }
-            else if (double.TryParse(fullAddress, NumberStyles.Number, CultureInfo.InvariantCulture, out double value))
-            {
-                namedRange.NameValue = value;
-            }
+				switch(tokens[0].TokenType)
+				{
+					case TokenType.StringContent:
+						namedRange.NameValue = tokens[0].Value;
+						break;
+					case TokenType.Boolean:
+						if (ConvertUtil.TryParseBooleanString(fullAddress, out bool b))
+						{
+							namedRange.NameValue = b;
+						}
+						else
+						{
+							namedRange.NameFormula = fullAddress;
+						}
+						break;
+					case TokenType.Integer:
+					case TokenType.Decimal:
+						if(ConvertUtil.TryParseNumericString(fullAddress, out double d, CultureInfo.InvariantCulture))
+						{
+							namedRange.NameValue = d;
+						}
+						else
+						{
+							namedRange.NameFormula = fullAddress;
+						}
+						break;
+					//We can add this to get errors in NameValue instead of the error codes in NameFormula in the future.
+					//case TokenType.InvalidReference:
+					//case TokenType.ValueDataTypeError:
+					//case TokenType.NAError:
+					//case	 TokenType.NumericError:
+					//	namedRange.NameValue = ExcelErrorValue.Parse(fullAddress);
+					//	break;
+					default:
+						namedRange.NameFormula = fullAddress;
+						break;
+				}
+			}
             else
             {
                 namedRange.NameFormula = fullAddress;
@@ -1493,7 +1527,7 @@ namespace OfficeOpenXml
 					}
 					else
 					{
-						elem.InnerText = "\"" + name.NameValue.ToString() + "\"";
+						elem.InnerText = "\"" + ConvertUtil.ExcelEscapeAndEncodeString(name.NameValue.ToString()).Replace("\"","\"\"") + "\"";
 					}
 				}
 				else

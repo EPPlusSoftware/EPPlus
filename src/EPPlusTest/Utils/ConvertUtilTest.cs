@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -32,11 +32,12 @@ using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml;
 
 namespace EPPlusTest.Utils
 {
 	[TestClass]
-	public class ConvertUtilTest
+	public class ConvertUtilTest : TestBase
 	{
 		[TestMethod]
 		public void TryParseNumericString()
@@ -235,6 +236,29 @@ namespace EPPlusTest.Utils
                         return default(T);
                     }
                 }
+            }
+        }
+
+        [TestMethod]
+        public void EnsureNoDoubleNegativeSignInOtherCulture()
+        {
+            SwitchToCulture("fi-FI");
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("negativeSignHandling");
+                var format = "# ##0;-# ##0;-";
+                var cell = sheet.Cells["B1"];
+
+                cell.Value = -4489.2677052511d;
+                cell.Style.Numberformat.Format = format;
+
+                var text = cell.Text;
+
+                SwitchBackToCurrentCulture();
+
+                //Note: there are two different minus signs in the strings here intentionally.
+                //The oldChar should be unicode U+2212 'Minus'
+                Assert.AreEqual("-4 489", text.Replace('−','-'));
             }
         }
 

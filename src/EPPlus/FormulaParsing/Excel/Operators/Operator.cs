@@ -41,6 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         internal const int PrecedenceAddSubtract = 12;
         internal const int PrecedenceConcat = 15;
         internal const int PrecedenceComparison = 25;
+        internal const string IntersectIndicator = "isc";
 
         private Operator() { }
 

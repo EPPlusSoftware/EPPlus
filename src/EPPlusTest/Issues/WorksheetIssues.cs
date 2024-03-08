@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
 using System.IO;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 namespace EPPlusTest
 {
 	[TestClass]
@@ -171,6 +172,76 @@ namespace EPPlusTest
 			}
 		}
 		[TestMethod]
+		public void i1313()
+		{
+			using (var package = OpenTemplatePackage("SpecialNameValue.xlsx"))
+			{
+				var sheet = package.Workbook.Worksheets[0];
+				SaveAndCleanup(package);
+			}
+		}
+		[TestMethod]
+		public void i1314()
+		{
+			using (var package = OpenTemplatePackage("i1314-2.xlsx"))
+			{
+				foreach (ExcelWorksheet w in package.Workbook.Worksheets)
+				{
+					if (w.Tables.Count() > 0)
+					{
+						var dt = w.Tables.First();
+						if (w == package.Workbook.Worksheets.First()) // First sheet contains the table to be filled by the RAT results
+						{
+							var RowIx = 2;
+							for (int r = 1; r <= 5; r++)
+							{
+								int c = 0;
+
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1418;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "AfnameNaam";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = r;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "VraagNaam";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 6.2;
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "A";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "B";
+								w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 4;
+								var rowRange = dt.AddRow();
+								RowIx = rowRange.Start.Row;
+							}
+
+							//dt.WorkSheet.Calculate();
+							dt.WorkSheet.Cells.AutoFitColumns();
+							w.Calculate();
+						}
+
+					}
+				}
+				package.Save();
+				package.Dispose();
+			}
+		}
+		[TestMethod]
+		public void i1317()
+		{
+			using (var package = new ExcelPackage())
+			{
+				var sheet = package.Workbook.Worksheets.Add("Sheet1");
+				package.Workbook.Names.AddValue("ValueName1", 1);
+				package.Workbook.Names.AddValue("ValueName2", 2.23);
+				package.Workbook.Names.AddValue("ValueName3", true);
+				package.Workbook.Names.AddValue("ValueName4", "String Value");
+				package.Workbook.Names.AddValue("ValueName5", "String Value with \"");
+
+				package.Save();
+				//SaveWorkbook("i1317.xlsx",package);
+				using(var p2=new  ExcelPackage(package.Stream)) 
+				{
+					var ws = p2.Workbook.Worksheets[0];
+				}
+			}
+		}
+		[TestMethod]
 		public void s618()
 		{
 			ExcelPackage.LicenseContext = LicenseContext.Commercial;
@@ -186,6 +257,39 @@ namespace EPPlusTest
 				worksheet.Comments.Remove(range.Comment);
 				SaveAndCleanup(package);
 
+			}
+		}
+		[TestMethod]
+		public void DeleteRow_TableWithCalculatedColumnFormula()
+		{
+			using (var pck = new ExcelPackage())
+			{
+				// Set up a worksheet with a single table that has lots of rows and a calculated column
+				var wks = pck.Workbook.Worksheets.Add("Sheet1");
+				wks.Cells["A1:A14"].Value = "Data outside table";
+				wks.Cells["A16"].Value = "Col1";
+				wks.Cells["B16"].Value = "Col2";
+				var table = wks.Tables.Add(wks.Cells["A16:B18394"], "Table1");
+				table.Columns[0].CalculatedColumnFormula = "ROW()-16";
+
+				// The calculated column formula is only given to rows inside the table
+				for (int i = 16; i > 0; i--)
+				{
+					Assert.AreEqual("", wks.Cells["A" + i].Formula);
+				}
+				Assert.AreEqual("ROW()-16", wks.Cells["A17"].Formula);
+
+				// Delete all rows in the table except for the header row and the last row
+				var listRowsCount = table.Range.Rows;
+				wks.DeleteRow(17, listRowsCount - 2);
+
+				// Check that rows above the table haven't been given a formula
+				for (int i = 16; i > 0; i--)
+				{
+					Assert.AreEqual("", wks.Cells["A" + i].Formula, "Formula present in A" + i);
+				}
+				Assert.AreEqual("ROW()-16", wks.Cells["A17"].Formula);
+				SaveWorkbook("Issue1321.xlsx", pck);
 			}
 		}
 	}

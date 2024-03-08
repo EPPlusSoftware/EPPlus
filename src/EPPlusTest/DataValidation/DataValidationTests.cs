@@ -40,6 +40,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace EPPlusTest.DataValidation
 {
@@ -152,9 +153,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void TestRangeAddsSingularInstance()
         {
-            ExcelPackage pck = OpenTemplatePackage("ValidationRangeTest.xlsx"); ;
-
-            //pck.Workbook.Worksheets.Add("RangeTest");
+            ExcelPackage pck = OpenTemplatePackage("ValidationRangeTest.xlsx");
 
             var validations = pck.Workbook.Worksheets[0].DataValidations;
 
@@ -640,6 +639,13 @@ namespace EPPlusTest.DataValidation
 
                 SaveAndCleanup(pck);
             }
+
+            using (var pck2 = OpenPackage("ClearDataValidationTestAdress.xlsx"))
+            {
+                var ws2 = pck2.Workbook.Worksheets[0];
+                var address = ws2.DataValidations[0].Address;
+                Assert.IsTrue(address.Collide(new ExcelAddressBase("A3")) == ExcelAddressBase.eAddressCollition.No);
+            }
         }
 
         [TestMethod]
@@ -1019,6 +1025,30 @@ namespace EPPlusTest.DataValidation
             }
         }
 
+        [TestMethod]
+        public void DataValidationWith2FormulasThatAreNullShouldNotThrow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("nullformulas");
+
+                var intValidation = sheet.DataValidations.AddIntegerValidation("C2");
+                intValidation.Operator = ExcelDataValidationOperator.between;
+
+                intValidation.AllowBlank = true;
+
+                Stream stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                var readPck = new ExcelPackage(stream);
+
+                var validation = (ExcelDataValidationInt)readPck.Workbook.Worksheets[0].DataValidations[0];
+                var address = validation.Address.Address;
+                Assert.AreEqual("C2", address);
+                //Assert.IsNull(validation.Formula);
+                //Assert.IsNull(validation.Formula2);
+            }
+        }
 
         [TestMethod]
         public void AddressContainingOwnSheetName_ShouldNotThrow()
@@ -1140,6 +1170,77 @@ namespace EPPlusTest.DataValidation
                 var address = readPck.Workbook.Worksheets[0].DataValidations[0].Address.Address;
                 Assert.AreEqual("$C$2,$Z$5", address);
                 Assert.AreEqual("ExtTestSheet!$C$5", validation.As.IntegerValidation.Formula.ExcelFormula);
+            }
+        }
+
+        [TestMethod]
+        public void HandleReadingOfOldDataValidationFiles()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("oldWorksheetMock");
+                package.Workbook.Worksheets.Add("extSheet");
+
+                string oldValidations = "";
+                string attributes = "<dataValidation allowBlank=\"true\" errorStyle=\"stop\" operator=\"equal\" showDropDown=\"false\" showErrorMessage=\"true\" showInputMessage=\"false\"";
+                for (int i = 0; i < 5; i++) 
+                {
+                    char nextChar = (char)('j' + i);
+                    oldValidations += attributes + $" sqref=\"{nextChar}{i+1}\"" + " type=\"list\">";
+                    oldValidations += "<formula1>'extSheet'!$A:$A</formula1>";
+                    oldValidations += "<formula2>0</formula2>";
+                    oldValidations += "</dataValidation>";
+                }
+
+                string xmlMock = "<root><dataValidations count=\"5\">" + oldValidations + "</dataValidations><printOptions headings=\"false\" gridLines=\"false\" gridLinesSet=\"true\" horizontalCentered=\"false\" verticalCentered=\"false\"/>";
+                xmlMock += "</root>";
+
+                var reader = new StringReader(xmlMock);
+
+                var xr = XmlReader.Create(reader, new XmlReaderSettings()
+                {
+                    ConformanceLevel = ConformanceLevel.Fragment,
+                    DtdProcessing = DtdProcessing.Prohibit,
+                    IgnoreWhitespace = true,
+                });
+
+                xr.Read();
+                xr.Read();
+
+                sheet.DataValidations.ReadDataValidations(xr);
+
+                Assert.AreEqual(5, sheet.DataValidations.Count);
+                Assert.AreEqual("J1", sheet.DataValidations[0].Address.Address);
+                Assert.AreEqual("K2", sheet.DataValidations[1].Address.Address);
+                Assert.AreEqual("L3", sheet.DataValidations[2].Address.Address);
+                Assert.AreEqual("M4", sheet.DataValidations[3].Address.Address);
+                Assert.AreEqual("N5", sheet.DataValidations[4].Address.Address);
+                Assert.AreEqual("printOptions", xr.LocalName);
+            }
+        }
+
+        [TestMethod]
+        public void EnsureEmptyFormulasCanBeRead()
+        {
+            using(var package = OpenPackage("EmptyDataValidationsTest.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyValidations");
+
+                var validation = sheet.Cells["A1:B5"].DataValidation.AddDecimalDataValidation();
+
+                validation.Operator = ExcelDataValidationOperator.between;
+                validation.AllowBlank = true;
+
+                SaveAndCleanup(package);
+
+                var readPackage = OpenPackage("EmptyDataValidationsTest.xlsx");
+
+                var readSheet = readPackage.Workbook.Worksheets.FirstOrDefault();
+
+                var readValidation = readSheet.DataValidations[0].As.DecimalValidation;
+
+                Assert.IsNull(readValidation.Formula.Value);
+                Assert.IsNull(readValidation.Formula2.Value);
             }
         }
     }
