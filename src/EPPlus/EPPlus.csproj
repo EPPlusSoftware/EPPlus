@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.2.17
+		EPPlus 6.2.18
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -347,7 +347,7 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.2.18	20240215 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.18	20240311 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		6.2.17	20240215 Minor bug fixes. 
 		6.2.16	20240110 Minor bug fixes.
 		6.2.15	20231215 Minor bug fixes.
