@@ -605,7 +605,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
         internal void GetClassData(HTMLElement element, bool isTable, HtmlImage image, ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext content, bool isHeader = false)
         {
-            var imageCellClassName = GetImageCellClassName(image, Settings, isTable); ;
+            var imageCellClassName = GetImageCellClassName(image, Settings, isTable);
             var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, isHeader, settings, imageCellClassName, content);
 
             if (!string.IsNullOrEmpty(classString[0]))

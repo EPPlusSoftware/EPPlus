@@ -169,9 +169,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             }
                         }
                     }
-
-                    AddConditionalFormattingsToCollection(ce.CellAddress, ns, collection);
                 }
+                AddConditionalFormattingsToCollection(ce.CellAddress, ns, collection);
             }
         }
 

@@ -20,6 +20,7 @@ using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -153,7 +154,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (cellValue.IsNumeric())
             {
-                var cellValues = new List<object>();
+                var cellValues = new List<double>();
                 double midPoint = 0;
                 double average = 0;
                 int count = 0;
@@ -163,8 +164,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                     {
                         for (int j = 1; j <= cell.Columns; j++)
                         {
-                            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                            average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
+                            average += ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
                             count++;
                         }
                     }
@@ -173,16 +174,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                 average = average / count;
 
                 var values = cellValues.OrderBy(n => n);
-                int index = 0;
 
-                foreach (var value in values)
-                {
-                    if (value == cellValue)
-                    {
-                        break;
-                    }
-                    index++;
-                }
+                var aValue = cellValues.Last();
 
                 var highest = Convert.ToDouble(values.Last());
                 var lowest = Convert.ToDouble(values.First());

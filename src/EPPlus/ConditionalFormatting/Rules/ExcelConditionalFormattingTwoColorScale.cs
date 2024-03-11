@@ -217,6 +217,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
+            //TODO: Cache this for performance
             if (cellValue.IsNumeric())
             {
                 var cellValues = new List<object>();

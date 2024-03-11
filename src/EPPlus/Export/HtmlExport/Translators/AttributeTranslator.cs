@@ -62,37 +62,41 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 }
             }
 
+            //int id = int.MinValue;
+
+            var returnList = new List<string> { "" };
+
             if (styleId == 0 || HasStyle(xfs) == false)
             {
                 if (string.IsNullOrEmpty(cls) == false)
-                    return new List<string> { cls };
-                return new List<string> { "" };
-            }
-
-            string key = GetStyleKey(xfs);
-
-            var ma = cell.Worksheet.MergedCells[cell._fromRow, cell._fromCol];
-            if (ma != null)
-            {
-                var address = new ExcelAddressBase(ma);
-                var bottomStyleId = cell.Worksheet._values.GetValue(address._toRow, address._fromCol)._styleId;
-                var rightStyleId = cell.Worksheet._values.GetValue(address._fromRow, address._toCol)._styleId;
-                key += bottomStyleId + "|" + rightStyleId;
-            }
-
-            int id;
-            if (styleCache.ContainsKey(key))
-            {
-                id = styleCache[key];
+                    returnList[0] = cls;
             }
             else
             {
-                id = styleCache.Count + 1;
-                styleCache.Add(key, id);
+                string key = GetStyleKey(xfs);
+
+                var ma = cell.Worksheet.MergedCells[cell._fromRow, cell._fromCol];
+                if (ma != null)
+                {
+                    var address = new ExcelAddressBase(ma);
+                    var bottomStyleId = cell.Worksheet._values.GetValue(address._toRow, address._fromCol)._styleId;
+                    var rightStyleId = cell.Worksheet._values.GetValue(address._fromRow, address._toCol)._styleId;
+                    key += bottomStyleId + "|" + rightStyleId;
+                }
+
+                int id;
+                if (styleCache.ContainsKey(key))
+                {
+                    id = styleCache[key];
+                }
+                else
+                {
+                    id = styleCache.Count + 1;
+                    styleCache.Add(key, id);
+                }
+
+                cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
             }
-
-            cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
-
 
             int dxfId;
             string dxfKey;
@@ -136,7 +140,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             else
                             {
                                 dxfId = dxfStyleCache.Count + 1;
-                                dxfStyleCache.Add(dxfKey, id);
+                                dxfStyleCache.Add(dxfKey, dxfId);
                             }
 
                             cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
