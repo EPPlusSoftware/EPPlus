@@ -1,10 +1,14 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.18
+* Setting style's (like Font for a cell) on the row level did not get the cell style from the column level causing cells intersecting to loose that style. 
+* ExcelRangeBase.SaveToText and ExcelRangeBase.SaveToTextAsync with a FileInfo did not close the file.
+
 ## Version 6.2.17
 ### Fixed issues 
 * EPPlus can now handle up to 66 indexed colors.
 * Formatted text for cells with Boolean values now returns TRUE or FALSE.
 * Deleting the first worksheet in a workbook that has "IsWorksheets1Based = true" no longer throws out of range exception 
-* Ensured workbooks do not become corrupted after SaveAs if they have certain empty xml nodes
+* Ensured workbooks do not become corrupted after SaveAs if they have certain empty xml nodes.
 
 ## Version 6.2.16
 ### Fixed issues 
