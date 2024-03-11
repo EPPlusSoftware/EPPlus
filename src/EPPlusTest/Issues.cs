@@ -5678,5 +5678,15 @@ namespace EPPlusTest
 				SaveAndCleanup(package);
 			}
 		}
+		[TestMethod]
+		public void s633()
+		{
+			using (var p = OpenTemplatePackage("s633.xlsx"))
+			{
+				var sheet = p.Workbook.Worksheets[0];
+				var pic = sheet.Drawings[0].As.Picture;
+			}
+		}
+
 	}
 }
