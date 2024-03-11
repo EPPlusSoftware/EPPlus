@@ -9,7 +9,12 @@
 * Some cultures would sometimes get double negative signs in the .Text property of cells.
 * Invalid characters in the name parameter were not validated for the AddValue and AddFormula methods of ExcelNamedRangeCollection.
 * Defined names with string values was not xml encoded on saving the package.
-
+* Setting style's (like Font for a cell) on the row level did not get the cell style from the column level causing cells intersecting to loose that style. 
+* ExcelRangeBase.SaveToText and ExcelRangeBase.SaveToTextAsync with a FileInfo did not close the file.
+* Intersect operator was replaced with 'isc' when copying cells
+* EPPlus removed all styling when setting a Table's CalculatedFormula to an empty string
+* ActiveTab was not re-calculated when moving worksheet   
+ 
 ## Version 7.0.9
 ### Fixed issues 
 * The formula tokenizer did not handle minus correctly before table addresses.
