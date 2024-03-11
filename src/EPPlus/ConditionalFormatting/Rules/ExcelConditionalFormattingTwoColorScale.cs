@@ -24,6 +24,7 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -216,18 +217,18 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal virtual string ApplyStyleOverride(ExcelAddress address)
         {
             var range = _ws.Cells[address.Address];
-            var cellValue = range.Value;
+            var cellValue = ConvertUtil.GetValueDouble(range.Value);
             //TODO: Cache this for performance
             if (cellValue.IsNumeric())
             {
-                var cellValues = new List<object>();
+                var cellValues = new List<double>();
                 foreach (var cell in Address.GetAllAddresses())
                 {
                     for (int i = 1; i <= cell.Rows; i++)
                     {
                         for (int j = 1; j <= cell.Columns; j++)
                         {
-                            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
                         }
                     }
                 }
