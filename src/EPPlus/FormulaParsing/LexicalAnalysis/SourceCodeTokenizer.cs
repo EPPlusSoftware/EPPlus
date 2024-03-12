@@ -430,7 +430,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         private Token GetLastTokenIgnore(List<Token> l, out int i, params TokenType[] ignoreTokens)
         {
             i = l.Count - 1;
-            while (i >= 0 && ignoreTokens.Contains(l[i].TokenType))
+            while (i > 0 && ignoreTokens.Contains(l[i].TokenType))
                 i--;
             return l[i];
         }
