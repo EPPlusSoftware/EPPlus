@@ -1426,7 +1426,7 @@ namespace OfficeOpenXml
 
         public static ExcelRichTextColor GetRichTextPropertyColor(XmlNode n, ExcelRichText rt)
         {
-            ExcelRichTextColor ColorSettings = new ExcelRichTextColor(rt);
+            ExcelRichTextColor ColorSettings = new ExcelRichTextColor();
             if (n != null)
             {
                 var auto = n.Attributes["auto"];

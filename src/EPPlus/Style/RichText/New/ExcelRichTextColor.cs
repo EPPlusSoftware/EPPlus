@@ -25,75 +25,11 @@ using System;
 
 namespace OfficeOpenXml.Style
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ExcelRichTextColor
     {
-        private ExcelRichText _rt;
-
-        internal ExcelRichTextColor(ExcelRichText rt)
-        {
-            _rt = rt;
-        }
-
-        public ExcelRichTextColor(XmlReader xr, ExcelRichText rt)
-        {
-            _rt = rt;
-            int num;
-            var auto = xr.GetAttribute("auto");
-            if (int.TryParse(auto, NumberStyles.Integer, CultureInfo.InvariantCulture, out int result))
-            {
-                Auto = result > 0 || result < 0 ? true : false;
-            }
-            if (int.TryParse(xr.GetAttribute("indexed"), NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
-            {
-                Indexed = num;
-            }
-            var rgb = xr.GetAttribute("rgb");
-            if (!String.IsNullOrEmpty(rgb))
-            {
-                Rgb = ExcelDrawingRgbColor.GetColorFromString(rgb);
-            }
-            if (int.TryParse(xr.GetAttribute("theme"), NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
-            {
-                Theme = (eThemeSchemeColor)num;
-            }
-            var tint = xr.GetAttribute("tint");
-            if(ConvertUtil.TryParseNumericString(tint, out double d, CultureInfo.InvariantCulture))
-            {
-                Tint = d;
-            }
-        }
-
-        /// <summary>
-        /// Gets the rgb color depending in <see cref="Rgb"/>, <see cref="Theme"/> and <see cref="Tint"/>
-        /// </summary>
-        public Color Color
-        {
-            get
-            {
-                Color ret = Color.Empty;
-                if(Rgb != Color.Empty)
-                {
-                    ret = Rgb;
-                }
-                else if (Indexed.HasValue)
-                {
-                    ret = ExcelColor.GetIndexedColor(Indexed.Value);
-                }
-                else if(Theme.HasValue)
-                {
-                    ret = Utils.ColorConverter.GetThemeColor(_rt._collection._wb.ThemeManager.GetOrCreateTheme(), Theme.Value);
-                }
-                else if(Auto)
-                {
-                    ret = Color.Black;
-                }
-                if (Tint.HasValue)
-                {
-                    return Utils.ColorConverter.ApplyTint(ret, Tint.Value);
-                }
-                return ret;
-            }
-        }
         /// <summary>
         /// The rgb color value set in the file.
         /// </summary>
@@ -118,31 +54,5 @@ namespace OfficeOpenXml.Style
         /// A negative value means not set.
         /// </summary>
         public int? Indexed { get; set; }
-
-        internal void AppendXml(StringBuilder sb)
-        {
-            sb.Append("<color");
-            if(Auto )
-            {
-                sb.Append(" auto=\"1\"");
-            }
-            if( Indexed != null )
-            {
-                sb.Append($" indexed=\"{Indexed.Value}\"");
-            }
-            if (Rgb != Color.Empty)
-            {
-                sb.Append($" rgb=\"{(Rgb.ToArgb()).ToString("X").PadLeft(8, '0')}\"");
-            }
-            if(Theme != null)
-            {
-                sb.Append($" theme=\"{(int)Theme.Value}\"");
-            }
-            if(Tint != null)
-            {
-                sb.Append($" tint=\"{Tint.Value.ToString(CultureInfo.InvariantCulture)}\"");
-            }
-            sb.Append("/>");
-        }
     }
 }

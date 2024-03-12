@@ -20,6 +20,8 @@ using System.Globalization;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace OfficeOpenXml.Style
 {
@@ -32,6 +34,23 @@ namespace OfficeOpenXml.Style
         internal ExcelRangeBase _cells = null;
         internal ExcelWorkbook _wb;
 
+        internal ExcelRichTextCollection(ExcelWorkbook wb, ExcelRangeBase cells)
+        {
+            _wb = wb;
+            _cells = cells;
+        }
+
+        internal ExcelRichTextCollection(string s, ExcelRangeBase cells)
+        {
+            _wb = cells._workbook;
+            _cells = cells;
+            if (!string.IsNullOrEmpty(s))
+            {
+                var item = new ExcelRichText(s, this);
+                _list.Add(item);
+            }
+        }
+
         internal ExcelRichTextCollection(XmlReader xr, ExcelWorkbook wb)
         {
             _wb = wb;
@@ -40,30 +59,21 @@ namespace OfficeOpenXml.Style
                 if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
                 {
                     XmlReaderHelper.ReadUntil(xr, "rPr", "t");
-                    var item = new ExcelRichText(" ", this);
+                    ExcelRichTextAttributes attributes = new ExcelRichTextAttributes();
+                    string text = null;
                     if (xr.LocalName == "rPr" && xr.NodeType == XmlNodeType.Element)
                     {
-                        item.ReadrPr(xr);
+                        attributes = ExcelRichText.ReadrPr(xr);
                         xr.Read();
                     }
                     if (xr.LocalName == "t" && xr.NodeType == XmlNodeType.Element)
                     {
-                        item.Text = xr.ReadElementContentAsString();
+                        text = xr.ReadElementContentAsString();
                     }
+                    ExcelRichText item = new ExcelRichText(text, attributes, this);
                     _list.Add(item);
                 }
                 xr.Read();
-            }
-        }
-
-        internal ExcelRichTextCollection(string s, ExcelRangeBase cells)
-        {
-            _wb = cells._workbook;
-            _cells = cells;
-            if(!string.IsNullOrEmpty(s))
-            {
-                var item = new ExcelRichText(s, this);
-                _list.Add(item);
             }
         }
 
@@ -138,7 +148,6 @@ namespace OfficeOpenXml.Style
         {
             if (text == null) throw new ArgumentException("Text can't be null", "text");
             var rt = new ExcelRichText(text, this);
-            rt.Text = text;
             rt.PreserveSpace = true;
             int prevIndex = 0;
             if(index > _list.Count)
@@ -176,6 +185,7 @@ namespace OfficeOpenXml.Style
                 rt.Size = style.Font.Size;
                 rt.Bold = style.Font.Bold;
                 rt.Italic = style.Font.Italic;
+                _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._toCol, true, CellFlags.RichText);
                 _cells.SetIsRichTextFlag(true);
             }
             _list.Insert(index, rt);
@@ -268,7 +278,7 @@ namespace OfficeOpenXml.Style
             sb.Append("<si>");
             foreach (var item in _list)
             {
-                item.GetXML(sb);
+                item.WriteRichTextAttributes(sb);
             }
             sb.Append("</si>");
             return sb.ToString();

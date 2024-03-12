@@ -1438,28 +1438,57 @@ namespace OfficeOpenXml
             }
             delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
-        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r=null)
+        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
         {
             var v = GetCoreValueInner(row, col);
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
-            
-            if(v._value == null)
-            {
-                _flags.SetFlagValue(row, col, false, CellFlags.RichText);
-                return new ExcelRichTextCollection(null, r);
-            }
-            else if(isRt && v._value is ExcelRichTextCollection rtc)
+            if (isRt && v._value is ExcelRichTextCollection rtc)
             {
                 return rtc;
             }
             else
             {
-                _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                 var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
-                var item = new ExcelRichTextCollection(text, r);
-                SetValue(row, col, item);
-                return item; 
+                if (string.IsNullOrEmpty(text))
+                {
+                    var item = new ExcelRichTextCollection(Workbook, r);
+                    SetValue(row, col, item);
+                    return item;
+                }
+                else
+                {
+                    _flags.SetFlagValue(row, col, true, CellFlags.RichText);
+                    var item = new ExcelRichTextCollection(text, r);
+                    SetValue(row, col, item);
+                    return item;
+                }
             }
+            //if (v._value == null && r == null)
+            //{
+            //    //_flags.SetFlagValue(row, col, true, CellFlags.RichText);
+            //    var item = new ExcelRichTextCollection(Workbook);
+            //    SetValue(row, col, item);
+            //    return item;
+            //}
+            //else if (v._value == null && r != null)
+            //{
+            //    //_flags.SetFlagValue(row, col, true, CellFlags.RichText);
+            //    var item = new ExcelRichTextCollection(Workbook, r);
+            //    SetValue(row, col, item);
+            //    return item;
+            //}
+            //else if (isRt && v._value is ExcelRichTextCollection rtc)
+            //{
+            //    return rtc;
+            //}
+            //else
+            //{
+            //    _flags.SetFlagValue(row, col, true, CellFlags.RichText);
+            //    var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
+            //    var item = new ExcelRichTextCollection(text, r);
+            //    SetValue(row, col, item);
+            //    return item;
+            //}
         }
 
         private ExcelHyperLink GetHyperlinkFromRef(XmlReader xr, string refTag, int fromRow = 0, int toRow = 0, int fromCol = 0, int toCol = 0)
