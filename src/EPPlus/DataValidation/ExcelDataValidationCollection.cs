@@ -228,15 +228,16 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="dv"></param>
         /// <param name="address"></param>
+        /// <param name="added"></param>
         internal void AddCopyOfDataValidation(ExcelDataValidation dv, ExcelWorksheet added, string address = null)
         {
             if(address == null)
             {
-                _validations.Add(dv.GetClone(added));
+                AddInternal(dv.GetClone(added));
             }
             else
             {
-                _validations.Add(ExcelDataValidationFactory.CloneWithNewAdress(address, dv, added));
+                AddInternal(ExcelDataValidationFactory.CloneWithNewAdress(address, dv, added));
             }
         }
 
@@ -326,7 +327,7 @@ namespace OfficeOpenXml.DataValidation
 
         private ExcelDataValidation AddValidation(string address, ExcelDataValidation validation)
         {
-            _validations.Add(validation);
+            AddInternal(validation);
 
             var internalAddress = new ExcelAddress(address.Replace(" ", ","));
 
@@ -498,6 +499,19 @@ namespace OfficeOpenXml.DataValidation
 
                 default:
                     throw new Exception("UNKNOWN TYPE IN GetFormulas");
+            }
+        }
+
+        private void AddInternal(ExcelDataValidation validation)
+        {
+            if(_validations.Count < 65534)
+            {
+                _validations.Add(validation);
+            }
+            else
+            {
+                throw new OverflowException($"Maximum Data Validations for worksheet: '{_worksheet}' reached. " +
+                    $"Excel supports a maxium of 65534 Data Validations per worksheet. Currently at {_validations.Count} validations");
             }
         }
 
