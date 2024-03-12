@@ -69,6 +69,7 @@ namespace OfficeOpenXml.Style
                     if (xr.LocalName == "t" && xr.NodeType == XmlNodeType.Element)
                     {
                         text = xr.ReadElementContentAsString();
+                        text = ConvertUtil.ExcelDecodeString(text);
                     }
                     ExcelRichText item = new ExcelRichText(text, attributes, this);
                     _list.Add(item);
@@ -81,6 +82,7 @@ namespace OfficeOpenXml.Style
         {
             _wb = cells._workbook;
             _cells= cells;
+
             foreach(XmlNode rElement in textElem.ChildNodes)
             {
                 if(rElement.LocalName == "r")
@@ -99,6 +101,7 @@ namespace OfficeOpenXml.Style
                     rt.ColorSettings = XmlHelper.GetRichTextPropertyColor(rElement.SelectSingleNode("d:rPr/d:color", ns), rt);
                     rt.Charset = XmlHelper.GetRichTextPropertyInt(rElement.SelectSingleNode("d:rPr/d:charset", ns));
                     rt.Family = XmlHelper.GetRichTextPropertyInt(rElement.SelectSingleNode("d:rPr/d:family", ns));
+                    _list.Add(rt);
                 }
             }
         }

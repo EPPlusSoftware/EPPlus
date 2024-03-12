@@ -505,15 +505,15 @@ namespace OfficeOpenXml.Style
                 {
                     sb.Append($"<family val=\"{Family}\"/>");
                 }
-                if (Bold != null)
+                if (Bold != null && Bold == true)
                 {
                     sb.Append($"<b/>");
                 }
-                if (Italic != null)
+                if (Italic != null && Italic == true)
                 {
                     sb.Append($"<i/>");
                 }
-                if (Strike != null)
+                if (Strike != null && Strike == true)
                 {
                     sb.Append($"<strike/>");
                 }
@@ -557,7 +557,7 @@ namespace OfficeOpenXml.Style
                 sb.Append("</rPr>");
             }
             sb.Append($"<t{ValueHasWhiteSpaces()}>");
-            sb.Append(Text);
+            sb.Append(ConvertUtil.ExcelEscapeAndEncodeString(Text));
             sb.Append("</t>");
             sb.Append("</r>");
         }
@@ -592,21 +592,21 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return Bold == false &&
-                    Italic == false &&
-                    Strike == false &&
+                return       Bold == false &&
+                           Italic == false &&
+                           Strike == false &&
                     VerticalAlign == ExcelVerticalAlignmentFont.None &&
-                    Size == 0 &&
+                             Size == 0 &&
                     String.IsNullOrEmpty(FontName) &&
-                    Color == Color.Empty &&
-                    Charset == null &&
-                    Family == null &&
+                            Color == Color.Empty &&
+                          Charset == null &&
+                           Family == null &&
                     UnderLineType == null;
-                //Outline == false &&
-                //Shadow == false &&
-                //Condense == false &&
-                //Extend == false &&
-                //Scheme == null;
+                        //Outline == false &&
+                         //Shadow == false &&
+                       //Condense == false &&
+                         //Extend == false &&
+                         //Scheme == null;
             }
         }
     }

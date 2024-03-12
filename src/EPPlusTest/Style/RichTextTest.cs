@@ -157,5 +157,23 @@ namespace EPPlusTest.Style
                 }
             }
         }
+
+        [TestMethod]
+        public void RichTextPropertiesCopyTest()
+        {
+            using (var p = OpenTemplatePackage("RichTextTests.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                p.Workbook.Worksheets.Add("Page2");
+                var ws2 = p.Workbook.Worksheets[1];
+                ws.Cells["A1:A19"].Copy(ws2.Cells["B1:B19"]);
+                p.Save();
+                Assert.AreEqual(ws.Cells["A1"].Text, ws2.Cells["B1"].Text);
+                Assert.AreEqual(true, ws2.Cells["B2"].RichText[1].Bold);
+                Assert.AreEqual(ws.Cells["A3"].RichText, ws2.Cells["B3"].RichText);
+                Assert.AreEqual(ws.Cells["A8"].RichText, ws2.Cells["B8"].RichText);
+                Assert.AreEqual(ws.Cells["A19"].Comment.RichText.Text, ws2.Cells["B19"].Comment.RichText.Text);
+            }
+        }
     }
 }

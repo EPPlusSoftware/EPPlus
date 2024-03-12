@@ -1292,10 +1292,12 @@ namespace OfficeOpenXml
 
 			// save persons
 			_threadedCommentPersons?.Save(_package, Part, PersonsUri);
-			// save threaded comments
+            // save threaded comments
 
-			// save all the open worksheets
-			var isProtected = Protection.LockWindows || Protection.LockStructure;
+            _sharedStringsLookup = new Dictionary<string, int>();
+            _sharedStringsListNew = new List<SharedStringItemBase>();
+            // save all the open worksheets
+            var isProtected = Protection.LockWindows || Protection.LockStructure;
 			foreach (var worksheet in Worksheets)
 			{
 				if (isProtected && Protection.LockWindows)
@@ -1474,6 +1476,7 @@ namespace OfficeOpenXml
 				var ssi = _sharedStringsListNew[kp.Value];
 				if (ssi.IsRichText)
 				{
+
 					cache.Append($"{kp.Key}");
 				}
 				else
