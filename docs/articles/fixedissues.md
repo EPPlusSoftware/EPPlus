@@ -1,5 +1,11 @@
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.1
+### Fixed issues 
+* Inserting rows would cause an exception to occur in formulas in rare cases.
+* Special signs such as `'` when last in a formula would throw an exception in rare cases.
+* Reading Conditional Formattings with property PivotTable = true failed to read in property.
+
 ## Version 7.0.10
 ### Fixed issues 
 * Having a workbook with group drawings in group drawings caused EPPlus to fail on load.

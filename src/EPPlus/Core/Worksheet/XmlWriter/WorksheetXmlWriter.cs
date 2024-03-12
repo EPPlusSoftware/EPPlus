@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
@@ -20,12 +19,9 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
@@ -34,7 +30,6 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -1130,7 +1125,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                         if (i == 0)
                         {
-                            cache.Append($"<{prefix}conditionalFormatting xmlns:xm=\"{ExcelPackage.schemaMainXm}\">");
+                            cache.Append($"<{prefix}conditionalFormatting xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
+                            if (format.PivotTable)
+                            {
+                                cache.Append($" pivot=\"1\"");
+                            }
+                            cache.Append($">");
                         }
 
                         string uid;
@@ -1590,7 +1590,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if(i == 0)
                     {
-                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\">");
+                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\"");
+                        if (conditionalFormat.PivotTable)
+                        {
+                            cache.Append($" pivot=\"1\"");
+                        }
+                        cache.Append($">");
                     }
 
                     cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
