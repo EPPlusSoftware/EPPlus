@@ -423,7 +423,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             if (l.Count == 0) return default(Token);
             var i = l.Count - 1;
-            while (i >= 0 && l[i].TokenType == TokenType.WhiteSpace)
+            while (i > 0 && l[i].TokenType == TokenType.WhiteSpace)
                 i--;
             return l[i];
         }
