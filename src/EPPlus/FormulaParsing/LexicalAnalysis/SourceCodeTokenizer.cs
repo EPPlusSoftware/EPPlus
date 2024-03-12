@@ -75,14 +75,22 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true); }
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="functionRepository">A function name provider</param>
-        /// <param name="nameValueProvider">A name value provider</param>
-        /// <param name="r1c1">If true the tokenizer will use the R1C1 format</param>
-        /// <param name="keepWhitespace">If true whitspaces in formulas will be preserved</param>
-        public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
+		/// <summary>
+		/// The default tokenizer. This tokenizer will remove and ignore whitespaces.
+		/// </summary>
+		public static ISourceCodeTokenizer Default_KeepWhiteSpaces
+		{
+			get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true); }
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="functionRepository">A function name provider</param>
+		/// <param name="nameValueProvider">A name value provider</param>
+		/// <param name="r1c1">If true the tokenizer will use the R1C1 format</param>
+		/// <param name="keepWhitespace">If true whitspaces in formulas will be preserved</param>
+		public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
         {
             _r1c1 = r1c1;
             _keepWhitespace = keepWhitespace;
@@ -668,8 +676,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                    pt.TokenType == TokenType.NameValue ||
                    pt.TokenType == TokenType.Function)
                 {
-                    l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
-                }
+                    if (_keepWhitespace && l.Count > 2 && l[l.Count - 2].TokenType==TokenType.WhiteSpace)
+                    {
+						l[l.Count-2] = new Token(Operator.IntersectIndicator, TokenType.Operator);
+					}
+					else
+                    {
+						l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
+					}
+				}
             }
 
             flags &= statFlags.isTableRef;
