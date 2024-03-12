@@ -5,6 +5,7 @@
 * Inserting rows would cause an exception to occur in formulas in rare cases.
 * Special signs such as `'` when last in a formula would throw an exception in rare cases.
 * Reading Conditional Formattings with property PivotTable = true failed to read in property.
+* Tokenize an intersect operator with the _keepWhitespaces set, caused both a white-space token and a intesect operator to be added.
 
 ## Version 7.0.10
 ### Fixed issues 
