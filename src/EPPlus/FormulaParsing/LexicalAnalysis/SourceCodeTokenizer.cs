@@ -678,7 +678,16 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 {
                     if (_keepWhitespace && l.Count > 2 && l[l.Count - 2].TokenType==TokenType.WhiteSpace)
                     {
-						l[l.Count-2] = new Token(Operator.IntersectIndicator, TokenType.Operator);
+                        var wsToken = l[l.Count - 2];
+						if (wsToken.Value.Length > 1) //Multiple white space?
+                        {
+                            wsToken.Value = wsToken.Value.Substring(0, wsToken.Value.Length);
+							l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
+						}
+                        else
+                        {
+							l[l.Count - 2] = new Token(Operator.IntersectIndicator, TokenType.Operator);
+						}
 					}
 					else
                     {
