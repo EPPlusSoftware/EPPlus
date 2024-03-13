@@ -77,6 +77,9 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         {
             if (_cssSettings.IncludeSharedClasses == false) return;
 
+            //Css reset. Different browsers have different default values.
+            _ruleCollection.AddRule("* ", "margin", "0; padding:0");
+
             AddTableRule(tableClass);
 
             //Hidden class
@@ -99,7 +102,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbr ", "border-right", "dashed"); //Dashed Border Right
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbl ", "border-left", "dashed"); //Dashed Border Left
 
-            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbc", "width", "100%; height: 100%; position: absolute; display: flex"); //databarcontent
+            _ruleCollection.AddRule($".{_settings.StyleClassPrefix}dbc", "width", "100%; height: 100%; position: absolute; display: flex; justify-content: right; align-items: center;"); //databarcontent
         }
 
         private void AddTableRule(string tableClass)
@@ -148,13 +151,25 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             if(bar.AxisPosition == eExcelDatabarAxisPosition.Automatic)
             {
-                var res = Math.Abs(bar.highest) + Math.Abs(bar.lowest);
+
+                var absLowest = Math.Abs(bar.lowest);
+                var absHighest = Math.Abs(bar.highest);
+
                 var axisPercent = bar.lowest < 0 && bar.highest > 0 ? Math.Abs(bar.lowest) / Math.Abs(bar.highest) : 0;
 
-                var resFinal = (axisPercent * 100) >= 100 ? 90 : 0;
+                double leftWidthPercentage;
+
+                if(axisPercent > 1) 
+                {
+                    leftWidthPercentage = (0.5 + (0.5 / axisPercent)) * 100;
+                }
+                else
+                {
+                    leftWidthPercentage = (axisPercent * 0.5) * 100;
+                }
 
                 var barClass = new CssRule($".leftWidth{bar.DxfId}");
-                barClass.AddDeclaration("width", $" {(resFinal).ToString(CultureInfo.InvariantCulture)}%");
+                barClass.AddDeclaration("width", $" {(leftWidthPercentage).ToString(CultureInfo.InvariantCulture)}%");
                 _ruleCollection.CssRules.Add(barClass);
             }
 

@@ -98,53 +98,57 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
             }
 
-            int dxfId;
-            string dxfKey;
-
             string specials = "";
-            List<string> extraClasses = new List<string>();
 
-            var cfItems = context._cfQuadTree.GetIntersectingRangeItems
-                (new QuadRange(new ExcelAddress(cell.Address)));
-
-            for (int i = 0; i < cfItems.Count(); i++)
+            if (settings.RenderConditionalFormattings)
             {
-                if (cfItems[i].Value.ShouldApplyToCell(cell))
+                int dxfId;
+                string dxfKey;
+
+                List<string> extraClasses = new List<string>();
+
+                var cfItems = context._cfQuadTree.GetIntersectingRangeItems
+                    (new QuadRange(new ExcelAddress(cell.Address)));
+
+                for (int i = 0; i < cfItems.Count(); i++)
                 {
-                    switch (cfItems[i].Value.Type)
+                    if (cfItems[i].Value.ShouldApplyToCell(cell))
                     {
-                        case eExcelConditionalFormattingRuleType.TwoColorScale:
-                            specials += ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
-                            break;
-                        case eExcelConditionalFormattingRuleType.ThreeColorScale:
-                            specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
-                            break;
-                        case eExcelConditionalFormattingRuleType.DataBar:
-                            specials += "height: 100%";
-                            cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
-                            //var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
-                            //specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
-                            //if(bar.NegativeFillColor != null)
-                            //{
-                            //    specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1";
-                            //}
-                            //specials += bar.ApplyStyleOverride(cell);
-                            break;
-                        default:
-                            dxfKey = cfItems[i].Value.Style.Id;
+                        switch (cfItems[i].Value.Type)
+                        {
+                            case eExcelConditionalFormattingRuleType.TwoColorScale:
+                                specials += ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                                break;
+                            case eExcelConditionalFormattingRuleType.ThreeColorScale:
+                                specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                                break;
+                            case eExcelConditionalFormattingRuleType.DataBar:
+                                specials += "height: 100%";
+                                cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
+                                //var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
+                                //specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
+                                //if(bar.NegativeFillColor != null)
+                                //{
+                                //    specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1";
+                                //}
+                                //specials += bar.ApplyStyleOverride(cell);
+                                break;
+                            default:
+                                dxfKey = cfItems[i].Value.Style.Id;
 
-                            if (dxfStyleCache.ContainsKey(dxfKey))
-                            {
-                                dxfId = dxfStyleCache[dxfKey];
-                            }
-                            else
-                            {
-                                dxfId = dxfStyleCache.Count + 1;
-                                dxfStyleCache.Add(dxfKey, dxfId);
-                            }
+                                if (dxfStyleCache.ContainsKey(dxfKey))
+                                {
+                                    dxfId = dxfStyleCache[dxfKey];
+                                }
+                                else
+                                {
+                                    dxfId = dxfStyleCache.Count + 1;
+                                    dxfStyleCache.Add(dxfKey, dxfId);
+                                }
 
-                            cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
-                            break;
+                                cls += $" {styleClassPrefix}{settings.CellStyleClassName}-dxf id{dxfId}";
+                                break;
+                        }
                     }
                 }
             }
@@ -193,10 +197,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 divPos.AddAttribute("style", bar.ApplyStyleOverride(cell));
                             }
 
-                            string hAlign = GetHorizontalAlignmentDBar(cell.Style.HorizontalAlignment);
-                            string vAlign = GetVerticalAlignmentDBar(cell.Style.VerticalAlignment);
+                            if(cell.StyleID > 0)
+                            {
+                                string hAlign = GetHorizontalAlignmentDBar(cell.Style.HorizontalAlignment);
+                                string vAlign = GetVerticalAlignmentDBar(cell.Style.VerticalAlignment);
 
-                            divContent.AddAttribute("style", $"justify-content: {hAlign}; align-items: {vAlign}");
+                                divContent.AddAttribute("style", $"justify-content: {hAlign}; align-items: {vAlign};");
+                            }
+
                             divContent.Content = cell.Value.ToString();
                             divContent.AddAttribute("class", $"{settings.StyleClassPrefix}dbc");
 
@@ -219,7 +227,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 case ExcelVerticalAlignment.Center:
                     return "center";
                 case ExcelVerticalAlignment.Bottom:
-                    return "bottom";
+                    return "end";
             }
 
             return "";
@@ -227,6 +235,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
         static string GetHorizontalAlignmentDBar(ExcelHorizontalAlignment hAlign)
         {
+
             switch (hAlign)
             {
                 case ExcelHorizontalAlignment.Right:
@@ -236,6 +245,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     return "center";
                 case ExcelHorizontalAlignment.Left:
                     return "left";
+                default:
+                    return "right";
             }
 
             return "";

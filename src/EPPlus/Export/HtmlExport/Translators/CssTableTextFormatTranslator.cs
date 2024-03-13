@@ -29,12 +29,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             var hAlign = "";
             var vAlign = "";
 
-            if (_horizontalAlignment != ExcelHorizontalAlignment.General && context.Exclude.HorizontalAlignment == false)
+            if ((_horizontalAlignment != ExcelHorizontalAlignment.General) && (context.Exclude.HorizontalAlignment == false))
             {
                 hAlign = GetHorizontalAlignment();
             }
 
-            if (_verticalAlignment != ExcelVerticalAlignment.Bottom && context.Exclude.VerticalAlignment == false)
+            if ((_verticalAlignment != ExcelVerticalAlignment.Bottom) && (context.Exclude.VerticalAlignment == false))
             {
                 vAlign = GetVerticalAlignment();
             }

@@ -41,27 +41,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             var hAlign = "";
             var vAlign = "";
 
-            if (_horizontalAlignment != ExcelHorizontalAlignment.General && context.Exclude.HorizontalAlignment == false)
+            if ((_horizontalAlignment != ExcelHorizontalAlignment.General) && (context.Exclude.HorizontalAlignment == false))
             {
                 hAlign = GetHorizontalAlignment();
             }
 
-            if (_verticalAlignment != ExcelVerticalAlignment.Bottom && context.Exclude.VerticalAlignment == false)
+            if ((_verticalAlignment != ExcelVerticalAlignment.Bottom) && (context.Exclude.VerticalAlignment == false))
             {
                 vAlign = GetVerticalAlignment();
             }
 
-            if (string.IsNullOrEmpty(hAlign) && _rightDefault)
+            if ((string.IsNullOrEmpty(hAlign)) && _rightDefault)
             {
                 hAlign = "right";
             }
 
-            if (string.IsNullOrEmpty(hAlign) == false && context.Exclude.HorizontalAlignment == false)
+            if ((string.IsNullOrEmpty(hAlign) == false) && (context.Exclude.HorizontalAlignment == false))
             {
                 AddDeclaration("text-align", hAlign);
             }
 
-            if (_verticalAlignment != ExcelVerticalAlignment.Bottom && context.Exclude.VerticalAlignment == false)
+            if (_verticalAlignment != ExcelVerticalAlignment.Bottom && (context.Exclude.VerticalAlignment == false))
             {
                 AddDeclaration("vertical-align", vAlign);
             }

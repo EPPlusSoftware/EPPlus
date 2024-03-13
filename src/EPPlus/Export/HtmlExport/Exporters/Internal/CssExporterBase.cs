@@ -170,7 +170,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         }
                     }
                 }
-                AddConditionalFormattingsToCollection(ce.CellAddress, ns, collection);
+                if(Settings.RenderConditionalFormattings)
+                {
+                    AddConditionalFormattingsToCollection(ce.CellAddress, ns, collection);
+                }
             }
         }
 

@@ -77,21 +77,14 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                         (dataTypes[c] == HtmlDataTypes.Number || dataTypes[c] == HtmlDataTypes.DateTime);
                 }
 
-                if (rightDefault || styleId > 0)
+                if (styleId > -1)
                 {
                     var styleClass = new CssRule($"table.{name} td:nth-child({col})");
 
-                    if (styleId > 0)
-                    {
-                        var xfs = new StyleXml(_table.WorkSheet.Workbook.Styles.CellXfs[styleId]);
-                        var translator = new CssTableTextFormatTranslator(xfs, rightDefault);
+                    var xfs = new StyleXml(_table.WorkSheet.Workbook.Styles.CellXfs[styleId]);
+                    var translator = new CssTableTextFormatTranslator(xfs, rightDefault);
 
-                        styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
-                    }
-                    else
-                    {
-                        styleClass.AddDeclaration("text-align", "right");
-                    }
+                    styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
 
                     //TODO: If we exclude both horizontal and vertical we can get a class with empty declaration list here...
                     RuleCollection.AddRule(styleClass);
