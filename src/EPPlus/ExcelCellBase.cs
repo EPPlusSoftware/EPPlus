@@ -19,6 +19,7 @@ using OfficeOpenXml.Core;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Collections.Specialized;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 
 namespace OfficeOpenXml
 {
@@ -1008,7 +1009,7 @@ namespace OfficeOpenXml
             {
                 if (tokens == null)
                 {
-                    tokens = tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+                    tokens = SourceCodeTokenizer.Default.Tokenize(formula);
                 }
                 var f = "";
                 //string wsName = "";
@@ -1108,7 +1109,14 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        f += t.Value;
+                        if(t.TokenType == TokenType.Operator && t.Value == Operator.IntersectIndicator)
+                        {
+                            f += " ";
+                        }
+                        else
+                        {
+                            f += t.Value;
+                        }
                     }
                 }
                 return f;

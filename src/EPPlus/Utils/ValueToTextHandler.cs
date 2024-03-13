@@ -178,15 +178,29 @@ namespace OfficeOpenXml.Utils
         {
             var s = FormatNumberExcel(d, format, cultureInfo);
             var ns = cultureInfo?.NumberFormat?.NegativeSign ?? "-";
-            if (string.IsNullOrEmpty(s) == false && (
-                    s.StartsWith($"{ns}{ns}") && format.StartsWith(ns) ||
-                   (s.StartsWith($"{ns}(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0)))
+            if (string.IsNullOrEmpty(s) == false)
             {
-                return s.Substring(1);
+                return CheckAndRemoveNegativeSign(format, s, ns);
             }
             else
             {
                 return s;
+            }
+        }
+
+        private static string CheckAndRemoveNegativeSign(string format, string s, string ns)
+        {
+            if((s.StartsWith($"{ns}{ns}") || s.StartsWith($"{ns}-")) && (format.StartsWith(ns) || format.StartsWith("-")))
+            {
+                return s.Remove(1,1);
+            }
+            else if((s.StartsWith($"{ns}(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0))
+            {
+                return s.Substring(1);
+            }
+            else
+            { 
+                return s; 
             }
         }
 

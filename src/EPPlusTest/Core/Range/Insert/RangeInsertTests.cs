@@ -4,6 +4,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -1376,5 +1377,20 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("B13+G12", tbl2.Columns[2].CalculatedColumnFormula);
         }
 
+        //case: s635
+        [TestMethod]
+        public void InsertRowOnSpecificCase()
+        {
+            string sheetName = "test";
+
+            using (ExcelPackage package = OpenTemplatePackage("s635_Insert_Row.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+
+                worksheet.InsertRow(8, 1, 7);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

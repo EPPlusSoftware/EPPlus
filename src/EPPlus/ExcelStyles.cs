@@ -632,7 +632,7 @@ namespace OfficeOpenXml
                             }
                             else 
                             {
-                                cs = c.StyleID;
+                                s = cs = c.StyleID;
                                 break;
                             }
                         }
@@ -1885,6 +1885,5 @@ namespace OfficeOpenXml
                 return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, null);
             }
         }
-
-    }
+	}
 }

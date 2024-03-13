@@ -42,7 +42,21 @@ namespace OfficeOpenXml.Core.Worksheet
                 var sourceSheet = worksheets[sourcePositionId];
                 var targetSheet = worksheets[targetPositionId];
 
-                var index = targetSheet._package._worksheetAdd;
+                var package = targetSheet._package;
+
+                // Preserve ActiveTab after rearrange - save active tab if set
+                var activeSheet = default(ExcelWorksheet);
+                var activeSheetIx = int.MinValue;
+                if (package.Workbook.View != null
+                    && package.Workbook.View.ActiveTab >= 0
+                    && package.Workbook.View.ActiveTab < worksheets.Count)
+                {
+                    activeSheetIx = package.Workbook.View.ActiveTab;
+                    activeSheet = package.Workbook.Worksheets[activeSheetIx];
+                }
+
+
+                var index = package._worksheetAdd;
 
                 worksheets._worksheets.Move(sourcePositionId - index, targetPositionId - index, before);
 
@@ -54,6 +68,12 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
 
                 MoveTargetXml(worksheets, sourceSheet, targetSheet, before);
+
+                // Preserve ActiveTab after rearrange
+                if (activeSheet != null)
+                {
+                    package.Workbook.View.ActiveTab = activeSheet.PositionId;
+                }
             }
         }
 

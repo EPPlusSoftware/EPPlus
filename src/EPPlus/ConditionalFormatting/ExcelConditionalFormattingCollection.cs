@@ -44,6 +44,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal void ReadRegularConditionalFormattings(XmlReader xr)
         {
             string address = null;
+            bool pivot = false;
             while (xr.ReadUntil(1, "conditionalFormatting", "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst", "pageMargins"))
             {
                 address = null;
@@ -55,6 +56,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                         if (xr.LocalName == "conditionalFormatting")
                         {
                             address = xr.GetAttribute("sqref");
+
+                            pivot = xr.GetAttribute("pivot") == "1";
 
                             //Only happens if template node by user or a new worksheet.
                             if(address == null)
@@ -74,6 +77,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 }
                                 address = address.Replace(' ', ',');
                                 var cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
+
+                                cf.PivotTable = pivot;
 
                                 //If cf exists in both local and ExtLst spaces
                                 if(cf.IsExtLst && cf._uid != null)

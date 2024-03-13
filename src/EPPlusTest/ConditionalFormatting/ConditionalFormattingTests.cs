@@ -2078,5 +2078,63 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void PivotTableFlagShouldStickWhenReadIn()
+        {
+            using (var package = OpenPackage("CF_pivotFlag.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("pivotWorksheet");
+
+                for (int i = 1; i < 10; i++)
+                {
+                    ws.Cells[i, 1].Value = i;
+                    ws.Cells[i, 2].Value = i - 2;
+                    ws.Cells[i, 3].Value = i - 5;
+                }
+
+                var pivotRange = ws.Cells["E1:F10"];
+
+                ws.PivotTables.Add(pivotRange, ws.Cells["A1:B10"], "SmallPivot");
+
+                var formulaValue = 5;
+
+                var cond = ws.ConditionalFormatting.AddEqual(pivotRange);
+                cond.PivotTable = true;
+                cond.Formula = formulaValue.ToString();
+                cond.Priority = 1;
+                cond.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cond.Style.Fill.BackgroundColor.SetColor(Color.BlueViolet);
+
+                var cond2 = ws.ConditionalFormatting.AddThreeColorScale(pivotRange);
+                cond2.PivotTable = true;
+
+                if (formulaValue == 9999)
+                    cond.Style.Font.Color.SetColor(Color.BlueViolet);
+                else
+                    cond.Style.Font.Color.SetColor(Color.DarkRed);
+
+                SaveAndCleanup(package);
+
+                using (var readPackage = OpenPackage("CF_pivotFlag.xlsx", false))
+                {
+                    var cfCollection = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
+                    Assert.IsTrue(cfCollection[0].PivotTable);
+                    Assert.IsTrue(cfCollection[1].PivotTable);
+
+                    SaveAndCleanup(readPackage);
+                }
+
+                //Read in again just in case
+                using (var beltAndBraces = OpenPackage("CF_pivotFlag.xlsx", false))
+                {
+                    var cfCollection = beltAndBraces.Workbook.Worksheets[0].ConditionalFormatting;
+                    Assert.IsTrue(cfCollection[0].PivotTable);
+                    Assert.IsTrue(cfCollection[1].PivotTable);
+
+                    SaveAndCleanup(beltAndBraces);
+                }
+            }
+        }
     }
 }

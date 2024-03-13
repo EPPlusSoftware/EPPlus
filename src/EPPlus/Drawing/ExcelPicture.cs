@@ -17,6 +17,8 @@ using System.IO;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
+using System.Linq;
+
 #if NETFULL
 using System.Drawing.Imaging;
 #endif
@@ -51,8 +53,6 @@ namespace OfficeOpenXml.Drawing
                 container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
                 container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
-                var extension = Path.GetExtension(container.UriPic.OriginalString);
-                ContentType = PictureStore.GetContentType(extension);
                 if (drawings.Part.Package.PartExists(container.UriPic))
                 {
                     Part = drawings.Part.Package.GetPart(container.UriPic);
@@ -62,11 +62,19 @@ namespace OfficeOpenXml.Drawing
                     Part = null;
                     return;
                 }
+				ContentType = Part.ContentType;
 
-                byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
+				var ms = ((MemoryStream)Part.GetStream());
                 Image = new ExcelImage(this);
-                Image.Type = PictureStore.GetPictureType(extension);
-                Image.ImageBytes=iby;
+
+				var type = PictureStore.GetPictureTypeByContentType(ContentType);
+				if (    type==null)
+                {
+					type = ImageReader.GetPictureType(ms, false);
+				}
+				Image.Type = type.Value;
+                byte[] iby = ms.ToArray();
+				Image.ImageBytes=iby;
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                 var pd = (IPictureRelationDocument)_drawings;
                 if (pd.Hashes.ContainsKey(ii.Hash))
