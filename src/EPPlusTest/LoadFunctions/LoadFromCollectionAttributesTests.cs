@@ -13,28 +13,28 @@ namespace EPPlusTest.LoadFunctions
 {
     [EpplusTable(TableStyle = TableStyles.Dark1, PrintHeaders = true, AutofitColumns = true, AutoCalculate = true, ShowTotal = true, ShowFirstColumn = true)]
     [
-        EpplusFormulaTableColumn(Order = 6, NumberFormat = "€#,##0.00", Header = "Tax amount", FormulaR1C1 = "RC[-2] * RC[-1]", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00"),
-        EpplusFormulaTableColumn(Order = 7, NumberFormat = "€#,##0.00", Header = "Net salary", Formula = "E2-G2", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00")
+        EpplusFormulaTableColumn(Order = 7, NumberFormat = "€#,##0.00", Header = "Tax amount", FormulaR1C1 = "RC[-2] * RC[-1]", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00"),
+        EpplusFormulaTableColumn(Order = 8, NumberFormat = "€#,##0.00", Header = "Net salary", Formula = "E2-G2", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00")
     ]
     internal class Actor
     {
         [EpplusIgnore]
         public int Id { get; set; }
 
-        [EpplusTableColumn(Order = 3)]
+        [EpplusTableColumn(Order = 4)]
         public string LastName { get; set; }
-        [EpplusTableColumn(Order = 1, Header = "First name")]
+        [EpplusTableColumn(Order = 2, Header = "First name")]
         public string FirstName { get; set; }
-        [EpplusTableColumn(Order = 2)]
+        [EpplusTableColumn(Order = 3)]
         public string MiddleName { get; set; }
 
-        [EpplusTableColumn(Order = 0, NumberFormat = "yyyy-MM-dd", TotalsRowLabel = "Total")]
+        [EpplusTableColumn(Order = 1, NumberFormat = "yyyy-MM-dd", TotalsRowLabel = "Total")]
         public DateTime Birthdate { get; set; }
 
-        [EpplusTableColumn(Order = 4, NumberFormat = "€#,##0.00", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00")]
+        [EpplusTableColumn(Order = 5, NumberFormat = "€#,##0.00", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00")]
         public double Salary { get; set; }
 
-        [EpplusTableColumn(Order = 5, NumberFormat = "0%", TotalsRowFormula = "Table1[[#Totals],[Tax amount]]/Table1[[#Totals],[Salary]]", TotalsRowNumberFormat ="0 %")]
+        [EpplusTableColumn(Order = 6, NumberFormat = "0%", TotalsRowFormula = "Table1[[#Totals],[Tax amount]]/Table1[[#Totals],[Salary]]", TotalsRowNumberFormat ="0 %")]
         public double Tax { get; set; }
     }
 
@@ -179,8 +179,10 @@ namespace EPPlusTest.LoadFunctions
                 var r = sheet.Cells["A1"].LoadFromCollection(objects, true, TableStyles.Dark4);
                 var table = sheet.Tables[0];
                 Assert.AreEqual("Acknowledged...", sheet.Cells["A1"].Value);
-                Assert.AreEqual("Org Level 4", sheet.Cells["B1"].Value);
-                Assert.AreEqual("ApprovedUtc", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Org Level 3", sheet.Cells["B1"].Value);
+                Assert.AreEqual("Org Level 4", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Org Level 5", sheet.Cells["D1"].Value);
+                Assert.AreEqual("ApprovedUtc", sheet.Cells["E1"].Value);
 
             }
         }
