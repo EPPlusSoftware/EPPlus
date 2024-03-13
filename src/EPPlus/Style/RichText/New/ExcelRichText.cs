@@ -40,6 +40,24 @@ namespace OfficeOpenXml.Style
         {
             ColorAttributes = new ExcelRichTextColor();
         }
+        public ExcelRichTextAttributes(ExcelRichTextAttributes rta)
+        {
+            Bold = rta.Bold;
+            Italic = rta.Italic;
+            Strike = rta.Strike;
+            VerticalAlign = rta.VerticalAlign;
+            Size = rta.Size;
+            FontName = rta.FontName;
+            ColorAttributes = new ExcelRichTextColor();
+            ColorAttributes.Tint = rta.ColorAttributes.Tint;
+            ColorAttributes.Theme = rta.ColorAttributes.Theme;
+            ColorAttributes.Auto = rta.ColorAttributes.Auto;
+            ColorAttributes.Rgb = rta.ColorAttributes.Rgb;
+            Charset = rta.Charset;
+            Family = rta.Family;
+            UnderLineType = rta.UnderLineType;
+            PreserveSpace = rta.PreserveSpace;
+        }
 
         /// <summary>
         /// Preserves whitespace. Default true
@@ -243,32 +261,6 @@ namespace OfficeOpenXml.Style
         /// Underline type of text
         /// </summary>
         public ExcelUnderLineType? UnderLineType { get => Attributes.UnderLineType; set => Attributes.UnderLineType = value; }
-
-        //NOT SUPPOERTED
-        ///// <summary>
-        ///// Scheme of the text
-        ///// </summary>
-        //public eThemeFontCollectionType? Scheme { get; set; }
-
-        ///// <summary>
-        ///// Outline the text
-        ///// </summary>
-        //public bool Outline { get; set; }
-
-        ///// <summary>
-        ///// Apply shadow to text
-        ///// </summary>
-        //public bool Shadow { get; set; }
-
-        ///// <summary>
-        ///// condense the text
-        ///// </summary>
-        //public bool Condense { get; set; }
-
-        ///// <summary>
-        ///// Extend the text
-        ///// </summary>
-        //public bool Extend { get; set; }
         #endregion
 
         /// <summary>
@@ -301,14 +293,20 @@ namespace OfficeOpenXml.Style
             Text = text;
             Attributes = new ExcelRichTextAttributes();
             _collection = collection;
-            //ColorSettings = new ExcelRichTextColor();
         }
 
         internal ExcelRichText(string text, ExcelRichTextAttributes attributes, ExcelRichTextCollection collection)
         {
             Text = text;
+            Attributes = new ExcelRichTextAttributes(attributes);
             _collection = collection;
-            Attributes = attributes;
+        }
+
+        internal ExcelRichText(ExcelRichText rt, ExcelRichTextCollection collection)
+        {
+            Text = rt.Text;
+            Attributes = new ExcelRichTextAttributes(rt.Attributes);
+            _collection = collection;
         }
 
         /// <summary>

@@ -169,11 +169,29 @@ namespace EPPlusTest.Style
                 ws.Cells["A1:A19"].Copy(ws2.Cells["B1:B19"]);
                 p.Save();
                 Assert.AreEqual(ws.Cells["A1"].Text, ws2.Cells["B1"].Text);
-                Assert.AreEqual(true, ws2.Cells["B2"].RichText[1].Bold);
-                Assert.AreEqual(ws.Cells["A3"].RichText, ws2.Cells["B3"].RichText);
-                Assert.AreEqual(ws.Cells["A8"].RichText, ws2.Cells["B8"].RichText);
+                Assert.AreEqual(ws.Cells["A2"].RichText[1].Bold, ws2.Cells["B2"].RichText[1].Bold);
+                Assert.AreEqual(ws.Cells["A3"].RichText[1].Italic, ws2.Cells["B3"].RichText[1].Italic);
+                Assert.AreEqual(ws.Cells["A8"].RichText[0].Color, ws2.Cells["B8"].RichText[0].Color);
                 Assert.AreEqual(ws.Cells["A19"].Comment.RichText.Text, ws2.Cells["B19"].Comment.RichText.Text);
             }
         }
+
+        [TestMethod]
+        public void RichTextPropertiesCopyAndChangeTest()
+        {
+            using (var p = OpenTemplatePackage("RichTextTests.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["A2"].Copy(ws.Cells["B2"]);
+                ws.Cells["B2"].RichText.Text = "New Text Value";
+                ws.Cells["A19"].Copy(ws.Cells["B19"]);
+                ws.Cells["B19"].Comment.RichText.Text = "New Comment";
+                ws.Cells["B19"].Comment.Author = "Merlin";
+                p.Save();
+                Assert.AreNotEqual(ws.Cells["B2"].RichText.Text, ws.Cells["A2"].RichText.Text);
+                Assert.AreNotEqual(ws.Cells["B19"].Comment.RichText.Text, ws.Cells["A19"].Comment.RichText.Text);
+            }
+        }
+
     }
 }

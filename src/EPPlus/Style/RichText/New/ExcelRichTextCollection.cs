@@ -51,6 +51,16 @@ namespace OfficeOpenXml.Style
             }
         }
 
+        public ExcelRichTextCollection(ExcelRichTextCollection rtc, ExcelRangeBase cells)
+        {
+            _wb = cells._workbook;
+            _cells = cells;
+            foreach(var item in rtc._list)
+            {
+                _list.Add(new ExcelRichText(item, this));
+            }
+        }
+
         internal ExcelRichTextCollection(XmlReader xr, ExcelWorkbook wb)
         {
             _wb = wb;
@@ -249,13 +259,13 @@ namespace OfficeOpenXml.Style
                 {
                     Add(value);
                 }
-                else
+                else if (Count > 1)
                 {
-                    this[0].Text = value;
-                    for (int ix = 1; ix < Count; ix++)
+                    while(Count != 1)
                     {
-                        RemoveAt(ix);
+                        RemoveAt(1);
                     }
+                    this[0].Text = value;
                 }
             }
         }
@@ -278,12 +288,10 @@ namespace OfficeOpenXml.Style
         internal string GetXML()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("<si>");
             foreach (var item in _list)
             {
                 item.WriteRichTextAttributes(sb);
             }
-            sb.Append("</si>");
             return sb.ToString();
         }
 

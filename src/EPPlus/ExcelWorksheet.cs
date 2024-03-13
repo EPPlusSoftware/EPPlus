@@ -1438,6 +1438,7 @@ namespace OfficeOpenXml
             }
             delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
+
         internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
         {
             var v = GetCoreValueInner(row, col);
@@ -2592,6 +2593,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
+                    UpdateCommentRichText();
                     if (_comments.Uri == null)
                     {
                         var id = SheetId;
@@ -2605,6 +2607,15 @@ namespace OfficeOpenXml
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
+            }
+        }
+
+        private void UpdateCommentRichText()
+        {
+            foreach (ExcelComment comment in _comments)
+            {
+                var textNode = comment._commentHelper.GetNode("d:text");
+                textNode.InnerXml = comment.RichText.GetXML();
             }
         }
 

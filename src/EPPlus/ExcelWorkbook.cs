@@ -1477,7 +1477,7 @@ namespace OfficeOpenXml
 				if (ssi.IsRichText)
 				{
 
-					cache.Append($"{kp.Key}");
+					cache.Append($"<si>{kp.Key}</si>");
 				}
 				else
 				{
