@@ -9,6 +9,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing;
 using System.IO;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.Issues
 {
@@ -155,5 +156,16 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
-    }
+		[TestMethod]
+		public void i1335()
+		{
+			var formula = "SUBTOTAL(109, Name1 Name2)";
+			var tokens = SourceCodeTokenizer.Default_KeepWhiteSpaces.Tokenize(formula);
+
+			Assert.AreEqual(9, tokens.Count);
+			Assert.AreEqual(TokenType.WhiteSpace, tokens[4].TokenType);
+			Assert.AreEqual(TokenType.Operator, tokens[6].TokenType);
+			Assert.AreEqual("isc", tokens[6].Value);
+		}
+	}
 }
