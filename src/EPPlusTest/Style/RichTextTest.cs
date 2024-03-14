@@ -30,14 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.
-    Table;
-using System.Configuration;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Security.Cryptography;
-using System.Threading;
 
 namespace EPPlusTest.Style
 {
@@ -192,6 +185,5 @@ namespace EPPlusTest.Style
                 Assert.AreNotEqual(ws.Cells["B19"].Comment.RichText.Text, ws.Cells["A19"].Comment.RichText.Text);
             }
         }
-
     }
 }
