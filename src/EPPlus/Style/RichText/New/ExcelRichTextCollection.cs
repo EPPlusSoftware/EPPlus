@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        public ExcelRichTextCollection(ExcelRichTextCollection rtc, ExcelRangeBase cells)
+        internal ExcelRichTextCollection(ExcelRichTextCollection rtc, ExcelRangeBase cells)
         {
             _wb = cells._workbook;
             _cells = cells;
@@ -69,19 +69,7 @@ namespace OfficeOpenXml.Style
                 if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
                 {
                     XmlReaderHelper.ReadUntil(xr, "rPr", "t");
-                    ExcelRichTextAttributes attributes = new ExcelRichTextAttributes();
-                    string text = null;
-                    if (xr.LocalName == "rPr" && xr.NodeType == XmlNodeType.Element)
-                    {
-                        attributes = ExcelRichText.ReadrPr(xr);
-                        xr.Read();
-                    }
-                    if (xr.LocalName == "t" && xr.NodeType == XmlNodeType.Element)
-                    {
-                        text = xr.ReadElementContentAsString();
-                        text = ConvertUtil.ExcelDecodeString(text);
-                    }
-                    ExcelRichText item = new ExcelRichText(text, attributes, this);
+                    ExcelRichText item = new ExcelRichText(xr, this);
                     _list.Add(item);
                 }
                 xr.Read();
