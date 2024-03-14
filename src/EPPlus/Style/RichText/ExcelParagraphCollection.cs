@@ -24,9 +24,9 @@ namespace OfficeOpenXml.Style
     /// <summary>
     /// A collection of Paragraph objects
     /// </summary>
-    public class ExcelParagraphCollection : XmlHelper, IEnumerable<ExcelParagraphNew>
+    public class ExcelParagraphCollection : XmlHelper, IEnumerable<ExcelParagraph>
     {
-        List<ExcelParagraphNew> _list = new List<ExcelParagraphNew>();
+        List<ExcelParagraph> _list = new List<ExcelParagraph>();
         private readonly ExcelDrawing _drawing;
         private readonly string _path;
         private readonly List<XmlElement> _paragraphs=new List<XmlElement>();
@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Style
                         {
                             _paragraphs.Add((XmlElement)n.ParentNode);
                         }
-                        _list.Add(new ExcelParagraphNew(drawing._drawings, ns, n, "", schemaNodeOrder));
+                        _list.Add(new ExcelParagraph(drawing._drawings, ns, n, "", schemaNodeOrder));
                     }
                 }
             }
@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Style
         /// </summary>
         /// <param name="Index">The index</param>
         /// <returns></returns>
-        public ExcelParagraphNew this[int Index]
+        public ExcelParagraph this[int Index]
         {
             get
             {
@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Style
         /// <param name="Text">The text to add</param>
         /// <param name="NewParagraph">This will be a new line. Is ignored for first item added to the collection</param>
         /// <returns></returns>
-        public ExcelParagraphNew Add(string Text, bool NewParagraph=false)
+        public ExcelParagraph Add(string Text, bool NewParagraph=false)
         {
             XmlDocument doc;
             if (TopNode is XmlDocument)
@@ -131,7 +131,7 @@ namespace OfficeOpenXml.Style
             parentNode.AppendChild(node);
             var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
             node.AppendChild(childNode);
-            var rt = new ExcelParagraphNew(_drawing._drawings, NameSpaceManager, node, "", SchemaNodeOrder);
+            var rt = new ExcelParagraph(_drawing._drawings, NameSpaceManager, node, "", SchemaNodeOrder);
             //var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
             //if (normalStyle == null)
             //{
@@ -225,7 +225,7 @@ namespace OfficeOpenXml.Style
         }
         #region IEnumerable<ExcelRichText> Members
 
-        IEnumerator<ExcelParagraphNew> IEnumerable<ExcelParagraphNew>.GetEnumerator()
+        IEnumerator<ExcelParagraph> IEnumerable<ExcelParagraph>.GetEnumerator()
         {
             return _list.GetEnumerator();
         }
