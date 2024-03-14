@@ -58,5 +58,15 @@ namespace EPPlusTest
 				SaveAndCleanup(package);
 			}
 		}
+		[TestMethod]
+		public void i1337()
+		{
+			using (var p = OpenTemplatePackage("i1337.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets[0];
+				Assert.AreEqual(OfficeOpenXml.Drawing.eThemeSchemeColor.Text1, ws.Cells["A2"].Style.Font.Color.Theme);
+			}
+		}
+
 	}
 }

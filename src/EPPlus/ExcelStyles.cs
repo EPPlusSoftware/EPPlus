@@ -694,52 +694,58 @@ namespace OfficeOpenXml
                 return v;
             }
             else
-            {
-                if (ws.ExistsStyleInner(row, 0, ref v)) //First Row
-                {
-                    return v;
-                }
-                else // then column
-                {
-                    if (ws.ExistsStyleInner(0, col, ref v))
-                    {
-                        return v;
-                    }
-                    else
-                    {
-                        int r = 0, c = col;
-                        if (ws._values.PrevCell(ref r, ref c))
-                        {
-                            //var column=ws.GetValueInner(0,c) as ExcelColumn;
-                            var val = ws._values.GetValue(0, c);
-                            var column = (ExcelColumn)(val._value);
-                            if (column != null && column.ColumnMax >= col) //Fixes issue 15174
-                            {
-                                //return ws.GetStyleInner(0, c);
-                                return val._styleId;
-                            }
-                            else
-                            {
-                                return 0;
-                            }
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
+			{
+				return GetStyleId_FromRowColumn(ws, row, col);
+			}
 
-                }
-            }
+		}
 
-        }
-        /// <summary>
-        /// Handles property changes on Named styles.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        internal int NamedStylePropertyChange(StyleBase sender, Style.StyleChangeEventArgs e)
+		internal int GetStyleId_FromRowColumn(ExcelWorksheet ws, int row, int col)
+		{
+            var v=0;
+            if (ws.ExistsStyleInner(row, 0, ref v)) //First Row
+			{
+				return v;
+			}
+			else // then column
+			{
+				if (ws.ExistsStyleInner(0, col, ref v))
+				{
+					return v;
+				}
+				else
+				{
+					int r = 0, c = col;
+					if (ws._values.PrevCell(ref r, ref c))
+					{
+						//var column=ws.GetValueInner(0,c) as ExcelColumn;
+						var val = ws._values.GetValue(0, c);
+						var column = (ExcelColumn)(val._value);
+						if (column != null && column.ColumnMax >= col) //Fixes issue 15174
+						{
+							//return ws.GetStyleInner(0, c);
+							return val._styleId;
+						}
+						else
+						{
+							return 0;
+						}
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Handles property changes on Named styles.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		internal int NamedStylePropertyChange(StyleBase sender, Style.StyleChangeEventArgs e)
         {
 
             int index = NamedStyles.FindIndexById(e.Address);

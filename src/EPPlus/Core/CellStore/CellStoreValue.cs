@@ -61,7 +61,14 @@ namespace OfficeOpenXml.Core.CellStore
                 offset++;
             }
         }
-        internal void SetValue_Value(int Row, int Column, object value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Row"></param>
+        /// <param name="Column"></param>
+        /// <param name="value"></param>
+        /// <returns>True if a new value is created.</returns>
+        internal bool SetValue_Value(int Row, int Column, object value)
         {
             var c = GetColumnIndex(Column);
             if(c != null)
@@ -70,11 +77,12 @@ namespace OfficeOpenXml.Core.CellStore
                 if (i >= 0)
                 {
                     c._values[i] = new ExcelValue { _value = value, _styleId = c._values[i]._styleId };
-                    return;
+                    return false;
                 }
             }
             var v = new ExcelValue { _value = value };
             SetValue(Row, Column, v);
+            return true;
         }
         internal void SetValue_Style(int Row, int Column, int styleId)
         {

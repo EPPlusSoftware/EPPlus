@@ -51,6 +51,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml
 {
@@ -1806,7 +1807,7 @@ namespace OfficeOpenXml
             var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
             if (type == "s" && v is int ix)
             {
-                SetValueInner(row, col, _package.Workbook._sharedStringsList[ix].Text);
+                SetValueInner_KeepStyleId(row, col, _package.Workbook._sharedStringsList[ix].Text);
                 if (_package.Workbook._sharedStringsList[ix].isRichText)
                 {
                     _flags.SetFlagValue(row, col, true, CellFlags.RichText);
@@ -3431,16 +3432,24 @@ namespace OfficeOpenXml
         /// <param name="col">column</param>
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
-        {
+        {            
+            if(_values.SetValue_Value(row, col, value))
+            {
+				var sid = Workbook.Styles.GetStyleId_FromRowColumn(this, row, col);
+				SetStyleInner(row, col, sid);
+			}
+		}
+        internal void SetValueInner_KeepStyleId(int row, int col, object value)
+		{
             _values.SetValue_Value(row, col, value);
-        }
-        internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
+		}
+		internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
         {
             for (var c = fromCol; c <= toCol; c++)
             {
                 for (var r = fromRow; r <= toRow; r++)
                 {
-                    _values.SetValue_Value(r, c, value);
+                    SetValueInner(r, c, value);
                 }
             }
         }
@@ -3505,7 +3514,7 @@ namespace OfficeOpenXml
                     var col = fromColumn + c;
                     if (v==null)
                     {
-                        _values.SetValue_Value(row, col, v);
+                        SetValueInner(row, col, v);
                         continue;
                     }
                     var t = v.GetType();
@@ -3539,7 +3548,7 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        _values.SetValue_Value(row, col, v);
+						SetValueInner(row, col, v);
                     }
                 }
             }
@@ -3586,8 +3595,13 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
-            styleId = _values.GetValue(row, col)._styleId;
-            return (styleId > 0);
+            var v=new ExcelValue();
+			if (_values.Exists(row, col, ref v) && (v._value!=null || v._styleId != 0)) //Check if we have a value or a style set on the range.
+            {
+                styleId = v._styleId;
+				return true;
+            }
+            return false;
         }
         internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
         {
