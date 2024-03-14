@@ -266,6 +266,10 @@ namespace OfficeOpenXml.Style
                         RemoveAt(1);
                     }
                     this[0].Text = value;
+                } 
+                else if(Count == 1)
+                {
+                    this[0].Text = value;
                 }
             }
         }

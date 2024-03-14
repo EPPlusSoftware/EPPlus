@@ -185,5 +185,18 @@ namespace EPPlusTest.Style
                 Assert.AreNotEqual(ws.Cells["B19"].Comment.RichText.Text, ws.Cells["A19"].Comment.RichText.Text);
             }
         }
+
+        [TestMethod]
+        public void RichTextWorkSheetCopy()
+        {
+            using (var p = OpenTemplatePackage("RichTextTests.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("TargetSheet", p.Workbook.Worksheets[0]);
+                ws.Cells["A18"].RichText.Text = "Something else";
+                ws.Cells["A18"].RichText[0].Strike = true;
+                p.Save();
+                Assert.AreNotEqual(p.Workbook.Worksheets[0].Cells["A18"].RichText.Text, ws.Cells["A18"].RichText.Text);
+            }
+        }
     }
 }
