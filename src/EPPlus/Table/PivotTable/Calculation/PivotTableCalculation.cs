@@ -61,7 +61,6 @@ namespace OfficeOpenXml.Table.PivotTable
 		};
         internal static bool Calculate(ExcelPivotTable pivotTable, out List<PivotCalculationStore> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {
-            var ci = pivotTable.CacheDefinition._cacheReference;
 			calculatedItems = new List<PivotCalculationStore>();
 			keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
@@ -73,43 +72,12 @@ namespace OfficeOpenXml.Table.PivotTable
             {
 				dfIx++;
 				var dataFieldItems = new PivotCalculationStore();
-				calculatedItems.Add(dataFieldItems);
+				calculatedItems.Add(new PivotCalculationStore());
 				var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
 				keys.Add(keyDict);
 				if (string.IsNullOrEmpty(df.Field.CacheField.Formula))
 				{
-					var recs = ci.Records;
-					var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
-					var captionFilterExists = captionFilters.Count > 0;
-					var pageFilterExists = pivotTable.PageFields.Count > 0;
-					var cacheField = df.Field.Cache;
-
-					for (var r = 0; r < recs.RecordCount; r++)
-					{
-						var key = new int[fieldIndex.Count];
-						for (int i = 0; i < fieldIndex.Count; i++)
-						{
-							if (pivotTable.Fields[fieldIndex[i]].Grouping == null)
-							{
-								key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
-							}
-							else
-							{
-								key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[fieldIndex[i]][r]);
-							}
-						}
-
-						if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
-							(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
-						{
-							var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[df.Index][r]] : recs.CacheItems[df.Index][r];
-							_calculateFunctions[df.Function].AddItems(key, pivotTable.RowFields.Count, v, dataFieldItems, keyDict);
-						}
-					}
-
-					_calculateFunctions[df.Function].FilterValueFields(pivotTable, dataFieldItems, keys[calculatedItems.Count - 1], fieldIndex);
-					_calculateFunctions[df.Function].Aggregate(pivotTable, dataFieldItems, keys[calculatedItems.Count - 1]);
-					_calculateFunctions[df.Function].Calculate(recs.CacheItems[df.Index], dataFieldItems);
+					CalculateField(pivotTable, calculatedItems[calculatedItems.Count-1], keys, df.Index, df.Field.CacheField, df.Function);
 
 					if (df.ShowDataAs.Value != eShowDataAs.Normal)
 					{
@@ -125,12 +93,89 @@ namespace OfficeOpenXml.Table.PivotTable
 			
 			if(hasCf)
 			{
+				CalculateSourceFields(pivotTable);
 				var ptCalc = new PivotTableColumnCalculation(pivotTable);
 				ptCalc.CalculateFormulaFields(fieldIndex);
 			}
 			
 			return true;
         }
+
+		private static void CalculateSourceFields(ExcelPivotTable pivotTable)
+		{
+			var keys = new List<Dictionary<int[], HashSet<int[]>>>();
+			var calcFields = new Dictionary<string, PivotCalculationStore>(StringComparer.InvariantCultureIgnoreCase);
+			foreach(var field in pivotTable.DataFields.Where(x=>string.IsNullOrEmpty(x.Field.CacheField.Formula)==false).Select(x=>x.Field.CacheField))
+			{ 
+				foreach(var token in field.FormulaTokens)
+				{
+					if(token.TokenType==TokenType.PivotField && calcFields.ContainsKey(token.Value)==false)
+					{
+						if(!GetSumCalcItems(pivotTable, token.Value, out PivotCalculationStore store))
+						{
+							var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+							keys.Add(keyDict);
+							store = new PivotCalculationStore();
+							CalculateField(pivotTable, store, keys, calcFields.Count, pivotTable.Fields[token.Value].Cache, DataFieldFunctions.Sum);
+						}
+						calcFields.Add(token.Value, store);
+					}
+				}
+			}
+			pivotTable.CalculatedFieldReferencedItems = calcFields;
+		}
+
+		private static bool GetSumCalcItems(ExcelPivotTable pivotTable, string fieldName, out PivotCalculationStore store)
+		{
+			foreach(var ds in pivotTable.DataFields)
+			{
+				if(ds.Field!=null && ds.Field.Name.Equals(fieldName, StringComparison.InvariantCultureIgnoreCase) && ds.Function==DataFieldFunctions.Sum && ds.ShowDataAsInternal == eShowDataAs.Normal)
+				{
+					store = pivotTable.CalculatedItems[ds.Index];
+					return true;
+				}
+			}
+			store = null;
+			return false;
+		}
+
+		private static void CalculateField(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, List<Dictionary<int[], HashSet<int[]>>> keys,int index,  ExcelPivotTableCacheField cacheField, DataFieldFunctions function)
+		{
+			var ci = pivotTable.CacheDefinition._cacheReference;
+			var recs = ci.Records;
+			var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
+			var captionFilterExists = captionFilters.Count > 0;
+			var pageFilterExists = pivotTable.PageFields.Count > 0;
+			var fieldIndex = pivotTable.RowColumnFieldIndicies;
+			var keyDict = keys[keys.Count-1];
+
+			for (var r = 0; r < recs.RecordCount; r++)
+			{
+				var key = new int[fieldIndex.Count];
+				for (int i = 0; i < fieldIndex.Count; i++)
+				{
+					if (pivotTable.Fields[fieldIndex[i]].Grouping == null)
+					{
+						key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
+					}
+					else
+					{
+						key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[fieldIndex[i]][r]);
+					}
+				}
+
+				if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
+					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
+				{
+					var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[index][r]] : recs.CacheItems[index][r];
+					_calculateFunctions[function].AddItems(key, pivotTable.RowFields.Count, v, dataFieldItems, keyDict);
+				}
+			}
+
+			_calculateFunctions[function].FilterValueFields(pivotTable, dataFieldItems, keys[keys.Count - 1], fieldIndex);
+			_calculateFunctions[function].Aggregate(pivotTable, dataFieldItems, keys[keys.Count - 1]);
+			_calculateFunctions[function].Calculate(recs.CacheItems[index], dataFieldItems);
+		}
 
 		internal static int[] GetKeyWithParentLevel(int[] key, int[] childKey, int rf)
 		{

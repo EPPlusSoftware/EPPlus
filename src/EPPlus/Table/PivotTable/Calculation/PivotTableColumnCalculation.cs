@@ -73,7 +73,6 @@ namespace OfficeOpenXml.Table.PivotTable
 				RpnFormulaExecution.ExecutePivotFieldFormula(depChain, tokens, options);
 			}
 		}
-
 		private Token GetTokenFromValue(object v)
 		{
 			if(ConvertUtil.IsNumericOrDate(v))

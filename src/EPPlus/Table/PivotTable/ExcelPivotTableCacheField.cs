@@ -18,6 +18,7 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -270,6 +271,19 @@ namespace OfficeOpenXml.Table.PivotTable
                     throw (new ArgumentException("The formula can't be blank", "formula"));
                 }
                 SetXmlNodeString("@formula", value);
+                _formulaTokens = null;
+			}
+        }
+        IList<Token> _formulaTokens = null;
+		internal IList<Token> FormulaTokens
+        {
+            get
+            {
+                if(_formulaTokens == null && string.IsNullOrEmpty(Formula) == false)
+                {
+					_formulaTokens = SourceCodeTokenizer.PivotFormula.Tokenize(Formula);
+                }
+                return _formulaTokens;
             }
         }
         internal bool DatabaseField

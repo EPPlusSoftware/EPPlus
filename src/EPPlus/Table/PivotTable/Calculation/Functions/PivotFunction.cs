@@ -241,6 +241,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             {
                 v = GetValueDouble(value);
             }
+
             if (double.IsNaN(v))
             {
                 dataFieldItems[key] = value;
@@ -356,6 +357,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 }
 
                 var keysToRemove = new List<int[]>();
+
                 if (valueFilter.Type == ePivotTableFilterType.Sum ||
                    valueFilter.Type == ePivotTableFilterType.Count ||
                    valueFilter.Type == ePivotTableFilterType.Percent)

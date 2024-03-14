@@ -298,11 +298,12 @@ namespace OfficeOpenXml.Table.PivotTable
         internal bool IsCalculated { get; set; } = false;
         internal List<Dictionary<int[], HashSet<int[]>>> Keys = null;
         internal List<PivotCalculationStore> CalculatedItems = null;
-        /// <summary>
-        /// Calculates the pivot table 
-        /// </summary>
-        /// <param name="refreshCache"></param>
-        public void Calculate(bool refreshCache=false)
+		internal Dictionary<string, PivotCalculationStore> CalculatedFieldReferencedItems = null;
+		/// <summary>
+		/// Calculates the pivot table 
+		/// </summary>
+		/// <param name="refreshCache"></param>
+		public void Calculate(bool refreshCache=false)
         {
             if(refreshCache)
             {
