@@ -1,11 +1,19 @@
-﻿using OfficeOpenXml.Drawing.Theme;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  03/14/2024         EPPlus Software AB           Epplus 7.1
+ *************************************************************************************************/
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Style.XmlAccess;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 #if !NET35
 using System.Threading.Tasks;
 #endif
@@ -14,13 +22,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class TranslatorContext
     {
-        //ExcelXfs _xfs;
-        //ExcelNamedStyleXml _ns;
+
         internal ExcelTheme Theme;
-        //internal eBorderExclude BorderExclude;
-        //internal eFontExclude FontExclude;
-        //internal bool FillExclude;
-        //internal bool WrapTextExclude;
 
         internal float IndentValue;
         internal string IndentUnit;
@@ -28,13 +31,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         internal CssExclude Exclude;
         internal CssExportSettings Settings;
         internal HtmlPictureSettings Pictures;
-
-        //internal ExcelXfs Xfs => _xfs;
-        //internal ExcelNamedStyleXml Ns => _ns;
-        //internal ExcelTheme Theme => _theme;
-
-        //internal eBorderExclude BorderExclude => _borderExclude;
-        //internal eFontExclude FontExclude => _fontExclude;
 
         private TranslatorBase strategy;
 

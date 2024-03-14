@@ -1,14 +1,23 @@
-﻿using System;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  03/14/2024         EPPlus Software AB           Epplus 7.1
+ *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
     internal partial class CssRule
     {
-        //internal List<SelectorItem> SelectorItems;
         internal List<Declaration> Declarations { get; set; }
 
         internal string Selector { get; set; }
@@ -36,15 +45,5 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 Declarations.Add(declarations[i]);
             }
         }
-
-        //internal string GetSelector()
-        //{
-        //    string selector = "";
-        //    foreach (SelectorItem item in SelectorItems) 
-        //    {
-        //        selector += item.Name;
-        //    }
-        //    return selector;
-        //}
     }
 }

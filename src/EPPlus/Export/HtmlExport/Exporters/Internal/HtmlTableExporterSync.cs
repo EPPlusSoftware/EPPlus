@@ -12,16 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Table;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Export.HtmlExport.Parsers;
-using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {

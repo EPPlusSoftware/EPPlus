@@ -1,26 +1,28 @@
-﻿using OfficeOpenXml.ConditionalFormatting;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  03/14/2024         EPPlus Software AB           Epplus 7.1
+ *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.RangeQuadTree;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class ExporterContext
     {
-        //internal readonly Dictionary<string, int> _styleCache = new Dictionary<string, int>();
-        //internal readonly Dictionary<string, int> _dxfStyleCache = new Dictionary<string, int>();
-
         internal readonly StyleCache _styleCache = new StyleCache();
         internal readonly StyleCache _dxfStyleCache = new StyleCache();
         internal QuadTree<ExcelConditionalFormattingRule> _cfQuadTree = null;
 
         internal ExporterContext() 
         {
-            //_styleCache = new Dictionary<string, int>();
-            //_dxfStyleCache = new Dictionary<string, int>();
         }
 
         internal void InitializeQuadTree(ExcelRangeBase range)
@@ -30,16 +32,20 @@ namespace OfficeOpenXml.Export.HtmlExport
                 _cfQuadTree = new QuadTree<ExcelConditionalFormattingRule>(range);
             }
 
+            //TODO: only for relevant range not worksheet
             foreach (ExcelConditionalFormattingRule rule in range.Worksheet.ConditionalFormatting)
             {
-                _cfQuadTree.Add(new QuadRange(rule.Address), rule);
+                if(rule.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No)
+                {
+                    _cfQuadTree.Add(new QuadRange(rule.Address), rule);
+                }
             }
         }
 
         //If multiple caches later perhaps enum cache type or simply a list with ids prefered over boolean.
         internal bool AddPairToCache(string key, int value, bool isDxfCache = false) 
         {
-            if(isDxfCache) 
+            if(isDxfCache)
             {
                 if(!_dxfStyleCache.ContainsKey(key))
                 {

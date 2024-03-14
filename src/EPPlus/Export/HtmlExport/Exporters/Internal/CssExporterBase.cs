@@ -25,7 +25,6 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {

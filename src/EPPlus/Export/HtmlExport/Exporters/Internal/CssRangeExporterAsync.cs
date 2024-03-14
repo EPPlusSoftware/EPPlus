@@ -16,8 +16,6 @@ using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.IO;
-using System.Linq;
-using System.Runtime;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 
@@ -59,10 +57,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns></returns>
         public async Task RenderCssAsync(Stream stream)
         {
-            var trueWriter = new CssWriter(stream);
+            var cssWriter = new CssWriter(stream);
             var cssRules = CreateRuleCollection(_settings);
 
-            await trueWriter.WriteAndClearFlushAsync(cssRules, Settings.Minify);
+            await cssWriter.WriteAndClearFlushAsync(cssRules, Settings.Minify);
         }
     }
 }

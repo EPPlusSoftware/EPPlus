@@ -1,14 +1,25 @@
-﻿using OfficeOpenXml.ConditionalFormatting;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  03/14/2024         EPPlus Software AB           Epplus 7.1
+ *************************************************************************************************/
+
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
-using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
@@ -61,8 +72,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     cls = $"{styleClassPrefix}al";
                 }
             }
-
-            //int id = int.MinValue;
 
             var returnList = new List<string> { "" };
 
@@ -125,13 +134,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 specials += "height: 100%";
                                 cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
-                                //var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
-                                //specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-positive-1";
-                                //if(bar.NegativeFillColor != null)
-                                //{
-                                //    specials += $"{settings.StyleClassPrefix}{settings.CellStyleClassName}-databar-negative-1";
-                                //}
-                                //specials += bar.ApplyStyleOverride(cell);
                                 break;
                             default:
                                 dxfKey = cfItems[i].Value.Style.Id;
@@ -172,6 +174,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     {
                         case eExcelConditionalFormattingRuleType.DataBar:
                             var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
+
                             var dbParent = new HTMLElement("div");
                             dbParent.AddAttribute("class", $"{settings.StyleClassPrefix}pRelParent");
 
@@ -197,7 +200,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 divPos.AddAttribute("style", bar.ApplyStyleOverride(cell));
                             }
 
-                            if(cell.StyleID > 0)
+                            if (cell.StyleID > 0)
                             {
                                 string hAlign = GetHorizontalAlignmentDBar(cell.Style.HorizontalAlignment);
                                 string vAlign = GetVerticalAlignmentDBar(cell.Style.VerticalAlignment);
@@ -205,17 +208,44 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 divContent.AddAttribute("style", $"justify-content: {hAlign}; align-items: {vAlign};");
                             }
 
-                            divContent.Content = cell.Value.ToString();
+                            var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
+                            AddDataFromDatabarCell(cell, dataType, settings, divContent);
+
                             divContent.AddAttribute("class", $"{settings.StyleClassPrefix}dbc");
 
-                            dbParent.AddChildElement(divContent);
                             dbParent.AddChildElement(divNeg);
                             dbParent.AddChildElement(divPos);
-                        break;
+                            dbParent.AddChildElement(divContent);
+                            break;
                     }
                 }
             }
             return dataBarElements;
+        }
+
+        static void AddDataFromDatabarCell(ExcelRangeBase cell, string dataType, HtmlExportSettings settings, HTMLElement element)
+        {
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
+            {
+                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
+                if (string.IsNullOrEmpty(v) == false)
+                {
+                    element.AddAttribute($"data-{settings.DataValueAttributeName}", v);
+                }
+            }
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                element.AddAttribute("role", "cell");
+            }
+
+            if (cell.IsRichText)
+            {
+                element.Content = cell.RichText.HtmlText;
+            }
+            else
+            {
+                element.Content = ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
+            }
         }
 
         static string GetVerticalAlignmentDBar(ExcelVerticalAlignment vAlign)
@@ -251,19 +281,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
             return "";
         }
-
-        //void SpecialOperation(ExcelConditionalFormattingRule rule, ExcelAddress address)
-        //{
-        //    switch (rule.Type) 
-        //    {
-        //        case eExcelConditionalFormattingRuleType.TwoColorScale:
-        //        case eExcelConditionalFormattingRuleType.ThreeColorScale:
-
-        //            var castType = (ExcelConditionalFormattingTwoColorScale)rule.As.TwoColorScale;
-        //            castType.ApplyStyleOverride()
-        //            break;
-        //    }
-        //}
-
     }
 }

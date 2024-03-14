@@ -267,21 +267,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
-        //int LinearInterpolationTwoPoints(double x0, double x1, double y0, double y1, double x)
-        //{
-        //    int y;
-
-        //    //Weight of the end point influence in percent.
-        //    double endPercentage = (x - x0) / (x1 - x0);
-
-        //    //Weight of the start point influence in percent
-        //    double startPercentage = 1.0d - endPercentage;
-
-        //    y = (int)Math.Abs(y0 * startPercentage + y1 * endPercentage);
-
-        //    return y;
-        //}
-
         double TruncateTo3Decimals(double value)
         {
             double ret = Math.Round(value * 100);
