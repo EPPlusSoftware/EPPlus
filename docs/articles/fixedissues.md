@@ -1,5 +1,12 @@
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.1
+### Fixed issues 
+* Inserting rows would cause an exception to occur in formulas in rare cases.
+* Special signs such as `'` when last in a formula would throw an exception in rare cases.
+* Reading Conditional Formattings with property PivotTable = true failed to read in property.
+* Tokenize an intersect operator with the _keepWhitespaces set, caused both a white-space token and a intesect operator to be added.
+
 ## Version 7.0.10
 ### Fixed issues 
 * Having a workbook with group drawings in group drawings caused EPPlus to fail on load.
@@ -9,7 +16,12 @@
 * Some cultures would sometimes get double negative signs in the .Text property of cells.
 * Invalid characters in the name parameter were not validated for the AddValue and AddFormula methods of ExcelNamedRangeCollection.
 * Defined names with string values was not xml encoded on saving the package.
-
+* Setting style's (like Font for a cell) on the row level did not get the cell style from the column level causing cells intersecting to loose that style. 
+* ExcelRangeBase.SaveToText and ExcelRangeBase.SaveToTextAsync with a FileInfo did not close the file.
+* Intersect operator was replaced with 'isc' when copying cells
+* EPPlus removed all styling when setting a Table's CalculatedFormula to an empty string
+* ActiveTab was not re-calculated when moving worksheet   
+ 
 ## Version 7.0.9
 ### Fixed issues 
 * The formula tokenizer did not handle minus correctly before table addresses.

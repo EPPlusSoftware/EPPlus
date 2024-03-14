@@ -138,9 +138,12 @@ namespace OfficeOpenXml
         /// <param name="Format">Information how to create the csv text</param>
         public void SaveToText(FileInfo file, ExcelOutputTextFormat Format)
         {
-            var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write);
-            SaveToText(fileStream, Format);
-        }
+            using (var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+				SaveToText(fileStream, Format);
+                fileStream.Close();
+			}
+		}
         /// <summary>
         /// Converts a range to text in CSV format.
         /// Invariant culture is used by default.
@@ -228,8 +231,11 @@ namespace OfficeOpenXml
         /// <param name="Format">Information how to create the csv text</param>
         public async Task SaveToTextAsync(FileInfo file, ExcelOutputTextFormat Format)
         {
-            var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write);
-            await SaveToTextAsync(fileStream, Format).ConfigureAwait(false);
+            using (var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                await SaveToTextAsync(fileStream, Format).ConfigureAwait(false);
+                fileStream.Close();
+            }
         }
         /// <summary>
         /// Converts a range to text in CSV format.
