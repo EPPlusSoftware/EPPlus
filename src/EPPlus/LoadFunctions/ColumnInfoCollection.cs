@@ -8,37 +8,35 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  08/286/2021         EPPlus Software AB       EPPlus 5.7.5
+  12/7/2023         EPPlus Software AB       EPPlus 7.0.4
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml.LoadFunctions
 {
-    /// <summary>
-    /// Attribute used by <see cref="ExcelRangeBase.LoadFromCollection{T}(IEnumerable{T})" /> to support complex type properties/>
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]    
-    public class EpplusNestedTableColumnAttribute : Attribute
+    internal class ColumnInfoCollection : List<ColumnInfo>
     {
-        /// <summary>
-        /// Order of the columns value, default value is 0
-        /// </summary>
-        public int Order
+        internal void ReindexAndSortColumns()
         {
-            get;
-            set;
-        } = int.MaxValue;
-
-        /// <summary>
-        /// This will prefix all names derived by members in the complex type.
-        /// </summary>
-        public string HeaderPrefix
-        {
-            get;
-            set;
+            var index = 0;
+            Sort((a, b) =>
+            {
+                var p1 = a.Path;
+                var p2 = b.Path;
+                var maxIx = p1.Depth < p2.Depth ? p1.Depth : p2.Depth;
+                for(var ix = 0; ix < maxIx; ix++)
+                {
+                    var aVal = p1.Get(ix).SortOrder;
+                    var bVal = p2.Get(ix).SortOrder;
+                    if (aVal.CompareTo(bVal) == 0) continue;
+                    return aVal.CompareTo(bVal);
+                }
+                return a.Index.CompareTo(b.Index);
+            });
+            this.ForEach(x => x.Index = index++);
         }
     }
 }

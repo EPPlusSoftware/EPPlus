@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Attributes
         {
             get;
             set;
-        }
+        } = int.MaxValue;
 
         /// <summary>
         /// Name shown in the header row, overriding the property name

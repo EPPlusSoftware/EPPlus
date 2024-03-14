@@ -8,37 +8,41 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  08/286/2021         EPPlus Software AB       EPPlus 5.7.5
+  12/7/2023         EPPlus Software AB       EPPlus 7.0.4
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Attributes;
 
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {
-    /// <summary>
-    /// Attribute used by <see cref="ExcelRangeBase.LoadFromCollection{T}(IEnumerable{T})" /> to support complex type properties/>
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]    
-    public class EpplusNestedTableColumnAttribute : Attribute
+    internal class FormulaColumnMemberPath : MemberPathBase
     {
-        /// <summary>
-        /// Order of the columns value, default value is 0
-        /// </summary>
-        public int Order
+        public FormulaColumnMemberPath(EpplusFormulaTableColumnAttribute attr)
         {
-            get;
-            set;
-        } = int.MaxValue;
+            _attr = attr;
+            Init();
+        }
 
-        /// <summary>
-        /// This will prefix all names derived by members in the complex type.
-        /// </summary>
-        public string HeaderPrefix
+        private readonly EpplusFormulaTableColumnAttribute _attr;
+
+        private void Init()
         {
-            get;
-            set;
+            var item = new MemberPathItem(_attr);
+            _members.Add(item);
+        }
+
+        public override bool IsFormulaColumn => true;
+        public override string GetHeader()
+        {
+            return _attr.Header;
+        }
+
+        internal override string GetPath()
+        {
+            return string.Empty;
         }
     }
 }
