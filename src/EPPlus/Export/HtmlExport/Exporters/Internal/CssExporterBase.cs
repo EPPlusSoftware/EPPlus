@@ -214,8 +214,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.ThreeColorScale:
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
-                            var bar = (ExcelConditionalFormattingDataBar)cf.Value;
-                            cssTranslator.AddDatabar(bar);
                             break;
                         default:
                             if (cf.Value.Style.HasValue)

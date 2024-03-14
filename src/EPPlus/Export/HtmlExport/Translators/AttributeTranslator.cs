@@ -132,8 +132,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
-                                specials += "height: 100%";
-                                cls += $" {styleClassPrefix}{settings.CellStyleClassName}-irrelevantTmp";
                                 break;
                             default:
                                 dxfKey = cfItems[i].Value.Style.Id;
@@ -156,130 +154,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
 
             return new List<string> { cls.Trim(), specials };
-        }
-
-        internal static List<HTMLElement> ConditionalFormattingsDatabarToHTML(ExcelRangeBase cell, HtmlExportSettings settings, 
-            ExporterContext context, HTMLElement parentElement)
-        {
-            var dataBarElements = new List<HTMLElement>();
-
-            var cfItems = context._cfQuadTree.GetIntersectingRangeItems
-                (new QuadRange(new ExcelAddress(cell.Address)));
-
-            for (int i = 0; i < cfItems.Count(); i++)
-            {
-                if (cfItems[i].Value.ShouldApplyToCell(cell))
-                {
-                    switch (cfItems[i].Value.Type)
-                    {
-                        case eExcelConditionalFormattingRuleType.DataBar:
-                            var bar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
-
-                            var dbParent = new HTMLElement("div");
-                            dbParent.AddAttribute("class", $"{settings.StyleClassPrefix}pRelParent");
-
-                            parentElement.AddChildElement(dbParent);
-
-                            var divNeg = new HTMLElement("div");
-                            var divPos = new HTMLElement("div");
-                            var divContent = new HTMLElement("div");
-
-                            var prefix = $"{settings.StyleClassPrefix}{settings.CellStyleClassName}";
-
-                            if (Convert.ToDouble(cell.Value) < 0)
-                            {
-                                divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}relChildLeft neg-dbar {prefix}-db-neg{bar.DxfId} leftWidth{bar.DxfId}");
-                                divPos.AddAttribute("class", $"{settings.StyleClassPrefix}relChildRight");
-
-                                divNeg.AddAttribute("style", bar.ApplyStyleOverride(cell));
-                            }
-                            else
-                            {
-                                divNeg.AddAttribute("class", $"{settings.StyleClassPrefix}relChildLeft leftWidth{bar.DxfId}");
-                                divPos.AddAttribute("class", $"{settings.StyleClassPrefix}relChildRight pos-dbar {prefix}-db-pos{bar.DxfId}");
-                                divPos.AddAttribute("style", bar.ApplyStyleOverride(cell));
-                            }
-
-                            if (cell.StyleID > 0)
-                            {
-                                string hAlign = GetHorizontalAlignmentDBar(cell.Style.HorizontalAlignment);
-                                string vAlign = GetVerticalAlignmentDBar(cell.Style.VerticalAlignment);
-
-                                divContent.AddAttribute("style", $"justify-content: {hAlign}; align-items: {vAlign};");
-                            }
-
-                            var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
-                            AddDataFromDatabarCell(cell, dataType, settings, divContent);
-
-                            divContent.AddAttribute("class", $"{settings.StyleClassPrefix}dbc");
-
-                            dbParent.AddChildElement(divNeg);
-                            dbParent.AddChildElement(divPos);
-                            dbParent.AddChildElement(divContent);
-                            break;
-                    }
-                }
-            }
-            return dataBarElements;
-        }
-
-        static void AddDataFromDatabarCell(ExcelRangeBase cell, string dataType, HtmlExportSettings settings, HTMLElement element)
-        {
-            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
-            {
-                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
-                if (string.IsNullOrEmpty(v) == false)
-                {
-                    element.AddAttribute($"data-{settings.DataValueAttributeName}", v);
-                }
-            }
-            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
-            {
-                element.AddAttribute("role", "cell");
-            }
-
-            if (cell.IsRichText)
-            {
-                element.Content = cell.RichText.HtmlText;
-            }
-            else
-            {
-                element.Content = ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
-            }
-        }
-
-        static string GetVerticalAlignmentDBar(ExcelVerticalAlignment vAlign)
-        {
-            switch (vAlign)
-            {
-                case ExcelVerticalAlignment.Top:
-                    return "top";
-                case ExcelVerticalAlignment.Center:
-                    return "center";
-                case ExcelVerticalAlignment.Bottom:
-                    return "end";
-            }
-
-            return "";
-        }
-
-        static string GetHorizontalAlignmentDBar(ExcelHorizontalAlignment hAlign)
-        {
-
-            switch (hAlign)
-            {
-                case ExcelHorizontalAlignment.Right:
-                    return "right";
-                case ExcelHorizontalAlignment.Center:
-                case ExcelHorizontalAlignment.CenterContinuous:
-                    return "center";
-                case ExcelHorizontalAlignment.Left:
-                    return "left";
-                default:
-                    return "right";
-            }
-
-            return "";
         }
     }
 }

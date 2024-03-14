@@ -15,6 +15,9 @@ using OfficeOpenXml.Drawing.Theme;
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
 {
+    /// <summary>
+    /// For internal use
+    /// </summary>
     public interface IStyleColor
     {
         internal bool Exists { get; }

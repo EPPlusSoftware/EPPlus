@@ -610,10 +610,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             if (!string.IsNullOrEmpty(classString[0]))
             {
-                if (settings.RenderConditionalFormattings)
-                {
-                    AttributeTranslator.ConditionalFormattingsDatabarToHTML(cell, settings, content, element);
-                }
                 element.AddAttribute("class", classString[0]);
             }
 

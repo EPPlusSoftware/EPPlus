@@ -12,13 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Settings;
-using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif

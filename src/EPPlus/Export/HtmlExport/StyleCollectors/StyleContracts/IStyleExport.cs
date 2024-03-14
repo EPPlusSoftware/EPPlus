@@ -2,6 +2,9 @@
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
 {
+    /// <summary>
+    /// For internal use
+    /// </summary>
     public interface IStyleExport
     {
         internal string StyleKey { get; }
