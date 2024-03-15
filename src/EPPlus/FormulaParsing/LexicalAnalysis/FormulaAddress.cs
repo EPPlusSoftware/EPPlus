@@ -408,7 +408,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             if (nsDict.Keys.Any(x => formula.IndexOf(x, StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 var sb = new StringBuilder();
-                foreach(var t in _tokenizerNWS.Tokenize(formula))
+                var tokens = _tokenizerNWS.Tokenize(formula);
+                foreach (var t in tokens)
                 {
                     if (t.TokenTypeIsSet(TokenType.Function) && nsDict.ContainsKey(t.Value))
                     {

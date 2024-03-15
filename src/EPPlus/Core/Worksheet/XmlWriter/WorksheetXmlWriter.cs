@@ -708,6 +708,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (_ws.DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
             {
+                //Might need encode xml
                 cache.Append($"sqref=\"{_ws.DataValidations[i].Address.ToString().Replace(",", " ")}\" ");
             }
 
@@ -1938,8 +1939,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                 if (format.Style.NumberFormat.HasValue)
                 {
+                    var numberFormat = format.Style.NumberFormat.Format.EncodeXMLAttribute();
+
                     cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
-                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                        $"formatCode = \"{numberFormat}\"/>");
                 }
 
                 if (format.Style.Fill.HasValue)
