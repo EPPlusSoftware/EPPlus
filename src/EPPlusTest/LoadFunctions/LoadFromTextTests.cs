@@ -137,5 +137,31 @@ namespace EPPlusTest.LoadFunctions
             Assert.IsNull(_worksheet.Cells[5, 2].Value);
             Assert.IsNull(_worksheet.Cells[5, 3].Value);
         }
+
+        [TestMethod]
+        public void LoadFixedWidthText()
+        {
+            string file = "myfile";
+            ExcelRangeBase r;
+            LoadfixedWidthFile(file, r, 12, 6, 2, 10, 10, 32, 2, 3, 8, 3, 16, 16, 3);
+        }
+
+        private ExcelRangeBase LoadfixedWidthFile(string file, ExcelRangeBase startCell, int NoCols, params int[] widths)
+        {
+            if(NoCols == widths.Length)
+            {
+                var currentcell = startCell;
+                for(int i = 0; i < NoCols; i++)
+                {
+                    string s = file.read(widths[i]);
+                    currentcell.value = s;
+                    currentcell = currentcell.NextCell();
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("NoCols and widths mismatch, NoCols Needs to be the same as widths length");
+            }
+        }
     }
 }
