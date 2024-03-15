@@ -6,6 +6,7 @@
 * Special signs such as `'` when last in a formula would throw an exception in rare cases.
 * Reading Conditional Formattings with property PivotTable = true failed to read in property.
 * Tokenize an intersect operator with the _keepWhitespaces set, caused both a white-space token and a intesect operator to be added.
+* Added Exception when over maximum data validations that excel allows.
 
 ## Version 7.0.10
 ### Fixed issues 
