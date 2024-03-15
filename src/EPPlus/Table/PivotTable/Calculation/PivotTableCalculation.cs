@@ -77,7 +77,7 @@ namespace OfficeOpenXml.Table.PivotTable
 				keys.Add(keyDict);
 				if (string.IsNullOrEmpty(df.Field.CacheField.Formula))
 				{
-					CalculateField(pivotTable, calculatedItems[calculatedItems.Count-1], keys, df.Index, df.Field.CacheField, df.Function);
+					CalculateField(pivotTable, calculatedItems[calculatedItems.Count-1], keys, df.Field.CacheField, df.Function);
 
 					if (df.ShowDataAs.Value != eShowDataAs.Normal)
 					{
@@ -116,7 +116,7 @@ namespace OfficeOpenXml.Table.PivotTable
 							var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
 							keys.Add(keyDict);
 							store = new PivotCalculationStore();
-							CalculateField(pivotTable, store, keys, calcFields.Count, pivotTable.Fields[token.Value].Cache, DataFieldFunctions.Sum);
+							CalculateField(pivotTable, store, keys, pivotTable.Fields[token.Value].Cache, DataFieldFunctions.Sum);
 						}
 						calcFields.Add(token.Value, store);
 					}
@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			return false;
 		}
 
-		private static void CalculateField(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, List<Dictionary<int[], HashSet<int[]>>> keys,int index,  ExcelPivotTableCacheField cacheField, DataFieldFunctions function)
+		private static void CalculateField(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, List<Dictionary<int[], HashSet<int[]>>> keys,  ExcelPivotTableCacheField cacheField, DataFieldFunctions function)
 		{
 			var ci = pivotTable.CacheDefinition._cacheReference;
 			var recs = ci.Records;
@@ -148,7 +148,8 @@ namespace OfficeOpenXml.Table.PivotTable
 			var pageFilterExists = pivotTable.PageFields.Count > 0;
 			var fieldIndex = pivotTable.RowColumnFieldIndicies;
 			var keyDict = keys[keys.Count-1];
-
+			int index = cacheField.Index;
+			
 			for (var r = 0; r < recs.RecordCount; r++)
 			{
 				var key = new int[fieldIndex.Count];

@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			foreach(var i in calcOrder)
 			{
 				var f = _tbl.Fields[i];
-				var tokens = (List<Token>)SourceCodeTokenizer.PivotFormula.Tokenize(f.CacheField.Formula);
+				var tokens = f.Cache.FormulaTokens;
 				var calcTokens = GetPivotFieldReferencesInFormula(f, tokens);
 				if(calcTokens.Any(x => x == null))
 				{
@@ -54,24 +54,38 @@ namespace OfficeOpenXml.Table.PivotTable
 				}
 				else
 				{
-					CalculateField(f, tokens, calcTokens, fieldIndex);
-				}
+					var store = CalculateField(f, tokens, calcTokens, fieldIndex);
+                    if (f.IsDataField)
+                    {
+						var ix = _tbl.DataFields.IndexOf(f.DataField);
+						_tbl.CalculatedItems[ix] = store;
+                    }
+					else
+					{
+						_tbl.CalculatedFieldReferencedItems.Add(f.Name, store);
+					}
+                }
 			}
 		}
 
-		private void CalculateField(ExcelPivotTableField f, List<Token> tokens, List<int[]> calcTokens, List<int> fieldIndex)
+		private PivotCalculationStore CalculateField(ExcelPivotTableField f, IList<Token> tokens, List<int[]> calcTokens, List<int> fieldIndex)
 		{
+			var store = new PivotCalculationStore();
 			var options = new ExcelCalculationOption();
 			var depChain = new RpnOptimizedDependencyChain(_tbl.WorkSheet.Workbook, options);
-			foreach (var ci in _tbl.CalculatedItems[0].Index)
+			var ct = new List<Token>();
+			ct.AddRange(tokens.Select(x => new Token(x.Value, x.TokenType, x.IsNegated)));
+			foreach (var ci in _tbl.CalculatedFieldReferencedItems.First().Value.Index)
 			{
-				foreach (var i in calcTokens)
+				foreach (var c in calcTokens)
 				{
-					var v = _tbl.CalculatedItems[fieldIndex[i[1]]][ci.Key];
-					tokens[i[0]] = GetTokenFromValue(v);
+					var v = _tbl.CalculatedFieldReferencedItems[tokens[c[0]].Value][ci.Key];
+					ct[c[0]] = GetTokenFromValue(v);
 				}
-				RpnFormulaExecution.ExecutePivotFieldFormula(depChain, tokens, options);
+				var cv=RpnFormulaExecution.ExecutePivotFieldFormula(depChain, ct, options);
+				store.Add(ci.Key, cv);
 			}
+			return store;
 		}
 		private Token GetTokenFromValue(object v)
 		{
@@ -102,7 +116,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			int ix = 0;
 			foreach (var t in tokens)
 			{
-				if(t.TokenType==TokenType.NameValue)
+				if(t.TokenType==TokenType.PivotField)
 				{
 					var ff = _tbl.Fields[t.Value];
 					if (ff == null)
@@ -160,7 +174,7 @@ namespace OfficeOpenXml.Table.PivotTable
 				if (t.TokenType == TokenType.PivotField)
 				{
 					var f2 = _tbl.Fields[t.Value];
-					if (f2 != null && string.IsNullOrEmpty(f2.Cache.Formula))
+					if (f2 != null && string.IsNullOrEmpty(f2.Cache.Formula)==false)
 					{
 						if (t.Value.Equals(f.Name, StringComparison.InvariantCultureIgnoreCase))
 						{

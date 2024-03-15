@@ -1191,5 +1191,20 @@ namespace OfficeOpenXml.Table.PivotTable
                 return GetXmlNodeBool("@dragToPage", true);
             }
         }
-    }
+
+		internal ExcelPivotTableDataField DataField
+        {
+            get
+            {
+                foreach(var df in PivotTable.DataFields)
+                {
+                    if(df.Index==Index)
+                    {
+                        return df;
+                    }
+                }
+                return null;
+            }
+        }
+	}
 }

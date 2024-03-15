@@ -95,10 +95,11 @@ namespace OfficeOpenXml.FormulaParsing
 
             return ExecuteChain(depChain, null, formula, options, true);
         }
-		internal static object ExecutePivotFieldFormula(RpnOptimizedDependencyChain depChain, List<Token> tokens, ExcelCalculationOption options)
+		internal static object ExecutePivotFieldFormula(RpnOptimizedDependencyChain depChain, IList<Token> tokens, ExcelCalculationOption options)
 		{
-			var formula = new RpnFormula(null, 0, 0) { _tokens = tokens};
-            return AddChainForFormula(depChain, formula, options, true);
+            var formula = new RpnFormula(null, 0, 0);
+            formula.SetFormula(tokens, depChain);
+			return AddChainForFormula(depChain, formula, options, false);
 		}
 
 		private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRangeBase range, ExcelCalculationOption options, bool writeToCell)
