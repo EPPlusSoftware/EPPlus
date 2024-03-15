@@ -48,17 +48,17 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Bold text
         /// </summary>
-        public bool? Bold { get; set; }
+        public bool Bold { get; set; } = false;
 
         /// <summary>
         /// Italic text
         /// </summary>
-        public bool? Italic { get; set; }
+        public bool Italic { get; set; } = false;
 
         /// <summary>
         /// Strike-out text
         /// </summary>
-        public bool? Strike { get; set; }
+        public bool Strike { get; set; } = false;
 
         /// <summary>
         /// Underlined text
@@ -67,28 +67,28 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return UnderLineType != null && UnderLineType != ExcelUnderLineType.None;
+                return UnderLineType != ExcelUnderLineType.None;
             }
             set
             {
-                UnderLineType = value ? ExcelUnderLineType.Single : null;
+                UnderLineType = value ? ExcelUnderLineType.Single : ExcelUnderLineType.None;
             }
         }
 
         /// <summary>
         /// Vertical Alignment
         /// </summary>
-        public ExcelVerticalAlignmentFont? VerticalAlign { get; set; }
+        public ExcelVerticalAlignmentFont? VerticalAlign { get; set; } = ExcelVerticalAlignmentFont.None;
 
         /// <summary>
         /// Font size
         /// </summary>
-        public float Size { get; set; }
+        public float Size { get; set; } = 0;
 
         /// <summary>
         /// Name of the font
         /// </summary>
-        public string FontName { get; set; }
+        public string FontName { get; set; } = "";
 
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace OfficeOpenXml.Style
                 {
                     ret = Utils.ColorConverter.GetThemeColor(_collection._wb.ThemeManager.GetOrCreateTheme(), ColorSettings.Theme.Value);
                 }
-                else if (ColorSettings.Auto)
+                else if (ColorSettings.Auto == true)
                 {
                     ret = Color.Black;
                 }
@@ -137,17 +137,17 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Characterset to use
         /// </summary>
-        public int? Charset { get; set; }
+        public int Charset { get; set; } = 0;
 
         /// <summary>
         /// Font family
         /// </summary>
-        public int? Family { get; set; }
+        public int Family { get; set; } = 0;
 
         /// <summary>
         /// Underline type of text
         /// </summary>
-        public ExcelUnderLineType? UnderLineType { get; set; }
+        public ExcelUnderLineType UnderLineType { get; set; } = ExcelUnderLineType.None;
 
         //NOT SUPPOERTED
         ///// <summary>
@@ -189,10 +189,6 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new InvalidOperationException("Text can't be null or empty");
-                }
                 _text = value;
             }
         }
@@ -422,83 +418,86 @@ namespace OfficeOpenXml.Style
         /// <param name="sb"></param>
         internal void WriteRichTextAttributes(StringBuilder sb)
         {
-            sb.Append("<r>");
-            if (!HasDefaultValue)
+            if (!string.IsNullOrEmpty(Text))
             {
-                sb.Append("<rPr>");
-                if (!String.IsNullOrEmpty(FontName))
+                sb.Append("<r>");
+                if (!HasDefaultValue)
                 {
-                    sb.Append($"<rFont val=\"{FontName}\"/>");
+                    sb.Append("<rPr>");
+                    if (!String.IsNullOrEmpty(FontName))
+                    {
+                        sb.Append($"<rFont val=\"{FontName}\"/>");
+                    }
+                    if (Charset != 0)
+                    {
+                        sb.Append($"<charset val=\"{Charset}\"/>");
+                    }
+                    if (Family != 0)
+                    {
+                        sb.Append($"<family val=\"{Family}\"/>");
+                    }
+                    if (Bold == true)
+                    {
+                        sb.Append($"<b/>");
+                    }
+                    if (Italic == true)
+                    {
+                        sb.Append($"<i/>");
+                    }
+                    if (Strike == true)
+                    {
+                        sb.Append($"<strike/>");
+                    }
+                    if (Color != Color.Empty)
+                    {
+                        WriteRichTextColorAttributes(sb);
+                    }
+                    if (Size > 0)
+                    {
+                        sb.Append($"<sz val=\"{Size.ToString(CultureInfo.InvariantCulture)}\"/>");
+                    }
+                    if (UnderLine)
+                    {
+                        sb.Append($"<u val=\"{UnderLineType.ToEnumString()}\"/>");
+                    }
+                    if (VerticalAlign != null && VerticalAlign != ExcelVerticalAlignmentFont.None)
+                    {
+                        sb.Append($"<vertAlign val=\"{VerticalAlign.ToEnumString()}\"/>");
+                    }
+                    //NOT SUPPORTED
+                    //if (Outline)
+                    //{
+                    //    sb.Append($"<outline/>");
+                    //}
+                    //if (Shadow)
+                    //{
+                    //    sb.Append($"<shadow/>");
+                    //}
+                    //if (Condense)
+                    //{
+                    //    sb.Append($"<condense/>");
+                    //}
+                    //if (Extend)
+                    //{
+                    //    sb.Append($"<extend/>");
+                    //}
+                    //if (Scheme != null && Scheme != eThemeFontCollectionType.None)
+                    //{
+                    //    sb.Append($"<scheme val=\"{Scheme.ToEnumString()}\"/>");
+                    //}
+                    sb.Append("</rPr>");
                 }
-                if (Charset != null || Charset.HasValue)
-                {
-                    sb.Append($"<charset val=\"{Charset}\"/>");
-                }
-                if (Family != null || Family.HasValue)
-                {
-                    sb.Append($"<family val=\"{Family}\"/>");
-                }
-                if (Bold != null && Bold == true)
-                {
-                    sb.Append($"<b/>");
-                }
-                if (Italic != null && Italic == true)
-                {
-                    sb.Append($"<i/>");
-                }
-                if (Strike != null && Strike == true)
-                {
-                    sb.Append($"<strike/>");
-                }
-                if (Color != Color.Empty)
-                {
-                    WriteRichTextColorAttributes(sb);
-                }
-                if (Size > 0)
-                {
-                    sb.Append($"<sz val=\"{Size.ToString(CultureInfo.InvariantCulture)}\"/>");
-                }
-                if (UnderLine)
-                {
-                    sb.Append($"<u val=\"{UnderLineType.Value.ToEnumString()}\"/>");
-                }
-                if (VerticalAlign != null && VerticalAlign != ExcelVerticalAlignmentFont.None)
-                {
-                    sb.Append($"<vertAlign val=\"{VerticalAlign.ToEnumString()}\"/>");
-                }
-                //NOT SUPPORTED
-                //if (Outline)
-                //{
-                //    sb.Append($"<outline/>");
-                //}
-                //if (Shadow)
-                //{
-                //    sb.Append($"<shadow/>");
-                //}
-                //if (Condense)
-                //{
-                //    sb.Append($"<condense/>");
-                //}
-                //if (Extend)
-                //{
-                //    sb.Append($"<extend/>");
-                //}
-                //if (Scheme != null && Scheme != eThemeFontCollectionType.None)
-                //{
-                //    sb.Append($"<scheme val=\"{Scheme.ToEnumString()}\"/>");
-                //}
-                sb.Append("</rPr>");
+                sb.Append($"<t{ValueHasWhiteSpaces()}>");
+                sb.Append(ConvertUtil.ExcelEscapeAndEncodeString(Text));
+                sb.Append("</t>");
+                sb.Append("</r>");
             }
-            sb.Append($"<t{ValueHasWhiteSpaces()}>");
-            sb.Append(ConvertUtil.ExcelEscapeAndEncodeString(Text));
-            sb.Append("</t>");
-            sb.Append("</r>");
         }
 
         internal void WriteRichTextColorAttributes(StringBuilder sb)
         {
             sb.Append("<color");
-            if (ColorSettings.Auto)
+            if (ColorSettings.Auto == true)
             {
                 sb.Append(" auto=\"1\"");
             }
@@ -508,7 +507,7 @@ namespace OfficeOpenXml.Style
             }
             if (ColorSettings.Rgb != Color.Empty)
             {
-                sb.Append($" rgb=\"{(ColorSettings.Rgb.ToArgb()).ToString("X").PadLeft(8, '0')}\"");
+                sb.Append($" rgb=\"{ColorSettings.Rgb.ToArgb().ToString("X").PadLeft(8, '0')}\"");
             }
             if (ColorSettings.Theme != null)
             {
@@ -521,7 +520,7 @@ namespace OfficeOpenXml.Style
             sb.Append("/>");
         }
 
-        bool HasDefaultValue
+        public bool HasDefaultValue
         {
             get
             {
@@ -532,9 +531,9 @@ namespace OfficeOpenXml.Style
                         Size == 0 &&
              String.IsNullOrEmpty(FontName) &&
                        Color == Color.Empty &&
-                     Charset == null &&
-                      Family == null &&
-               UnderLineType == null;
+                     Charset == 0 &&
+                      Family == 0 &&
+               UnderLineType == 0;
                    //Outline == false &&
                     //Shadow == false &&
                   //Condense == false &&

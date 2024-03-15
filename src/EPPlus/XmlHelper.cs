@@ -1355,9 +1355,9 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        public static bool? GetRichTextPropertyBool(XmlNode n)
+        public static bool GetRichTextPropertyBool(XmlNode n)
         {
-            bool? ret = null;
+            bool ret = false;
             if (n != null)
             {
                 ret = true;
@@ -1369,18 +1369,13 @@ namespace OfficeOpenXml
             return ret;
         }
 
-        public static bool? GetRichTextPropertyBool(string s)
-        {
-            return null;
-        }
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="n"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static ExcelUnderLineType? GetRichTextPropertyUnderlineType(XmlNode n, out bool val)
+        public static ExcelUnderLineType GetRichTextPropertyUnderlineType(XmlNode n, out bool val)
         {
             if (n != null)
             {
@@ -1453,13 +1448,13 @@ namespace OfficeOpenXml
             return ColorSettings;
         }
 
-        public static int? GetRichTextPropertyInt(XmlNode n)
+        public static int GetRichTextPropertyInt(XmlNode n)
         {
             if (n != null)
             {
                 return int.Parse(n.Attributes["val"].Value);
             }
-            return null;
+            return 0;
         }
     }
 }

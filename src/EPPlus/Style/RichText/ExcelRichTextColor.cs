@@ -31,9 +31,23 @@ namespace OfficeOpenXml.Style
     public class ExcelRichTextColor
     {
         /// <summary>
+        /// 
+        /// </summary>
+        public bool HasAttributes
+        {
+            get
+            {
+                return     Rgb != Color.Empty ||
+                         Theme != null ||
+                          Tint != null ||
+                          Auto != null ||
+                       Indexed != null;
+            }
+        }
+        /// <summary>
         /// The rgb color value set in the file.
         /// </summary>
-        public Color Rgb { get; set; }
+        public Color Rgb { get; set; } = Color.Empty;
 
         /// <summary>
         /// The color theme.
@@ -47,7 +61,7 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Auto color
         /// </summary>
-        public bool Auto { get; set; }
+        public bool? Auto { get; set; }
 
         /// <summary>
         /// The indexed color number.

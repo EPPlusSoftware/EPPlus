@@ -199,7 +199,7 @@ namespace OfficeOpenXml
 			TopNode = WorkbookXml.DocumentElement;
 			SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
 			FullCalcOnLoad = true;  //Full calculation on load by default, for both new workbooks and templates.
-			GetSharedStringsNew();
+			GetSharedStrings();
 		}
 
 		/// <summary>
@@ -296,7 +296,10 @@ namespace OfficeOpenXml
 		internal Dictionary<string, PivotTableCacheRangeInfo> _pivotTableCaches = new Dictionary<string, PivotTableCacheRangeInfo>();
 		internal Dictionary<Uri, int> _pivotTableIds = new Dictionary<Uri, int>();
 
-		private void GetSharedStringsNew()
+        /// <summary>
+        /// Read shared strings to list
+        /// </summary>
+        private void GetSharedStrings()
 		{
             if(_package.ZipPackage.PartExists(SharedStringsUri))
 			{
@@ -321,61 +324,28 @@ namespace OfficeOpenXml
 						{
 							var text = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                             _sharedStringsListNew.Add(new SharedStringTextItem() { Text = text, Position = index });
-							_sharedStringsLookup.Add(text, index++);
+							if (!_sharedStringsLookup.ContainsKey(text))
+							{
+								_sharedStringsLookup.Add(text, index++);
+							}
                         }
 						else if(xr.LocalName =="r" && xr.NodeType == XmlNodeType.Element)
 						{
 							var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollection(xr, this), Position = index++ };
                             _sharedStringsListNew.Add(item);
-                            _sharedStringsLookup.Add(item.RichText.GetXML(), index++);
+							var text = item.RichText.GetXML();
+                            if (!_sharedStringsLookup.ContainsKey(text))
+                            {
+                                _sharedStringsLookup.Add(text, index++);
+                            }
                         }
 					}
 				}
 
             }
-
-
-
         }
 
 		
-		/// <summary>
-		/// Read shared strings to list
-		/// </summary>
-		private void GetSharedStrings()
-		{
-			if (_package.ZipPackage.PartExists(SharedStringsUri))
-			{
-				var xml = _package.GetXmlFromUri(SharedStringsUri);
-				XmlNodeList nl = xml.SelectNodes("//d:sst/d:si", NameSpaceManager);
-				_sharedStringsList = new List<SharedStringItem>();
-				if (nl != null)
-				{
-					foreach (XmlNode node in nl)
-					{
-						XmlNode n = node.SelectSingleNode("d:t", NameSpaceManager);
-						if (n != null)
-						{
-							_sharedStringsList.Add(new SharedStringItem() { Text = ConvertUtil.ExcelDecodeString(n.InnerText) });
-						}
-						else
-						{
-							_sharedStringsList.Add(new SharedStringItem() { Text = node.InnerXml, isRichText = true });
-						}
-					}
-				}
-				//Delete the shared string part, it will be recreated when the package is saved.
-				foreach (var rel in Part.GetRelationships())
-				{
-					if (rel.TargetUri.OriginalString.EndsWith("sharedstrings.xml", StringComparison.OrdinalIgnoreCase))
-					{
-						Part.DeleteRelationship(rel.Id);
-						break;
-					}
-				}
-				_package.ZipPackage.DeletePart(SharedStringsUri); //Remove the part, it is recreated when saved.
-			}
-		}
 		internal void GetDefinedNames()
 		{
 			XmlNodeList nl = WorkbookXml.SelectNodes("//d:definedNames/d:definedName", NameSpaceManager);

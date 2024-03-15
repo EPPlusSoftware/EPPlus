@@ -1285,7 +1285,10 @@ namespace OfficeOpenXml
             {
                 if(value == true &&( Value == null || Value.ToString() == string.Empty))
                 {
-                    throw new InvalidOperationException("Cannot set IsRichText when Value is null or empty string");
+                    if (_rtc == null)
+                    {
+                        _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    }
                 }
                 SetIsRichTextFlag(value);
             }
