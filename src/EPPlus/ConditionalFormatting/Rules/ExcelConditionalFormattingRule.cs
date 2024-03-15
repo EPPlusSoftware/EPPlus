@@ -20,6 +20,10 @@ using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Style;
 using System.Globalization;
+using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Collections.Generic;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -32,10 +36,27 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// The type of conditional formatting rule.
         /// </summary>
         public eExcelConditionalFormattingRuleType Type { get; set; }
+
+        internal ExcelAddress _address = null;
+
         /// <summary>
         /// <para>The range over which these conditional formatting rules apply.</para>
         /// </summary>
-        public virtual ExcelAddress Address { get; set; }
+        public virtual ExcelAddress Address
+        { get
+            {
+                return _address;
+            }
+            set
+            {
+                _address = value;
+                //QuadItem = new QuadItem<ExcelConditionalFormattingRule>(){ this, _address }
+                //QuadRange = new QuadRange(value);
+            }
+        }
+
+        //internal QuadRange QuadRange { get; private set; }
+        //internal QuadItem<ExcelConditionalFormattingRule> QuadItem { get; private set; }
 
         internal int _priority = 1;
 
@@ -64,7 +85,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public bool PivotTable { get; set; }
 
-        ExcelDxfStyleConditionalFormatting _style = null;
+        internal ExcelDxfStyleConditionalFormatting _style = null;
 
         /// <summary>
         /// The style
@@ -138,7 +159,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
 
-        internal bool IsIconSet 
+        internal bool IsIconSet
         {
             get
             {
@@ -149,13 +170,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal string _uid = null;
 
         internal virtual string Uid
-        { 
+        {
             get
             {
                 if (_uid == null)
                 {
                     _uid = Guid.NewGuid().ToString().ToUpperInvariant();
-                    return "{" + _uid + "}";
+                    return _uid;
                 }
 
                 return _uid;
@@ -164,15 +185,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 _uid = value;
             }
-            
-          
+
+
         }
 
         bool _isExtLst = false;
 
-        internal virtual bool IsExtLst 
-        { 
-            get 
+        internal virtual bool IsExtLst
+        {
+            get
             {
                 //Only databars, iconsets and anything with custom formulas can be extLst
                 if (Type == eExcelConditionalFormattingRuleType.DataBar)
@@ -180,7 +201,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     return true;
                 }
 
-                if(ExcelAddressBase.RefersToOtherWorksheet(Formula, _ws.Name) || ExcelAddressBase.RefersToOtherWorksheet(Formula2, _ws.Name))
+                if (ExcelAddressBase.RefersToOtherWorksheet(Formula, _ws.Name) || ExcelAddressBase.RefersToOtherWorksheet(Formula2, _ws.Name))
                 {
                     return true;
                 }
@@ -202,7 +223,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             _ws = ws;
 
             Address = address;
-            if(Address == null)
+            if (Address == null)
             {
                 _isExtLst = true;
             }
@@ -215,7 +236,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 StopIfTrue = int.Parse(xr.GetAttribute("stopIfTrue")) == 1;
             }
-                
+
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("id")))
             {
@@ -227,14 +248,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                 DxfId = int.Parse(xr.GetAttribute("dxfId"));
             }
 
-            if(!string.IsNullOrEmpty(xr.GetAttribute("text")))
+            if (!string.IsNullOrEmpty(xr.GetAttribute("text")))
             {
                 _text = xr.GetAttribute("text");
             }
 
             string timePeriodString = xr.GetAttribute("timePeriod");
 
-            if(!string.IsNullOrEmpty(timePeriodString))
+            if (!string.IsNullOrEmpty(timePeriodString))
             {
                 TimePeriod = timePeriodString.ToEnum<eExcelConditionalFormattingTimePeriodType>();
             }
@@ -257,7 +278,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (address == null)
             {
-                if(xr.LocalName == "dxf")
+                if (xr.LocalName == "dxf")
                 {
                     ReadExtDxf(xr);
                 }
@@ -301,7 +322,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
             }
 
-            if(!string.IsNullOrEmpty(tempAddress))
+            if (!string.IsNullOrEmpty(tempAddress))
             {
                 Address = new ExcelAddress(tempAddress);
             }
@@ -314,27 +335,27 @@ namespace OfficeOpenXml.ConditionalFormatting
             if (xr.LocalName == "font")
             {
                 xr.Read();
-                if(xr.LocalName == "b")
+                if (xr.LocalName == "b")
                 {
                     Style.Font.Bold = ParseXMlBoolValue(xr);
                     xr.Read();
                 }
 
-                if(xr.LocalName == "i")
+                if (xr.LocalName == "i")
                 {
                     Style.Font.Italic = ParseXMlBoolValue(xr);
                     xr.Read();
                 }
 
-                if(xr.LocalName == "strike")
+                if (xr.LocalName == "strike")
                 {
                     Style.Font.Strike = ParseXMlBoolValue(xr);
                     xr.Read();
                 }
 
-                if(xr.LocalName == "u")
+                if (xr.LocalName == "u")
                 {
-                    if(xr.GetAttribute("val") == "double")
+                    if (xr.GetAttribute("val") == "double")
                     {
                         Style.Font.Underline = ExcelUnderLineType.Double;
                     }
@@ -345,7 +366,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     xr.Read();
                 }
 
-                if(xr.LocalName == "color")
+                if (xr.LocalName == "color")
                 {
                     ParseColor(Style.Font.Color, xr);
                 }
@@ -392,7 +413,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Style.Fill.Gradient.Degree = string.IsNullOrEmpty(degree) ?
                         null : (double?)double.Parse(degree, CultureInfo.InvariantCulture);
 
-                    if(!string.IsNullOrEmpty(xr.GetAttribute("type")))
+                    if (!string.IsNullOrEmpty(xr.GetAttribute("type")))
                     {
                         Style.Fill.Gradient.GradientType = xr.GetAttribute("type").ToEnum<eDxfGradientFillType>();
                     }
@@ -486,7 +507,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     col.Auto = xr.GetAttribute("auto") == "1" ? true : false;
                 }
 
-                if(!string.IsNullOrEmpty(xr.GetAttribute("tint")))
+                if (!string.IsNullOrEmpty(xr.GetAttribute("tint")))
                 {
                     col.Tint = double.Parse(xr.GetAttribute("tint"), CultureInfo.InvariantCulture);
                 }
@@ -514,7 +535,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="newWorksheet">In case cloning from another worksheet</param>
         protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original, ExcelWorksheet newWorksheet = null)
         {
-            if(newWorksheet == null)
+            if (newWorksheet == null)
             {
                 _ws = original._ws;
             }
@@ -523,7 +544,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 _ws = newWorksheet;
             }
 
-            if(original.Rank != 0)
+            if (original.Rank != 0)
             {
                 Rank = original.Rank;
             }
@@ -536,7 +557,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             _text = original._text;
             StopIfTrue = original.StopIfTrue;
 
-            if(original._stdDev != 0)
+            if (original._stdDev != 0)
             {
                 StdDev = original.StdDev;
             }
@@ -622,7 +643,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             get
             {
                 return (Type == eExcelConditionalFormattingRuleType.Bottom)
-                  || (Type == eExcelConditionalFormattingRuleType.BottomPercent) 
+                  || (Type == eExcelConditionalFormattingRuleType.BottomPercent)
                   ? true : false;
             }
         }
@@ -656,14 +677,17 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// Formula
         /// </summary>
-        public virtual string Formula 
-        { 
-            get { return _formula; } 
+        public virtual string Formula
+        {
+            get { return _formula; }
             set
             {
-                _formula = value; 
-            } 
+                _formula = value;
+            }
         }
+
+        internal string calculatedFormula1 = null;
+        internal string calculatedFormula2 = null;
 
         /// <summary>
         /// Formula2
@@ -673,11 +697,18 @@ namespace OfficeOpenXml.ConditionalFormatting
         public virtual string Formula2
         {
             get { return _formula2; }
-            set 
+            set
             {
                 _formula2 = value;
             }
         }
+
+        internal virtual bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (address != null) { return true; }
+            return false;
+        }
+
         private ExcelConditionalFormattingAsType _as = null;
         /// <summary>
         /// Provides access to type conversion for all conditional formatting rules.
@@ -705,5 +736,138 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
         internal abstract ExcelConditionalFormattingRule Clone(ExcelWorksheet sheet = null);
+
+        internal virtual void RemoveTempExportData()
+        {
+            calculatedFormula1 = null;
+            calculatedFormula2 = null;
+        }
+
+        internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
+        internal IList<Token> Tokens;
+
+        internal void SetTokens(string worksheet, string aFormula)
+        {
+            if (Tokens == null)
+            {
+                if(aFormula != null)
+                {
+                    Tokens = _tokenizer.Tokenize(aFormula, worksheet);
+                }
+            }
+        }
+
+        internal string GetCellFormula(ExcelAddress address, bool getFormula2 = false)
+        {
+            return GetFormula(address._fromRow, address._fromCol, getFormula2);
+        }
+
+        internal string GetFormula(int row, int column, bool isFormula2 = false)
+        {
+            var relevantFormula = isFormula2 == true ? Formula2 : Formula;
+            if (Address.Start.Row == row && Address.Start.Column == column)
+            {
+                if(relevantFormula == null)
+                {
+                    return "";
+                }
+                return relevantFormula;
+            }
+
+            SetTokens(_ws.Name, relevantFormula);
+
+            string f = "";
+            if(Tokens == null)
+            {
+                return "";
+            }
+            for (int i = 0; i < Tokens.Count; i++)
+            {
+                var token = Tokens[i];
+                if (token.TokenTypeIsSet(TokenType.CellAddress))
+                {
+                    var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
+                    if (a.IsFullColumn)
+                    {
+                        if (a.IsFullRow)
+                        {
+                            f += token.Value;
+                        }
+                        else
+                        {
+                            f += a.GetOffset(0, column - Address.Start.Column, true);
+                        }
+                    }
+                    else if (a.IsFullRow)
+                    {
+                        f += a.GetOffset(row - Address.Start.Row, 0, true);
+                    }
+                    else
+                    {
+                        if (a.Table != null)
+                        {
+                            f += token.Value;
+                        }
+                        else
+                        {
+                            f += a.GetOffset(row - Address.Start.Row, column - Address.Start.Column, true);
+                        }
+                    }
+                }
+                else if (token.TokenTypeIsSet(TokenType.FullRowAddress))
+                {
+                    if (token.Value.StartsWith("$") == false)
+                    {
+                        if (int.TryParse(token.Value, out int r))
+                        {
+                            r += row - Address.Start.Row;
+                            if (r >= 1 && r <= ExcelPackage.MaxRows)
+                            {
+                                f += r.ToString(CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                f += "#REF!";
+                            }
+                        }
+                        else
+                        {
+                            f += "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        f += token.Value;
+                    }
+                }
+                else if (token.TokenTypeIsSet(TokenType.FullColumnAddress))
+                {
+                    if (token.Value.StartsWith("$") == false)
+                    {
+                        var c = ExcelCellBase.GetColumn(token.Value);
+                        c += column - Address.Start.Column;
+                        if (c >= 1 && c <= ExcelPackage.MaxColumns)
+                        {
+                            f += ExcelCellBase.GetColumnLetter(c);
+                        }
+                        else
+                        {
+                            f += "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        f += token.Value;
+                    }
+                }
+                else
+                {
+                    f += token.Value;
+                }
+
+            }
+            Tokens = null;
+            return f;
+        }
     }
 }

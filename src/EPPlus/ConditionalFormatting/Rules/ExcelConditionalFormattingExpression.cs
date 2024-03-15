@@ -12,6 +12,8 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Utils;
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting.Rules
@@ -45,7 +47,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
           XmlReader xr)
           : base(
                 eExcelConditionalFormattingRuleType.Expression,
-                address,
+        address,
                 worksheet,
                 xr)
         {
@@ -53,11 +55,30 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
 
         internal ExcelConditionalFormattingExpression(ExcelConditionalFormattingExpression copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
+
         }
 
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingExpression(this, newWs);
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            var cellValue = _ws.Cells[address.Address].Value;
+            if (cellValue != null)
+            {
+                var result = _ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false);
+                calculatedFormula1 = string.Format(result.ToString(), CultureInfo.InvariantCulture);
+                if (ExcelErrorValue.IsErrorValue(calculatedFormula1))
+                {
+                    return false;
+                }
+
+               return ConvertUtil.GetValueBool(result) ?? false;
+            }
+
+            return false;
         }
     }
 }

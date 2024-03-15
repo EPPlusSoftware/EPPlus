@@ -4,6 +4,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -36,9 +37,10 @@ namespace EPPlusTest.Core.Range.Insert
             ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
             ws2.Cells["A1"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
             ws2.Cells["B1:B2"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
+			ws2.Cells["A2"].Formula = "Sum(InsertRow_Sheet1!#REF!)";
 
-            //Act
-            ws.InsertRow(3, 1);
+			//Act
+			ws.InsertRow(3, 1);
 
             //Assert
             Assert.AreEqual(1, ws._sharedFormulas.Count);
@@ -50,8 +52,9 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["B1"].Formula);
             Assert.AreEqual("Sum(InsertRow_Sheet1!C7:C12)", ws2.Cells["B2"].Formula);
-        }
-        [TestMethod]
+			Assert.AreEqual("Sum(InsertRow_Sheet1!#REF!)", ws2.Cells["A2"].Formula);
+		}
+		[TestMethod]
         public void ValidateFormulasAfterInsert2Rows()
         {
             //Setup
@@ -1374,5 +1377,20 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("B13+G12", tbl2.Columns[2].CalculatedColumnFormula);
         }
 
+        //case: s635
+        [TestMethod]
+        public void InsertRowOnSpecificCase()
+        {
+            string sheetName = "test";
+
+            using (ExcelPackage package = OpenTemplatePackage("s635_Insert_Row.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+
+                worksheet.InsertRow(8, 1, 7);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

@@ -24,6 +24,18 @@ namespace EPPlusTest.Issues
                 package.Save();
             }
         }
-    }
+        [TestMethod]
+        public void i1314()
+        {
+            using (var p = OpenTemplatePackage("i1314.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var tbl = ws.Tables[0];
+                tbl.InsertRow(1,1);
+				tbl.AddRow(1);
 
+				SaveAndCleanup(p);
+            }
+		}
+    }
 }

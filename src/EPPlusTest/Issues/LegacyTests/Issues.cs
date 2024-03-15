@@ -56,6 +56,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace EPPlusTest
@@ -5835,6 +5836,26 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void testKingLink()
+        {
+            using (var p = OpenTemplatePackage("SwedishGeography.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[1];
+
+                var link = (ExcelHyperLink)sheet1.Cells["A2"].Hyperlink;
+
+                sheet1.Cells["A2"].Hyperlink = link;
+
+                ////var cell = sheet1.Cells["A2"];
+                //sheet1.Cells["Z51"].Value = "Something here";
+                //var link = new ExcelHyperLink("https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp/blob/master/04-Filters%20and%20validations/02-Filter/FilterSample.cs", UriKind.Absolute);
+                //link.Display = "FilterSample";
+                //sheet1.Cells["Z51"].Hyperlink = link;
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
         public void s551()
         {
             using (var p = OpenTemplatePackage("s551.xlsx"))
@@ -5977,20 +5998,20 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-		public void I1211()
-		{
-			using (var p = OpenTemplatePackage("i1211.xlsx"))
-			{
-				var ws = p.Workbook.Worksheets.Add("sheet1");
-				ws.Cells["A1"].Value = -1.5;
-				ws.Cells["B1"].Value = -5;
-				ws.Cells["C1"].Value = 1.5;
-				ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
-				ws.Calculate();
+        public void I1211()
+        {
+            using (var p = OpenTemplatePackage("i1211.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                ws.Cells["A1"].Value = -1.5;
+                ws.Cells["B1"].Value = -5;
+                ws.Cells["C1"].Value = 1.5;
+                ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
+                ws.Calculate();
 
-				Assert.AreEqual(9.75, ws.Cells["D1"].Value);
-			}
-		}
+                Assert.AreEqual(9.75, ws.Cells["D1"].Value);
+            }
+        }
         [TestMethod]
         public void s542_2()
         {
@@ -6025,7 +6046,7 @@ namespace EPPlusTest
                     SaveAndCleanup(tP);
                 }
             }
-        }        
+        }
         [TestMethod]
         public void PerformanceIssueGetAsByteArray()
         {
@@ -6048,9 +6069,9 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-		public void I1216()
+        public void I1216()
         {
-            using(var p=OpenPackage("i1216.xlsx"))
+            using (var p = OpenPackage("i1216.xlsx"))
             {
                 var ws = p.Workbook.Worksheets.Add("sheet1");
                 ws.Cells["A1"].Value = -1.5;
@@ -6058,9 +6079,9 @@ namespace EPPlusTest
                 ws.Cells["C1"].Value = 1.5;
                 ws.Cells["D1"].Formula = "IF((A1+B1)<0,(-A1+-B1)*C1,0)";
                 ws.Calculate();
-                
+
                 Assert.AreEqual(9.75, ws.Cells["D1"].Value);
-            }            
+            }
         }
         [TestMethod]
         public void VBA_ModuleName()
@@ -6068,47 +6089,98 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage("VBAModuleName.xlsm"))
             {
                 var vba = p.Workbook.VbaProject;
-                
+
             }
         }
-		[TestMethod]
-		public void i1229()
-		{
-			using (var p = OpenTemplatePackage("Data.template.xlsx"))
-			{
-				/* Raw Data Sheet only */
-				foreach (var wb in p.Workbook.Worksheets)
-					Debug.WriteLine(wb.Name);                          // working as expected 
-				SaveAndCleanup(p);
-			}
-		}
-    [TestMethod]
-    public void i1272()
-    {
-      using (var pck = OpenTemplatePackage("i1272.xlsx"))
-      {
-         var sheet = pck.Workbook.Worksheets["Sheet2"];
+        [TestMethod]
+        public void i1229()
+        {
+            using (var p = OpenTemplatePackage("Data.template.xlsx"))
+            {
+                /* Raw Data Sheet only */
+                foreach (var wb in p.Workbook.Worksheets)
+                    Debug.WriteLine(wb.Name);                          // working as expected 
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i1272()
+        {
+            using (var pck = OpenTemplatePackage("i1272.xlsx"))
+            {
+                var sheet = pck.Workbook.Worksheets["Sheet2"];
 
-         var cellToCopy = sheet.Cells["A1"];
-         var newCellRange = sheet.Cells["B1"];
+                var cellToCopy = sheet.Cells["A1"];
+                var newCellRange = sheet.Cells["B1"];
 
-         cellToCopy.Copy(newCellRange);
+                cellToCopy.Copy(newCellRange);
 
-         var cf = cellToCopy.ConditionalFormatting;
-         var cfNew = newCellRange.ConditionalFormatting;
+                var cf = cellToCopy.ConditionalFormatting;
+                var cfNew = newCellRange.ConditionalFormatting;
 
 
-         var conditionalFormattingCollection = sheet.ConditionalFormatting; // still contains 1 rule even though it is gone in file
+                var conditionalFormattingCollection = sheet.ConditionalFormatting; // still contains 1 rule even though it is gone in file
 
-         SaveAndCleanup(pck);
+                SaveAndCleanup(pck);
                 // After save conditional formatting is not copied and is deleted from the original cell
 
-         using (var pck2 = new ExcelPackage("C:\\epplusTest\\Testoutput\\i1272.xlsx"))
-         {
-            var conditionalFormattingRules = pck2.Workbook.Worksheets["Sheet2"].ConditionalFormatting.Count;
-            Assert.AreEqual(1, conditionalFormattingRules); // this returns a success, however when opening the file the rule is gone
-         }
-      }
+                using (var pck2 = new ExcelPackage("C:\\epplusTest\\Testoutput\\i1272.xlsx"))
+                {
+                    var conditionalFormattingRules = pck2.Workbook.Worksheets["Sheet2"].ConditionalFormatting.Count;
+                    Assert.AreEqual(1, conditionalFormattingRules); // this returns a success, however when opening the file the rule is gone
+                }
+            }
+        }
+        [TestMethod]
+        public void s608()
+        {
+            using(var package = OpenTemplatePackage("s608.xlsx"))
+            {
+                Debug.Assert(package.Workbook.Worksheets.Count == 2);
+                package.Workbook.Worksheets.Delete("Sheet1");
+                Debug.Assert(package.Workbook.Worksheets.Count == 1);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void syntaxTest()
+        {
+            using (var package = OpenPackage("ASyntaxTest.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("NewSheet");
+
+                var array = new int[] { 1, 2, 3, 4, 5 };
+                Assert.AreEqual("array", nameof(array));
+
+                //var end = array[^1];
+
+                int? value1 = 2;
+                int? value2 = 3;
+
+                var something = value1 ??= value2;
+
+                var test = "test";
+
+                int[] row0 = [1, 2, 3];
+                int[] row1 = [4, 5, 6];
+                int[] row2 = [7, 8, 9];
+                int[] single = [.. row0, .. row1, .. row2];
+
+
+                string variable = "";
+
+                foreach (var element in single)
+                {
+                    variable += $"{element}, ";
+                }
+
+                //Assert.AreEqual("a", variable);
+
+                //Debug.Assert(package.Workbook.Worksheets.Count == 2);
+                //package.Workbook.Worksheets.Delete("Sheet1");
+                //Debug.Assert(package.Workbook.Worksheets.Count == 1);
+                //SaveAndCleanup(package);
+            }
+        }
     }
-  }
 }

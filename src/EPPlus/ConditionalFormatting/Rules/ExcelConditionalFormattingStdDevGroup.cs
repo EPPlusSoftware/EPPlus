@@ -12,8 +12,13 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -56,6 +61,50 @@ namespace OfficeOpenXml.ConditionalFormatting
                                                     $"XML corrupted or reading faulty");
             }
             StdDev = UInt16.Parse(xr.GetAttribute("stdDev"));
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (_ws.Cells[address.Address].Value == null)
+            {
+                return false;
+            }
+            if (_ws.Cells[address.Address].Value.IsNumeric() == false)
+            {
+                return false;
+            }
+
+            var addressValue = Convert.ToDouble(_ws.Cells[address.Address].Value);
+
+            var stdDevFormula = $"{StdDev}*STDEV.S({Address})";
+            var avgFormula = $"AVERAGE({Address})";
+
+            var stdDevRes = _ws.Workbook.FormulaParserManager.Parse(stdDevFormula, address.FullAddress, false).ToString();
+            var avgResult = _ws.Workbook.FormulaParserManager.Parse(avgFormula, address.FullAddress, false).ToString();
+
+            var stdParsable = double.TryParse(stdDevRes, out double stdDevDouble);
+            var avgParsable = double.TryParse(avgResult, out double avgDouble);
+
+            if (!(stdParsable && avgParsable)) { return false; }
+
+            switch (Type)
+            {
+                case eExcelConditionalFormattingRuleType.AboveStdDev:
+                    if(addressValue > (avgDouble + stdDevDouble))
+                    {
+                        return true;
+                    }
+                    break;
+                case eExcelConditionalFormattingRuleType.BelowStdDev:
+                    if (addressValue < (avgDouble + stdDevDouble))
+                    {
+                        return true;
+                    }
+                    break;
+
+            }
+
+            return false;
         }
     }
 }

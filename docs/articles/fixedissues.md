@@ -1,4 +1,43 @@
-﻿# Features / Fixed issues - EPPlus 7
+
+# Features / Fixed issues - EPPlus 7
+## Version 7.1
+### Fixed issues 
+* Inserting rows would cause an exception to occur in formulas in rare cases.
+* Special signs such as `'` when last in a formula would throw an exception in rare cases.
+* Reading Conditional Formattings with property PivotTable = true failed to read in property.
+* Tokenize an intersect operator with the _keepWhitespaces set, caused both a white-space token and a intesect operator to be added.
+
+## Version 7.0.10
+### Fixed issues 
+* Having a workbook with group drawings in group drawings caused EPPlus to fail on load.
+* Having #REF with a sheet reference when inserting a Row/Column caused the formula to become corrupt.
+* Files from 7.0.6 and prior with Data Validations would sometimes fail to be read.
+* Data Validations with AlternateContent nodes are now read if the Fallback node contains formulas.
+* Some cultures would sometimes get double negative signs in the .Text property of cells.
+* Invalid characters in the name parameter were not validated for the AddValue and AddFormula methods of ExcelNamedRangeCollection.
+* Defined names with string values was not xml encoded on saving the package.
+* Setting style's (like Font for a cell) on the row level did not get the cell style from the column level causing cells intersecting to loose that style. 
+* ExcelRangeBase.SaveToText and ExcelRangeBase.SaveToTextAsync with a FileInfo did not close the file.
+* Intersect operator was replaced with 'isc' when copying cells
+* EPPlus removed all styling when setting a Table's CalculatedFormula to an empty string
+* ActiveTab was not re-calculated when moving worksheet   
+ 
+## Version 7.0.9
+### Fixed issues 
+* The formula tokenizer did not handle minus correctly before table addresses.
+* Inserting rows/columns could cause drawings to get a incorrect width/height.
+* Saving multiple times caused hyperlinks to multiply.
+* Saving multiple times caused dxf border styles for tables to become corrupt if set.
+* EPPlus can now handle up to 66 indexed colors
+* VALUE function did not support multicell input
+* Deleting the first worksheet in a workbook that has "IsWorksheets1Based = true" no longer throws out of range exception.
+* Ensured workbooks do not become corrupted after SaveAs if they have certain empty xml nodes.
+* Inserting cells, rows or columns next to Conditional Formatting ranges now automatically extends those ranges to the new cells as in Excel. 
+* Cell with bool value no longer returns "0" and "1" on text property now returns "TRUE" or "FALSE" instead as in Excel.
+* Conditional formatting’s with space separated addresses now saves appropriately.
+* Text input with a "-" such as " -ACat" in some functions such as e.g. SumIf resulted in faulty error calculations.
+* Adding a new table column and change the Name property caused the total row to incorrectly return #DIV/0. 
+
 ## Version 7.0.8
 ### Fixed issues 
 * Validation of VBA module names failed when containing a space

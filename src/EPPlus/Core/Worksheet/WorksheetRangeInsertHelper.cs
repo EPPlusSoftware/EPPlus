@@ -39,7 +39,9 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {
-                InsertCellStores(ws, rowFrom, 0, rows, 0);
+				ws.Drawings.ReadPositionsAndSize();
+
+				InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 FixFormulasInsertRow(ws, rowFrom, rows);
 
@@ -96,6 +98,8 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {
+                ws.Drawings.ReadPositionsAndSize();
+                
                 InsertCellStores(ws, 0, columnFrom, 0, columns);
 
                 FixFormulasInsertColumn(ws, columnFrom, columns);
@@ -117,11 +121,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(ws, columnFrom, columns);
-
+			
                 //Adjust drawing positions.
-                WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
-            }
-        }
+				WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
+			}
+		}
 
         private static void InsertColumnPivotTable(ExcelWorksheet ws, int columnFrom, int columns)
         {
@@ -832,7 +836,18 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         if (ws.Name == wsToUpdate.Name)
                         {
-                            var tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
+                            IList<Token> tokens;
+
+                            try
+                            {
+                                tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
+                            }
+                            catch (Exception e) 
+                            {
+                                var text = e.Message;
+                            }
+                            tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
+
                             cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
                         else if (v.Contains(ws.Name))

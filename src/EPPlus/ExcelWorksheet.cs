@@ -577,10 +577,11 @@ namespace OfficeOpenXml
                 _name = value;
             }
         }
-
+        //TODO: Examine if mdw is really a neccessary input parameter.
+        //Seems it is always the same as Workbook.MaxFontWidth
         internal int GetColumnWidthPixels(int col, decimal mdw)
         {
-            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), mdw);
+            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
         internal decimal GetColumnWidth(int col)
         {
@@ -2238,7 +2239,7 @@ namespace OfficeOpenXml
         }
 #endregion
         /// <summary>
-        /// Get the cell value from thw worksheet
+        /// Get the cell value from the worksheet
         /// </summary>
         /// <param name="Row">The row number</param>
         /// <param name="Column">The row number</param>
@@ -2596,6 +2597,7 @@ namespace OfficeOpenXml
                     {
                         _comments.Part = _package.ZipPackage.CreatePart(_comments.Uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", _package.Compression);
                         var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _comments.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/comments");
+                        Comments.RelId = rel.Id;
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }

@@ -1764,5 +1764,15 @@ namespace OfficeOpenXml.Drawing
             return null;
         }
 
-    }
+		/// <summary>
+        /// Read the drawings coordinates, height and width.
+        /// </summary>
+        internal void ReadPositionsAndSize()
+		{
+			foreach(var d in _drawingsList)
+            {
+                d.GetPositionSize();
+            }
+		}
+	}
 }

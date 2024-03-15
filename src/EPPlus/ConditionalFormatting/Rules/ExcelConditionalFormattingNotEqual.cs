@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 
@@ -55,6 +56,24 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingNotEqual(this, newWs);
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                if (_ws.Cells[address.Start.Address].Value != null && string.IsNullOrEmpty(Formula) == false)
+                {
+                    calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
+                    var str = string.Format(_ws.Cells[address.Start.Address].Value.ToString(), CultureInfo.InvariantCulture);
+                    if (str != calculatedFormula1)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         #endregion Constructors

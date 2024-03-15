@@ -10,17 +10,30 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
     internal static class HtmlElements
     {
-        public const string Body = "body";
+        internal static readonly HashSet<string> VoidElements
+        = new HashSet<string>
+        {
+            { "col" },
+            { Img }
+        };
 
+        internal static readonly HashSet<string> NoIndentElements
+        = new HashSet<string>
+        {
+            { TableData },
+            { TFoot },
+            { TableHeader },
+            { A },
+            { Img }
+        };
+
+        public const string Body = "body";
         public const string Table = "table";
         public const string Thead = "thead";
         public const string TFoot = "tfoot";

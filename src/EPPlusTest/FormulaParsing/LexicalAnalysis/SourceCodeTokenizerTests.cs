@@ -36,6 +36,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
@@ -398,6 +399,23 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(7,tokens.Length);
             Assert.AreEqual(TokenType.Operator, tokens[1].TokenType);
             Assert.AreEqual("-", tokens[1].Value);
+        }
+
+        //case: s635
+        //GetLastTokenIgnore in SourceCodeTokenizer.cs should not throw on -'
+        [TestMethod]
+        public void TokenizeNegatorSingleQuoteShouldNotThrow()
+        {
+            using (ExcelPackage package = new ExcelPackage("tokenizerTestNegator.xlsx"))
+            {
+                string input = "-'[1]16testName'!$X$106";
+                string sheetName = "tokenizeTest";
+                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
+
+                var result = sct.Tokenize(input, sheetName);
+            }
         }
     }
 }
