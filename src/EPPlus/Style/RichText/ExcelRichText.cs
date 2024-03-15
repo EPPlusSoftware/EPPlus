@@ -106,7 +106,7 @@ namespace OfficeOpenXml.Style
                 }
                 else if (ColorSettings.Indexed.HasValue)
                 {
-                    ret = ExcelColor.GetIndexedColor(ColorSettings.Indexed.Value);
+                    ret = _collection._wb.Styles.GetIndexedColor(ColorSettings.Indexed.Value);
                 }
                 else if (ColorSettings.Theme.HasValue)
                 {
