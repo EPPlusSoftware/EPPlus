@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -34,9 +35,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         : base(eExcelConditionalFormattingRuleType.NextWeek, address, priority, worksheet)
         {
             TimePeriod = eExcelConditionalFormattingTimePeriodType.NextWeek;
-            Formula = string.Format(
-              "AND(ROUNDDOWN({0},0)-TODAY()>(7-WEEKDAY(TODAY())),ROUNDDOWN({0},0)-TODAY()<(15-WEEKDAY(TODAY())))",
-              Address.Start.Address);
+            _baseFormula = "AND(ROUNDDOWN({0},0)-TODAY()>(7-WEEKDAY(TODAY())),ROUNDDOWN({0},0)-TODAY()<(15-WEEKDAY(TODAY())))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
 
         /// <summary>

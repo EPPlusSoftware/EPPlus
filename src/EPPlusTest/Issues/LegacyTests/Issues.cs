@@ -5836,6 +5836,26 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void testKingLink()
+        {
+            using (var p = OpenTemplatePackage("SwedishGeography.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[1];
+
+                var link = (ExcelHyperLink)sheet1.Cells["A2"].Hyperlink;
+
+                sheet1.Cells["A2"].Hyperlink = link;
+
+                ////var cell = sheet1.Cells["A2"];
+                //sheet1.Cells["Z51"].Value = "Something here";
+                //var link = new ExcelHyperLink("https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp/blob/master/04-Filters%20and%20validations/02-Filter/FilterSample.cs", UriKind.Absolute);
+                //link.Display = "FilterSample";
+                //sheet1.Cells["Z51"].Hyperlink = link;
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
         public void s551()
         {
             using (var p = OpenTemplatePackage("s551.xlsx"))
@@ -6120,6 +6140,46 @@ namespace EPPlusTest
                 package.Workbook.Worksheets.Delete("Sheet1");
                 Debug.Assert(package.Workbook.Worksheets.Count == 1);
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void syntaxTest()
+        {
+            using (var package = OpenPackage("ASyntaxTest.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("NewSheet");
+
+                var array = new int[] { 1, 2, 3, 4, 5 };
+                Assert.AreEqual("array", nameof(array));
+
+                //var end = array[^1];
+
+                int? value1 = 2;
+                int? value2 = 3;
+
+                var something = value1 ??= value2;
+
+                var test = "test";
+
+                int[] row0 = [1, 2, 3];
+                int[] row1 = [4, 5, 6];
+                int[] row2 = [7, 8, 9];
+                int[] single = [.. row0, .. row1, .. row2];
+
+
+                string variable = "";
+
+                foreach (var element in single)
+                {
+                    variable += $"{element}, ";
+                }
+
+                //Assert.AreEqual("a", variable);
+
+                //Debug.Assert(package.Workbook.Worksheets.Count == 2);
+                //package.Workbook.Worksheets.Delete("Sheet1");
+                //Debug.Assert(package.Workbook.Worksheets.Count == 1);
+                //SaveAndCleanup(package);
             }
         }
     }

@@ -12,11 +12,6 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Sorting.Internal;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -52,7 +47,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             bool pivot = false;
             while (xr.ReadUntil(1, "conditionalFormatting", "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst", "pageMargins"))
             {
-                //string lastAddress = address.ToString();
                 address = null;
 
                 do
@@ -430,36 +424,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        ExcelConditionalFormattingIconDataBarValue[] CreateBaseIconArr(eExcelConditionalFormattingRuleType type)
-        {
-            int nrOfIcons;
-            switch (type)
-            {
-                case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                    nrOfIcons = 3;
-                    break;
-                case eExcelConditionalFormattingRuleType.FourIconSet:
-                    nrOfIcons = 4;
-                    break;
-                case eExcelConditionalFormattingRuleType.FiveIconSet:
-                    nrOfIcons = 5;
-                    break;
-
-                default:
-                    throw new NotImplementedException("CreateBaseIconArr Can only handle Iconset types");
-            };
-
-            var arr = new ExcelConditionalFormattingIconDataBarValue[nrOfIcons];
-
-            for (int i = 0; i < nrOfIcons; i++)
-            {
-                arr[i] = new ExcelConditionalFormattingIconDataBarValue
-                    (eExcelConditionalFormattingValueObjectType.Percent, type);
-            }
-
-            return arr;
-        }
-
         void ApplyIconSetAttributes<T>(bool showValue, bool percent, bool reverse, IExcelConditionalFormattingIconSetGroup<T> group)
         {
             group.ShowValue = showValue;
@@ -701,6 +665,14 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             // Return the newly created rule
             return cfRule;
+        }
+
+        internal void ClearTempExportCacheForAllCFs()
+        {
+            foreach(var cf in _rules)
+            {
+                cf.RemoveTempExportData();
+            }
         }
 
         /// <summary>

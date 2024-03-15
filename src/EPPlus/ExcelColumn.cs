@@ -303,6 +303,7 @@ namespace OfficeOpenXml
         {
             return ((ulong)sheetID) + (((ulong)column) << 15);
         }
+
         internal static int ColumnWidthToPixels(decimal columnWidth, decimal mdw)
         {
             return (int)decimal.Truncate(((256 * columnWidth + decimal.Truncate(128 / mdw)) / 256) * mdw);

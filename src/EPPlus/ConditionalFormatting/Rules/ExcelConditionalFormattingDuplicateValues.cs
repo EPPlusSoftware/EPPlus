@@ -11,12 +11,17 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.ConditionalFormatting.Rules;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingDuplicateValues : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingDuplicateValues : CachingCF,
     IExcelConditionalFormattingDuplicateValues
     {
         internal ExcelConditionalFormattingDuplicateValues(
@@ -32,6 +37,32 @@ namespace OfficeOpenXml.ConditionalFormatting
           ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
           : base(eExcelConditionalFormattingRuleType.DuplicateValues, address, ws, xr)
         {
+        }
+
+        //HashSet<string> duplicates = new HashSet<string>();
+        IEnumerable<object> duplicates;
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if(cellValueCache.Count == 0)
+            {
+                UpdateCellValueCache(true);
+                duplicates = cellValueCache.GroupBy(value => value)
+                                           .Where(key => key.Count() > 1)
+                                           .Select(group => group.Key);
+            }
+
+            if(_ws.Cells[address.Address].Value != null)
+            {
+                return duplicates.Contains(_ws.Cells[address.Address].Value.ToString());
+            }
+            return false;
+        }
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            duplicates = null;
         }
 
         internal ExcelConditionalFormattingDuplicateValues(ExcelConditionalFormattingDuplicateValues copy, ExcelWorksheet newWs = null) : base(copy, newWs)

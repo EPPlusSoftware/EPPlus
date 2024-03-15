@@ -141,5 +141,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If true, data types are renedered on the header objects.
         /// </summary>
         public bool RenderDataTypes { get; set; } = true;
+        /// <summary>
+        /// If true conditionalFormattings will be rendered
+        /// </summary>
+        public bool RenderConditionalFormattings { get; set; } = true;
     }
 }
