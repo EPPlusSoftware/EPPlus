@@ -53,15 +53,15 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         {
             _style = style;
 
-            if (style.FillId >  0)
+            if (style.FillId >=  0)
             {
                 Fill = new FillXml(style.Fill);
             }
-            if(style.FontId > 0)
+            if(style.FontId >= 0)
             {
                 Font = new FontXml(style.Font);
             }
-            if(style.BorderId > 0) 
+            if(style.BorderId >= 0) 
             {
                 Border = new BorderXml(style.Border);
             }
