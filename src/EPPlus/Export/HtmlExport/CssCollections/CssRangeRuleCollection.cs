@@ -165,10 +165,12 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 var bXfs = styleList[1];
                 var rXfs = styleList[2];
 
-                if (style.Border != null && style.Border.HasValue || bXfs.Border != null && bXfs.Border.HasValue || rXfs.Border != null && rXfs.Border.HasValue)
-                {
-                    translators.Add(new CssBorderTranslator(style.Border.Top, bXfs.Border.Bottom, style.Border.Left, rXfs.Border.Right));
-                }
+                IBorder topLeft = style.Border ?? null;
+                IBorder bottom = bXfs.Border ?? null;
+                IBorder right = rXfs.Border ?? null;
+
+                var borderTranslator = new CssBorderTranslator(topLeft, bottom, right);
+                translators.Add(borderTranslator);
             }
             else if (style.Border != null && style.Border.HasValue)
             {

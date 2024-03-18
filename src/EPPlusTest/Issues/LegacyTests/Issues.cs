@@ -3123,10 +3123,15 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("richtext.xlsx"))
             {
+                //rewrite test
                 var ws = p.Workbook.Worksheets[0];
-                var t = ws.Cells["C2"].RichText.GetType(); ;
-                var prop = t.GetProperty("TopNode", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
-                var topNode = prop.GetValue(ws.Cells["C2"].RichText);
+                var text1 = ws.Cells["C1"];
+                var text2 = ws.Cells["C2"];
+                var text3 = ws.Cells["C3"];
+
+                Assert.IsFalse(text1.RichText[0].HasDefaultValue);
+                Assert.IsTrue(text2.RichText[0].HasDefaultValue);
+
                 SaveAndCleanup(p);
             }
         }
@@ -3926,7 +3931,7 @@ namespace EPPlusTest
                     foreach (var richText in cell.RichText)
                     {
                         Debug.Write($"RichText {richText.Text} Font: [{richText.FontName}], Size: [{richText.Size}]");
-                        if (richText.Bold) Console.Write(", Bold");
+                        if (richText.Bold != null) Console.Write(", Bold");
                         Debug.WriteLine("");
                     }
                 }
@@ -4749,6 +4754,7 @@ namespace EPPlusTest
 
                 for (int i = 1; i <= 4; i++)
                 {
+                    //Should this be possible? should setting rich text to true convert cells to richtext?
                     sheet.Cells[1, i].IsRichText = true;
                     sheet.Cells[1, i].Style.WrapText = true;
                     sheet.Cells[1, i].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;

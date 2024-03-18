@@ -490,9 +490,7 @@ namespace OfficeOpenXml
             var v = _worksheet.GetCoreValueInner(row, col);
             if (_worksheet._flags.GetFlagValue(row, col, CellFlags.RichText))
             {
-                var xml = new XmlDocument();
-                XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v._value.ToString() + "</d:si>", Encoding.UTF8);
-                var rt = new ExcelRichTextCollection(_worksheet.NameSpaceManager, xml.SelectSingleNode("d:si", _worksheet.NameSpaceManager), this);
+                var rt = (ExcelRichTextCollection)v._value;
                 v._value = rt.Text;
             }
             return v;

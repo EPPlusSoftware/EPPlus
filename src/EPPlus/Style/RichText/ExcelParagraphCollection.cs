@@ -132,19 +132,6 @@ namespace OfficeOpenXml.Style
             var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
             node.AppendChild(childNode);
             var rt = new ExcelParagraph(_drawing._drawings, NameSpaceManager, node, "", SchemaNodeOrder);
-            //var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
-            //if (normalStyle == null)
-            //{
-            //    rt.ComplexFont = "Calibri";
-            //    rt.LatinFont = "Calibri";
-            //}
-            //else
-            //{
-            //    rt.LatinFont = normalStyle.Style.Font.Name;
-            //    rt.ComplexFont = normalStyle.Style.Font.Name;
-            //}
-            //rt.Size = _defaultFontSize;
-
             rt.Text = Text;
             _list.Add(rt);
             return rt;
@@ -179,7 +166,7 @@ namespace OfficeOpenXml.Style
         /// Remove the specified item
         /// </summary>
         /// <param name="Item">The item</param>
-        public void Remove(ExcelRichText Item)
+        public void Remove(ExcelParagraph Item)
         {
             TopNode.RemoveChild(Item.TopNode);
         }

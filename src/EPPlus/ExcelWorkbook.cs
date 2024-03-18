@@ -40,6 +40,12 @@ using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using System.Runtime.InteropServices;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml
 {
@@ -78,8 +84,27 @@ namespace OfficeOpenXml
 			internal string Text;
 			internal bool isRichText = false;
 		}
-		#region Private Properties
-		internal ExcelPackage _package;
+
+		internal abstract class SharedStringItemBase
+		{
+			public int Position { get; set; }
+			public abstract bool IsRichText {get;}
+        }
+
+		internal class SharedStringTextItem : SharedStringItemBase
+		{
+            public override bool IsRichText => false;
+            public string Text { get; set; }
+        }
+
+        internal class SharedStringRichTextItem : SharedStringItemBase
+        {
+			public override bool IsRichText => true;
+            public ExcelRichTextCollection RichText { get; set; }
+        }
+
+        #region Private Properties
+        internal ExcelPackage _package;
 		internal ExcelWorksheets _worksheets;
 		private OfficeProperties _properties;
 
@@ -236,9 +261,12 @@ namespace OfficeOpenXml
 			if (PersonsUri == null)
 				PersonsUri = new Uri("/xl/persons/person.xml", UriKind.Relative);
 		}
-		#endregion
+        #endregion
 
-		internal Dictionary<string, SharedStringItem> _sharedStrings = new Dictionary<string, SharedStringItem>(); //Used when reading cells.
+        internal Dictionary<string, int> _sharedStringsLookup = new Dictionary<string, int>();
+        internal List<SharedStringItemBase> _sharedStringsListNew = new List<SharedStringItemBase>(); //Used when reading cells.
+
+        internal Dictionary<string, SharedStringItem> _sharedStrings = new Dictionary<string, SharedStringItem>(); //Used when reading cells.
 		internal List<SharedStringItem> _sharedStringsList = new List<SharedStringItem>(); //Used when reading cells.
 		internal ExcelNamedRangeCollection _names;
 		internal int _nextDrawingId = 2;
@@ -267,43 +295,57 @@ namespace OfficeOpenXml
 		}
 		internal Dictionary<string, PivotTableCacheRangeInfo> _pivotTableCaches = new Dictionary<string, PivotTableCacheRangeInfo>();
 		internal Dictionary<Uri, int> _pivotTableIds = new Dictionary<Uri, int>();
-		/// <summary>
-		/// Read shared strings to list
-		/// </summary>
-		private void GetSharedStrings()
+
+        /// <summary>
+        /// Read shared strings to list
+        /// </summary>
+        private void GetSharedStrings()
 		{
-			if (_package.ZipPackage.PartExists(SharedStringsUri))
+            if(_package.ZipPackage.PartExists(SharedStringsUri))
 			{
-				var xml = _package.GetXmlFromUri(SharedStringsUri);
-				XmlNodeList nl = xml.SelectNodes("//d:sst/d:si", NameSpaceManager);
-				_sharedStringsList = new List<SharedStringItem>();
-				if (nl != null)
+                Packaging.ZipPackagePart part = _package.ZipPackage.GetPart(SharedStringsUri);
+#if Core
+                var xr = XmlReader.Create(part.GetStream(), new XmlReaderSettings()
+                {
+                    DtdProcessing = DtdProcessing.Prohibit,
+                    IgnoreWhitespace = true,
+                });
+
+#else
+            var xr = new XmlTextReader(part.GetStream());
+#endif
+				int index = 0;
+				while (xr.Read())
 				{
-					foreach (XmlNode node in nl)
+					if(xr.LocalName == "si" && xr.NodeType==XmlNodeType.Element)
 					{
-						XmlNode n = node.SelectSingleNode("d:t", NameSpaceManager);
-						if (n != null)
+						XmlReaderHelper.ReadUntil(xr, "t", "r", "rPh", "phoneticPr");
+						if(xr.LocalName == "t" && xr.NodeType == XmlNodeType.Element)
 						{
-							_sharedStringsList.Add(new SharedStringItem() { Text = ConvertUtil.ExcelDecodeString(n.InnerText) });
-						}
-						else
+							var text = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
+                            _sharedStringsListNew.Add(new SharedStringTextItem() { Text = text, Position = index });
+							if (!_sharedStringsLookup.ContainsKey(text))
+							{
+								_sharedStringsLookup.Add(text, index++);
+							}
+                        }
+						else if(xr.LocalName =="r" && xr.NodeType == XmlNodeType.Element)
 						{
-							_sharedStringsList.Add(new SharedStringItem() { Text = node.InnerXml, isRichText = true });
-						}
+							var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollection(xr, this), Position = index++ };
+                            _sharedStringsListNew.Add(item);
+							var text = item.RichText.GetXML();
+                            if (!_sharedStringsLookup.ContainsKey(text))
+                            {
+                                _sharedStringsLookup.Add(text, index++);
+                            }
+                        }
 					}
 				}
-				//Delete the shared string part, it will be recreated when the package is saved.
-				foreach (var rel in Part.GetRelationships())
-				{
-					if (rel.TargetUri.OriginalString.EndsWith("sharedstrings.xml", StringComparison.OrdinalIgnoreCase))
-					{
-						Part.DeleteRelationship(rel.Id);
-						break;
-					}
-				}
-				_package.ZipPackage.DeletePart(SharedStringsUri); //Remove the part, it is recreated when saved.
-			}
-		}
+
+            }
+        }
+
+		
 		internal void GetDefinedNames()
 		{
 			XmlNodeList nl = WorkbookXml.SelectNodes("//d:definedNames/d:definedName", NameSpaceManager);
@@ -386,14 +428,47 @@ namespace OfficeOpenXml
                 namedRange = nameWorksheet.Names.AddName(elem.GetAttribute("name"), range);
             }
 
-            if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "\"")) //String value
+			var tokens = FormulaParser.Tokenizer.Tokenize(fullAddress);
+			if (tokens.Count == 1)
             {
-                namedRange.NameValue = fullAddress.Substring(1, fullAddress.Length - 2);
-            }
-            else if (double.TryParse(fullAddress, NumberStyles.Number, CultureInfo.InvariantCulture, out double value))
-            {
-                namedRange.NameValue = value;
-            }
+				switch(tokens[0].TokenType)
+				{
+					case TokenType.StringContent:
+						namedRange.NameValue = tokens[0].Value;
+						break;
+					case TokenType.Boolean:
+						if (ConvertUtil.TryParseBooleanString(fullAddress, out bool b))
+						{
+							namedRange.NameValue = b;
+						}
+						else
+						{
+							namedRange.NameFormula = fullAddress;
+						}
+						break;
+					case TokenType.Integer:
+					case TokenType.Decimal:
+						if(ConvertUtil.TryParseNumericString(fullAddress, out double d, CultureInfo.InvariantCulture))
+						{
+							namedRange.NameValue = d;
+						}
+						else
+						{
+							namedRange.NameFormula = fullAddress;
+						}
+						break;
+					//We can add this to get errors in NameValue instead of the error codes in NameFormula in the future.
+					//case TokenType.InvalidReference:
+					//case TokenType.ValueDataTypeError:
+					//case TokenType.NAError:
+					//case	 TokenType.NumericError:
+					//	namedRange.NameValue = ExcelErrorValue.Parse(fullAddress);
+					//	break;
+					default:
+						namedRange.NameFormula = fullAddress;
+						break;
+				}
+			}
             else
             {
                 namedRange.NameFormula = fullAddress;
@@ -534,7 +609,7 @@ namespace OfficeOpenXml
 		{
 			return _worksheets._worksheets[index];
 		}
-        #endregion
+		#endregion
 
         /// <summary>
         /// Create an html exporter for the supplied ranges.
@@ -1187,10 +1262,12 @@ namespace OfficeOpenXml
 
 			// save persons
 			_threadedCommentPersons?.Save(_package, Part, PersonsUri);
-			// save threaded comments
+            // save threaded comments
 
-			// save all the open worksheets
-			var isProtected = Protection.LockWindows || Protection.LockStructure;
+            _sharedStringsLookup = new Dictionary<string, int>();
+            _sharedStringsListNew = new List<SharedStringItemBase>();
+            // save all the open worksheets
+            var isProtected = Protection.LockWindows || Protection.LockStructure;
 			foreach (var worksheet in Worksheets)
 			{
 				if (isProtected && Protection.LockWindows)
@@ -1362,17 +1439,19 @@ namespace OfficeOpenXml
 			var cache = new StringBuilder();
 			var utf8Encoder = System.Text.Encoding.GetEncoding("UTF-8", new System.Text.EncoderReplacementFallback(string.Empty), new System.Text.DecoderReplacementFallback(string.Empty));
 			var sw = new StreamWriter(stream, utf8Encoder);
-			cache.AppendFormat("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"{0}\" uniqueCount=\"{0}\">", _sharedStrings.Count);
-			foreach (string t in _sharedStrings.Keys)
+			cache.AppendFormat("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"{0}\" uniqueCount=\"{0}\">", _sharedStringsListNew.Count);
+			foreach (var kp in _sharedStringsLookup)
 			{
 
-				SharedStringItem ssi = _sharedStrings[t];
-				if (ssi.isRichText)
+				var ssi = _sharedStringsListNew[kp.Value];
+				if (ssi.IsRichText)
 				{
-					cache.Append($"<si>{t}</si>");
+
+					cache.Append($"<si>{kp.Key}</si>");
 				}
 				else
 				{
+					var t = kp.Key;
 					if (t.Length > 0 && (t[0] == ' ' || t[t.Length - 1] == ' ' || t.Contains("  ") || t.Contains("\r") || t.Contains("\t") || t.Contains("\n")))   //Fixes issue 14849
 					{
 						cache.Append("<si><t xml:space=\"preserve\">");
@@ -1493,7 +1572,7 @@ namespace OfficeOpenXml
 					}
 					else
 					{
-						elem.InnerText = "\"" + name.NameValue.ToString() + "\"";
+						elem.InnerText = "\"" + ConvertUtil.ExcelEscapeAndEncodeString(name.NameValue.ToString()).Replace("\"","\"\"") + "\"";
 					}
 				}
 				else
@@ -1809,7 +1888,28 @@ namespace OfficeOpenXml
 				}
 			}
 		}
-		internal bool HasMetadataPart
+
+        internal object GetSharedString(int ix, out bool isRichText)
+        {
+			if (_sharedStringsListNew.Count > ix)
+			{
+				var siItem = _sharedStringsListNew[ix];
+				isRichText = siItem.IsRichText;
+				if (isRichText)
+				{
+					return ((SharedStringRichTextItem)siItem).RichText;
+				}
+				 else
+				{
+					return ((SharedStringTextItem)siItem).Text;
+				}
+
+            }
+			isRichText= false;
+			return null;
+        }
+
+        internal bool HasMetadataPart
 		{
 			get
 			{

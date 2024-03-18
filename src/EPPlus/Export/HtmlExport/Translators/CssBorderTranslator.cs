@@ -18,6 +18,8 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using System.Xml;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
@@ -29,7 +31,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         IBorderItem _right;
 
         ExcelTheme _theme;
-
 
         internal CssBorderTranslator(IBorder border) 
         {
@@ -47,15 +48,34 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             _right = right;
         }
 
+        internal CssBorderTranslator(IBorder topLeft, IBorder bottom, IBorder right)
+        {
+            if(topLeft != null && topLeft.HasValue) 
+            {
+                _top = topLeft.Top;
+                _left = topLeft.Left;
+            }
+  
+            if(bottom != null && bottom.HasValue)
+            {
+                _bottom = bottom.Bottom;
+            }
+
+            if(right != null && right.HasValue)
+            {
+                _right = right.Right;
+            }
+        }
+
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
             var borderExclude = context.Exclude.Border;
             _theme = context.Theme;
 
-            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Top)) WriteBorderItem(_top, "top");
-            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Bottom)) WriteBorderItem(_bottom, "bottom");
-            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Left)) WriteBorderItem(_left, "left");
-            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Right)) WriteBorderItem(_right, "right");
+            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Top) && _top != null) WriteBorderItem(_top, "top");
+            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Bottom) && _bottom != null) WriteBorderItem(_bottom, "bottom");
+            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Left) && _left != null) WriteBorderItem(_left, "left");
+            if (EnumUtil.HasNotFlag(borderExclude, eBorderExclude.Right) && _right != null) WriteBorderItem(_right, "right");
             //TODO add Diagonal
             //WriteBorderItem(b.DiagonalDown, "right");
             //WriteBorderItem(b.DiagonalUp, "right");
@@ -65,7 +85,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         private void WriteBorderItem(IBorderItem bi, string suffix)
         {
-            if (bi.Style != ExcelBorderStyle.None)
+            if (bi != null && bi.Style != ExcelBorderStyle.None)
             {
                 AddDeclaration($"border-{suffix}", GetBorderItemLine(bi.Style, suffix));
 

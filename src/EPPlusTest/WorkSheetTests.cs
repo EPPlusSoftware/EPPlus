@@ -763,7 +763,7 @@ namespace EPPlusTest
             ws.Cells["G3"].RichText.Add(" a new t");
             ws.Cells["G3"].RichText[1].Bold = false;
 
-            ws.Cells["G3"].RichText.Add("");
+            //ws.Cells["G3"].RichText.Add("");
 
             //Set printersettings
             ws.PrinterSettings.RepeatColumns = ws.Cells["A:B"];

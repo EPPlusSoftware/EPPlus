@@ -1283,6 +1283,13 @@ namespace OfficeOpenXml
             }
             set
             {
+                if(value == true &&( Value == null || Value.ToString() == string.Empty))
+                {
+                    if (_rtc == null)
+                    {
+                        _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    }
+                }
                 SetIsRichTextFlag(value);
             }
         }
