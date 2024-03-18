@@ -499,5 +499,23 @@ namespace EPPlusTest.Export.HtmlExport
                 Assert.AreEqual(css, cssAsync);
             }
         }
-    }
+		[TestMethod]
+		public async Task WriteAdvancedWs()
+		{
+			using (var p = OpenTemplatePackage("s610.xlsx"))
+			{
+				var sheet1 = p.Workbook.Worksheets[0];
+				var exporterRange = p.Workbook.CreateHtmlExporter(
+					sheet1.Cells["A1:BL7868"]);
+				exporterRange.Settings.SetColumnWidth = true;
+				exporterRange.Settings.SetRowHeight = true;
+				exporterRange.Settings.Minify = false;
+				exporterRange.Settings.TableStyle = eHtmlRangeTableInclude.Include;
+				exporterRange.Settings.Pictures.Include = ePictureInclude.Include;
+				var htmlAsync = await exporterRange.GetSinglePageAsync();
+
+				File.WriteAllText("c:\\temp\\RangeAndThreeTables.html", htmlAsync);
+			}
+		}
+	}
 }

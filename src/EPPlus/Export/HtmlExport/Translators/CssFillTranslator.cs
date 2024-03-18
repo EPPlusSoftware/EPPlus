@@ -46,16 +46,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 {
                     AddDeclaration("background-color", _fill.GetBackgroundColor(_theme));
                 }
-                else
+                else if(_fill.PatternType != ExcelFillStyle.None)
                 {
-                    string bgColor = _fill.GetBackgroundColor(_theme);
-                    string patternColor = _fill.GetPatternColor(_theme);
+					string bgColor = _fill.GetBackgroundColor(_theme);
+					string patternColor = _fill.GetPatternColor(_theme);
 
-                    var svg = PatternFills.GetPatternSvgConvertedOnly(_fill.PatternType, bgColor, patternColor);
-                    AddDeclaration("background-repeat", "repeat");
-                    //arguably some of the values should be its own declaration...Should still work though.
-                    AddDeclaration("background", $"url(data:image/svg+xml;base64,{svg})");
-                }
+					var svg = PatternFills.GetPatternSvgConvertedOnly(_fill.PatternType, bgColor, patternColor);
+					AddDeclaration("background-repeat", "repeat");
+					//arguably some of the values should be its own declaration...Should still work though.
+					AddDeclaration("background", $"url(data:image/svg+xml;base64,{svg})");
+				}
             }
 
             return declarations;

@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 element.Style.HasValue &&
                 element.Style.Font.HasValue)
             {
-                var styleClass = new CssRule($"table.{name} a");
+                var styleClass = new CssRule($"table.{name} a", 0);
 
                 var ft = new CssFontTranslator(new FontDxf(element.Style.Font), null);
 
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
                 if (styleId > -1)
                 {
-                    var styleClass = new CssRule($"table.{name} td:nth-child({col})");
+                    var styleClass = new CssRule($"table.{name} td:nth-child({col})", 0);
 
                     var xfs = new StyleXml(_table.WorkSheet.Workbook.Styles.CellXfs[styleId]);
                     var translator = new CssTableTextFormatTranslator(xfs, rightDefault);
@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             var s = element.Style;
 
-            var styleClass = new CssRule($"table.{name}{htmlElement}");
+            var styleClass = new CssRule($"table.{name}{htmlElement}",0);
 
             var translators = new List<TranslatorBase>();
 
@@ -143,7 +143,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             var s = new StyleDxf(element.Style);
 
-            var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ");
+            var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ", 0);
             if (s.Border != null)
             {
                 var translator = new CssBorderTranslator(s.Border);

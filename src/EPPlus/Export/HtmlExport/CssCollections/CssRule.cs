@@ -21,10 +21,12 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         internal List<Declaration> Declarations { get; set; }
 
         internal string Selector { get; set; }
-
-        internal CssRule(string selector)
+        internal int Order {  get; set; }
+        
+        internal CssRule(string selector, int order)
         {
             Selector = selector;
+            Order = order;
             Declarations = new List<Declaration>();
         }
 

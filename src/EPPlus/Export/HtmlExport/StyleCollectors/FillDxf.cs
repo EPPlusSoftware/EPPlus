@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         { 
             get 
             {
-                if (_fill.HasValue)
+                if (_fill.HasValue && _fill.PatternType.HasValue)
                 {
                     if(_fill.PatternType == null)
                     {

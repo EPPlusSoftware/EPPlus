@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         internal void AddRule(string ruleName, string declarationName, params string[] declarationValues)
         {
-            var toBeAdded = new CssRule(ruleName)
+            var toBeAdded = new CssRule(ruleName, 0)
             {
                 Declarations =
                 {

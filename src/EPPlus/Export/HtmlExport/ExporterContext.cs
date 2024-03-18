@@ -35,9 +35,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             //TODO: only for relevant range not worksheet
             foreach (ExcelConditionalFormattingRule rule in range.Worksheet.ConditionalFormatting)
             {
-                if(rule.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No)
+                foreach (var address in rule.Address.GetAllAddresses())
                 {
-                    _cfQuadTree.Add(new QuadRange(rule.Address), rule);
+                    if (address.Collide(range) != ExcelAddressBase.eAddressCollition.No)
+                    {
+                        _cfQuadTree.Add(new QuadRange(address), rule);
+                    }
                 }
             }
         }

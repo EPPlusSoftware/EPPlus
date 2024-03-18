@@ -46,9 +46,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
 
         internal async Task WriteAndClearFlushAsync(CssRuleCollection collection, bool minify)
         {
-            for (int i = 0; i < collection.CssRules.Count(); i++)
-            {
-                await WriteRuleAsync(collection[i], minify);
+			foreach (var rule in collection.CssRules.OrderBy(x => x.Order))
+			{
+				await WriteRuleAsync(rule, minify);
             }
 
             collection.CssRules.Clear();

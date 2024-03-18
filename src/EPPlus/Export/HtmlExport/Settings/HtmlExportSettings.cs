@@ -105,10 +105,16 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// The name will be prefixed with the <see cref="StyleClassPrefix"/> and suffixed with the cell style index.
         /// </summary>
         public string CellStyleClassName { get; set; } = "s";
-        /// <summary>
-        /// If picture drawings will be included. Default is true.
-        /// </summary>
-        public HtmlPictureSettings Pictures
+		/// <summary>
+		/// The name of the classes used for cell styles. 
+		/// The name will be prefixed with the <see cref="StyleClassPrefix"/> and suffixed with the cell style index.
+		/// </summary>
+		public string DxfStyleClassName { get; set; } = "dxf";
+
+		/// <summary>
+		/// If picture drawings will be included. Default is true.
+		/// </summary>
+		public HtmlPictureSettings Pictures
         {
             get;
         } = new HtmlPictureSettings();
