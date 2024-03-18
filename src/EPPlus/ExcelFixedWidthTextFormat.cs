@@ -8,30 +8,52 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/16/2020         EPPlus Software AB       EPPlus 5.2.1
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 
-namespace OfficeOpenXml.LoadFunctions.Params
+namespace OfficeOpenXml
 {
+
     /// <summary>
-    /// Parameters for the LoadFromDictionaries method
+    /// 
     /// </summary>
-    public class LoadFromTextParams
+    public class ExcelFixedWidthTextFormat : ExcelTextFormat
     {
         /// <summary>
-        /// The first row in the text is the header row
+        /// 
         /// </summary>
-        public bool FirstRowIsHeader { get; set; }
+        public int[] ColumnLengths;
+
         /// <summary>
-        /// The text to split
+        /// 
         /// </summary>
-        public string Text { get; set; }
+        public ExcelFixedWidthTextFormat() : base()
+        {
+            DataTypes = null;
+            ColumnLengths = null;
+        }
+        public ExcelFixedWidthTextFormat(params int[] columnLengths) : base()
+        {
+            DataTypes = null;
+            ColumnLengths = columnLengths;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ExcelFixedWidthTextOutputFormat : ExcelTextFormatBase
+    {
         /// <summary>
-        /// Describes how to split a CSV text.
+        /// 
         /// </summary>
-        public ExcelTextFormat Format { get; set; }
+        public ExcelFixedWidthTextOutputFormat() : base()
+        {
+
+        }
     }
 }

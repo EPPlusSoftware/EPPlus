@@ -36,12 +36,12 @@ namespace OfficeOpenXml.LoadFunctions
             }
         }
 
-        private readonly ExcelWorksheet _worksheet;
-        private readonly ExcelRangeBase _range;
-        private readonly ExcelTextFormat _format;
-        private readonly string _text;
+        protected readonly ExcelWorksheet _worksheet;
+        protected readonly ExcelRangeBase _range;
+        protected readonly ExcelTextFormat _format;
+        protected readonly string _text;
 
-        public ExcelRangeBase Load()
+        public virtual ExcelRangeBase Load()
         {
             if (string.IsNullOrEmpty(_text))
             {
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.LoadFunctions
             return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol];
         }
 
-        private string[] SplitLines(string text, string EOL)
+        protected string[] SplitLines(string text, string EOL)
         {
             var lines = Regex.Split(text, EOL);
             for (int i = 0; i < lines.Length; i++)
@@ -171,7 +171,7 @@ namespace OfficeOpenXml.LoadFunctions
             return lines;
         }
 
-        private string[] GetLines(string text, ExcelTextFormat Format)
+        protected string[] GetLines(string text, ExcelTextFormat Format)
         {
             if (Format.EOL == null || Format.EOL.Length == 0) return new string[] { text };
             var eol = Format.EOL;
@@ -214,7 +214,7 @@ namespace OfficeOpenXml.LoadFunctions
             //}
             return list.ToArray();
         }
-        private bool IsEOL(string text, int ix, string eol)
+        protected bool IsEOL(string text, int ix, string eol)
         {
             for (int i = 0; i < eol.Length; i++)
             {
@@ -224,7 +224,7 @@ namespace OfficeOpenXml.LoadFunctions
             return ix + eol.Length <= text.Length;
         }
 
-        private object ConvertData(ExcelTextFormat Format, string v, int col, bool isText)
+        protected object ConvertData(ExcelTextFormat Format, string v, int col, bool isText)
         {
             if (isText && (Format.DataTypes == null || Format.DataTypes.Length < col)) return string.IsNullOrEmpty(v) ? null : v;
 

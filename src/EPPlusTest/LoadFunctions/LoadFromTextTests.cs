@@ -4,6 +4,7 @@ using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -138,30 +139,22 @@ namespace EPPlusTest.LoadFunctions
             Assert.IsNull(_worksheet.Cells[5, 3].Value);
         }
 
-        //[TestMethod]
-        //public void ShouldLoadFixedWidthText()
-        //{
-        //    string file = "myfile";
-        //    ExcelRangeBase r;
-        //    LoadfixedWidthFile(file, r, 12, 6, 2, 10, 10, 32, 2, 3, 8, 3, 16, 16, 3);
-        //}
+        [TestMethod]
+        public void ShouldLoadFixedWidthText()
+        {   //          6     6        10       12          28                      5       6     6     6                  19                   20       8         
+            AddLine(" Entry  Per. Post Date  GL Account   Description               Srce. Cflow  Ref.      Post             Debit              Credit  Alloc.");
+            AddLine(" 16524  01  10/17/2012  3930621977   TXNPUES                   S1    Yes    RHMXWPCP  Yes                               5,007.10  No  ");
+            AddLine("191675  01  01/14/2013  2368183100   OUNHQEX XUFQONY           S1    No               Yes                              43,537.00  Yes ");
+            AddLine("191667  01  01/14/2013  3714468136   GHAKASC QHJXDFM           S1    Yes              Yes           3,172.53                      Yes ");
 
-        //private ExcelRangeBase LoadfixedWidthFile(string file, ExcelRangeBase startCell, int NoCols, params int[] widths)
-        //{
-        //    if(NoCols == widths.Length)
-        //    {
-        //        var currentcell = startCell;
-        //        for(int i = 0; i < NoCols; i++)
-        //        {
-        //            string s = file.read(widths[i]);
-        //            currentcell.value = s;
-        //            currentcell = currentcell.NextCell();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        throw new InvalidOperationException("NoCols and widths mismatch, NoCols Needs to be the same as widths length");
-        //    }
-        //}
+            using(var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\FixedWidth.xlsx") )
+            {
+
+                var ws = p.Workbook.Worksheets.Add("SHHET");
+                ws.Cells["A1"].LoadFromFixedWidthText(_lines.ToString(), 8, 4, 12, 13, 26, 6, 6, 6, 6, 19, 20, 8);
+                Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
+                p.Save();
+            }
+        }
     }
 }

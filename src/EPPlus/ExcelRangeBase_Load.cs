@@ -466,6 +466,29 @@ namespace OfficeOpenXml
 
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, TableStyle, FirstRowIsHeader);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Text"></param>
+        /// <param name="columnLengths"></param>
+        /// <returns></returns>
+        public ExcelRangeBase LoadFromFixedWidthText(string Text, params int[] columnLengths)
+        {
+            if (string.IsNullOrEmpty(Text))
+            {
+                var r = _worksheet.Cells[_fromRow, _fromCol];
+                r.Value = "";
+                return r;
+            }
+            var parameters = new LoadFromTextParams
+            {
+                Format = new ExcelTextFormat()
+            };
+            var func = new LoadFromFixedWidthText(this, Text, parameters, columnLengths);
+            return func.Load();
+        }
+
 #region LoadFromText async
 #if !NET35 && !NET40
         /// <summary>
