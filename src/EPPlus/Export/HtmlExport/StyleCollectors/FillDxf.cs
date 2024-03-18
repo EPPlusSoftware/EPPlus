@@ -34,6 +34,10 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 if (_fill.HasValue)
                 {
+                    if(_fill.PatternType == null)
+                    {
+                        _fill.PatternType = ExcelFillStyle.Solid;
+                    }
                     return _fill.PatternType.Value;
                 }
 
