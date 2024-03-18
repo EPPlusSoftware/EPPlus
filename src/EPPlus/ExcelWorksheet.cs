@@ -1465,32 +1465,6 @@ namespace OfficeOpenXml
                     return item;
                 }
             }
-            //if (v._value == null && r == null)
-            //{
-            //    //_flags.SetFlagValue(row, col, true, CellFlags.RichText);
-            //    var item = new ExcelRichTextCollection(Workbook);
-            //    SetValue(row, col, item);
-            //    return item;
-            //}
-            //else if (v._value == null && r != null)
-            //{
-            //    //_flags.SetFlagValue(row, col, true, CellFlags.RichText);
-            //    var item = new ExcelRichTextCollection(Workbook, r);
-            //    SetValue(row, col, item);
-            //    return item;
-            //}
-            //else if (isRt && v._value is ExcelRichTextCollection rtc)
-            //{
-            //    return rtc;
-            //}
-            //else
-            //{
-            //    _flags.SetFlagValue(row, col, true, CellFlags.RichText);
-            //    var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
-            //    var item = new ExcelRichTextCollection(text, r);
-            //    SetValue(row, col, item);
-            //    return item;
-            //}
         }
 
         private ExcelHyperLink GetHyperlinkFromRef(XmlReader xr, string refTag, int fromRow = 0, int toRow = 0, int fromCol = 0, int toCol = 0)
