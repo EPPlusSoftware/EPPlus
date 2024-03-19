@@ -1,4 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  12/30/2023         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
@@ -20,6 +32,7 @@ namespace EPPlusTest.LoadFunctions
             _worksheet = _package.Workbook.Worksheets.Add("test");
             _lines = new StringBuilder();
             _format = new ExcelTextFormat();
+            _formatFixed = new ExcelTextFormatFixedWidth();
         }
 
         [TestCleanup]
@@ -32,6 +45,7 @@ namespace EPPlusTest.LoadFunctions
         private ExcelWorksheet _worksheet;
         private StringBuilder _lines;
         private ExcelTextFormat _format;
+        private ExcelTextFormatFixedWidth _formatFixed;
 
         private void AddLine(string s)
         {
@@ -141,20 +155,69 @@ namespace EPPlusTest.LoadFunctions
 
         [TestMethod]
         public void ShouldLoadFixedWidthText()
-        {   //          6     6        10       12          28                      5       6     6     6                  19                   20       8         
-            AddLine(" Entry  Per. Post Date  GL Account   Description               Srce. Cflow  Ref.      Post             Debit              Credit  Alloc.");
-            AddLine(" 16524  01  10/17/2012  3930621977   TXNPUES                   S1    Yes    RHMXWPCP  Yes                               5,007.10  No  ");
-            AddLine("191675  01  01/14/2013  2368183100   OUNHQEX XUFQONY           S1    No               Yes                              43,537.00  Yes ");
-            AddLine("191667  01  01/14/2013  3714468136   GHAKASC QHJXDFM           S1    Yes              Yes           3,172.53                      Yes ");
+        {
+            ///TODODO
+            /*
+             * specify to use header
+             * EOL
+             * culrture info
+             * skip lines at start
+             * skip lines at end
+             * encoding
+             * skip header
+             * Skip selected columns
+             * read until EOF, but skip lines with too few/many characters
+             * refactor csv reading!
+             * SAVE STUFF!
+             */
 
-            using(var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\FixedWidth.xlsx") )
-            {
+            //          8     5        11       13          32                             6      6     10        4               20                   20       8         
+            AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
 
-                var ws = p.Workbook.Worksheets.Add("SHHET");
-                ws.Cells["A1"].LoadFromFixedWidthText(_lines.ToString(), 8, 4, 12, 13, 26, 6, 6, 6, 6, 19, 20, 8);
-                Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
-                p.Save();
-            }
+            Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
         }
+
+        [TestMethod]
+        public void ShouldUseTypesFromFormatFixedWidth()
+        {
+            //          8     5        11       13          32                             6      6     10        4               20                   20       8         
+            AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            _format.DataTypes = new eDataTypes[] { eDataTypes.Number, eDataTypes.Number, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.Number, eDataTypes.Number, eDataTypes.String };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+
+            Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual(3930621977d, _worksheet.Cells["D2"].Value);
+            Assert.AreEqual(5007.10, _worksheet.Cells["K2"].Value);
+        }
+
+        [TestMethod]
+        public void ShouldUseHeadersFromFirstRowFixedWidth()
+        {
+            //          8     5        11       13          32                             6      6     10        4               20                   20       8         
+            AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+
+            Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual(16524d, _worksheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void ShouldReturnRangeFixedWidth()
+        {
+            AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            Assert.AreEqual("A1:L2", r.FirstAddress);
+        }
+
     }
 }

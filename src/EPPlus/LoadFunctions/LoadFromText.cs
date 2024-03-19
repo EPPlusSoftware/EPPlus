@@ -19,14 +19,15 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    internal class LoadFromText
+    internal class LoadFromText : LoadFromTextBase
     {
+
+        protected ExcelTextFormat _format;
+
         public LoadFromText(ExcelRangeBase range, string text, LoadFromTextParams parameters)
+            : base(range, text)
         {
-            _range = range;
-            _worksheet = range.Worksheet;
-            _text = text;
-            if(parameters.Format == null)
+            if (parameters.Format == null)
             {
                 _format = new ExcelTextFormat();
             }
@@ -36,12 +37,7 @@ namespace OfficeOpenXml.LoadFunctions
             }
         }
 
-        protected readonly ExcelWorksheet _worksheet;
-        protected readonly ExcelRangeBase _range;
-        protected readonly ExcelTextFormat _format;
-        protected readonly string _text;
-
-        public virtual ExcelRangeBase Load()
+        public override ExcelRangeBase Load()
         {
             if (string.IsNullOrEmpty(_text))
             {
@@ -160,17 +156,6 @@ namespace OfficeOpenXml.LoadFunctions
             return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol];
         }
 
-        protected string[] SplitLines(string text, string EOL)
-        {
-            var lines = Regex.Split(text, EOL);
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (EOL == "\n" && lines[i].EndsWith("\r", StringComparison.OrdinalIgnoreCase)) lines[i] = lines[i].Substring(0, lines[i].Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
-                if (EOL == "\r" && lines[i].StartsWith("\n", StringComparison.OrdinalIgnoreCase)) lines[i] = lines[i].Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
-            }
-            return lines;
-        }
-
         protected string[] GetLines(string text, ExcelTextFormat Format)
         {
             if (Format.EOL == null || Format.EOL.Length == 0) return new string[] { text };
@@ -210,88 +195,9 @@ namespace OfficeOpenXml.LoadFunctions
             //}
             //else
             //{
-                list.Add(text.Substring(prevLineStart));
+            list.Add(text.Substring(prevLineStart));
             //}
             return list.ToArray();
-        }
-        protected bool IsEOL(string text, int ix, string eol)
-        {
-            for (int i = 0; i < eol.Length; i++)
-            {
-                if (text[ix + i] != eol[i])
-                    return false;
-            }
-            return ix + eol.Length <= text.Length;
-        }
-
-        protected object ConvertData(ExcelTextFormat Format, string v, int col, bool isText)
-        {
-            if (isText && (Format.DataTypes == null || Format.DataTypes.Length < col)) return string.IsNullOrEmpty(v) ? null : v;
-
-            double d;
-            DateTime dt;
-            if (Format.DataTypes == null || Format.DataTypes.Length <= col || Format.DataTypes[col] == eDataTypes.Unknown)
-            {
-                string v2 = v.EndsWith("%") ? v.Substring(0, v.Length - 1) : v;
-                if (double.TryParse(v2, NumberStyles.Any, Format.Culture, out d))
-                {
-                    if (v2 == v)
-                    {
-                        return d;
-                    }
-                    else
-                    {
-                        return d / 100;
-                    }
-                }
-                if (DateTime.TryParse(v, Format.Culture, DateTimeStyles.None, out dt))
-                {
-                    return dt;
-                }
-                else
-                {
-                    return string.IsNullOrEmpty(v) ? null : v;
-                }
-            }
-            else
-            {
-                switch (Format.DataTypes[col])
-                {
-                    case eDataTypes.Number:
-                        if (double.TryParse(v, NumberStyles.Any, Format.Culture, out d))
-                        {
-                            return d;
-                        }
-                        else
-                        {
-                            return v;
-                        }
-                    case eDataTypes.DateTime:
-                        if (DateTime.TryParse(v, Format.Culture, DateTimeStyles.None, out dt))
-                        {
-                            return dt;
-                        }
-                        else
-                        {
-                            return v;
-                        }
-                    case eDataTypes.Percent:
-                        string v2 = v.EndsWith("%") ? v.Substring(0, v.Length - 1) : v;
-                        if (double.TryParse(v2, NumberStyles.Any, Format.Culture, out d))
-                        {
-                            return d / 100;
-                        }
-                        else
-                        {
-                            return v;
-                        }
-                    case eDataTypes.String:
-                        return v;
-                    default:
-                        return string.IsNullOrEmpty(v) ? null : v;
-
-                }
-            }
         }
     }
 }

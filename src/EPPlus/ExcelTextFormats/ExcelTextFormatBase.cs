@@ -8,30 +8,38 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/16/2020         EPPlus Software AB       EPPlus 5.2.1
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.LoadFunctions.Params
+namespace OfficeOpenXml
 {
     /// <summary>
-    /// Parameters for the LoadFromDictionaries method
+    /// Describes how to split a CSV text. Used by the ExcelRange.LoadFromText method.
+    /// Base class for ExcelTextFormat and ExcelOutputTextFormat
+    /// <seealso cref="ExcelTextFormat"/>
+    /// <seealso cref="ExcelOutputTextFormat"/>
     /// </summary>
-    public class LoadFromTextParams
+    public class ExcelTextFormatBase : ExcelAbstractTextFormat
     {
         /// <summary>
-        /// The first row in the text is the header row
+        /// Creates a new instance if ExcelTextFormatBase
         /// </summary>
-        public bool FirstRowIsHeader { get; set; }
+        public ExcelTextFormatBase()
+        {
+        }
         /// <summary>
-        /// The text to split
+        /// Delimiter character
         /// </summary>
-        public string Text { get; set; }
+        public char Delimiter { get; set; } = ',';
         /// <summary>
-        /// Describes how to split a CSV text.
+        /// Text qualifier character. Default no TextQualifier (\0)
         /// </summary>
-        public ExcelTextFormat Format { get; set; } = new ExcelTextFormat();
+        public char TextQualifier { get; set; } = '\0';
     }
 }

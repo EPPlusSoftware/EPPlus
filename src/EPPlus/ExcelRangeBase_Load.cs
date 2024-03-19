@@ -467,13 +467,28 @@ namespace OfficeOpenXml
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, TableStyle, FirstRowIsHeader);
         }
 
+
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Text"></param>
         /// <param name="columnLengths"></param>
         /// <returns></returns>
-        public ExcelRangeBase LoadFromFixedWidthText(string Text, params int[] columnLengths)
+        public ExcelRangeBase LoadFromText(string Text, params int[] columnLengths)
+        {
+            return LoadFromText(Text, new ExcelTextFormatFixedWidth(), columnLengths);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Text"></param>
+        /// <param name="Format"></param>
+        /// <param name="columnLengths"></param>
+        /// <returns></returns>
+        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, params int[] columnLengths)
         {
             if (string.IsNullOrEmpty(Text))
             {
@@ -481,15 +496,33 @@ namespace OfficeOpenXml
                 r.Value = "";
                 return r;
             }
-            var parameters = new LoadFromTextParams
-            {
-                Format = new ExcelTextFormat()
-            };
-            var func = new LoadFromFixedWidthText(this, Text, parameters, columnLengths);
+            var func = new LoadFromFixedWidthText(this, Text, Format, columnLengths);
             return func.Load();
         }
 
-#region LoadFromText async
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Text"></param>
+        /// <param name="Format"></param>
+        /// <param name="TableStyle"></param>
+        /// <param name="FirstRowIsHeader"></param>
+        /// <param name="columnLengths"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader, params int[] columnLengths)
+        {
+            var r = LoadFromText(Text, Format, columnLengths);
+
+            if (r != null && TableStyle.HasValue)
+            {
+                var tbl = _worksheet.Tables.Add(r, "");
+                tbl.ShowHeader = FirstRowIsHeader;
+                tbl.TableStyle = TableStyle.Value;
+            }
+            return r;
+        }
+
+        #region LoadFromText async
 #if !NET35 && !NET40
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell.
