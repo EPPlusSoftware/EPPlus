@@ -303,5 +303,14 @@ namespace EPPlusTest
 				SaveAndCleanup(package);
 			}
 		}
+		[TestMethod]
+		public void s641()
+		{
+			using (var package = OpenTemplatePackage("s641.xlsx"))
+			{
+				var sheet = package.Workbook.Worksheets.First();
+				SaveAndCleanup(package);
+			}
+		}
 	}
 }
