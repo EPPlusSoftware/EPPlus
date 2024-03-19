@@ -216,7 +216,8 @@ namespace EPPlusTest.LoadFunctions
         {
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
             var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
-            Assert.AreEqual("A1:L2", r.FirstAddress);
+            Assert.AreEqual("Alloc.", _worksheet.Cells["L1"].Value);
+            Assert.AreEqual("A1:L1", r.FirstAddress);
         }
 
     }

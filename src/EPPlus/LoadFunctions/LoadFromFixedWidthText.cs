@@ -55,6 +55,7 @@ namespace OfficeOpenXml.LoadFunctions
                 var items = new List<object>();
                 var isText = false;
                 int readLength = 0;
+                col = 0;
                 for (int i = 0; i < _columnLengths.Length; i++)
                 {
                     string content;
@@ -83,25 +84,8 @@ namespace OfficeOpenXml.LoadFunctions
                 _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
                 row++;
             }
-            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol];
-
-            //private ExcelRangeBase LoadfixedWidthFile(string file, ExcelRangeBase startCell, int NoCols, params int[] widths)
-            //{
-            //    if(NoCols == widths.Length)
-            //    {
-            //        var currentcell = startCell;
-            //        for(int i = 0; i < NoCols; i++)
-            //        {
-            //            string s = file.read(widths[i]);
-            //            currentcell.value = s;
-            //            currentcell = currentcell.NextCell();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        throw new InvalidOperationException("NoCols and widths mismatch, NoCols Needs to be the same as widths length");
-            //    }
-            //}
+            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _columnLengths.Length];
         }
+
     }
 }
