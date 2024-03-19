@@ -16,6 +16,15 @@ namespace EPPlusTest.Export.HtmlExport
     [TestClass]
     public class TableExporterTests : TestBase
     {
+        string _htmlOutput;
+        public TableExporterTests() : base()
+        {
+            _htmlOutput = _worksheetPath + "\\html\\";
+            if(Directory.Exists(_htmlOutput)==false)
+            {
+				Directory.CreateDirectory(_htmlOutput);
+			}
+		}
 #if !NET35 && !NET40
         [TestMethod]
         public void ShouldExportHeadersAsync()
@@ -110,7 +119,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ExportAllTableStyles()
         {
-            string path = _worksheetPath + "TableStyles";
+            string path = _htmlOutput + "TableStyles";
             CreatePathIfNotExists(path);
             using (var p=OpenPackage("TableStylesToHtml.xlsx", true))
             {
@@ -135,7 +144,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public async Task ExportAllTableStylesAsync()
         {
-            string path = _worksheetPath + "TableStylesAsync";
+            string path = _htmlOutput + "TableStylesAsync";
             CreatePathIfNotExists(path);
             using (var p = OpenPackage("TableStylesToHtml.xlsx", true))
             {
@@ -161,7 +170,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ExportAllFirstLastTableStyles()
         {
-            string path = _worksheetPath + "TableStylesFirstLast";
+            string path = _htmlOutput + "TableStylesFirstLast";
             CreatePathIfNotExists(path);
             using (var p = OpenPackage("TableStylesToHtmlFirstLastCol.xlsx", true))
             {
@@ -213,7 +222,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public async Task ExportAllCustomTableStylesAsync()
         {
-            string path = _worksheetPath + "TableStylesCustomFillsAsync";
+            string path = _htmlOutput + "TableStylesCustomFillsAsync";
             CreatePathIfNotExists(path);
             using (var p = OpenPackage("TableStylesToHtmlPatternFill.xlsx", true))
             {
@@ -238,7 +247,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ExportAllGradientTableStyles()
         {
-            string path = _worksheetPath + "TableStylesGradientFills";
+            string path = _htmlOutput + "TableStylesGradientFills";
             CreatePathIfNotExists(path);
             using (var p = OpenPackage("TableStylesToHtmlGradientFill.xlsx", true))
             {
@@ -292,7 +301,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ShouldExportWithOtherCultureInfo()
         {
-            string path = _worksheetPath + "culture";
+            string path = _htmlOutput + "culture";
             CreatePathIfNotExists(path);
             using (var p = new ExcelPackage())
             {
@@ -437,8 +446,8 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.Minify = false;
                 var html = exporter.GetSinglePage();
                 var htmlAsync = await exporter.GetSinglePageAsync();
-                File.WriteAllText("c:\\temp\\" + sheet.Name + "-table.html", html);
-                File.WriteAllText("c:\\temp\\" + sheet.Name + "-table-async.html", htmlAsync);
+                File.WriteAllText($"{_htmlOutput}\\" + sheet.Name + "-table.html", html);
+                File.WriteAllText($"{_htmlOutput}\\" + sheet.Name + "-table-async.html", htmlAsync);
                 Assert.AreEqual(html, htmlAsync);
             }
         }
@@ -461,7 +470,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var outputHtml = string.Format("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>",html, css);
                 
-                File.WriteAllText("c:\\temp\\TableRangeCombined.html", outputHtml);
+                File.WriteAllText($"{_htmlOutput}TableRangeCombined.html", outputHtml);
 
                 Assert.AreEqual(html, htmlAsync);
                 Assert.AreEqual(css, cssAsync);
@@ -494,7 +503,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var outputHtml = string.Format("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{4}</style></head>\r\n<body>\r\n{0}<hr>{1}<hr>{2}<hr>{3}<hr></body>\r\n</html>", html1, html2, html3, html4, css);
 
-                File.WriteAllText("c:\\temp\\RangeAndThreeTables.html", outputHtml);
+                File.WriteAllText("${_htmlOutput}RangeAndThreeTables.html", outputHtml);
 
                 Assert.AreEqual(css, cssAsync);
             }
@@ -514,7 +523,7 @@ namespace EPPlusTest.Export.HtmlExport
 				exporterRange.Settings.Pictures.Include = ePictureInclude.Include;
 				var htmlAsync = await exporterRange.GetSinglePageAsync();
 
-				File.WriteAllText("c:\\temp\\RangeAndThreeTables.html", htmlAsync);
+				File.WriteAllText($"{_htmlOutput}RangeAndThreeTables.html", htmlAsync);
 			}
 		}
 	}
