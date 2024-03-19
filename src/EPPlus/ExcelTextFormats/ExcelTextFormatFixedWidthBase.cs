@@ -17,6 +17,22 @@ using System.Text;
 
 namespace OfficeOpenXml
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum FixedWidthRead
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        Widths,
+        /// <summary>
+        /// 
+        /// </summary>
+        Positions,
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -33,5 +49,10 @@ namespace OfficeOpenXml
         /// Delimiter character
         /// </summary>
         public int[] ColumnLengths { get; set; }
+
+        /// <summary>
+        /// Set if we should read fixed width files from column widths or positions. Default is widths
+        /// </summary>
+        public FixedWidthRead ReadStartPosition { get; set; } = FixedWidthRead.Widths;
     }
 }
