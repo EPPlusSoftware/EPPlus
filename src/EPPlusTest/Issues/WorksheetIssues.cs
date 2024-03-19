@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.Runtime.InteropServices.ComTypes;
 namespace EPPlusTest
 {
 	[TestClass]
@@ -290,6 +291,16 @@ namespace EPPlusTest
 				}
 				Assert.AreEqual("ROW()-16", wks.Cells["A17"].Formula);
 				SaveWorkbook("Issue1321.xlsx", pck);
+			}
+		}
+		[TestMethod]
+		public void s640()
+		{
+			using (var package = OpenTemplatePackage("s640.xlsx"))
+			{
+				var sheet = package.Workbook.Worksheets.First();
+				sheet.DeleteRow(6);
+				SaveAndCleanup(package);
 			}
 		}
 	}
