@@ -15,7 +15,6 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelTextFormatFixedWidth() : base()
         {
-            DataTypes = null;
         }
     }
 }

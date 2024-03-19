@@ -30,7 +30,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Creates a new instance if ExcelTextFormatBase
         /// </summary>
-        public ExcelTextFormatBase()
+        public ExcelTextFormatBase() : base()
         {
         }
         /// <summary>

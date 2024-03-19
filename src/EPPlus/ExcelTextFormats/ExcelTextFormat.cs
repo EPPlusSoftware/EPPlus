@@ -69,7 +69,6 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelTextFormat() : base()
         {
-            DataTypes=null;
         }
     }
 }

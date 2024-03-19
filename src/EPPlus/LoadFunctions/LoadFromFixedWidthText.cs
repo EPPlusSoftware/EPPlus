@@ -22,16 +22,11 @@ namespace OfficeOpenXml.LoadFunctions
     {
         protected ExcelTextFormatFixedWidth _format;
 
-        public LoadFromFixedWidthText(ExcelRangeBase range, string text, ExcelTextFormatFixedWidth Format, params int[] columnLengths) 
+        public LoadFromFixedWidthText(ExcelRangeBase range, string text, ExcelTextFormatFixedWidth Format) 
             : base(range, text)
         {
-            _columnLengths = columnLengths;
             _format = Format;
-
         }
-
-        private int[] _columnLengths;
-
         public override ExcelRangeBase Load()
         {
             if (string.IsNullOrEmpty(_text))
@@ -46,45 +41,54 @@ namespace OfficeOpenXml.LoadFunctions
             var col = 0;
             var maxCol = col;
             var row = 0;
+            var lineNo = 1;
             foreach (string line in lines)
             {
-                if (string.IsNullOrEmpty(line))
+                if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
                 {
-                    continue;
-                }
-                var items = new List<object>();
-                var isText = false;
-                int readLength = 0;
-                col = 0;
-                for (int i = 0; i < _columnLengths.Length; i++)
-                {
-                    string content;
-                    if (i == 0)
+                    if (string.IsNullOrEmpty(line))
                     {
-                        content = line.Substring(0, _columnLengths[i]);
-                        readLength += _columnLengths[i];
+                        continue;
                     }
-                    else
+                    var items = new List<object>();
+                    var isText = false;
+                    int readLength = 0;
+                    col = 0;
+                    for (int i = 0; i < _format.ColumnLengths.Length; i++)
                     {
-                        var v = line.Length;
-                        if (readLength + _columnLengths[i] >= v)
+                        string content;
+                        if (i == 0)
                         {
-                            content = line.Substring(readLength + 1);
+                            content = line.Substring(0, _format.ColumnLengths[i]);
+                            readLength += _format.ColumnLengths[i];
                         }
                         else
                         {
-                            content = line.Substring(readLength, _columnLengths[i]);
-                            readLength += _columnLengths[i];
+                            var v = line.Length;
+                            if (readLength + _format.ColumnLengths[i] >= v)
+                            {
+                                content = line.Substring(readLength + 1);
+                            }
+                            else
+                            {
+                                content = line.Substring(readLength, _format.ColumnLengths[i]);
+                                readLength += _format.ColumnLengths[i];
+                            }
                         }
+                        content = content.Trim();
+                        if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[i]))
+                        {
+                            items.Add(ConvertData(_format, content.Trim(), col, isText));
+                        }
+                        col++;
                     }
-                    content = content.Trim();
-                    items.Add(ConvertData(_format, content.Trim(), col, isText));
-                    col++;
+                    _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    if (col > maxCol) maxCol = col;
+                    row++;
                 }
-                _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
-                row++;
+                lineNo++;
             }
-            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _columnLengths.Length];
+            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol-1];
         }
 
     }

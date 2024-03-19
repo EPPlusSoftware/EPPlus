@@ -27,6 +27,15 @@ namespace OfficeOpenXml
     public abstract class ExcelAbstractTextFormat
     {
         /// <summary>
+        /// 
+        /// </summary>
+        public ExcelAbstractTextFormat() 
+        {
+            DataTypes = null;
+            UseColumns = null;
+        }
+
+        /// <summary>
         /// End of line characters. Default is CRLF
         /// </summary>
         public string EOL { get; set; } = "\r\n";
@@ -50,5 +59,9 @@ namespace OfficeOpenXml
         /// Datatypes list for each column (if column is not present Unknown is assumed)
         /// </summary>
         public eDataTypes[] DataTypes { get; set; }
+        /// <summary>
+        /// Specify which columns to read. If not set, all columns are read.
+        /// </summary>
+        public bool[] UseColumns { get; set; }
     }
 }

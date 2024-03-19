@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.LoadFunctions;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
@@ -468,27 +469,13 @@ namespace OfficeOpenXml
         }
 
 
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Text"></param>
-        /// <param name="columnLengths"></param>
-        /// <returns></returns>
-        public ExcelRangeBase LoadFromText(string Text, params int[] columnLengths)
-        {
-            return LoadFromText(Text, new ExcelTextFormatFixedWidth(), columnLengths);
-        }
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Text"></param>
         /// <param name="Format"></param>
-        /// <param name="columnLengths"></param>
         /// <returns></returns>
-        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, params int[] columnLengths)
+        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format)
         {
             if (string.IsNullOrEmpty(Text))
             {
@@ -496,7 +483,7 @@ namespace OfficeOpenXml
                 r.Value = "";
                 return r;
             }
-            var func = new LoadFromFixedWidthText(this, Text, Format, columnLengths);
+            var func = new LoadFromFixedWidthText(this, Text, Format);
             return func.Load();
         }
 
@@ -509,9 +496,9 @@ namespace OfficeOpenXml
         /// <param name="FirstRowIsHeader"></param>
         /// <param name="columnLengths"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader, params int[] columnLengths)
+        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader)
         {
-            var r = LoadFromText(Text, Format, columnLengths);
+            var r = LoadFromText(Text, Format);
 
             if (r != null && TableStyle.HasValue)
             {

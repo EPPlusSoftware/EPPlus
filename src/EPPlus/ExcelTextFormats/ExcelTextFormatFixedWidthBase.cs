@@ -27,11 +27,11 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelTextFormatFixedWidthBase() : base()
         {
-            ColumnWidths = null;
+            ColumnLengths = null;
         }
         /// <summary>
         /// Delimiter character
         /// </summary>
-        public int[] ColumnWidths { get; set; }
+        public int[] ColumnLengths { get; set; }
     }
 }

@@ -157,18 +157,9 @@ namespace EPPlusTest.LoadFunctions
         public void ShouldLoadFixedWidthText()
         {
             ///TODODO
-            /*
-             * specify to use header
-             * EOL
-             * culrture info
-             * skip lines at start
-             * skip lines at end
-             * encoding
-             * skip header
-             * Skip selected columns
-             * read until EOF, but skip lines with too few/many characters
-             * refactor csv reading!
-             * SAVE STUFF!
+            /* Save some sheets for testing load            
+             * Read from file
+             * save to text file
              */
 
             //          8     5        11       13          32                             6      6     10        4               20                   20       8         
@@ -176,7 +167,8 @@ namespace EPPlusTest.LoadFunctions
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
-            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
         }
@@ -190,7 +182,8 @@ namespace EPPlusTest.LoadFunctions
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
             _format.DataTypes = new eDataTypes[] { eDataTypes.Number, eDataTypes.Number, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.Number, eDataTypes.Number, eDataTypes.String };
-            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
             Assert.AreEqual(3930621977d, _worksheet.Cells["D2"].Value);
@@ -205,7 +198,8 @@ namespace EPPlusTest.LoadFunctions
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
-            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
             Assert.AreEqual(16524d, _worksheet.Cells["A2"].Value);
@@ -215,9 +209,43 @@ namespace EPPlusTest.LoadFunctions
         public void ShouldReturnRangeFixedWidth()
         {
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
-            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
             Assert.AreEqual("Alloc.", _worksheet.Cells["L1"].Value);
             Assert.AreEqual("A1:L1", r.FirstAddress);
+        }
+
+        [TestMethod]
+        public void OnlyMiddleRowFixedWidth()
+        {
+            //          8     5        11       13          32                             6      6     10        4               20                   20       8         
+            AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes "); //<-this is the row we check for
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            _formatFixed.SkipLinesBeginning = 2;
+            _formatFixed.SkipLinesEnd = 1;
+            _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8};
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
+
+            Assert.AreEqual(191675d, _worksheet.Cells["A1"].Value);
+            Assert.AreEqual("OUNHQEX XUFQONY", _worksheet.Cells["E1"].Value);
+        }
+
+        [TestMethod]
+        public void SelectedColumnsFixedWidth()
+        {
+            //          8     5        11       13          32                             6      6     10        4               20                   20       8         
+            AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes "); //<-this is the row we check for
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
+            _formatFixed.UseColumns = new bool[] { false, false, true, true, false, false, false, false, false, false, true, false };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
+
+            Assert.AreEqual(3930621977d, _worksheet.Cells["B2"].Value);
+            Assert.AreEqual(43537.00, _worksheet.Cells["C3"].Value);
         }
 
     }
