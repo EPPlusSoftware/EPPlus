@@ -112,7 +112,7 @@ namespace OfficeOpenXml
         /// <returns>A string containing the text</returns>
         public string ToText()
         {
-            return ToText(null);
+            return ToText(new ExcelOutputTextFormat());
         }
         /// <summary>
         /// Converts a range to text in CSV format.
@@ -197,7 +197,82 @@ namespace OfficeOpenXml
             sw.Flush();
         }
 
+        /// <summary>
+        /// Converts a range to text in Fixed Width format.
+        /// Invariant culture is used by default.
+        /// </summary>
+        /// <param name="Format">Information how to create the Fixed Width text</param>
+        /// <returns>A string containing the text</returns>
+        public string ToText(ExcelOutputTextFormatFixedWidth Format)
+        {
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                SaveToText(ms, Format);
+                ms.Position = 0;
+                var sr = new StreamReader(ms);
+                return sr.ReadToEnd();
+            }
+        }
 
+        /// <summary>
+        /// Converts a range to text in CSV format.
+        /// Invariant culture is used by default.
+        /// </summary>
+        /// <param name="file">The file to write to</param>
+        /// <param name="Format">Information how to create the csv text</param>
+        public void SaveToText(FileInfo file, ExcelOutputTextFormatFixedWidth Format)
+        {
+            using (var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                SaveToText(fileStream, Format);
+                fileStream.Close();
+            }
+        }
+
+        /// <summary>
+        /// Converts a range to text in Fixed Width format.
+        /// Invariant culture is used by default.
+        /// </summary>
+        /// <param name="stream">The strem to write to</param>
+        /// <param name="Format">Information how to create the csv text</param>
+        public void SaveToText(Stream stream, ExcelOutputTextFormatFixedWidth Format)
+        {
+            if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();
+            var sw = new StreamWriter(stream, Format.Encoding);
+            if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
+            int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
+
+            var skipLinesBegining = Format.SkipLinesBeginning + (Format.FirstRowIsHeader ? 1 : 0);
+            CultureInfo ci = GetCultureInfo(Format);
+            for (int row = _fromRow; row <= _toRow; row++)
+            {
+                if (row == _fromRow && Format.FirstRowIsHeader)
+                {
+                    //Write header
+                    //Write extra header with start pos & width?
+                    continue;
+                }
+                /*if (SkipLines(Format, row, skipLinesBegining))
+                {
+                    continue;
+                }*/
+                //check shouldIncludeRow?
+                //check included columns
+                //write rows to file
+                for (int col = _fromCol; col <= _toCol; col++)
+                {
+                    //Get Cell value
+                    string t = GetText(Format, maxFormats, ci, row, col, out bool isText);
+                    //Check Cell value length
+                    //pad with spaces if needed
+                    //What to do if to long??
+
+                    //Pad with spaces until next column
+                }
+                if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
+                sw.Flush();
+            }
+        }
 
 
         #endregion
@@ -383,6 +458,21 @@ namespace OfficeOpenXml
 #endif
         #endregion
         private static CultureInfo GetCultureInfo(ExcelOutputTextFormat Format)
+        {
+            var ci = (CultureInfo)(Format.Culture.Clone() ?? CultureInfo.InvariantCulture.Clone());
+            if (Format.DecimalSeparator != null)
+            {
+                ci.NumberFormat.NumberDecimalSeparator = Format.DecimalSeparator;
+            }
+            if (Format.ThousandsSeparator != null)
+            {
+                ci.NumberFormat.NumberGroupSeparator = Format.ThousandsSeparator;
+            }
+
+            return ci;
+        }
+
+        private static CultureInfo GetCultureInfo(ExcelOutputTextFormatFixedWidth Format)
         {
             var ci = (CultureInfo)(Format.Culture.Clone() ?? CultureInfo.InvariantCulture.Clone());
             if (Format.DecimalSeparator != null)
