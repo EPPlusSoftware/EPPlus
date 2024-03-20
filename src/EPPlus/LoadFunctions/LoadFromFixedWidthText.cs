@@ -56,7 +56,16 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
                 {
-                    if (string.IsNullOrEmpty(line) || line.Length != _format.LineLength)
+
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        continue;
+                    }
+                    if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
+                    {
+                        continue;
+                    }
+                    if(line.Length < _format.LineLength)
                     {
                         continue;
                     }
@@ -89,8 +98,8 @@ namespace OfficeOpenXml.LoadFunctions
                         if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[i]))
                         {
                             items.Add(ConvertData(_format, content.Trim(), col, isText));
+                            col++;
                         }
-                        col++;
                     }
                     _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
                     if (col > maxCol) maxCol = col;
@@ -113,7 +122,15 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
                 {
-                    if (string.IsNullOrEmpty(line) || line.Length <= _format.LineLength)
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        continue;
+                    }
+                    if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
+                    {
+                        continue;
+                    }
+                    if(line.Length <= _format.LineLength)
                     {
                         continue;
                     }
@@ -136,8 +153,8 @@ namespace OfficeOpenXml.LoadFunctions
                         if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[i]))
                         {
                             items.Add(ConvertData(_format, content.Trim(), col, isText));
+                            col++;
                         }
-                        col++;
                     }
                     _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
                     if (col > maxCol) maxCol = col;

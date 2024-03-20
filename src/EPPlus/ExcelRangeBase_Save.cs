@@ -196,6 +196,10 @@ namespace OfficeOpenXml
             if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
             sw.Flush();
         }
+
+
+
+
         #endregion
         #region ToText / SaveToText async
 #if !NET35 && !NET40

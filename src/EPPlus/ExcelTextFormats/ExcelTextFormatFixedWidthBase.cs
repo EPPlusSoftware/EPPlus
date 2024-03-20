@@ -81,7 +81,17 @@ namespace OfficeOpenXml
         /// <summary>
         /// The length of the line to read. If set to widths, LineLength is sum of all columnLengths. If set to positions, LineLength is set to the value of the last index of columnLengths
         /// </summary>
-        public int LineLength { get { return _lineLength; } }
+        public int LineLength 
+        { 
+            get 
+            { 
+                return _lineLength; 
+            }
+            set
+            {
+                _lineLength = value;
+            }
+        }
 
         /// <summary>
         /// Set if we should read fixed width files from column widths or positions. Default is widths

@@ -494,7 +494,6 @@ namespace OfficeOpenXml
         /// <param name="Format"></param>
         /// <param name="TableStyle"></param>
         /// <param name="FirstRowIsHeader"></param>
-        /// <param name="columnLengths"></param>
         /// <exception cref="NotImplementedException"></exception>
         public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader)
         {
@@ -507,6 +506,39 @@ namespace OfficeOpenXml
                 tbl.TableStyle = TableStyle.Value;
             }
             return r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TextFile">The Textfile</param>
+        /// <param name="Format">Information how to load the text</param>
+        /// <returns></returns>
+        public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormatFixedWidth Format)
+        {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
+            return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TextFile">The Textfile</param>
+        /// <param name="Format">Information how to load the text</param>
+        /// <param name="TableStyle">Create a table with this style</param>
+        /// <param name="FirstRowIsHeader">Use the first row as header</param>
+        /// <returns></returns>
+        public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader)
+        {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
+            return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, TableStyle, FirstRowIsHeader);
         }
 
         #region LoadFromText async
