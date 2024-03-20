@@ -37,6 +37,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         {
             ValidateArguments(arguments, 1);
             var arg = ArgToString(arguments, 0);
+            if(arg == null || arg.Length == 0 || arg.Trim().Length == 0)
+            {
+                return CreateResult(0d, DataType.Integer);
+            }
             SetArgAndPercentage(arg);
             if(!ValidateAndSetSeparators(arguments.ToArray()))
             {
