@@ -24,37 +24,37 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
         internal const string TableStyleClassPrefix = "ts-";
         internal const string TableClass = "epplus-table";
+		internal static string GetClassName(string className, string optionalName)
+		{
+			if (string.IsNullOrEmpty(optionalName)) return optionalName;
 
-        internal static string GetClassName(string className, string optionalName)
-        {
-            if (string.IsNullOrEmpty(optionalName)) return optionalName;
+			className = className.Trim().Replace(" ", "-");
+			var newClassName = "";
+			for (int i = 0; i < className.Length; i++)
+			{
+				var c = className[i];
+				if (i == 0)
+				{
+					if (c == '-' || (c >= '0' && c <= '9'))
+					{
+						newClassName = "_";
+						continue;
+					}
+				}
 
-            className = className.Trim().Replace(" ", "-");
-            var newClassName = "";
-            for (int i = 0; i < className.Length; i++)
-            {
-                var c = className[i];
-                if (i == 0)
-                {
-                    if (c == '-' || c >= '0' && c <= '9')
-                    {
-                        newClassName = "_";
-                        continue;
-                    }
-                }
+				if ((c >= '0' && c <= '9') ||
+				   (c >= 'a' && c <= 'z') ||
+				   (c >= 'A' && c <= 'Z') ||
+				   (c == '-') ||
+					c >= 0x00A0)
+				{
+					newClassName += c;
+				}
+			}
+			return string.IsNullOrEmpty(newClassName) ? optionalName.ToLowerInvariant() : newClassName.ToLowerInvariant();
+		}
 
-                if (c >= '0' && c <= '9' ||
-                   c >= 'a' && c <= 'z' ||
-                   c >= 'A' && c <= 'Z' ||
-                    c >= 0x00A0)
-                {
-                    newClassName += c;
-                }
-            }
-            return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
-        }
-
-        internal static string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
+		internal static string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
         {
             if (addWorksheetName)
             {
@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             string styleClass;
             if (table.TableStyle == TableStyles.Custom)
             {
-                styleClass = TableStyleClassPrefix + table.StyleName.Replace(" ", "-").ToLowerInvariant();
+                styleClass = TableStyleClassPrefix + GetClassName(table.StyleName, $"tablestyle{table.Id}");
             }
             else
             {

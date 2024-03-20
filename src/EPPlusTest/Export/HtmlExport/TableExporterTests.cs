@@ -483,16 +483,19 @@ namespace EPPlusTest.Export.HtmlExport
             {
                 var sheet1 = p.Workbook.Worksheets[0];
                 var sheet2 = p.Workbook.Worksheets[1];
+
                 var exporterRange = p.Workbook.CreateHtmlExporter(
                     sheet2.Tables[0].Range,
                     sheet1.Cells["A1:E30"],
                     sheet2.Tables[2].Range,
                     sheet2.Tables[1].Range);
+                
                 exporterRange.Settings.SetColumnWidth = true;
                 exporterRange.Settings.SetRowHeight = true;
                 exporterRange.Settings.Minify = false;
                 exporterRange.Settings.TableStyle = eHtmlRangeTableInclude.Include;
                 exporterRange.Settings.Pictures.Include = ePictureInclude.Include;
+                
                 var html1 = exporterRange.GetHtmlString(0);
                 var html2 = exporterRange.GetHtmlString(1);
                 var html3 = exporterRange.GetHtmlString(2);
@@ -514,8 +517,8 @@ namespace EPPlusTest.Export.HtmlExport
 			using (var p = OpenTemplatePackage("s610.xlsx"))
 			{
 				var sheet1 = p.Workbook.Worksheets[0];
-				var exporterRange = p.Workbook.CreateHtmlExporter(
-					sheet1.Cells["A1:BL7868"]);
+				var exporterRange = p.Workbook.CreateHtmlExporter(sheet1.Cells["A1:BL7868"]);
+
 				exporterRange.Settings.SetColumnWidth = true;
 				exporterRange.Settings.SetRowHeight = true;
 				exporterRange.Settings.Minify = false;

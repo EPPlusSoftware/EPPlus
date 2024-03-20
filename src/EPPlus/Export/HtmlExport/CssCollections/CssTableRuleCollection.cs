@@ -167,7 +167,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 tblStyle.SetFromTemplate(table.TableStyle);
             }
 
-            var tableClass = $"{tableClassPreset}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
+            var tableClass = $"{tableClassPreset}{HtmlExportTableUtil.GetClassName(tblStyle.Name, $"tablestyle{table.Id}")}";
 
             AddHyperlink($"{tableClass}", tblStyle.WholeTable);
             AddAlignment($"{tableClass}", datatypes);
