@@ -1570,13 +1570,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     if (!cf.IsExtLst || cf.Type == eExcelConditionalFormattingRuleType.DataBar)
                     {
-                        if (addressDict.ContainsKey(cf.Address.Address))
+                        var key = cf.Address?.Address ?? "";
+						if (addressDict.ContainsKey(key))
                         {
-                            addressDict[cf.Address.Address].Add(cf);
+                            addressDict[key].Add(cf);
                         }
                         else
                         {
-                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                            addressDict.Add(key, new List<ExcelConditionalFormattingRule>() { cf });
                         }
                     }
                 }
@@ -1591,8 +1592,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if(i == 0)
                     {
-                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\"");
-                        if (conditionalFormat.PivotTable)
+						cache.Append($"<conditionalFormatting");
+						if (conditionalFormat.Address!=null)
+                        {
+							cache.Append($" sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\"");
+						}
+						if (conditionalFormat.PivotTable)
                         {
                             cache.Append($" pivot=\"1\"");
                         }

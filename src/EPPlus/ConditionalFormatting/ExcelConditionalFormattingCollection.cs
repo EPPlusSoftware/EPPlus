@@ -13,6 +13,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Style;
@@ -25,6 +26,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -49,67 +51,56 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal void ReadRegularConditionalFormattings(XmlReader xr)
         {
             string address = null;
-            bool pivot = false;
-            while (xr.ReadUntil(1, "conditionalFormatting", "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst", "pageMargins"))
+			bool pivot = false;
+            while (xr.ReadUntil(1, "conditionalFormatting", "dataValidations", "hyperlinks", "printOptions", "pageMargins", "pageSetup", "headerFooter", "rowBreaks", "colBreaks", "customProperties", "cellWatches", "ignoredErrors", "smartTags", "drawing", "drawingHF", "picture", "oleObjects", "controls", "webPublishItems", "tableParts", "extLst" ))
             {
-                //string lastAddress = address.ToString();
                 address = null;
 
                 do
                 {
-                    if (xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule")
+                    if (xr.LocalName == "conditionalFormatting")
                     {
-                        if (xr.LocalName == "conditionalFormatting")
+                        address = xr.GetAttribute("sqref");
+                        if (string.IsNullOrEmpty(address) == false)
                         {
-                            address = xr.GetAttribute("sqref");
+							address = address.Replace(' ', ',');
+						}
 
-                            pivot = xr.GetAttribute("pivot") == "1";
+						pivot = xr.GetAttribute("pivot") == "1";
 
-                            //Only happens if template node by user or a new worksheet.
-                            if(address == null)
-                            {
-                                xr.Read();
-                                continue;
-                            }
-                        }
-
-                        if (address != null)
-                        {
-                            if (xr.NodeType == XmlNodeType.Element)
-                            {
-                                if (xr.LocalName == "conditionalFormatting")
-                                {
-                                    xr.Read();
-                                }
-                                address = address.Replace(' ', ',');
-                                var cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
-
-                                cf.PivotTable = pivot;
-
-                                //If cf exists in both local and ExtLst spaces
-                                if(cf.IsExtLst && cf._uid != null)
-                                {
-                                    localAndExtDict.Add(cf._uid, cf);
-                                }
-                                else
-                                {
-                                    _rules.Add(cf);
-                                }
-                            }
-
-                            if(xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.EndElement)
-                            {
-                                xr.Read();
-                            }
-                        }
-
-                        //Handle many cfRules in one address
-                        if (xr.LocalName != "cfRule" && xr.NodeType == XmlNodeType.EndElement)
-                        {
-                            xr.Read();
-                        }
+                        xr.Read();
                     }
-                } while (xr.LocalName == "cfRule");
+
+                    if (xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.Element)
+                    {
+                        //if (xr.LocalName == "conditionalFormatting")
+                        //{
+                        //    xr.Read();
+                        //}
+                        ExcelConditionalFormattingRule cf;
+
+						if (string.IsNullOrEmpty(address))
+                        {
+							cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
+						}
+						else
+                        {
+                            cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
+                        }
+						cf.PivotTable = pivot;
+						//If cf exists in both local and ExtLst spaces
+						if (cf.IsExtLst && cf._uid != null)
+						{
+							localAndExtDict.Add(cf._uid, cf);
+						}
+						else
+						{
+							_rules.Add(cf);
+						}
+					}
+                    while ((xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule") && xr.NodeType == XmlNodeType.EndElement) xr.Read();
+                }
+                while (xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule");
             }
         }
 
