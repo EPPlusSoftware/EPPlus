@@ -38,17 +38,50 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelTextFormatFixedWidthBase : ExcelAbstractTextFormat
     {
+        int[] _columnLengths;
+        int _lineLength;
+
         /// <summary>
-        /// Creates a new instance if ExcelTextFormatBase
+        /// Creates a new instance if ExcelTextFormatFixedWidthBase
         /// </summary>
         public ExcelTextFormatFixedWidthBase() : base()
         {
             ColumnLengths = null;
         }
         /// <summary>
-        /// Delimiter character
+        /// 
         /// </summary>
-        public int[] ColumnLengths { get; set; }
+        public int[] ColumnLengths { 
+            get 
+            {
+                return _columnLengths;
+            }
+            set 
+            {
+                if (value != null)
+                {
+                    if (ReadStartPosition == FixedWidthRead.Widths)
+                    {
+                        var result = 0;
+                        foreach (int i in value)
+                        {
+                            result += i;
+                        }
+                        _lineLength = result;
+                    }
+                    else if(ReadStartPosition == FixedWidthRead.Positions)
+                    {
+                        _lineLength = value[value.Length-1];
+                    }
+                }
+                _columnLengths = value;
+            } 
+        }
+
+        /// <summary>
+        /// The length of the line to read. If set to widths, LineLength is sum of all columnLengths. If set to positions, LineLength is set to the value of the last index of columnLengths
+        /// </summary>
+        public int LineLength { get { return _lineLength; } }
 
         /// <summary>
         /// Set if we should read fixed width files from column widths or positions. Default is widths

@@ -18,14 +18,12 @@ using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    internal class LoadFromFixedWidthText : LoadFromTextBase
+    internal class LoadFromFixedWidthText : LoadFromTextBase<ExcelTextFormatFixedWidth>
     {
-        protected ExcelTextFormatFixedWidth _format;
 
         public LoadFromFixedWidthText(ExcelRangeBase range, string text, ExcelTextFormatFixedWidth Format) 
-            : base(range, text)
+            : base(range, text, Format)
         {
-            _format = Format;
         }
         public override ExcelRangeBase Load()
         {
@@ -36,6 +34,18 @@ namespace OfficeOpenXml.LoadFunctions
                 return r;
             }
 
+            if(_format.ReadStartPosition == FixedWidthRead.Widths)
+            {
+                return LoadWidths();
+            }
+            else
+            {
+                return LoadPositions();
+            }
+        }
+
+        private ExcelRangeBase LoadWidths()
+        {
             string[] lines;
             lines = SplitLines(_text, _format.EOL);
             var col = 0;
@@ -46,7 +56,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
                 {
-                    if (string.IsNullOrEmpty(line))
+                    if (string.IsNullOrEmpty(line) || line.Length != _format.LineLength)
                     {
                         continue;
                     }
@@ -88,7 +98,54 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 lineNo++;
             }
-            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol-1];
+            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol - 1];
+        }
+
+        private ExcelRangeBase LoadPositions()
+        {
+            string[] lines;
+            lines = SplitLines(_text, _format.EOL);
+            var col = 0;
+            var maxCol = col;
+            var row = 0;
+            var lineNo = 1;
+            foreach (string line in lines)
+            {
+                if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
+                {
+                    if (string.IsNullOrEmpty(line) || line.Length <= _format.LineLength)
+                    {
+                        continue;
+                    }
+                    var items = new List<object>();
+                    var isText = false;
+                    col = 0;
+                    for (int i = 0; i < _format.ColumnLengths.Length; i++)
+                    {
+                        string content;
+                        if (i == _format.ColumnLengths.Length - 1)
+                        {
+                            content = line.Substring(_format.ColumnLengths[i]);
+                        }
+                        else
+                        {
+                            var readLength = _format.ColumnLengths[i+1] - _format.ColumnLengths[i];
+                            content = line.Substring(_format.ColumnLengths[i], readLength);
+                        }
+                        content = content.Trim();
+                        if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[i]))
+                        {
+                            items.Add(ConvertData(_format, content.Trim(), col, isText));
+                        }
+                        col++;
+                    }
+                    _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    if (col > maxCol) maxCol = col;
+                    row++;
+                }
+                lineNo++;
+            }
+            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol - 1];
         }
 
     }

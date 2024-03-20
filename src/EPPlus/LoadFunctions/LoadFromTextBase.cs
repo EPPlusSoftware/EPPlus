@@ -20,17 +20,20 @@ using OfficeOpenXml.LoadFunctions.Params;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    internal abstract class LoadFromTextBase
+    internal abstract class LoadFromTextBase<T>
+        where T : ExcelAbstractTextFormat
     {
         protected ExcelWorksheet _worksheet;
         protected ExcelRangeBase _range;
         protected string _text;
+        protected T _format;
 
-        public LoadFromTextBase(ExcelRangeBase range, string text)
+        public LoadFromTextBase(ExcelRangeBase range, string text, T format)
         {
             _range = range;
             _worksheet = range.Worksheet;
             _text = text;
+            _format = format;
         }
 
         public abstract ExcelRangeBase Load();
@@ -57,7 +60,7 @@ namespace OfficeOpenXml.LoadFunctions
             return ix + eol.Length <= text.Length;
         }
 
-        protected object ConvertData(ExcelAbstractTextFormat Format, string v, int col, bool isText)
+        protected object ConvertData(T Format, string v, int col, bool isText)
         {
             if (isText && (Format.DataTypes == null || Format.DataTypes.Length < col)) return string.IsNullOrEmpty(v) ? null : v;
 

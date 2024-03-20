@@ -154,19 +154,31 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void SelectedColumnsText()
+        {
+            AddLine("a,b,c");
+            _format.UseColumns = new bool[] { true, false, true };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _format);
+
+            Assert.AreEqual("a", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual("c", _worksheet.Cells["B1"].Value);
+        }
+
+        [TestMethod]
         public void ShouldLoadFixedWidthText()
         {
             ///TODODO
-            /* Save some sheets for testing load            
+            /* read positon
              * Read from file
+             * save sheets to file for testing
              * save to text file
              */
 
             //          8     5        11       13          32                             6      6     10        4               20                   20       8         
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
-            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
-            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
-            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
@@ -178,9 +190,9 @@ namespace EPPlusTest.LoadFunctions
         {
             //          8     5        11       13          32                             6      6     10        4               20                   20       8         
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
-            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
-            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
-            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _format.DataTypes = new eDataTypes[] { eDataTypes.Number, eDataTypes.Number, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.String, eDataTypes.Number, eDataTypes.Number, eDataTypes.String };
             _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true);
@@ -195,9 +207,9 @@ namespace EPPlusTest.LoadFunctions
         {
             //          8     5        11       13          32                             6      6     10        4               20                   20       8         
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
-            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
-            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes ");
-            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true);
 
@@ -220,9 +232,9 @@ namespace EPPlusTest.LoadFunctions
         {
             //          8     5        11       13          32                             6      6     10        4               20                   20       8         
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
-            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
-            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes "); //<-this is the row we check for
-            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   "); //<-this is the row we check for
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _formatFixed.SkipLinesBeginning = 2;
             _formatFixed.SkipLinesEnd = 1;
             _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8};
@@ -237,15 +249,32 @@ namespace EPPlusTest.LoadFunctions
         {
             //          8     5        11       13          32                             6      6     10        4               20                   20       8         
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
-            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No  ");
-            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes "); //<-this is the row we check for
-            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes ");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _formatFixed.ColumnLengths = new int[] { 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8 };
             _formatFixed.UseColumns = new bool[] { false, false, true, true, false, false, false, false, false, false, true, false };
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
             Assert.AreEqual(3930621977d, _worksheet.Cells["B2"].Value);
             Assert.AreEqual(43537.00, _worksheet.Cells["C3"].Value);
+        }
+
+        [TestMethod]
+        public void ReadFromPositionFixedWidth()
+        {
+            //          8     5        11       13          32                             6      6     10        4               20                   20       8         
+            AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
+            AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
+            AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
+            AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
+            _formatFixed.ReadStartPosition = FixedWidthRead.Positions;
+            _formatFixed.ColumnLengths = new int[] { 0, 8, 13, 24, 37, 69, 75, 81, 91, 95, 115, 135 };
+            //_formatFixed.UseColumns = new bool[] { false, false, true, true, false, false, false, false, false, false, true, false };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
+
+            Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual(2368183100d, _worksheet.Cells["D3"].Value);
         }
 
     }

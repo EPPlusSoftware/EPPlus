@@ -19,22 +19,11 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    internal class LoadFromText : LoadFromTextBase
+    internal class LoadFromText : LoadFromTextBase<ExcelTextFormat>
     {
-
-        protected ExcelTextFormat _format;
-
         public LoadFromText(ExcelRangeBase range, string text, LoadFromTextParams parameters)
-            : base(range, text)
+            : base(range, text, parameters.Format)
         {
-            if (parameters.Format == null)
-            {
-                _format = new ExcelTextFormat();
-            }
-            else
-            {
-                _format = parameters.Format;
-            }
         }
 
         public override ExcelRangeBase Load()
@@ -112,7 +101,10 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 if (c == _format.Delimiter)
                                 {
-                                    items.Add(ConvertData(_format, v, col, isText));
+                                    if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[col]))
+                                    {
+                                        items.Add(ConvertData(_format, v, col, isText));
+                                    }
                                     v = "";
                                     isText = false;
                                     col++;
@@ -139,7 +131,10 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     if (lineQCount % 2 == 1)
                         throw (new Exception(string.Format("Text delimiter is not closed in line : {0}", line)));
-                    items.Add(ConvertData(_format, v, col, isText));
+                    if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[col]))
+                    {
+                        items.Add(ConvertData(_format, v, col, isText));
+                    }
 
                     _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
 
