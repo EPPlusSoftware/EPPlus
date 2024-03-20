@@ -346,7 +346,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             object left, right;
             left = GetObjFromOther(l, r);
             right = GetObjFromOther(r, l);
-            if (ConvertUtil.IsNumericOrDate(left) && ConvertUtil.IsNumericOrDate(right))
+            var isNumL = ConvertUtil.IsNumericOrDate(left);
+            var isNumR = ConvertUtil.IsNumericOrDate(right);
+            if (isNumL && isNumR)
             {
                 var lnum = ConvertUtil.GetValueDouble(left);
                 var rnum = ConvertUtil.GetValueDouble(right);
@@ -355,6 +357,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     return new CompileResult(comparison(0), DataType.Boolean);
                 }
                 var comparisonResult = lnum.CompareTo(rnum);
+                return new CompileResult(comparison(comparisonResult), DataType.Boolean);
+            }
+            else if (isNumL || isNumR)
+            {
+                var comparisonResult = isNumL ? -1 : 1;
                 return new CompileResult(comparison(comparisonResult), DataType.Boolean);
             }
             else
