@@ -51,12 +51,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 if ((c >= '0' && c <= '9') ||
                    (c >= 'a' && c <= 'z') ||
                    (c >= 'A' && c <= 'Z') ||
+                    c == '-' ||
                     c >= 0x00A0)
                 {
                     newClassName += c;
                 }
             }
-            return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
+            return string.IsNullOrEmpty(newClassName) ? optionalName.ToLowerInvariant() : newClassName.ToLowerInvariant();
         }
 
         internal static string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
@@ -76,7 +77,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             string styleClass;
             if (table.TableStyle == TableStyles.Custom)
             {
-                styleClass = TableStyleClassPrefix + table.StyleName.Replace(" ", "-").ToLowerInvariant();
+                styleClass = TableStyleClassPrefix + GetClassName(table.StyleName, $"tablestyle{table.Id}");
             }
             else
             {
@@ -159,7 +160,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 tblStyle.SetFromTemplate(table.TableStyle);
             }
 
-            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
+            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name, $"tablestyle{table.Id}")}";
             styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
             styleWriter.AddAlignmentToCss($"{tableClass}", datatypes);
 
@@ -216,7 +217,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 tblStyle.SetFromTemplate(table.TableStyle);
             }
 
-            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name, "EmptyClassName").ToLower()}";
+            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name,$"tablestyle{table.Id}")}";
             await styleWriter.AddHyperlinkCssAsync($"{tableClass}", tblStyle.WholeTable);
             await styleWriter.AddAlignmentToCssAsync($"{tableClass}", datatypes);
 

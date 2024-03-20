@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Globalization;
+using System.Text;
 using System.Xml;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer;
@@ -328,5 +329,29 @@ namespace OfficeOpenXml.Table
                 }
             }
         }
-    }
+		internal static string DecodeTableColumnName(string name)
+		{
+			var pc = '\0';
+			var sb = new StringBuilder();
+			for (var i = 0; i < name.Length; i++)
+			{
+				var c = name[i];
+
+				if (pc == '\'')
+				{
+					sb.Append(c);
+					pc = '\0';
+				}
+				else
+				{
+					if (c != '\'')
+					{
+						sb.Append(c);
+					}
+					pc = name[i];
+				}
+			}
+			return sb.ToString();
+		}
+	}
 }
