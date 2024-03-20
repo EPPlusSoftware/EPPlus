@@ -885,11 +885,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     case TokenType.TableColumn:
                         if (string.IsNullOrEmpty(ColumnName1))
                         {
-                            ColumnName1 = t.Value;
+                            ColumnName1 = ExcelTableColumn.DecodeTableColumnName(t.Value);
                         }
                         else
                         {
-                            ColumnName2 = t.Value;
+                            ColumnName2 = ExcelTableColumn.DecodeTableColumnName(t.Value);
                         }
                         break;
 
