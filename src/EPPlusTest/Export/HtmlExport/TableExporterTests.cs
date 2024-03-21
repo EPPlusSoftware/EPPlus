@@ -518,7 +518,6 @@ namespace EPPlusTest.Export.HtmlExport
 			{
 				var sheet1 = p.Workbook.Worksheets[0];
 				var exporterRange = p.Workbook.CreateHtmlExporter(sheet1.Cells["A1:BL7868"]);
-
 				exporterRange.Settings.SetColumnWidth = true;
 				exporterRange.Settings.SetRowHeight = true;
 				exporterRange.Settings.Minify = false;
@@ -527,6 +526,23 @@ namespace EPPlusTest.Export.HtmlExport
 				var htmlAsync = await exporterRange.GetSinglePageAsync();
 
 				File.WriteAllText($"{_htmlOutput}RangeAndThreeTables.html", htmlAsync);
+			}
+		}
+		[TestMethod]
+		public async Task Export_CondtionalFormattingHtmlExport_Worksheet1()
+		{
+			using (var p = OpenTemplatePackage("CondtionalFormattingHtmlExport.xlsx"))
+			{
+				var sheet1 = p.Workbook.Worksheets[0];
+				var exporterRange = p.Workbook.CreateHtmlExporter(sheet1.Cells["A2:C15"]);
+				//exporterRange.Settings.SetColumnWidth = true;
+				//exporterRange.Settings.SetRowHeight = true;
+				//exporterRange.Settings.Minify = false;
+				//exporterRange.Settings.TableStyle = eHtmlRangeTableInclude.Include;
+				//exporterRange.Settings.Pictures.Include = ePictureInclude.Include;
+				var htmlAsync = await exporterRange.GetSinglePageAsync();
+
+				File.WriteAllText($"{_htmlOutput}CondtionalFormattingHtmlExport.html", htmlAsync);
 			}
 		}
 	}
