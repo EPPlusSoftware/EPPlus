@@ -93,5 +93,91 @@ namespace EPPlusTest.SaveFunctions
             var text = _sheet.Cells["A1:B1"].ToText(format);
             Assert.AreEqual("1,2", text);
         }
+
+        [TestMethod]
+        public void ToTextFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4 };
+            format.FirstRowIsHeader = false;
+            var text = _sheet.Cells["A1:B1"].ToText(format);
+            Assert.AreEqual("1  2   ", text);
+        }
+
+        [TestMethod]
+        public void ToTextLeftPaddingFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4 };
+            format.FirstRowIsHeader = false;
+            format.PaddingType = SpacePaddingType.Left;
+            var text = _sheet.Cells["A1:B1"].ToText(format);
+            Assert.AreEqual("  1   2", text);
+        }
+
+        [TestMethod]
+        public void ToTextExcludeRowFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            _sheet.Cells["C1"].Value = 3;
+
+            _sheet.Cells["A2"].Value = 4;
+            _sheet.Cells["B2"].Value = 5;
+            _sheet.Cells["C2"].Value = 6;
+
+            _sheet.Cells["A3"].Value = 7;
+            _sheet.Cells["B3"].Value = 8;
+            _sheet.Cells["C3"].Value = 10;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4, 3};
+            format.FirstRowIsHeader = false;
+            format.PaddingType = SpacePaddingType.Left;
+            format.ShouldUseRow = row =>
+            {
+                if (row.Contains("5"))
+                {
+                    return false;
+                }
+                return true;
+            };
+            var text = _sheet.Cells["A1:C3"].ToText(format);
+            Assert.AreEqual("  1   2  3\r\n  7   8 10\r\n", text);
+        }
+
+        [TestMethod]
+        public void ToTextExcludeRowFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            _sheet.Cells["C1"].Value = 3;
+
+            _sheet.Cells["A2"].Value = 4;
+            _sheet.Cells["B2"].Value = 5;
+            _sheet.Cells["C2"].Value = 6;
+
+            _sheet.Cells["A3"].Value = 7;
+            _sheet.Cells["B3"].Value = 8;
+            _sheet.Cells["C3"].Value = 10;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4, 3 };
+            format.FirstRowIsHeader = false;
+            format.PaddingType = SpacePaddingType.Left;
+            format.ShouldUseRow = row =>
+            {
+                if (row.Contains("5"))
+                {
+                    return false;
+                }
+                return true;
+            };
+            var text = _sheet.Cells["A1:C3"].ToText(format);
+            Assert.AreEqual("  1   2  3\r\n  7   8 10\r\n", text);
+        }
+
     }
 }

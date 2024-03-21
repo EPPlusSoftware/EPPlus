@@ -29,6 +29,8 @@ using OfficeOpenXml.Attributes;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Export.ToCollection.Exceptions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -177,7 +179,7 @@ namespace OfficeOpenXml
 
                 for (int col = _fromCol; col <= _toCol; col++)
                 {
-                    string t = GetText(Format, maxFormats, ci, row, col, out bool isText);
+                    string t = GetTextCSV(Format, maxFormats, ci, row, col, out bool isText);
 
                     if (hasTextQ && isText)
                     {
@@ -256,20 +258,42 @@ namespace OfficeOpenXml
                 {
                     continue;
                 }*/
-                //check shouldIncludeRow?
+                
                 //check included columns
-                //write rows to file
+                string fc ="";
                 for (int col = _fromCol; col <= _toCol; col++)
                 {
-                    //Get Cell value
-                    string t = GetText(Format, maxFormats, ci, row, col, out bool isText);
-                    //Check Cell value length
-                    //pad with spaces if needed
-                    //What to do if to long??
-
-                    //Pad with spaces until next column
+                    string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
+                    var padding = Format.ColumnLengths[col-1] - t.Length;
+                    if (padding > 0)
+                    {
+                        for (int i = 0; i < padding; i++)
+                        {
+                            if (Format.PaddingType == SpacePaddingType.Right)
+                            {
+                                t += " ";
+                            }
+                            else if(Format.PaddingType == SpacePaddingType.Left)
+                            {
+                                t = " " + t;
+                            }
+                        }
+                    }
+                    else if (padding < 0)
+                    { 
+                        //throw exceptoion negative padding either text is to long or set width too short
+                    }
+                    fc += t;
                 }
-                if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
+                if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(fc) == false)
+                {
+                    continue;
+                }
+                else
+                {
+                    sw.WriteLine(fc);
+                }
+                //if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
                 sw.Flush();
             }
         }
@@ -359,7 +383,7 @@ namespace OfficeOpenXml
 
                 for (int col = _fromCol; col <= _toCol; col++)
                 {
-                    string t = GetText(Format, maxFormats, ci, row, col, out bool isText);
+                    string t = GetTextCSV(Format, maxFormats, ci, row, col, out bool isText);
 
                     if (hasTextQ && isText)
                     {
@@ -493,6 +517,34 @@ namespace OfficeOpenXml
                                Format.SkipLinesEnd > _toRow - row;
         }
 
+        private string GetTextCSV(ExcelOutputTextFormat Format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
+        {
+            string t = GetText(Format, maxFormats, ci, row, col, out isText);
+            //If a formatted numeric/date value contains the delimitter or a text qualifier treat it as text.
+            if (isText == false && string.IsNullOrEmpty(t) == false && t.IndexOfAny(new[] { Format.Delimiter, Format.TextQualifier }) >= 0)
+            {
+                isText = true;
+            }
+            return t;
+        }
+
+        private string GetTextFixedWidth(ExcelOutputTextFormatFixedWidth format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
+        {
+            var f = new ExcelOutputTextFormat()
+            {
+                Header = format.Header,
+                Footer = format.Footer,
+                FirstRowIsHeader = format.FirstRowIsHeader,
+                UseCellFormat = format.UseCellFormat,
+                Formats = format.Formats,
+                DecimalSeparator = format.DecimalSeparator,
+                ThousandsSeparator = format.ThousandsSeparator,
+                EncodedTextQualifiers = format.EncodedTextQualifiers,
+            };
+            string t = GetText(f, maxFormats, ci, row, col, out isText);
+            return t;
+        }
+
         private string GetText(ExcelOutputTextFormat Format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
         {
             var v = GetCellStoreValue(row, col);
@@ -569,12 +621,6 @@ namespace OfficeOpenXml
                     t = v._value.ToString();
                     isText = true;
                 }
-            }
-
-            //If a formatted numeric/date value contains the delimitter or a text qualifier treat it as text.
-            if (isText == false && string.IsNullOrEmpty(t) == false && t.IndexOfAny(new[] { Format.Delimiter, Format.TextQualifier }) >= 0)
-            {
-                isText = true;
             }
             return t;
         }

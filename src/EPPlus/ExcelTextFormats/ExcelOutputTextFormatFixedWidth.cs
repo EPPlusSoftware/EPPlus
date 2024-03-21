@@ -20,12 +20,21 @@ namespace OfficeOpenXml
     /// <summary>
     /// 
     /// </summary>
-    public  class ExcelOutputTextFormatFixedWidth : ExcelTextFormatFixedWidthBase
+    public enum SpacePaddingType
+    {
+        Right,
+        Left
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ExcelOutputTextFormatFixedWidth : ExcelTextFormatFixedWidthBase
     {
         /// <summary>
         /// 
         /// </summary>
-        public ExcelOutputTextFormatFixedWidth() { }
+        public ExcelOutputTextFormatFixedWidth() : base() { }
 
         /// <summary>
         /// A text written at the start of the file.
@@ -66,5 +75,9 @@ namespace OfficeOpenXml
         /// Default is two Text Qualifiers characters. For example " is replaced with "".
         /// </summary>
         public string EncodedTextQualifiers { get; set; } = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        public SpacePaddingType PaddingType {get;set;} = SpacePaddingType.Right;
     }
 }
