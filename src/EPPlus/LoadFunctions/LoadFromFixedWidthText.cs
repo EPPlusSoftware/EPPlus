@@ -57,10 +57,10 @@ namespace OfficeOpenXml.LoadFunctions
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
                 {
 
-                    if (string.IsNullOrEmpty(line))
-                    {
-                        continue;
-                    }
+                    //if (string.IsNullOrEmpty(line))
+                    //{
+                    //    continue;
+                    //}
                     if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
                     {
                         continue;
@@ -107,7 +107,7 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 lineNo++;
             }
-            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol - 1];
+            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol ];
         }
 
         private ExcelRangeBase LoadPositions()

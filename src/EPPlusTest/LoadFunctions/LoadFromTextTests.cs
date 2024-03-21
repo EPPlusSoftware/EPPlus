@@ -188,11 +188,6 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldLoadFixedWidthText()
         {
-            ///TODODO
-            /* save to text file
-             * Async stuff
-             */
-
             //          8     5        11       13          32                             6      6     10        4               20                   20       8         
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");

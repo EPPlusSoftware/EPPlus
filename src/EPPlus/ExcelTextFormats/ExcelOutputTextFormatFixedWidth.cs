@@ -45,10 +45,9 @@ namespace OfficeOpenXml
         /// </summary>
         public string Footer { get; set; }
         /// <summary>
-        /// First row of the range contains the headers.
-        /// All header cells will be treated as strings.
+        /// Flag to exclude header for fixed width text file
         /// </summary>
-        public bool FirstRowIsHeader { get; set; } = true;
+        public bool ExcludeHeader { get; set; } = false;
         /// <summary>
         /// Use the cells Text property with the applied culture.
         /// This only applies to columns with no format set in the Formats collection.
@@ -79,5 +78,15 @@ namespace OfficeOpenXml
         /// 
         /// </summary>
         public SpacePaddingType PaddingType {get;set;} = SpacePaddingType.Right;
+        /// <summary>
+        /// Force writing to file, this will only write the n first found characters, where n is column width
+        /// </summary>
+        public bool ForceWrite { get; set; } = false;
+
+        /*
+         * padding character
+         * force read row om den är för kort// inte passa spec Loadfromfixedwidthtext(då läser vi till raden tar slut så vi inte skriver utanför length)
+         * paddingtype per cell
+         * */
     }
 }

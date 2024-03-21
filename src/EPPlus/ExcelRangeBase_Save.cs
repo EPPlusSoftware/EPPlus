@@ -244,27 +244,42 @@ namespace OfficeOpenXml
             if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
             int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
 
-            var skipLinesBegining = Format.SkipLinesBeginning + (Format.FirstRowIsHeader ? 1 : 0);
+            var skipLinesBegining = Format.SkipLinesBeginning + (Format.ExcludeHeader ? 1 : 0);
             CultureInfo ci = GetCultureInfo(Format);
             for (int row = _fromRow; row <= _toRow; row++)
             {
-                if (row == _fromRow && Format.FirstRowIsHeader)
+                if (row == _fromRow && Format.ExcludeHeader)
                 {
-                    //Write header
-                    //Write extra header with start pos & width?
                     continue;
                 }
-                /*if (SkipLines(Format, row, skipLinesBegining))
+                if (skipLinesBegining > row - _fromRow ||
+                               Format.SkipLinesEnd > _toRow - row)
                 {
                     continue;
-                }*/
-                
-                //check included columns
+                }
                 string fc ="";
                 for (int col = _fromCol; col <= _toCol; col++)
                 {
+                    if (Format.UseColumns != null && col <= Format.UseColumns.Length && col >= 0)
+                    {
+                        if (Format.UseColumns[col-1] == false)
+                        {
+                            continue;
+                        }
+                    }
                     string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
-                    var padding = Format.ColumnLengths[col-1] - t.Length;
+                    var padding = 0;
+                    if (Format.ReadStartPosition == FixedWidthRead.Widths)
+                    {
+                        padding = Format.ColumnLengths[col - 1] - t.Length;
+                    }
+                    else if (Format.ReadStartPosition == FixedWidthRead.Positions)
+                    {
+                        if (col < Format.ColumnLengths.Length && col >= 0)
+                        {
+                            padding = Format.ColumnLengths[col] - Format.ColumnLengths[col - 1] - t.Length;
+                        }
+                    }
                     if (padding > 0)
                     {
                         for (int i = 0; i < padding; i++)
@@ -280,8 +295,22 @@ namespace OfficeOpenXml
                         }
                     }
                     else if (padding < 0)
-                    { 
-                        //throw exceptoion negative padding either text is to long or set width too short
+                    {
+                        if (Format.ForceWrite)
+                        {
+                            if (Format.ReadStartPosition == FixedWidthRead.Widths)
+                            {
+                                t = t.Substring(0, Format.ColumnLengths[col - 1]);
+                            }
+                            else if (Format.ReadStartPosition == FixedWidthRead.Positions)
+                            {
+                                t = t.Substring(0, Format.ColumnLengths[col]);
+                            }
+                        }
+                        else
+                        {
+                            throw new FormatException("String was " + t.Length + ", Expected length of " + Format.ColumnLengths[col - 1]);
+                        }
                     }
                     fc += t;
                 }
@@ -291,11 +320,11 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    sw.WriteLine(fc);
+                    sw.Write(fc + Format.EOL);
                 }
-                //if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
-                sw.Flush();
             }
+            if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.Footer);
+            sw.Flush();
         }
 
 
@@ -534,7 +563,7 @@ namespace OfficeOpenXml
             {
                 Header = format.Header,
                 Footer = format.Footer,
-                FirstRowIsHeader = format.FirstRowIsHeader,
+                FirstRowIsHeader = format.ExcludeHeader,
                 UseCellFormat = format.UseCellFormat,
                 Formats = format.Formats,
                 DecimalSeparator = format.DecimalSeparator,

@@ -101,9 +101,8 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B1"].Value = 2;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.ColumnLengths = new int[] { 3, 4 };
-            format.FirstRowIsHeader = false;
             var text = _sheet.Cells["A1:B1"].ToText(format);
-            Assert.AreEqual("1  2   ", text);
+            Assert.AreEqual("1  2   " + format.EOL, text);
         }
 
         [TestMethod]
@@ -113,10 +112,9 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B1"].Value = 2;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.ColumnLengths = new int[] { 3, 4 };
-            format.FirstRowIsHeader = false;
             format.PaddingType = SpacePaddingType.Left;
             var text = _sheet.Cells["A1:B1"].ToText(format);
-            Assert.AreEqual("  1   2", text);
+            Assert.AreEqual("  1   2" + format.EOL, text);
         }
 
         [TestMethod]
@@ -135,7 +133,6 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["C3"].Value = 10;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.ColumnLengths = new int[] { 3, 4, 3};
-            format.FirstRowIsHeader = false;
             format.PaddingType = SpacePaddingType.Left;
             format.ShouldUseRow = row =>
             {
@@ -146,11 +143,11 @@ namespace EPPlusTest.SaveFunctions
                 return true;
             };
             var text = _sheet.Cells["A1:C3"].ToText(format);
-            Assert.AreEqual("  1   2  3\r\n  7   8 10\r\n", text);
+            Assert.AreEqual("  1   2  3" + format.EOL + "  7   8 10" + format.EOL, text);
         }
 
         [TestMethod]
-        public void ToTextExcludeRowFixedWidth()
+        public void ToTextExcludeColumnFixedWidth()
         {
             _sheet.Cells["A1"].Value = 1;
             _sheet.Cells["B1"].Value = 2;
@@ -165,19 +162,85 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["C3"].Value = 10;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.ColumnLengths = new int[] { 3, 4, 3 };
-            format.FirstRowIsHeader = false;
-            format.PaddingType = SpacePaddingType.Left;
-            format.ShouldUseRow = row =>
-            {
-                if (row.Contains("5"))
-                {
-                    return false;
-                }
-                return true;
-            };
+            format.UseColumns =  new bool[] { true, false, true };
             var text = _sheet.Cells["A1:C3"].ToText(format);
-            Assert.AreEqual("  1   2  3\r\n  7   8 10\r\n", text);
+            Assert.AreEqual("1  3  " + format.EOL + "4  6  " + format.EOL + "7  10 " + format.EOL, text);
         }
+
+        [TestMethod]
+        public void ToTextHeaderFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            _sheet.Cells["A2"].Value = 4;
+            _sheet.Cells["B2"].Value = 5;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4 };
+            format.ExcludeHeader = true;
+            var text = _sheet.Cells["A1:B2"].ToText(format);
+            Assert.AreEqual("4  5   " + format.EOL, text);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException), "string is too long for column width")]
+        public void ToTextMismatchColLengthFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            _sheet.Cells["A2"].Value = "this will throw an exception";
+            _sheet.Cells["B2"].Value = 5;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4 };
+            var text = _sheet.Cells["A1:B2"].ToText(format);
+        }
+
+        [TestMethod]
+        public void ToTextForceWriteColLengthFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            _sheet.Cells["A2"].Value = "this will not throw an exception";
+            _sheet.Cells["B2"].Value = 5;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4 };
+            format.ForceWrite = true;
+            var text = _sheet.Cells["A1:B2"].ToText(format);
+            Assert.AreEqual("1  2   " + format.EOL + "thi5   " + format.EOL, text);
+        }
+
+        [TestMethod]
+        public void ToTextForceWritePositionColLengthFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            _sheet.Cells["A2"].Value = "this will not throw an exception";
+            _sheet.Cells["B2"].Value = 5;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 0, 3 };
+            format.ForceWrite = true;
+            format.ReadStartPosition = FixedWidthRead.Positions;
+            var text = _sheet.Cells["A1:B2"].ToText(format);
+            Assert.AreEqual("1  2" + format.EOL + "thi5" + format.EOL, text);
+        }
+
+        [TestMethod]
+        public void ToTextSkipLinesBeginingFixedWidth()
+        {
+            _sheet.Cells["A1"].Value = 1;
+            _sheet.Cells["B1"].Value = 2;
+            _sheet.Cells["A2"].Value = 4;
+            _sheet.Cells["B2"].Value = 5;
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.ColumnLengths = new int[] { 3, 4 };
+            format.SkipLinesBeginning = 1;
+            var text = _sheet.Cells["A1:B2"].ToText(format);
+            Assert.AreEqual("4  5   " + format.EOL, text);
+        }
+
+        /* shouldUseRow CSV
+         * exclude column CSV
+         * 
+         */
 
     }
 }

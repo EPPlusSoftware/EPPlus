@@ -52,10 +52,6 @@ namespace OfficeOpenXml.LoadFunctions
             //var values = new List<object>[lines.Length];
             foreach (string line in lines)
             {
-                if (string.IsNullOrEmpty(line))
-                {
-                    continue;
-                }
                 if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
                 {
                     continue;
