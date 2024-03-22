@@ -64,7 +64,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             SchemaNodeOrder = ["sharedItems", "fieldGroup", "mpMap"];
-        }
+            
+            if (Grouping == null || Grouping.BaseIndex==Index)
+            {
+                UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
+            }
+            
+            if (Grouping != null) 
+            {
+				UpdateCacheLookupFromItems(GroupItems._list, ref _groupLookup);
+			}
+		}
         /// <summary>
         /// The index in the collection of the pivot field
         /// </summary>
@@ -1065,7 +1075,10 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 x = char.ToLower(cx);
             }
-
+            if(ConvertUtil.IsNumericOrDate(x))
+            {
+                return ConvertUtil.GetValueDouble(x);
+            }
             return x;
         }
 

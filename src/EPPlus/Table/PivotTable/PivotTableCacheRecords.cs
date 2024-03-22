@@ -10,12 +10,16 @@
  *************************************************************************************************
   10/27/2023         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -27,9 +31,93 @@ namespace EPPlusTest.Table.PivotTable
         internal PivotTableCacheRecords(PivotTableCacheInternal cache)
         {
             Cache = cache;
-        }
 
-        internal void CreateRecords()
+			var zp = cache._wb._package.ZipPackage;
+            if (zp.PartExists(cache.CacheRecordUri))
+            {
+                var part = zp.GetPart(cache.CacheRecordUri);
+                LoadRecords(part);
+            }
+            else
+            {
+                CreateRecords();
+            }
+		}
+
+		private void LoadRecords(ZipPackagePart part)
+		{
+            var reader = XmlReader.Create(part.GetStream());            
+			while (reader.Read())
+            {
+                if (reader.LocalName=="r" && reader.NodeType==XmlNodeType.Element)
+                {
+                    AddRecord(reader);
+                }
+            }
+		}
+        static CultureInfo _ic = CultureInfo.InvariantCulture;
+        static PivotNull _pivotNull = ExcelPivotTable.PivotNullValue;
+		private void AddRecord(XmlReader reader)
+		{
+            int i = 0;
+            reader.Read();
+			do
+            {
+                List<object> l;
+                if(CacheItems.Count>i)
+                {
+                    l = CacheItems[i];
+                }
+                else
+                {
+                    l = new List<object>();
+                    CacheItems.Add(l);
+                }
+                switch (reader.LocalName)
+                {
+					case "x":
+                        l.Add(int.Parse(reader.GetAttribute("v"), _ic));
+                        break;
+					case "n":
+						l.Add(double.Parse(reader.GetAttribute("v"), _ic));
+                        break;
+					case "s":
+						l.Add(reader.GetAttribute("v"));
+                        break;
+					case "b":
+						l.Add(ConvertUtil.ToBooleanString(reader.GetAttribute("v")));
+						break;
+					case "d":
+						if(ConvertUtil.TryParseDateString(reader.GetAttribute("v"), out DateTime dt))
+                        {
+                            l.Add(dt);
+                        }
+                        else
+                        {
+                            l.Add(_pivotNull);
+                        }
+						break;
+					case "e":
+                        var v = reader.GetAttribute("v");
+                        if(ExcelErrorValue.IsErrorValue(v))
+                        {
+							l.Add(ExcelErrorValue.Parse(v));
+						}
+                        else
+                        {
+							l.Add(_pivotNull);
+						}
+						break;                    
+                    case "m": 
+                        l.Add(_pivotNull);
+                        break;
+				}
+                i++;
+			}
+            while (reader.Read() && reader.LocalName != "r");
+		}
+
+		internal void CreateRecords()
         {
             var sr = Cache.SourceRange;
             var ws = sr.Worksheet;
@@ -44,19 +132,20 @@ namespace EPPlusTest.Table.PivotTable
 				}
                 else
                 {
-					lookup = Cache.Fields[f.Grouping.BaseIndex.Value]._cacheLookup;
+                    //lookup = Cache.Fields[f.Grouping.BaseIndex.Value]._cacheLookup;
+                    continue;
 				}
 
                 var l = new List<object>();
-				int c;
-				if(f.Grouping==null)
-				{
-					c = sr._fromCol + f.Index;
-				}
-                else
-                {
-					c = sr._fromCol + (f.Grouping.BaseIndex ?? f.Index);
-				}
+				//int c;
+				//if(f.Grouping==null)
+				//{
+					var c = sr._fromCol + f.Index;
+				//}
+    //            else
+    //            {
+				//	c = sr._fromCol + (f.Grouping.BaseIndex ?? f.Index);
+				//}
 
                 if (f.IsRowColumnOrPage)
                 {
@@ -91,7 +180,7 @@ namespace EPPlusTest.Table.PivotTable
         public List<List<object>> CacheItems 
         { 
             get; 
-        }= new List<List<object>>();
+        } = new List<List<object>>();
         public int RecordCount
         {
             get

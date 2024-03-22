@@ -145,7 +145,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			var recs = ci.Records;
 			var captionFilters = pivotTable.Filters.Where(x => x.Type < ePivotTableFilterType.ValueBetween).ToList();
 			var captionFilterExists = captionFilters.Count > 0;
-			var pageFilterExists = pivotTable.PageFields.Count > 0;
+			var pageFilterExists = pivotTable.PageFields.Select(x=>(x.MultipleItemSelectionAllowed && x.Items.HiddenItemIndex.Any()) || (x.MultipleItemSelectionAllowed==false && x.PageFieldSettings.SelectedItem>=0)).Count() > 0;
 			var fieldIndex = pivotTable.RowColumnFieldIndicies;
 			var keyDict = keys[keys.Count-1];
 			int index = cacheField.Index;
@@ -161,7 +161,16 @@ namespace OfficeOpenXml.Table.PivotTable
 					}
 					else
 					{
-						key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[fieldIndex[i]][r]);
+						int ix;
+						if (pivotTable.Fields[fieldIndex[i]].Grouping.BaseIndex != fieldIndex[i])
+						{
+							ix= pivotTable.Fields[fieldIndex[i]].Grouping.BaseIndex.Value;
+						}
+						else
+						{
+							ix = fieldIndex[i];
+						}
+						key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[ix][r]);						
 					}
 				}
 

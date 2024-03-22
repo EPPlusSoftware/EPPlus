@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Filter
         {
             FilterValue = GetXmlNodeDouble("d:top10/@filterVal");
             Percent = GetXmlNodeBool("d:top10/@percent");
-            Top = GetXmlNodeBool("d:top10/@top");
+            Top = GetXmlNodeBool("d:top10/@top", true);
             Value = GetXmlNodeDouble("d:top10/@val");
         }
         /// <summary>

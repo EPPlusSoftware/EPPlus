@@ -378,7 +378,42 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return value;
             }
-            return hasGrouping?ErrorValues.RefError:0D;
+            if(hasGrouping)
+            {
+                if(GroupExists(key, keyFieldIndex, dfIx)==false)
+                {
+                    return ErrorValues.RefError;
+
+				}
+            }
+            return 0D;
+		}
+
+		private bool GroupExists(int[] key, List<int> keyFieldIndex, int dfIx)
+		{
+			for(int ix=0;ix<keyFieldIndex.Count;ix++)
+            {
+                if (Fields[keyFieldIndex[ix]].Grouping!=null)
+                {
+                    var totalKey = new int[keyFieldIndex.Count];
+                    for(int i=0;i< keyFieldIndex.Count;i++)
+                    {
+                        if (i == ix)
+                        {
+                            totalKey[i] = key[i];
+						}
+                        else
+                        {
+							totalKey[i] = PivotCalculationStore.SumLevelValue;
+						}
+					}
+                    if (Keys[dfIx].ContainsKey(totalKey)==false)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
 		}
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
