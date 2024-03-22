@@ -32,6 +32,7 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelTextFormatBase() : base()
         {
+            DataTypes = null;
         }
         /// <summary>
         /// Delimiter character
@@ -41,5 +42,9 @@ namespace OfficeOpenXml
         /// Text qualifier character. Default no TextQualifier (\0)
         /// </summary>
         public char TextQualifier { get; set; } = '\0';
+        /// <summary>
+        /// Datatypes list for each column (if column is not present Unknown is assumed)
+        /// </summary>
+        public eDataTypes[] DataTypes { get; set; }
     }
 }

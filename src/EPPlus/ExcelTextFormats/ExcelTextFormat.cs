@@ -70,5 +70,7 @@ namespace OfficeOpenXml
         public ExcelTextFormat() : base()
         {
         }
+
+
     }
 }

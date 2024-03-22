@@ -21,7 +21,7 @@ namespace OfficeOpenXml
     /// <summary>
     /// 
     /// </summary>
-    public enum FixedWidthRead
+    public enum FixedWidthReadType
     {
         /// <summary>
         /// 
@@ -38,7 +38,6 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelTextFormatFixedWidthBase : ExcelAbstractTextFormat
     {
-        int[] _columnLengths;
         int _lineLength;
 
         /// <summary>
@@ -46,37 +45,35 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelTextFormatFixedWidthBase() : base()
         {
-            ColumnLengths = null;
         }
         /// <summary>
         /// 
         /// </summary>
-        public int[] ColumnLengths { 
-            get 
+        /// <param name="columnsLength"></param>
+        public ExcelTextFormatFixedWidthBase(FixedWidthReadType readType, params int[] columns) : base()
+        {
+            if (readType == FixedWidthReadType.Widths)
             {
-                return _columnLengths;
-            }
-            set 
-            {
-                if (value != null)
+                foreach (int column in columns)
                 {
-                    if (ReadStartPosition == FixedWidthRead.Widths)
-                    {
-                        var result = 0;
-                        foreach (int i in value)
-                        {
-                            result += i;
-                        }
-                        _lineLength = result;
-                    }
-                    else if(ReadStartPosition == FixedWidthRead.Positions)
-                    {
-                        _lineLength = value[value.Length-1];
-                    }
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = column });
                 }
-                _columnLengths = value;
-            } 
+            }
+            else if(readType == FixedWidthReadType.Positions)
+            {
+                foreach (int column in columns)
+                {
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = column });
+                }
+            }
+            ReadStartPosition = readType;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<ExcelTextFormatColumn> ColumnFormat { get; set; } = new List<ExcelTextFormatColumn>();
 
         /// <summary>
         /// The length of the line to read. If set to widths, LineLength is sum of all columnLengths. If set to positions, LineLength is set to the value of the last index of columnLengths
@@ -96,6 +93,6 @@ namespace OfficeOpenXml
         /// <summary>
         /// Set if we should read fixed width files from column widths or positions. Default is widths
         /// </summary>
-        public FixedWidthRead ReadStartPosition { get; set; } = FixedWidthRead.Widths;
+        public FixedWidthReadType ReadStartPosition { get; set; } = FixedWidthReadType.Widths;
     }
 }

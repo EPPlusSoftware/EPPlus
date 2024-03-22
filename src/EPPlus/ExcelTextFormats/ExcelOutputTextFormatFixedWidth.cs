@@ -20,10 +20,11 @@ namespace OfficeOpenXml
     /// <summary>
     /// 
     /// </summary>
-    public enum SpacePaddingType
+    public enum PaddingAlignmentType
     {
-        Right,
-        Left
+        Auto,
+        Left,
+        Right
     }
 
     /// <summary>
@@ -74,19 +75,5 @@ namespace OfficeOpenXml
         /// Default is two Text Qualifiers characters. For example " is replaced with "".
         /// </summary>
         public string EncodedTextQualifiers { get; set; } = null;
-        /// <summary>
-        /// 
-        /// </summary>
-        public SpacePaddingType PaddingType {get;set;} = SpacePaddingType.Right;
-        /// <summary>
-        /// Force writing to file, this will only write the n first found characters, where n is column width
-        /// </summary>
-        public bool ForceWrite { get; set; } = false;
-
-        /*
-         * padding character
-         * force read row om den är för kort// inte passa spec Loadfromfixedwidthtext(då läser vi till raden tar slut så vi inte skriver utanför length)
-         * paddingtype per cell
-         * */
     }
 }

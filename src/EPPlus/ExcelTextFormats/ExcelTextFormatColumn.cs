@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/30/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,42 +20,38 @@ using System.Text;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Describes how to split a text file. Used by the ExcelRange.LoadFromText method.
-    /// Base class for ExcelTextFormatBase, ExcelTextFormatFixedWidthBase
-    /// <seealso cref="ExcelTextFormatBase"/>
-    /// <seealso cref="ExcelTextFormatFixedWidthBase"/>
+    /// 
     /// </summary>
-    public abstract class ExcelAbstractTextFormat
+    public class ExcelTextFormatColumn
     {
         /// <summary>
         /// 
         /// </summary>
-        public ExcelAbstractTextFormat() 
-        {
-        }
+        public int Position { get; set; } = -1;
         /// <summary>
-        /// End of line characters. Default is CRLF
+        /// 
         /// </summary>
-        public string EOL { get; set; } = "\r\n";
+        public int Length { get; set; } = 0;
         /// <summary>
-        /// Culture used when parsing. Default CultureInfo.InvariantCulture
+        /// 
         /// </summary>
-        public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
+        public eDataTypes DataType { get; set; } = eDataTypes.Unknown;
         /// <summary>
-        /// Number of lines skipped in the begining of the file. Default 0.
+        /// 
         /// </summary>
-        public int SkipLinesBeginning { get; set; } = 0;
+        public char PaddingCharacter { get; set; } = ' ';
         /// <summary>
-        /// Number of lines skipped at the end of the file. Default 0.
+        /// 
         /// </summary>
-        public int SkipLinesEnd { get; set; } = 0;
+        public PaddingAlignmentType PaddingType { get; set; } = PaddingAlignmentType.Auto;
         /// <summary>
-        /// Only used when reading/writing files from disk using a FileInfo object. Default AscII
+        /// Force writing to file, this will only write the n first found characters, where n is column width
         /// </summary>
-        public Encoding Encoding { get; set; } = Encoding.ASCII;
+        public bool ForceWrite { get; set; } = false;
         /// <summary>
-        /// Will be called for each row. Should return true if the row should be used in the export/import, otherwise false
+        /// 
         /// </summary>
-        public Func<string, bool> ShouldUseRow { get; set; } = null;
+        public bool UseColumn { get; set; } = true;
+
     }
 }

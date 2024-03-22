@@ -239,92 +239,92 @@ namespace OfficeOpenXml
         /// <param name="Format">Information how to create the csv text</param>
         public void SaveToText(Stream stream, ExcelOutputTextFormatFixedWidth Format)
         {
-            if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();
-            var sw = new StreamWriter(stream, Format.Encoding);
-            if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
-            int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
+            //if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();
+            //var sw = new StreamWriter(stream, Format.Encoding);
+            //if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
+            //int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
 
-            var skipLinesBegining = Format.SkipLinesBeginning + (Format.ExcludeHeader ? 1 : 0);
-            CultureInfo ci = GetCultureInfo(Format);
-            for (int row = _fromRow; row <= _toRow; row++)
-            {
-                if (row == _fromRow && Format.ExcludeHeader)
-                {
-                    continue;
-                }
-                if (skipLinesBegining > row - _fromRow ||
-                               Format.SkipLinesEnd > _toRow - row)
-                {
-                    continue;
-                }
-                string fc ="";
-                for (int col = _fromCol; col <= _toCol; col++)
-                {
-                    if (Format.UseColumns != null && col <= Format.UseColumns.Length && col >= 0)
-                    {
-                        if (Format.UseColumns[col-1] == false)
-                        {
-                            continue;
-                        }
-                    }
-                    string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
-                    var padding = 0;
-                    if (Format.ReadStartPosition == FixedWidthRead.Widths)
-                    {
-                        padding = Format.ColumnLengths[col - 1] - t.Length;
-                    }
-                    else if (Format.ReadStartPosition == FixedWidthRead.Positions)
-                    {
-                        if (col < Format.ColumnLengths.Length && col >= 0)
-                        {
-                            padding = Format.ColumnLengths[col] - Format.ColumnLengths[col - 1] - t.Length;
-                        }
-                    }
-                    if (padding > 0)
-                    {
-                        for (int i = 0; i < padding; i++)
-                        {
-                            if (Format.PaddingType == SpacePaddingType.Right)
-                            {
-                                t += " ";
-                            }
-                            else if(Format.PaddingType == SpacePaddingType.Left)
-                            {
-                                t = " " + t;
-                            }
-                        }
-                    }
-                    else if (padding < 0)
-                    {
-                        if (Format.ForceWrite)
-                        {
-                            if (Format.ReadStartPosition == FixedWidthRead.Widths)
-                            {
-                                t = t.Substring(0, Format.ColumnLengths[col - 1]);
-                            }
-                            else if (Format.ReadStartPosition == FixedWidthRead.Positions)
-                            {
-                                t = t.Substring(0, Format.ColumnLengths[col]);
-                            }
-                        }
-                        else
-                        {
-                            throw new FormatException("String was " + t.Length + ", Expected length of " + Format.ColumnLengths[col - 1]);
-                        }
-                    }
-                    fc += t;
-                }
-                if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(fc) == false)
-                {
-                    continue;
-                }
-                else
-                {
-                    sw.Write(fc + Format.EOL);
-                }
-            }
-            if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.Footer);
-            sw.Flush();
+            //var skipLinesBegining = Format.SkipLinesBeginning + (Format.ExcludeHeader ? 1 : 0);
+            //CultureInfo ci = GetCultureInfo(Format);
+            //for (int row = _fromRow; row <= _toRow; row++)
+            //{
+            //    if (row == _fromRow && Format.ExcludeHeader)
+            //    {
+            //        continue;
+            //    }
+            //    if (skipLinesBegining > row - _fromRow ||
+            //                   Format.SkipLinesEnd > _toRow - row)
+            //    {
+            //        continue;
+            //    }
+            //    string fc ="";
+            //    for (int col = _fromCol; col <= _toCol; col++)
+            //    {
+            //        if (Format.UseColumns != null && col <= Format.UseColumns.Length && col >= 0)
+            //        {
+            //            if (Format.UseColumns[col-1] == false)
+            //            {
+            //                continue;
+            //            }
+            //        }
+            //        string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
+            //        var padding = 0;
+            //        if (Format.ReadStartPosition == FixedWidthReadType.Widths)
+            //        {
+            //            padding = Format.ColumnLengths[col - 1] - t.Length;
+            //        }
+            //        else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
+            //        {
+            //            if (col < Format.ColumnLengths.Length && col >= 0)
+            //            {
+            //                padding = Format.ColumnLengths[col] - Format.ColumnLengths[col - 1] - t.Length;
+            //            }
+            //        }
+            //        if (padding > 0)
+            //        {
+            //            for (int i = 0; i < padding; i++)
+            //            {
+            //                if (Format.PaddingType == SpacePaddingType.Right)
+            //                {
+            //                    t += Format.PaddingCharacter;
+            //                }
+            //                else if(Format.PaddingType == SpacePaddingType.Left)
+            //                {
+            //                    t = Format.PaddingCharacter + t;
+            //                }
+            //            }
+            //        }
+            //        else if (padding < 0)
+            //        {
+            //            if (Format.ForceWrite)
+            //            {
+            //                if (Format.ReadStartPosition == FixedWidthReadType.Widths)
+            //                {
+            //                    t = t.Substring(0, Format.ColumnLengths[col - 1]);
+            //                }
+            //                else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
+            //                {
+            //                    t = t.Substring(0, Format.ColumnLengths[col]);
+            //                }
+            //            }
+            //            else
+            //            {
+            //                throw new FormatException("String was " + t.Length + ", Expected length of " + Format.ColumnLengths[col - 1]);
+            //            }
+            //        }
+            //        fc += t;
+            //    }
+            //    if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(fc) == false)
+            //    {
+            //        continue;
+            //    }
+            //    else
+            //    {
+            //        sw.Write(fc + Format.EOL);
+            //    }
+            //}
+            //if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.Footer);
+            //sw.Flush();
         }
 
 

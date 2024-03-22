@@ -34,7 +34,7 @@ namespace OfficeOpenXml.LoadFunctions
                 return r;
             }
 
-            if(_format.ReadStartPosition == FixedWidthRead.Widths)
+            if(_format.ReadStartPosition == FixedWidthReadType.Widths)
             {
                 return LoadWidths();
             }
@@ -57,10 +57,10 @@ namespace OfficeOpenXml.LoadFunctions
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
                 {
 
-                    //if (string.IsNullOrEmpty(line))
-                    //{
-                    //    continue;
-                    //}
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        continue;
+                    }
                     if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
                     {
                         continue;
@@ -73,31 +73,31 @@ namespace OfficeOpenXml.LoadFunctions
                     var isText = false;
                     int readLength = 0;
                     col = 0;
-                    for (int i = 0; i < _format.ColumnLengths.Length; i++)
+                    for (int i = 0; i < _format.ColumnFormat.Count; i++)
                     {
                         string content;
                         if (i == 0)
                         {
-                            content = line.Substring(0, _format.ColumnLengths[i]);
-                            readLength += _format.ColumnLengths[i];
+                            content = line.Substring(0, _format.ColumnFormat[i].Length);
+                            readLength += _format.ColumnFormat[i].Length;
                         }
                         else
                         {
                             var v = line.Length;
-                            if (readLength + _format.ColumnLengths[i] >= v)
+                            if (readLength + _format.ColumnFormat[i].Length >= v)
                             {
                                 content = line.Substring(readLength + 1);
                             }
                             else
                             {
-                                content = line.Substring(readLength, _format.ColumnLengths[i]);
-                                readLength += _format.ColumnLengths[i];
+                                content = line.Substring(readLength, _format.ColumnFormat[i].Length);
+                                readLength += _format.ColumnFormat[i].Length;
                             }
                         }
                         content = content.Trim();
-                        if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[i]))
+                        if (_format.ColumnFormat[i].UseColumn)
                         {
-                            items.Add(ConvertData(_format, content.Trim(), col, isText));
+                            items.Add(ConvertData(_format, _format.ColumnFormat[i].DataType, content.Trim(), col, isText));
                             col++;
                         }
                     }
@@ -137,22 +137,22 @@ namespace OfficeOpenXml.LoadFunctions
                     var items = new List<object>();
                     var isText = false;
                     col = 0;
-                    for (int i = 0; i < _format.ColumnLengths.Length; i++)
+                    for (int i = 0; i < _format.ColumnFormat[i].Position; i++)
                     {
                         string content;
-                        if (i == _format.ColumnLengths.Length - 1)
+                        if (i == _format.ColumnFormat[i].Position - 1)
                         {
-                            content = line.Substring(_format.ColumnLengths[i]);
+                            content = line.Substring(_format.ColumnFormat[i].Position);
                         }
                         else
                         {
-                            var readLength = _format.ColumnLengths[i+1] - _format.ColumnLengths[i];
-                            content = line.Substring(_format.ColumnLengths[i], readLength);
+                            var readLength = _format.ColumnFormat[i + 1].Position - _format.ColumnFormat[i].Position;
+                            content = line.Substring(_format.ColumnFormat[i].Position, readLength);
                         }
                         content = content.Trim();
-                        if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[i]))
+                        if (_format.ColumnFormat[i].UseColumn)
                         {
-                            items.Add(ConvertData(_format, content.Trim(), col, isText));
+                            items.Add(ConvertData(_format, _format.ColumnFormat[i].DataType, content.Trim(), col, isText));
                             col++;
                         }
                     }

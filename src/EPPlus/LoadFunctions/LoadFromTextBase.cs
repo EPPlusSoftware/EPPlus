@@ -60,13 +60,13 @@ namespace OfficeOpenXml.LoadFunctions
             return ix + eol.Length <= text.Length;
         }
 
-        protected object ConvertData(T Format, string v, int col, bool isText)
+        protected object ConvertData(T Format, eDataTypes? dataType, string v, int col, bool isText)
         {
-            if (isText && (Format.DataTypes == null || Format.DataTypes.Length < col)) return string.IsNullOrEmpty(v) ? null : v;
+            if (isText && dataType == null ) return string.IsNullOrEmpty(v) ? null : v;
 
             double d;
             DateTime dt;
-            if (Format.DataTypes == null || Format.DataTypes.Length <= col || Format.DataTypes[col] == eDataTypes.Unknown)
+            if (dataType == null || dataType == eDataTypes.Unknown)
             {
                 string v2 = v.EndsWith("%") ? v.Substring(0, v.Length - 1) : v;
                 if (double.TryParse(v2, NumberStyles.Any, Format.Culture, out d))
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.LoadFunctions
             }
             else
             {
-                switch (Format.DataTypes[col])
+                switch (dataType)
                 {
                     case eDataTypes.Number:
                         if (double.TryParse(v, NumberStyles.Any, Format.Culture, out d))
