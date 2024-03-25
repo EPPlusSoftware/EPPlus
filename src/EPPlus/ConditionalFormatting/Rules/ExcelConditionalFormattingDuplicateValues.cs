@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -40,21 +41,22 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
         //HashSet<string> duplicates = new HashSet<string>();
-        IEnumerable<object> duplicates;
+        IEnumerable<string> duplicates;
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             if(cellValueCache.Count == 0)
             {
                 UpdateCellValueCache(true);
-                duplicates = cellValueCache.GroupBy(value => value)
+                duplicates = cellValueCache.GroupBy(value => value.ToString().ToUpper())
                                            .Where(key => key.Count() > 1)
                                            .Select(group => group.Key);
             }
 
             if(_ws.Cells[address.Address].Value != null)
             {
-                return duplicates.Contains(_ws.Cells[address.Address].Value.ToString());
+                var cellVal = _ws.Cells[address.Address].Value.ToString();
+                return duplicates.Contains(_ws.Cells[address.Address].Value.ToString().ToUpper());
             }
             return false;
         }
