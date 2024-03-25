@@ -507,7 +507,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "SUM(MyDataTable[[#This Row],['[Column'['''] 1\"]])";
             var tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual("[Column['] 1\"", tokens[9].Value);
+            Assert.AreEqual("'[Column'['''] 1\"", tokens[9].Value);
         }
 
         [TestMethod]
@@ -604,6 +604,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 			Assert.AreEqual("-", tokens[46].Value);
 			Assert.AreEqual("table1", tokens[47].Value);
 		}
-
+		[TestMethod]
+		public void ValidateEscapedCharactersInTableAddress()
+		{
+            var input = "SUM(Table1[[#This Row],['# days]])";
+			var tokens = _tokenizer.Tokenize(input);
+			Assert.AreEqual(13, tokens.Count);
+			Assert.AreEqual(TokenType.TableName, tokens[2].TokenType);
+			Assert.AreEqual(TokenType.TablePart, tokens[5].TokenType);
+			Assert.AreEqual(TokenType.TableColumn, tokens[9].TokenType);
+			Assert.AreEqual("'# days", tokens[9].Value);
+		}
 	}
 }

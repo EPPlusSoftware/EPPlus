@@ -9,6 +9,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing;
 using System.IO;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.Issues
 {
@@ -115,25 +116,25 @@ namespace EPPlusTest.Issues
 			}
 		}		
 
-        [TestMethod]
-        public void SubtractWorksheetReference()
-        {
-            const string MinusQuoteFormula = "10-'Sheet A'!A1";
-            const string SheetA = "Sheet A";
+		[TestMethod]
+		public void SubtractWorksheetReference()
+		{
+			const string MinusQuoteFormula = "10-'Sheet A'!A1";
+			const string SheetA = "Sheet A";
 
-            using var setupPackage = new ExcelPackage();
-            setupPackage.Workbook.Worksheets.Add(SheetA);
-            var sheetA = setupPackage.Workbook.Worksheets[SheetA];
-            sheetA.Cells[1, 1].Value = 3;
-            sheetA.Cells[1, 2].Formula = MinusQuoteFormula;
+			using var setupPackage = new ExcelPackage();
+			setupPackage.Workbook.Worksheets.Add(SheetA);
+			var sheetA = setupPackage.Workbook.Worksheets[SheetA];
+			sheetA.Cells[1, 1].Value = 3;
+			sheetA.Cells[1, 2].Formula = MinusQuoteFormula;
 
 			var stream = new MemoryStream();
 			setupPackage.SaveAs(stream);
 
-            using var testPackage = new ExcelPackage(stream);
-            string savedMinusQuoteFormula = testPackage.Workbook.Worksheets[SheetA].Cells[1, 2].Formula;
-            Assert.AreEqual(MinusQuoteFormula, savedMinusQuoteFormula);
-        }
+			using var testPackage = new ExcelPackage(stream);
+			string savedMinusQuoteFormula = testPackage.Workbook.Worksheets[SheetA].Cells[1, 2].Formula;
+			Assert.AreEqual(MinusQuoteFormula, savedMinusQuoteFormula);
+		}
 
 		[TestMethod]
 		public void s568()
@@ -144,38 +145,57 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
-        [TestMethod]
-        public void i1244()
-        {
-            using (var p = OpenTemplatePackage("i1245.xlsx"))
-            {
-                var wbk = p.Workbook;
-                var sht = wbk.Worksheets["TestSheet"];
+		[TestMethod]
+		public void i1244()
+		{
+			using (var p = OpenTemplatePackage("i1245.xlsx"))
+			{
+				var wbk = p.Workbook;
+				var sht = wbk.Worksheets["TestSheet"];
 
-                // Call calculate
-                wbk.Calculate();
+				// Call calculate
+				wbk.Calculate();
 
-                // Check everything is initially in order
-                Assert.AreEqual(1.0, sht.Cells["B3"].Value);
-                Assert.AreEqual(2.0, sht.Cells["C3"].Value);
-                Assert.AreEqual(2.0, sht.Cells["B4"].Value);
-                Assert.AreEqual(4.0, sht.Cells["C4"].Value);
+				// Check everything is initially in order
+				Assert.AreEqual(1.0, sht.Cells["B3"].Value);
+				Assert.AreEqual(2.0, sht.Cells["C3"].Value);
+				Assert.AreEqual(2.0, sht.Cells["B4"].Value);
+				Assert.AreEqual(4.0, sht.Cells["C4"].Value);
 
-                // Update the value of two cells
-                sht.Cells["B3"].Value = 500.0;
-                sht.Cells["B4"].Value = 500.0;
+				// Update the value of two cells
+				sht.Cells["B3"].Value = 500.0;
+				sht.Cells["B4"].Value = 500.0;
 
 
-                var form1 = sht.Cells["C3"].Formula;
-                var form2 = sht.Cells["C4"].Formula;
+				var form1 = sht.Cells["C3"].Formula;
+				var form2 = sht.Cells["C4"].Formula;
 
-                wbk.Calculate();
+				wbk.Calculate();
 
-                Assert.AreEqual(1000.0, sht.Cells["C3"].Value);
-                Assert.AreEqual(1000.0, sht.Cells["C4"].Value);
+				Assert.AreEqual(1000.0, sht.Cells["C3"].Value);
+				Assert.AreEqual(1000.0, sht.Cells["C4"].Value);
 
-                SaveAndCleanup(p);
-            }
-        }
-    }
+				SaveAndCleanup(p);
+			}
+		}
+		[TestMethod]
+		public void i1335()
+		{
+			var formula = "SUBTOTAL(109, Name1 Name2)";
+			var tokens = SourceCodeTokenizer.Default_KeepWhiteSpaces.Tokenize(formula);
+
+			Assert.AreEqual(9, tokens.Count);
+			Assert.AreEqual(TokenType.WhiteSpace, tokens[4].TokenType);
+			Assert.AreEqual(TokenType.Operator, tokens[6].TokenType);
+			Assert.AreEqual("isc", tokens[6].Value);
+		}
+		[TestMethod]
+		public void s637()
+		{
+			using (var p = OpenTemplatePackage("s637.xlsx"))
+			{
+				SaveAndCleanup(p);
+			}
+		}
+	}
 }

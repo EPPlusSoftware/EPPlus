@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 tblStyle.SetFromTemplate(table.TableStyle);
             }
 
-            var tableClass = $"{TableClass}.{HtmlExportTableUtil.TableStyleClassPrefix}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
+            var tableClass = $"{TableClass}.{HtmlExportTableUtil.TableStyleClassPrefix}{HtmlExportTableUtil.GetClassName(tblStyle.Name, $"tablestyle{table.Id}")}";
             styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
             styleWriter.AddAlignmentToCss($"{tableClass}", datatypes);
 

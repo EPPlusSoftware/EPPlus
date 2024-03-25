@@ -78,19 +78,29 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 		/// <summary>
 		/// The default tokenizer. This tokenizer will remove and ignore whitespaces.
 		/// </summary>
+		public static ISourceCodeTokenizer Default_KeepWhiteSpaces
+		{
+			get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true); }
+		}
+
+		/// <summary>
+		/// </summary>
 		public static ISourceCodeTokenizer PivotFormula
 		{
 			get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false, true); }
 		}
-		public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false, bool pivotFormula=false)
-        {
-            _r1c1 = r1c1;
+		/// <param name="functionRepository">A function name provider</param>
+		/// <param name="nameValueProvider">A name value provider</param>
+		/// <param name="r1c1">If true the tokenizer will use the R1C1 format</param>
+		/// <param name="keepWhitespace">If true whitspaces in formulas will be preserved</param>
+        /// <param name="pivotFormula">If the formula is from a calculated column in a pivot table.</param>
+		public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false, bool pivotFormula = false)
+		{
+			_r1c1 = r1c1;
             _keepWhitespace = keepWhitespace;
             _isPivotFormula = pivotFormula;
             _nameValueOrPivotFieldToken = _isPivotFormula ? TokenType.PivotField : TokenType.NameValue;
-
 		}
-
         /// <summary>
         /// Split the input string into tokens used by the formula parser
         /// </summary>
@@ -193,8 +203,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     else
                     {
                         flags &= ~statFlags.isLastCharQuote;
-                    }
-                }
+						current.Append(c);
+					}
+				}
                 else
                 {
                     if (bracketCount == 0 && isInString == 0 && IsWhiteSpace(c))
@@ -685,8 +696,24 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                    pt.TokenType == TokenType.NameValue ||
                    pt.TokenType == TokenType.Function)
                 {
-                    l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
-                }
+                    if (_keepWhitespace && l.Count > 2 && l[l.Count - 2].TokenType==TokenType.WhiteSpace)
+                    {
+                        var wsToken = l[l.Count - 2];
+						if (wsToken.Value.Length > 1) //Multiple white space?
+                        {
+                            wsToken.Value = wsToken.Value.Substring(0, wsToken.Value.Length);
+							l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
+						}
+                        else
+                        {
+							l[l.Count - 2] = new Token(Operator.IntersectIndicator, TokenType.Operator);
+						}
+					}
+					else
+                    {
+						l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
+					}
+				}
             }
 
             flags &= statFlags.isTableRef;
