@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Utils
         /// The memory manager used, if RecyclableMemoryStream are used.
 		/// <seealso cref="UseRecyclableMemory"/>
         /// </summary>
-        public RecyclableMemoryStreamManager MemoryManger 
+        public RecyclableMemoryStreamManager MemoryManager 
 		{
 			get
 			{
