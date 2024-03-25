@@ -53,6 +53,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.Last7Days, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.Last7Days;
+
+            _baseFormula = "AND(TODAY()-FLOOR({0},1)<=6,FLOOR({0},1)<=TODAY())";
+            Formula = string.Format(
+            _baseFormula,
+            Address.Start.Address);
         }
 
         internal ExcelConditionalFormattingLast7Days(ExcelConditionalFormattingLast7Days copy, ExcelWorksheet newWs = null) : base(copy, newWs)

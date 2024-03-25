@@ -49,6 +49,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.LastMonth, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.LastMonth;
+            _baseFormula = "AND(MONTH({0})=MONTH(EDATE(TODAY(),0-1)),YEAR({0})=YEAR(EDATE(TODAY(),0-1)))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
 
         internal ExcelConditionalFormattingLastMonth(ExcelConditionalFormattingLastMonth copy, ExcelWorksheet newWs = null) : base(copy, newWs)

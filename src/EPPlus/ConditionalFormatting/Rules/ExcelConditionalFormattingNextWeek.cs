@@ -49,6 +49,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.NextWeek, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.NextWeek;
+            _baseFormula = "AND(ROUNDDOWN({0},0)-TODAY()>(7-WEEKDAY(TODAY())),ROUNDDOWN({0},0)-TODAY()<(15-WEEKDAY(TODAY())))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
         #endregion
     }
