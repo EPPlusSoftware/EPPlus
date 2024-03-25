@@ -176,6 +176,29 @@ namespace EPPlusTest.Excel
         }
 
         [TestMethod]
+        public void GreaterThanEmptyString()
+        {
+            // 24<""
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                var result = ws.Calculate("24 > \"\"");
+                Assert.IsFalse((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void LessThanEmptyString()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                var result = ws.Calculate("24 < \"\"");
+                Assert.IsTrue((bool)result);
+            }
+        }
+
+        [TestMethod]
 		public void OperatorsActingOnNumericStrings()
 		{
 			double number1 = 42.0;
