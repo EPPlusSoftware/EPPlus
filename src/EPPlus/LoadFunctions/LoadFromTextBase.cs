@@ -60,6 +60,20 @@ namespace OfficeOpenXml.LoadFunctions
             return ix + eol.Length <= text.Length;
         }
 
+        protected object ConvertData(T Format, eDataTypes[] dataType, string v, int col, bool isText)
+        {
+            if (isText && (dataType == null || dataType.Length < col))
+            {
+                return string.IsNullOrEmpty(v) ? null : v;
+            }
+            else
+            {
+                if(dataType == null || dataType.Length < col)
+                    return ConvertData(Format, eDataTypes.Unknown, v, col, isText);
+                return ConvertData(Format, dataType[col], v, col, isText);
+            }
+        }
+
         protected object ConvertData(T Format, eDataTypes? dataType, string v, int col, bool isText)
         {
             if (isText && dataType == null ) return string.IsNullOrEmpty(v) ? null : v;

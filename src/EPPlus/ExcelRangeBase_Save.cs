@@ -239,92 +239,113 @@ namespace OfficeOpenXml
         /// <param name="Format">Information how to create the csv text</param>
         public void SaveToText(Stream stream, ExcelOutputTextFormatFixedWidth Format)
         {
-            //if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();
-            //var sw = new StreamWriter(stream, Format.Encoding);
-            //if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
-            //int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
+            if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();
+            if(Format.ColumnFormat == null) throw new ArgumentNullException("Format.ColumnFormat: Set ColumnFormat.Length or ColumnFormat.Position");
+            var sw = new StreamWriter(stream, Format.Encoding);
+            if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
+            int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
 
-            //var skipLinesBegining = Format.SkipLinesBeginning + (Format.ExcludeHeader ? 1 : 0);
-            //CultureInfo ci = GetCultureInfo(Format);
-            //for (int row = _fromRow; row <= _toRow; row++)
-            //{
-            //    if (row == _fromRow && Format.ExcludeHeader)
-            //    {
-            //        continue;
-            //    }
-            //    if (skipLinesBegining > row - _fromRow ||
-            //                   Format.SkipLinesEnd > _toRow - row)
-            //    {
-            //        continue;
-            //    }
-            //    string fc ="";
-            //    for (int col = _fromCol; col <= _toCol; col++)
-            //    {
-            //        if (Format.UseColumns != null && col <= Format.UseColumns.Length && col >= 0)
-            //        {
-            //            if (Format.UseColumns[col-1] == false)
-            //            {
-            //                continue;
-            //            }
-            //        }
-            //        string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
-            //        var padding = 0;
-            //        if (Format.ReadStartPosition == FixedWidthReadType.Widths)
-            //        {
-            //            padding = Format.ColumnLengths[col - 1] - t.Length;
-            //        }
-            //        else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
-            //        {
-            //            if (col < Format.ColumnLengths.Length && col >= 0)
-            //            {
-            //                padding = Format.ColumnLengths[col] - Format.ColumnLengths[col - 1] - t.Length;
-            //            }
-            //        }
-            //        if (padding > 0)
-            //        {
-            //            for (int i = 0; i < padding; i++)
-            //            {
-            //                if (Format.PaddingType == SpacePaddingType.Right)
-            //                {
-            //                    t += Format.PaddingCharacter;
-            //                }
-            //                else if(Format.PaddingType == SpacePaddingType.Left)
-            //                {
-            //                    t = Format.PaddingCharacter + t;
-            //                }
-            //            }
-            //        }
-            //        else if (padding < 0)
-            //        {
-            //            if (Format.ForceWrite)
-            //            {
-            //                if (Format.ReadStartPosition == FixedWidthReadType.Widths)
-            //                {
-            //                    t = t.Substring(0, Format.ColumnLengths[col - 1]);
-            //                }
-            //                else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
-            //                {
-            //                    t = t.Substring(0, Format.ColumnLengths[col]);
-            //                }
-            //            }
-            //            else
-            //            {
-            //                throw new FormatException("String was " + t.Length + ", Expected length of " + Format.ColumnLengths[col - 1]);
-            //            }
-            //        }
-            //        fc += t;
-            //    }
-            //    if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(fc) == false)
-            //    {
-            //        continue;
-            //    }
-            //    else
-            //    {
-            //        sw.Write(fc + Format.EOL);
-            //    }
-            //}
-            //if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.Footer);
-            //sw.Flush();
+            var skipLinesBegining = Format.SkipLinesBeginning + (Format.ExcludeHeader ? 1 : 0);
+            CultureInfo ci = GetCultureInfo(Format);
+            for (int row = _fromRow; row <= _toRow; row++)
+            {
+                if (row == _fromRow && Format.ExcludeHeader)
+                {
+                    continue;
+                }
+                if (skipLinesBegining > row - _fromRow || Format.SkipLinesEnd > _toRow - row)
+                {
+                    continue;
+                }
+                string fc = "";
+                int ix = 0;
+                for (int col = _fromCol; col <= _toCol; col++)
+                {
+                    if (Format.ColumnFormat[ix].UseColumn)
+                    {
+                        string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
+                        var padding = 0;
+                        if (Format.ReadStartPosition == FixedWidthReadType.Length)
+                        {
+                            padding = Format.ColumnFormat[ix].Length - t.Length;
+                        }
+                        else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
+                        {
+                            if (ix+1 < Format.ColumnFormat.Count)
+                            {
+                                padding = (Format.ColumnFormat[ix + 1].Position - Format.ColumnFormat[ix].Position) - t.Length;
+                            }
+                        }
+                        if (padding > 0)
+                        {
+                            PaddingAlignmentType pat = Format.ColumnFormat[ix].PaddingType;
+                            if (Format.ColumnFormat[ix].PaddingType == PaddingAlignmentType.Auto)
+                            {
+                                if (double.TryParse(t, NumberStyles.Any, Format.Culture, out double result) || t.EndsWith("%"))
+                                {
+                                    pat = PaddingAlignmentType.Right;
+                                }
+                                else
+                                {
+                                    pat = PaddingAlignmentType.Left;
+                                }
+                            }
+                            for (int i = 0; i < padding; i++)
+                            {
+                                if (pat == PaddingAlignmentType.Left)
+                                {
+                                    t += Format.PaddingCharacter;
+                                }
+                                else if (pat == PaddingAlignmentType.Right)
+                                {
+                                    t = Format.PaddingCharacter + t;
+                                }
+                            }
+                        }
+                        else if (padding < 0)
+                        {
+                            if (Format.ForceWrite)
+                            {
+                                if (Format.ReadStartPosition == FixedWidthReadType.Length)
+                                {
+                                    t = t.Substring(0, Format.ColumnFormat[ix].Length);
+                                }
+                                else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
+                                {
+                                    if(Format.ColumnFormat[ix].Length > 0)
+                                    {
+                                        t = t.Substring(0, Format.ColumnFormat[ix].Length);
+                                    }
+                                    else
+                                    {
+                                        t = t.Substring(0);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                throw new FormatException("String was " + t.Length + ", Expected length of " + Format.ColumnFormat[ix].Length);
+                            }
+                        }
+                        if (Format.ReadStartPosition == FixedWidthReadType.Positions && Format.ForceWrite)
+                        {
+                            fc = fc.Substring(0, Format.ColumnFormat[ix].Position);
+                        }
+                        fc += t;
+                    }
+                    ix++;
+                }
+                if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(fc) == false)
+                {
+                    continue;
+                }
+                else
+                {
+                    sw.Write(fc + Format.EOL);
+                }
+            }
+            if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.Footer);
+            sw.Flush();
         }
 
 

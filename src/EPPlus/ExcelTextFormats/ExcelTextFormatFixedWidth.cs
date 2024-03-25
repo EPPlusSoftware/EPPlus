@@ -28,5 +28,24 @@ namespace OfficeOpenXml
         public ExcelTextFormatFixedWidth() : base()
         {
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="columns"></param>
+        public ExcelTextFormatFixedWidth(params int[] columns) 
+        {
+            SetColumns(FixedWidthReadType.Length, columns);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="readType"></param>
+        /// <param name="columns"></param>
+        public ExcelTextFormatFixedWidth(FixedWidthReadType readType, params int[] columns) 
+        {
+            SetColumns(FixedWidthReadType.Length, columns);
+        }
     }
 }

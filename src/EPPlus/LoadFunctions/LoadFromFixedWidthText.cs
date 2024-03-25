@@ -34,7 +34,7 @@ namespace OfficeOpenXml.LoadFunctions
                 return r;
             }
 
-            if(_format.ReadStartPosition == FixedWidthReadType.Widths)
+            if(_format.ReadStartPosition == FixedWidthReadType.Length)
             {
                 return LoadWidths();
             }
@@ -65,36 +65,33 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         continue;
                     }
-                    if(line.Length < _format.LineLength)
-                    {
-                        continue;
-                    }
                     var items = new List<object>();
                     var isText = false;
                     int readLength = 0;
                     col = 0;
+                    bool lineread = false;
+                    if (line.Length < _format.LineLength && _format.ForceRead == false)
+                    {
+                        continue;
+                    }
                     for (int i = 0; i < _format.ColumnFormat.Count; i++)
                     {
                         string content;
-                        if (i == 0)
+                        if (lineread)
                         {
-                            content = line.Substring(0, _format.ColumnFormat[i].Length);
-                            readLength += _format.ColumnFormat[i].Length;
+                            continue;
+                        }
+                        if (readLength + _format.ColumnFormat[i].Length >= line.Length)
+                        {
+                            content = line.Substring(readLength);
+                            lineread = true;
                         }
                         else
                         {
-                            var v = line.Length;
-                            if (readLength + _format.ColumnFormat[i].Length >= v)
-                            {
-                                content = line.Substring(readLength + 1);
-                            }
-                            else
-                            {
-                                content = line.Substring(readLength, _format.ColumnFormat[i].Length);
-                                readLength += _format.ColumnFormat[i].Length;
-                            }
+                            content = line.Substring(readLength, _format.ColumnFormat[i].Length);
+                            readLength += _format.ColumnFormat[i].Length;
                         }
-                        content = content.Trim();
+                        content = content.Trim(_format.PaddingCharacter);
                         if (_format.ColumnFormat[i].UseColumn)
                         {
                             items.Add(ConvertData(_format, _format.ColumnFormat[i].DataType, content.Trim(), col, isText));
@@ -107,7 +104,7 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 lineNo++;
             }
-            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol ];
+            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol - 1];
         }
 
         private ExcelRangeBase LoadPositions()
@@ -130,26 +127,44 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         continue;
                     }
-                    if(line.Length <= _format.LineLength)
+                    if(line.Length <= _format.LineLength && _format.ForceRead == false)
                     {
                         continue;
                     }
                     var items = new List<object>();
                     var isText = false;
                     col = 0;
-                    for (int i = 0; i < _format.ColumnFormat[i].Position; i++)
+                    for (int i = 0; i < _format.ColumnFormat.Count; i++)
                     {
                         string content;
-                        if (i == _format.ColumnFormat[i].Position - 1)
+                        if(line.Length < _format.ColumnFormat[i].Position)
                         {
-                            content = line.Substring(_format.ColumnFormat[i].Position);
+                            continue;
+                        }
+                        if (i == _format.ColumnFormat.Count - 1)
+                        {
+                            if (_format.ColumnFormat[i].Length > 0)
+                            {
+                                content = line.Substring(_format.ColumnFormat[i].Position, _format.ColumnFormat[i].Length);
+                            }
+                            else
+                            {
+                                content = line.Substring(_format.ColumnFormat[i].Position);
+                            }                            
                         }
                         else
                         {
                             var readLength = _format.ColumnFormat[i + 1].Position - _format.ColumnFormat[i].Position;
-                            content = line.Substring(_format.ColumnFormat[i].Position, readLength);
+                            if(readLength > _format.ColumnFormat[i].Position && _format.ForceRead)
+                            {
+                                content = line.Substring(_format.ColumnFormat[i].Position);
+                            }
+                            else 
+                            {
+                                content = line.Substring(_format.ColumnFormat[i].Position, readLength);
+                            }
                         }
-                        content = content.Trim();
+                        content = content.Trim(_format.PaddingCharacter);
                         if (_format.ColumnFormat[i].UseColumn)
                         {
                             items.Add(ConvertData(_format, _format.ColumnFormat[i].DataType, content.Trim(), col, isText));

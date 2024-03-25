@@ -39,15 +39,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// 
         /// </summary>
-        public char PaddingCharacter { get; set; } = ' ';
-        /// <summary>
-        /// 
-        /// </summary>
         public PaddingAlignmentType PaddingType { get; set; } = PaddingAlignmentType.Auto;
-        /// <summary>
-        /// Force writing to file, this will only write the n first found characters, where n is column width
-        /// </summary>
-        public bool ForceWrite { get; set; } = false;
         /// <summary>
         /// 
         /// </summary>

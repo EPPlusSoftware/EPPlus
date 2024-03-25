@@ -46,5 +46,9 @@ namespace OfficeOpenXml
         /// Datatypes list for each column (if column is not present Unknown is assumed)
         /// </summary>
         public eDataTypes[] DataTypes { get; set; }
+        /// <summary>
+        /// Datatypes list for each column (if column is not present Unknown is assumed)
+        /// </summary>
+        public bool[] UseColumns { get; set; }
     }
 }

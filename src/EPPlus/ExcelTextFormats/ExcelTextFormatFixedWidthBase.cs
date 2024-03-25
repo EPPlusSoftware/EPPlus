@@ -26,7 +26,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// 
         /// </summary>
-        Widths,
+        Length,
         /// <summary>
         /// 
         /// </summary>
@@ -38,37 +38,6 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelTextFormatFixedWidthBase : ExcelAbstractTextFormat
     {
-        int _lineLength;
-
-        /// <summary>
-        /// Creates a new instance if ExcelTextFormatFixedWidthBase
-        /// </summary>
-        public ExcelTextFormatFixedWidthBase() : base()
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="columnsLength"></param>
-        public ExcelTextFormatFixedWidthBase(FixedWidthReadType readType, params int[] columns) : base()
-        {
-            if (readType == FixedWidthReadType.Widths)
-            {
-                foreach (int column in columns)
-                {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = column });
-                }
-            }
-            else if(readType == FixedWidthReadType.Positions)
-            {
-                foreach (int column in columns)
-                {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = column });
-                }
-            }
-            ReadStartPosition = readType;
-        }
-
 
         /// <summary>
         /// 
@@ -76,13 +45,35 @@ namespace OfficeOpenXml
         public List<ExcelTextFormatColumn> ColumnFormat { get; set; } = new List<ExcelTextFormatColumn>();
 
         /// <summary>
+        /// Force writing to file, this will only write the n first found characters, where n is column width
+        /// </summary>
+        public bool ForceWrite { get; set; } = false;
+
+        /// <summary>
+        /// Force Reading content. Setting this will force reading line a line that is not following column spec.
+        /// </summary>
+        public bool ForceRead { get; set; } = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        public char PaddingCharacter { get; set; } = ' ';
+
+        /// <summary>
+        /// Set if we should read fixed width files from column widths or positions. Default is widths
+        /// </summary>
+        public FixedWidthReadType ReadStartPosition { get; set; } = FixedWidthReadType.Length;
+
+        int _lineLength;
+        int _lastPosition;
+
+        /// <summary>
         /// The length of the line to read. If set to widths, LineLength is sum of all columnLengths. If set to positions, LineLength is set to the value of the last index of columnLengths
         /// </summary>
-        public int LineLength 
-        { 
-            get 
-            { 
-                return _lineLength; 
+        public int LineLength
+        {
+            get
+            {
+                return _lineLength;
             }
             set
             {
@@ -91,8 +82,85 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Set if we should read fixed width files from column widths or positions. Default is widths
+        /// The position of the last column
         /// </summary>
-        public FixedWidthReadType ReadStartPosition { get; set; } = FixedWidthReadType.Widths;
+        public int LastPosition
+        {
+            get
+            {
+                return _lastPosition;
+            }
+            set
+            {
+                _lastPosition = value;
+            }
+        }
+
+        /// <summary>
+        /// Set the column read by column width or position and data.
+        /// </summary>
+        /// <param name="readType"></param>
+        /// <param name="columns"></param>
+        public void SetColumns(FixedWidthReadType readType, params int[] columns)
+        {
+            ColumnFormat.Clear();
+            if (readType == FixedWidthReadType.Length)
+            {
+                foreach (int column in columns)
+                {
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = column });
+                    _lineLength += column;
+                    _lastPosition = _lineLength;
+                }
+            }
+            else if (readType == FixedWidthReadType.Positions)
+            {
+                foreach (int column in columns)
+                {
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = column });
+                    _lineLength = column;
+                    _lastPosition = column;
+                }
+            }
+            ReadStartPosition = readType;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="columns"></param>
+        public void SetColumnLengths(params int[] columns)
+        {
+            int i = 0;
+            foreach (int column in columns)
+            {
+                if (ColumnFormat.Count >= i)
+                {
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = column });
+                    _lineLength += column;
+                    _lastPosition = _lineLength;
+                }
+                ColumnFormat[i].Length = column;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="columns"></param>
+        public void SetColumnPositions(params int[] columns)
+        {
+            int i = 0;
+            foreach (int column in columns)
+            {
+                if (ColumnFormat.Count >= i)
+                {
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = column });
+                    _lineLength = column;
+                    _lastPosition = column;
+                }        
+                ColumnFormat[i].Position = column;
+            }
+        }
     }
 }
