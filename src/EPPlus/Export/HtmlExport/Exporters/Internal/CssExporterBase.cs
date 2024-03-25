@@ -33,7 +33,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         internal HashSet<int> _addedToCssXsf = new HashSet<int>();
 		internal HashSet<int> _addedToCssDxf = new HashSet<int>();
 
-		public CssExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
+        internal static int OrderDefaultXsf = 200;
+        internal static int OrderDefaultDxf = 100;
+
+        public CssExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
         {
             Settings = settings;
             Require.Argument(range).IsNotNull("range");
@@ -165,7 +168,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             if (sc.ShouldAdd || _addedToCssXsf.Contains(sc.Id) == false)
                             {
                                 _addedToCssXsf.Add(sc.Id);
-                                collection.AddToCollection(sc.GetStyleList(), ns, sc.Id, 100);
+                                collection.AddToCollection(sc.GetStyleList(), ns, sc.Id, OrderDefaultXsf);
                             }
                         }
                     }
@@ -194,7 +197,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             if (sc.ShouldAddWithBorders(bottomStyleId, rightStyleId) || _addedToCssXsf.Contains(sc.Id) == false)
             {
                 _addedToCssXsf.Add(sc.Id);
-                collection.AddToCollection(sc.GetStyleList(), range.Worksheet.Workbook.Styles.GetNormalStyle(), sc.Id, 100);
+                collection.AddToCollection(sc.GetStyleList(), range.Worksheet.Workbook.Styles.GetNormalStyle(), sc.Id, OrderDefaultXsf);
             }
 
             return true;
@@ -224,7 +227,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                                 {
                                     _addedToCssDxf.Add(id);
                                     var name = $".{Settings.StyleClassPrefix}{Settings.DxfStyleClassName}{id}";
-                                    cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id, 200, name);
+                                    cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id, OrderDefaultDxf + cf.Value.Priority, name);
                                 }
                             }
                             break;

@@ -534,7 +534,7 @@ namespace EPPlusTest.Export.HtmlExport
 			using (var p = OpenTemplatePackage("CondtionalFormattingHtmlExport.xlsx"))
 			{
 				var sheet1 = p.Workbook.Worksheets[0];
-				var exporterRange = p.Workbook.CreateHtmlExporter(sheet1.Cells["A2:C15"]);
+				var exporterRange = p.Workbook.CreateHtmlExporter(sheet1.Cells["A2:F15"]);
 				//exporterRange.Settings.SetColumnWidth = true;
 				//exporterRange.Settings.SetRowHeight = true;
 				//exporterRange.Settings.Minify = false;
@@ -545,5 +545,5 @@ namespace EPPlusTest.Export.HtmlExport
 				File.WriteAllText($"{_htmlOutput}CondtionalFormattingHtmlExport.html", htmlAsync);
 			}
 		}
-	}
+    }
 }

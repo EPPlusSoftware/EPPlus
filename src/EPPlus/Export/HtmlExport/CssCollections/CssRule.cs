@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         internal List<Declaration> Declarations { get; set; }
 
         internal string Selector { get; set; }
-        internal int Order {  get; set; }
+        internal int Order { get; set; } = int.MaxValue;
         
         internal CssRule(string selector, int order)
         {

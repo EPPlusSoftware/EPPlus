@@ -62,7 +62,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         /// <summary>
         /// The priority of the rule. 
-        /// A lower values are higher priority than higher values, where 1 is the highest priority.
+        /// 1 is highest priority. 2 second highest etc.
         /// </summary>
         public int Priority
         {
