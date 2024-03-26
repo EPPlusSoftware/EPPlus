@@ -40,7 +40,6 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
                     }
                     return ExcelFillStyle.Solid; 
 				}
-
                 return ExcelFillStyle.None;
             } 
         }

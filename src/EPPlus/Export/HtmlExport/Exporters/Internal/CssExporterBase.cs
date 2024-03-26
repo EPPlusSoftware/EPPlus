@@ -33,8 +33,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         internal HashSet<int> _addedToCssXsf = new HashSet<int>();
 		internal HashSet<int> _addedToCssDxf = new HashSet<int>();
 
-        internal static int OrderDefaultXsf = 200;
-        internal static int OrderDefaultDxf = 100;
+        internal static int OrderDefaultXsf = int.MaxValue -1;
+        internal static int OrderDefaultDxf = 0;
 
         public CssExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
         {

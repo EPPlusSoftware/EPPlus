@@ -390,7 +390,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Style.Fill.Style = eDxfFillStyle.PatternFill;
                     string type = xr.GetAttribute("patternType");
                     Style.Fill.PatternType = string.IsNullOrEmpty(type) ?
-                        ExcelFillStyle.None : type.ToEnum<ExcelFillStyle>();
+                        null : type.ToEnum<ExcelFillStyle>();
                     xr.Read();
 
                     if (xr.LocalName == "fgColor")
@@ -511,6 +511,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {
                     col.Tint = double.Parse(xr.GetAttribute("tint"), CultureInfo.InvariantCulture);
                 }
+
                 xr.Read();
             }
         }

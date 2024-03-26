@@ -45,8 +45,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         TranslatorContext _context;
 
-        bool _hasAddedDBGenerics = false;
-
         internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
         {
             _settings = settings;

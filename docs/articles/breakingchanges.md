@@ -120,5 +120,5 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 * EPPlus will now encode string values and in defined name .
 #### Data Validation
 * Removed DataValidationStaleException as DataValidations cannot be stale since Epplus 7.
-#### Defined Names
-* EPPlus will now encode string values and in defined name .
+#### Conditional Formatting
+* When reading conditional formatting from file Style.Fill.PatternType is now always null if the patternType attribute in the xml has not been set.
