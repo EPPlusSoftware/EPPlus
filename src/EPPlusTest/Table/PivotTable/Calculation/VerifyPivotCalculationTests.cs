@@ -5,13 +5,14 @@ using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using System.Collections.Generic;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-namespace EPPlusTest.Table.PivotTable
+namespace EPPlusTest.Table.PivotTable.Calculation
 {
 	[TestClass]
 	public class VerifyPivotCalculationTests : TestBase
 	{
 		static ExcelPackage _package;
 		static ExcelWorksheet _ptWs;
+		static ExcelWorksheet _ptWs2;
 		[ClassInitialize]
 		public static void Init(TestContext context)
 		{
@@ -24,7 +25,6 @@ namespace EPPlusTest.Table.PivotTable
 		{
 			_package.Dispose();
 		}
-
 		private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
 			var l = new List<PivotDataCriteria>();

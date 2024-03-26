@@ -93,5 +93,9 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
             return false;
         }
 
-    }
+		internal static bool IsHiddenBySlicer(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r, List<ExcelPivotTableField> slicerFields)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

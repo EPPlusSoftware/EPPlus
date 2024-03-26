@@ -38,7 +38,15 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public struct PivotNull
     {
-    }
+		/// <summary>
+        /// Return the string representation of the pivot null value
+        /// </summary>
+        /// <returns>An empty string</returns>
+        public override string ToString()
+		{
+			return "";
+		}
+	}
     /// <summary>
     /// An Excel Pivottable
     /// </summary>
@@ -388,7 +396,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return 0D;
 		}
-
 		private bool GroupExists(int[] key, List<int> keyFieldIndex, int dfIx)
 		{
 			for(int ix=0;ix<keyFieldIndex.Count;ix++)

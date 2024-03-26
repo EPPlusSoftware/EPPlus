@@ -147,6 +147,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			var captionFilterExists = captionFilters.Count > 0;
 			var pageFilterExists = pivotTable.PageFields.Select(x=>(x.MultipleItemSelectionAllowed && x.Items.HiddenItemIndex.Any()) || (x.MultipleItemSelectionAllowed==false && x.PageFieldSettings.SelectedItem>=0)).Count() > 0;
 			var fieldIndex = pivotTable.RowColumnFieldIndicies;
+			var slicerFields = pivotTable.Fields.Where(x=>x.Slicer!=null).ToList();
 			var keyDict = keys[keys.Count-1];
 			int index = cacheField.Index;
 			
@@ -155,27 +156,30 @@ namespace OfficeOpenXml.Table.PivotTable
 				var key = new int[fieldIndex.Count];
 				for (int i = 0; i < fieldIndex.Count; i++)
 				{
-					if (pivotTable.Fields[fieldIndex[i]].Grouping == null)
+					var field = pivotTable.Fields[fieldIndex[i]];
+					if (field.Grouping == null)
 					{
 						key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
 					}
 					else
 					{
 						int ix;
-						if (pivotTable.Fields[fieldIndex[i]].Grouping.BaseIndex != fieldIndex[i])
+						if (field.Grouping.BaseIndex != fieldIndex[i])
 						{
-							ix= pivotTable.Fields[fieldIndex[i]].Grouping.BaseIndex.Value;
+							ix= field.Grouping.BaseIndex.Value;
 						}
 						else
 						{
 							ix = fieldIndex[i];
 						}
-						key[i] = pivotTable.Fields[fieldIndex[i]].GetGroupingKey((int)recs.CacheItems[ix][r]);						
+						key[i] = field.GetGroupingKey((int)recs.CacheItems[ix][r]);						
 					}
 				}
 
 				if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
-					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false))
+					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false) ||
+					(slicerFields.Count > 0 || PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields))
+					)
 				{
 					var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[index][r]] : recs.CacheItems[index][r];
 					_calculateFunctions[function].AddItems(key, pivotTable.RowFields.Count, v, dataFieldItems, keyDict);

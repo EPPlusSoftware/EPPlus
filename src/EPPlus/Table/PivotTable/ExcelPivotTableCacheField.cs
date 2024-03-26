@@ -1065,21 +1065,21 @@ namespace OfficeOpenXml.Table.PivotTable
             return x.Equals(y);
         }
 
-        private static object GetCaseInsensitiveValue(object x)
+        private static string GetCaseInsensitiveValue(object x)
         {
             if (x is string sx)
             {
-                x = sx.ToLower();
-            }
+				return sx.ToLower();
+			}
             else if (x is char cx)
             {
-                x = char.ToLower(cx);
+                return char.ToLower(cx).ToString();
             }
             if(ConvertUtil.IsNumericOrDate(x))
             {
-                return ConvertUtil.GetValueDouble(x);
+                return ConvertUtil.GetValueDouble(x).ToString(CultureInfo.InvariantCulture);
             }
-            return x;
+            return x.ToString().ToLower();
         }
 
         public int GetHashCode(object obj)
