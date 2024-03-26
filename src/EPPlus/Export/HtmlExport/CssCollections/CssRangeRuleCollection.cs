@@ -80,7 +80,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _wb.ThemeManager.CreateDefaultTheme();
             }
             _theme = _wb.ThemeManager.CurrentTheme;
-            _hasAddedDBGenerics = false;
         }
 
         internal void AddSharedClasses(string tableClass)
