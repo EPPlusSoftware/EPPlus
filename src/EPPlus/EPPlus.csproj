@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>6.2.18.0</AssemblyVersion>
-    <FileVersion>6.2.18.0</FileVersion>
-    <Version>6.2.18</Version>
+    <AssemblyVersion>6.2.19.0</AssemblyVersion>
+    <FileVersion>6.2.19.0</FileVersion>
+    <Version>6.2.19</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,13 +18,19 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.2.18
+		EPPlus 6.2.19
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+		## Version 6.2.19
+		* Bug fixes.
+
+		## Version 6.2.18
+		* Bug fixes.
 
 		## Version 6.2.18
 		* Bug fixes.
@@ -347,7 +353,8 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.2.18	20240311 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.19	20240326 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.18	20240311 Minor bug fixes. 
 		6.2.17	20240215 Minor bug fixes. 
 		6.2.16	20240110 Minor bug fixes.
 		6.2.15	20231215 Minor bug fixes.

@@ -1,4 +1,8 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.19
+* Operators did not compare numeric values and strings correctly
+* NumberValue function returned #VALUE! instead of 0 when called with an empty string.
+ 
 ## Version 6.2.18
 * Setting style's (like Font for a cell) on the row level did not get the cell style from the column level causing cells intersecting to loose that style. 
 * ExcelRangeBase.SaveToText and ExcelRangeBase.SaveToTextAsync with a FileInfo did not close the file.
