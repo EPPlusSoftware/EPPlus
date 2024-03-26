@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Attributes
         {
             get;
             set;
-        }
+        } = int.MaxValue;
 
         /// <summary>
         /// This will prefix all names derived by members in the complex type.

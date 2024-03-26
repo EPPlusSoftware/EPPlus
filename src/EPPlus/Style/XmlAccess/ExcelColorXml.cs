@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 Exists = true;
             }
         }
-        decimal _tint;
+        decimal _tint = decimal.MinValue;
         /// <summary>
         /// The Tint value for the color
         /// </summary>
@@ -135,7 +135,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 _auto = false;
             }
         }
-        int _indexed;
+        int _indexed = int.MinValue;
         /// <summary>
         /// Indexed color value.
         /// Returns int.MinValue if indexed colors are not used.

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
@@ -41,6 +42,25 @@ namespace EPPlusTest.Core
             var ranges = qt.GetIntersectingRanges(new QuadRange(900, 50, 1100, 108));
             Assert.AreEqual(5, ranges.Count);
         }
+
+        [TestMethod]
+        public void QuadTreeAddressTest()
+        {
+            var qt = new QuadTree<int>(new ExcelAddress("A1:C20"));
+
+            qt.Add(new QuadRange(new ExcelAddress("A3")), 1);
+            qt.Add(new QuadRange(new ExcelAddress("B5:B10")), 2);
+            qt.Add(new QuadRange(new ExcelAddress("C2:C3")), 3);
+
+            //Not intersecting
+            qt.Add(new QuadRange(new ExcelAddress("D3")), 4);
+            qt.Add(new QuadRange(new ExcelAddress("Z5:Z10")), 5);
+            qt.Add(new QuadRange(new ExcelAddress("F2:F3")), 6);
+
+            var ranges = qt.GetIntersectingRanges(new QuadRange(new ExcelAddress("B3:E40")));
+            Assert.AreEqual(3, ranges.Count);
+        }
+
         [TestMethod]
         public void QuadLargeTest()
         {

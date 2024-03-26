@@ -1,6 +1,9 @@
 
 # Features / Fixed issues - EPPlus 7
 ## Version 7.1
+### Features
+* Improved HTMLExport
+	* The HTML exporter can now export all conditionalFormattings except Iconsets and Databars and their priority order.
 ### Fixed issues 
 * Inserting rows would cause an exception to occur in formulas in rare cases.
 * Special signs such as `'` when last in a formula would throw an exception in rare cases.
