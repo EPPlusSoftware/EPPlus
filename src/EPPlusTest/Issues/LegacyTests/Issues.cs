@@ -3121,7 +3121,7 @@ namespace EPPlusTest
         [TestMethod]
         public void s312()
         {
-            using (var p = OpenTemplatePackage("richtext.xlsx"))
+            using (var p = OpenTemplatePackage("s312.xlsx"))
             {
                 //rewrite test
                 var ws = p.Workbook.Worksheets[0];
