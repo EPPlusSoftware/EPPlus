@@ -11,6 +11,7 @@
   07/16/2020         EPPlus Software AB       EPPlus 5.2.1
  *************************************************************************************************/
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;

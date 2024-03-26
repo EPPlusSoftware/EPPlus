@@ -36,6 +36,7 @@ namespace OfficeOpenXml.LoadFunctions
             _items = items;
             _bindingFlags = parameters.BindingFlags;
             _headerParsingType = parameters.HeaderParsingType;
+            _numberFormatProvider = parameters.NumberFormatProvider;
             var type = typeof(T);
             var tableAttr = type.GetFirstAttributeOfType<EpplusTableAttribute>();
             if(tableAttr != null)
@@ -68,6 +69,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly ColumnInfo[] _columns;
         private readonly HeaderParsingTypes _headerParsingType;
         private readonly IEnumerable<T> _items;
+        private IExcelNumberFormatProvider _numberFormatProvider;
 
         internal List<string> SortOrderProperties
         {
@@ -124,9 +126,16 @@ namespace OfficeOpenXml.LoadFunctions
             int col = 0, row = 0;
             columnFormats = new Dictionary<int, string>();
             formulaCells = new Dictionary<int, FormulaCell>();
-            if (_columns.Length > 0 && PrintHeaders)
+            if (_columns.Length > 0)
             {
-                SetHeaders(values, columnFormats, ref col, ref row);
+                if(PrintHeaders)
+                {
+                    SetHeaders(values, columnFormats, ref col, ref row);
+                }
+                else
+                {
+                    SetNumberFormats(columnFormats, col);
+                }
             }
 
             if (!_items.Any() && (_columns.Length == 0 || PrintHeaders == false))
@@ -219,6 +228,65 @@ namespace OfficeOpenXml.LoadFunctions
 #endif            
         }
 
+        private string GetColumnFormatById(int numberFormatId)
+        {
+            if(_numberFormatProvider == null)
+            {
+                var attr = typeof(T).GetFirstAttributeOfType<EpplusTableAttribute>();
+                if (attr != null && attr.NumberFormatProviderType != null)
+                {
+                    _numberFormatProvider = Activator.CreateInstance(attr.NumberFormatProviderType) as IExcelNumberFormatProvider;
+                    return _numberFormatProvider.GetFormat(numberFormatId);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            else
+            {
+                return _numberFormatProvider.GetFormat(numberFormatId);
+            }
+        }
+
+        private void SetNumberFormats(Dictionary<int, string> columnFormats, int col)
+        {
+            var column = col;
+            foreach (var colInfo in _columns)
+            {
+                if(colInfo.MemberInfo == null || colInfo.MemberInfo.HasAttributeOfType<EpplusTableColumnAttribute>() == false)
+                {
+                    continue;
+                }
+                SetNumberFormatOnColumn(columnFormats, col++, colInfo);
+
+            }
+
+        }
+
+        private void SetNumberFormatOnColumn(Dictionary<int, string> columnFormats, int col, ColumnInfo colInfo)
+        {
+            if (colInfo.MemberInfo != null && colInfo.IsDictionaryProperty == false)
+            {
+                var member = colInfo.MemberInfo;
+                var epplusColumnAttribute = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
+
+                if (!string.IsNullOrEmpty(epplusColumnAttribute.NumberFormat))
+                {
+                    columnFormats.Add(col, epplusColumnAttribute.NumberFormat);
+                }
+                else if (epplusColumnAttribute.NumberFormatId > int.MinValue)
+                {
+                    var format = GetColumnFormatById(epplusColumnAttribute.NumberFormatId);
+                    if (_numberFormatProvider == null) throw new ArgumentNullException("NumberFormatProvider", "NumberFormatId was set on a column attribute, but no instance of IExcelNumberFormatProvider was supplied to the function. This can be done either via ExcelTableAttribute.NumberFormatProviderType or via the LoadFromCollectionParams.SetNumberFormatProvider method.");
+                    if (!string.IsNullOrEmpty(format))
+                    {
+                        columnFormats.Add(col, format);
+                    }
+                }
+            }
+        }
+
         private void SetHeaders(object[,] values, Dictionary<int, string> columnFormats, ref int col, ref int row)
         {
             foreach (var colInfo in _columns)
@@ -246,10 +314,7 @@ namespace OfficeOpenXml.LoadFunctions
                                 header = ParseHeader(member.Name);
                             }
                         }
-                        if (!string.IsNullOrEmpty(epplusColumnAttribute.NumberFormat))
-                        {
-                            columnFormats.Add(col, epplusColumnAttribute.NumberFormat);
-                        }
+                        SetNumberFormatOnColumn(columnFormats, col, colInfo);
                     }
                     else if (!useExistingHeader)
                     {
