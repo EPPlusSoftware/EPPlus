@@ -34,13 +34,12 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 if (_fill.HasValue)
                 {
-                    if(_fill.PatternType == null)
+                    if(_fill.PatternType.HasValue)
                     {
-                        _fill.PatternType = ExcelFillStyle.Solid;
+						return _fill.PatternType.Value;						
                     }
-                    return _fill.PatternType.Value;
-                }
-
+                    return ExcelFillStyle.Solid; 
+				}
                 return ExcelFillStyle.None;
             } 
         }
@@ -102,12 +101,12 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 
         public string GetBackgroundColor(ExcelTheme theme)
         {
-            return GetColor(_fill.BackgroundColor, theme);
-        }
+			return GetColor(_fill.BackgroundColor, theme);
+		}
 
         public string GetPatternColor(ExcelTheme theme)
         {
-            return GetColor(_fill.PatternColor, theme);
+			return GetColor(_fill.PatternColor, theme);			
         }
 
         public string GetGradientColor1(ExcelTheme theme)
@@ -144,7 +143,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
                 {
                     ret = theme._wb.Styles.GetIndexedColor(c.Index.Value);
                 }
-                else
+                else 
                 {
                     ret = Color.Empty;
                 }
@@ -152,10 +151,17 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             else
             {
                 //Automatic, set to black.
-                ret = Color.Black;
+                if (c.Auto.HasValue && c.Auto.Value)
+                {
+                    ret = Color.Empty;
+                }
+                else
+                {
+                    return null;
+                }
             }
 
-            if (c.Tint != 0)
+            if (c.HasValue && c.Tint != 0)
             {
                 ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
             }

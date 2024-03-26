@@ -73,9 +73,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Writers
 
         internal void WriteAndClearFlush(CssRuleCollection collection, bool minify)
         {
-            for (int i = 0; i < collection.CssRules.Count(); i++)
+			foreach (var rule in collection.CssRules.OrderByDescending(x=>x.Order))
             {
-                WriteRule(collection[i], minify);
+                WriteRule(rule, minify);
             }
 
             collection.CssRules.Clear();

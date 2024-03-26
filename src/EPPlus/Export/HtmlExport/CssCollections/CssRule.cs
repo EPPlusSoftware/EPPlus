@@ -21,10 +21,18 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         internal List<Declaration> Declarations { get; set; }
 
         internal string Selector { get; set; }
-
-        internal CssRule(string selector)
+        /// <summary>
+        /// Order is reversed so that int.Max values are written first. 
+        /// And the lowest value is written last.
+        /// This as Priority for conditional formattings is reversed so that 1 is the highest priority.
+        /// This would otherwise conflict with css where the Last written css style has highest priority.
+        /// </summary>
+        internal int Order { get; set; } = int.MaxValue;
+        
+        internal CssRule(string selector, int order)
         {
             Selector = selector;
+            Order = order;
             Declarations = new List<Declaration>();
         }
 

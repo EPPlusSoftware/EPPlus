@@ -62,7 +62,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         /// <summary>
         /// The priority of the rule. 
-        /// A lower values are higher priority than higher values, where 1 is the highest priority.
+        /// 1 is highest priority. 2 second highest etc.
         /// </summary>
         public int Priority
         {
@@ -390,7 +390,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Style.Fill.Style = eDxfFillStyle.PatternFill;
                     string type = xr.GetAttribute("patternType");
                     Style.Fill.PatternType = string.IsNullOrEmpty(type) ?
-                        ExcelFillStyle.None : type.ToEnum<ExcelFillStyle>();
+                        null : type.ToEnum<ExcelFillStyle>();
                     xr.Read();
 
                     if (xr.LocalName == "fgColor")
@@ -511,6 +511,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {
                     col.Tint = double.Parse(xr.GetAttribute("tint"), CultureInfo.InvariantCulture);
                 }
+
                 xr.Read();
             }
         }

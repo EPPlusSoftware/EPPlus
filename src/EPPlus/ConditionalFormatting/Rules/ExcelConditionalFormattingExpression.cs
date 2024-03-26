@@ -65,20 +65,14 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            var cellValue = _ws.Cells[address.Address].Value;
-            if (cellValue != null)
+            var result = _ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false);
+            calculatedFormula1 = string.Format(result.ToString(), CultureInfo.InvariantCulture);
+            if (ExcelErrorValue.IsErrorValue(calculatedFormula1))
             {
-                var result = _ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false);
-                calculatedFormula1 = string.Format(result.ToString(), CultureInfo.InvariantCulture);
-                if (ExcelErrorValue.IsErrorValue(calculatedFormula1))
-                {
-                    return false;
-                }
-
-               return ConvertUtil.GetValueBool(result) ?? false;
+                return false;
             }
 
-            return false;
+            return ConvertUtil.GetValueBool(result) ?? false;
         }
     }
 }

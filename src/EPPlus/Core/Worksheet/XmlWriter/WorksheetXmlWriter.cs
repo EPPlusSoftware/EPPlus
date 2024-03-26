@@ -722,6 +722,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (_ws.DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
             {
+                //Might need encode xml
                 cache.Append($"sqref=\"{_ws.DataValidations[i].Address.ToString().Replace(",", " ")}\" ");
             }
 
@@ -1583,13 +1584,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     if (!cf.IsExtLst || cf.Type == eExcelConditionalFormattingRuleType.DataBar)
                     {
-                        if (addressDict.ContainsKey(cf.Address.Address))
+                        var key = cf.Address?.Address ?? "";
+						if (addressDict.ContainsKey(key))
                         {
-                            addressDict[cf.Address.Address].Add(cf);
+                            addressDict[key].Add(cf);
                         }
                         else
                         {
-                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                            addressDict.Add(key, new List<ExcelConditionalFormattingRule>() { cf });
                         }
                     }
                 }
@@ -1604,8 +1606,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if(i == 0)
                     {
-                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\"");
-                        if (conditionalFormat.PivotTable)
+						cache.Append($"<conditionalFormatting");
+						if (conditionalFormat.Address!=null)
+                        {
+							cache.Append($" sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\"");
+						}
+						if (conditionalFormat.PivotTable)
                         {
                             cache.Append($" pivot=\"1\"");
                         }
@@ -1952,8 +1958,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                 if (format.Style.NumberFormat.HasValue)
                 {
+                    var numberFormat = format.Style.NumberFormat.Format.EncodeXMLAttribute();
+
                     cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
-                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                        $"formatCode = \"{numberFormat}\"/>");
                 }
 
                 if (format.Style.Fill.HasValue)

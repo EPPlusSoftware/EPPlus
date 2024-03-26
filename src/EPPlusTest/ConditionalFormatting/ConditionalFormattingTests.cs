@@ -2136,5 +2136,30 @@ namespace EPPlusTest.ConditionalFormatting
                 }
             }
         }
+        [TestMethod]
+        public void DoubleQuoteInNumfmtWriteReadExt()
+        {
+            using(var package = OpenPackage("CF_NumFt_ReadWrite.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("numfmt");
+                package.Workbook.Worksheets.Add("Sheet2");
+
+                var cfExpression = sheet.Cells["A1"].ConditionalFormatting.AddExpression();
+                cfExpression.Formula = "OR(Sheet2!$E$21=\"String1\",Sheet2!$E$21=\"String2\")";
+                cfExpression.Style.NumberFormat.Format = "\"S + \"0.00%";
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("CF_NumFt_ReadWrite.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var cfExpression = sheet.ConditionalFormatting[0];
+
+                Assert.AreEqual("\"S + \"0.00%", cfExpression.Style.NumberFormat.Format);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

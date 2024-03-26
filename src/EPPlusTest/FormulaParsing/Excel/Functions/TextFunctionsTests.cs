@@ -308,6 +308,14 @@ namespace EPPlusTest.Excel.Functions.Text
         }
 
         [TestMethod]
+        public void NumberValueWithEmptyStringShouldReturn0()
+        {
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(""), _parsingContext);
+            Assert.AreEqual(0d, result.Result);
+        }
+
+        [TestMethod]
         public void NumberValueShouldCastIntegerValue()
         {
             var func = new NumberValue();

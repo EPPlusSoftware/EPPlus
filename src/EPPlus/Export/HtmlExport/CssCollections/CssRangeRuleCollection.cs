@@ -45,8 +45,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         TranslatorContext _context;
 
-        bool _hasAddedDBGenerics = false;
-
         internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlRangeExportSettings settings)
         {
             _settings = settings;
@@ -106,7 +104,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         private void AddTableRule(string tableClass)
         {
-            var tableRule = new CssRule($"table.{tableClass}");
+            var tableRule = new CssRule($"table.{tableClass}", int.MaxValue);
 
             _context.SetTranslator(new CssTableTranslator(_wb.Styles.GetNormalStyle()));
             _context.AddDeclarations(tableRule);
@@ -117,7 +115,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         {
             if (_settings.Pictures.Include != ePictureInclude.Exclude && _settings.Pictures.CssExclude.Alignment == false)
             {
-                var imgClass = new CssRule($"td.{_settings.StyleClassPrefix}image-cell ");
+                var imgClass = new CssRule($"td.{_settings.StyleClassPrefix}image-cell ", int.MaxValue);
                 imgClass.AddDeclaration("vertical-align", _settings.Pictures.AddMarginTop ? "top" : "middle");
                 imgClass.AddDeclaration("text-align", _settings.Pictures.AddMarginLeft ? "left" : "center");
 
@@ -131,11 +129,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             foreach (var ws in worksheets)
             {
                 var clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1) + " ";
-                CssRule widthRule = new CssRule(clsName);
+                CssRule widthRule = new CssRule(clsName, int.MaxValue);
                 widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px");
 
                 clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1) + " ";
-                CssRule heightRule = new CssRule(clsName);
+                CssRule heightRule = new CssRule(clsName, int.MaxValue);
                 heightRule.AddDeclaration("height", $"{(int)(ws.DefaultRowHeight / 0.75)}px");
 
                 _ruleCollection.AddRule(widthRule);
@@ -143,12 +141,12 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
         }
 
-        internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id, string altName = null)
+        internal void AddToCollection(List<IStyleExport> styleList, ExcelNamedStyleXml ns, int id, int cssOrder, string altName = null)
         {
             var style = styleList[0];
             var ruleName = altName == null ? $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}{id}" : altName;
 
-            var styleClass = new CssRule(ruleName);
+            var styleClass = new CssRule(ruleName, cssOrder);
             var translators = new List<TranslatorBase>();
 
             if (style.Fill != null && style.Fill.HasValue && _context.Exclude.Fill == false)
@@ -202,7 +200,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             if (_images.Contains(pc.ImageHash) == false)
             {
                 string imageFileName = HtmlExportImageUtil.GetPictureName(p);
-                var imgRule = new CssRule($"img.{_settings.StyleClassPrefix}image-{imageFileName}");
+                var imgRule = new CssRule($"img.{_settings.StyleClassPrefix}image-{imageFileName}", int.MaxValue);
 
                 _context.SetTranslator(translator);
                 _context.AddDeclarations(imgRule);
@@ -217,7 +215,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         {
             string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
 
-            var imgProperties = new CssRule($"img.{_settings.StyleClassPrefix}image-prop-{imageName}");
+            var imgProperties = new CssRule($"img.{_settings.StyleClassPrefix}image-prop-{imageName}", int.MaxValue);
             _context.SetTranslator(new CssImagePropertiesTranslator(image));
             _context.AddDeclarations(imgProperties);
 

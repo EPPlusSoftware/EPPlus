@@ -35,7 +35,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         : base(eExcelConditionalFormattingRuleType.LastWeek, address, priority, worksheet)
         {
 			TimePeriod = eExcelConditionalFormattingTimePeriodType.LastWeek;
-
             _baseFormula = "AND(TODAY()-ROUNDDOWN({0},0)>=(WEEKDAY(TODAY())),TODAY()-ROUNDDOWN({0},0)<(WEEKDAY(TODAY())+7))";
             Formula = string.Format(_baseFormula, Address.Start.Address);
 		}
@@ -50,6 +49,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.LastWeek, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.LastWeek;
+            _baseFormula = "AND(TODAY()-ROUNDDOWN({0},0)>=(WEEKDAY(TODAY())),TODAY()-ROUNDDOWN({0},0)<(WEEKDAY(TODAY())+7))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
         #endregion
     }

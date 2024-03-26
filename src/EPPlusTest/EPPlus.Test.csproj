@@ -143,6 +143,9 @@
     <None Update="Workbooks\ArrayFormulas.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\CondtionalFormattingHtmlExport.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Workbooks\Control.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

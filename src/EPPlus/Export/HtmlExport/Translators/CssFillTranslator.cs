@@ -44,18 +44,30 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             {
                 if (_fill.PatternType == ExcelFillStyle.Solid)
                 {
-                    AddDeclaration("background-color", _fill.GetBackgroundColor(_theme));
+					var bc = _fill.GetBackgroundColor(_theme) ?? "#0";
+					if (string.IsNullOrEmpty(bc) == false)
+                    {
+                        AddDeclaration("background-color", bc);
+                    }
                 }
+                else if(_fill.PatternType == ExcelFillStyle.None)
+                {
+                    var fc = _fill.GetPatternColor(_theme);
+                    if (string.IsNullOrEmpty(fc) == false)
+                    {
+                        AddDeclaration("background-color", fc);
+                    }
+				}
                 else
                 {
-                    string bgColor = _fill.GetBackgroundColor(_theme);
-                    string patternColor = _fill.GetPatternColor(_theme);
+					string bgColor = _fill.GetBackgroundColor(_theme)??"#0";
+					string patternColor = _fill.GetPatternColor(_theme)??"#0";
 
-                    var svg = PatternFills.GetPatternSvgConvertedOnly(_fill.PatternType, bgColor, patternColor);
-                    AddDeclaration("background-repeat", "repeat");
-                    //arguably some of the values should be its own declaration...Should still work though.
-                    AddDeclaration("background", $"url(data:image/svg+xml;base64,{svg})");
-                }
+					var svg = PatternFills.GetPatternSvgConvertedOnly(_fill.PatternType, bgColor, patternColor);
+					AddDeclaration("background-repeat", "repeat");
+					//arguably some of the values should be its own declaration...Should still work though.
+					AddDeclaration("background", $"url(data:image/svg+xml;base64,{svg})");
+				}
             }
 
             return declarations;

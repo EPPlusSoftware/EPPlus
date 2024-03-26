@@ -305,7 +305,7 @@ namespace EPPlusTest.LoadFunctions
         {
             var items = new List<CClass>()
             {
-                new CClass(){ AnotherProperty = "asdjfklö "}
+                new CClass(){ AnotherProperty = "asdjfkl?"}
             };
             using (var pck = new ExcelPackage(new MemoryStream()))
             {

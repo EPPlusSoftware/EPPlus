@@ -30,7 +30,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
     internal abstract class CssExporterBase : AbstractHtmlExporter
     {
-        internal HashSet<int> _addedToCss = new HashSet<int>();
+        internal HashSet<int> _addedToCssXsf = new HashSet<int>();
+		internal HashSet<int> _addedToCssDxf = new HashSet<int>();
+
+        internal static int OrderDefaultXsf = int.MaxValue -1;
+        internal static int OrderDefaultDxf = 0;
 
         public CssExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
         {
@@ -161,10 +165,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         }
                         else
                         {
-                            if (sc.ShouldAdd || _addedToCss.Contains(sc.Id) == false)
+                            if (sc.ShouldAdd || _addedToCssXsf.Contains(sc.Id) == false)
                             {
-                                _addedToCss.Add(sc.Id);
-                                collection.AddToCollection(sc.GetStyleList(), ns, sc.Id);
+                                _addedToCssXsf.Add(sc.Id);
+                                collection.AddToCollection(sc.GetStyleList(), ns, sc.Id, OrderDefaultXsf);
                             }
                         }
                     }
@@ -190,10 +194,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
             var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
 
-            if (sc.ShouldAddWithBorders(bottomStyleId, rightStyleId) || _addedToCss.Contains(sc.Id) == false)
+            if (sc.ShouldAddWithBorders(bottomStyleId, rightStyleId) || _addedToCssXsf.Contains(sc.Id) == false)
             {
-                _addedToCss.Add(sc.Id);
-                collection.AddToCollection(sc.GetStyleList(), range.Worksheet.Workbook.Styles.GetNormalStyle(), sc.Id);
+                _addedToCssXsf.Add(sc.Id);
+                collection.AddToCollection(sc.GetStyleList(), range.Worksheet.Workbook.Styles.GetNormalStyle(), sc.Id, OrderDefaultXsf);
             }
 
             return true;
@@ -219,11 +223,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             if (cf.Value.Style.HasValue)
                             {
                                 var style = new StyleDxf(cf.Value.Style);
-                                if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id) || _addedToCss.Contains(id) == false)
+                                if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id) || _addedToCssDxf.Contains(id) == false)
                                 {
-                                    _addedToCss.Add(id);
-                                    var name = $".{Settings.StyleClassPrefix}{Settings.CellStyleClassName}-dxf.id{id}";
-                                    cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id, name);
+                                    _addedToCssDxf.Add(id);
+                                    var name = $".{Settings.StyleClassPrefix}{Settings.DxfStyleClassName}{id}";
+                                    cssTranslator.AddToCollection(new List<IStyleExport>() { style }, normalStyle, id, OrderDefaultDxf + cf.Value.Priority, name);
                                 }
                             }
                             break;

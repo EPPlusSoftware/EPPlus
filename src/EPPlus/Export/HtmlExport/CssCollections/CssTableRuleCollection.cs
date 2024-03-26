@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 element.Style.HasValue &&
                 element.Style.Font.HasValue)
             {
-                var styleClass = new CssRule($"table.{name} a");
+                var styleClass = new CssRule($"table.{name} a", int.MaxValue);
 
                 var ft = new CssFontTranslator(new FontDxf(element.Style.Font), null);
 
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
                 if (styleId > -1)
                 {
-                    var styleClass = new CssRule($"table.{name} td:nth-child({col})");
+                    var styleClass = new CssRule($"table.{name} td:nth-child({col})", int.MaxValue);
 
                     var xfs = new StyleXml(_table.WorkSheet.Workbook.Styles.CellXfs[styleId]);
                     var translator = new CssTableTextFormatTranslator(xfs, rightDefault);
@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             var s = element.Style;
 
-            var styleClass = new CssRule($"table.{name}{htmlElement}");
+            var styleClass = new CssRule($"table.{name}{htmlElement}",int.MaxValue);
 
             var translators = new List<TranslatorBase>();
 
@@ -143,7 +143,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             var s = new StyleDxf(element.Style);
 
-            var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ");
+            var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ", int.MaxValue);
             if (s.Border != null)
             {
                 var translator = new CssBorderTranslator(s.Border);
@@ -167,7 +167,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 tblStyle.SetFromTemplate(table.TableStyle);
             }
 
-            var tableClass = $"{tableClassPreset}{HtmlExportTableUtil.GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
+            var tableClass = $"{tableClassPreset}{HtmlExportTableUtil.GetClassName(tblStyle.Name, $"tablestyle{table.Id}")}";
 
             AddHyperlink($"{tableClass}", tblStyle.WholeTable);
             AddAlignment($"{tableClass}", datatypes);

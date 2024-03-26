@@ -152,8 +152,19 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             else
             {
                 //Automatic, set to black.
-                ret = Color.Black;
-            }
+                if(c.Auto)
+                {
+					ret = Color.Black;
+				}
+                else if(c.Exists)
+                {
+                    ret= Color.Empty;
+                }
+                else
+                {
+                    return null;
+                }
+			}
             if (c.Tint != 0)
             {
                 ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
