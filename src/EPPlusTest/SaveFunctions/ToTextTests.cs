@@ -95,6 +95,58 @@ namespace EPPlusTest.SaveFunctions
         }
 
         [TestMethod]
+        public void UseRowText()
+        {
+            _sheet.Cells["A1"].Value = "a";
+            _sheet.Cells["B1"].Value = "b";
+            _sheet.Cells["C1"].Value = "c";
+            _sheet.Cells["A2"].Value = "d";
+            _sheet.Cells["B2"].Value = "e";
+            _sheet.Cells["C2"].Value = "f";
+            _sheet.Cells["A3"].Value = "g";
+            _sheet.Cells["B3"].Value = "h";
+            _sheet.Cells["C3"].Value = "i";
+            var format = new ExcelOutputTextFormat
+            {
+                TextQualifier = '\'',
+                FirstRowIsHeader = false
+            };
+            format.ShouldUseRow = row => {
+                if (row.Contains("e"))
+                {
+                    return false;
+                }
+                return true;
+            };
+            var text = _sheet.Cells["A1:C3"].ToText(format);
+
+            Assert.AreEqual("\'a\',\'b\',\'c\'" + format.EOL + "\'g\',\'h\',\'i\'", text);
+        }
+
+        [TestMethod]
+        public void UseColumnText()
+        {
+            _sheet.Cells["A1"].Value = "a";
+            _sheet.Cells["B1"].Value = "b";
+            _sheet.Cells["C1"].Value = "c";
+            _sheet.Cells["A2"].Value = "d";
+            _sheet.Cells["B2"].Value = "e";
+            _sheet.Cells["C2"].Value = "f";
+            _sheet.Cells["A3"].Value = "g";
+            _sheet.Cells["B3"].Value = "h";
+            _sheet.Cells["C3"].Value = "i";
+            var format = new ExcelOutputTextFormat
+            {
+                TextQualifier = '\'',
+                FirstRowIsHeader = false
+            };
+            format.UseColumns = [true, false, true];
+            var text = _sheet.Cells["A1:C3"].ToText(format);
+
+            Assert.AreEqual("\'a\',\'c\'" + format.EOL + "\'d\',\'f\'" + format.EOL + "'g','i'", text);
+        }
+
+        [TestMethod]
         public void ToTextFixedWidth()
         {
             _sheet.Cells["A1"].Value = "Value";
@@ -257,7 +309,6 @@ namespace EPPlusTest.SaveFunctions
         }
 
         /* 
-         * shouldUseRow CSV saving
          * exclude column CSV saving
          */
     }

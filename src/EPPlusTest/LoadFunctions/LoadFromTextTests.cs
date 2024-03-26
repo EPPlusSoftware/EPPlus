@@ -172,7 +172,6 @@ namespace EPPlusTest.LoadFunctions
             AddLine("a,b,c");
             AddLine("d,e,f");
             AddLine("g,h,i");
-            _format.ShouldUseRow = row => row.Contains("e");
             _format.ShouldUseRow = row => {
                 if (row.Contains("e"))
                 {

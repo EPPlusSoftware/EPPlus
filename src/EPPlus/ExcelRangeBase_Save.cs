@@ -176,23 +176,38 @@ namespace OfficeOpenXml
                 {
                     continue;
                 }
-
+                string finalRow = "";
+                int ix = 0;
                 for (int col = _fromCol; col <= _toCol; col++)
                 {
-                    string t = GetTextCSV(Format, maxFormats, ci, row, col, out bool isText);
+                    if (Format.UseColumns == null || Format.UseColumns[ix])
+                    {
+                        string t = GetTextCSV(Format, maxFormats, ci, row, col, out bool isText);
 
-                    if (hasTextQ && isText)
-                    {
-                        sw.Write(Format.TextQualifier);
-                        sw.Write(t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers));
-                        sw.Write(Format.TextQualifier);
+                        if (hasTextQ && isText)
+                        {
+                            finalRow += Format.TextQualifier;
+                            finalRow += t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers);
+                            finalRow += Format.TextQualifier;
+                            //sw.Write(Format.TextQualifier);
+                            //sw.Write(t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers));
+                            //sw.Write(Format.TextQualifier);
+                        }
+                        else
+                        {
+                            finalRow += t;
+                            //sw.Write(t);
+                        }
+                        if (col != _toCol) finalRow += (Format.Delimiter);
+                        //if (col != _toCol) sw.Write(Format.Delimiter);
                     }
-                    else
-                    {
-                        sw.Write(t);
-                    }
-                    if (col != _toCol) sw.Write(Format.Delimiter);
+                    ix++;
                 }
+                if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(finalRow) == false)
+                {
+                    continue;
+                }
+                sw.Write(finalRow);
                 if (row != _toRow - Format.SkipLinesEnd) sw.Write(Format.EOL);
             }
             if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
