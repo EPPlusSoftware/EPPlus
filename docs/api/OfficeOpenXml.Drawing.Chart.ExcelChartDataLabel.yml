@@ -23,6 +23,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.ShowValue
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.SourceLinked
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.ThreeD
   langs:
   - csharp
@@ -42,7 +43,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nDatalabel on chart level. \nThis class is inherited by ExcelChartSerieDataLabel\n"
+  summary: "\nData labels on the chart level. \nThis class is inherited by ExcelChartSerieDataLabel\n"
   example: []
   syntax:
     content: 'public abstract class ExcelChartDataLabel : XmlHelper'
@@ -681,6 +682,43 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
+  id: TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  langs:
+  - csharp
+  - vb
+  name: TextSettings
+  nameWithType: ExcelChartDataLabel.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextSettings
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
+    startLine: 229
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nText settings like fills, text outlines and effects \n"
+  example: []
+  syntax:
+    content: public ExcelDrawingTextSettings TextSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+    content.vb: Public ReadOnly Property TextSettings As ExcelDrawingTextSettings
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
   id: TextBody
@@ -699,7 +737,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-    startLine: 249
+    startLine: 264
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -736,7 +774,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPosText
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-    startLine: 267
+    startLine: 282
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -775,7 +813,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPosEnum
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-    startLine: 296
+    startLine: 311
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1255,6 +1293,17 @@ references:
   name: OfficeOpenXml.Style
   nameWithType: OfficeOpenXml.Style
   fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
+  name: TextSettings
+  nameWithType: ExcelChartDataLabel.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDrawingTextSettings
+  nameWithType: ExcelDrawingTextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
   name: TextBody

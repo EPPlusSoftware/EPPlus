@@ -17,11 +17,11 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfStyleConditionalFormatting
-    path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
     startLine: 20
   assemblies:
   - EPPlus
@@ -69,11 +69,11 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
-    path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
     startLine: 34
   assemblies:
   - EPPlus
@@ -106,12 +106,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
-    path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
-    startLine: 45
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -146,12 +146,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
-    path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
-    startLine: 81
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleConditionalFormatting.cs
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

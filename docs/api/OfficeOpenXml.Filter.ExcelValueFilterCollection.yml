@@ -156,18 +156,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
-    startLine: 42
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
-  summary: "\nAdd a filter value that will be matched agains the ExcelRange.Text property\n"
+  summary: "\n<p>Add a filter value that will be matched agains the ExcelRange.Text property</p>\nIf value is &quot;&quot; or null sets Blank=True instead of adding.\n"
   example: []
   syntax:
     content: public ExcelFilterValueItem Add(ExcelFilterValueItem item)
     parameters:
     - id: item
       type: OfficeOpenXml.Filter.ExcelFilterValueItem
-      description: The value
+      description: The value to add. If &quot;&quot; or null sets Blank=True instead.
     return:
       type: OfficeOpenXml.Filter.ExcelFilterValueItem
       description: The filter value item
@@ -195,18 +195,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
-    startLine: 52
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
-  summary: "\nAdd a filter value that will be matched agains the ExcelRange.Text property\n"
+  summary: "\n<p>Add a filter value that will be matched agains the ExcelRange.Text property</p>\nIf value is &quot;&quot; or null sets Blank=True instead of adding.\n"
   example: []
   syntax:
     content: public ExcelFilterValueItem Add(string value)
     parameters:
     - id: value
       type: System.String
-      description: The value
+      description: The value to add. If &quot;&quot; or null sets Blank=True instead.
     return:
       type: OfficeOpenXml.Filter.ExcelFilterValueItem
       description: The filter value item
@@ -234,7 +234,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
-    startLine: 61
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -266,7 +266,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
-    startLine: 69
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -302,7 +302,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
-    startLine: 77
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter

@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.ExcelRange.Item(System.Int32,System.Int32)
   - OfficeOpenXml.ExcelRange.Item(System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.ExcelRange.Item(System.String)
+  - OfficeOpenXml.ExcelRange.SetFormula(System.String,System.Boolean)
   langs:
   - csharp
   - vb
@@ -22,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -260,7 +261,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -304,7 +305,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 105
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -351,7 +352,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 134
+    startLine: 135
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -386,6 +387,45 @@ items:
   - ReadOnly
   fullName.vb: OfficeOpenXml.ExcelRange.Item(System.Int32, System.Int32, System.Int32, System.Int32)
   name.vb: Item(Int32, Int32, Int32, Int32)
+- uid: OfficeOpenXml.ExcelRange.SetFormula(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRange.SetFormula(System.String,System.Boolean)
+  id: SetFormula(System.String,System.Boolean)
+  parent: OfficeOpenXml.ExcelRange
+  langs:
+  - csharp
+  - vb
+  name: SetFormula(String, Boolean)
+  nameWithType: ExcelRange.SetFormula(String, Boolean)
+  fullName: OfficeOpenXml.ExcelRange.SetFormula(System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetFormula
+    path: ../src/EPPlus/ExcelRange.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the formula for the range.\n"
+  example: []
+  syntax:
+    content: public void SetFormula(string formula, bool asSharedFormula = true)
+    parameters:
+    - id: formula
+      type: System.String
+      description: The formula for the range.
+    - id: asSharedFormula
+      type: System.Boolean
+      description: If the formula should be created as a shared formula. If false each cell will be set individually. This can be useful if the formula returns a dynamic array result.
+    content.vb: Public Sub SetFormula(formula As String, asSharedFormula As Boolean = True)
+  overload: OfficeOpenXml.ExcelRange.SetFormula*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml
   commentId: N:OfficeOpenXml
@@ -10954,3 +10994,15 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: OfficeOpenXml.ExcelRange.SetFormula*
+  commentId: Overload:OfficeOpenXml.ExcelRange.SetFormula
+  name: SetFormula
+  nameWithType: ExcelRange.SetFormula
+  fullName: OfficeOpenXml.ExcelRange.SetFormula
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

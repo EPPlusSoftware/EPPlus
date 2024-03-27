@@ -15,6 +15,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Position
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
   langs:
   - csharp
@@ -341,11 +342,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-    startLine: 255
+    startLine: 256
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nEffects\n"
+  summary: "\nEffects on the legend shape. \nNote that the Text effects are set using the <xref href=\"OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings\" data-throw-if-not-resolved=\"false\"></xref> property.\n"
   example: []
   syntax:
     content: public ExcelDrawingEffectStyle Effect { get; }
@@ -354,6 +355,43 @@ items:
       type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
     content.vb: Public ReadOnly Property Effect As ExcelDrawingEffectStyle
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  id: TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  langs:
+  - csharp
+  - vb
+  name: TextSettings
+  nameWithType: ExcelChartLegend.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextSettings
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
+    startLine: 271
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nText settings like fills, text outlines and effects \n"
+  example: []
+  syntax:
+    content: public ExcelDrawingTextSettings TextSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+    content.vb: Public ReadOnly Property TextSettings As ExcelDrawingTextSettings
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings*
   modifiers.csharp:
   - public
   - get
@@ -378,7 +416,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-    startLine: 270
+    startLine: 287
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -415,7 +453,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-    startLine: 289
+    startLine: 306
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -447,7 +485,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-    startLine: 298
+    startLine: 315
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -935,6 +973,12 @@ references:
   name: ExcelTextBody
   nameWithType: ExcelTextBody
   fullName: OfficeOpenXml.Drawing.ExcelTextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: TextSettings
+  nameWithType: ExcelChartLegend.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect
   name: Effect
@@ -946,11 +990,28 @@ references:
   name: ExcelDrawingEffectStyle
   nameWithType: ExcelDrawingEffectStyle
   fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartLegend
+  nameWithType: ExcelChartLegend
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
 - uid: OfficeOpenXml.Drawing.Style.Effect
   commentId: N:OfficeOpenXml.Drawing.Style.Effect
   name: OfficeOpenXml.Drawing.Style.Effect
   nameWithType: OfficeOpenXml.Drawing.Style.Effect
   fullName: OfficeOpenXml.Drawing.Style.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  name: TextSettings
+  nameWithType: ExcelChartLegend.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDrawingTextSettings
+  nameWithType: ExcelDrawingTextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
   name: ThreeD

@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+  id: IBorder
+  parent: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: IBorder
+  nameWithType: IBorder
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IBorder.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IBorder
+    path: ../src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IBorder.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  summary: "\nFor internal use\n"
+  example: []
+  syntax:
+    content: public interface IBorder
+    content.vb: Public Interface IBorder
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  commentId: N:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  name: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  nameWithType: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts

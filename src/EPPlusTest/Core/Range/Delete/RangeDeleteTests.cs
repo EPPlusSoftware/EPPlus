@@ -1532,6 +1532,5 @@ namespace EPPlusTest.Core.Range.Delete
 
             Assert.AreEqual("XLOOKUP($A$2,$B:$B,$C:$C)", sheet.Cells["A1"].Formula);
 		}
-
 	}
 }

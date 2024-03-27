@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// A referens to the richtext collection
         /// </summary>
-        public ExcelRichTextCollection _collection { get; set; }
+        internal ExcelRichTextCollection _collection { get; set; }
 
         #region RichText Properties Attributes
         /// <summary>

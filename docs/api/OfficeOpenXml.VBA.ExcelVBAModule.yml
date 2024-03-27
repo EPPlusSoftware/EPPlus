@@ -70,7 +70,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 41
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -107,7 +107,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 90
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -144,7 +144,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Code
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 96
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -181,7 +181,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpContext
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 113
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -218,7 +218,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Attributes
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 117
+    startLine: 118
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -255,7 +255,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 121
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -292,7 +292,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadOnly
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 125
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -329,7 +329,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Private
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 129
+    startLine: 130
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -366,7 +366,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Vba/ExcelVbaModule.cs
-    startLine: 138
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA

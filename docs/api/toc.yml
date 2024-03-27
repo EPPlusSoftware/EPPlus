@@ -449,8 +449,6 @@
   items:
   - uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
     name: DataValidationFormulaTooLongException
-  - uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
-    name: DataValidationStaleException
 - uid: OfficeOpenXml.DataValidation.Formulas.Contracts
   name: OfficeOpenXml.DataValidation.Formulas.Contracts
   items:
@@ -772,6 +770,8 @@
     name: ExcelChartTrendlineLabel
   - uid: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
     name: ExcelDoughnutChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+    name: ExcelDrawingTextSettings
   - uid: OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
     name: ExcelHistogramChartSeries
   - uid: OfficeOpenXml.Drawing.Chart.ExcelLineChart
@@ -1269,6 +1269,21 @@
   items:
   - uid: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
     name: HtmlTableExportSettings
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  name: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  items:
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+    name: IBorder
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorderItem
+    name: IBorderItem
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFill
+    name: IFill
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+    name: IFont
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+    name: IStyleColor
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleExport
+    name: IStyleExport
 - uid: OfficeOpenXml.Export.ToCollection
   name: OfficeOpenXml.Export.ToCollection
   items:
@@ -1600,6 +1615,8 @@
   items:
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
     name: IOperator
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+    name: LimitedOperators
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
     name: Operator
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
@@ -1726,6 +1743,8 @@
 - uid: OfficeOpenXml.LoadFunctions
   name: OfficeOpenXml.LoadFunctions
   items:
+  - uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+    name: IExcelNumberFormatProvider
   - uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
     name: LoadFunctionFunctionParamsBase
 - uid: OfficeOpenXml.LoadFunctions.Params
@@ -1922,6 +1941,8 @@
   items:
   - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase
     name: DxfStyleBase
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+    name: ExcelDxfAlignment
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
     name: ExcelDxfBorderBase
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderItem
@@ -1942,6 +1963,8 @@
     name: ExcelDxfGradientFillColorCollection
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
     name: ExcelDxfNumberFormat
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfProtection
+    name: ExcelDxfProtection
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfSlicerStyle
     name: ExcelDxfSlicerStyle
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle

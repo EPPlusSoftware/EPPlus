@@ -3,13 +3,24 @@
 ## Version 7.1
 ### Features
 * Improved HTMLExport
-	* The HTML exporter can now export all conditionalFormattings except Iconsets and Databars and their priority order.
+	* The HTML exporter can now export all conditional formatting's except icon sets and data bars and their priority order.
+* Improved performance on range rich text.
+* ExcelRangeBase.LoadFromCollection improvment:
+  * Number format for columns added via LoadFromCollection can be set in runtime via the IExcelNumberFormatProvider interface.
 ### Fixed issues 
 * Inserting rows would cause an exception to occur in formulas in rare cases.
 * Special signs such as `'` when last in a formula would throw an exception in rare cases.
-* Reading Conditional Formattings with property PivotTable = true failed to read in property.
-* Tokenize an intersect operator with the _keepWhitespaces set, caused both a white-space token and a intesect operator to be added.
+* Reading Conditional Formatting's with property PivotTable = true failed to read in property.
+* Tokenize an intersect operator with the _keepWhitespaces set, caused both a white-space token and an intersect operator to be added.
 * Added Exception when over maximum data validations that excel allows.
+* Fixed sort order in LoadFromCollection. Instances of MemberInfo supplied to the function will always override sort order set via attributes.
+* The DeleteRow method could cause formulas that referenced the delete range from another worksheet to become corrupt in some cases.
+* The DeleteRow method did not update the end cell in the "ref" address for share/array formulas in some cases.
+* Fixed handling of double quotes in conditional formatting number formats.
+* Having an escaped character (as for example # or [) in a table address corrupted the formula.
+* Having a conditional formatting cfRule without an address caused the reading of the workbook to hang.
+* Extended charts failed to load if the xml namespace prefix was not standard.
+
 
 ## Version 7.0.10
 ### Fixed issues 

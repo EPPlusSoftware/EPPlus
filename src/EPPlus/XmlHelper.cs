@@ -1350,12 +1350,12 @@ namespace OfficeOpenXml
             return newExt;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        public static bool GetRichTextPropertyBool(XmlNode n)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="n"></param>
+		/// <returns></returns>
+		internal static bool GetRichTextPropertyBool(XmlNode n)
         {
             bool ret = false;
             if (n != null)
@@ -1369,13 +1369,13 @@ namespace OfficeOpenXml
             return ret;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="n"></param>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        public static ExcelUnderLineType GetRichTextPropertyUnderlineType(XmlNode n, out bool val)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="n"></param>
+		/// <param name="val"></param>
+		/// <returns></returns>
+		internal static ExcelUnderLineType GetRichTextPropertyUnderlineType(XmlNode n, out bool val)
         {
             if (n != null)
             {
@@ -1389,7 +1389,7 @@ namespace OfficeOpenXml
             return ExcelUnderLineType.None;
         }
 
-        public static ExcelVerticalAlignmentFont GetRichTextPropertyVerticalAlignmentFont(XmlNode n)
+		internal static ExcelVerticalAlignmentFont GetRichTextPropertyVerticalAlignmentFont(XmlNode n)
         {
             if (n != null)
             {
@@ -1398,7 +1398,7 @@ namespace OfficeOpenXml
             return ExcelVerticalAlignmentFont.None;
         }
 
-        public static float GetRichTextProperyFloat(XmlNode n)
+		internal static float GetRichTextProperyFloat(XmlNode n)
         {
             if (n != null)
             {
@@ -1410,7 +1410,7 @@ namespace OfficeOpenXml
             return 0f;
         }
 
-        public static string GetRichTextPropertyString(XmlNode n) 
+		internal static string GetRichTextPropertyString(XmlNode n) 
         {
             if (n != null)
             {
@@ -1419,7 +1419,7 @@ namespace OfficeOpenXml
             return null;
         }
 
-        public static ExcelRichTextColor GetRichTextPropertyColor(XmlNode n, ExcelRichText rt)
+		internal static ExcelRichTextColor GetRichTextPropertyColor(XmlNode n, ExcelRichText rt)
         {
             ExcelRichTextColor ColorSettings = new ExcelRichTextColor();
             if (n != null)
@@ -1448,7 +1448,7 @@ namespace OfficeOpenXml
             return ColorSettings;
         }
 
-        public static int GetRichTextPropertyInt(XmlNode n)
+        internal static int GetRichTextPropertyInt(XmlNode n)
         {
             if (n != null)
             {

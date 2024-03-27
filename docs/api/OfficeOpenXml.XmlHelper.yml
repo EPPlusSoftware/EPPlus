@@ -19,7 +19,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XmlHelper
     path: ../src/EPPlus/XmlHelper.cs
-    startLine: 28
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -56,6 +56,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineLabel
+  - OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColor
@@ -146,9 +147,6 @@ items:
   - OfficeOpenXml.Sparkline.ExcelSparklineColor
   - OfficeOpenXml.Sparkline.ExcelSparklineGroup
   - OfficeOpenXml.Style.ExcelParagraphCollection
-  - OfficeOpenXml.Style.ExcelRichText
-  - OfficeOpenXml.Style.ExcelRichTextCollection
-  - OfficeOpenXml.Style.ExcelRichTextColor
   - OfficeOpenXml.Style.ExcelSlicerTableStyleElement
   - OfficeOpenXml.Style.ExcelTableStyleElement
   - OfficeOpenXml.Style.ExcelTextFont

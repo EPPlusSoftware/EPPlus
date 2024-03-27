@@ -1,0 +1,114 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  commentId: T:OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  id: IExcelNumberFormatProvider
+  parent: OfficeOpenXml.LoadFunctions
+  children:
+  - OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: IExcelNumberFormatProvider
+  nameWithType: IExcelNumberFormatProvider
+  fullName: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/IExcelNumberFormatProvider.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelNumberFormatProvider
+    path: ../src/EPPlus/LoadFunctions/IExcelNumberFormatProvider.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nThis interface is used to provide number formats for ranges\nin runtime. The number formats are mapped to a number that can be used\nto refer to a specific format.\n"
+  example: []
+  syntax:
+    content: public interface IExcelNumberFormatProvider
+    content.vb: Public Interface IExcelNumberFormatProvider
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat(System.Int32)
+  commentId: M:OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat(System.Int32)
+  id: GetFormat(System.Int32)
+  parent: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  langs:
+  - csharp
+  - vb
+  name: GetFormat(Int32)
+  nameWithType: IExcelNumberFormatProvider.GetFormat(Int32)
+  fullName: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/IExcelNumberFormatProvider.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetFormat
+    path: ../src/EPPlus/LoadFunctions/IExcelNumberFormatProvider.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nReturns a number format by its <code data-dev-comment-type=\"paramref\" class=\"paramref\">numberFormatId</code>\n"
+  example: []
+  syntax:
+    content: string GetFormat(int numberFormatId)
+    parameters:
+    - id: numberFormatId
+      type: System.Int32
+      description: ''
+    return:
+      type: System.String
+      description: A number format that can be used on <xref href="OfficeOpenXml.ExcelRangeBase?text=ranges" data-throw-if-not-resolved="false"></xref>
+    content.vb: Function GetFormat(numberFormatId As Integer) As String
+  overload: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat*
+references:
+- uid: OfficeOpenXml.LoadFunctions
+  commentId: N:OfficeOpenXml.LoadFunctions
+  name: OfficeOpenXml.LoadFunctions
+  nameWithType: OfficeOpenXml.LoadFunctions
+  fullName: OfficeOpenXml.LoadFunctions
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat
+  name: GetFormat
+  nameWithType: IExcelNumberFormatProvider.GetFormat
+  fullName: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider.GetFormat
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

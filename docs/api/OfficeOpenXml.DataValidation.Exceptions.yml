@@ -5,7 +5,6 @@ items:
   id: OfficeOpenXml.DataValidation.Exceptions
   children:
   - OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
-  - OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
   langs:
   - csharp
   - vb
@@ -21,8 +20,3 @@ references:
   name: DataValidationFormulaTooLongException
   nameWithType: DataValidationFormulaTooLongException
   fullName: OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
-- uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
-  commentId: T:OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
-  name: DataValidationStaleException
-  nameWithType: DataValidationStaleException
-  fullName: OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException

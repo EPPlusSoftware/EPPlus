@@ -69,7 +69,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFilter
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 59
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -105,7 +105,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 93
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -142,7 +142,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 143
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -179,7 +179,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearAll
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 154
+    startLine: 157
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter

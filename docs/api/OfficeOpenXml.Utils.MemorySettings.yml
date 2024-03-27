@@ -5,7 +5,7 @@ items:
   id: MemorySettings
   parent: OfficeOpenXml.Utils
   children:
-  - OfficeOpenXml.Utils.MemorySettings.MemoryManger
+  - OfficeOpenXml.Utils.MemorySettings.MemoryManager
   - OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
   langs:
   - csharp
@@ -46,23 +46,23 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManger
-  commentId: P:OfficeOpenXml.Utils.MemorySettings.MemoryManger
-  id: MemoryManger
+- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  commentId: P:OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  id: MemoryManager
   parent: OfficeOpenXml.Utils.MemorySettings
   langs:
   - csharp
   - vb
-  name: MemoryManger
-  nameWithType: MemorySettings.MemoryManger
-  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManger
+  name: MemoryManager
+  nameWithType: MemorySettings.MemoryManager
+  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManager
   type: Property
   source:
     remote:
       path: src/EPPlus/Utils/RecyclableMemory.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: MemoryManger
+    id: MemoryManager
     path: ../src/EPPlus/Utils/RecyclableMemory.cs
     startLine: 21
   assemblies:
@@ -71,12 +71,12 @@ items:
   summary: "\nThe memory manager used, if RecyclableMemoryStream are used.\n<xref href=\"OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public RecyclableMemoryStreamManager MemoryManger { get; set; }
+    content: public RecyclableMemoryStreamManager MemoryManager { get; set; }
     parameters: []
     return:
       type: Microsoft.IO.RecyclableMemoryStreamManager
-    content.vb: Public Property MemoryManger As RecyclableMemoryStreamManager
-  overload: OfficeOpenXml.Utils.MemorySettings.MemoryManger*
+    content.vb: Public Property MemoryManager As RecyclableMemoryStreamManager
+  overload: OfficeOpenXml.Utils.MemorySettings.MemoryManager*
   modifiers.csharp:
   - public
   - get
@@ -421,11 +421,11 @@ references:
 - uid: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
   commentId: P:OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
   isExternal: true
-- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManger*
-  commentId: Overload:OfficeOpenXml.Utils.MemorySettings.MemoryManger
-  name: MemoryManger
-  nameWithType: MemorySettings.MemoryManger
-  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManger
+- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManager*
+  commentId: Overload:OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  name: MemoryManager
+  nameWithType: MemorySettings.MemoryManager
+  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManager
 - uid: Microsoft.IO.RecyclableMemoryStreamManager
   commentId: T:Microsoft.IO.RecyclableMemoryStreamManager
   parent: Microsoft.IO

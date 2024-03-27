@@ -260,7 +260,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-    startLine: 142
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -300,7 +300,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-    startLine: 156
+    startLine: 160
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

@@ -41,7 +41,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHeaderFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 193
+    startLine: 244
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -89,7 +89,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageNumber
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 199
+    startLine: 250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -124,7 +124,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfPages
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 203
+    startLine: 254
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,7 +159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontColor
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 209
+    startLine: 260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -194,7 +194,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SheetName
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 213
+    startLine: 264
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -229,7 +229,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FilePath
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 217
+    startLine: 268
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -264,7 +264,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FileName
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 221
+    startLine: 272
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -299,7 +299,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentDate
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 225
+    startLine: 276
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -334,7 +334,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentTime
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 229
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -369,7 +369,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Image
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 233
+    startLine: 284
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -404,7 +404,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineStyle
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 237
+    startLine: 288
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -439,7 +439,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShadowStyle
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 241
+    startLine: 292
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -474,7 +474,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlignWithMargins
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 274
+    startLine: 325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -511,7 +511,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: differentOddEven
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 292
+    startLine: 343
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -548,7 +548,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: differentFirst
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 311
+    startLine: 362
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -585,7 +585,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScaleWithDocument
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 328
+    startLine: 379
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -622,7 +622,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OddHeader
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 345
+    startLine: 396
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -659,7 +659,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OddFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 359
+    startLine: 410
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -696,7 +696,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EvenHeader
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 374
+    startLine: 425
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -733,7 +733,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EvenFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 389
+    startLine: 440
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -770,7 +770,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstHeader
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 404
+    startLine: 455
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -807,7 +807,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 419
+    startLine: 470
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -844,7 +844,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pictures
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 435
+    startLine: 486
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
