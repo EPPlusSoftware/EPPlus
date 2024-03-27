@@ -46,8 +46,7 @@ namespace OfficeOpenXml.Style
             _cells = cells;
             if (!string.IsNullOrEmpty(s))
             {
-                var item = new ExcelRichText(s, this);
-                _list.Add(item);
+                Add(s);
             }
         }
 
@@ -186,6 +185,15 @@ namespace OfficeOpenXml.Style
                 rt.Size = style.Font.Size;
                 rt.Bold = style.Font.Bold;
                 rt.Italic = style.Font.Italic;
+                rt.PreserveSpace = true;
+                rt.UnderLine = style.Font.UnderLine;
+                int hex;
+                var s = _cells.Worksheet.GetStyleInner(_cells._fromRow, _cells._fromCol);
+                var fnt = _cells.Worksheet.Workbook.Styles.GetStyleObject(s, _cells.Worksheet.PositionId, ExcelAddressBase.GetAddress(_cells._fromRow, _cells._fromCol)).Font;
+                if (fnt.Color.Rgb != "" && int.TryParse(fnt.Color.Rgb, NumberStyles.HexNumber, null, out hex))
+                {
+                    rt.Color = Color.FromArgb(hex);
+                }
                 _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._toCol, true, CellFlags.RichText);
                 _cells.SetIsRichTextFlag(true);
             }

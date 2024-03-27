@@ -1459,7 +1459,6 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                     var item = new ExcelRichTextCollection(text, r);
                     SetValue(row, col, item);
                     return item;
