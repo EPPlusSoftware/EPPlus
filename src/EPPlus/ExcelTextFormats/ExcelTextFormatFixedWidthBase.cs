@@ -218,5 +218,23 @@ namespace OfficeOpenXml
                 i++;
             }
         }
+
+        /// <summary>
+        /// Set flag for each column to be used. 
+        /// </summary>
+        /// <param name="Names"></param>
+        public void SetColumnsNames(params string[] Names)
+        {
+            int i = 0;
+            foreach (string name in Names)
+            {
+                if (ColumnFormat.Count <= i)
+                {
+                    return;
+                }
+                ColumnFormat[i].Name = name;
+                i++;
+            }
+        }
     }
 }

@@ -379,5 +379,27 @@ namespace EPPlusTest.LoadFunctions
             }
         }
 
+        [TestMethod]
+        public void ReadFileFromDiskAndSaveAsXLSXFixedWidth2()
+        {
+            string myFile = File.ReadAllText("C:\\Users\\AdrianParnéus\\Documents\\Test\\FW2.txt");
+            FileInfo myFileInfo = new FileInfo("C:\\Users\\AdrianParnéus\\Documents\\Test\\FW2.txt");
+            using (var p = OpenTemplatePackage("Fixed2.xlsx"))
+            {
+                //Read length
+                var ws = p.Workbook.Worksheets.Add("TEST");
+                ExcelTextFormatFixedWidth fw = new ExcelTextFormatFixedWidth();
+                fw.SkipLinesBeginning = 36;
+                fw.SkipLinesEnd = 6;
+                int[] arr = { 0, 15, 31, 42, 54, 61 };
+                fw.SetColumns(FixedWidthReadType.Positions, arr);
+                fw.SetColumnsNames("Name", "Position", "Prot", "Entry_Name", "Code", "Description");
+                ws.Cells["A1"].LoadFromText(myFileInfo, fw, TableStyles.Dark10, true);
+
+
+
+                p.Save();
+            }
+        }
     }
 }

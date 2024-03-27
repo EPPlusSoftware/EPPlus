@@ -25,6 +25,10 @@ namespace OfficeOpenXml
     public class ExcelTextFormatColumn
     {
         /// <summary>
+        /// The name of the column
+        /// </summary>
+        public string Name { get; set; } = "";
+        /// <summary>
         /// The start position of the column, is equal to -1 if not set
         /// </summary>
         public int Position { get; set; } = -1;
@@ -44,6 +48,5 @@ namespace OfficeOpenXml
         /// Flag to set if column should be used when reading and writing fixed width text.
         /// </summary>
         public bool UseColumn { get; set; } = true;
-
     }
 }

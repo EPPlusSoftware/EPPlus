@@ -34,7 +34,7 @@ namespace OfficeOpenXml.LoadFunctions
                 return r;
             }
 
-            if(_format.ReadStartPosition == FixedWidthReadType.Length)
+            if (_format.ReadStartPosition == FixedWidthReadType.Length)
             {
                 return LoadWidths();
             }
@@ -52,6 +52,23 @@ namespace OfficeOpenXml.LoadFunctions
             var maxCol = 1;
             var row = 0;
             var lineNo = 1;
+
+            var columnNames = new List<object>();
+            for (int i = 0; i < _format.ColumnFormat.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(_format.ColumnFormat[i].Name) && _format.ColumnFormat[i].UseColumn && row == 0)
+                {
+                    columnNames.Add(_format.ColumnFormat[i].Name);
+                    col++;
+                }
+            }
+            if (columnNames.Count > 0)
+            {
+                _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, columnNames);
+                if (col > maxCol) maxCol = col;
+                row++;
+            }
+
             foreach (string line in lines)
             {
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
@@ -115,6 +132,24 @@ namespace OfficeOpenXml.LoadFunctions
             var maxCol = 1;
             var row = 0;
             var lineNo = 1;
+
+            var columnNames = new List<object>();
+            for (int i = 0; i < _format.ColumnFormat.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(_format.ColumnFormat[i].Name) && _format.ColumnFormat[i].UseColumn && row == 0)
+                {
+                    columnNames.Add(_format.ColumnFormat[i].Name);
+                    col++;
+                }
+            }
+            if(columnNames.Count > 0)
+            {
+                _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, columnNames);
+                if (col > maxCol) maxCol = col;
+                row++;
+            }
+
+
             foreach (string line in lines)
             {
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
@@ -131,11 +166,12 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         continue;
                     }
-                    var items = new List<object>();
                     var isText = false;
+                    var items = new List<object>();
                     col = 0;
                     for (int i = 0; i < _format.ColumnFormat.Count; i++)
                     {
+
                         string content;
                         if(line.Length < _format.ColumnFormat[i].Position)
                         {
