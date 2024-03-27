@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Attributes
         {
             get;
             set;
-        }
+        } = int.MaxValue;
 
         /// <summary>
         /// Name shown in the header row, overriding the property name
@@ -50,6 +50,16 @@ namespace OfficeOpenXml.Attributes
             get;
             set;
         }
+
+        /// <summary>
+        /// A number to be used in a NumberFormatProvider.
+        /// Default value is int.MinValue, which means it will be ignored.
+        /// </summary>
+        public int NumberFormatId
+        {
+            get;
+            set;
+        } = int.MinValue;
 
         /// <summary>
         /// If true, the entire column will be hidden.

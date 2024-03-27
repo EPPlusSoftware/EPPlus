@@ -34,9 +34,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         : base(eExcelConditionalFormattingRuleType.ThisMonth, address, priority, worksheet)
         {
             TimePeriod = eExcelConditionalFormattingTimePeriodType.ThisMonth;
-            Formula = string.Format(
-              "AND(MONTH({0})=MONTH(TODAY()), YEAR({0})=YEAR(TODAY()))",
-              Address.Start.Address);
+            _baseFormula = "AND(MONTH({0})=MONTH(TODAY()), YEAR({0})=YEAR(TODAY()))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
 
         /// <summary>
@@ -49,6 +48,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.ThisMonth, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.ThisMonth;
+            _baseFormula = "AND(MONTH({0})=MONTH(TODAY()), YEAR({0})=YEAR(TODAY()))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
         #endregion
     }

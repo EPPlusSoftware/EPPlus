@@ -201,7 +201,7 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ExcelComment comment = ws.Cells[1, 1].AddComment("My Comment", "Me");
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
-                ws.Cells[1, 1].IsRichText = true;
+                ws.Cells[1, 1].RichText.Add("RichText");
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
             }
         }
@@ -264,6 +264,43 @@ namespace EPPlusTest
 
                 // Check the comment is deleted
                 Assert.AreEqual(0, ws.Comments.Count);
+            }
+        }
+        [TestMethod]
+        public void TestAddComments()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CommentSheet");
+            ws.Cells[2, 2].Value = "hallo";
+            ExcelComment comment = ws.Cells[2, 2].AddComment("hallo\r\nLine 2", "hallo");
+            comment.Font.FontName = "Arial";
+            comment.AutoFit = true;
+        }
+        [TestMethod]
+        public void TestCreateSaveAndReadComment()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("CommentCreateSaveAndRead");
+                var A1 = ws.Cells["A1"];
+                A1.Value = "This cell has a ";
+                var rt = A1.RichText.Add("comment");
+                rt.Bold = true;
+                rt.Italic = true;
+
+                A1.AddComment("This is the ", "Myself");
+                var comRt = A1.Comment.RichText.Add("comment");
+                comRt.Bold = true;
+                comRt.Italic = true;
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    var ws2 = p2.Workbook.Worksheets[0];
+                    Assert.AreEqual("Myself", ws2.Cells["A1"].Comment.Author);
+                    Assert.AreEqual("This is the comment", ws2.Cells["A1"].Comment.Text);
+                    Assert.AreEqual("comment", ws2.Cells["A1"].Comment.RichText[1].Text);
+                    Assert.IsTrue(ws2.Cells["A1"].Comment.RichText[1].Bold);
+                    Assert.IsTrue(ws2.Cells["A1"].Comment.RichText[1].Italic);
+                }
             }
         }
     }

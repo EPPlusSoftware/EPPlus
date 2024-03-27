@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace EPPlusTest.Export.HtmlExport
 {
@@ -17,9 +18,9 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using(var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8, new Dictionary<string, int>());
+                var writer = new HtmlWriter(ms, Encoding.UTF8);
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
-                writer.RenderEndTagAsync().Wait();
+                writer.RenderEndTagAsync(HtmlElements.Table).Wait();
                 var reader = new StreamReader(ms);
                 ms.Position = 0;
                 var result = reader.ReadToEnd();
@@ -32,10 +33,14 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8, new Dictionary<string, int>());
-                writer.AddAttribute(HtmlAttributes.Class, "myClass");
-                writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
-                writer.RenderEndTagAsync().Wait();
+                var writer = new HtmlWriter(ms, Encoding.UTF8);
+
+                var attributes = new List<EpplusHtmlAttribute> { new EpplusHtmlAttribute() };
+                attributes[0].AttributeName = HtmlAttributes.Class;
+                attributes[0].Value = "myClass";
+
+                writer.RenderBeginTagAsync( HtmlElements.Table, attributes).Wait();
+                writer.RenderEndTagAsync(HtmlElements.Table).Wait();
                 var reader = new StreamReader(ms);
                 ms.Position = 0;
                 var result = reader.ReadToEnd();
@@ -48,12 +53,17 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8, new Dictionary<string, int>());
-                writer.AddAttribute(HtmlAttributes.Href, "http://epplussoftware.com");
-                writer.AddAttribute(HtmlAttributes.Target, "_blank");
-                writer.RenderBeginTagAsync(HtmlElements.A).Wait();
+                var writer = new HtmlWriter(ms, Encoding.UTF8);
+
+                var attributes = new List<EpplusHtmlAttribute>
+                {
+                    new EpplusHtmlAttribute { AttributeName = HtmlAttributes.Href, Value = "http://epplussoftware.com" },
+                    new EpplusHtmlAttribute { AttributeName = HtmlAttributes.Target, Value = "_blank" }
+                };
+
+                writer.RenderBeginTagAsync(HtmlElements.A, attributes).Wait();
                 writer.WriteAsync("EPPlus Software").Wait();
-                writer.RenderEndTagAsync().Wait();
+                writer.RenderEndTagAsync(HtmlElements.A).Wait();
                 var reader = new StreamReader(ms);
                 ms.Position = 0;
                 var result = reader.ReadToEnd();
@@ -66,19 +76,19 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8, new Dictionary<string, int>());
+                var writer = new HtmlWriter(ms, Encoding.UTF8);
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
                 writer.RenderBeginTagAsync(HtmlElements.Thead).Wait();
                 writer.RenderBeginTagAsync(HtmlElements.TableRow).Wait();
                 writer.RenderBeginTagAsync(HtmlElements.TableHeader).Wait();
                 writer.WriteAsync("test1").Wait();
-                writer.RenderEndTagAsync().Wait();
+                writer.RenderEndTagAsync(HtmlElements.TableHeader).Wait();
                 writer.RenderBeginTagAsync(HtmlElements.TableHeader).Wait();
                 writer.WriteAsync("test2").Wait();
-                writer.RenderEndTagAsync().Wait();
-                writer.RenderEndTagAsync().Wait();
-                writer.RenderEndTagAsync().Wait();
-                writer.RenderEndTagAsync().Wait();
+                writer.RenderEndTagAsync(HtmlElements.TableHeader).Wait();
+                writer.RenderEndTagAsync(HtmlElements.TableRow).Wait();
+                writer.RenderEndTagAsync(HtmlElements.Thead).Wait();
+                writer.RenderEndTagAsync(HtmlElements.Table).Wait();
                 var reader = new StreamReader(ms);
                 ms.Position = 0;
                 var result = reader.ReadToEnd();
@@ -91,7 +101,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8, new Dictionary<string, int>());
+                var writer = new HtmlWriter(ms, Encoding.UTF8);
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
                 writer.Indent++;
                 writer.WriteLineAsync().Wait();
@@ -99,13 +109,13 @@ namespace EPPlusTest.Export.HtmlExport
                 writer.Indent++;
                 writer.WriteLineAsync().Wait();
                 writer.RenderBeginTagAsync(HtmlElements.TableRow).Wait();
-                writer.RenderEndTagAsync().Wait();
+                writer.RenderEndTagAsync(HtmlElements.TableRow).Wait();
                 writer.Indent--;
                 writer.WriteLineAsync().Wait();
-                writer.RenderEndTagAsync().Wait();
+                writer.RenderEndTagAsync(HtmlElements.Thead).Wait();
                 writer.Indent--;
                 writer.WriteLineAsync().Wait();
-                writer.RenderEndTagAsync().Wait();
+                writer.RenderEndTagAsync(HtmlElements.Table).Wait();
                 var reader = new StreamReader(ms);
                 ms.Position = 0;
                 var result = reader.ReadToEnd();

@@ -166,5 +166,13 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
+		[TestMethod]
+		public void s643()
+		{
+			using (var p = OpenTemplatePackage("s643.xlst"))
+			{
+				SaveWorkbook("s643.xlsx", p);
+			}
+		}
 	}
 }

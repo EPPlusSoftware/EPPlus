@@ -184,8 +184,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     else
                     {
                         flags &= ~statFlags.isLastCharQuote;
-                    }
-                }
+						current.Append(c);
+					}
+				}
                 else
                 {
                     if (bracketCount == 0 && isInString == 0 && IsWhiteSpace(c))

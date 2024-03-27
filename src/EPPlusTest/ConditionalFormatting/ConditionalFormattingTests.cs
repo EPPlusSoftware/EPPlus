@@ -88,9 +88,12 @@ namespace EPPlusTest.ConditionalFormatting
 
             string lastWeek = $"{lastWeekDate.Year}-{lastWeekDate.Month}-";
 
-            string lastMonth = $"{year}-{DateTime.Now.AddMonths(-1).Month}-";
+
+            var lastMonthDT = DateTime.Now.AddMonths(-1);
+            string lastMonth = $"{lastMonthDT.Year}-{lastMonthDT.Month}-";
             string thisMonth = $"{year}-{DateTime.Now.Month}-";
-            string nextMonth = $"{year}-{DateTime.Now.AddMonths(+1).Month}-";
+            var nextMonthDT = DateTime.Now.AddMonths(+1);
+            string nextMonth = $"{nextMonthDT.Year}-{nextMonthDT.Month}-";
 
             for (int i = 1; i < 11; i++)
             {
@@ -1830,6 +1833,26 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        public void GetCFFromRange()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("basicSheet");
+
+                for(int i = 1; i < 2100; i++)
+                {
+                    sheet.Cells[1, i].ConditionalFormatting.AddContainsBlanks();
+                    sheet.Cells[i, 1].ConditionalFormatting.AddBottomPercent();
+                    sheet.Cells[1, i].ConditionalFormatting.AddDatabar(Color.Red);
+                }
+
+                var dictCon = sheet.Cells["A1:E5"].ConditionalFormatting.GetConditionalFormattings();
+                Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()[0].Type, 
+                    eExcelConditionalFormattingRuleType.ContainsBlanks);
+            }
+        }
+
+        [TestMethod]
         public void CF_PriorityTest()
         {
             using (var pck = new ExcelPackage())
@@ -1934,6 +1957,8 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(cfBetween.Priority, 4);
 
                 var copiedSheet = pck.Workbook.Worksheets.Add("copySheet", firstSheet);
+
+                pck.Workbook.Worksheets[0].Cells["A1:D50"].ConditionalFormatting.GetConditionalFormattings();
 
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
@@ -2109,6 +2134,31 @@ namespace EPPlusTest.ConditionalFormatting
 
                     SaveAndCleanup(beltAndBraces);
                 }
+            }
+        }
+        [TestMethod]
+        public void DoubleQuoteInNumfmtWriteReadExt()
+        {
+            using(var package = OpenPackage("CF_NumFt_ReadWrite.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("numfmt");
+                package.Workbook.Worksheets.Add("Sheet2");
+
+                var cfExpression = sheet.Cells["A1"].ConditionalFormatting.AddExpression();
+                cfExpression.Formula = "OR(Sheet2!$E$21=\"String1\",Sheet2!$E$21=\"String2\")";
+                cfExpression.Style.NumberFormat.Format = "\"S + \"0.00%";
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("CF_NumFt_ReadWrite.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var cfExpression = sheet.ConditionalFormatting[0];
+
+                Assert.AreEqual("\"S + \"0.00%", cfExpression.Style.NumberFormat.Format);
+
+                SaveAndCleanup(package);
             }
         }
     }

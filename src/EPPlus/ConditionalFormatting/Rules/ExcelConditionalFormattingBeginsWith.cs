@@ -12,6 +12,7 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -151,6 +152,27 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                if (_ws.Cells[address.Start.Address].Value != null)
+                {
+                    var cellString = _ws.Cells[address.Start.Address].Value.ToString();
+
+                    if (Formula2 != null)
+                    {
+                        return CultureInfo.CurrentCulture.CompareInfo.IsPrefix(cellString, Formula2);
+                    }
+                    else
+                    {
+                        return CultureInfo.CurrentCulture.CompareInfo.IsPrefix(cellString, _text);
+                    }
+                }
+            }
+
+            return false;
+        }
 
         #endregion Constructors
 

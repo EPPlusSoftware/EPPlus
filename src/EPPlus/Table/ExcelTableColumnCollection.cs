@@ -11,6 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Encryption;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -94,6 +96,16 @@ namespace OfficeOpenXml.Table
                 {
                     return null;
                 }
+            }
+        }
+
+        internal void UpdateColName(int dictIndex, string newName)
+        {
+            var pair = _colNames.FirstOrDefault(t => t.Value == dictIndex);
+            if(pair.Key != null)
+            {
+                _colNames.Remove(pair.Key);
+                _colNames.Add(newName, dictIndex);
             }
         }
 

@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/10/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
+using OfficeOpenXml.LoadFunctions;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -90,6 +91,16 @@ namespace OfficeOpenXml.Attributes
         /// in the Value property of each cell.
         /// </summary>
         public bool AutoCalculate
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// If set, this <see cref="Type"/> must be implementing the <see cref="IExcelNumberFormatProvider"/> interface. If not an Exception will be thrown.
+        /// Note that the implementing type must have an empty constructor.
+        /// </summary>
+        public Type NumberFormatProviderType
         {
             get;
             set;

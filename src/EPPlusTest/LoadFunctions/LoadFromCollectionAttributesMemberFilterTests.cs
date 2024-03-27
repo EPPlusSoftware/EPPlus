@@ -46,6 +46,37 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldFilterNestedPropertiesByMemberListNested()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var items = new List<LfcaTestClass1>
+                {
+                    new LfcaTestClass1{ Id = 1, Item = new LfcaTestClass2{ Id = 2, Name = "Test 1"}},
+                    new LfcaTestClass1{ Id = 3, Item = new LfcaTestClass2{ Id = 4, Name = "Test 1"}}
+                };
+                var t = typeof(LfcaTestClass1);
+                var t2 = typeof(LfcaTestClass2);
+                sheet.Cells["A1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.Members = new MemberInfo[]
+                    {
+                        t.GetProperty("Id"),
+                        t.GetProperty("Item"),
+                        t2.GetProperty("Name"),
+                        t2.GetProperty("Id")
+                    };
+                });
+
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Class 2 Name", sheet.Cells["B1"].Value);
+                Assert.AreEqual("Class 2 Id", sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void ShouldFilterNestedPropertiesByMemberList2()
         {
             using (var package = new ExcelPackage())

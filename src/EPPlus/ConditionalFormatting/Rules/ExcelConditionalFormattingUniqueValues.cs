@@ -11,12 +11,16 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    internal class ExcelConditionalFormattingUniqueValues : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingUniqueValues : CachingCF,
     IExcelConditionalFormattingUniqueValues
     {
         #region Constructors
@@ -48,6 +52,32 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal ExcelConditionalFormattingUniqueValues(ExcelConditionalFormattingUniqueValues copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
             Rank = copy.Rank;
+        }
+
+        IEnumerable<object> uniques;
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            uniques = null;
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if(cellValueCache.Count == 0)
+            {
+                UpdateCellValueCache();
+                uniques = cellValueCache.GroupBy(i => i)
+                             .Where(g => g.Count() == 1)
+                             .Select(g => g.First());
+            }
+            
+            if(uniques.Contains(_ws.Cells[address.Address].Value))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)

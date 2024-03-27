@@ -80,7 +80,7 @@ namespace EPPlusTest.LoadFunctions
             public int Number { get; set; }
         }
         [System.ComponentModel.Description("The color Red")]
-        internal enum Aenum
+        internal enum AnEnum
         {
             [System.ComponentModel.Description("The color Red")]
             Red,
@@ -91,9 +91,9 @@ namespace EPPlusTest.LoadFunctions
         internal class EnumClass
         {
             public int Id { get; set; }
-            public Aenum Enum { get; set; }
+            public AnEnum Enum { get; set; }
             [System.ComponentModel.Description("Nullable Enum")]
-            public Aenum? NullableEnum{ get; set; }
+            public AnEnum? NullableEnum{ get; set; }
         }
         internal class Aclass
         {
@@ -104,9 +104,9 @@ namespace EPPlusTest.LoadFunctions
 
         internal class BClass
         {
-            [DisplayName("MyId")]
+            [DisplayName("MyId"), EpplusTableColumn(Order = 1)]
             public string Id { get; set; }
-            [System.ComponentModel.Description("MyName")]
+            [System.ComponentModel.Description("MyName"), EpplusTableColumn(Order = 2)]
             public string Name { get; set; }
             [EpplusTableColumn(Order = 3)]
             public int Number { get; set; }
@@ -305,7 +305,7 @@ namespace EPPlusTest.LoadFunctions
         {
             var items = new List<CClass>()
             {
-                new CClass(){ AnotherProperty = "asdjfklö "}
+                new CClass(){ AnotherProperty = "asdjfkl?"}
             };
             using (var pck = new ExcelPackage(new MemoryStream()))
             {
@@ -490,11 +490,11 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void LoadListOfEnumWithDescription()
         {
-            var items = new List<Aenum>()
+            var items = new List<AnEnum>()
             {
-                Aenum.Red,
-                Aenum.Green,
-                Aenum.Blue
+                AnEnum.Red,
+                AnEnum.Green,
+                AnEnum.Blue
             };
 
             using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt.xlsx", true))
@@ -510,11 +510,11 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void LoadListOfNullableEnumWithDescription()
         {
-            var items = new List<Aenum?>()
+            var items = new List<AnEnum?>()
             {
-                Aenum.Red,
-                Aenum.Green,
-                Aenum.Blue
+                AnEnum.Red,
+                AnEnum.Green,
+                AnEnum.Blue
             };
 
             using (var package = OpenPackage("LoadFromCollectionNullableEnumDescrAtt.xlsx", true))
@@ -532,9 +532,9 @@ namespace EPPlusTest.LoadFunctions
         {
             var items = new List<EnumClass>()
             {
-                new EnumClass(){Id=1, Enum=Aenum.Red, NullableEnum = Aenum.Blue},
-                new EnumClass(){Id=2, Enum=Aenum.Blue, NullableEnum = null},
-                new EnumClass(){Id=3, Enum=Aenum.Green, NullableEnum = Aenum.Red},
+                new EnumClass(){Id=1, Enum=AnEnum.Red, NullableEnum = AnEnum.Blue},
+                new EnumClass(){Id=2, Enum=AnEnum.Blue, NullableEnum = null},
+                new EnumClass(){Id=3, Enum=AnEnum.Green, NullableEnum = AnEnum.Red},
             };
 
             using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt.xlsx", true))
