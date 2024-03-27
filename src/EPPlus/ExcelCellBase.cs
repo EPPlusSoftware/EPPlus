@@ -1012,7 +1012,6 @@ namespace OfficeOpenXml
                     tokens = SourceCodeTokenizer.Default.Tokenize(formula);
                 }
                 var f = "";
-                //string wsName = "";
                 for(int i=0;i<tokens.Count;i++) 
                 {
                     var t = tokens[i];
@@ -1093,16 +1092,8 @@ namespace OfficeOpenXml
                             f += "#REF!";
                         }
                         else
-                        {
-                            var ix = address.Address.LastIndexOf('!');
-                            if (ix > 0)
-                            {
-                                f += address.Address.Substring(ix + 1);
-                            }
-                            else
-                            {
-                                f += address.Address;
-                            }
+                        {                            
+                            f += address.LocalAddress;
                         }
 
 
