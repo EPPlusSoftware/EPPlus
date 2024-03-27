@@ -33,6 +33,7 @@ namespace OfficeOpenXml
         public ExcelTextFormatBase() : base()
         {
             DataTypes = null;
+            UseColumns = null;
         }
         /// <summary>
         /// Delimiter character

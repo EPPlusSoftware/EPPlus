@@ -18,7 +18,7 @@ using System.Text;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// 
+    /// Padding types, can be left, right or auto.
     /// </summary>
     public enum PaddingAlignmentType
     {
@@ -28,12 +28,12 @@ namespace OfficeOpenXml
     }
 
     /// <summary>
-    /// 
+    /// Describes how to output an fixed width text file.
     /// </summary>
     public class ExcelOutputTextFormatFixedWidth : ExcelTextFormatFixedWidthBase
     {
         /// <summary>
-        /// 
+        /// Describes how to split a fixed width text
         /// </summary>
         public ExcelOutputTextFormatFixedWidth() : base() { }
 

@@ -147,6 +147,29 @@ namespace EPPlusTest.SaveFunctions
         }
 
         [TestMethod]
+        public void UseColumn2Text()
+        {
+            _sheet.Cells["D3"].Value = "a";
+            _sheet.Cells["E3"].Value = "b";
+            _sheet.Cells["F3"].Value = "c";
+            _sheet.Cells["D4"].Value = "d";
+            _sheet.Cells["E4"].Value = "e";
+            _sheet.Cells["F4"].Value = "f";
+            _sheet.Cells["D5"].Value = "g";
+            _sheet.Cells["E5"].Value = "h";
+            _sheet.Cells["F5"].Value = "i";
+            var format = new ExcelOutputTextFormat
+            {
+                TextQualifier = '\'',
+                FirstRowIsHeader = false
+            };
+            format.UseColumns = [true, false, true];
+            var text = _sheet.Cells["D3:F5"].ToText(format);
+
+            Assert.AreEqual("\'a\',\'c\'" + format.EOL + "\'d\',\'f\'" + format.EOL + "'g','i'", text);
+        }
+
+        [TestMethod]
         public void ToTextFixedWidth()
         {
             _sheet.Cells["A1"].Value = "Value";
@@ -307,9 +330,5 @@ namespace EPPlusTest.SaveFunctions
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  4   5" + format.EOL, text);
         }
-
-        /* 
-         * exclude column CSV saving
-         */
     }
 }

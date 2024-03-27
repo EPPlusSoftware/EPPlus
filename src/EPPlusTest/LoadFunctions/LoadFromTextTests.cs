@@ -314,71 +314,70 @@ namespace EPPlusTest.LoadFunctions
             Assert.AreEqual(2368183100d, _worksheet.Cells["D3"].Value);
         }
 
-        //[TestMethod]
-        //public void ReadFileFromDiskAndSaveAsXLSXFixedWidth()
-        //{
-        //    string myFile = File.ReadAllText("C:\\Users\\AdrianParnéus\\Documents\\Test\\FixedWidth.txt");
-        //    FileInfo myFileInfo = new FileInfo("C:\\Users\\AdrianParnéus\\Documents\\Test\\FixedWidth.txt");
-        //    using (var p = OpenTemplatePackage("Fixed.xlsx"))
-        //    {
-        //        //Read widths
-        //        var ws = p.Workbook.Worksheets.Add("WIDTH");
-        //        ExcelTextFormatFixedWidth fw = new ExcelTextFormatFixedWidth();
-        //        fw.ColumnLengths = new int[] { 8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8 };
-        //        fw.SkipLinesBeginning = 1;
-        //        fw.ShouldUseRow = row =>
-        //        {
-        //            if (row.Length >= fw.LineLength)
-        //            {
-        //                string s = row.Substring(73, 9).Trim();
-        //                if (row.Contains("Page") || string.IsNullOrEmpty(s))
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //            return true;
-        //        };
-        //        ws.Cells["A1"].LoadFromText(myFileInfo, fw, TableStyles.Dark10, true);
+        [TestMethod]
+        public void ReadFileFromDiskAndSaveAsXLSXFixedWidth()
+        {
+            string myFile = File.ReadAllText("C:\\Users\\AdrianParnéus\\Documents\\Test\\FixedWidth.txt");
+            FileInfo myFileInfo = new FileInfo("C:\\Users\\AdrianParnéus\\Documents\\Test\\FixedWidth.txt");
+            using (var p = OpenTemplatePackage("Fixed.xlsx"))
+            {
+                //Read length
+                var ws = p.Workbook.Worksheets.Add("WIDTH");
+                ExcelTextFormatFixedWidth fw = new ExcelTextFormatFixedWidth();
+                int[] arr = { 8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8 };
+                fw.SetColumns(FixedWidthReadType.Length, arr);
+                fw.SkipLinesBeginning = 1;
+                fw.ShouldUseRow = row =>
+                {
+                    if (row.Length >= fw.LineLength)
+                    {
+                        if (row.Contains("Page") || string.IsNullOrEmpty(row))
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+                ws.Cells["A1"].LoadFromText(myFileInfo, fw, TableStyles.Dark10, true);
 
-        //        //Read positions
-        //        var ws2 = p.Workbook.Worksheets.Add("POSITION");
-        //        ExcelTextFormatFixedWidth fw2 = new ExcelTextFormatFixedWidth();
-        //        fw2.ReadStartPosition = FixedWidthReadType.Positions;
-        //        fw2.ColumnLengths = new int[] { 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 };
-        //        fw2.SkipLinesBeginning = 1;
-        //        fw2.ShouldUseRow = row =>
-        //        {
-        //            if (row.Length >= fw2.LineLength)
-        //            {
-        //                string s = row.Substring(73, 9).Trim();
-        //                if (row.Contains("Page") || string.IsNullOrEmpty(s))
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //            return true;
-        //        };
-        //        ws2.Cells["A1"].LoadFromText(myFileInfo, fw2, TableStyles.Dark10, true);
+                //Read positions
+                var ws2 = p.Workbook.Worksheets.Add("POSITION");
+                ExcelTextFormatFixedWidth fw2 = new ExcelTextFormatFixedWidth();
+                fw2.ReadStartPosition = FixedWidthReadType.Positions;
+                fw2.SetColumnPositions( 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 );
+                fw2.SkipLinesBeginning = 1;
+                fw2.ShouldUseRow = row =>
+                {
+                    if (row.Length >= fw2.LineLength)
+                    {
+                        if (row.Contains("Page") || string.IsNullOrEmpty(row))
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+                ws2.Cells["A1"].LoadFromText(myFileInfo, fw2, TableStyles.Dark10, true);
 
 
-        //        //Read widths 2 Cols
-        //        var ws3 = p.Workbook.Worksheets.Add("WIDTH3");
-        //        ExcelTextFormatFixedWidth fw3 = new ExcelTextFormatFixedWidth();
-        //        fw3.ColumnLengths = new int[] { 8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8 };
-        //        fw3.UseColumns = new bool[] { false, false, true, true, false, false, false, false, false, true, true, false };
-        //        fw3.SkipLinesBeginning = 1;
-        //        ws3.Cells["A1"].LoadFromText(myFileInfo, fw3, TableStyles.Medium5, true);
-        //        //Read positions 3 cols
-        //        var ws4 = p.Workbook.Worksheets.Add("POSITION2");
-        //        ExcelTextFormatFixedWidth fw4 = new ExcelTextFormatFixedWidth();
-        //        fw4.ReadStartPosition = FixedWidthReadType.Positions;
-        //        fw4.ColumnLengths = new int[] { 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 };
-        //        fw4.UseColumns = new bool[] { false, false, true, true, false, false, false, false, false, true, true, false };
-        //        fw4.SkipLinesBeginning = 1;
-        //        ws4.Cells["A1"].LoadFromText(myFileInfo, fw4, TableStyles.Medium5, true);
-        //        p.Save();
-        //    }
-        //}
+                //Read widths 2 Cols
+                var ws3 = p.Workbook.Worksheets.Add("WIDTH3");
+                ExcelTextFormatFixedWidth fw3 = new ExcelTextFormatFixedWidth();
+                fw3.SetColumnLengths(8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8);
+                fw3.SetUseColumns( false, false, true, true, false, false, false, false, false, true, true, false );
+                fw3.SkipLinesBeginning = 1;
+                ws3.Cells["A1"].LoadFromText(myFileInfo, fw3, TableStyles.Medium5, true);
+                //Read positions 3 cols
+                var ws4 = p.Workbook.Worksheets.Add("POSITION2");
+                ExcelTextFormatFixedWidth fw4 = new ExcelTextFormatFixedWidth();
+                fw4.ReadStartPosition = FixedWidthReadType.Positions;
+                fw4.SetColumnPositions( 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 );
+                fw4.SetUseColumns( false, false, true, true, false, false, false, false, false, true, true, false );
+                fw4.SkipLinesBeginning = 1;
+                ws4.Cells["A1"].LoadFromText(myFileInfo, fw4, TableStyles.Medium5, true);
+                p.Save();
+            }
+        }
 
     }
 }

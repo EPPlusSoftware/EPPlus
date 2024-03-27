@@ -18,7 +18,7 @@ using System.Text;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// 
+    /// Describes how to split a fixed width text. Used by the ExcelRange.LoadFromText method
     /// </summary>
     public class ExcelTextFormatFixedWidth : ExcelTextFormatFixedWidthBase
     {
@@ -30,7 +30,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// 
+        /// Initialize with column lengths.
         /// </summary>
         /// <param name="columns"></param>
         public ExcelTextFormatFixedWidth(params int[] columns) 
@@ -39,7 +39,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        ///
+        /// Initialize with user specified read type, either length or position.
         /// </summary>
         /// <param name="readType"></param>
         /// <param name="columns"></param>

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.LoadFunctions
             string[] lines;
             lines = SplitLines(_text, _format.EOL);
             var col = 0;
-            var maxCol = col;
+            var maxCol = 1;
             var row = 0;
             var lineNo = 1;
             foreach (string line in lines)
@@ -112,7 +112,7 @@ namespace OfficeOpenXml.LoadFunctions
             string[] lines;
             lines = SplitLines(_text, _format.EOL);
             var col = 0;
-            var maxCol = col;
+            var maxCol = 1;
             var row = 0;
             var lineNo = 1;
             foreach (string line in lines)

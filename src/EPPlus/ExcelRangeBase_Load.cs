@@ -470,10 +470,10 @@ namespace OfficeOpenXml
 
 
         /// <summary>
-        /// 
+        /// Loads a fixed width text file into range starting from the top left cell.
         /// </summary>
-        /// <param name="Text"></param>
-        /// <param name="Format"></param>
+        /// <param name="Text">The Text file</param>
+        /// <param name="Format">Information how to load the text</param>
         /// <returns></returns>
         public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format)
         {
@@ -488,12 +488,12 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// 
+        /// Loads a fixed width text file into range starting from the top left cell.
         /// </summary>
-        /// <param name="Text"></param>
-        /// <param name="Format"></param>
-        /// <param name="TableStyle"></param>
-        /// <param name="FirstRowIsHeader"></param>
+        /// <param name="Text">The Text file</param>
+        /// <param name="Format">Information how to load the text</param>
+        /// <param name="TableStyle">Create table with this style</param>
+        /// <param name="FirstRowIsHeader">Use first row as header</param>
         /// <exception cref="NotImplementedException"></exception>
         public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader)
         {
@@ -509,7 +509,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// 
+        /// Loads a fixed width text file into range starting from the top left cell.
         /// </summary>
         /// <param name="TextFile">The Textfile</param>
         /// <param name="Format">Information how to load the text</param>
@@ -524,7 +524,7 @@ namespace OfficeOpenXml
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format);
         }
         /// <summary>
-        /// 
+        /// Loads a fixed width text file into range starting from the top left cell.
         /// </summary>
         /// <param name="TextFile">The Textfile</param>
         /// <param name="Format">Information how to load the text</param>

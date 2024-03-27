@@ -232,11 +232,11 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Converts a range to text in CSV format.
+        /// Converts a range to text in fixed widths format.
         /// Invariant culture is used by default.
         /// </summary>
         /// <param name="file">The file to write to</param>
-        /// <param name="Format">Information how to create the csv text</param>
+        /// <param name="Format">Information how to create the fixed width text</param>
         public void SaveToText(FileInfo file, ExcelOutputTextFormatFixedWidth Format)
         {
             using (var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -251,7 +251,7 @@ namespace OfficeOpenXml
         /// Invariant culture is used by default.
         /// </summary>
         /// <param name="stream">The strem to write to</param>
-        /// <param name="Format">Information how to create the csv text</param>
+        /// <param name="Format">Information how to create the fixed width text</param>
         public void SaveToText(Stream stream, ExcelOutputTextFormatFixedWidth Format)
         {
             if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();

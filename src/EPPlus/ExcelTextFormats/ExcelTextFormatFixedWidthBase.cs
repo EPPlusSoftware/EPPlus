@@ -40,7 +40,7 @@ namespace OfficeOpenXml
     {
 
         /// <summary>
-        /// 
+        /// The collection of column formats.
         /// </summary>
         public List<ExcelTextFormatColumn> ColumnFormat { get; set; } = new List<ExcelTextFormatColumn>();
 
@@ -82,7 +82,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// The position of the last column
+        /// The position of the last column.
         /// </summary>
         public int LastPosition
         {
@@ -97,7 +97,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Set the column read by column width or position and data.
+        /// Adds the column read by column length or position and data.
         /// </summary>
         /// <param name="readType"></param>
         /// <param name="columns"></param>
@@ -126,40 +126,96 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// 
+        /// Set the column length properties of fixed width text.
         /// </summary>
-        /// <param name="columns"></param>
-        public void SetColumnLengths(params int[] columns)
+        /// <param name="lengths"></param>
+        public void SetColumnLengths(params int[] lengths)
         {
             int i = 0;
-            foreach (int column in columns)
+            foreach (int length in lengths)
             {
-                if (ColumnFormat.Count >= i)
+                if (ColumnFormat.Count <= i)
                 {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = column });
-                    _lineLength += column;
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = length });
+                    _lineLength += length;
                     _lastPosition = _lineLength;
                 }
-                ColumnFormat[i].Length = column;
+                ColumnFormat[i].Length = length;
+                i++;
             }
         }
 
         /// <summary>
-        /// 
+        /// Set the column start positions of fixed width text.
         /// </summary>
-        /// <param name="columns"></param>
-        public void SetColumnPositions(params int[] columns)
+        /// <param name="positions"></param>
+        public void SetColumnPositions(params int[] positions)
         {
             int i = 0;
-            foreach (int column in columns)
+            foreach (int position in positions)
             {
-                if (ColumnFormat.Count >= i)
+                if (ColumnFormat.Count <= i)
                 {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = column });
-                    _lineLength = column;
-                    _lastPosition = column;
+                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = position });
+                    _lineLength = position;
+                    _lastPosition = position;
                 }        
-                ColumnFormat[i].Position = column;
+                ColumnFormat[i].Position = position;
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Set the data types for each column.
+        /// </summary>
+        /// <param name="dataTypes"></param>
+        public void SetColumnDataTypes(params eDataTypes[] dataTypes)
+        {
+            int i = 0;
+            foreach (eDataTypes dataType in dataTypes)
+            {
+                if (ColumnFormat.Count <= i)
+                {
+                    return;
+                }
+                ColumnFormat[i].DataType = dataType;
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Set the padding type for each column. 
+        /// </summary>
+        /// <param name="paddingTypes"></param>
+        public void SetColumnPaddingType(params int[] paddingTypes)
+        {
+            int i = 0;
+            foreach (PaddingAlignmentType paddingType in paddingTypes)
+            {
+                if (ColumnFormat.Count <= i)
+                {
+                    return;
+                }
+                ColumnFormat[i].PaddingType = paddingType;
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Set flag for each column to be used. 
+        /// </summary>
+        /// <param name="UseColumns"></param>
+        public void SetUseColumns(params bool[] UseColumns)
+        {
+            int i = 0;
+            foreach (bool UseColumn in UseColumns)
+            {
+                if (ColumnFormat.Count <= i)
+                {
+                    return;
+                }
+                ColumnFormat[i].UseColumn = UseColumn;
+                i++;
             }
         }
     }

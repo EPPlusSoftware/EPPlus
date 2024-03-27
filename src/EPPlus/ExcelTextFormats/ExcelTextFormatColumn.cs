@@ -25,23 +25,23 @@ namespace OfficeOpenXml
     public class ExcelTextFormatColumn
     {
         /// <summary>
-        /// 
+        /// The start position of the column, is equal to -1 if not set
         /// </summary>
         public int Position { get; set; } = -1;
         /// <summary>
-        /// 
+        /// The length of the column.
         /// </summary>
         public int Length { get; set; } = 0;
         /// <summary>
-        /// 
+        /// The data type of the column. Is set to Unknown by default
         /// </summary>
         public eDataTypes DataType { get; set; } = eDataTypes.Unknown;
         /// <summary>
-        /// 
+        /// The padding type of the column. Is set to auto by default, which will try to pad numbers to the right and strings to the left.
         /// </summary>
         public PaddingAlignmentType PaddingType { get; set; } = PaddingAlignmentType.Auto;
         /// <summary>
-        /// 
+        /// Flag to set if column should be used when reading and writing fixed width text.
         /// </summary>
         public bool UseColumn { get; set; } = true;
 
