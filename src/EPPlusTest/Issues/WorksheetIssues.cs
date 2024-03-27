@@ -303,7 +303,17 @@ namespace EPPlusTest
 				SaveAndCleanup(package);
 			}
 		}
-    
+		[TestMethod]
+		public void s640_2()
+		{
+			using (var package = OpenTemplatePackage("s640-2.xlsx"))
+			{
+				var sheet = package.Workbook.Worksheets.First();
+				sheet.DeleteRow(6, 8);
+				SaveAndCleanup(package);
+			}
+		}
+
 		[TestMethod]
 		public void s641()
 		{
