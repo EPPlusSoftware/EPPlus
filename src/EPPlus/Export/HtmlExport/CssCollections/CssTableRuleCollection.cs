@@ -79,17 +79,17 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
                 bool rightDefault;
                 //We never want to default horizontal right if horizontal is excluded.
-                if (_context.Exclude.HorizontalAlignment == false)
-                {
-                    rightDefault = false;
-                }
-                else
-                {
+                //if (_context.Exclude.HorizontalAlignment == false)
+                //{
+                //    rightDefault = false;
+                //}
+                //else
+                //{
                     rightDefault = c < dataTypes.Count &&
                         (dataTypes[c] == HtmlDataTypes.Number || dataTypes[c] == HtmlDataTypes.DateTime);
-                }
+                //}
 
-                if (styleId > -1)
+                if (styleId > 0)
                 {
                     var styleClass = new CssRule($"table.{name} td:nth-child({col})", int.MaxValue);
 
@@ -143,7 +143,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             var s = new StyleDxf(element.Style);
 
-            var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ", int.MaxValue);
+            var styleClass = new CssRule($"table.{name}{htmlElement} td,tr ", int.MaxValue);
             if (s.Border != null)
             {
                 var translator = new CssBorderTranslator(s.Border);

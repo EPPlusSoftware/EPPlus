@@ -85,15 +85,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         private void WriteBorderItem(IBorderItem bi, string suffix)
         {
-            if (bi != null && bi.Style != ExcelBorderStyle.None)
+            var defaultColor = "#ffffff";
+            if (bi != null)
             {
                 AddDeclaration($"border-{suffix}", GetBorderItemLine(bi.Style, suffix));
 
-                if (bi.Color != null && bi.Color.Exists)
+                if (bi.Color != null && bi.Color.Exists && bi.Style != ExcelBorderStyle.None)
                 {
-                    declarations.Last().AddValues(bi.Color.GetColor(_theme));
+                    defaultColor = bi.Color.GetColor(_theme);
                 }
+                declarations.Last().AddValues(defaultColor);
             }
+
+            //if (bi != null && bi.Style != ExcelBorderStyle.None)
+            //{
+            //    AddDeclaration($"border-{suffix}", GetBorderItemLine(bi.Style, suffix));
+
+            //    if (bi.Color != null && bi.Color.Exists)
+            //    {
+            //        declarations.Last().AddValues(bi.Color.GetColor(_theme));
+            //    }
+            //}
         }
 
         protected static string GetBorderItemLine(ExcelBorderStyle style, string suffix)
@@ -105,6 +117,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                     lineStyle += "1px solid";
                     break;
                 case ExcelBorderStyle.Thin:
+                case ExcelBorderStyle.None:
                     lineStyle += $"thin solid";
                     break;
                 case ExcelBorderStyle.Medium:
