@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style
         List<ExcelRichText> _list = new List<ExcelRichText>();
         internal ExcelRangeBase _cells = null;
         internal ExcelWorkbook _wb;
-
+        internal bool _isComment=false;
         internal ExcelRichTextCollection(ExcelWorkbook wb, ExcelRangeBase cells)
         {
             _wb = wb;
@@ -79,8 +79,9 @@ namespace OfficeOpenXml.Style
         {
             _wb = cells._workbook;
             _cells= cells;
+            _isComment = true;
 
-            foreach(XmlNode rElement in textElem.ChildNodes)
+			foreach (XmlNode rElement in textElem.ChildNodes)
             {
                 if(rElement.LocalName == "r")
                 {
@@ -194,8 +195,11 @@ namespace OfficeOpenXml.Style
                 {
                     rt.Color = Color.FromArgb(hex);
                 }
-                _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._toCol, true, CellFlags.RichText);
-                _cells.SetIsRichTextFlag(true);
+                if (_isComment == false)
+                {
+                    _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._toCol, true, CellFlags.RichText);
+                    _cells.SetIsRichTextFlag(true);
+                }
             }
             _list.Insert(index, rt);
             return rt;
@@ -207,9 +211,9 @@ namespace OfficeOpenXml.Style
         public void Clear()
         {
             _list.Clear();
-            if (_cells != null)
+            if (_cells != null && _isComment == false)
             {
-                _cells.DeleteMe(_cells, false, true, true, true, false, true, false, false, false);
+				_cells.DeleteMe(_cells, false, true, true, true, false, true, false, false, false);
                 _cells.SetIsRichTextFlag(false);
             }
         }
@@ -220,7 +224,7 @@ namespace OfficeOpenXml.Style
         public void RemoveAt(int Index)
         {
             _list.RemoveAt(Index);
-            if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
+            if (_cells != null && _list.Count == 0 && _isComment == false) _cells.SetIsRichTextFlag(false);
         }
         /// <summary>
         /// Removes an item
@@ -229,7 +233,7 @@ namespace OfficeOpenXml.Style
         public void Remove(ExcelRichText Item)
         {
             _list.Remove(Item);
-            if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
+            if (_cells != null && _list.Count == 0 && _isComment == false) _cells.SetIsRichTextFlag(false);
         }
         /// <summary>
         /// The text

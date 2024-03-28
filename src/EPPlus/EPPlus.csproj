@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
     <AssemblyVersion>7.1.0.0</AssemblyVersion>
-    <FileVersion>7.10.0.0</FileVersion>
-    <Version>7.10.0</Version>
+    <FileVersion>7.1.0.0</FileVersion>
+    <Version>7.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -381,8 +381,9 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 		Version history
-		7.0.10			20240311 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
-		7.0.9			20240215 Minor bug fixes. 
+		7.1.0			20240328 Html export of Conditional formatting, Performance RichText, LoadFromCollection Enhancements. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
+		7.0.10			20240311 Minor bug fixes. 
+		7.0.9			20240215 Minor bug fixes.
 		7.0.8			20240124 Minor bug fixes.
 		7.0.7			20240119 Minor bug fixes.
 		7.0.6			20240110 Minor bug fixes.
