@@ -448,7 +448,7 @@ namespace OfficeOpenXml.Style
                     {
                         sb.Append($"<strike/>");
                     }
-                    if (Color != Color.Empty)
+                    if (ColorSettings.HasAttributes)
                     {
                         WriteRichTextColorAttributes(sb);
                     }
