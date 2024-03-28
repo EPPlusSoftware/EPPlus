@@ -395,11 +395,36 @@ namespace EPPlusTest.LoadFunctions
                 fw.SetColumns(FixedWidthReadType.Positions, arr);
                 fw.SetColumnsNames("Name", "Position", "Prot", "Entry_Name", "Code", "Description");
                 ws.Cells["A1"].LoadFromText(myFileInfo, fw, TableStyles.Dark10, true);
-
-
-
                 p.Save();
             }
         }
+
+        [TestMethod]
+        public void ReadFixedTextWidthExample()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Name            Date      Ammount          Percent Category");
+            sb.AppendLine("David           2024/03/02          130000      2% A");
+            sb.AppendLine("Meryl           2024/02/15             999     10% B");
+            sb.AppendLine("Hal             2005/11/24               0      0% A");
+            sb.AppendLine("Frank           1988/10/12           40,00     59% C");
+            sb.AppendLine("Naomi           2015/09/03       245000,99    100% C");
+            string myFile = sb.ToString();
+
+
+            //Do fixed width text stuff
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                format.SetColumnLengths(16, 10, 16, 8, 2);
+                ws.Cells["A1"].LoadFromText(myFile, format);
+                
+                Assert.AreEqual("Name", ws.Cells["A1"].Value);
+                Assert.AreEqual("A", ws.Cells["E2"].Value);
+            }
+
+        }
+
     }
 }
