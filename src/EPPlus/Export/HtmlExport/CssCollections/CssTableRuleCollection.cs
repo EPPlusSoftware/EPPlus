@@ -141,15 +141,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         {
             if (element.Style.Border.Vertical.HasValue == false && element.Style.Border.Horizontal.HasValue == false) return; //Dont add empty elements
 
-            var s = new StyleDxf(element.Style);
-
             var styleClass = new CssRule($"table.{name}{htmlElement} td,tr ", int.MaxValue);
-            if (s.Border != null)
-            {
-                var translator = new CssBorderTranslator(s.Border);
-                styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
-                RuleCollection.AddRule(styleClass);
-            }
+
+            var translator = new CssVerticalHorizontalBorderTranslator(element.Style.Border);
+            styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
+            RuleCollection.AddRule(styleClass);
         }
 
         internal void AddTableToCollection(ExcelTable table, List<string> datatypes, string tableClassPreset)
