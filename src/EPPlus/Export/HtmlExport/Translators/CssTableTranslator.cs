@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 {
                     AddDeclaration($"font-family", _ns.Style.Font.Name);
                     AddDeclaration($"font-size", $"{_ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt");
-                    AddDeclaration($"height","100%");
+                    //AddDeclaration($"height","100%");
                 }
             }
 
