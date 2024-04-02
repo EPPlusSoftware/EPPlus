@@ -252,33 +252,9 @@ namespace OfficeOpenXml.Utils
             }
             else
             {
-                var result = d.ToString(format, cultureInfo);
-                return result;
+                return d.ToString(format, cultureInfo);
             }
 
-        }
-
-        private static char[] _allowedCharacters = new char[] { '$', '+', '(', ':', '^', '\'', '{', '<', '=', '-', '/', ')', '!', '&', '~', '}', '>' };
-
-        private static string PreProcessDateString(string format)
-        {
-            if (string.IsNullOrEmpty(format)) return format;
-            var result = new StringBuilder();
-            var isInString = false;
-            for(var i = 0; i < format.Length; i++)
-            {
-                var c = format[i];
-                if(c == '"')
-                {
-                    isInString = !isInString;
-                }
-                if(_allowedCharacters.Contains(c) && !isInString)
-                {
-                    result.Append('\\');
-                }
-                result.Append(c);
-            }
-            return result.ToString();
         }
     }
 }

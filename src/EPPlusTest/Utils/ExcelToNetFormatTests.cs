@@ -10,7 +10,7 @@ using System.Threading;
 namespace EPPlusTest.Utils
 {
     [TestClass]
-    public class ValueToTextHandlerTests
+    public class ExcelToNetFormatTests
     {
         private ExcelPackage _package;
         private ExcelWorksheet _sheet;
