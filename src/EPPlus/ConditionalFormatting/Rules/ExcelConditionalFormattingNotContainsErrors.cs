@@ -64,6 +64,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            var range = new ExcelRange(_ws, address.Address);
+            return !ExcelErrorValue.Values.IsErrorValue(range.Value);
+        }
+
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingNotContainsErrors(this, newWs);

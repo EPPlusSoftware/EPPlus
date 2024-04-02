@@ -3121,12 +3121,17 @@ namespace EPPlusTest
         [TestMethod]
         public void s312()
         {
-            using (var p = OpenTemplatePackage("richtext.xlsx"))
+            using (var p = OpenTemplatePackage("s312.xlsx"))
             {
+                //rewrite test
                 var ws = p.Workbook.Worksheets[0];
-                var t = ws.Cells["C2"].RichText.GetType(); ;
-                var prop = t.GetProperty("TopNode", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
-                var topNode = prop.GetValue(ws.Cells["C2"].RichText);
+                var text1 = ws.Cells["C1"];
+                var text2 = ws.Cells["C2"];
+                var text3 = ws.Cells["C3"];
+
+                Assert.IsFalse(text1.RichText[0].HasDefaultValue);
+                Assert.IsTrue(text2.RichText[0].HasDefaultValue);
+
                 SaveAndCleanup(p);
             }
         }
@@ -3925,7 +3930,7 @@ namespace EPPlusTest
                     foreach (var richText in cell.RichText)
                     {
                         Debug.Write($"RichText {richText.Text} Font: [{richText.FontName}], Size: [{richText.Size}]");
-                        if (richText.Bold) Console.Write(", Bold");
+                        if (richText.Bold != null) Console.Write(", Bold");
                         Debug.WriteLine("");
                     }
                 }
@@ -4748,6 +4753,7 @@ namespace EPPlusTest
 
                 for (int i = 1; i <= 4; i++)
                 {
+                    //Should this be possible? should setting rich text to true convert cells to richtext?
                     sheet.Cells[1, i].IsRichText = true;
                     sheet.Cells[1, i].Style.WrapText = true;
                     sheet.Cells[1, i].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -5835,6 +5841,26 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void testKingLink()
+        {
+            using (var p = OpenTemplatePackage("SwedishGeography.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[1];
+
+                var link = (ExcelHyperLink)sheet1.Cells["A2"].Hyperlink;
+
+                sheet1.Cells["A2"].Hyperlink = link;
+
+                ////var cell = sheet1.Cells["A2"];
+                //sheet1.Cells["Z51"].Value = "Something here";
+                //var link = new ExcelHyperLink("https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp/blob/master/04-Filters%20and%20validations/02-Filter/FilterSample.cs", UriKind.Absolute);
+                //link.Display = "FilterSample";
+                //sheet1.Cells["Z51"].Hyperlink = link;
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
         public void s551()
         {
             using (var p = OpenTemplatePackage("s551.xlsx"))
@@ -6138,6 +6164,46 @@ namespace EPPlusTest
                 package.Workbook.Worksheets.Delete("Sheet1");
                 Debug.Assert(package.Workbook.Worksheets.Count == 1);
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void syntaxTest()
+        {
+            using (var package = OpenPackage("ASyntaxTest.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("NewSheet");
+
+                var array = new int[] { 1, 2, 3, 4, 5 };
+                Assert.AreEqual("array", nameof(array));
+
+                //var end = array[^1];
+
+                int? value1 = 2;
+                int? value2 = 3;
+
+                var something = value1 ??= value2;
+
+                var test = "test";
+
+                int[] row0 = [1, 2, 3];
+                int[] row1 = [4, 5, 6];
+                int[] row2 = [7, 8, 9];
+                int[] single = [.. row0, .. row1, .. row2];
+
+
+                string variable = "";
+
+                foreach (var element in single)
+                {
+                    variable += $"{element}, ";
+                }
+
+                //Assert.AreEqual("a", variable);
+
+                //Debug.Assert(package.Workbook.Worksheets.Count == 2);
+                //package.Workbook.Worksheets.Delete("Sheet1");
+                //Debug.Assert(package.Workbook.Worksheets.Count == 1);
+                //SaveAndCleanup(package);
             }
         }
     }

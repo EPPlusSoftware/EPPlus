@@ -4,6 +4,7 @@ items:
   commentId: N:OfficeOpenXml.LoadFunctions
   id: OfficeOpenXml.LoadFunctions
   children:
+  - OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
   langs:
   - csharp
@@ -15,6 +16,12 @@ items:
   assemblies:
   - EPPlus
 references:
+- uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  commentId: T:OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  parent: OfficeOpenXml.LoadFunctions
+  name: IExcelNumberFormatProvider
+  nameWithType: IExcelNumberFormatProvider
+  fullName: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
 - uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
   commentId: T:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
   parent: OfficeOpenXml.LoadFunctions

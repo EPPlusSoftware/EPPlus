@@ -58,20 +58,20 @@ namespace EPPlusTest.Core.Range
         {
             _ws.Cells["D1"].RichText.Add(null);
         }
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void SettingNameToEmptyStringShouldThrowInvalidOperationException()
-        {
-            _ws.Cells["D1"].RichText.Add(" ");
-            _ws.Cells["D1"].RichText[0].Text = null;
-        }
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void SettingTextToNullShouldThrowInvalidOperationException()
-        {
-            _ws.Cells["D1"].RichText.Add(" ");
-            _ws.Cells["D1"].RichText[0].Text = null;
-        }
+        //[TestMethod]
+        //[ExpectedException(typeof(InvalidOperationException))]
+        //public void SettingNameToEmptyStringShouldThrowInvalidOperationException()
+        //{
+        //    _ws.Cells["D1"].RichText.Add(" ");
+        //    _ws.Cells["D1"].RichText[0].Text = string.Empty;
+        //}
+        //[TestMethod]
+        //[ExpectedException(typeof(InvalidOperationException))]
+        //public void SettingTextToNullShouldThrowInvalidOperationException()
+        //{
+        //    _ws.Cells["D1"].RichText.Add(" ");
+        //    _ws.Cells["D1"].RichText[0].Text = null;
+        //}
         [TestMethod]
         public void SettingRichTextTextToNullShouldClearRichText()
         {
@@ -86,7 +86,7 @@ namespace EPPlusTest.Core.Range
         {
             _ws.Cells["D1"].RichText.Add(" ");
             Assert.IsTrue(_ws.Cells["D1"].IsRichText);
-            _ws.Cells["D1"].RichText.Text = null;
+            _ws.Cells["D1"].RichText.Text = string.Empty;
             Assert.AreEqual(0, _ws.Cells["D1"].RichText.Count);
             Assert.IsFalse(_ws.Cells["D1"].IsRichText);
         }

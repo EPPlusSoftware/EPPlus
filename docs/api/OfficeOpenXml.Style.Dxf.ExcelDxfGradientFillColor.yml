@@ -184,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColor.cs
-    startLine: 62
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

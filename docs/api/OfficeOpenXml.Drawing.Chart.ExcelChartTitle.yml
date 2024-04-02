@@ -16,6 +16,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Rotation
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextVertical
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.ThreeD
   langs:
@@ -252,6 +253,43 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  id: TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  langs:
+  - csharp
+  - vb
+  name: TextSettings
+  nameWithType: ExcelChartTitle.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextSettings
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
+    startLine: 155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nText settings like fills, text outlines and effects \n"
+  example: []
+  syntax:
+    content: public ExcelDrawingTextSettings TextSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+    content.vb: Public ReadOnly Property TextSettings As ExcelDrawingTextSettings
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   id: Effect
@@ -270,7 +308,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 155
+    startLine: 171
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -307,7 +345,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 170
+    startLine: 186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -344,7 +382,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 190
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -381,11 +419,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overlay
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 231
+    startLine: 247
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nShow without overlaping the chart.\n"
+  summary: "\nShow without overlaping the _chart.\n"
   example: []
   syntax:
     content: public bool Overlay { get; set; }
@@ -418,7 +456,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AnchorCtr
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 259
+    startLine: 275
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -455,7 +493,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Anchor
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 273
+    startLine: 289
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -492,7 +530,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextVertical
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 288
+    startLine: 304
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -529,7 +567,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 302
+    startLine: 318
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -923,6 +961,17 @@ references:
   name: ExcelTextBody
   nameWithType: ExcelTextBody
   fullName: OfficeOpenXml.Drawing.ExcelTextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  name: TextSettings
+  nameWithType: ExcelChartTitle.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDrawingTextSettings
+  nameWithType: ExcelDrawingTextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   name: Effect

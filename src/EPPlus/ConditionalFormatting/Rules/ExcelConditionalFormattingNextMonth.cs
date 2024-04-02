@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -34,9 +35,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         : base(eExcelConditionalFormattingRuleType.NextMonth, address, priority, worksheet)
         {
             TimePeriod = eExcelConditionalFormattingTimePeriodType.NextMonth;
-            Formula = string.Format(
-              "AND(MONTH({0})=MONTH(EDATE(TODAY(),0+1)), YEAR({0})=YEAR(EDATE(TODAY(),0+1)))",
-              Address.Start.Address);
+            _baseFormula = "AND(MONTH({0})=MONTH(EDATE(TODAY(),0+1)), YEAR({0})=YEAR(EDATE(TODAY(),0+1)))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
 
         /// <summary>
@@ -49,6 +49,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
         : base(eExcelConditionalFormattingRuleType.NextMonth, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.NextMonth;
+            _baseFormula = "AND(MONTH({0})=MONTH(EDATE(TODAY(),0+1)), YEAR({0})=YEAR(EDATE(TODAY(),0+1)))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
         #endregion
     }

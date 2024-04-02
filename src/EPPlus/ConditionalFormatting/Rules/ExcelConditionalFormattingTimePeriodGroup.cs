@@ -10,8 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -57,6 +61,37 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingTimePeriodGroup(this, newWs);
+        }
+
+        protected string _baseFormula = null;
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                if (_ws.Cells[address.Start.Address].Value != null && ConvertUtil.IsNumericOrDate(_ws.Cells[address.Start.Address].Value))
+                {
+                    var formAtAddress = string.Format(
+                    _baseFormula,
+                    address.Start.Address);
+
+                    var formResult = _ws.Workbook.FormulaParserManager.Parse(formAtAddress, address.FullAddress, false);
+                    if (ExcelErrorValue.Values.IsErrorValue(formResult))
+                    {
+                        return false;
+                    }
+
+                    if(formResult is bool result) 
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return ConvertUtil.GetValueBool(formResult) ?? false;
+                    }
+                }
+            }
+            return false;
         }
 
 

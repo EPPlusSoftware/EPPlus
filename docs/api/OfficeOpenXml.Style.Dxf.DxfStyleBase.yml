@@ -34,6 +34,7 @@ items:
   inheritance:
   - System.Object
   derivedClasses:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
   - OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
   - OfficeOpenXml.Style.Dxf.ExcelDxfBorderItem
   - OfficeOpenXml.Style.Dxf.ExcelDxfColor
@@ -43,6 +44,7 @@ items:
   - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
   - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
   - OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
+  - OfficeOpenXml.Style.Dxf.ExcelDxfProtection
   - OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
   inheritedMembers:
   - System.Object.Equals(System.Object)

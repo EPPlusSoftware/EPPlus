@@ -41,6 +41,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.SourceLinked
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.ThreeD
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TickLabelPosition
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
@@ -660,6 +661,43 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
+  id: TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  langs:
+  - csharp
+  - vb
+  name: TextSettings
+  nameWithType: ExcelChartAxis.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextSettings
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
+    startLine: 249
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nText settings like fills, text outlines and effects \n"
+  example: []
+  syntax:
+    content: public ExcelDrawingTextSettings TextSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+    content.vb: Public ReadOnly Property TextSettings As ExcelDrawingTextSettings
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted
   id: Deleted
@@ -678,7 +716,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Deleted
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 253
+    startLine: 269
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -717,7 +755,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TickLabelPosition
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 261
+    startLine: 277
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -756,7 +794,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 269
+    startLine: 285
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -795,7 +833,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _title
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 277
+    startLine: 293
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -828,7 +866,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 281
+    startLine: 297
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -867,7 +905,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 295
+    startLine: 311
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -906,7 +944,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 304
+    startLine: 320
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -945,7 +983,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 313
+    startLine: 329
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -984,7 +1022,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 322
+    startLine: 338
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1023,7 +1061,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 331
+    startLine: 347
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1062,7 +1100,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 340
+    startLine: 356
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1101,7 +1139,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LogBase
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 349
+    startLine: 365
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1140,7 +1178,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 357
+    startLine: 373
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1179,7 +1217,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 370
+    startLine: 386
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1216,7 +1254,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorGridlineEffects
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 385
+    startLine: 401
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1253,7 +1291,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 402
+    startLine: 418
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1290,7 +1328,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorGridlineEffects
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 417
+    startLine: 433
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1327,7 +1365,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMajorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 431
+    startLine: 447
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1364,7 +1402,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMinorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 441
+    startLine: 457
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1401,7 +1439,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 451
+    startLine: 467
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1433,7 +1471,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 460
+    startLine: 476
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1472,7 +1510,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 479
+    startLine: 495
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1511,7 +1549,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 496
+    startLine: 512
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1547,7 +1585,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-    startLine: 504
+    startLine: 520
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -2128,6 +2166,17 @@ references:
   name: ExcelTextBody
   nameWithType: ExcelTextBody
   fullName: OfficeOpenXml.Drawing.ExcelTextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
+  name: TextSettings
+  nameWithType: ExcelChartAxis.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDrawingTextSettings
+  nameWithType: ExcelDrawingTextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted
   name: Deleted

@@ -82,7 +82,7 @@ namespace EPPlusTest.LoadFunctions
     [EPPlusTableColumnSortOrder(Properties = new string[]
     {
         nameof(Acknowledged),
-        "Organization.OrgLevel4",
+        nameof(Organization),
         nameof(ApprovedUtc)
     })]
     public class OuterWithSortOrderOnClassLevelV1

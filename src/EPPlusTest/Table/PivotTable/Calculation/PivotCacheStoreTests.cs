@@ -2,7 +2,7 @@
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 
-namespace EPPlusTest.Table.PivotTable
+namespace EPPlusTest.Table.PivotTable.Calculation
 {
     [TestClass]
     public class PivotCacheStoreTests : TestBase

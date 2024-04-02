@@ -25,11 +25,11 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculationExtension
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
     startLine: 28
   assemblies:
   - EPPlus
@@ -70,11 +70,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
     startLine: 34
   assemblies:
   - EPPlus
@@ -112,11 +112,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
     startLine: 49
   assemblies:
   - EPPlus
@@ -161,11 +161,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
     startLine: 62
   assemblies:
   - EPPlus
@@ -206,12 +206,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 86
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -248,12 +248,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 101
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -297,12 +297,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 127
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 128
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -342,12 +342,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 137
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 138
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -384,12 +384,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 152
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 153
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -433,12 +433,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 164
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 165
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -478,12 +478,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 181
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 182
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -526,12 +526,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
-    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
-    startLine: 192
+    path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
+    startLine: 193
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

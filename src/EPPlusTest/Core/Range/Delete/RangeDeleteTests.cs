@@ -1526,12 +1526,11 @@ namespace EPPlusTest.Core.Range.Delete
 		{
 			using var package = new ExcelPackage();
 			var sheet = package.Workbook.Worksheets.Add("Sheet 1");
-			sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,!$C:$C)";
+			sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,$C:$C)";
             sheet.Calculate();
             sheet.DeleteRow(1);
 
-            Assert.AreEqual("XLOOKUP($A$2,$B:$B,!$C:$C)", sheet.Cells["A1"].Formula);
+            Assert.AreEqual("XLOOKUP($A$2,$B:$B,$C:$C)", sheet.Cells["A1"].Formula);
 		}
-
 	}
 }

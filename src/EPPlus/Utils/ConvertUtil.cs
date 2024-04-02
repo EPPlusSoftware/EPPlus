@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Utils
 			result = false;
 			return false;
 		}
-        internal static bool ToBooleanString(string candidateString)
+        internal static bool ToBooleanString(string candidateString, bool defaultValue = false)
         {
             if (!string.IsNullOrEmpty(candidateString))
             {
@@ -182,7 +182,7 @@ namespace OfficeOpenXml.Utils
                     }
                 }
             }
-            return false;
+            return defaultValue;
         }
 
         /// <summary>

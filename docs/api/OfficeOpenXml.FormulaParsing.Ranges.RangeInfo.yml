@@ -308,7 +308,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
-  summary: "\nReturns true if the range represents a reference\n"
+  summary: "\nReturns true if the range represents an invalid reference\n"
   example: []
   syntax:
     content: public bool IsRef { get; }

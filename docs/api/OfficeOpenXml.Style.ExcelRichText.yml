@@ -5,11 +5,15 @@ items:
   id: ExcelRichText
   parent: OfficeOpenXml.Style
   children:
-  - OfficeOpenXml.Style.ExcelRichText._collection
   - OfficeOpenXml.Style.ExcelRichText.Bold
+  - OfficeOpenXml.Style.ExcelRichText.Charset
   - OfficeOpenXml.Style.ExcelRichText.Color
   - OfficeOpenXml.Style.ExcelRichText.ColorSettings
+  - OfficeOpenXml.Style.ExcelRichText.Family
   - OfficeOpenXml.Style.ExcelRichText.FontName
+  - OfficeOpenXml.Style.ExcelRichText.GetUnderlineType(System.String)
+  - OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont(System.String)
+  - OfficeOpenXml.Style.ExcelRichText.HasDefaultValue
   - OfficeOpenXml.Style.ExcelRichText.HtmlText
   - OfficeOpenXml.Style.ExcelRichText.Italic
   - OfficeOpenXml.Style.ExcelRichText.PreserveSpace
@@ -17,6 +21,7 @@ items:
   - OfficeOpenXml.Style.ExcelRichText.Strike
   - OfficeOpenXml.Style.ExcelRichText.Text
   - OfficeOpenXml.Style.ExcelRichText.UnderLine
+  - OfficeOpenXml.Style.ExcelRichText.UnderLineType
   - OfficeOpenXml.Style.ExcelRichText.VerticalAlign
   langs:
   - csharp
@@ -27,25 +32,22 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichText
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 27
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
   summary: "\nA richtext part\n"
   example: []
   syntax:
-    content: 'public class ExcelRichText : XmlHelper'
-    content.vb: >-
-      Public Class ExcelRichText
-          Inherits XmlHelper
+    content: public class ExcelRichText
+    content.vb: Public Class ExcelRichText
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -60,80 +62,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.Style.ExcelRichText.Text
-  commentId: P:OfficeOpenXml.Style.ExcelRichText.Text
-  id: Text
-  parent: OfficeOpenXml.Style.ExcelRichText
-  langs:
-  - csharp
-  - vb
-  name: Text
-  nameWithType: ExcelRichText.Text
-  fullName: OfficeOpenXml.Style.ExcelRichText.Text
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Text
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 45
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Style
-  summary: "\nThe text\n"
-  example: []
-  syntax:
-    content: public string Text { get; set; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: Public Property Text As String
-  overload: OfficeOpenXml.Style.ExcelRichText.Text*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.Style.ExcelRichText.HtmlText
-  commentId: P:OfficeOpenXml.Style.ExcelRichText.HtmlText
-  id: HtmlText
-  parent: OfficeOpenXml.Style.ExcelRichText
-  langs:
-  - csharp
-  - vb
-  name: HtmlText
-  nameWithType: ExcelRichText.HtmlText
-  fullName: OfficeOpenXml.Style.ExcelRichText.HtmlText
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: HtmlText
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 68
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Style
-  summary: "\nReturns the rich text item as a html string.\n"
-  example: []
-  syntax:
-    content: public string HtmlText { get; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: Public ReadOnly Property HtmlText As String
-  overload: OfficeOpenXml.Style.ExcelRichText.HtmlText*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: OfficeOpenXml.Style.ExcelRichText.PreserveSpace
   commentId: P:OfficeOpenXml.Style.ExcelRichText.PreserveSpace
   id: PreserveSpace
@@ -147,12 +75,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreserveSpace
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 90
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -184,12 +112,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 123
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -221,12 +149,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 147
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -258,12 +186,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 172
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -295,12 +223,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 196
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -332,23 +260,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlign
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 221
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
   summary: "\nVertical Alignment\n"
   example: []
   syntax:
-    content: public ExcelVerticalAlignmentFont VerticalAlign { get; set; }
+    content: public ExcelVerticalAlignmentFont? VerticalAlign { get; set; }
     parameters: []
     return:
-      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
-    content.vb: Public Property VerticalAlign As ExcelVerticalAlignmentFont
+      type: System.Nullable{OfficeOpenXml.Style.ExcelVerticalAlignmentFont}
+    content.vb: Public Property VerticalAlign As ExcelVerticalAlignmentFont?
   overload: OfficeOpenXml.Style.ExcelRichText.VerticalAlign*
   modifiers.csharp:
   - public
@@ -369,12 +297,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 261
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 85
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -406,12 +334,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontName
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 278
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -443,12 +371,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 299
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -480,67 +408,332 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorSettings
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 350
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 134
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
   summary: "\nColor settings.\n<xref href=\"OfficeOpenXml.Style.ExcelRichText.Color\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public ExcelRichTextColor ColorSettings { get; }
+    content: public ExcelRichTextColor ColorSettings { get; set; }
     parameters: []
     return:
       type: OfficeOpenXml.Style.ExcelRichTextColor
-    content.vb: Public ReadOnly Property ColorSettings As ExcelRichTextColor
+    content.vb: Public Property ColorSettings As ExcelRichTextColor
   overload: OfficeOpenXml.Style.ExcelRichText.ColorSettings*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.Style.ExcelRichText._collection
-  commentId: P:OfficeOpenXml.Style.ExcelRichText._collection
-  id: _collection
-  parent: OfficeOpenXml.Style.ExcelRichText
-  langs:
-  - csharp
-  - vb
-  name: _collection
-  nameWithType: ExcelRichText._collection
-  fullName: OfficeOpenXml.Style.ExcelRichText._collection
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: _collection
-    path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 364
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Style
-  summary: "\nA referens to the richtext collection\n"
-  example: []
-  syntax:
-    content: public ExcelRichTextCollection _collection { get; set; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.Style.ExcelRichTextCollection
-    content.vb: Public Property _collection As ExcelRichTextCollection
-  overload: OfficeOpenXml.Style.ExcelRichText._collection*
   modifiers.csharp:
   - public
   - get
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Charset
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Charset
+  id: Charset
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Charset
+  nameWithType: ExcelRichText.Charset
+  fullName: OfficeOpenXml.Style.ExcelRichText.Charset
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Charset
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCharacterset to use\n"
+  example: []
+  syntax:
+    content: public int Charset { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Charset As Integer
+  overload: OfficeOpenXml.Style.ExcelRichText.Charset*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Family
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Family
+  id: Family
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Family
+  nameWithType: ExcelRichText.Family
+  fullName: OfficeOpenXml.Style.ExcelRichText.Family
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Family
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 144
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFont family\n"
+  example: []
+  syntax:
+    content: public int Family { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Family As Integer
+  overload: OfficeOpenXml.Style.ExcelRichText.Family*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.UnderLineType
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.UnderLineType
+  id: UnderLineType
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: UnderLineType
+  nameWithType: ExcelRichText.UnderLineType
+  fullName: OfficeOpenXml.Style.ExcelRichText.UnderLineType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderLineType
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 149
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nUnderline type of text\n"
+  example: []
+  syntax:
+    content: public ExcelUnderLineType UnderLineType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelUnderLineType
+    content.vb: Public Property UnderLineType As ExcelUnderLineType
+  overload: OfficeOpenXml.Style.ExcelRichText.UnderLineType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Text
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Text
+  id: Text
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelRichText.Text
+  fullName: OfficeOpenXml.Style.ExcelRichText.Text
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe text\n"
+  example: []
+  syntax:
+    content: public string Text { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Text As String
+  overload: OfficeOpenXml.Style.ExcelRichText.Text*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.GetUnderlineType(System.String)
+  commentId: M:OfficeOpenXml.Style.ExcelRichText.GetUnderlineType(System.String)
+  id: GetUnderlineType(System.String)
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: GetUnderlineType(String)
+  nameWithType: ExcelRichText.GetUnderlineType(String)
+  fullName: OfficeOpenXml.Style.ExcelRichText.GetUnderlineType(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetUnderlineType
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 247
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGet the underline typ for rich text\n"
+  example: []
+  syntax:
+    content: public static ExcelUnderLineType GetUnderlineType(string v)
+    parameters:
+    - id: v
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.ExcelUnderLineType
+      description: returns excelunderline type
+    content.vb: Public Shared Function GetUnderlineType(v As String) As ExcelUnderLineType
+  overload: OfficeOpenXml.Style.ExcelRichText.GetUnderlineType*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont(System.String)
+  commentId: M:OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont(System.String)
+  id: GetUVerticalAlignmentFont(System.String)
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: GetUVerticalAlignmentFont(String)
+  nameWithType: ExcelRichText.GetUVerticalAlignmentFont(String)
+  fullName: OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetUVerticalAlignmentFont
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 269
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGet the underline typ for rich text\n"
+  example: []
+  syntax:
+    content: public static ExcelVerticalAlignmentFont GetUVerticalAlignmentFont(string v)
+    parameters:
+    - id: v
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+      description: returns excelunderline type
+    content.vb: Public Shared Function GetUVerticalAlignmentFont(v As String) As ExcelVerticalAlignmentFont
+  overload: OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.Style.ExcelRichText.HtmlText
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.HtmlText
+  id: HtmlText
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: HtmlText
+  nameWithType: ExcelRichText.HtmlText
+  fullName: OfficeOpenXml.Style.ExcelRichText.HtmlText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HtmlText
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 299
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nReturns the rich text item as a html string.\n"
+  example: []
+  syntax:
+    content: public string HtmlText { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property HtmlText As String
+  overload: OfficeOpenXml.Style.ExcelRichText.HtmlText*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelRichText.HasDefaultValue
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.HasDefaultValue
+  id: HasDefaultValue
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: HasDefaultValue
+  nameWithType: ExcelRichText.HasDefaultValue
+  fullName: OfficeOpenXml.Style.ExcelRichText.HasDefaultValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/RichText/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasDefaultValue
+    path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
+    startLine: 522
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  syntax:
+    content: public bool HasDefaultValue { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasDefaultValue As Boolean
+  overload: OfficeOpenXml.Style.ExcelRichText.HasDefaultValue*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.Style
   commentId: N:OfficeOpenXml.Style
@@ -554,12 +747,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -845,28 +1032,6 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
-- uid: OfficeOpenXml.Style.ExcelRichText.Text*
-  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Text
-  name: Text
-  nameWithType: ExcelRichText.Text
-  fullName: OfficeOpenXml.Style.ExcelRichText.Text
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
-- uid: OfficeOpenXml.Style.ExcelRichText.HtmlText*
-  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.HtmlText
-  name: HtmlText
-  nameWithType: ExcelRichText.HtmlText
-  fullName: OfficeOpenXml.Style.ExcelRichText.HtmlText
 - uid: OfficeOpenXml.Style.ExcelRichText.PreserveSpace*
   commentId: Overload:OfficeOpenXml.Style.ExcelRichText.PreserveSpace
   name: PreserveSpace
@@ -904,12 +1069,87 @@ references:
   name: VerticalAlign
   nameWithType: ExcelRichText.VerticalAlign
   fullName: OfficeOpenXml.Style.ExcelRichText.VerticalAlign
-- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
-  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignmentFont
-  parent: OfficeOpenXml.Style
-  name: ExcelVerticalAlignmentFont
-  nameWithType: ExcelVerticalAlignmentFont
-  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+- uid: System.Nullable{OfficeOpenXml.Style.ExcelVerticalAlignmentFont}
+  commentId: T:System.Nullable{OfficeOpenXml.Style.ExcelVerticalAlignmentFont}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<ExcelVerticalAlignmentFont>
+  nameWithType: Nullable<ExcelVerticalAlignmentFont>
+  fullName: System.Nullable<OfficeOpenXml.Style.ExcelVerticalAlignmentFont>
+  nameWithType.vb: Nullable(Of ExcelVerticalAlignmentFont)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Style.ExcelVerticalAlignmentFont)
+  name.vb: Nullable(Of ExcelVerticalAlignmentFont)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+    name: ExcelVerticalAlignmentFont
+    nameWithType: ExcelVerticalAlignmentFont
+    fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+    name: ExcelVerticalAlignmentFont
+    nameWithType: ExcelVerticalAlignmentFont
+    fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.Style.ExcelRichText.Size*
   commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Size
   name: Size
@@ -927,6 +1167,13 @@ references:
   name: FontName
   nameWithType: ExcelRichText.FontName
   fullName: OfficeOpenXml.Style.ExcelRichText.FontName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: OfficeOpenXml.Style.ExcelRichText.ColorSettings
   commentId: P:OfficeOpenXml.Style.ExcelRichText.ColorSettings
   isExternal: true
@@ -962,14 +1209,62 @@ references:
   name: ExcelRichTextColor
   nameWithType: ExcelRichTextColor
   fullName: OfficeOpenXml.Style.ExcelRichTextColor
-- uid: OfficeOpenXml.Style.ExcelRichText._collection*
-  commentId: Overload:OfficeOpenXml.Style.ExcelRichText._collection
-  name: _collection
-  nameWithType: ExcelRichText._collection
-  fullName: OfficeOpenXml.Style.ExcelRichText._collection
-- uid: OfficeOpenXml.Style.ExcelRichTextCollection
-  commentId: T:OfficeOpenXml.Style.ExcelRichTextCollection
+- uid: OfficeOpenXml.Style.ExcelRichText.Charset*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Charset
+  name: Charset
+  nameWithType: ExcelRichText.Charset
+  fullName: OfficeOpenXml.Style.ExcelRichText.Charset
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Style.ExcelRichText.Family*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Family
+  name: Family
+  nameWithType: ExcelRichText.Family
+  fullName: OfficeOpenXml.Style.ExcelRichText.Family
+- uid: OfficeOpenXml.Style.ExcelRichText.UnderLineType*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.UnderLineType
+  name: UnderLineType
+  nameWithType: ExcelRichText.UnderLineType
+  fullName: OfficeOpenXml.Style.ExcelRichText.UnderLineType
+- uid: OfficeOpenXml.Style.ExcelUnderLineType
+  commentId: T:OfficeOpenXml.Style.ExcelUnderLineType
   parent: OfficeOpenXml.Style
-  name: ExcelRichTextCollection
-  nameWithType: ExcelRichTextCollection
-  fullName: OfficeOpenXml.Style.ExcelRichTextCollection
+  name: ExcelUnderLineType
+  nameWithType: ExcelUnderLineType
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType
+- uid: OfficeOpenXml.Style.ExcelRichText.Text*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Text
+  name: Text
+  nameWithType: ExcelRichText.Text
+  fullName: OfficeOpenXml.Style.ExcelRichText.Text
+- uid: OfficeOpenXml.Style.ExcelRichText.GetUnderlineType*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.GetUnderlineType
+  name: GetUnderlineType
+  nameWithType: ExcelRichText.GetUnderlineType
+  fullName: OfficeOpenXml.Style.ExcelRichText.GetUnderlineType
+- uid: OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont
+  name: GetUVerticalAlignmentFont
+  nameWithType: ExcelRichText.GetUVerticalAlignmentFont
+  fullName: OfficeOpenXml.Style.ExcelRichText.GetUVerticalAlignmentFont
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  parent: OfficeOpenXml.Style
+  name: ExcelVerticalAlignmentFont
+  nameWithType: ExcelVerticalAlignmentFont
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+- uid: OfficeOpenXml.Style.ExcelRichText.HtmlText*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.HtmlText
+  name: HtmlText
+  nameWithType: ExcelRichText.HtmlText
+  fullName: OfficeOpenXml.Style.ExcelRichText.HtmlText
+- uid: OfficeOpenXml.Style.ExcelRichText.HasDefaultValue*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.HasDefaultValue
+  name: HasDefaultValue
+  nameWithType: ExcelRichText.HasDefaultValue
+  fullName: OfficeOpenXml.Style.ExcelRichText.HasDefaultValue

@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+  id: IFont
+  parent: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: IFont
+  nameWithType: IFont
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IFont.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IFont
+    path: ../src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IFont.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  summary: "\nFor internal use\n"
+  example: []
+  syntax:
+    content: public interface IFont
+    content.vb: Public Interface IFont
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  commentId: N:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  name: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  nameWithType: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts

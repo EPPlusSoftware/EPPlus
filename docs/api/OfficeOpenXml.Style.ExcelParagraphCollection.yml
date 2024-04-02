@@ -9,7 +9,7 @@ items:
   - OfficeOpenXml.Style.ExcelParagraphCollection.Clear
   - OfficeOpenXml.Style.ExcelParagraphCollection.Count
   - OfficeOpenXml.Style.ExcelParagraphCollection.Item(System.Int32)
-  - OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelRichText)
+  - OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelParagraph)
   - OfficeOpenXml.Style.ExcelParagraphCollection.RemoveAt(System.Int32)
   - OfficeOpenXml.Style.ExcelParagraphCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Style#ExcelParagraph}#GetEnumerator
   - OfficeOpenXml.Style.ExcelParagraphCollection.System#Collections#IEnumerable#GetEnumerator
@@ -23,11 +23,11 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelParagraphCollection
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
     startLine: 26
   assemblies:
   - EPPlus
@@ -73,11 +73,11 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
     startLine: 64
   assemblies:
   - EPPlus
@@ -117,11 +117,11 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
     startLine: 74
   assemblies:
   - EPPlus
@@ -154,11 +154,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
     startLine: 87
   assemblies:
   - EPPlus
@@ -196,12 +196,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
-    startLine: 154
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
+    startLine: 141
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -228,12 +228,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
-    startLine: 167
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
+    startLine: 154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -251,37 +251,37 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelRichText)
-  commentId: M:OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelRichText)
-  id: Remove(OfficeOpenXml.Style.ExcelRichText)
+- uid: OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelParagraph)
+  commentId: M:OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelParagraph)
+  id: Remove(OfficeOpenXml.Style.ExcelParagraph)
   parent: OfficeOpenXml.Style.ExcelParagraphCollection
   langs:
   - csharp
   - vb
-  name: Remove(ExcelRichText)
-  nameWithType: ExcelParagraphCollection.Remove(ExcelRichText)
-  fullName: OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelRichText)
+  name: Remove(ExcelParagraph)
+  nameWithType: ExcelParagraphCollection.Remove(ExcelParagraph)
+  fullName: OfficeOpenXml.Style.ExcelParagraphCollection.Remove(OfficeOpenXml.Style.ExcelParagraph)
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
-    startLine: 181
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
+    startLine: 168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
   summary: "\nRemove the specified item\n"
   example: []
   syntax:
-    content: public void Remove(ExcelRichText Item)
+    content: public void Remove(ExcelParagraph Item)
     parameters:
     - id: Item
-      type: OfficeOpenXml.Style.ExcelRichText
+      type: OfficeOpenXml.Style.ExcelParagraph
       description: The item
-    content.vb: Public Sub Remove(Item As ExcelRichText)
+    content.vb: Public Sub Remove(Item As ExcelParagraph)
   overload: OfficeOpenXml.Style.ExcelParagraphCollection.Remove*
   modifiers.csharp:
   - public
@@ -300,12 +300,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
-    startLine: 188
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
+    startLine: 175
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -338,12 +338,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.ExcelParagraph>.GetEnumerator
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
-    startLine: 225
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
+    startLine: 214
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -371,12 +371,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraphCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
-    path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
-    startLine: 234
+    path: ../src/EPPlus/Style/RichText/ExcelParagraphCollection.cs
+    startLine: 223
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -856,12 +856,6 @@ references:
   name: Remove
   nameWithType: ExcelParagraphCollection.Remove
   fullName: OfficeOpenXml.Style.ExcelParagraphCollection.Remove
-- uid: OfficeOpenXml.Style.ExcelRichText
-  commentId: T:OfficeOpenXml.Style.ExcelRichText
-  parent: OfficeOpenXml.Style
-  name: ExcelRichText
-  nameWithType: ExcelRichText
-  fullName: OfficeOpenXml.Style.ExcelRichText
 - uid: OfficeOpenXml.Style.ExcelParagraphCollection.Text*
   commentId: Overload:OfficeOpenXml.Style.ExcelParagraphCollection.Text
   name: Text

@@ -17,6 +17,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils;
@@ -343,6 +344,7 @@ namespace OfficeOpenXml.Core
         private void AddThreadedComments(ExcelWorksheet worksheet)
         {
             var cse = new CellStoreEnumerator<int>(worksheet._threadedCommentsStore, _sourceRange._fromRow, _sourceRange._fromCol, _sourceRange._toRow, _sourceRange._toCol);
+            
             while (cse.Next())
             {
                 var row = cse.Row;
@@ -383,6 +385,11 @@ namespace OfficeOpenXml.Core
                 else
                 {
                     _destination._worksheet.SetValueStyleIdInner(cell.Row, cell.Column, cell.Value, cell.StyleID ?? 0);
+                }
+                if(cell.Value is ExcelRichTextCollection)
+                {
+                    var t = new ExcelRichTextCollection((Style.ExcelRichTextCollection)cell.Value, _destination);
+                    _destination._worksheet.SetValueInner(cell.Row, cell.Column,t);
                 }
 
                 if ((EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeFormulas) && EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeValues)) &&
@@ -452,7 +459,7 @@ namespace OfficeOpenXml.Core
             c.Column = cell.Column-1;
 
             c._commentHelper.TopNode.InnerXml = cell.Comment._commentHelper.TopNode.InnerXml;
-            c.RichText = new Style.ExcelRichTextCollection(c._commentHelper.NameSpaceManager, c._commentHelper.GetNode("d:text"), destination._worksheet);
+            c.RichText = new Style.ExcelRichTextCollection(cell.Comment.RichText, destination);
             //Add relation to image used for filling the comment
             if(cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Frame ||
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Tile ||

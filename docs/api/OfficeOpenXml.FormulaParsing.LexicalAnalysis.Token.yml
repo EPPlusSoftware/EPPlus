@@ -504,7 +504,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreEqualTo
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 161
+    startLine: 162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -539,7 +539,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 214
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis

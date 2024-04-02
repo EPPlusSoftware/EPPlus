@@ -178,7 +178,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
 				if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
 					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false) ||
-					(slicerFields.Count > 0 || PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields))
+					(slicerFields.Count > 0 && PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields))
 					)
 				{
 					var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[index][r]] : recs.CacheItems[index][r];

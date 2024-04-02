@@ -93,7 +93,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 116
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -130,7 +130,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 129
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -168,7 +168,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 135
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -200,7 +200,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 146
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -238,7 +238,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 198
+    startLine: 189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -279,7 +279,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 211
+    startLine: 202
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -321,7 +321,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 226
+    startLine: 217
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -366,7 +366,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 241
+    startLine: 232
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -423,7 +423,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 389
+    startLine: 426
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -459,7 +459,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 507
+    startLine: 529
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -495,7 +495,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 520
+    startLine: 542
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -531,7 +531,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 560
+    startLine: 582
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -578,7 +578,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 581
+    startLine: 603
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -622,7 +622,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 594
+    startLine: 616
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -664,7 +664,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 651
+    startLine: 673
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -703,7 +703,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 661
+    startLine: 683
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -742,7 +742,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 671
+    startLine: 693
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -781,7 +781,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 681
+    startLine: 703
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -820,7 +820,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 690
+    startLine: 712
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -856,7 +856,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 700
+    startLine: 722
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -892,7 +892,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 709
+    startLine: 731
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -928,7 +928,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 720
+    startLine: 742
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -964,7 +964,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 728
+    startLine: 750
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

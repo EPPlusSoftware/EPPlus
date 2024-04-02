@@ -45,6 +45,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Font
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextBody
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
   - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
   - System.Object.Equals(System.Object)
@@ -240,6 +241,12 @@ references:
   name: Effect
   nameWithType: ExcelChartLegend.Effect
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: TextSettings
+  nameWithType: ExcelChartLegend.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend

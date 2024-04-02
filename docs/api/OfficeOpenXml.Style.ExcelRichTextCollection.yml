@@ -25,26 +25,24 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichTextCollection
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 25
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
   summary: "\nCollection of Richtext objects\n"
   example: []
   syntax:
-    content: 'public class ExcelRichTextCollection : XmlHelper, IEnumerable<ExcelRichText>, IEnumerable'
+    content: 'public class ExcelRichTextCollection : IEnumerable<ExcelRichText>, IEnumerable'
     content.vb: >-
       Public Class ExcelRichTextCollection
-          Inherits XmlHelper
           Implements IEnumerable(Of ExcelRichText), IEnumerable
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   implements:
   - System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.ExcelRichText}
   - System.Collections.IEnumerable
@@ -75,12 +73,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 54
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -119,12 +117,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 66
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -156,12 +154,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 79
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 135
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -198,12 +196,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Insert
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 91
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -240,12 +238,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 188
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 198
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -272,12 +270,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 202
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 211
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -308,12 +306,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 212
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 220
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -344,12 +342,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 222
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 228
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -381,12 +379,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlText
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 256
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 266
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -419,12 +417,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.ExcelRichText>.GetEnumerator
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 270
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 291
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -452,12 +450,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Style/ExcelRichTextCollection.cs
+      path: src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
-    path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 279
+    path: ../src/EPPlus/Style/RichText/ExcelRichTextCollection.cs
+    startLine: 300
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -484,12 +482,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.ExcelRichText}
   commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.ExcelRichText}
   parent: System.Collections.Generic
@@ -824,11 +816,6 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
 - uid: System.Collections.Generic.IEnumerable`1
   commentId: T:System.Collections.Generic.IEnumerable`1
   isExternal: true
