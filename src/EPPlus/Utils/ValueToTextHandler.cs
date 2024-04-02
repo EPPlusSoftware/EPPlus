@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Utils
             if (v == null) return "";
             var styles = wb.Styles;
             var nfID = styles.CellXfs[styleId].NumberFormatId;
-            ExcelNumberFormatXml.ExcelFormatTranslator nf = null;
+            ExcelFormatTranslator nf = null;
             for (int i = 0; i < styles.NumberFormats.Count; i++)
             {
                 if (nfID == styles.NumberFormats[i].NumFmtId)
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Utils
 
             return FormatValue(v, forWidthCalc, nf, cultureInfo);
         }
-        internal static string FormatValue(object v, bool forWidthCalc, ExcelNumberFormatXml.ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
+        internal static string FormatValue(object v, bool forWidthCalc, ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
         {
             var f = nf.GetFormatPart(v);
             string format;
@@ -216,17 +216,17 @@ namespace OfficeOpenXml.Utils
             }
         }
 
-        private static string GetDateText(DateTime d, string format, ExcelNumberFormatXml.ExcelFormatTranslator.FormatPart f, CultureInfo cultureInfo)
+        private static string GetDateText(DateTime d, string format, ExcelFormatTranslator.FormatPart f, CultureInfo cultureInfo)
         {           
-            if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
+            if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
             {
                 return d.ToLongDateString();
             }
-            else if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongTime)
+            else if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemLongTime)
             {
                 return d.ToLongTimeString();
             }
-            else if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemShortDate)
+            else if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemShortDate)
             {
                 return d.ToShortDateString();
             }
@@ -252,9 +252,33 @@ namespace OfficeOpenXml.Utils
             }
             else
             {
-                return d.ToString(format, cultureInfo);
+                var result = d.ToString(format, cultureInfo);
+                return result;
             }
 
+        }
+
+        private static char[] _allowedCharacters = new char[] { '$', '+', '(', ':', '^', '\'', '{', '<', '=', '-', '/', ')', '!', '&', '~', '}', '>' };
+
+        private static string PreProcessDateString(string format)
+        {
+            if (string.IsNullOrEmpty(format)) return format;
+            var result = new StringBuilder();
+            var isInString = false;
+            for(var i = 0; i < format.Length; i++)
+            {
+                var c = format[i];
+                if(c == '"')
+                {
+                    isInString = !isInString;
+                }
+                if(_allowedCharacters.Contains(c) && !isInString)
+                {
+                    result.Append('\\');
+                }
+                result.Append(c);
+            }
+            return result.ToString();
         }
     }
 }
