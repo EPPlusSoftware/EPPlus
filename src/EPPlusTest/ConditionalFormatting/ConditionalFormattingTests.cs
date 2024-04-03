@@ -2161,5 +2161,16 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void EnsureBgAndPatternColorAreCorrect()
+        {
+            using(var p = OpenTemplatePackage("SavedDXF.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var fill = ws.Cells["B1"].ConditionalFormatting.GetConditionalFormattings()[0].Style.Fill;
+                Assert.AreEqual(fill.BackgroundColor.Theme, eThemeSchemeColor.Text2);
+                Assert.AreEqual(fill.PatternColor.Color, Color.FromArgb(255,192,0,0));
+            }
+        }
     }
 }
