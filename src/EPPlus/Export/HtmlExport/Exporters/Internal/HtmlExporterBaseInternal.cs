@@ -607,17 +607,24 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         {
             var imageCellClassName = GetImageCellClassName(image, Settings, isTable);
             var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, isHeader, settings, imageCellClassName, content);
+            var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(cell, settings, content, ref classString);
 
-            if (!string.IsNullOrEmpty(classString[0]))
+            if (!string.IsNullOrEmpty(classString))
             {
-                element.AddAttribute("class", classString[0]);
+                element.AddAttribute("class", classString);
             }
 
-            if (classString.Count > 1)
+            if (stylesAndExtras.Count > 0)
             {
-                if (!string.IsNullOrEmpty(classString[1]))
+                if (!string.IsNullOrEmpty(stylesAndExtras[0]) )
                 {
-                    element.AddAttribute("style", $"{classString[1]}");
+                    element.AddAttribute("style", $"{stylesAndExtras[0]}");
+                }
+                if (stylesAndExtras.Count > 1)
+                {
+                    var childHtml = new HTMLElement("div");
+                    childHtml.Content = stylesAndExtras[1];
+                    element.AddChildElement(childHtml);
                 }
             }
         }
