@@ -944,7 +944,6 @@ namespace EPPlusTest.Drawing
                 {
                     sheet.Cells[i, 14].Value = i;
                     sheet.Cells[i, 14].Style.Fill.PatternType = ExcelFillStyle.DarkGray;
-                    sheet.Cells[i, 14].Style.Fill.PatternColor.SetColor(colorToSet);
                     sheet.Cells[i, 14].Style.Fill.BackgroundColor.SetColor(colorToSet);
                 }
 
