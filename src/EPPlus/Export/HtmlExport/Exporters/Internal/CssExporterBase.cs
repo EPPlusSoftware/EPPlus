@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
@@ -25,6 +26,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -218,6 +220,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.ThreeColorScale:
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
+                            break;
+                        case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                            if (!_exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId) || _addedToCssDxf.Contains(cfId) == false)
+                            {
+                                cssTranslator.AddAdvancedCF(OrderDefaultDxf + cf.Value.Priority, (ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cfId);
+                            }
                             break;
                         default:
                             if (cf.Value.Style.HasValue)

@@ -22,93 +22,17 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal const string CircleSize = " cx=\"{0}\" cy=\"{0}\" r=\"{0}\" /></svg>";
         //0 id, 1 fillColor, 2 strokeColor, 3 radius
 
-        //Dictionary<eExcelconditionalFormattingCustomIcon, string> iconSvgDict = new Dictionary<eExcelconditionalFormattingCustomIcon, string> {
-        //    { eExcelconditionalFormattingCustomIcon.RedCircleWithBorder,GetIconMiddle( eExcelconditionalFormattingCustomIcon.RedCircleWithBorder) }
-        //};
+        internal static string GetIconSvg(eExcelconditionalFormattingCustomIcon icon)
+        {
+            string svg = GetIconSvgConvertedString(icon);
+            return $"background-image: url(data:image/svg+xml;base64,{Convert.ToBase64String(Encoding.ASCII.GetBytes(svg))})";
+        }
 
-        //internal static string GetPatternSvg(ExcelFillStyle patternType, string backgroundColor, string patternColor)
-        //{
-        //    string svg = GetPatternSvgUnConvertedString(patternType, backgroundColor, patternColor);
-        //    return $"background-repeat:repeat;background:url(data:image/svg+xml;base64,{Convert.ToBase64String(Encoding.ASCII.GetBytes(svg))});";
-        //}
-
-        //internal static string GetPatternSvgConvertedOnly(ExcelFillStyle patternType, string backgroundColor, string patternColor)
-        //{
-        //    string svg = GetPatternSvgUnConvertedString(patternType, backgroundColor, patternColor);
-        //    return Convert.ToBase64String(Encoding.ASCII.GetBytes(svg));
-        //}
-
-        //private static string GetSymbolSvgUnConvertedString(eExcelconditionalFormattingCustomIcon icon, double radiusSize)
-        //{
-        //    var idName = Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icon) + radiusSize.ToString();
-
-        //    switch (icon)
-        //    {
-        //        case eExcelconditionalFormattingCustomIcon.RedCircleWithBorder:
-        //        case eExcelconditionalFormattingCustomIcon.RedCircle:
-        //            return string.Format(CircleIcon, idName, "#d65532", "#ac563e", radiusSize);
-        //        case eExcelconditionalFormattingCustomIcon.YellowCircle:
-        //            return string.Format(CircleIcon, idName, "#eac282", "#a88636", radiusSize);
-        //        case eExcelconditionalFormattingCustomIcon.GreenCircle:
-        //            return string.Format(CircleIcon, idName, "#68a490", "#387360", radiusSize);
-        //        case eExcelconditionalFormattingCustomIcon.BlackCircle:
-        //        case eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder:
-        //            return string.Format(CircleIcon, idName, "#505050", "#33312f", radiusSize);
-        //        case eExcelconditionalFormattingCustomIcon.GrayCircle:
-        //            return string.Format(CircleIcon, idName, "#b1b1b1", "#74716e", radiusSize);
-        //        case eExcelconditionalFormattingCustomIcon.PinkCircle:
-        //            return string.Format(CircleIcon, idName, "#edb9ab", "#b18478", radiusSize);
-        //            case 
-
-
-        //        default: throw new NotImplementedException();
-        //    }
-
-
-        //    //if (icon.CustomIcon != null)
-        //    //{
-
-        //    //}
-
-        //    //switch (patternType)
-        //    //{
-        //    //    case ExcelFillStyle.DarkGray:
-        //    //        return string.Format(Dott75, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.MediumGray:
-        //    //        return string.Format(Dott50, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.LightGray:
-        //    //        return string.Format(Dott25, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.Gray125:
-        //    //        return string.Format(Dott12_5, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.Gray0625:
-        //    //        return string.Format(Dott6_25, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.DarkHorizontal:
-        //    //        return string.Format(HorizontalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.DarkVertical:
-        //    //        return string.Format(VerticalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.LightHorizontal:
-        //    //        return string.Format(ThinHorizontalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.LightVertical:
-        //    //        return string.Format(ThinVerticalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.DarkDown:
-        //    //        return string.Format(ReverseDiagonalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.DarkUp:
-        //    //        return string.Format(DiagonalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.LightDown:
-        //    //        return string.Format(ThinReverseDiagonalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.LightUp:
-        //    //        return string.Format(ThinDiagonalStripe, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.DarkGrid:
-        //    //        return string.Format(DiagonalCrosshatch, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.DarkTrellis:
-        //    //        return string.Format(ThickDiagonalCrosshatch, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.LightGrid:
-        //    //        return string.Format(ThinHorizontalCrosshatch, patternColor, backgroundColor);
-        //    //    case ExcelFillStyle.LightTrellis:
-        //    //        return string.Format(ThinDiagonalCrosshatch, patternColor, backgroundColor);
-        //    //    default:
-        //    //        return "";
-        //}
+        internal static string GetIconSvgConvertedString(eExcelconditionalFormattingCustomIcon icon)
+        {
+            string svg = GetIconSvgUnConvertedString(icon);
+            return Convert.ToBase64String(Encoding.ASCII.GetBytes(svg));
+        }
 
         internal static string GetIconSvgUnConvertedString(eExcelconditionalFormattingCustomIcon icon)
         {

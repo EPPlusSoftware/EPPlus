@@ -11,6 +11,7 @@
   03/14/2024         EPPlus Software AB           Epplus 7.1
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
@@ -187,6 +188,19 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             _ruleCollection.CssRules.Add(styleClass);
         }
+
+        internal void AddAdvancedCF(int cssOrder, ExcelConditionalFormattingThreeIconSet set, int id)
+        {
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}cf{id}";
+            var cfClass = new CssRule(ruleName, cssOrder);
+
+            var cfCss = CF_Icons.GetIconSvg(eExcelconditionalFormattingCustomIcon.RedCircle);
+            cfClass.AddDeclaration("margin-top", $"0.5%; {cfCss}");
+
+            _ruleCollection.CssRules.Add(cfClass);
+        }
+
+
 
         internal void AddPictureToCss(HtmlImage p)
         {

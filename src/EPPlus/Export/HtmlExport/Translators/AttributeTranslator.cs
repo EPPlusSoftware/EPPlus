@@ -136,9 +136,22 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 inlineStyles += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                                 break;
                             case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                var test = ((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value);
-                                test.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircleWithBorder;
-                                extras += CF_Icons.GetIconSvgUnConvertedString(test.Icon1.CustomIcon.Value);
+                                //var test = ((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value);
+                                //test.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircleWithBorder;
+                                //extras += CF_Icons.GetIconSvgUnConvertedString(test.Icon1.CustomIcon.Value);
+                                dxfKey = cfItems[i].Value.Uid;
+
+                                if (dxfStyleCache.ContainsKey(dxfKey))
+                                {
+                                    dxfId = dxfStyleCache[dxfKey];
+                                }
+                                else
+                                {
+                                    dxfId = dxfStyleCache.Count + 1;
+                                    dxfStyleCache.Add(dxfKey, dxfId);
+                                }
+
+                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 break;
