@@ -20,6 +20,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -32,7 +33,10 @@ namespace OfficeOpenXml.Drawing
         private string _fillPath = "{0}xdr:spPr";
         private string _borderPath = "{0}xdr:spPr/a:ln";
         private string _effectPath = "{0}xdr:spPr/a:effectLst";
-        private string _headEndPath = "{0}xdr:spPr/a:ln/a:headEnd";
+		private string _rotationPath = "{0}xdr:spPr/a:xfrm/@rot";
+		private string _horizontalFlipPath = "{0}xdr:spPr/a:xfrm/@flipH";
+		private string _verticalFlipPath = "{0}xdr:spPr/a:xfrm/@flipV";
+		private string _headEndPath = "{0}xdr:spPr/a:ln/a:headEnd";
         private string _tailEndPath = "{0}xdr:spPr/a:ln/a:tailEnd";
         private string _textPath = "{0}xdr:txBody/a:p/a:r/a:t";
         private string _lockTextPath = "{0}@fLocksText";
@@ -44,7 +48,8 @@ namespace OfficeOpenXml.Drawing
         private string _textVerticalPath = "{0}xdr:txBody/a:bodyPr/@vert";
         private string _fontPath = "{0}xdr:txBody/a:p/a:pPr/a:defRPr";
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
-        internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
+
+		internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
             base(drawings, node, topPath, nvPrPath, parent)
         {
             Init(string.IsNullOrEmpty(_topPath) ? "" : _topPath + "/");
@@ -55,7 +60,10 @@ namespace OfficeOpenXml.Drawing
             _fillPath = string.Format(_fillPath, topPath);
             _borderPath = string.Format(_borderPath, topPath);
             _effectPath = string.Format(_effectPath, topPath);
-            _headEndPath = string.Format(_headEndPath, topPath);
+			_rotationPath = string.Format(_rotationPath, topPath);
+			_horizontalFlipPath = string.Format(_horizontalFlipPath, topPath);
+			_verticalFlipPath = string.Format(_verticalFlipPath, topPath);
+			_headEndPath = string.Format(_headEndPath, topPath);
             _tailEndPath = string.Format(_tailEndPath, topPath);
             _textPath = string.Format(_textPath, topPath);
             _lockTextPath = string.Format(_lockTextPath, topPath);
@@ -380,10 +388,52 @@ namespace OfficeOpenXml.Drawing
                 SetXmlNodeString(_indentAlignPath, value.ToString());
             }
         }
-        /// <summary>
-        /// Vertical text
-        /// </summary>
-        public eTextVerticalType TextVertical
+		/// <summary>
+		/// Rotation angle in degrees. Positive angles are clockwise. Negative angles are counter-clockwise.
+		/// </summary>
+		public double Rotation
+        {
+            get
+            {
+                return GetXmlNodeAngel(_rotationPath);
+            }
+            set
+            {
+                SetXmlNodeAngel(_rotationPath, value, "Rotation", -100000, 100000);
+            }
+        }
+		/// <summary>
+		/// If true, flips the shape horizontal about the center of its bounding box.
+		/// </summary>
+		public bool HorizontalFlip
+        {
+            get
+            {
+				return GetXmlNodeBool(_horizontalFlipPath);
+			}
+            set
+            {
+                SetXmlNodeBool(_horizontalFlipPath, value, false);
+            }
+        }
+		/// <summary>
+		/// If true, flips the shape vertical about the center of its bounding box.
+		/// </summary>
+		public bool VerticalFlip
+		{
+			get
+			{
+				return GetXmlNodeBool(_verticalFlipPath);
+			}
+			set
+			{
+				SetXmlNodeBool(_verticalFlipPath, value, false);
+			}
+		}
+		/// <summary>
+		/// Vertical text
+		/// </summary>
+		public eTextVerticalType TextVertical
         {
             get
             {

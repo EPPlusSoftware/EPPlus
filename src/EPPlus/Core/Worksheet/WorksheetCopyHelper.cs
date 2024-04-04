@@ -30,6 +30,9 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.ConditionalFormatting;
+using System.Xml.Linq;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -628,6 +631,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void CopySheetNames(ExcelWorksheet Copy, ExcelWorksheet added)
         {
+            var sameWorkbook = Copy.Workbook == added.Workbook;
             foreach (var name in Copy.Names)
             {
                 ExcelNamedRange newName;
@@ -642,7 +646,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         var wsRef = added.Workbook.Worksheets[name.WorkSheetName];
                         if (wsRef == null)
                         {
-                            newName = added.Names.AddFormula(name.Name, "#REF!");
+                            newName = added.Names.AddFormulaNoValidation(name.Name, "#REF!");
                         }
                         else
                         {
@@ -652,8 +656,15 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else if (!string.IsNullOrEmpty(name.NameFormula))
                 {
-                    newName = added.Names.AddFormula(name.Name, name.Formula);
-                }
+                    if(sameWorkbook==false && HasExternalReference(name.Formula))
+                    {
+                        continue;
+					}
+                    else
+                    {
+						newName = added.Names.AddFormulaNoValidation(name.Name, name.Formula);
+					}
+				}
                 else
                 {
                     newName = added.Names.AddValue(name.Name, name.Value);
@@ -662,7 +673,17 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void CopyTable(ExcelWorksheet Copy, ExcelWorksheet added)
+		private static bool HasExternalReference(string formula)
+		{
+			if(formula!=null && formula.IndexOf('[') >= 0)
+            {
+                    var t=SourceCodeTokenizer.Default.Tokenize(formula);
+                return t.Any(x => x.TokenType == TokenType.ExternalReference);
+            }
+            return false;
+		}
+
+		private static void CopyTable(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             string prevName = "";
             //First copy the table XML

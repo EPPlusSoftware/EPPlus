@@ -426,20 +426,20 @@ namespace OfficeOpenXml
         {
             var address = new ExcelAddressBase(e.Address);
             var ws = _wb.Worksheets[e.PositionID];
-            Dictionary<int, int> styleCashe = new Dictionary<int, int>();
+            Dictionary<int, int> styleCache = new Dictionary<int, int>();
             //Set single address
             lock (ws._values)
             {
                 if (address.Addresses == null)
                 {
-                    SetStyleAddress(sender, e, address, ws, ref styleCashe);
+                    SetStyleAddress(sender, e, address, ws, ref styleCache);
                 }
                 else
                 {
                     //Handle multiaddresses
                     foreach (var innerAddress in address.Addresses)
                     {
-                        SetStyleAddress(sender, e, innerAddress, ws, ref styleCashe);
+                        SetStyleAddress(sender, e, innerAddress, ws, ref styleCache);
                     }
                 }
             }
@@ -468,7 +468,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private void SetStyleCells(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCashe)
+        private void SetStyleCells(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCache)
         {
             ws._values.EnsureColumnsExists(address._fromCol, address._toCol);
             var rowCache = new Dictionary<int, int>(address.End.Row - address.Start.Row + 1);
@@ -545,9 +545,9 @@ namespace OfficeOpenXml
                             }
                         }
                     }
-                    if (styleCashe.ContainsKey(s))
+                    if (styleCache.ContainsKey(s))
                     {
-                        ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = styleCashe[s] });
+                        ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = styleCache[s] });
                     }
                     else
                     {
@@ -571,7 +571,7 @@ namespace OfficeOpenXml
                         }
 
                         int newId = st.GetNewID(CellXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
-                        styleCashe.Add(s, newId);
+                        styleCache.Add(s, newId);
                         ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = newId });
                     }
                 }

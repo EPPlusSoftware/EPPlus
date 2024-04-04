@@ -401,7 +401,7 @@ namespace OfficeOpenXml
 							var ws = Worksheets[addr._ws];
 							if(ws==null)
                             {
-								namedRange = _names.AddFormula(elem.GetAttribute("name"), fullAddress);								
+								namedRange = _names.AddFormulaNoValidation(elem.GetAttribute("name"), fullAddress);								
 							}
 							else
                             {
