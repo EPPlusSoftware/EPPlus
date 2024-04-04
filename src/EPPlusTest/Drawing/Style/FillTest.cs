@@ -34,6 +34,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using System.Drawing;
 using System.IO;
+using OfficeOpenXml.Style;
 
 namespace EPPlusTest.Drawing
 {
@@ -65,10 +66,10 @@ namespace EPPlusTest.Drawing
 
             var shape = ws.Drawings.AddShape("Shape1", eShapeStyle.Rect);
             shape.SetPosition(1, 0, 5, 0);
-            
+
             //Act
             shape.Fill.Color = expected;
-            
+
             //Assert
             Assert.AreEqual(eFillStyle.SolidFill, shape.Fill.Style);
             Assert.AreEqual(eDrawingColorType.Rgb, shape.Fill.SolidFill.Color.ColorType);
@@ -139,7 +140,7 @@ namespace EPPlusTest.Drawing
 
             //Act
             shape.Fill.Style = eFillStyle.SolidFill;
-            shape.Fill.SolidFill.Color.SetPresetColor(expected) ;
+            shape.Fill.SolidFill.Color.SetPresetColor(expected);
 
             //Assert
             Assert.AreEqual(eFillStyle.SolidFill, shape.Fill.Style);
@@ -218,7 +219,7 @@ namespace EPPlusTest.Drawing
         public void SolidFill_ColorSystem()
         {
             //Setup
-            var expected= eSystemColor.Background;
+            var expected = eSystemColor.Background;
             var ws = _pck.Workbook.Worksheets.Add("SolidFillFromColorSystem");
 
             var shape = ws.Drawings.AddShape("Shape1", eShapeStyle.Rect);
@@ -254,7 +255,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(eFillStyle.SolidFill, shape.Fill.Style);
             Assert.IsInstanceOfType(shape.Fill.SolidFill.Color.RgbColor, typeof(ExcelDrawingRgbColor));
             Assert.AreEqual(expected, shape.Fill.Transparancy);
-            Assert.AreEqual(100-expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
+            Assert.AreEqual(100 - expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
         [TestMethod]
         public void TransformAlpha()
@@ -554,7 +555,7 @@ namespace EPPlusTest.Drawing
 
             //Assert
             Assert.AreEqual(eFillStyle.GradientFill, shape.Fill.Style);
-            Assert.AreEqual(0,shape.Fill.GradientFill.Colors.Count);
+            Assert.AreEqual(0, shape.Fill.GradientFill.Colors.Count);
             Assert.AreEqual(false, shape.Fill.GradientFill.RotateWithShape);
         }
         [TestMethod]
@@ -571,7 +572,7 @@ namespace EPPlusTest.Drawing
             shape.Fill.GradientFill.Colors.AddRgb(0, Color.Green);
             shape.Fill.GradientFill.Colors.AddRgb(50.35, Color.Olive);
             shape.Fill.GradientFill.Colors.AddRgb(100, Color.Gray);
-            shape.Fill.GradientFill.ShadePath= eShadePath.Circle;
+            shape.Fill.GradientFill.ShadePath = eShadePath.Circle;
 
             //Assert
             Assert.AreEqual(eFillStyle.GradientFill, shape.Fill.Style);
@@ -763,7 +764,7 @@ namespace EPPlusTest.Drawing
             //Setup
             var ws = _pck.Workbook.Worksheets.Add("BlipFill");
 
-            var shape = AddBlip(ws, 1,"Shape1",false, 0, 0);
+            var shape = AddBlip(ws, 1, "Shape1", false, 0, 0);
 
             //Assert
             Assert.AreEqual(eFillStyle.BlipFill, shape.Fill.Style);
@@ -846,7 +847,7 @@ namespace EPPlusTest.Drawing
 
             //Act
             shape.Fill.Style = eFillStyle.BlipFill;
-            shape.Fill.BlipFill.Image.SetImage(Resources.CodeTif,ePictureType.Tif);
+            shape.Fill.BlipFill.Image.SetImage(Resources.CodeTif, ePictureType.Tif);
 
             shape.Fill.BlipFill.Stretch = false;
             shape.Fill.BlipFill.Tile.Alignment = eRectangleAlignment.Center;
@@ -881,7 +882,7 @@ namespace EPPlusTest.Drawing
             chart.Fill.BlipFill.Image.SetImage(Resources.CodeTif, ePictureType.Tif);
 
 
-            var pt=chart.Series[0].DataPoints.Add(0);
+            var pt = chart.Series[0].DataPoints.Add(0);
             pt.Fill.Style = eFillStyle.BlipFill;
             pt.Fill.BlipFill.Image.SetImage(Resources.CodeTif, ePictureType.Tif);
 
@@ -906,7 +907,7 @@ namespace EPPlusTest.Drawing
             Assert.IsNull(shape.Fill.PatternFill);
         }
 
-        private static ExcelShape AddBlip(ExcelWorksheet ws, int row, string shapeName, bool stretch, double offset, double sourceRect=0)
+        private static ExcelShape AddBlip(ExcelWorksheet ws, int row, string shapeName, bool stretch, double offset, double sourceRect = 0)
         {
             var shape = ws.Drawings.AddShape(shapeName, eShapeStyle.RoundRect);
             shape.SetPosition(row, 0, 5, 0);
@@ -929,5 +930,32 @@ namespace EPPlusTest.Drawing
             return shape;
         }
         #endregion
+
+        [TestMethod]
+        public void FillingOnlyBackgroundColorShouldApply()
+        {
+            var colorToSet = Color.Purple;
+
+            using(var p = OpenPackage("unsettingColors.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("ColorGone");
+
+                for (int i = 1; i < 20; i++)
+                {
+                    sheet.Cells[i, 14].Value = i;
+                    sheet.Cells[i, 14].Style.Fill.PatternType = ExcelFillStyle.DarkGray;
+                    sheet.Cells[i, 14].Style.Fill.BackgroundColor.SetColor(colorToSet);
+                }
+
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("unsettingColors.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+
+                Assert.AreEqual(sheet.Cells[1, 14].Style.Fill.BackgroundColor.Rgb, colorToSet.ToArgb().ToString("X"));
+            }
+        }
     }
 }

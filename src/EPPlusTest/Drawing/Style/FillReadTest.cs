@@ -664,5 +664,18 @@ namespace EPPlusTest.Drawing
         }
 
         #endregion
+        [TestMethod]
+        public void ReadFGBG()
+        {
+            using(var p = OpenTemplatePackage("FG&BGColorRead.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+
+                //Note: Backgroundcolor and patterncolor are inverted in Epplus.
+                Assert.AreEqual(sheet.Cells["C4"].Style.Fill.BackgroundColor.Theme, eThemeSchemeColor.Accent2);
+                Assert.AreEqual(sheet.Cells["C4"].Style.Fill.PatternColor.Rgb, "FF00B050");
+
+            }
+        }
     }
 }
