@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.R1C1
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize(System.String)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize(System.String,System.String)
@@ -24,7 +25,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceCodeTokenizer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 11
+    startLine: 12
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -69,7 +70,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 63
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -108,7 +109,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: R1C1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 70
+    startLine: 72
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -121,6 +122,45 @@ items:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
     content.vb: Public Shared ReadOnly Property R1C1 As ISourceCodeTokenizer
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.R1C1*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
+  id: Default_KeepWhiteSpaces
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer
+  langs:
+  - csharp
+  - vb
+  name: Default_KeepWhiteSpaces
+  nameWithType: SourceCodeTokenizer.Default_KeepWhiteSpaces
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default_KeepWhiteSpaces
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nThe default tokenizer. This tokenizer will remove and ignore whitespaces.\n"
+  example: []
+  syntax:
+    content: public static ISourceCodeTokenizer Default_KeepWhiteSpaces { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+    content.vb: Public Shared ReadOnly Property Default_KeepWhiteSpaces As ISourceCodeTokenizer
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces*
   modifiers.csharp:
   - public
   - static
@@ -147,21 +187,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 75
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nConstructor\n"
+  example: []
   syntax:
     content: public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
     parameters:
     - id: functionRepository
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
+      description: A function name provider
     - id: nameValueProvider
       type: OfficeOpenXml.FormulaParsing.INameValueProvider
+      description: A name value provider
     - id: r1c1
       type: System.Boolean
+      description: If true the tokenizer will use the R1C1 format
     - id: keepWhitespace
       type: System.Boolean
+      description: If true whitspaces in formulas will be preserved
     content.vb: Public Sub New(functionRepository As IFunctionNameProvider, nameValueProvider As INameValueProvider, r1c1 As Boolean = False, keepWhitespace As Boolean = False)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor*
   modifiers.csharp:
@@ -186,7 +232,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 86
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -227,21 +273,29 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 108
+    startLine: 134
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nSplit the input string into tokens used by the formula parser\n"
+  example: []
   syntax:
     content: public IList<Token> Tokenize(string input, string worksheet)
     parameters:
     - id: input
       type: System.String
+      description: ''
     - id: worksheet
       type: System.String
+      description: ''
     return:
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+      description: ''
     content.vb: Public Function Tokenize(input As String, worksheet As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize*
+  exceptions:
+  - type: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
+    commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
   implements:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
   modifiers.csharp:
@@ -562,6 +616,11 @@ references:
   name: R1C1
   nameWithType: SourceCodeTokenizer.R1C1
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.R1C1
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
+  name: Default_KeepWhiteSpaces
+  nameWithType: SourceCodeTokenizer.Default_KeepWhiteSpaces
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor*
   commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor
   name: SourceCodeTokenizer
@@ -734,6 +793,11 @@ references:
   name: System.Collections.Generic
   nameWithType: System.Collections.Generic
   fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
+  commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
+  name: InvalidFormulaException
+  nameWithType: InvalidFormulaException
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
   commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer

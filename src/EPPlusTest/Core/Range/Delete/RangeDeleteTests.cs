@@ -1521,6 +1521,16 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(2d, sheet.Cells["A2"].Value, "Row 3 was not correctly shifted to 2");
             Assert.AreEqual(3d, sheet.Cells["A3"].Value, "Row 4 was not correctly shifted to 3");
         }
+		[TestMethod]
+		public void DeleteRowValidateArrayFormula()
+		{
+			using var package = new ExcelPackage();
+			var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+			sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,$C:$C)";
+            sheet.Calculate();
+            sheet.DeleteRow(1);
 
-    }
+            Assert.AreEqual("XLOOKUP($A$2,$B:$B,$C:$C)", sheet.Cells["A1"].Formula);
+		}
+	}
 }

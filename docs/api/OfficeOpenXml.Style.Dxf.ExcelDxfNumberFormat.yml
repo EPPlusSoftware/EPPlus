@@ -144,7 +144,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfNumberFormat.cs
-    startLine: 122
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -184,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfNumberFormat.cs
-    startLine: 132
+    startLine: 136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

@@ -138,9 +138,12 @@ namespace OfficeOpenXml
         /// <param name="Format">Information how to create the csv text</param>
         public void SaveToText(FileInfo file, ExcelOutputTextFormat Format)
         {
-            var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write);
-            SaveToText(fileStream, Format);
-        }
+            using (var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+				SaveToText(fileStream, Format);
+                fileStream.Close();
+			}
+		}
         /// <summary>
         /// Converts a range to text in CSV format.
         /// Invariant culture is used by default.
@@ -228,8 +231,11 @@ namespace OfficeOpenXml
         /// <param name="Format">Information how to create the csv text</param>
         public async Task SaveToTextAsync(FileInfo file, ExcelOutputTextFormat Format)
         {
-            var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write);
-            await SaveToTextAsync(fileStream, Format).ConfigureAwait(false);
+            using (var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                await SaveToTextAsync(fileStream, Format).ConfigureAwait(false);
+                fileStream.Close();
+            }
         }
         /// <summary>
         /// Converts a range to text in CSV format.
@@ -484,9 +490,7 @@ namespace OfficeOpenXml
             var v = _worksheet.GetCoreValueInner(row, col);
             if (_worksheet._flags.GetFlagValue(row, col, CellFlags.RichText))
             {
-                var xml = new XmlDocument();
-                XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v._value.ToString() + "</d:si>", Encoding.UTF8);
-                var rt = new ExcelRichTextCollection(_worksheet.NameSpaceManager, xml.SelectSingleNode("d:si", _worksheet.NameSpaceManager), this);
+                var rt = (ExcelRichTextCollection)v._value;
                 v._value = rt.Text;
             }
             return v;

@@ -12,8 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Style;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
@@ -43,66 +41,57 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal static string GetPatternSvg(ExcelFillStyle patternType, string backgroundColor, string patternColor)
         {
-            string svg;
-            switch (patternType)
-            {
-                case ExcelFillStyle.DarkGray:
-                    svg = string.Format(Dott75, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.MediumGray:
-                    svg = string.Format(Dott50, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.LightGray:
-                    svg = string.Format(Dott25, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.Gray125:
-                    svg = string.Format(Dott12_5, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.Gray0625:
-                    svg = string.Format(Dott6_25, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.DarkHorizontal:
-                    svg = string.Format(HorizontalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.DarkVertical:
-                    svg = string.Format(VerticalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.LightHorizontal:
-                    svg = string.Format(ThinHorizontalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.LightVertical:
-                    svg = string.Format(ThinVerticalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.DarkDown:
-                    svg = string.Format(ReverseDiagonalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.DarkUp:
-                    svg = string.Format(DiagonalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.LightDown:
-                    svg = string.Format(ThinReverseDiagonalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.LightUp:
-                    svg = string.Format(ThinDiagonalStripe, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.DarkGrid:
-                    svg = string.Format(DiagonalCrosshatch, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.DarkTrellis:
-                    svg = string.Format(ThickDiagonalCrosshatch, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.LightGrid:
-                    svg = string.Format(ThinHorizontalCrosshatch, patternColor, backgroundColor);
-                    break;
-                case ExcelFillStyle.LightTrellis:
-                    svg = string.Format(ThinDiagonalCrosshatch, patternColor, backgroundColor);
-                    break;
-                default:
-                    return "";
-            }
-
+            string svg = GetPatternSvgUnConvertedString(patternType, backgroundColor, patternColor);
             return $"background-repeat:repeat;background:url(data:image/svg+xml;base64,{Convert.ToBase64String(Encoding.ASCII.GetBytes(svg))});";
         }
 
+        internal static string GetPatternSvgConvertedOnly(ExcelFillStyle patternType, string backgroundColor, string patternColor)
+        {
+            string svg = GetPatternSvgUnConvertedString(patternType, backgroundColor, patternColor);
+            return Convert.ToBase64String(Encoding.ASCII.GetBytes(svg));
+        }
+
+        private static string GetPatternSvgUnConvertedString(ExcelFillStyle patternType, string backgroundColor, string patternColor)
+        {
+            switch (patternType)
+            {
+                case ExcelFillStyle.DarkGray:
+                    return string.Format(Dott75, patternColor, backgroundColor);
+                case ExcelFillStyle.MediumGray:
+                    return string.Format(Dott50, patternColor, backgroundColor);
+                case ExcelFillStyle.LightGray:
+                    return string.Format(Dott25, patternColor, backgroundColor);
+                case ExcelFillStyle.Gray125:
+                    return string.Format(Dott12_5, patternColor, backgroundColor);
+                case ExcelFillStyle.Gray0625:
+                    return string.Format(Dott6_25, patternColor, backgroundColor);
+                case ExcelFillStyle.DarkHorizontal:
+                    return string.Format(HorizontalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.DarkVertical:
+                    return string.Format(VerticalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.LightHorizontal:
+                    return string.Format(ThinHorizontalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.LightVertical:
+                    return string.Format(ThinVerticalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.DarkDown:
+                    return string.Format(ReverseDiagonalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.DarkUp:
+                    return string.Format(DiagonalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.LightDown:
+                    return string.Format(ThinReverseDiagonalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.LightUp:
+                    return string.Format(ThinDiagonalStripe, patternColor, backgroundColor);
+                case ExcelFillStyle.DarkGrid:
+                    return string.Format(DiagonalCrosshatch, patternColor, backgroundColor);
+                case ExcelFillStyle.DarkTrellis:
+                    return string.Format(ThickDiagonalCrosshatch, patternColor, backgroundColor);
+                case ExcelFillStyle.LightGrid:
+                    return string.Format(ThinHorizontalCrosshatch, patternColor, backgroundColor);
+                case ExcelFillStyle.LightTrellis:
+                    return string.Format(ThinDiagonalCrosshatch, patternColor, backgroundColor);
+                default:
+                    return "";
+            }
+        }
     }
 }

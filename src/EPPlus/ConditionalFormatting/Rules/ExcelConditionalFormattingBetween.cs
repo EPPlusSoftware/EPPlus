@@ -12,6 +12,10 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -61,6 +65,111 @@ namespace OfficeOpenXml.ConditionalFormatting
                 xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.Between;
+        }
+
+
+        double? largestNumFormula = null;
+        double? smallestNumFormula = null;
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            var cellValue = _ws.Cells[address.Address].Value;
+            if (cellValue != null && string.IsNullOrEmpty(Formula) == false && string.IsNullOrEmpty(Formula2) == false)
+            {
+                var str = cellValue.ToString();
+
+                calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
+                calculatedFormula2 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address, true), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
+
+                var Formula1IsNum = double.TryParse(calculatedFormula1, NumberStyles.Float, CultureInfo.InvariantCulture, out double num1);
+                var Formula2IsNum = double.TryParse(calculatedFormula2, NumberStyles.Float, CultureInfo.InvariantCulture, out double num2);
+                var cellValueIsNum = double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out double numCellValue);
+
+                if (Formula1IsNum && Formula2IsNum)
+                {
+                    if (cellValueIsNum)
+                    {
+                        largestNumFormula = num1 > num2 ? num1 : num2;
+                        smallestNumFormula = num1 == largestNumFormula ? num2 : num1;
+
+                        if (smallestNumFormula <= numCellValue && numCellValue <= largestNumFormula)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                else if (Formula1IsNum == false && Formula2IsNum == false)
+                {
+                    var lesserOrGreater = string.Compare(calculatedFormula1, calculatedFormula2, true);
+
+                    var lesserStr = lesserOrGreater >= 0 ? calculatedFormula2 : calculatedFormula1;
+                    var greaterStr = lesserStr == calculatedFormula1 ? calculatedFormula2 : calculatedFormula1;
+
+                    var result1 = string.Compare(str, lesserStr, true);
+                    if (result1 >= 0)
+                    {
+                        var result2 = string.Compare(str, greaterStr, true);
+
+                        if (result2 <= 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    //If we're here one formula is string another value
+                    //In excel if one formula is string and another numeric then:
+                    //All numbers higher or equal than numeric value is considered applicable.
+                    //While all strings compared less or equal is considered applicable.
+                    double compareNum;
+                    string compareString;
+
+                    //Excel never applies cf if error is one of the formulas
+                    if (calculatedFormula1[0] == '#')
+                    {
+                        if(ExcelErrorValue.IsErrorValue(calculatedFormula1))
+                        {
+                            return false;
+                        }
+                    }
+                    //Excel never applies cf if error is one of the formulas
+                    if (calculatedFormula2[0] == '#')
+                    {
+                        if (ExcelErrorValue.IsErrorValue(calculatedFormula2))
+                        {
+                            return false;
+                        }
+                    }
+
+                    if (Formula1IsNum)
+                    {
+                        compareNum = num1;
+                        compareString = calculatedFormula2;
+                    }
+                    else
+                    {
+                        compareNum = num2;
+                        compareString = calculatedFormula1;
+                    }
+
+                    if (cellValueIsNum)
+                    {
+                        if (numCellValue >= compareNum)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if(string.Compare(str, compareString, true) <= 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         internal ExcelConditionalFormattingBetween(ExcelConditionalFormattingBetween copy, ExcelWorksheet newWs = null) : base(copy, newWs)

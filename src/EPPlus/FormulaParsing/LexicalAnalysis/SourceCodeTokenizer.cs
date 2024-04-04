@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false); }
         }
+
         /// <summary>
         /// The tokenizer used for r1c1 format. This tokenizer will keep whitespaces and add them as tokens.
         /// </summary>
@@ -73,7 +75,22 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true); }
         }
 
-        public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
+		/// <summary>
+		/// The default tokenizer. This tokenizer will remove and ignore whitespaces.
+		/// </summary>
+		public static ISourceCodeTokenizer Default_KeepWhiteSpaces
+		{
+			get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true); }
+		}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="functionRepository">A function name provider</param>
+		/// <param name="nameValueProvider">A name value provider</param>
+		/// <param name="r1c1">If true the tokenizer will use the R1C1 format</param>
+		/// <param name="keepWhitespace">If true whitspaces in formulas will be preserved</param>
+		public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
         {
             _r1c1 = r1c1;
             _keepWhitespace = keepWhitespace;
@@ -107,6 +124,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             isExponential = 0x2000,
             isLastCharQuote = 0x4000
         }
+
+        /// <summary>
+        /// Split the input string into tokens used by the formula parser
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="worksheet"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidFormulaException"></exception>
         public IList<Token> Tokenize(string input, string worksheet)
         {
             var l = new List<Token>();
@@ -159,8 +184,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     else
                     {
                         flags &= ~statFlags.isLastCharQuote;
-                    }
-                }
+						current.Append(c);
+					}
+				}
                 else
                 {
                     if (bracketCount == 0 && isInString == 0 && IsWhiteSpace(c))
@@ -406,14 +432,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             if (l.Count == 0) return default(Token);
             var i = l.Count - 1;
-            while (i >= 0 && l[i].TokenType == TokenType.WhiteSpace)
+            while (i > 0 && l[i].TokenType == TokenType.WhiteSpace)
                 i--;
             return l[i];
         }
         private Token GetLastTokenIgnore(List<Token> l, out int i, params TokenType[] ignoreTokens)
         {
             i = l.Count - 1;
-            while (i >= 0 && ignoreTokens.Contains(l[i].TokenType))
+            while (i > 0 && ignoreTokens.Contains(l[i].TokenType))
                 i--;
             return l[i];
         }
@@ -455,7 +481,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     if (c == '[' ||
                         c == '(')
                     {
-                        l.Add(new Token("isc", TokenType.Operator));
+                        l.Add(new Token(Operator.IntersectIndicator, TokenType.Operator));
                     }
                 }
 
@@ -651,8 +677,24 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                    pt.TokenType == TokenType.NameValue ||
                    pt.TokenType == TokenType.Function)
                 {
-                    l.Insert(l.Count - 1, new Token("isc", TokenType.Operator));
-                }
+                    if (_keepWhitespace && l.Count > 2 && l[l.Count - 2].TokenType==TokenType.WhiteSpace)
+                    {
+                        var wsToken = l[l.Count - 2];
+						if (wsToken.Value.Length > 1) //Multiple white space?
+                        {
+                            wsToken.Value = wsToken.Value.Substring(0, wsToken.Value.Length);
+							l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
+						}
+                        else
+                        {
+							l[l.Count - 2] = new Token(Operator.IntersectIndicator, TokenType.Operator);
+						}
+					}
+					else
+                    {
+						l.Insert(l.Count - 1, new Token(Operator.IntersectIndicator, TokenType.Operator));
+					}
+				}
             }
 
             flags &= statFlags.isTableRef;

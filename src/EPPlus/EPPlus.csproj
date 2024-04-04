@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>7.0.9.0</AssemblyVersion>
-    <FileVersion>7.0.9.0</FileVersion>
-    <Version>7.0.9</Version>
+    <AssemblyVersion>7.1.0.0</AssemblyVersion>
+    <FileVersion>7.1.0.0</FileVersion>
+    <Version>7.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 7.0.9
+		EPPlus 7.1.0
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,11 +26,20 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-		## Version 7.0.9
+		## Version 7.1.0
+		* The html export now supports most conditional formattings.
+		* Updated performance for rich text handling on ranges.
+		* Improvments in sort order and cell formatting of the ExcelRangeBase.LoadFromCollection method
 		* Bug fixes - See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
 
-		## Version 7.0.8
+		## Version 7.0.10
 		* Bug fixes 
+
+		## Version 7.0.9
+		* Bug fixes
+
+		## Version 7.0.8
+		* Bug fixes
 
 		## Version 7.0.7
 		* Bug fixes
@@ -372,7 +381,9 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 		Version history
-		7.0.9			20240215 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
+		7.1.0			20240328 Html export of Conditional formatting, Performance RichText, LoadFromCollection Enhancements. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
+		7.0.10			20240311 Minor bug fixes. 
+		7.0.9			20240215 Minor bug fixes.
 		7.0.8			20240124 Minor bug fixes.
 		7.0.7			20240119 Minor bug fixes.
 		7.0.6			20240110 Minor bug fixes.
@@ -604,6 +615,10 @@
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
 			<Version>3.0.0</Version>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="LoadFunctions\HeaderReader.cs" />
 	</ItemGroup>
 
 

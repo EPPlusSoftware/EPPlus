@@ -144,7 +144,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
-    startLine: 76
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -184,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
-    startLine: 86
+    startLine: 89
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

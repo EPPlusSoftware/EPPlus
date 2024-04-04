@@ -21,7 +21,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartTitleStandard
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 354
+    startLine: 370
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -41,6 +41,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Font
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.ThreeD
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText
@@ -80,11 +81,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 362
+    startLine: 378
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nThe chart title text\n"
+  summary: "\nThe _chart title text\n"
   example: []
   syntax:
     content: public override string Text { get; set; }
@@ -120,7 +121,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkedCell
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 391
+    startLine: 407
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -188,6 +189,12 @@ references:
   name: TextBody
   nameWithType: ExcelChartTitle.TextBody
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: TextSettings
+  nameWithType: ExcelChartTitle.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle

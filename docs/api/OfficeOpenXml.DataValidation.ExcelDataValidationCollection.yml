@@ -39,7 +39,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationCollection
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 51
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -87,7 +87,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadDataValidations
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 72
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -122,7 +122,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAnyValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 239
+    startLine: 248
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -161,7 +161,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddIntegerValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 250
+    startLine: 259
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -199,7 +199,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTextLengthValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 260
+    startLine: 269
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -237,7 +237,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDecimalValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 271
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -275,7 +275,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddListValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 282
+    startLine: 291
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -313,7 +313,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateTimeValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 292
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -351,7 +351,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTimeValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 302
+    startLine: 311
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -389,7 +389,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCustomValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 312
+    startLine: 321
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -427,7 +427,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 351
+    startLine: 360
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -464,7 +464,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InternalValidationEnabled
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 361
+    startLine: 370
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -501,7 +501,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 372
+    startLine: 381
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -545,7 +545,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 383
+    startLine: 392
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -589,7 +589,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FindAll
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 397
+    startLine: 406
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -631,7 +631,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 408
+    startLine: 417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -674,7 +674,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Find
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 426
+    startLine: 435
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -716,7 +716,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 434
+    startLine: 443
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -748,7 +748,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAll
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 499
+    startLine: 521
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -788,7 +788,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 512
+    startLine: 534
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -821,7 +821,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 520
+    startLine: 542
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

@@ -19,6 +19,7 @@ using OfficeOpenXml.Core;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Collections.Specialized;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 
 namespace OfficeOpenXml
 {
@@ -1008,10 +1009,9 @@ namespace OfficeOpenXml
             {
                 if (tokens == null)
                 {
-                    tokens = tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+                    tokens = SourceCodeTokenizer.Default.Tokenize(formula);
                 }
                 var f = "";
-                //string wsName = "";
                 for(int i=0;i<tokens.Count;i++) 
                 {
                     var t = tokens[i];
@@ -1092,23 +1092,22 @@ namespace OfficeOpenXml
                             f += "#REF!";
                         }
                         else
-                        {
-                            var ix = address.Address.LastIndexOf('!');
-                            if (ix > 0)
-                            {
-                                f += address.Address.Substring(ix + 1);
-                            }
-                            else
-                            {
-                                f += address.Address;
-                            }
+                        {                            
+                            f += address.LocalAddress;
                         }
 
 
                     }
                     else
                     {
-                        f += t.Value;
+                        if(t.TokenType == TokenType.Operator && t.Value == Operator.IntersectIndicator)
+                        {
+                            f += " ";
+                        }
+                        else
+                        {
+                            f += t.Value;
+                        }
                     }
                 }
                 return f;

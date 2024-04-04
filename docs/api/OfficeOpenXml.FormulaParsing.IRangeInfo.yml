@@ -112,7 +112,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nIf the contains more than one cell  with a value.\n"
+  summary: "\nIf the range contains more than one cell with a value.\n"
   example: []
   syntax:
     content: bool IsMulti { get; }

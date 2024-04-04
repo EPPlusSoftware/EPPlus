@@ -26,6 +26,12 @@ namespace OfficeOpenXml.LoadFunctions.Params
     {
         private readonly Dictionary<string, IEnumerable<string>> _dictionaryKeys = new Dictionary<string, IEnumerable<string>>();
         private readonly string DefaultDictionaryKeyId = Guid.NewGuid().ToString("N");
+        private IExcelNumberFormatProvider _numberFormatProvider;
+
+        internal IExcelNumberFormatProvider NumberFormatProvider
+        {
+            get { return _numberFormatProvider; }
+        }
         /// <summary>
         /// Default value for the BindingFlags property
         /// </summary>
@@ -93,6 +99,16 @@ namespace OfficeOpenXml.LoadFunctions.Params
         internal IEnumerable<string> GetDefaultDictionaryKeys()
         {
             return GetDictionaryKeys(DefaultDictionaryKeyId);
+        }
+
+        /// <summary>
+        /// Sets an <see cref="IExcelNumberFormatProvider"/> that will be used for setting NumberFormats in the range
+        /// </summary>
+        /// <param name="numberFormatProvider">The <see cref="IExcelNumberFormatProvider"/> to use</param>
+        /// <seealso cref="EpplusTableColumnAttributeBase.NumberFormatId"/>
+        public void SetNumberFormatProvider(IExcelNumberFormatProvider numberFormatProvider)
+        {
+            _numberFormatProvider = numberFormatProvider;
         }
     }
 }

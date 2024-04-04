@@ -17,6 +17,8 @@ using System.IO;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
+using System.Linq;
+
 #if NETFULL
 using System.Drawing.Imaging;
 #endif
@@ -51,8 +53,6 @@ namespace OfficeOpenXml.Drawing
                 container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
                 container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
-                var extension = Path.GetExtension(container.UriPic.OriginalString);
-                ContentType = PictureStore.GetContentType(extension);
                 if (drawings.Part.Package.PartExists(container.UriPic))
                 {
                     Part = drawings.Part.Package.GetPart(container.UriPic);
@@ -62,11 +62,19 @@ namespace OfficeOpenXml.Drawing
                     Part = null;
                     return;
                 }
+				ContentType = Part.ContentType;
 
-                byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
+				var ms = ((MemoryStream)Part.GetStream());
                 Image = new ExcelImage(this);
-                Image.Type = PictureStore.GetPictureType(extension);
-                Image.ImageBytes=iby;
+
+				var type = PictureStore.GetPictureTypeByContentType(ContentType);
+				if (    type==null)
+                {
+					type = ImageReader.GetPictureType(ms, false);
+				}
+				Image.Type = type.Value;
+                byte[] iby = ms.ToArray();
+				Image.ImageBytes=iby;
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                 var pd = (IPictureRelationDocument)_drawings;
                 if (pd.Hashes.ContainsKey(ii.Hash))
@@ -84,9 +92,12 @@ namespace OfficeOpenXml.Drawing
         {
             _lockAspectRatioPath = $"{_topPath}xdr:nvPicPr/xdr:cNvPicPr/a:picLocks/@noChangeAspect";
             _preferRelativeResizePath = $"{_topPath}xdr:nvPicPr/xdr:cNvPicPr/@preferRelativeResize";
-        }
+            _rotationPath = string.Format(_rotationPath, _topPath);
+			_horizontalFlipPath = string.Format(_horizontalFlipPath, _topPath);
+			_verticalFlipPath = string.Format(_verticalFlipPath, _topPath);
+		}
 
-        private void SetRelId(XmlNode node, ePictureType type, string relID)
+		private void SetRelId(XmlNode node, ePictureType type, string relID)
         {
             //Create relationship
             node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
@@ -401,6 +412,52 @@ namespace OfficeOpenXml.Drawing
         Uri IPictureContainer.UriPic { get; set; }
         Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
         IPictureRelationDocument IPictureContainer.RelationDocument => _drawings;
+        string _rotationPath= "{0}xdr:spPr/a:xfrm/@rot";
+		/// <summary>
+		/// Rotation angle in degrees. Positive angles are clockwise. Negative angles are counter-clockwise.
+		/// Note that EPPlus will not size the image depending on the rotation, so some angles will reqire the <see cref="ExcelDrawing.From"/> and <see cref="ExcelDrawing.To"/> coordinates to be set accordingly.
+		/// </summary>
+		public double Rotation
+		{
+			get
+			{
+				return GetXmlNodeAngel(_rotationPath);
+			}
+			set
+			{
+				SetXmlNodeAngel(_rotationPath, value, "Rotation", -100000, 100000);
+			}
+		}
+		string _horizontalFlipPath = "{0}xdr:spPr/a:xfrm/@flipH";
+		/// <summary>
+		/// If true, flips the picture horizontal about the center of its bounding box.
+		/// </summary>
+		public bool HorizontalFlip
+		{
+			get
+			{
+				return GetXmlNodeBool(_horizontalFlipPath);
+			}
+			set
+			{
+				SetXmlNodeBool(_horizontalFlipPath, value, false);
+			}
+		}
+		string _verticalFlipPath = "{0}xdr:spPr/a:xfrm/@flipV";
+		/// <summary>
+		/// If true, flips the picture vertical about the center of its bounding box.
+		/// </summary>
+		public bool VerticalFlip
+		{
+			get
+			{
+				return GetXmlNodeBool(_verticalFlipPath);
+			}
+			set
+			{
+				SetXmlNodeBool(_verticalFlipPath, value, false);
+			}
+		}
 
-    }
+	}
 }

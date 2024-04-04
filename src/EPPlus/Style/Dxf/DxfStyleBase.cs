@@ -201,6 +201,7 @@ namespace OfficeOpenXml.Style.Dxf
             ret.Tint = helper.GetXmlNodeDoubleNull(path + "/@tint");
             return ret;
         }
+
         internal static ExcelUnderLineType? GetUnderLineEnum(string value)
         {
             switch (value.ToLower(CultureInfo.InvariantCulture))

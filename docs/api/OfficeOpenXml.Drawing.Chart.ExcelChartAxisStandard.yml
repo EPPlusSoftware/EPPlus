@@ -63,6 +63,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.ThreeD
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Font
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis._title
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlines
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlineEffects
@@ -956,6 +957,12 @@ references:
   name: TextBody
   nameWithType: ExcelChartAxis.TextBody
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: TextSettings
+  nameWithType: ExcelChartAxis.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis._title
   commentId: F:OfficeOpenXml.Drawing.Chart.ExcelChartAxis._title
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis

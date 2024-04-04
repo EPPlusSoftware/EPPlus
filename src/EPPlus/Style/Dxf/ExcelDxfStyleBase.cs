@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// Base class for differential formatting styles
     /// </summary>
-    public abstract class ExcelDxfStyleBase : DxfStyleBase 
+    public abstract class ExcelDxfStyleBase : DxfStyleBase                                         
     {
         internal XmlHelperInstance _helper;            
         //internal protected string _dxfIdPath;

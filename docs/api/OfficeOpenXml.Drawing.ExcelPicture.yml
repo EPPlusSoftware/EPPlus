@@ -28,7 +28,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPicture
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 30
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -109,7 +109,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 94
+    startLine: 110
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -149,7 +149,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Image
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 221
+    startLine: 239
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -186,7 +186,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 235
+    startLine: 253
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -225,7 +225,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 265
+    startLine: 283
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -262,7 +262,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 280
+    startLine: 298
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -299,7 +299,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 295
+    startLine: 313
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -336,7 +336,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreferRelativeResize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 310
+    startLine: 328
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -373,7 +373,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockAspectRatio
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 325
+    startLine: 343
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -410,7 +410,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 353
+    startLine: 371
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

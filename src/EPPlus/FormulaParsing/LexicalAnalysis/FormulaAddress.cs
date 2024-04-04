@@ -408,7 +408,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             if (nsDict.Keys.Any(x => formula.IndexOf(x, StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 var sb = new StringBuilder();
-                foreach(var t in _tokenizerNWS.Tokenize(formula))
+                var tokens = _tokenizerNWS.Tokenize(formula);
+                foreach (var t in tokens)
                 {
                     if (t.TokenTypeIsSet(TokenType.Function) && nsDict.ContainsKey(t.Value))
                     {
@@ -884,11 +885,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     case TokenType.TableColumn:
                         if (string.IsNullOrEmpty(ColumnName1))
                         {
-                            ColumnName1 = t.Value;
+                            ColumnName1 = ExcelTableColumn.DecodeTableColumnName(t.Value);
                         }
                         else
                         {
-                            ColumnName2 = t.Value;
+                            ColumnName2 = ExcelTableColumn.DecodeTableColumnName(t.Value);
                         }
                         break;
 

@@ -94,6 +94,7 @@ items:
   - System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.RemoveRange(System.Int32,System.Int32)
   - System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Reverse
   - System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Reverse(System.Int32,System.Int32)
+  - System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Slice(System.Int32,System.Int32)
   - System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Sort
   - System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Sort(System.Collections.Generic.IComparer{OfficeOpenXml.Export.ToDataTable.DataColumnMapping})
   - System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Sort(System.Comparison{OfficeOpenXml.Export.ToDataTable.DataColumnMapping})
@@ -3298,6 +3299,65 @@ references:
     name: Reverse
     nameWithType: List(Of DataColumnMapping).Reverse
     fullName: System.Collections.Generic.List(Of OfficeOpenXml.Export.ToDataTable.DataColumnMapping).Reverse
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Slice(System.Int32,System.Int32)
+  commentId: M:System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}.Slice(System.Int32,System.Int32)
+  parent: System.Collections.Generic.List{OfficeOpenXml.Export.ToDataTable.DataColumnMapping}
+  definition: System.Collections.Generic.List`1.Slice(System.Int32,System.Int32)
+  name: Slice(Int32, Int32)
+  nameWithType: List<DataColumnMapping>.Slice(Int32, Int32)
+  fullName: System.Collections.Generic.List<OfficeOpenXml.Export.ToDataTable.DataColumnMapping>.Slice(System.Int32, System.Int32)
+  nameWithType.vb: List(Of DataColumnMapping).Slice(Int32, Int32)
+  fullName.vb: System.Collections.Generic.List(Of OfficeOpenXml.Export.ToDataTable.DataColumnMapping).Slice(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1.Slice(System.Int32,System.Int32)
+    name: Slice
+    nameWithType: List<DataColumnMapping>.Slice
+    fullName: System.Collections.Generic.List<OfficeOpenXml.Export.ToDataTable.DataColumnMapping>.Slice
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.List`1.Slice(System.Int32,System.Int32)
+    name: Slice
+    nameWithType: List(Of DataColumnMapping).Slice
+    fullName: System.Collections.Generic.List(Of OfficeOpenXml.Export.ToDataTable.DataColumnMapping).Slice
     isExternal: true
   - name: (
     nameWithType: (
@@ -7170,6 +7230,64 @@ references:
     name: Reverse
     nameWithType: List(Of T).Reverse
     fullName: System.Collections.Generic.List(Of T).Reverse
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1.Slice(System.Int32,System.Int32)
+  commentId: M:System.Collections.Generic.List`1.Slice(System.Int32,System.Int32)
+  isExternal: true
+  name: Slice(Int32, Int32)
+  nameWithType: List<T>.Slice(Int32, Int32)
+  fullName: System.Collections.Generic.List<T>.Slice(System.Int32, System.Int32)
+  nameWithType.vb: List(Of T).Slice(Int32, Int32)
+  fullName.vb: System.Collections.Generic.List(Of T).Slice(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1.Slice(System.Int32,System.Int32)
+    name: Slice
+    nameWithType: List<T>.Slice
+    fullName: System.Collections.Generic.List<T>.Slice
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.List`1.Slice(System.Int32,System.Int32)
+    name: Slice
+    nameWithType: List(Of T).Slice
+    fullName: System.Collections.Generic.List(Of T).Slice
     isExternal: true
   - name: (
     nameWithType: (

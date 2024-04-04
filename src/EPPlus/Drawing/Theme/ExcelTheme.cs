@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Theme
     /// </summary>
     public class ExcelTheme : ExcelThemeBase
     {
-        ExcelWorkbook _workbook;
+        internal ExcelWorkbook _wb;
         /// <summary>
         /// The name of the theme
         /// </summary>
@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Drawing.Theme
         internal ExcelTheme(ExcelWorkbook workbook, ZipPackageRelationship rel)
             : base(workbook._package,workbook.NameSpaceManager, rel, "a:themeElements/")
         {
-            _workbook = workbook;
+            _wb = workbook;
         }
     }
 }

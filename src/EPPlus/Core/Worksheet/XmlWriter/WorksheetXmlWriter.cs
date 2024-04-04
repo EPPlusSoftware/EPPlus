@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
@@ -20,12 +19,9 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
@@ -34,12 +30,12 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
+using static OfficeOpenXml.ExcelWorkbook;
 using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.Core.Worksheet.XmlWriter
@@ -377,7 +373,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             var vTag = prefix + "v";
             var nsf = _package.Workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository.NamespaceFunctions;
             StringBuilder sbXml = new StringBuilder();
-            var ss = _package.Workbook._sharedStrings;
+            var ssLookup = _package.Workbook._sharedStringsLookup;
+            var ssList = _package.Workbook._sharedStringsListNew;
             var cache = new StringBuilder();
             cache.Append($"<{sheetDataTag}>");
 
@@ -523,47 +520,59 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
                         else if (v != null)
                         {
-                            if (v is System.Collections.IEnumerable enumResult && !(v is string))
+                            if (v is ExcelRichTextCollection rt)
                             {
-                                var e = enumResult.GetEnumerator();
-                                if (e.MoveNext() && e.Current != null)
-                                    v = e.Current;
-                                else
-                                    v = string.Empty;
-                            }
-                            if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
-                            {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
-                                cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
-                            }
-                            else if(v is ExcelErrorValue e)
-                            {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
-                                cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
-                            }
-                            else
-                            {
-                                var s = Convert.ToString(v);
-                                if (s == null) //If for example a struct 
+                                var s = rt.GetXML();
+                                if (!ssLookup.TryGetValue(s, out int ix))
                                 {
-                                    s = v.ToString();
-                                    if (s == null)
-                                    {
-                                        s = "";
-                                    }
-                                }
-                                int ix;
-                                if (!ss.ContainsKey(s))
-                                {
-                                    ix = ss.Count;
-                                    ss.Add(s, new ExcelWorkbook.SharedStringItem() { isRichText = _ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.RichText), pos = ix });
-                                }
-                                else
-                                {
-                                    ix = ss[s].pos;
+                                    ix = ssLookup.Count;
+                                    ssLookup.Add(s, ix);
+                                    ssList.Add(new SharedStringRichTextItem() { RichText = rt, Position = ix });
                                 }
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\" t=\"s\"{mdAttr}>");
                                 cache.Append($"<{vTag}>{ix}</{vTag}></{cTag}>");
+                            }
+                            else
+                            {
+                                if (v is System.Collections.IEnumerable enumResult && !(v is string))
+                                {
+                                    var e = enumResult.GetEnumerator();
+                                    if (e.MoveNext() && e.Current != null)
+                                        v = e.Current;
+                                    else
+                                        v = string.Empty;
+                                }
+                                if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
+                                {
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
+                                    cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
+                                }
+                                else if (v is ExcelErrorValue e)
+                                {
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
+                                    cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
+                                }
+                                else
+                                {
+                                    var s = Convert.ToString(v);
+                                    if (s == null) //If for example a struct 
+                                    {
+                                        s = v.ToString();
+                                        if (s == null)
+                                        {
+                                            s = "";
+                                        }
+                                    }
+                                    int ix;
+                                    if (!ssLookup.TryGetValue(s, out ix))
+                                    {
+                                        ix = ssLookup.Count;
+                                        ssLookup.Add(s, ix);
+                                        ssList.Add(new SharedStringTextItem() { Text = s, Position = ix });
+                                    }
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\" t=\"s\"{mdAttr}>");
+                                    cache.Append($"<{vTag}>{ix}</{vTag}></{cTag}>");
+                                }
                             }
                         }
                     }
@@ -713,6 +722,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (_ws.DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
             {
+                //Might need encode xml
                 cache.Append($"sqref=\"{_ws.DataValidations[i].Address.ToString().Replace(",", " ")}\" ");
             }
 
@@ -1130,7 +1140,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                         if (i == 0)
                         {
-                            cache.Append($"<{prefix}conditionalFormatting xmlns:xm=\"{ExcelPackage.schemaMainXm}\">");
+                            cache.Append($"<{prefix}conditionalFormatting xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
+                            if (format.PivotTable)
+                            {
+                                cache.Append($" pivot=\"1\"");
+                            }
+                            cache.Append($">");
                         }
 
                         string uid;
@@ -1569,13 +1584,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     if (!cf.IsExtLst || cf.Type == eExcelConditionalFormattingRuleType.DataBar)
                     {
-                        if (addressDict.ContainsKey(cf.Address.Address))
+                        var key = cf.Address?.Address ?? "";
+						if (addressDict.ContainsKey(key))
                         {
-                            addressDict[cf.Address.Address].Add(cf);
+                            addressDict[key].Add(cf);
                         }
                         else
                         {
-                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                            addressDict.Add(key, new List<ExcelConditionalFormattingRule>() { cf });
                         }
                     }
                 }
@@ -1590,7 +1606,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if(i == 0)
                     {
-                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\">");
+						cache.Append($"<conditionalFormatting");
+						if (conditionalFormat.Address!=null)
+                        {
+							cache.Append($" sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\"");
+						}
+						if (conditionalFormat.PivotTable)
+                        {
+                            cache.Append($" pivot=\"1\"");
+                        }
+                        cache.Append($">");
                     }
 
                     cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
@@ -1933,8 +1958,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                 if (format.Style.NumberFormat.HasValue)
                 {
+                    var numberFormat = format.Style.NumberFormat.Format.EncodeXMLAttribute();
+
                     cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
-                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                        $"formatCode = \"{numberFormat}\"/>");
                 }
 
                 if (format.Style.Fill.HasValue)

@@ -78,6 +78,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineLabel
   - OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+  - OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
   - OfficeOpenXml.Drawing.Chart.ExcelLineChart
   - OfficeOpenXml.Drawing.Chart.ExcelLineChartSerie
@@ -580,6 +581,12 @@ references:
   name: ExcelDoughnutChart
   nameWithType: ExcelDoughnutChart
   fullName: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDrawingTextSettings
+  nameWithType: ExcelDrawingTextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
   commentId: T:OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
   parent: OfficeOpenXml.Drawing.Chart

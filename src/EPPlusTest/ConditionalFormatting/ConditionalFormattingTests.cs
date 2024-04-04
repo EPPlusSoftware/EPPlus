@@ -88,9 +88,12 @@ namespace EPPlusTest.ConditionalFormatting
 
             string lastWeek = $"{lastWeekDate.Year}-{lastWeekDate.Month}-";
 
-            string lastMonth = $"{year}-{DateTime.Now.AddMonths(-1).Month}-";
+
+            var lastMonthDT = DateTime.Now.AddMonths(-1);
+            string lastMonth = $"{lastMonthDT.Year}-{lastMonthDT.Month}-";
             string thisMonth = $"{year}-{DateTime.Now.Month}-";
-            string nextMonth = $"{year}-{DateTime.Now.AddMonths(+1).Month}-";
+            var nextMonthDT = DateTime.Now.AddMonths(+1);
+            string nextMonth = $"{nextMonthDT.Year}-{nextMonthDT.Month}-";
 
             for (int i = 1; i < 11; i++)
             {
@@ -1830,6 +1833,26 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        public void GetCFFromRange()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("basicSheet");
+
+                for(int i = 1; i < 2100; i++)
+                {
+                    sheet.Cells[1, i].ConditionalFormatting.AddContainsBlanks();
+                    sheet.Cells[i, 1].ConditionalFormatting.AddBottomPercent();
+                    sheet.Cells[1, i].ConditionalFormatting.AddDatabar(Color.Red);
+                }
+
+                var dictCon = sheet.Cells["A1:E5"].ConditionalFormatting.GetConditionalFormattings();
+                Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()[0].Type, 
+                    eExcelConditionalFormattingRuleType.ContainsBlanks);
+            }
+        }
+
+        [TestMethod]
         public void CF_PriorityTest()
         {
             using (var pck = new ExcelPackage())
@@ -1934,6 +1957,8 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(cfBetween.Priority, 4);
 
                 var copiedSheet = pck.Workbook.Worksheets.Add("copySheet", firstSheet);
+
+                pck.Workbook.Worksheets[0].Cells["A1:D50"].ConditionalFormatting.GetConditionalFormattings();
 
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(1).Type, eExcelConditionalFormattingRuleType.ContainsText);
                 Assert.AreEqual(copiedSheet.ConditionalFormatting.RulesByPriority(2).Type, eExcelConditionalFormattingRuleType.AboveAverage);
@@ -2051,6 +2076,100 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(8, cf.Address.Addresses[1].End.Column);
 
                 SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void PivotTableFlagShouldStickWhenReadIn()
+        {
+            using (var package = OpenPackage("CF_pivotFlag.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("pivotWorksheet");
+
+                for (int i = 1; i < 10; i++)
+                {
+                    ws.Cells[i, 1].Value = i;
+                    ws.Cells[i, 2].Value = i - 2;
+                    ws.Cells[i, 3].Value = i - 5;
+                }
+
+                var pivotRange = ws.Cells["E1:F10"];
+
+                ws.PivotTables.Add(pivotRange, ws.Cells["A1:B10"], "SmallPivot");
+
+                var formulaValue = 5;
+
+                var cond = ws.ConditionalFormatting.AddEqual(pivotRange);
+                cond.PivotTable = true;
+                cond.Formula = formulaValue.ToString();
+                cond.Priority = 1;
+                cond.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cond.Style.Fill.BackgroundColor.SetColor(Color.BlueViolet);
+
+                var cond2 = ws.ConditionalFormatting.AddThreeColorScale(pivotRange);
+                cond2.PivotTable = true;
+
+                if (formulaValue == 9999)
+                    cond.Style.Font.Color.SetColor(Color.BlueViolet);
+                else
+                    cond.Style.Font.Color.SetColor(Color.DarkRed);
+
+                SaveAndCleanup(package);
+
+                using (var readPackage = OpenPackage("CF_pivotFlag.xlsx", false))
+                {
+                    var cfCollection = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
+                    Assert.IsTrue(cfCollection[0].PivotTable);
+                    Assert.IsTrue(cfCollection[1].PivotTable);
+
+                    SaveAndCleanup(readPackage);
+                }
+
+                //Read in again just in case
+                using (var beltAndBraces = OpenPackage("CF_pivotFlag.xlsx", false))
+                {
+                    var cfCollection = beltAndBraces.Workbook.Worksheets[0].ConditionalFormatting;
+                    Assert.IsTrue(cfCollection[0].PivotTable);
+                    Assert.IsTrue(cfCollection[1].PivotTable);
+
+                    SaveAndCleanup(beltAndBraces);
+                }
+            }
+        }
+        [TestMethod]
+        public void DoubleQuoteInNumfmtWriteReadExt()
+        {
+            using(var package = OpenPackage("CF_NumFt_ReadWrite.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("numfmt");
+                package.Workbook.Worksheets.Add("Sheet2");
+
+                var cfExpression = sheet.Cells["A1"].ConditionalFormatting.AddExpression();
+                cfExpression.Formula = "OR(Sheet2!$E$21=\"String1\",Sheet2!$E$21=\"String2\")";
+                cfExpression.Style.NumberFormat.Format = "\"S + \"0.00%";
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("CF_NumFt_ReadWrite.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var cfExpression = sheet.ConditionalFormatting[0];
+
+                Assert.AreEqual("\"S + \"0.00%", cfExpression.Style.NumberFormat.Format);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void EnsureBgAndPatternColorAreCorrect()
+        {
+            using(var p = OpenTemplatePackage("SavedDXF.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var fill = ws.Cells["B1"].ConditionalFormatting.GetConditionalFormattings()[0].Style.Fill;
+                Assert.AreEqual(fill.BackgroundColor.Theme, eThemeSchemeColor.Text2);
+                Assert.AreEqual(fill.PatternColor.Color, Color.FromArgb(255,192,0,0));
             }
         }
     }

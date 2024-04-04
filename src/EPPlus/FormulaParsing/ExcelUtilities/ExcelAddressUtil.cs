@@ -50,7 +50,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             return OfficeOpenXml.ExcelAddress.IsValidAddress(token);
         }
-        readonly static char[] NameInvalidChars = new char[] { '!', '@', '#', '$', '£', '%', '&', '/', '(', ')', '[', ']', '{', '}', '<', '>', '=', '+', '*', '-', '~', '^', ':', ';', '|', ',', ' ' };
+        readonly static char[] NameInvalidChars = new char[] { '!', '@', '#', '$', '£', '%', '&', '/', '(', ')', '[', ']', '{', '}', '<', '>', '=', '+', '*', '-', '~', '^', ':', ';', '|', ',', ' ', '\t', '\r', '\n' };
+        /// <summary>
+        /// Returns true if a defined name is valid
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static bool IsValidName(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -58,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 return false;
             }
             var fc = name[0];
-            if (!(char.IsLetter(fc) || fc == '_' || (fc == '\\' && name.Length > 2)))
+            if (!(char.IsLetter(fc) || fc == '_' || (fc == '\\' && name.Length != 2)))
             {
                 return false;
             }
