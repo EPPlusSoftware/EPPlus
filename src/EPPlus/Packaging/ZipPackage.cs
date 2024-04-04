@@ -79,18 +79,23 @@ namespace OfficeOpenXml.Packaging
                     {
                         if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
                         {
-                            AddContentTypes(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
+                            var bytes = GetZipEntryAsByteArray(_zip, e);
+                            var xml = bytes.GetEncodedString(out Encoding enc);
+                            AddContentTypes(xml, enc);
                             hasContentTypeXml = true;
                         }
 
                         else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
                         {
-                            ReadRelation(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)), "");
+                            var bytes = GetZipEntryAsByteArray(_zip, e);
+                            var xml = bytes.GetEncodedString(out Encoding enc);
+                            ReadRelation(xml, "", enc);
                         }
                         else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                         {
                             var ba = GetZipEntryAsByteArray(_zip, e);
-                            rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(ba));
+                            var xml = ba.GetEncodedString(out Encoding enc);
+                            rels.Add(GetUriKey(e.FileName), xml);
                         }
                         else
                         {
@@ -107,7 +112,7 @@ namespace OfficeOpenXml.Packaging
                     string relFile = string.Format("{0}_rels/{1}.rels", p.Key.Substring(0, p.Key.Length - name.Length), name);
                     if (rels.ContainsKey(relFile))
                     {
-                        p.Value.ReadRelation(rels[relFile], p.Value.Uri.OriginalString);
+                        p.Value.ReadRelation(rels[relFile], p.Value.Uri.OriginalString, Encoding.UTF8);
                     }
                     if (_contentTypes.ContainsKey(p.Key))
                     {
@@ -177,7 +182,7 @@ namespace OfficeOpenXml.Packaging
             }
         }
 
-        private void AddContentTypes(string xml)
+        private void AddContentTypes(string xml, Encoding enc)
         {
             var doc = new XmlDocument();
             XmlHelper.LoadXmlSafe(doc, xml, Encoding.UTF8);

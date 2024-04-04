@@ -90,10 +90,10 @@ namespace OfficeOpenXml.Packaging
         {
             return _rels[id];
         }
-        internal void ReadRelation(string xml, string source)
+        internal void ReadRelation(string xml, string source, Encoding enc)
         {
             var doc = new XmlDocument();
-            XmlHelper.LoadXmlSafe(doc, xml, Encoding.UTF8);
+            XmlHelper.LoadXmlSafe(doc, xml, enc);
 
             foreach (XmlElement c in doc.DocumentElement.ChildNodes)
             {
