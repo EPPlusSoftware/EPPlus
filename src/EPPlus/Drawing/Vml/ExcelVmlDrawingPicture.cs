@@ -343,7 +343,7 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                return _worksheet.VmlDrawings;
+                return _worksheet.HeaderFooter._vmlDrawingsHF;
             }
         }
 
@@ -351,11 +351,11 @@ namespace OfficeOpenXml.Drawing.Vml
         Uri UriPic { get; set; }
         Packaging.ZipPackageRelationship RelPic { get; set; }
 
-        IPictureRelationDocument IPictureContainer.RelationDocument => throw new NotImplementedException();
+        IPictureRelationDocument IPictureContainer.RelationDocument => _worksheet.HeaderFooter._vmlDrawingsHF;
 
-        string IPictureContainer.ImageHash { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        Uri IPictureContainer.UriPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        Packaging.ZipPackageRelationship IPictureContainer.RelPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string IPictureContainer.ImageHash { get; set; }
+        Uri IPictureContainer.UriPic { get; set; }
+        Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
 
         void IPictureContainer.RemoveImage()
         {

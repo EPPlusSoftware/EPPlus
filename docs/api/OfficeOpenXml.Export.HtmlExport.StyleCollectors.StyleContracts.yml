@@ -1,0 +1,52 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  commentId: N:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  id: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  children:
+  - OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+  - OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorderItem
+  - OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFill
+  - OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+  - OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+  - OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleExport
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  nameWithType: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+  name: IBorder
+  nameWithType: IBorder
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorderItem
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorderItem
+  name: IBorderItem
+  nameWithType: IBorderItem
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorderItem
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFill
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFill
+  name: IFill
+  nameWithType: IFill
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFill
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+  name: IFont
+  nameWithType: IFont
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+  name: IStyleColor
+  nameWithType: IStyleColor
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleExport
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleExport
+  name: IStyleExport
+  nameWithType: IStyleExport
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleExport

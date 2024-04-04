@@ -64,6 +64,11 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            return _ws.Cells[address.Start.Address].Value == null ? false : true;
+        }
+
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingNotContainsBlanks(this, newWs);
@@ -77,9 +82,18 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            Formula = string.Format(
-              "LEN(TRIM({0}))>0",
-              Address.Start.Address);
+            if (Address != null)
+            {
+                Formula = string.Format(
+                  "LEN(TRIM({0}))>0",
+                  Address.Start.Address);
+            }
+            else
+            {
+                Formula = string.Format(
+                  "LEN(TRIM({0}))>0",
+                  "#REF!");
+            }
         }
 
         #endregion Constructors

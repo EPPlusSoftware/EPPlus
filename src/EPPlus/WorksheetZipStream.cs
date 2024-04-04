@@ -41,9 +41,6 @@ namespace OfficeOpenXml
         {
             _stream.Flush();
         }
-
-        //byte[] _buffer = null;
-        //byte[] _prevBuffer, _tempBuffer = new byte[8192];
         public override int Read(byte[] buffer, int offset, int count)
         {
             if(_stream.Length > 0 && _stream.Position + count > _stream.Length)
@@ -124,7 +121,14 @@ namespace OfficeOpenXml
         {
             var placeholderTag = xml.Substring(startIx, endIx - startIx);
             placeholderTag = placeholderTag.Replace("/", "");
-            placeholderTag = placeholderTag.Substring(0, placeholderTag.Length - 1) + "/>";
+            if (placeholderTag.EndsWith(">"))
+            {
+                placeholderTag = placeholderTag.Substring(0, placeholderTag.Length - 1) + "/>";
+            }
+            else
+            {
+                placeholderTag += "/>"; //This can happend if the tag is the last element without the ">" in the buffer
+            }
             return placeholderTag;
         }
 
@@ -152,6 +156,11 @@ namespace OfficeOpenXml
                         startIx--;
                     }
                     endIx = ix + element.Length;
+                    if (endIx >= xml.Length)
+                    {
+                        endIx = xml.Length;
+                        return;
+                    }
                     while (endIx < xml.Length && xml[endIx] == ' ')
                     {
                         endIx++;
@@ -375,6 +384,7 @@ namespace OfficeOpenXml
         /// <param name="xml">The xml to search</param>
         /// <param name="element">The element</param>
         /// <param name="returnStartPos">If the position before the start element is returned. If false the end of the end element is returned.</param>
+        /// <param name="ix">The index</param>
         /// <returns>The position of the element in the input xml</returns>
         private int FindLastElementPosWithoutPrefix(string xml, string element, bool returnStartPos = true, int ix = 0)
         {

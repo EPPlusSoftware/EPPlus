@@ -14,20 +14,16 @@ using System;
 using System.Xml;
 using System.Linq;
 using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using draw=System.Drawing;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer.Style;
 using OfficeOpenXml.Table;
 using System.Globalization;
+using System.Drawing;
 
 namespace OfficeOpenXml
 {
@@ -54,6 +50,166 @@ namespace OfficeOpenXml
         XmlNamespaceManager _nameSpaceManager;
         internal int _nextDfxNumFmtID = 164;
 
+
+        private readonly string[] _indexedColors = new string[]
+        {
+                "#FF000000", // 0
+                "#FFFFFFFF",
+                "#FFFF0000",
+                "#FF00FF00",
+                "#FF0000FF",
+                "#FFFFFF00",
+                "#FFFF00FF",
+                "#FF00FFFF",
+                "#FF000000", // 8
+                "#FFFFFFFF",
+                "#FFFF0000",
+                "#FF00FF00",
+                "#FF0000FF",
+                "#FFFFFF00",
+                "#FFFF00FF",
+                "#FF00FFFF",
+                "#FF800000", // 16
+                "#FF008000",
+                "#FF000080",
+                "#FF808000",
+                "#FF800080",
+                "#FF008080",
+                "#FFC0C0C0",
+                "#FF808080",
+                "#FF9999FF", // 24
+                "#FF993366",
+                "#FFFFFFCC",
+                "#FFCCFFFF",
+                "#FF660066",
+                "#FFFF8080",
+                "#FF0066CC",
+                "#FFCCCCFF",
+                "#FF000080", // 32
+                "#FFFF00FF",
+                "#FFFFFF00",
+                "#FF00FFFF",
+                "#FF800080",
+                "#FF800000",
+                "#FF008080",
+                "#FF0000FF",
+                "#FF00CCFF", // 40
+                "#FFCCFFFF",
+                "#FFCCFFCC",
+                "#FFFFFF99",
+                "#FF99CCFF",
+                "#FFFF99CC",
+                "#FFCC99FF",
+                "#FFFFCC99",
+                "#FF3366FF", // 48
+                "#FF33CCCC",
+                "#FF99CC00",
+                "#FFFFCC00",
+                "#FFFF9900",
+                "#FFFF6600",
+                "#FF666699",
+                "#FF969696",
+                "#FF003366", // 56
+                "#FF339966",
+                "#FF003300",
+                "#FF333300",
+                "#FF993300",
+                "#FF993366",
+                "#FF333399",
+                "#FF333333", // 63
+                null,        // last two are specified as N/A in OOXML docs
+                null
+            };
+
+        internal Color[] indexedColorAsColor =
+        {
+                Color.FromArgb(0xFF,0x00,0x00,0x00), //#FF000000
+                Color.FromArgb(0xFF,0xFF,0xFF,0xFF), //#FFFFFFFF
+                Color.FromArgb(0xFF,0xFF,0x00,0x00), //#FFFF0000 
+                Color.FromArgb(0xFF,0x00,0xFF,0x00), //#FF00FF00 
+                Color.FromArgb(0xFF,0x00,0x00,0xFF), //#FF0000FF 
+                Color.FromArgb(0xFF,0xFF,0xFF,0x00), //#FFFFFF00 
+                Color.FromArgb(0xFF,0xFF,0x00,0xFF), //#FFFF00FF 
+                Color.FromArgb(0xFF,0x00,0xFF,0xFF), //#FF00FFFF
+                Color.FromArgb(0xFF,0x00,0x00,0x00), //#FF000000 // 8
+                Color.FromArgb(0xFF,0xFF,0xFF,0xFF), //#FFFFFFFF
+                Color.FromArgb(0xFF,0xFF,0x00,0x00), //#FFFF0000 
+                Color.FromArgb(0xFF,0x00,0xFF,0x00), //#FF00FF00 
+                Color.FromArgb(0xFF,0x00,0x00,0xFF), //#FF0000FF 
+                Color.FromArgb(0xFF,0xFF,0xFF,0x00), //#FFFFFF00 
+                Color.FromArgb(0xFF,0xFF,0x00,0xFF), //#FFFF00FF 
+                Color.FromArgb(0xFF,0x00,0xFF,0xFF), //#FF00FFFF //15
+                Color.FromArgb(0xFF,0x80,0x00,0x00), //#FF800000
+                Color.FromArgb(0xFF,0x00,0x80,0x00), //#FF008000
+                Color.FromArgb(0xFF,0x00,0x00,0x80), //#FF000080
+                Color.FromArgb(0xFF,0x80,0x80,0x00), //#FF808000
+                Color.FromArgb(0xFF,0x80,0x00,0x80), //#FF800080
+                Color.FromArgb(0xFF,0x00,0x80,0x80), //#FF008080
+                Color.FromArgb(0xFF,0xC0,0xC0,0xC0), //#FFC0C0C0
+                Color.FromArgb(0xFF,0x80,0x80,0x80), //#FF808080
+                Color.FromArgb(0xFF,0x99,0x99,0xFF), //#FF9999FF
+                Color.FromArgb(0xFF,0x99,0x33,0x66), //#FF993366
+                Color.FromArgb(0xFF,0xFF,0xFF,0xCC), //#FFFFFFCC
+                Color.FromArgb(0xFF,0xCC,0xFF,0xFF), //#FFCCFFFF
+                Color.FromArgb(0xFF,0x66,0x00,0x66), //#FF660066
+                Color.FromArgb(0xFF,0xFF,0x80,0x80), //#FFFF8080
+                Color.FromArgb(0xFF,0x00,0x66,0xCC), //#FF0066CC
+                Color.FromArgb(0xFF,0xCC,0xCC,0xFF), //#FFCCCCFF
+                Color.FromArgb(0xFF,0x00,0x00,0x80), //#FF000080
+                Color.FromArgb(0xFF,0xFF,0x00,0xFF), //#FFFF00FF
+                Color.FromArgb(0xFF,0xFF,0xFF,0x00), //#FFFFFF00
+                Color.FromArgb(0xFF,0x00,0xFF,0xFF), //#FF00FFFF
+                Color.FromArgb(0xFF,0x80,0x00,0x80), //#FF800080
+                Color.FromArgb(0xFF,0x80,0x00,0x00), //#FF800000
+                Color.FromArgb(0xFF,0x00,0x80,0x80), //#FF008080
+                Color.FromArgb(0xFF,0x00,0x00,0xFF), //#FF0000FF
+                Color.FromArgb(0xFF,0x00,0xCC,0xFF), //#FF00CCFF
+                Color.FromArgb(0xFF,0xCC,0xFF,0xFF), //#FFCCFFFF
+                Color.FromArgb(0xFF,0xCC,0xFF,0xCC), //#FFCCFFCC
+                Color.FromArgb(0xFF,0xFF,0xFF,0x99), //#FFFFFF99
+                Color.FromArgb(0xFF,0x99,0xCC,0xFF), //#FF99CCFF
+                Color.FromArgb(0xFF,0xFF,0x99,0xCC), //#FFFF99CC
+                Color.FromArgb(0xFF,0xCC,0x99,0xFF), //#FFCC99FF
+                Color.FromArgb(0xFF,0xFF,0xCC,0x99), //#FFFFCC99
+                Color.FromArgb(0xFF,0x33,0x66,0xFF), //#FF3366FF
+                Color.FromArgb(0xFF,0x33,0xCC,0xCC), //#FF33CCCC
+                Color.FromArgb(0xFF,0x99,0xCC,0x00), //#FF99CC00
+                Color.FromArgb(0xFF,0xFF,0xCC,0x00), //#FFFFCC00
+                Color.FromArgb(0xFF,0xFF,0x99,0x00), //#FFFF9900
+                Color.FromArgb(0xFF,0xFF,0x66,0x00), //#FFFF6600
+                Color.FromArgb(0xFF,0x66,0x66,0x99), //#FF666699
+                Color.FromArgb(0xFF,0x96,0x96,0x96), //#FF969696
+                Color.FromArgb(0xFF,0x00,0x33,0x66), //#FF003366
+                Color.FromArgb(0xFF,0x33,0x99,0x66), //#FF339966
+                Color.FromArgb(0xFF,0x00,0x33,0x00), //#FF003300
+                Color.FromArgb(0xFF,0x33,0x33,0x00), //#FF333300
+                Color.FromArgb(0xFF,0x99,0x33,0x00), //#FF993300
+                Color.FromArgb(0xFF,0x99,0x33,0x66), //#FF993366
+                Color.FromArgb(0xFF,0x33,0x33,0x99), //#FF333399
+                Color.FromArgb(0xFF,0x33,0x33,0x33), //#FF333333 // 63
+                Color.Empty,
+                Color.Empty,
+        };
+        internal string[] IndexedColors { get { return _indexedColors; } }
+
+        internal Color GetIndexedColor(int index)
+        {
+            if (index >= 0 && index < IndexedColors.Length)
+            {
+                var s = IndexedColors[index];
+                if (s != null)
+                {
+                    var a = int.Parse(s.Substring(1, 2), NumberStyles.HexNumber);
+                    var r = int.Parse(s.Substring(3, 2), NumberStyles.HexNumber);
+                    var g = int.Parse(s.Substring(5, 2), NumberStyles.HexNumber);
+                    var b = int.Parse(s.Substring(7, 2), NumberStyles.HexNumber);
+                    return Color.FromArgb(a, r, g, b);
+                }
+                //return indexedColorAsColor[index];
+            }
+            return Color.Empty;
+        }
+
         internal ExcelStyles(XmlNamespaceManager NameSpaceManager, XmlDocument xml, ExcelWorkbook wb) :
             base(NameSpaceManager, xml.DocumentElement)
         {
@@ -75,7 +231,9 @@ namespace OfficeOpenXml
                 int index = 0;
                 foreach (XmlNode node in colorNodes)
                 {
-                    ExcelColor.indexedColors[index++] = "#" + node.Attributes["rgb"].InnerText;
+                    // Max number of indexed colors is 66
+                    if (index > 65) break;
+                    IndexedColors[index++] = "#" + node.Attributes["rgb"].InnerText;
                 }
             }
 
@@ -268,20 +426,20 @@ namespace OfficeOpenXml
         {
             var address = new ExcelAddressBase(e.Address);
             var ws = _wb.Worksheets[e.PositionID];
-            Dictionary<int, int> styleCashe = new Dictionary<int, int>();
+            Dictionary<int, int> styleCache = new Dictionary<int, int>();
             //Set single address
             lock (ws._values)
             {
                 if (address.Addresses == null)
                 {
-                    SetStyleAddress(sender, e, address, ws, ref styleCashe);
+                    SetStyleAddress(sender, e, address, ws, ref styleCache);
                 }
                 else
                 {
                     //Handle multiaddresses
                     foreach (var innerAddress in address.Addresses)
                     {
-                        SetStyleAddress(sender, e, innerAddress, ws, ref styleCashe);
+                        SetStyleAddress(sender, e, innerAddress, ws, ref styleCache);
                     }
                 }
             }
@@ -310,7 +468,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private void SetStyleCells(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCashe)
+        private void SetStyleCells(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCache)
         {
             ws._values.EnsureColumnsExists(address._fromCol, address._toCol);
             var rowCache = new Dictionary<int, int>(address.End.Row - address.Start.Row + 1);
@@ -387,9 +545,9 @@ namespace OfficeOpenXml
                             }
                         }
                     }
-                    if (styleCashe.ContainsKey(s))
+                    if (styleCache.ContainsKey(s))
                     {
-                        ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = styleCashe[s] });
+                        ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = styleCache[s] });
                     }
                     else
                     {
@@ -413,7 +571,7 @@ namespace OfficeOpenXml
                         }
 
                         int newId = st.GetNewID(CellXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
-                        styleCashe.Add(s, newId);
+                        styleCache.Add(s, newId);
                         ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = newId });
                     }
                 }
@@ -474,7 +632,7 @@ namespace OfficeOpenXml
                             }
                             else 
                             {
-                                cs = c.StyleID;
+                                s = cs = c.StyleID;
                                 break;
                             }
                         }
@@ -1005,7 +1163,7 @@ namespace OfficeOpenXml
         {
             if (templateStyle == Table.TableStyles.Custom)
             {
-                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´PivotTableStyles´ overload of this method.", nameof(templateStyle));
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the 'PivotTableStyles' overload of this method.", nameof(templateStyle));
             }
 
             var s = CreateTableAndPivotTableStyle(name);
@@ -1022,7 +1180,7 @@ namespace OfficeOpenXml
         {
             if (templateStyle == PivotTableStyles.Custom)
             {
-                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´ExcelTableNamedStyleBase´ overload of this method.", nameof(templateStyle));
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the 'ExcelTableNamedStyleBase' overload of this method.", nameof(templateStyle));
             }
 
             var s = CreateTableAndPivotTableStyle(name);
@@ -1092,7 +1250,7 @@ namespace OfficeOpenXml
         {
             if(templateStyle==eSlicerStyle.Custom)
             {
-                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´ExcelSlicerNamedStyle´ overload of this method.", nameof(templateStyle));
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the 'ExcelSlicerNamedStyle' overload of this method.", nameof(templateStyle));
             }
             var s = CreateSlicerStyle(name);
             s.SetFromTemplate(templateStyle);
@@ -1682,7 +1840,18 @@ namespace OfficeOpenXml
                 return new ExcelDxfStyle(NameSpaceManager, null, this, callback);
             }
         }
-        internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+		internal ExcelDxfBorderBase GetDxfBorder(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+		{
+			if (dxfId.HasValue && dxfId < Dxfs.Count)
+			{
+				return Dxfs[dxfId.Value].ToDxfBorderBaseStyle();
+			}
+			else
+			{
+				return new ExcelDxfBorderBase(this, callback);
+			}
+		}
+		internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
         {
             if (dxfId.HasValue && dxfId < Dxfs.Count)
             {
@@ -1716,6 +1885,5 @@ namespace OfficeOpenXml
                 return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, null);
             }
         }
-
-    }
+	}
 }

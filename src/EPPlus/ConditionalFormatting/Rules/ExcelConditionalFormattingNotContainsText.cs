@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 
@@ -19,7 +20,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     internal class ExcelConditionalFormattingNotContainsText : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingNotContainsText
     {
-        public ExcelConditionalFormattingNotContainsText(
+        internal ExcelConditionalFormattingNotContainsText(
           ExcelAddress address,
           int priority,
           ExcelWorksheet worksheet)
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Text = string.Empty;
         }
 
-        public ExcelConditionalFormattingNotContainsText(
+        internal ExcelConditionalFormattingNotContainsText(
           ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
           : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
         {
@@ -93,15 +94,48 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_text != null)
             {
-                Formula = string.Format(
-                    "ISERROR(SEARCH(\"{1}\",{0}))",
-                    Address.Start.Address,
-                    _text);
+                if(Address != null)
+                {
+                    Formula = string.Format(
+                        "ISERROR(SEARCH(\"{1}\",{0}))",
+                        Address.Start.Address,
+                        _text);
+                }
+                else
+                {
+                    Formula = string.Format(
+                        "ISERROR(SEARCH(\"{1}\",{0}))",
+                        "#REF!",
+                        _text);
+                }
             }
             else if (Formula2 != null)
             {
                 Formula = Formula2;
             }
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                //Formula2 only filled if there's a cell or formula to cond
+                if (_ws.Cells[address.Start.Address].Value != null)
+                {
+                    var stringValue = _ws.Cells[address.Start.Address].Value.ToString();
+
+                    if (Formula2 != null)
+                    {
+                        return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, Formula2, CompareOptions.IgnoreCase) >= 0 ? false : true;
+                    }
+                    else
+                    {
+                        return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, _text, CompareOptions.IgnoreCase) >= 0 ? false : true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         internal override bool IsExtLst

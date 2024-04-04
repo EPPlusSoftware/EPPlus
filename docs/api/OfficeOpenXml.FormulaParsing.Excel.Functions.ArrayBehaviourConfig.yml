@@ -183,7 +183,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  summary: "\nReturns true if the 0-based <code data-dev-comment-type=\"paramref\" class=\"paramref\">ix</code>\noccurs in the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig.SetArrayParameterIndexes(System.Int32%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref> list or if\nthe index matches the configuration of <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig.IgnoreNumberOfArgsFromStart\" data-throw-if-not-resolved=\"false\"></xref>\nand <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig.ArrayArgInterval\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nReturns true if the 0-based <code data-dev-comment-type=\"paramref\" class=\"paramref\">argIx</code>\noccurs in the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig.SetArrayParameterIndexes(System.Int32%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref> list or if\nthe index matches the configuration of <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig.IgnoreNumberOfArgsFromStart\" data-throw-if-not-resolved=\"false\"></xref>\nand <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig.ArrayArgInterval\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public bool CanBeArrayArg(int argIx)

@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  id: HiddenCellHandlingCategory
+  parent: OfficeOpenXml.FormulaParsing.Excel
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Aggregate
+  - OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Default
+  - OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Subtotal
+  langs:
+  - csharp
+  - vb
+  name: HiddenCellHandlingCategory
+  nameWithType: HiddenCellHandlingCategory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HiddenCellHandlingCategory
+    path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nThis enum is used to indicate how a function\nhandles hidden cells.\n"
+  example: []
+  syntax:
+    content: public enum HiddenCellHandlingCategory
+    content.vb: Public Enum HiddenCellHandlingCategory
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Default
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Default
+  id: Default
+  parent: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: HiddenCellHandlingCategory.Default
+  fullName: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Default
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default
+    path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nUsed to indicate that the function has the default behaviour\n"
+  example: []
+  syntax:
+    content: Default = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Subtotal
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Subtotal
+  id: Subtotal
+  parent: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  langs:
+  - csharp
+  - vb
+  name: Subtotal
+  nameWithType: HiddenCellHandlingCategory.Subtotal
+  fullName: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Subtotal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Subtotal
+    path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nThe function has the SUBTOTAL behaviour\n"
+  example: []
+  syntax:
+    content: Subtotal = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Aggregate
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Aggregate
+  id: Aggregate
+  parent: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  langs:
+  - csharp
+  - vb
+  name: Aggregate
+  nameWithType: HiddenCellHandlingCategory.Aggregate
+  fullName: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory.Aggregate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Aggregate
+    path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nThe function has the AGGREGATE behaviour\n"
+  example: []
+  syntax:
+    content: Aggregate = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel
+  name: OfficeOpenXml.FormulaParsing.Excel
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel
+  fullName: OfficeOpenXml.FormulaParsing.Excel
+- uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+  parent: OfficeOpenXml.FormulaParsing.Excel
+  name: HiddenCellHandlingCategory
+  nameWithType: HiddenCellHandlingCategory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory

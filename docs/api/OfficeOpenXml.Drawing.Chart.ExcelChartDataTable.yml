@@ -14,6 +14,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.ShowOutline
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.ShowVerticalBorder
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.ThreeD
   langs:
   - csharp
@@ -353,6 +354,43 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings
+  id: TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable
+  langs:
+  - csharp
+  - vb
+  name: TextSettings
+  nameWithType: ExcelChartDataTable.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartDataTable.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextSettings
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartDataTable.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nText settings like fills, text outlines and effects \n"
+  example: []
+  syntax:
+    content: public ExcelDrawingTextSettings TextSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+    content.vb: Public ReadOnly Property TextSettings As ExcelDrawingTextSettings
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.Effect
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.Effect
   id: Effect
@@ -371,7 +409,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataTable.cs
-    startLine: 176
+    startLine: 191
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -408,7 +446,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataTable.cs
-    startLine: 191
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -817,6 +855,17 @@ references:
   name: ExcelTextBody
   nameWithType: ExcelTextBody
   fullName: OfficeOpenXml.Drawing.ExcelTextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings
+  name: TextSettings
+  nameWithType: ExcelChartDataTable.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.TextSettings
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDrawingTextSettings
+  nameWithType: ExcelDrawingTextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.Effect*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartDataTable.Effect
   name: Effect

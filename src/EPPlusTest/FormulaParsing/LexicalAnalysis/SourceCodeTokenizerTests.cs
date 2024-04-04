@@ -36,6 +36,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
@@ -389,6 +390,32 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.WorksheetNameContent));
             Assert.AreEqual("Sheet 1''21", tokens[6].Value);
             
+        }
+        [TestMethod]
+        public void NegatorHandlingWhenTokenizingIntegersAndAddresses()
+        {
+            var input = "10-'Sheet A'!A1";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(7,tokens.Length);
+            Assert.AreEqual(TokenType.Operator, tokens[1].TokenType);
+            Assert.AreEqual("-", tokens[1].Value);
+        }
+
+        //case: s635
+        //GetLastTokenIgnore in SourceCodeTokenizer.cs should not throw on -'
+        [TestMethod]
+        public void TokenizeNegatorSingleQuoteShouldNotThrow()
+        {
+            using (ExcelPackage package = new ExcelPackage("tokenizerTestNegator.xlsx"))
+            {
+                string input = "-'[1]16testName'!$X$106";
+                string sheetName = "tokenizeTest";
+                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(sheetName);
+
+                var result = sct.Tokenize(input, sheetName);
+            }
         }
     }
 }

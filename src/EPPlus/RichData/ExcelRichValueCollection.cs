@@ -18,21 +18,31 @@ namespace OfficeOpenXml.RichData
         ZipPackagePart _part;
         ExcelRichValueStructureCollection _structures;
         Uri _uri;
+        const string PART_URI_PATH = "/xl/richData/rdrichvalue.xml";
         public ExcelRichValueCollection(ExcelWorkbook wb, ExcelRichValueStructureCollection structures)
         {
             _wb = wb;
             _structures = structures;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueRelationship).FirstOrDefault();
-            if (r != null)
+            if (r == null)
+            {
+                _uri = new Uri(PART_URI_PATH, UriKind.Relative);
+            }
+            else
             {
                 _uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
-                if (wb._package.ZipPackage.PartExists(_uri))
-                {
-                    _part = wb._package.ZipPackage.GetPart(_uri);
-                    ReadXml(_part.GetStream());
-                }
+            }
+            LoadPart(wb);
+        }
+        private void LoadPart(ExcelWorkbook wb)
+        {
+            if (wb._package.ZipPackage.PartExists(_uri))
+            {
+                _part = wb._package.ZipPackage.GetPart(_uri);
+                ReadXml(_part.GetStream());
             }
         }
+
         internal ZipPackagePart Part { get { return _part; } }
         private void ReadXml(Stream stream)
         {
@@ -108,10 +118,8 @@ namespace OfficeOpenXml.RichData
         {
             if (_part == null)
             {
-                _uri = new Uri("/xl/richData/rdrichvalue.xml", UriKind.Relative);
                 _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValue);
                 _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueRelationship);
-                _part.ShouldBeSaved = false;
             }
             _part.SaveHandler = Save;
         }

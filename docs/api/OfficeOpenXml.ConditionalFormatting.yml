@@ -21,20 +21,7 @@ items:
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
   - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
   langs:
   - csharp
@@ -154,79 +141,12 @@ references:
   name: eDatabarDirection
   nameWithType: eDatabarDirection
   fullName: OfficeOpenXml.ConditionalFormatting.eDatabarDirection
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
-  name: ExcelConditionalFormattingLast7Days
-  nameWithType: ExcelConditionalFormattingLast7Days
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
-  name: ExcelConditionalFormattingLastMonth
-  nameWithType: ExcelConditionalFormattingLastMonth
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-  name: ExcelConditionalFormattingLastWeek
-  nameWithType: ExcelConditionalFormattingLastWeek
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
-  name: ExcelConditionalFormattingNextMonth
-  nameWithType: ExcelConditionalFormattingNextMonth
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
-  name: ExcelConditionalFormattingNextWeek
-  nameWithType: ExcelConditionalFormattingNextWeek
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
   parent: OfficeOpenXml.ConditionalFormatting
   name: ExcelConditionalFormattingRule
   nameWithType: ExcelConditionalFormattingRule
   fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
-  name: ExcelConditionalFormattingThisMonth
-  nameWithType: ExcelConditionalFormattingThisMonth
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
-  name: ExcelConditionalFormattingThisWeek
-  nameWithType: ExcelConditionalFormattingThisWeek
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-  name: ExcelConditionalFormattingThreeColorScale
-  nameWithType: ExcelConditionalFormattingThreeColorScale
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
-  parent: OfficeOpenXml.ConditionalFormatting
-  name: ExcelConditionalFormattingTimePeriodGroup
-  nameWithType: ExcelConditionalFormattingTimePeriodGroup
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
-  name: ExcelConditionalFormattingToday
-  nameWithType: ExcelConditionalFormattingToday
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-  name: ExcelConditionalFormattingTomorrow
-  nameWithType: ExcelConditionalFormattingTomorrow
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-  parent: OfficeOpenXml.ConditionalFormatting
-  name: ExcelConditionalFormattingTwoColorScale
-  nameWithType: ExcelConditionalFormattingTwoColorScale
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
-  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
-  name: ExcelConditionalFormattingYesterday
-  nameWithType: ExcelConditionalFormattingYesterday
-  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
 - uid: OfficeOpenXml.ConditionalFormatting
   commentId: N:OfficeOpenXml.ConditionalFormatting
   name: OfficeOpenXml.ConditionalFormatting

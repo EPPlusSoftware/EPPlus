@@ -30,10 +30,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Drawing;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 
 namespace EPPlusTest.Table
 {
@@ -695,6 +696,168 @@ namespace EPPlusTest.Table
                 // Create a table
                 var tableCells = worksheet.Cells["A1:B2"];
                 var table = worksheet.Tables.Add(tableCells, "table"); // --> This triggers a NullReferenceException
+            }
+        }
+
+        [TestMethod]
+        public void ShowTotalWhenValueBelowIt()
+        {
+            using (var package = OpenPackage("ShowTotalInsert.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Tables");
+
+                //Cause of issue. (Specifically sheet.cells[11,1]
+                for (int i = 1; i < 25; i++)
+                {
+                    sheet.Cells[1 + i, 1].Formula = $"\"Number:{i}\"";
+                }
+
+                sheet.Cells["A1"].Value = "Month";
+                sheet.Cells["B1"].Value = "Sales";
+                sheet.Cells["C1"].Value = "VAT";
+                sheet.Cells["D1"].Value = "Total";
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:E10"), "testTable");
+                table.ShowHeader = true;
+                table.ShowFirstColumn = true;
+                table.TableStyle = TableStyles.Dark2;
+
+                sheet.Cells["A1"].Value = "testStuff";
+
+                sheet.Cells["C3:C5"].Value = 3;
+                sheet.Cells["D3:E3"].Value = 4;
+                sheet.Cells["E10"].Value = 5;
+
+                sheet.Cells["F11"].Value = "Don't clear me";
+                var noHeader = package.Workbook.Worksheets.Add("noHeader", sheet);
+                var stackTest = package.Workbook.Worksheets.Add("stackTest", sheet);
+
+                table.ShowTotal = true;
+                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+
+                sheet.Calculate();
+
+                Assert.AreEqual(sheet.Cells["A10"].Value, "Number:9");
+                Assert.AreEqual(sheet.Cells["A11"].Value, null);
+                Assert.AreEqual(sheet.Cells["A12"].Value, "Number:11");
+                Assert.AreEqual(sheet.Cells["F11"].Value, "Don't clear me");
+
+                noHeader.Tables[0].ShowHeader = false;
+                noHeader.Tables[0].ShowTotal = true;
+                noHeader.Tables[0].Columns[2].TotalsRowFunction = RowFunctions.Sum;
+
+                noHeader.Calculate();
+
+                Assert.AreEqual(noHeader.Cells["A10"].Value, "Number:9");
+                Assert.AreEqual(noHeader.Cells["A11"].Value, null);
+                Assert.AreEqual(noHeader.Cells["A12"].Value, "Number:11");
+                Assert.AreEqual(noHeader.Cells["F11"].Value, "Don't clear me");
+
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
+                stackTest.Tables[0].ShowTotal = true;
+                stackTest.Tables[0].ShowTotal = false;
+
+                stackTest.Calculate();
+
+                Assert.AreEqual(stackTest.Cells["A10"].Value, "Number:9");
+                Assert.AreEqual(stackTest.Cells["A11"].Value, null);
+                Assert.AreEqual(stackTest.Cells["A12"].Value, "Number:11");
+                Assert.AreEqual(stackTest.Cells["F11"].Value, "Don't clear me");
+
+                SaveAndCleanup(package);
+            }
+        }
+        private void InitDataTable(out DataTable table)
+        {
+            table = new DataTable();
+            table.Columns.Add("Country", typeof(string));
+            table.Columns.Add("Population", typeof(int));
+            var areaCol = table.Columns.Add("Area", typeof(int));
+            areaCol.Caption = "Area (km2)";
+
+            table.Rows.Add("Sweden", 10409248, 450295);
+            table.Rows.Add("Norway", 5402171, 385178);
+            table.Rows.Add("Netherlands", 17553530, 41198);
+        }
+
+        [TestMethod]
+        public void ColNamesAndColumnNameShouldBeEqual()
+        {
+            using (var p = OpenPackage("totalTable.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("colWs");
+
+                DataTable data = new DataTable();
+                InitDataTable(out data);
+
+                TableStyles style = TableStyles.Dark1;
+                var tableRange = sheet.Cells["A1"].LoadFromDataTable(data, true, style);
+
+                // configure the table
+                var table = sheet.Tables.GetFromRange(tableRange);
+                table.Sort(x => x.SortBy.ColumnNamed("Population", eSortOrder.Descending));
+                table.ShowTotal = true;
+                table.Columns[0].TotalsRowLabel = "Total";
+                table.Columns[1].TotalsRowFunction = RowFunctions.Sum;
+                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+
+                // add column for population density
+                table.Columns.Add(1);
+                tableRange = table.Range;
+                table.Columns[3].CalculatedColumnFormula = $"{table.Name}[[#This Row],[Population]]/{table.Name}[[#This Row],[Area (km2)]]";
+                table.Columns[3].Name = "Density";
+                table.Columns[3].TotalsRowFunction = RowFunctions.Average;
+                sheet.Calculate();
+
+                var totalRow = tableRange.End.Row;
+                Assert.AreEqual(table.Columns.GetIndexOfColName("Density"), 3);
+                Assert.AreEqual(154.40629115594086d, sheet.Cells[totalRow, 4].Value);
+            }
+
+        }
+
+        [TestMethod]
+        public void CalculatedColumnFormula_SetToEmptyString_CellStyle()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Set up a worksheet containing a table
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Cells["C1"].Value = "Col3";
+                wks.Cells["A2"].Value = 1;
+                wks.Cells["B2"].Value = 2;
+                var table1 = wks.Tables.Add(wks.Cells["A1:C5"], "Table1");
+                var formula = "Table1[[#This Row],[Col1]]+Table1[[#This Row],[Col2]]";
+                table1.Columns[2].CalculatedColumnFormula = formula;
+                wks.Calculate();
+
+                // Add a style to the cell containing the formula
+                wks.Cells["B2:C3"].Style.Font.Bold = true;
+                wks.Cells["B2:C3"].Style.Font.Size = 16;
+                wks.Cells["B2:C3"].Style.Font.Color.SetColor(eThemeSchemeColor.Text2);
+                wks.Cells["B2:C3"].Style.Font.Color.Tint = 0.39997558519241921m;
+
+                // Check the style has been applied
+                Assert.AreEqual(true, wks.Cells["B3"].Style.Font.Bold);
+                Assert.AreEqual(16, wks.Cells["B3"].Style.Font.Size, 1E-3);
+                Assert.AreEqual(eThemeSchemeColor.Text2, wks.Cells["B3"].Style.Font.Color.Theme);
+                Assert.AreEqual(0.39997558519241921m, wks.Cells["B3"].Style.Font.Color.Tint);
+
+                // Remove the calculated column formula from the table
+                table1.Columns["Col3"].CalculatedColumnFormula = "";
+
+                // Check the style hasn't changed
+                Assert.AreEqual(true, wks.Cells["B3"].Style.Font.Bold);
+                Assert.AreEqual(16, wks.Cells["B3"].Style.Font.Size, 1E-3);
+                Assert.AreEqual(eThemeSchemeColor.Text2, wks.Cells["B3"].Style.Font.Color.Theme);
+                Assert.AreEqual(0.39997558519241921m, wks.Cells["B3"].Style.Font.Color.Tint);
             }
         }
     }

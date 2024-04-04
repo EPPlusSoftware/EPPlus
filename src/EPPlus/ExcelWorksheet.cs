@@ -577,10 +577,11 @@ namespace OfficeOpenXml
                 _name = value;
             }
         }
-
+        //TODO: Examine if mdw is really a neccessary input parameter.
+        //Seems it is always the same as Workbook.MaxFontWidth
         internal int GetColumnWidthPixels(int col, decimal mdw)
         {
-            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), mdw);
+            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
         internal decimal GetColumnWidth(int col)
         {
@@ -972,7 +973,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                SetXmlNodeString(codeModuleNamePath, value);
+                SetXmlNodeString(codeModuleNamePath, value, true);
             }
         }
         internal void CodeNameChange(string value)
@@ -1305,24 +1306,6 @@ namespace OfficeOpenXml
         }
         const int BLOCKSIZE = 8192;
 
-        private string GetSheetDataTag(string s)
-        {
-            if (s.Length < 3) throw (new InvalidDataException("sheetData Tag not found"));
-            return s.Substring(1, s.Length - 2).Replace("/","");
-        }
-        private bool ReadUntil(XmlReader xr, int depth, params string[] tagName)
-        {
-            if (xr.EOF) return false;
-            while ((xr.Depth == depth && Array.Exists(tagName, tag => Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false)
-            {
-                do
-                {
-                    xr.Read();
-                    if (xr.EOF) return false;
-                } while (xr.Depth != depth);
-            }
-            return (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
-        }
         private void LoadColumns(XmlReader xr)//(string xml)
         {
             if (xr.ReadUntil(1, "cols", "sheetData"))
@@ -1378,7 +1361,6 @@ namespace OfficeOpenXml
                         {
                             var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
                             var rel = Part.GetRelationship(rId);
-
                             if (rel.TargetUri == null)
                             {
                                 if (rel.Target.StartsWith("#", StringComparison.OrdinalIgnoreCase) && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
@@ -1394,11 +1376,12 @@ namespace OfficeOpenXml
                                 {
                                     try
                                     {
-                                        hl = new ExcelHyperLink(uri.AbsoluteUri);
+                                        hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
                                     }
                                     catch
                                     {
-                                        hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
+                                        hl = new ExcelHyperLink("Invalid:Uri", UriKind.Absolute);
+                                        hl.Target = uri.OriginalString;
                                     }
                                 }
                                 else
@@ -1408,6 +1391,16 @@ namespace OfficeOpenXml
                             }
                             hl.Target = rel.Target;
                             hl.RId = rId;
+                            var display = xr.GetAttribute("display"); 
+                            if(!string.IsNullOrEmpty(display))
+                            {
+                                hl.Display = display;
+                            }
+                            var location = xr.GetAttribute("location");
+                            if (location != null)   
+                            {
+                                hl.ReferenceAddress = location; 
+                            }
                         }
                         else if (xr.GetAttribute("location") != null)
                         {
@@ -1446,41 +1439,38 @@ namespace OfficeOpenXml
             }
             delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
-        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r)
+
+        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
         {
-            XmlDocument xml = new XmlDocument();
-            var v = GetValueInner(row, col);
+            var v = GetCoreValueInner(row, col);
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
-            if (v != null)
+            if (isRt && v._value is ExcelRichTextCollection rtc)
             {
-                if (isRt)
+                return rtc;
+            }
+            else
+            {
+                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
+                if (string.IsNullOrEmpty(text))
                 {
-                    XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v.ToString() + "</d:si>", Encoding.UTF8);
+                    var item = new ExcelRichTextCollection(Workbook, r);
+                    SetValue(row, col, item);
+                    return item;
                 }
                 else
                 {
-                    xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" ><d:r><d:t>" + OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(v.ToString()) + "</d:t></d:r></d:si>");
+                    var item = new ExcelRichTextCollection(text, r);
+                    SetValue(row, col, item);
+                    return item;
                 }
-            }
-            else
-            {
-                xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" />");
-            }
-            if(r==null)
-            {
-                return new ExcelRichTextCollection(NameSpaceManager, xml.SelectSingleNode("d:si", NameSpaceManager), this);
-            }
-            else
-            {
-                return new ExcelRichTextCollection(NameSpaceManager, xml.SelectSingleNode("d:si", NameSpaceManager), r); 
             }
         }
 
         private ExcelHyperLink GetHyperlinkFromRef(XmlReader xr, string refTag, int fromRow = 0, int toRow = 0, int fromCol = 0, int toCol = 0)
         {
             var hl = new ExcelHyperLink(xr.GetAttribute(refTag), xr.GetAttribute("display"));
-            hl.RowSpann = toRow - fromRow;
-            hl.ColSpann = toCol - fromCol;
+            hl.RowSpan = toRow - fromRow;
+            hl.ColSpan = toCol - fromCol;
             return hl;
         }
 
@@ -1796,8 +1786,8 @@ namespace OfficeOpenXml
             var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
             if (type == "s" && v is int ix)
             {
-                SetValueInner(row, col, _package.Workbook._sharedStringsList[ix].Text);
-                if (_package.Workbook._sharedStringsList[ix].isRichText)
+                SetValueInner(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText));
+                if (isRichText)
                 {
                     _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                 }
@@ -1819,7 +1809,7 @@ namespace OfficeOpenXml
         private object GetErrorFromMetaData(MetaDataReference md, object v)
         {
             var metaData = Workbook.Metadata;
-            var valueMetaData = metaData.ValueMetadata[md.vm-1];
+            var valueMetaData = metaData.ValueMetadata[md.vm - 1];
             var valueRecord = valueMetaData.Records[0];
             var type = metaData.MetadataTypes[valueRecord.RecordTypeIndex - 1];
             if (type.Name.Equals("XLRICHVALUE"))
@@ -2228,7 +2218,7 @@ namespace OfficeOpenXml
         }
 #endregion
         /// <summary>
-        /// Get the cell value from thw worksheet
+        /// Get the cell value from the worksheet
         /// </summary>
         /// <param name="Row">The row number</param>
         /// <param name="Column">The row number</param>
@@ -2577,6 +2567,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
+                    UpdateCommentRichText();
                     if (_comments.Uri == null)
                     {
                         var id = SheetId;
@@ -2586,9 +2577,19 @@ namespace OfficeOpenXml
                     {
                         _comments.Part = _package.ZipPackage.CreatePart(_comments.Uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", _package.Compression);
                         var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _comments.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/comments");
+                        Comments.RelId = rel.Id;
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
+            }
+        }
+
+        private void UpdateCommentRichText()
+        {
+            foreach (ExcelComment comment in _comments)
+            {
+                var textNode = comment._commentHelper.GetNode("d:text");
+                textNode.InnerXml = comment.RichText.GetXML();
             }
         }
 
@@ -2610,7 +2611,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _vmlDrawings.CreateVmlPart();
+                    _vmlDrawings.CreateVmlPart(true);
                 }
             }
         }
@@ -3507,7 +3508,7 @@ namespace OfficeOpenXml
                                 var hls = Workbook.Styles.CreateNamedStyle("Hyperlink");
                                 hls.BuildInId = 8;
                                 hls.Style.Font.UnderLine = true;
-                                hls.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+                                hls.Style.Font.Color.Theme = eThemeSchemeColor.Hyperlink;
                             }
                             hyperlinkStylesAdded = true;
                         }

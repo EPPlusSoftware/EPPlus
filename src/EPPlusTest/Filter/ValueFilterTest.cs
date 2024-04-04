@@ -33,6 +33,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Filter;
 using System.Globalization;
 using System.Threading;
+using System.Linq;
 
 namespace EPPlusTest.Filter
 {
@@ -77,6 +78,67 @@ namespace EPPlusTest.Filter
             Assert.AreEqual(true, ws.Row(100).Hidden);
             Assert.AreEqual(false, ws.Row(101).Hidden);
         }
+
+        [TestMethod]
+        public void ValuesFilterAddingEmpty()
+        {
+            using (var package = OpenPackage("AutoFilterAddEmpty.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("NewAutoFilter");
+
+                ExcelRangeBase range = ws.Cells["A1:A5"];
+
+                ws.Cells["A1:E5"].Formula = "Row()";
+
+                ws.Cells["A1:C3"].Value = null;
+
+                range.AutoFilter = true;
+                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(0);
+                colCompany.Filters.Add("");
+                ws.AutoFilter.ApplyFilter(true);
+
+                Assert.AreEqual(0, colCompany.Filters.Count());
+                Assert.IsTrue(colCompany.Filters.Blank);
+
+                Assert.IsTrue(ws.Row(4).Hidden);
+                Assert.IsTrue(ws.Row(5).Hidden);
+                for(int i = 1; i < 4; i++)
+                {
+                    Assert.IsFalse(ws.Row(i).Hidden);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void ValuesFilterAddingNullItem()
+        {
+            using (var package = OpenPackage("autofilterwithNulls.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("NewAutoFilter");
+
+                ExcelRangeBase range = ws.Cells["A1:E5"];
+
+                ws.Cells["A1:E5"].Formula = "Row()";
+
+                ws.Cells["A1:C3"].Value = null;
+
+                range.AutoFilter = true;
+                var colCompany = ws.AutoFilter.Columns.AddValueFilterColumn(2);
+                colCompany.Filters.Add(new ExcelFilterValueItem(null));
+                ws.AutoFilter.ApplyFilter(true);
+
+                Assert.AreEqual(0, colCompany.Filters.Count());
+                Assert.IsTrue(colCompany.Filters.Blank);
+
+                Assert.IsTrue(ws.Row(4).Hidden);
+                Assert.IsTrue(ws.Row(5).Hidden);
+                for (int i = 1; i < 4; i++)
+                {
+                    Assert.IsFalse(ws.Row(i).Hidden);
+                }
+            }
+        }
+
         [TestMethod]
         public void DateFilterYear()
         {
@@ -85,7 +147,7 @@ namespace EPPlusTest.Filter
 
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
-            var year = DateTime.Today.Year - 1;
+            var year = _loadDataStartDate.Year;
             col.Filters.Add(new ExcelFilterDateGroupItem(year));
             ws.AutoFilter.ApplyFilter();
 
@@ -104,7 +166,7 @@ namespace EPPlusTest.Filter
 
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             col.Filters.Add(new ExcelFilterDateGroupItem(year,1));
             ws.AutoFilter.ApplyFilter();
 
@@ -125,7 +187,7 @@ namespace EPPlusTest.Filter
 
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             col.Filters.Add(new ExcelFilterDateGroupItem(year, 1, 12));
             ws.AutoFilter.ApplyFilter();
 
@@ -141,7 +203,7 @@ namespace EPPlusTest.Filter
         {
             var ws = _pck.Workbook.Worksheets.Add("DateHour");
             LoadTestdata(ws, 200);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 13, 11, 33));
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
@@ -161,7 +223,7 @@ namespace EPPlusTest.Filter
         {
             var ws = _pck.Workbook.Worksheets.Add("DateMinute");
             LoadTestdata(ws, 200);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 12, 12, 33));
             ws.AutoFilterAddress = ws.Cells["A1:D200"];
@@ -181,7 +243,7 @@ namespace EPPlusTest.Filter
         {
             var ws = _pck.Workbook.Worksheets.Add("DateSecond");
             LoadTestdata(ws, 200);
-            var year = DateTime.Today.Year;
+            var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 12, 11, 35));
             ws.AutoFilterAddress = ws.Cells["A1:D200"];

@@ -317,7 +317,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 294
+    startLine: 295
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -356,7 +356,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 304
+    startLine: 305
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -395,7 +395,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 346
+    startLine: 347
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -432,7 +432,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EditAs
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 376
+    startLine: 377
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -469,7 +469,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Locked
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 437
+    startLine: 438
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -508,7 +508,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Print
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 452
+    startLine: 453
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -547,7 +547,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: From
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 467
+    startLine: 468
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -584,7 +584,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 475
+    startLine: 476
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -621,7 +621,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 484
+    startLine: 485
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -658,7 +658,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: To
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 492
+    startLine: 493
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -695,7 +695,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hyperlink
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 497
+    startLine: 498
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -732,7 +732,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 537
+    startLine: 538
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -769,7 +769,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPosition
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 947
+    startLine: 955
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -808,7 +808,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 984
+    startLine: 992
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -847,7 +847,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeCellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 997
+    startLine: 1005
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -895,7 +895,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeCellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1007
+    startLine: 1015
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -931,7 +931,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPosition
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1097
+    startLine: 1105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -976,7 +976,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1126
+    startLine: 1134
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1014,7 +1014,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1147
+    startLine: 1155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1053,7 +1053,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SendToBack
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1160
+    startLine: 1168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1085,7 +1085,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BringToFront
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1167
+    startLine: 1175
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1117,7 +1117,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1178
+    startLine: 1186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1159,7 +1159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnGroup
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1226
+    startLine: 1234
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1195,7 +1195,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentGroup
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1245
+    startLine: 1253
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1232,7 +1232,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1260
+    startLine: 1268
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1268,7 +1268,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdjustPositionAndSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1276
+    startLine: 1284
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

@@ -22,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingPictureCollection
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPictureCollection.cs
-    startLine: 25
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -71,7 +71,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPictureCollection.cs
-    startLine: 98
+    startLine: 101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -115,7 +115,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPictureCollection.cs
-    startLine: 108
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -153,7 +153,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPictureCollection.cs
-    startLine: 145
+    startLine: 148
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml

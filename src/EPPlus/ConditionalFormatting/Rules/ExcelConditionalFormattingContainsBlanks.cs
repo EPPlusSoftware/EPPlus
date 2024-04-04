@@ -56,9 +56,23 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            Formula = string.Format(
-              "LEN(TRIM({0}))=0",
-              Address.Start.Address);
+            if(Address != null)
+            {
+                Formula = string.Format(
+                  "LEN(TRIM({0}))=0",
+                  Address.Start.Address);
+            }
+            else
+            {
+                Formula = string.Format(
+                  "LEN(TRIM({0}))=0",
+                  "#REF!");
+            }
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            return _ws.Cells[address.Start.Address].Value == null ? true : false;
         }
 
         /// <summary>

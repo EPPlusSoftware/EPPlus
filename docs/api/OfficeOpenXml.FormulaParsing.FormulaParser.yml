@@ -9,7 +9,7 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaParser.Dispose
   - OfficeOpenXml.FormulaParsing.FormulaParser.Logger
   - OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String)
-  - OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String)
+  - OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
   - OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String)
   - OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String,System.Int32,System.Int32)
   langs:
@@ -26,7 +26,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaParser
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 33
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -73,7 +73,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 42
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -91,16 +91,16 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String)
-  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String)
-  id: Parse(System.String,System.String)
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  id: Parse(System.String,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
   parent: OfficeOpenXml.FormulaParsing.FormulaParser
   langs:
   - csharp
   - vb
-  name: Parse(String, String)
-  nameWithType: FormulaParser.Parse(String, String)
-  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String, System.String)
+  name: Parse(String, String, ExcelCalculationOption)
+  nameWithType: FormulaParser.Parse(String, String, ExcelCalculationOption)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String, System.String, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
   type: Method
   source:
     remote:
@@ -109,14 +109,14 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 120
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
   summary: "\nParses a formula at a specific address\n"
   example: []
   syntax:
-    content: public virtual object Parse(string formula, string address)
+    content: public virtual object Parse(string formula, string address, ExcelCalculationOption options = null)
     parameters:
     - id: formula
       type: System.String
@@ -124,10 +124,13 @@ items:
     - id: address
       type: System.String
       description: Address of the formula
+    - id: options
+      type: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+      description: Calculation options
     return:
       type: System.Object
       description: ''
-    content.vb: Public Overridable Function Parse(formula As String, address As String) As Object
+    content.vb: Public Overridable Function Parse(formula As String, address As String, options As ExcelCalculationOption = Nothing) As Object
   overload: OfficeOpenXml.FormulaParsing.FormulaParser.Parse*
   modifiers.csharp:
   - public
@@ -153,7 +156,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 130
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -194,7 +197,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseAt
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 140
+    startLine: 149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -235,7 +238,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseAt
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 154
+    startLine: 163
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -282,7 +285,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 188
+    startLine: 190
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -319,7 +322,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 196
+    startLine: 198
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -668,6 +671,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  parent: OfficeOpenXml.FormulaParsing
+  name: ExcelCalculationOption
+  nameWithType: ExcelCalculationOption
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
 - uid: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt*
   commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt
   name: ParseAt

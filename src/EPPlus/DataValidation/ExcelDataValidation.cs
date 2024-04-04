@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Events;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 
@@ -28,12 +29,13 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public abstract class ExcelDataValidation : IExcelDataValidation
     {
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="uid">Id for validation</param>
-            /// <param name="address">adress validation is applied to</param>
-            protected ExcelDataValidation(string uid, string address, ExcelWorksheet ws)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="uid">Id for validation</param>
+        /// <param name="address">adress validation is applied to</param>
+        /// <param name="ws">The worksheet</param>
+        protected ExcelDataValidation(string uid, string address, ExcelWorksheet ws)
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");
             Require.Argument(address).IsNotNullOrEmpty("address");
@@ -47,6 +49,7 @@ namespace OfficeOpenXml.DataValidation
         /// Read-File Constructor
         /// </summary>
         /// <param name="xr"></param>
+        /// <param name="ws">The worksheet</param>
         protected ExcelDataValidation(XmlReader xr, ExcelWorksheet ws)
         {
             LoadXML(xr);
@@ -57,6 +60,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy-Constructor
         /// </summary>
         /// <param name="validation">Validation to copy from</param>
+        /// <param name="ws">The worksheet</param>
         protected ExcelDataValidation(ExcelDataValidation validation,ExcelWorksheet ws)
         {
             Uid = validation.Uid;
@@ -116,6 +120,9 @@ namespace OfficeOpenXml.DataValidation
         }
 
         string imeModeString = null;
+        /// <summary>
+        ///  Mode for east-asian languages who use Input Method Editors(IME)
+        /// </summary>
         public ExcelDataValidationImeMode ImeMode
         {
             get
@@ -327,20 +334,55 @@ namespace OfficeOpenXml.DataValidation
             PromptTitle = xr.GetAttribute("promptTitle");
             Prompt = xr.GetAttribute("prompt");
 
+            //Handle self-ending nodes
+            var isSelfClosing = xr.IsEmptyElement;
+
+            xr.Read();
+
+            //Still needs to be done to "fill" formulas with null values even if empty
             ReadClassSpecificXmlNodes(xr);
 
-            if (address == null && xr.ReadUntil(5, "sqref", "dataValidation", "extLst"))
+            if (isSelfClosing == false)
             {
-                address = xr.ReadString();
+                //Can only happen if extLst
                 if (address == null)
                 {
-                    throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
+                    address = xr.ReadString();
+                    if (address == null)
+                    {
+                        throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
+                    }
+                    xr.Read();
                 }
             }
 
             _address = new ExcelDatavalidationAddress
                 (CheckAndFixRangeAddress(address)
                  .Replace(" ", ","), this);
+
+            if(xr.LocalName == "dataValidations" || isSelfClosing)
+            {
+                return;
+            }
+
+            //Should only happen with 'legacy' files if for example an 'equals' validation has a formula2 node.
+            if(xr.LocalName != "dataValidation")
+            {
+                var name = xr.Name;
+                var type = xr.NodeType;
+                //Since we handle self-closing nodes there must exist an endnode
+                xr.ReadUntil("dataValidation");
+
+                //This should not be logically possible unless file is corrupt.
+                if(xr.LocalName != "dataValidation")
+                {
+                    throw new BadReadException($"Expected dataValidation end node could not be found." +
+                        $"Last node name: '{name}' of type '{type}'");
+                }
+            }
+
+            //Read to next dataValidation or dataValidations end node
+            xr.Read();
         }
 
         internal virtual void ReadClassSpecificXmlNodes(XmlReader xr)

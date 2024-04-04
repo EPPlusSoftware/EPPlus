@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 if (Style == eDxfFillStyle.PatternFill)
                 {
-                    return GetAsString(PatternType) + "|" + (PatternColor == null ? "" : PatternColor.Id) + "|" + (BackgroundColor == null ? "" : BackgroundColor.Id);
+                    return GetAsString(PatternType) + "|" + (PatternColor == null ? ExcelDxfColor.GetEmptyId() : PatternColor.Id) + "|" + (BackgroundColor == null ? ExcelDxfColor.GetEmptyId() : BackgroundColor.Id);
                 }
                 else
                 {
@@ -77,6 +77,10 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
+        internal static string GetEmptyId()
+        {
+            return "|" + ExcelDxfColor.GetEmptyId() + "|" + ExcelDxfColor.GetEmptyId();
+		}
         /// <summary>
         /// Fill style for a differential style record
         /// </summary>

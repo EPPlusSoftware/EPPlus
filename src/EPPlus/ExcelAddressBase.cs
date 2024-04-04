@@ -1136,7 +1136,7 @@ namespace OfficeOpenXml
             else if (row+rows < _fromRow || (_fromRowFixed && row < _fromRow)) //Before
             {
                 var toRow = ((setFixed && _toRowFixed) || (adjustMaxRow==false && _toRow==ExcelPackage.MaxRows)) ? _toRow : _toRow - rows;
-                return new ExcelAddressBase((setFixed && _fromRowFixed ? _fromRow : _fromRow - rows), _fromCol, toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                return new ExcelAddressBase((setFixed && _fromRowFixed ? _fromRow : Math.Max(row, _fromRow - rows)), _fromCol, toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else  //Partly
             {
@@ -1153,9 +1153,9 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false, bool setRefOnMinMax=true)
+        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false, bool setRefOnMinMax=true, bool extendIfLastCol = false)
         {
-            if (col > _toCol)
+            if (col > _toCol && (col != _toCol + 1 || extendIfLastCol == false))
             {
                 return this;
             }

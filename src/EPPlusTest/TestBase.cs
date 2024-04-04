@@ -194,8 +194,30 @@ namespace EPPlusTest
             }
             return null;
         }
+		protected static FileInfo GetTemplateFile(string name)
+		{
+			var t = new FileInfo(_testInputPath + name);
+			if (t.Exists)
+			{
+				return new FileInfo(_worksheetPath + name);
+			}
+			else
+			{
+				t = new FileInfo(_testInputPathOptional + name);
+				if (t.Exists)
+				{
+					return t;
+				}
+				t = new FileInfo(_worksheetPath + name);
+				if (t.Exists)
+				{
+                    return t;
+				}
+			}
+			return null;
+		}
 
-        internal void IsNullRange(ExcelRange address)
+		internal void IsNullRange(ExcelRange address)
         {
             for(int row=address._fromRow;row<=address._toRow;row++)
             {
@@ -215,7 +237,7 @@ namespace EPPlusTest
             }
             pck.SaveAs(fi);
         }
-        protected static readonly DateTime _loadDataStartDate = new DateTime(DateTime.Today.Year-1, 11, 1);
+        protected static readonly DateTime _loadDataStartDate = new DateTime(2022, 11, 1);
         /// <summary>
         /// Loads 4 columns of {date, numeric, string, numeric}
         /// </summary>
@@ -225,7 +247,7 @@ namespace EPPlusTest
         /// <param name="startRow">The start row</param>
         /// <param name="addHyperlinkColumn">Add a column with hyperlinks</param>
         /// <param name="addTimeSpan">Adds a TimeSpan column. Requires add hyperlink to be true</param>
-        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false, bool addTimeSpan=false)
+        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false, bool addTimeSpan=false, DateTime? startDate = null)
         {
             ws.SetValue(1, startColumn, "Date");
             ws.SetValue(1, startColumn + 1, "NumValue");
@@ -240,7 +262,7 @@ namespace EPPlusTest
                 ws.SetValue(1, startColumn + 5, "TimeSpan");
             }
 
-            DateTime dt = _loadDataStartDate;
+            DateTime dt = startDate ?? _loadDataStartDate;
             int row = 1;
             for (int i = 1; i < noItems; i++)
             {
@@ -393,9 +415,9 @@ namespace EPPlusTest
             _ws.Cells[1, 1, noItems, 1].Style.Numberformat.Format = "yyyy-MM-dd";
             _ws.Cells[2, 4, noItems, 4].Style.Numberformat.Format = "#,##0.00";
         }
-        protected int GetRowFromDate(DateTime date)
+        protected int GetRowFromDate(DateTime date, DateTime? initStartDate=null)
         {
-            var startDate = new DateTime(DateTime.Today.Year-1, 11, 1);
+            var startDate = initStartDate ?? _loadDataStartDate; //new DateTime(DateTime.Today.Year-1, 11, 1);
             if (startDate > date)
                 return 2;
             else

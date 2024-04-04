@@ -5,6 +5,7 @@ items:
   id: ToDataTableOptions
   parent: OfficeOpenXml.Export.ToDataTable
   children:
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull
   - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
   - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
   - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create
@@ -553,6 +554,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull
+  id: AlwaysAllowNull
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: AlwaysAllowNull
+  nameWithType: ToDataTableOptions.AlwaysAllowNull
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AlwaysAllowNull
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nIf true, the <xref href=\"OfficeOpenXml.Export.ToDataTable.DataColumnMapping.AllowNull\" data-throw-if-not-resolved=\"false\"></xref> will be overridden and\nnull values will be allowed in all columns.\n"
+  example: []
+  syntax:
+    content: public bool AlwaysAllowNull { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AlwaysAllowNull As Boolean
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
   commentId: M:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
   id: SetPrimaryKey(System.String[])
@@ -571,7 +609,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPrimaryKey
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-    startLine: 139
+    startLine: 145
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.ToDataTable
@@ -610,7 +648,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPrimaryKey
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-    startLine: 150
+    startLine: 156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.ToDataTable
@@ -1162,6 +1200,14 @@ references:
   name: DataTableNamespace
   nameWithType: ToDataTableOptions.DataTableNamespace
   fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace
+- uid: OfficeOpenXml.Export.ToDataTable.DataColumnMapping.AllowNull
+  commentId: P:OfficeOpenXml.Export.ToDataTable.DataColumnMapping.AllowNull
+  isExternal: true
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull
+  name: AlwaysAllowNull
+  nameWithType: ToDataTableOptions.AlwaysAllowNull
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull
 - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey*
   commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey
   name: SetPrimaryKey

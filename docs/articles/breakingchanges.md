@@ -102,9 +102,27 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 * The expression handling is totally rewritten and now uses reversed polish notation instead of an expression tree. This change affects internal classes only.
 * The `CompileResult` class has moved to a new namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
 * Adding defined names referencing addresses will now be added as fixed addresses (i.e $A$1), unless the `allowRelativeAddress` parameter of the `ExcelNamedRangeCollection.Add` method is set to true.
+* `ParsingConfiguration.Lexer` and `ParsingConfiguration.SetLexer(ILexer lexer)` has been removed.
+* `ParsingConfiguration.SetExpresionCompiler` has been removed. 
 #### Autofilter & Table filter
 *  Added `ExcelPackageSettings.ApplyFiltersOnSave` to decide if Filters will be applied on Saving the workbook. Default is True. If set to false, you will call the `ApplyFilter` method manually to show/hide rows the matches the filters criterias.
 *  `ExcelWorksheet.AutofilterAddress` is now obsolete. Use `ExcelWorksheet.Autofilter.Address` instead. `ExcelWorksheet.Autofilter` will now always be set instead of being null if no autofilter was present.
 #### ConditionalFormatting
 * Updating ConditionalFormatting via the XML DOM will not work as read and write is performed on load/save.
 * The base class `ConditionalFormattingRule` and all derived classes no longer contain the Node property.
+* Misspelled enum member `eTrendLine.MovingAvgerage` has been removed and replaced with `eTrendLine.MovingAverage`
+* ConditionalFormatting classes are now Internal. Interfaces for each class exist and have all relevant properties instead.
+#### ExcelHyperlink
+* Renamed misspelled properties `ColSpann` and `RowSpann` to `ColSpan` and `RowSpan` on the `ExcelHyperLink` class.
+
+### Breaking Change From EPPlus 7.1
+*Misspelled property `MemorySettings.MemoryManger` was renamed `MemoryManager`
+#### Defined Names
+* EPPlus will now encode string values and in defined name .
+#### Data Validation
+* Removed DataValidationStaleException as DataValidations cannot be stale since Epplus 7.
+#### Conditional Formatting
+* When reading conditional formatting from file Style.Fill.PatternType is now always null if the patternType attribute in the xml has not been set.
+#### Rich Text
+* The `ExcelRichText._collection` has been set to internal.
+* Public static methods in the class `XmlHelper` used to getting richtext properties has been changed to internal.

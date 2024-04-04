@@ -8,6 +8,8 @@ items:
   - OfficeOpenXml.FormulaParsing.ParsingContext.Configuration
   - OfficeOpenXml.FormulaParsing.ParsingContext.Create
   - OfficeOpenXml.FormulaParsing.ParsingContext.Create(OfficeOpenXml.ExcelPackage)
+  - OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
+  - OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet
   - OfficeOpenXml.FormulaParsing.ParsingContext.Debug
   - OfficeOpenXml.FormulaParsing.ParsingContext.NameValueProvider
   - OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
@@ -26,7 +28,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingContext
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -73,7 +75,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parser
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 41
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -110,7 +112,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValueProvider
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 62
+    startLine: 72
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -147,7 +149,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configuration
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 67
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -184,7 +186,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Debug
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 83
+    startLine: 93
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -221,7 +223,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 93
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -262,7 +264,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 108
+    startLine: 118
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -300,7 +302,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 113
+    startLine: 123
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -312,6 +314,80 @@ items:
   - OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
   nameWithType.vb: ParsingContext.OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
   name.vb: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
+  commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
+  id: CurrentCell
+  parent: OfficeOpenXml.FormulaParsing.ParsingContext
+  langs:
+  - csharp
+  - vb
+  name: CurrentCell
+  nameWithType: ParsingContext.CurrentCell
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingContext.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurrentCell
+    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nRepresents the current cell \n"
+  example: []
+  syntax:
+    content: public FormulaCellAddress CurrentCell { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+    content.vb: Public Property CurrentCell As FormulaCellAddress
+  overload: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet
+  id: CurrentWorksheet
+  parent: OfficeOpenXml.FormulaParsing.ParsingContext
+  langs:
+  - csharp
+  - vb
+  name: CurrentWorksheet
+  nameWithType: ParsingContext.CurrentWorksheet
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingContext.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurrentWorksheet
+    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe worksheet where the current formula is located.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet CurrentWorksheet { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public ReadOnly Property CurrentWorksheet As ExcelWorksheet
+  overload: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.FormulaParsing
   commentId: N:OfficeOpenXml.FormulaParsing
@@ -729,3 +805,30 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
+  name: CurrentCell
+  nameWithType: ParsingContext.CurrentCell
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaCellAddress
+  nameWithType: FormulaCellAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet
+  name: CurrentWorksheet
+  nameWithType: ParsingContext.CurrentWorksheet
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet

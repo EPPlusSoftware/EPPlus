@@ -5,22 +5,17 @@ items:
   id: FunctionArgument
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Address
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRangeOrSingleCell
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
   langs:
   - csharp
@@ -36,10 +31,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionArgument
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 22
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nRepresents a function argument passed to the Execute method of a <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction\" data-throw-if-not-resolved=\"false\"></xref> class.\n<xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList%7bOfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument%7d%2cOfficeOpenXml.FormulaParsing.ParsingContext)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
   syntax:
     content: public class FunctionArgument
     content.vb: Public Class FunctionArgument
@@ -59,16 +56,16 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult)
-  id: '#ctor(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult)'
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object)
+  id: '#ctor(System.Object)'
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   langs:
   - csharp
   - vb
-  name: FunctionArgument(CompileResult)
-  nameWithType: FunctionArgument.FunctionArgument(CompileResult)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.FunctionArgument(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult)
+  name: FunctionArgument(Object)
+  nameWithType: FunctionArgument.FunctionArgument(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.FunctionArgument(System.Object)
   type: Constructor
   source:
     remote:
@@ -77,16 +74,19 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 24
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nConstructor.\n"
+  example: []
   syntax:
-    content: public FunctionArgument(CompileResult result)
+    content: public FunctionArgument(object val)
     parameters:
-    - id: result
-      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-    content.vb: Public Sub New(result As CompileResult)
+    - id: val
+      type: System.Object
+      description: The value of the function argument.
+    content.vb: Public Sub New(val As Object)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor*
   modifiers.csharp:
   - public
@@ -110,130 +110,64 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 37
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nConstructor.\n"
+  example: []
   syntax:
     content: public FunctionArgument(object val, DataType dataType)
     parameters:
     - id: val
       type: System.Object
+      description: The value of the function argument.
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: The data type of the <code data-dev-comment-type="paramref" class="paramref">val</code>. The data type should match the values .NET data type
     content.vb: Public Sub New(val As Object, dataType As DataType)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  id: SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell
+  id: IsHiddenCell
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   langs:
   - csharp
   - vb
-  name: SetExcelStateFlag(ExcelCellState)
-  nameWithType: FunctionArgument.SetExcelStateFlag(ExcelCellState)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  type: Method
+  name: IsHiddenCell
+  nameWithType: FunctionArgument.IsHiddenCell
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell
+  type: Property
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: SetExcelStateFlag
+    id: IsHiddenCell
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 44
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  syntax:
-    content: public void SetExcelStateFlag(ExcelCellState state)
-    parameters:
-    - id: state
-      type: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
-    content.vb: Public Sub SetExcelStateFlag(state As ExcelCellState)
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  id: ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  langs:
-  - csharp
-  - vb
-  name: ExcelStateFlagIsSet(ExcelCellState)
-  nameWithType: FunctionArgument.ExcelStateFlagIsSet(ExcelCellState)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ExcelStateFlagIsSet
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 49
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  syntax:
-    content: public bool ExcelStateFlagIsSet(ExcelCellState state)
-    parameters:
-    - id: state
-      type: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
-    return:
-      type: System.Boolean
-    content.vb: Public Function ExcelStateFlagIsSet(state As ExcelCellState) As Boolean
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)
-  id: GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  langs:
-  - csharp
-  - vb
-  name: GetAsRangeInfo(ParsingContext)
-  nameWithType: FunctionArgument.GetAsRangeInfo(ParsingContext)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: GetAsRangeInfo
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 60
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  summary: "\nAlways a IRangeInfo, even if the cell is a single cell. \n<xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nIf the compile result has a function that handles hidden cells.\n"
   example: []
   syntax:
-    content: public IRangeInfo GetAsRangeInfo(ParsingContext context)
-    parameters:
-    - id: context
-      type: OfficeOpenXml.FormulaParsing.ParsingContext
-      description: The parsing context
+    content: public bool IsHiddenCell { get; }
+    parameters: []
     return:
-      type: OfficeOpenXml.FormulaParsing.IRangeInfo
-      description: A <xref href="OfficeOpenXml.FormulaParsing.Ranges.RangeInfo" data-throw-if-not-resolved="false"></xref> if the argument is a range otherwise null
-    content.vb: Public Function GetAsRangeInfo(context As ParsingContext) As IRangeInfo
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo*
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsHiddenCell As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell*
   modifiers.csharp:
   - public
+  - get
   modifiers.vb:
   - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
   commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
   id: Value
@@ -252,10 +186,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 80
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe value of the function argument\n"
+  example: []
   syntax:
     content: public object Value { get; }
     parameters: []
@@ -287,10 +223,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 82
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe data type of the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
   syntax:
     content: public DataType DataType { get; }
     parameters: []
@@ -322,10 +260,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 84
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe address for function parameter \n"
+  example: []
   syntax:
     content: public FormulaRangeAddress Address { get; }
     parameters: []
@@ -357,10 +297,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExcelRange
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 85
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIf the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> is a range with more than one cell.\n"
+  example: []
   syntax:
     content: public bool IsExcelRange { get; }
     parameters: []
@@ -392,10 +334,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExcelRangeOrSingleCell
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 89
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIf the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> is a range.\n"
+  example: []
   syntax:
     content: public bool IsExcelRangeOrSingleCell { get; }
     parameters: []
@@ -403,76 +347,6 @@ items:
       type: System.Boolean
     content.vb: Public ReadOnly Property IsExcelRangeOrSingleCell As Boolean
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRangeOrSingleCell*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
-  id: IsEnumerableOfFuncArgs
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  langs:
-  - csharp
-  - vb
-  name: IsEnumerableOfFuncArgs
-  nameWithType: FunctionArgument.IsEnumerableOfFuncArgs
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: IsEnumerableOfFuncArgs
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 94
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  syntax:
-    content: public bool IsEnumerableOfFuncArgs { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: Public ReadOnly Property IsEnumerableOfFuncArgs As Boolean
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
-  id: ValueAsEnumerableOfFuncArgs
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  langs:
-  - csharp
-  - vb
-  name: ValueAsEnumerableOfFuncArgs
-  nameWithType: FunctionArgument.ValueAsEnumerableOfFuncArgs
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ValueAsEnumerableOfFuncArgs
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 99
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  syntax:
-    content: public IEnumerable<FunctionArgument> ValueAsEnumerableOfFuncArgs { get; }
-    parameters: []
-    return:
-      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
-    content.vb: Public ReadOnly Property ValueAsEnumerableOfFuncArgs As IEnumerable(Of FunctionArgument)
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs*
   modifiers.csharp:
   - public
   - get
@@ -497,10 +371,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueIsExcelError
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 104
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nReturns true if the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> is an <xref href=\"OfficeOpenXml.ExcelErrorValue\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
   syntax:
     content: public bool ValueIsExcelError { get; }
     parameters: []
@@ -532,10 +408,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueAsExcelErrorValue
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 109
+    startLine: 104
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nTries to parse <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> as <xref href=\"OfficeOpenXml.ExcelErrorValue\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
   syntax:
     content: public ExcelErrorValue ValueAsExcelErrorValue { get; }
     parameters: []
@@ -567,11 +445,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueAsRangeInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 118
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  summary: "\nIf <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> is an instance of <xref href=\"OfficeOpenXml.FormulaParsing.IRangeInfo\" data-throw-if-not-resolved=\"false\"></xref> this will return a typed instance. If not null will be returned.\n<xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nIf <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> is an instance of <xref href=\"OfficeOpenXml.FormulaParsing.IRangeInfo\" data-throw-if-not-resolved=\"false\"></xref> or has <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Address\" data-throw-if-not-resolved=\"false\"></xref> set to a valid address\nthis property will return a <xref href=\"OfficeOpenXml.FormulaParsing.IRangeInfo\" data-throw-if-not-resolved=\"false\"></xref>. If not null will be returned.\n"
   example: []
   syntax:
     content: public IRangeInfo ValueAsRangeInfo { get; }
@@ -604,10 +482,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueFirst
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 136
+    startLine: 135
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIf the value is a <xref href=\"OfficeOpenXml.FormulaParsing.IRangeInfo\" data-throw-if-not-resolved=\"false\"></xref> the value will return the value of the first cell, otherwise the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> will be returned.\n\n"
+  example: []
   syntax:
     content: public object ValueFirst { get; }
     parameters: []
@@ -621,42 +501,89 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
-  id: ValueFirstString
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  langs:
-  - csharp
-  - vb
-  name: ValueFirstString
-  nameWithType: FunctionArgument.ValueFirstString
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ValueFirstString
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 163
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  syntax:
-    content: public string ValueFirstString { get; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: Public ReadOnly Property ValueFirstString As String
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunction
+  nameWithType: ExcelFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: Execute(IList<FunctionArgument>, ParsingContext)
+  nameWithType: ExcelFunction.Execute(IList<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.Execute(IList(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: Execute(IList(Of FunctionArgument), ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: Execute
+    nameWithType: ExcelFunction.Execute
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: Execute
+    nameWithType: ExcelFunction.Execute
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
   name: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -959,44 +886,22 @@ references:
   name: FunctionArgument
   nameWithType: FunctionArgument.FunctionArgument
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.FunctionArgument
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  name: CompileResult
-  nameWithType: CompileResult
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
-  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
   commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: DataType
   nameWithType: DataType
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag
-  name: SetExcelStateFlag
-  nameWithType: FunctionArgument.SetExcelStateFlag
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag
-- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
-  commentId: T:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
-  parent: OfficeOpenXml.FormulaParsing.Excel
-  name: ExcelCellState
-  nameWithType: ExcelCellState
-  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
-- uid: OfficeOpenXml.FormulaParsing.Excel
-  commentId: N:OfficeOpenXml.FormulaParsing.Excel
-  name: OfficeOpenXml.FormulaParsing.Excel
-  nameWithType: OfficeOpenXml.FormulaParsing.Excel
-  fullName: OfficeOpenXml.FormulaParsing.Excel
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet
-  name: ExcelStateFlagIsSet
-  nameWithType: FunctionArgument.ExcelStateFlagIsSet
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell
+  name: IsHiddenCell
+  nameWithType: FunctionArgument.IsHiddenCell
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsHiddenCell
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
@@ -1004,41 +909,14 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
-  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
-  name: RangeInfo
-  nameWithType: RangeInfo
-  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
-  isExternal: true
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo
-  name: GetAsRangeInfo
-  nameWithType: FunctionArgument.GetAsRangeInfo
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext
-  commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
-  parent: OfficeOpenXml.FormulaParsing
-  name: ParsingContext
-  nameWithType: ParsingContext
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext
-- uid: OfficeOpenXml.FormulaParsing.IRangeInfo
-  commentId: T:OfficeOpenXml.FormulaParsing.IRangeInfo
-  parent: OfficeOpenXml.FormulaParsing
-  name: IRangeInfo
-  nameWithType: IRangeInfo
-  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
-- uid: OfficeOpenXml.FormulaParsing
-  commentId: N:OfficeOpenXml.FormulaParsing
-  name: OfficeOpenXml.FormulaParsing
-  nameWithType: OfficeOpenXml.FormulaParsing
-  fullName: OfficeOpenXml.FormulaParsing
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
   name: Value
   nameWithType: FunctionArgument.Value
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+  isExternal: true
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
   name: DataType
@@ -1070,149 +948,48 @@ references:
   name: IsExcelRangeOrSingleCell
   nameWithType: FunctionArgument.IsExcelRangeOrSingleCell
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRangeOrSingleCell
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
-  name: IsEnumerableOfFuncArgs
-  nameWithType: FunctionArgument.IsEnumerableOfFuncArgs
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
-  name: ValueAsEnumerableOfFuncArgs
-  nameWithType: FunctionArgument.ValueAsEnumerableOfFuncArgs
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
-- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
-  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<FunctionArgument>
-  nameWithType: IEnumerable<FunctionArgument>
-  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>
-  nameWithType.vb: IEnumerable(Of FunctionArgument)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
-  name.vb: IEnumerable(Of FunctionArgument)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic.IEnumerable`1
-  commentId: T:System.Collections.Generic.IEnumerable`1
-  isExternal: true
-  name: IEnumerable<T>
-  nameWithType: IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  nameWithType.vb: IEnumerable(Of T)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: IEnumerable(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
-  name: ValueIsExcelError
-  nameWithType: FunctionArgument.ValueIsExcelError
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
-  name: ValueAsExcelErrorValue
-  nameWithType: FunctionArgument.ValueAsExcelErrorValue
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
 - uid: OfficeOpenXml.ExcelErrorValue
   commentId: T:OfficeOpenXml.ExcelErrorValue
   parent: OfficeOpenXml
   name: ExcelErrorValue
   nameWithType: ExcelErrorValue
   fullName: OfficeOpenXml.ExcelErrorValue
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+  name: ValueIsExcelError
+  nameWithType: FunctionArgument.ValueIsExcelError
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
 - uid: OfficeOpenXml
   commentId: N:OfficeOpenXml
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
-  isExternal: true
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.GetAsRangeInfo(OfficeOpenXml.FormulaParsing.ParsingContext)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+  name: ValueAsExcelErrorValue
+  nameWithType: FunctionArgument.ValueAsExcelErrorValue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IRangeInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IRangeInfo
+  nameWithType: IRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Address
   isExternal: true
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
   name: ValueAsRangeInfo
   nameWithType: FunctionArgument.ValueAsRangeInfo
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
   name: ValueFirst
   nameWithType: FunctionArgument.ValueFirst
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
-  name: ValueFirstString
-  nameWithType: FunctionArgument.ValueFirstString
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String

@@ -145,17 +145,14 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         internal HashSet<ulong> SubtotalAddresses { get; private set; }
-        internal FormulaCellAddress CurrentCell { get; set; }
-        internal FormulaCellAddress CurrentName { get; set; }
-        internal string CurrentCellFullAddress 
-        { 
-            get
-            {
-                var ws = CurrentCell.WorksheetIx < 0 || CurrentCell.WorksheetIx>=Package.Workbook.Worksheets.Count ? "" : Package.Workbook.Worksheets[CurrentCell.WorksheetIx].Name+"!";
-                return ws + CurrentCell.Address;
-            }
-        }
-        internal ExcelWorksheet CurrentWorksheet 
+        /// <summary>
+        /// Represents the current cell 
+        /// </summary>
+        public FormulaCellAddress CurrentCell { get; set; }
+        /// <summary>
+        /// The worksheet where the current formula is located.
+        /// </summary>
+        public ExcelWorksheet CurrentWorksheet 
         { 
             get
             {

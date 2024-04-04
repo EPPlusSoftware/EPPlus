@@ -1,0 +1,2546 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  id: InMemoryRange
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  children:
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.IRangeInfo)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Collections.Generic.List{System.Collections.Generic.List{System.Object}})
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Int32,System.Int16)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell(System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue(System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden(System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell(System.Int32,System.Int32,OfficeOpenXml.FormulaParsing.ICellInfo)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue(System.Int32,System.Int32,System.Object)
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerator#Current
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet
+  langs:
+  - csharp
+  - vb
+  name: InMemoryRange
+  nameWithType: InMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InMemoryRange
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nEPPlus implementation of a range that keeps its data in memory\n"
+  example: []
+  syntax:
+    content: 'public class InMemoryRange : IRangeInfo, IAddressInfo, IEnumerator<ICellInfo>, IEnumerator, IDisposable, IEnumerable<ICellInfo>, IEnumerable'
+    content.vb: >-
+      Public Class InMemoryRange
+          Implements IRangeInfo, IAddressInfo, IEnumerator(Of ICellInfo), IEnumerator, IDisposable, IEnumerable(Of ICellInfo), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo
+  - OfficeOpenXml.FormulaParsing.IAddressInfo
+  - System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}
+  - System.Collections.IEnumerator
+  - System.IDisposable
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ICellInfo}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: InMemoryRange(RangeDefinition)
+  nameWithType: InMemoryRange.InMemoryRange(RangeDefinition)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.InMemoryRange(OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe constructor\n"
+  example: []
+  syntax:
+    content: public InMemoryRange(RangeDefinition rangeDef)
+    parameters:
+    - id: rangeDef
+      type: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+      description: Defines the size of the range
+    content.vb: Public Sub New(rangeDef As RangeDefinition)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: InMemoryRange(FormulaRangeAddress, RangeDefinition)
+  nameWithType: InMemoryRange.InMemoryRange(FormulaRangeAddress, RangeDefinition)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.InMemoryRange(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress, OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe constructor\n"
+  example: []
+  syntax:
+    content: public InMemoryRange(FormulaRangeAddress address, RangeDefinition rangeDef)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: The worksheet address that should be used for this range. Will be used for implicit intersection.
+    - id: rangeDef
+      type: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+      description: Defines the size of the range
+    content.vb: Public Sub New(address As FormulaRangeAddress, rangeDef As RangeDefinition)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Collections.Generic.List{System.Collections.Generic.List{System.Object}})
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Collections.Generic.List{System.Collections.Generic.List{System.Object}})
+  id: '#ctor(System.Collections.Generic.List{System.Collections.Generic.List{System.Object}})'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: InMemoryRange(List<List<Object>>)
+  nameWithType: InMemoryRange.InMemoryRange(List<List<Object>>)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.InMemoryRange(System.Collections.Generic.List<System.Collections.Generic.List<System.Object>>)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public InMemoryRange(List<List<object>> range)
+    parameters:
+    - id: range
+      type: System.Collections.Generic.List{System.Collections.Generic.List{System.Object}}
+      description: A list of values also defining the size of the range
+    content.vb: Public Sub New(range As List(Of List(Of Object)))
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor*
+  nameWithType.vb: InMemoryRange.InMemoryRange(List(Of List(Of Object)))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.InMemoryRange(System.Collections.Generic.List(Of System.Collections.Generic.List(Of System.Object)))
+  name.vb: InMemoryRange(List(Of List(Of Object)))
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.IRangeInfo)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(OfficeOpenXml.FormulaParsing.IRangeInfo)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.IRangeInfo)'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: InMemoryRange(IRangeInfo)
+  nameWithType: InMemoryRange.InMemoryRange(IRangeInfo)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.InMemoryRange(OfficeOpenXml.FormulaParsing.IRangeInfo)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public InMemoryRange(IRangeInfo ri)
+    parameters:
+    - id: ri
+      type: OfficeOpenXml.FormulaParsing.IRangeInfo
+      description: Another <xref href="OfficeOpenXml.FormulaParsing.IRangeInfo" data-throw-if-not-resolved="false"></xref> used as clone for this range. The address of the supplied range will not be copied.
+    content.vb: Public Sub New(ri As IRangeInfo)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Int32,System.Int16)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Int32,System.Int16)
+  id: '#ctor(System.Int32,System.Int16)'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: InMemoryRange(Int32, Int16)
+  nameWithType: InMemoryRange.InMemoryRange(Int32, Int16)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.InMemoryRange(System.Int32, System.Int16)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public InMemoryRange(int rows, short cols)
+    parameters:
+    - id: rows
+      type: System.Int32
+      description: Number of rows in the new range
+    - id: cols
+      type: System.Int16
+      description: Number of columns in the new range
+    content.vb: Public Sub New(rows As Integer, cols As Short)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty
+  id: Empty
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Empty
+  nameWithType: InMemoryRange.Empty
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Empty
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 109
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nAn empty range\n"
+  example: []
+  syntax:
+    content: public static InMemoryRange Empty { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+    content.vb: Public Shared ReadOnly Property Empty As InMemoryRange
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue(System.Int32,System.Int32,System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue(System.Int32,System.Int32,System.Object)
+  id: SetValue(System.Int32,System.Int32,System.Object)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: SetValue(Int32, Int32, Object)
+  nameWithType: InMemoryRange.SetValue(Int32, Int32, Object)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue(System.Int32, System.Int32, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetValue
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nSets the value for a cell.\n"
+  example: []
+  syntax:
+    content: public void SetValue(int row, int col, object val)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: The row
+    - id: col
+      type: System.Int32
+      description: The column
+    - id: val
+      type: System.Object
+      description: The value to set
+    content.vb: Public Sub SetValue(row As Integer, col As Integer, val As Object)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell(System.Int32,System.Int32,OfficeOpenXml.FormulaParsing.ICellInfo)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell(System.Int32,System.Int32,OfficeOpenXml.FormulaParsing.ICellInfo)
+  id: SetCell(System.Int32,System.Int32,OfficeOpenXml.FormulaParsing.ICellInfo)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: SetCell(Int32, Int32, ICellInfo)
+  nameWithType: InMemoryRange.SetCell(Int32, Int32, ICellInfo)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell(System.Int32, System.Int32, OfficeOpenXml.FormulaParsing.ICellInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetCell
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nSets the <xref href=\"OfficeOpenXml.FormulaParsing.ICellInfo\" data-throw-if-not-resolved=\"false\"></xref> for a cell directly\n"
+  example: []
+  syntax:
+    content: public void SetCell(int row, int col, ICellInfo cell)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: The row
+    - id: col
+      type: System.Int32
+      description: The column
+    - id: cell
+      type: OfficeOpenXml.FormulaParsing.ICellInfo
+      description: The cell
+    content.vb: Public Sub SetCell(row As Integer, col As Integer, cell As ICellInfo)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef
+  id: IsRef
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: IsRef
+  nameWithType: InMemoryRange.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsRef
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 136
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe in-memory range is never a reference error. Allways false.\n"
+  example: []
+  syntax:
+    content: public bool IsRef { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsRef As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty
+  id: IsEmpty
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: IsEmpty
+  nameWithType: InMemoryRange.IsEmpty
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsEmpty
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nIf the range has no cells.\n"
+  example: []
+  syntax:
+    content: public bool IsEmpty { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsEmpty As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsEmpty
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti
+  id: IsMulti
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: IsMulti
+  nameWithType: InMemoryRange.IsMulti
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsMulti
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 144
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nIf the range is more than one cell.\n"
+  example: []
+  syntax:
+    content: public bool IsMulti { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsMulti As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange
+  id: IsInMemoryRange
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: IsInMemoryRange
+  nameWithType: InMemoryRange.IsInMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsInMemoryRange
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 148
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nIf the range is an inmemory range. Allways true.\n"
+  example: []
+  syntax:
+    content: public bool IsInMemoryRange { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsInMemoryRange As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size
+  id: Size
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: InMemoryRange.Size
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Size
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 152
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe size of the range.\n"
+  example: []
+  syntax:
+    content: public RangeDefinition Size { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+    content.vb: Public ReadOnly Property Size As RangeDefinition
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: InMemoryRange.Address
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe address of the inmemory range.\n"
+  example: []
+  syntax:
+    content: public FormulaRangeAddress Address { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: Public ReadOnly Property Address As FormulaRangeAddress
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: InMemoryRange.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 160
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet Worksheet { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public ReadOnly Property Worksheet As ExcelWorksheet
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension
+  id: Dimension
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Dimension
+  nameWithType: InMemoryRange.Dimension
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dimension
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe address of the range\n"
+  example: []
+  syntax:
+    content: public FormulaRangeAddress Dimension { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: Public ReadOnly Property Dimension As FormulaRangeAddress
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current
+  id: Current
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Current
+  nameWithType: InMemoryRange.Current
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Current
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 171
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: public ICellInfo Current { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.ICellInfo
+    content.vb: Public ReadOnly Property Current As ICellInfo
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current*
+  implements:
+  - System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerator#Current
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerator#Current
+  id: System#Collections#IEnumerator#Current
+  isEii: true
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: IEnumerator.Current
+  nameWithType: InMemoryRange.IEnumerator.Current
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System.Collections.IEnumerator.Current
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerator.Current
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: object IEnumerator.Current { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: ReadOnly WriteOnly Property System.Collections.IEnumerator.Current As Object Implements IEnumerator.Current
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerator#Current*
+  implements:
+  - System.Collections.IEnumerator.Current
+  nameWithType.vb: InMemoryRange.System.Collections.IEnumerator.Current
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.IEnumerator.Current
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: InMemoryRange.Dispose()
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 187
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: InMemoryRange.GetEnumerator()
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: public IEnumerator<ICellInfo> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ICellInfo)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ICellInfo}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells
+  id: GetNCells
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: GetNCells()
+  nameWithType: InMemoryRange.GetNCells()
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetNCells
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 203
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGet the number of cells in the range\n"
+  example: []
+  syntax:
+    content: public int GetNCells()
+    return:
+      type: System.Int32
+      description: The number of cells in range.
+    content.vb: Public Function GetNCells As Integer
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32,System.Int32)
+  id: GetOffset(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: GetOffset(Int32, Int32)
+  nameWithType: InMemoryRange.GetOffset(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetOffset
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nReturns the value with the offset from the top-left cell.\n"
+  example: []
+  syntax:
+    content: public object GetOffset(int rowOffset, int colOffset)
+    parameters:
+    - id: rowOffset
+      type: System.Int32
+      description: The row offset from the top-left cell.
+    - id: colOffset
+      type: System.Int32
+      description: The column offset from the top-left cell.
+    return:
+      type: System.Object
+      description: The value of the cell
+    content.vb: Public Function GetOffset(rowOffset As Integer, colOffset As Integer) As Object
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  id: GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: GetOffset(Int32, Int32, Int32, Int32)
+  nameWithType: InMemoryRange.GetOffset(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset(System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetOffset
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nReturns the value with the offset from the top-left cell.\n"
+  example: []
+  syntax:
+    content: public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
+    parameters:
+    - id: rowOffsetStart
+      type: System.Int32
+      description: The starting row offset from the top-left cell.
+    - id: colOffsetStart
+      type: System.Int32
+      description: The ending column offset from the top-left cell
+    - id: rowOffsetEnd
+      type: System.Int32
+      description: The ending row offset from the top-left cell.
+    - id: colOffsetEnd
+      type: System.Int32
+      description: The starting column offset from the top-left cell.
+    return:
+      type: OfficeOpenXml.FormulaParsing.IRangeInfo
+      description: The value of the cell
+    content.vb: Public Function GetOffset(rowOffsetStart As Integer, colOffsetStart As Integer, rowOffsetEnd As Integer, colOffsetEnd As Integer) As IRangeInfo
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden(System.Int32,System.Int32)
+  id: IsHidden(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: IsHidden(Int32, Int32)
+  nameWithType: InMemoryRange.IsHidden(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsHidden
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 257
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nIf the cell&apos;s row is hidden.\n"
+  example: []
+  syntax:
+    content: public bool IsHidden(int rowOffset, int colOffset)
+    parameters:
+    - id: rowOffset
+      type: System.Int32
+      description: Row offset from the top-left cell
+    - id: colOffset
+      type: System.Int32
+      description: Column offset from the top-left cell
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Function IsHidden(rowOffset As Integer, colOffset As Integer) As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue(System.Int32,System.Int32)
+  id: GetValue(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: GetValue(Int32, Int32)
+  nameWithType: InMemoryRange.GetValue(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGets the value of a cell.\n"
+  example: []
+  syntax:
+    content: public object GetValue(int row, int col)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: The row
+    - id: col
+      type: System.Int32
+      description: The column
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Function GetValue(row As Integer, col As Integer) As Object
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32,System.Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell(System.Int32,System.Int32)
+  id: GetCell(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: GetCell(Int32, Int32)
+  nameWithType: InMemoryRange.GetCell(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCell
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 285
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: public ICellInfo GetCell(int row, int col)
+    parameters:
+    - id: row
+      type: System.Int32
+    - id: col
+      type: System.Int32
+    return:
+      type: OfficeOpenXml.FormulaParsing.ICellInfo
+    content.vb: Public Function GetCell(row As Integer, col As Integer) As ICellInfo
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext
+  id: MoveNext
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: MoveNext()
+  nameWithType: InMemoryRange.MoveNext()
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveNext
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 292
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: public bool MoveNext()
+    return:
+      type: System.Boolean
+    content.vb: Public Function MoveNext As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext*
+  implements:
+  - System.Collections.IEnumerator.MoveNext
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset
+  id: Reset
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Reset()
+  nameWithType: InMemoryRange.Reset()
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Reset
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 305
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: public void Reset()
+    content.vb: Public Sub Reset
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset*
+  implements:
+  - System.Collections.IEnumerator.Reset
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: InMemoryRange.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 311
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: InMemoryRange.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+references:
+- uid: OfficeOpenXml.FormulaParsing.Ranges
+  commentId: N:OfficeOpenXml.FormulaParsing.Ranges
+  name: OfficeOpenXml.FormulaParsing.Ranges
+  nameWithType: OfficeOpenXml.FormulaParsing.Ranges
+  fullName: OfficeOpenXml.FormulaParsing.Ranges
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IRangeInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IRangeInfo
+  nameWithType: IRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IAddressInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ICellInfo>
+  nameWithType: IEnumerator<ICellInfo>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.FormulaParsing.ICellInfo>
+  nameWithType.vb: IEnumerator(Of ICellInfo)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.FormulaParsing.ICellInfo)
+  name.vb: IEnumerator(Of ICellInfo)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ICellInfo
+    name: ICellInfo
+    nameWithType: ICellInfo
+    fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ICellInfo
+    name: ICellInfo
+    nameWithType: ICellInfo
+    fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ICellInfo}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ICellInfo}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ICellInfo>
+  nameWithType: IEnumerable<ICellInfo>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.ICellInfo>
+  nameWithType.vb: IEnumerable(Of ICellInfo)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.ICellInfo)
+  name.vb: IEnumerable(Of ICellInfo)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ICellInfo
+    name: ICellInfo
+    nameWithType: ICellInfo
+    fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ICellInfo
+    name: ICellInfo
+    nameWithType: ICellInfo
+    fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor
+  name: InMemoryRange
+  nameWithType: InMemoryRange.InMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.InMemoryRange
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  name: RangeDefinition
+  nameWithType: RangeDefinition
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: System.Collections.Generic.List{System.Collections.Generic.List{System.Object}}
+  commentId: T:System.Collections.Generic.List{System.Collections.Generic.List{System.Object}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<List<Object>>
+  nameWithType: List<List<Object>>
+  fullName: System.Collections.Generic.List<System.Collections.Generic.List<System.Object>>
+  nameWithType.vb: List(Of List(Of Object))
+  fullName.vb: System.Collections.Generic.List(Of System.Collections.Generic.List(Of System.Object))
+  name.vb: List(Of List(Of Object))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Int16
+  commentId: T:System.Int16
+  parent: System
+  isExternal: true
+  name: Int16
+  nameWithType: Int16
+  fullName: System.Int16
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty
+  name: Empty
+  nameWithType: InMemoryRange.Empty
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Empty
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  name: InMemoryRange
+  nameWithType: InMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue
+  name: SetValue
+  nameWithType: InMemoryRange.SetValue
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetValue
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.ICellInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: ICellInfo
+  nameWithType: ICellInfo
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell
+  name: SetCell
+  nameWithType: InMemoryRange.SetCell
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.SetCell
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef
+  name: IsRef
+  nameWithType: InMemoryRange.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsRef
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: IsRef
+  nameWithType: IRangeInfo.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty
+  name: IsEmpty
+  nameWithType: InMemoryRange.IsEmpty
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsEmpty
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsEmpty
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsEmpty
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: IsEmpty
+  nameWithType: IRangeInfo.IsEmpty
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsEmpty
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti
+  name: IsMulti
+  nameWithType: InMemoryRange.IsMulti
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsMulti
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: IsMulti
+  nameWithType: IRangeInfo.IsMulti
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange
+  name: IsInMemoryRange
+  nameWithType: InMemoryRange.IsInMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsInMemoryRange
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: IsInMemoryRange
+  nameWithType: IRangeInfo.IsInMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size
+  name: Size
+  nameWithType: InMemoryRange.Size
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Size
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: Size
+  nameWithType: IRangeInfo.Size
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address
+  name: Address
+  nameWithType: InMemoryRange.Address
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  parent: OfficeOpenXml.FormulaParsing.IAddressInfo
+  name: Address
+  nameWithType: IAddressInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet
+  name: Worksheet
+  nameWithType: InMemoryRange.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Worksheet
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: Worksheet
+  nameWithType: IRangeInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension
+  name: Dimension
+  nameWithType: InMemoryRange.Dimension
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: Dimension
+  nameWithType: IRangeInfo.Dimension
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current
+  name: Current
+  nameWithType: InMemoryRange.Current
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
+  commentId: P:System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
+  parent: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}
+  definition: System.Collections.Generic.IEnumerator`1.Current
+  name: Current
+  nameWithType: IEnumerator<ICellInfo>.Current
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.FormulaParsing.ICellInfo>.Current
+  nameWithType.vb: IEnumerator(Of ICellInfo).Current
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.FormulaParsing.ICellInfo).Current
+- uid: System.Collections.Generic.IEnumerator`1.Current
+  commentId: P:System.Collections.Generic.IEnumerator`1.Current
+  isExternal: true
+  name: Current
+  nameWithType: IEnumerator<T>.Current
+  fullName: System.Collections.Generic.IEnumerator<T>.Current
+  nameWithType.vb: IEnumerator(Of T).Current
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T).Current
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerator#Current*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerator#Current
+  name: IEnumerator.Current
+  nameWithType: InMemoryRange.IEnumerator.Current
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System.Collections.IEnumerator.Current
+  nameWithType.vb: InMemoryRange.System.Collections.IEnumerator.Current
+  name.vb: System.Collections.IEnumerator.Current
+- uid: System.Collections.IEnumerator.Current
+  commentId: P:System.Collections.IEnumerator.Current
+  parent: System.Collections.IEnumerator
+  isExternal: true
+  name: Current
+  nameWithType: IEnumerator.Current
+  fullName: System.Collections.IEnumerator.Current
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
+  name: Dispose
+  nameWithType: InMemoryRange.Dispose
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator
+  name: GetEnumerator
+  nameWithType: InMemoryRange.GetEnumerator
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ICellInfo}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ICellInfo}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ICellInfo}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ICellInfo>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.ICellInfo>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ICellInfo).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.ICellInfo).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ICellInfo>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.ICellInfo>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ICellInfo).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.ICellInfo).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells
+  name: GetNCells
+  nameWithType: InMemoryRange.GetNCells
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetNCells
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: GetNCells()
+  nameWithType: IRangeInfo.GetNCells()
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
+    name: GetNCells
+    nameWithType: IRangeInfo.GetNCells
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
+    name: GetNCells
+    nameWithType: IRangeInfo.GetNCells
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset
+  name: GetOffset
+  nameWithType: InMemoryRange.GetOffset
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetOffset
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  isExternal: true
+  name: GetOffset(Int32, Int32)
+  nameWithType: IRangeInfo.GetOffset(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32)
+    name: GetOffset
+    nameWithType: IRangeInfo.GetOffset
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32)
+    name: GetOffset
+    nameWithType: IRangeInfo.GetOffset
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  isExternal: true
+  name: GetOffset(Int32, Int32, Int32, Int32)
+  nameWithType: IRangeInfo.GetOffset(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32, System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+    name: GetOffset
+    nameWithType: IRangeInfo.GetOffset
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+    name: GetOffset
+    nameWithType: IRangeInfo.GetOffset
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden
+  name: IsHidden
+  nameWithType: InMemoryRange.IsHidden
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.IsHidden
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  isExternal: true
+  name: IsHidden(Int32, Int32)
+  nameWithType: IRangeInfo.IsHidden(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+    name: IsHidden
+    nameWithType: IRangeInfo.IsHidden
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+    name: IsHidden
+    nameWithType: IRangeInfo.IsHidden
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue
+  name: GetValue
+  nameWithType: InMemoryRange.GetValue
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetValue
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  isExternal: true
+  name: GetValue(Int32, Int32)
+  nameWithType: IRangeInfo.GetValue(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32,System.Int32)
+    name: GetValue
+    nameWithType: IRangeInfo.GetValue
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32,System.Int32)
+    name: GetValue
+    nameWithType: IRangeInfo.GetValue
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell
+  name: GetCell
+  nameWithType: InMemoryRange.GetCell
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext
+  name: MoveNext
+  nameWithType: InMemoryRange.MoveNext
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext
+- uid: System.Collections.IEnumerator.MoveNext
+  commentId: M:System.Collections.IEnumerator.MoveNext
+  parent: System.Collections.IEnumerator
+  isExternal: true
+  name: MoveNext()
+  nameWithType: IEnumerator.MoveNext()
+  fullName: System.Collections.IEnumerator.MoveNext()
+  spec.csharp:
+  - uid: System.Collections.IEnumerator.MoveNext
+    name: MoveNext
+    nameWithType: IEnumerator.MoveNext
+    fullName: System.Collections.IEnumerator.MoveNext
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerator.MoveNext
+    name: MoveNext
+    nameWithType: IEnumerator.MoveNext
+    fullName: System.Collections.IEnumerator.MoveNext
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset
+  name: Reset
+  nameWithType: InMemoryRange.Reset
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Reset
+- uid: System.Collections.IEnumerator.Reset
+  commentId: M:System.Collections.IEnumerator.Reset
+  parent: System.Collections.IEnumerator
+  isExternal: true
+  name: Reset()
+  nameWithType: IEnumerator.Reset()
+  fullName: System.Collections.IEnumerator.Reset()
+  spec.csharp:
+  - uid: System.Collections.IEnumerator.Reset
+    name: Reset
+    nameWithType: IEnumerator.Reset
+    fullName: System.Collections.IEnumerator.Reset
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerator.Reset
+    name: Reset
+    nameWithType: IEnumerator.Reset
+    fullName: System.Collections.IEnumerator.Reset
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: InMemoryRange.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: InMemoryRange.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )

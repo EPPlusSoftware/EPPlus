@@ -16,7 +16,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -67,16 +67,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.Operator:
                     case TokenType.Negator:
-                        if(token.TokenType== TokenType.Operator && i > 0 && i < tokens.Count-2 && token.Value==":" && tokens[i-1].Value=="]" && tokens[i+1].Value=="[")
+                        if(token.TokenType == TokenType.Operator && i > 0 && i < tokens.Count-2 && token.Value==":" && tokens[i-1].Value=="]" && tokens[i+1].Value=="[")
                         {
                             expressions.Add(token);
                             break;
                         }
                         if (operatorStack.Count > 0)
+
                         {
                             var o2 = operatorStack.Peek();
-                            while (o2.TokenType == TokenType.Operator &&
-                                operators[o2.Value].Precedence <= operators[token.Value].Precedence && token.TokenType != TokenType.Negator)
+                            while ((o2.TokenType == TokenType.Operator && token.TokenType!=TokenType.Negator &&
+                                operators[o2.Value].Precedence <= operators[token.Value].Precedence) 
+                                || 
+                                (o2.TokenType == TokenType.Negator && 
+                                token.TokenType != TokenType.Negator && 
+                                operators[token.Value].Precedence > Operator.PrecedenceColon))
                             {
                                 expressions.Add(operatorStack.Pop());
                                 if (operatorStack.Count == 0) break;
@@ -248,11 +253,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.TableColumn:
                         if (string.IsNullOrEmpty(tableAddress.ColumnName1))
                         {
-                            tableAddress.ColumnName1=t.Value;
+                            tableAddress.ColumnName1 = ExcelTableColumn.DecodeTableColumnName(t.Value);
                         }
                         else
                         {
-                            tableAddress.ColumnName2 = t.Value;
+                            tableAddress.ColumnName2 = ExcelTableColumn.DecodeTableColumnName(t.Value);
                         }
                         break;
                     case TokenType.TablePart:
@@ -293,7 +298,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             exps.Insert(i, new Token(tableAddress.WorksheetAddress, TokenType.ExcelAddress));
         }
-        private static void ExtractArray(IList<Token> exps, int i, out IRangeInfo range, ParsingContext parsingContext)
+
+		private static void ExtractArray(IList<Token> exps, int i, out IRangeInfo range, ParsingContext parsingContext)
         {
             exps.RemoveAt(i);
             var matrix = new List<List<object>>();   

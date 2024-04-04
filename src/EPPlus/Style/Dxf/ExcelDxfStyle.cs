@@ -25,10 +25,15 @@ namespace OfficeOpenXml.Style.Dxf
         {
             NumberFormat = new ExcelDxfNumberFormat(_styles, callback);
             Font = new ExcelDxfFont(_styles, callback);
+            Alignment = new ExcelDxfAlignment(styles, callback);
+            Protection = new ExcelDxfProtection(styles, callback);
+
             if (topNode != null)
             {                
                 NumberFormat.SetValuesFromXml(_helper);
                 Font.SetValuesFromXml(_helper);
+                Alignment.SetValuesFromXml(_helper);
+                Protection.SetValuesFromXml(_helper);
             }
          }
         /// <summary>
@@ -39,11 +44,28 @@ namespace OfficeOpenXml.Style.Dxf
         /// Number format settings
         /// </summary>
         public ExcelDxfNumberFormat NumberFormat { get; internal set; }
+        /// <summary>
+        /// Cell alignment properties
+        /// </summary>
+        public ExcelDxfAlignment Alignment
+        {
+            get;
+            internal set;
+        }
+        /// <summary>
+        /// Cell protection properties used when the worksheet is protected.d
+        /// </summary>
+        public ExcelDxfProtection Protection
+        {
+            get;
+            internal set;
+        }
+
         internal override string Id
         {
             get
             {
-                return base.Id + Font.Id + NumberFormat.Id;
+                return base.GetId() + Font.Id + NumberFormat.Id + Alignment.Id + Protection.Id;
             }
         }
         /// <summary>
@@ -53,7 +75,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return base.HasValue || Font.HasValue || NumberFormat.HasValue;
+                return base.HasValue || Font.HasValue || NumberFormat.HasValue || Alignment.HasValue || Protection.HasValue;
             }
         }
         internal override DxfStyleBase Clone()
@@ -62,9 +84,10 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 Font = (ExcelDxfFont)Font.Clone(),
                 Fill = (ExcelDxfFill)Fill.Clone(),
-                Border = (
-                ExcelDxfBorderBase)Border.Clone(),
+                Border = (ExcelDxfBorderBase)Border.Clone(),
                 NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),
+                Alignment = (ExcelDxfAlignment)Alignment.Clone(),
+                Protection = (ExcelDxfProtection)Protection.Clone()
             };
 
             return s;
@@ -75,6 +98,8 @@ namespace OfficeOpenXml.Style.Dxf
             if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
             if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
             if (Border.HasValue) Border.CreateNodes(helper, "d:border");
+            if (Alignment.HasValue) Alignment.CreateNodes(helper, "d:alignment");
+            if (Protection.HasValue) Protection.CreateNodes(helper, "d:protection");
         }
         internal override void SetStyle()
         {
@@ -83,6 +108,8 @@ namespace OfficeOpenXml.Style.Dxf
                 NumberFormat.SetStyle();
                 base.SetStyle();
                 Font.SetStyle();
+                Alignment.SetStyle();
+                Protection.SetStyle();
             }
         }
         /// <summary>
@@ -93,6 +120,8 @@ namespace OfficeOpenXml.Style.Dxf
             base.Clear();
             Font.Clear();
             NumberFormat.Clear();
+            Alignment.Clear();
+            Protection.Clear();
         }
     }
 }

@@ -12,13 +12,16 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using System.Globalization;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
     internal class ExcelConditionalFormattingLessThan : ExcelConditionalFormattingRule, IExcelConditionalFormattingLessThan
     {
-        public ExcelConditionalFormattingLessThan(
+        internal ExcelConditionalFormattingLessThan(
           ExcelAddress address,
           int priority,
           ExcelWorksheet worksheet)
@@ -27,7 +30,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.LessThan;
         }
 
-        public ExcelConditionalFormattingLessThan(
+        internal ExcelConditionalFormattingLessThan(
           ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
           : base(eExcelConditionalFormattingRuleType.LessThan, address, ws, xr)
         {
@@ -41,6 +44,29 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingLessThan(this, newWs);
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            var cellValue = _ws.Cells[address.Address].Value;
+            if (cellValue != null && string.IsNullOrEmpty(Formula) == false)
+            {
+                calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address)).ToString(), CultureInfo.InvariantCulture);
+                if (double.TryParse(calculatedFormula1, out double result))
+                {
+                    if (cellValue.IsNumeric())
+                    {
+                        return Convert.ToDouble(cellValue) < result;
+                    }
+                }
+                else
+                {
+                    var compareResult = string.Compare(calculatedFormula1, cellValue.ToString(), true);
+                    return compareResult < 0;
+                }
+            }
+
+            return false;
         }
     }
 }

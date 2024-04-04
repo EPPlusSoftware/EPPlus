@@ -763,7 +763,7 @@ namespace EPPlusTest
             ws.Cells["G3"].RichText.Add(" a new t");
             ws.Cells["G3"].RichText[1].Bold = false;
 
-            ws.Cells["G3"].RichText.Add("");
+            //ws.Cells["G3"].RichText.Add("");
 
             //Set printersettings
             ws.PrinterSettings.RepeatColumns = ws.Cells["A:B"];
@@ -2008,6 +2008,41 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void DeletingSheetBeforeSelectedSheetMovesCorrectly()
+        {
+            using (var package = OpenPackage("deletedSheets.xlsx", true))
+            {
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("VisibleSheet2");
+                package.Workbook.Worksheets.Add("HiddenSheet2").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("HiddenSheet3").Hidden = eWorkSheetHidden.VeryHidden;
+                package.Workbook.Worksheets.Add("VisibleSheet3");
+                package.Workbook.Worksheets.Add("VisibleSheet4");
+                package.Workbook.Worksheets.Add("HiddenSheet4").Hidden = eWorkSheetHidden.Hidden;
+
+                package.Workbook.View.ActiveTab = 2;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet1");
+
+                Assert.AreEqual(1, package.Workbook.View.ActiveTab);
+
+                package.Workbook.View.ActiveTab = 4;
+
+                package.Workbook.Worksheets.Delete("HiddenSheet3");
+
+                Assert.AreEqual(package.Workbook.Worksheets.GetByName("VisibleSheet3").Index, package.Workbook.View.ActiveTab);
+
+                package.Workbook.Worksheets.Delete("VisibleSheet4");
+                package.Workbook.Worksheets.Delete("VisibleSheet3");
+
+                Assert.AreEqual(package.Workbook.Worksheets.GetByName("VisibleSheet2").Index, package.Workbook.View.ActiveTab);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
         public void DeletingSheetMovesLastSelectedSheetCorrectly()
         {
             using (var package = OpenPackage("deletedSheets.xlsx", true))
@@ -2024,6 +2059,47 @@ namespace EPPlusTest
                 package.Workbook.Worksheets.Delete("VisibleSheet4");
 
                 Assert.AreEqual(nextSheet.Index, package.Workbook.View.ActiveTab);
+            }
+        }
+
+        [TestMethod]
+        public void DeletedSheetMovesCorrectlyIsWorksheet1Based()
+        {
+            using (var package = OpenPackage("deletedSheets.xlsx", true))
+            {
+                package.Compatibility.IsWorksheets1Based = true;
+
+                package.Workbook.Worksheets.Add("VisibleSheet1");
+                package.Workbook.Worksheets.Add("VisibleSheet2");
+                package.Workbook.Worksheets.Add("HiddenSheet2").Hidden = eWorkSheetHidden.Hidden;
+                package.Workbook.Worksheets.Add("HiddenSheet3").Hidden = eWorkSheetHidden.VeryHidden;
+                package.Workbook.Worksheets.Add("VisibleSheet3");
+                package.Workbook.Worksheets.Add("VisibleSheet4");
+                package.Workbook.Worksheets.Add("HiddenSheet4").Hidden = eWorkSheetHidden.Hidden;
+
+                package.Workbook.View.ActiveTab = 5;
+
+                package.Workbook.Worksheets.Delete("HiddenSheet4");
+
+                Assert.AreEqual(5, package.Workbook.View.ActiveTab);
+
+                package.Workbook.Worksheets.Delete("VisibleSheet4");
+
+                Assert.AreEqual(4, package.Workbook.View.ActiveTab);
+
+                package.Workbook.View.ActiveTab = 1;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet2");
+
+                Assert.AreEqual(3, package.Workbook.View.ActiveTab);
+
+                package.Workbook.View.ActiveTab = 0;
+
+                package.Workbook.Worksheets.Delete("VisibleSheet1");
+
+                Assert.AreEqual(2, package.Workbook.View.ActiveTab);
+
+                SaveAndCleanup(package);
             }
         }
 

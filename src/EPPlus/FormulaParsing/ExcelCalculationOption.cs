@@ -85,10 +85,19 @@ namespace OfficeOpenXml.FormulaParsing
         /// Canching increases memory consumtion on calculate.
         /// </summary>
         public bool CacheExpressions { get; set; } = true;
-
         /// <summary>
         /// In some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.
         /// </summary>
         public PrecisionAndRoundingStrategy PrecisionAndRoundingStrategy { get; set; }
+        /// <summary>
+        /// If true, EPPlus will calculate the cells in order calculating any dependent cells.
+        /// If false, EPPlus will calculate the cells without calculating dependent cells.
+        /// </summary>
+        public bool FollowDependencyChain
+        {
+            get;
+            set;
+        } = true;
+
     }
 }

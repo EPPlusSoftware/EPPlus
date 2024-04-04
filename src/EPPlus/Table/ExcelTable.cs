@@ -24,7 +24,6 @@ using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
@@ -81,9 +80,13 @@ namespace OfficeOpenXml.Table
             TopNode = TableXml.DocumentElement;
             SchemaNodeOrder = new string[] { "autoFilter", "sortState", "tableColumns", "tableStyleInfo" };
             InitDxf(WorkSheet.Workbook.Styles, this, null);
-            TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
-            HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
-            _tableSorter = new TableSorter(this);
+            //TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+            //HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+			var styles = WorkSheet.Workbook.Styles;
+            TableBorderStyle = styles.GetDxfBorder(TableBorderDxfId, SetTableBorderStyle);
+			HeaderRowBorderStyle = styles.GetDxfBorder(HeaderRowBorderDxfId, SetHeaderStyle);
+
+			_tableSorter = new TableSorter(this);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -788,7 +791,8 @@ namespace OfficeOpenXml.Table
                 {
                     if (value)
                     {
-                        Address=new ExcelAddress(WorkSheet.Name, ExcelAddressBase.GetAddress(Address.Start.Row, Address.Start.Column, Address.End.Row+1, Address.End.Column));
+                        WorkSheet.Cells[Address._toRow + 1, Address._fromCol, Address._toRow + 1, Address._toCol].Clear();
+                        Address =new ExcelAddress(WorkSheet.Name, ExcelAddressBase.GetAddress(Address.Start.Row, Address.Start.Column, Address.End.Row+1, Address.End.Column));
                     }
                     else
                     {
@@ -806,10 +810,12 @@ namespace OfficeOpenXml.Table
                     }
                     else
                     {
+                        WorkSheet.Cells[Address._toRow + 1, Address._fromCol, Address._toRow + 1, Address._toCol].Clear();
                         DeleteNode(TOTALSROWCOUNT_PATH);
                         DataStyle.SetStyle();
                     }
                     WriteAutoFilter(value);
+   
                 }
             }
         }
@@ -1044,12 +1050,12 @@ namespace OfficeOpenXml.Table
             }
             var firstRow = _address._fromRow;
             var isFirstRow = position == 0;
-            var subtact = ShowTotal ? 2 : 1;
-            if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtact)
+            var subtract = ShowTotal ? 2 : 1;
+            if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtract)
             {
-                position = _address.Rows - subtact;
+                position = _address.Rows - subtract;
             }
-            if (_address._fromRow+position+rows>ExcelPackage.MaxRows)
+            if (_address._fromRow + position + rows>ExcelPackage.MaxRows)
             {
                 throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
             }

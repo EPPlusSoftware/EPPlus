@@ -18,7 +18,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// ExcelConditionalFormattingLast7Days
     /// </summary>
-    public class ExcelConditionalFormattingToday: ExcelConditionalFormattingTimePeriodGroup
+    internal class ExcelConditionalFormattingToday: ExcelConditionalFormattingTimePeriodGroup
     {
         #region Constructors
         /// <summary>
@@ -34,9 +34,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         : base(eExcelConditionalFormattingRuleType.Today, address, priority, worksheet)
         {
             TimePeriod = eExcelConditionalFormattingTimePeriodType.Today;
-            Formula = string.Format(
-              "FLOOR({0},1)=TODAY()",
-              Address.Start.Address);
+            _baseFormula = "FLOOR({0},1)=TODAY()";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
 
         /// <summary>
@@ -45,10 +44,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="address"></param>
         /// <param name="ws"></param>
         /// <param name="xr"></param>
-        public ExcelConditionalFormattingToday(
+        internal ExcelConditionalFormattingToday(
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.Today, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.Today;
+            _baseFormula = "FLOOR({0},1)=TODAY()";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
         #endregion
     }

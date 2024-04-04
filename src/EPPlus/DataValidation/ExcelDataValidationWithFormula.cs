@@ -27,13 +27,13 @@ namespace OfficeOpenXml.DataValidation
     public abstract class ExcelDataValidationWithFormula<T> : ExcelDataValidation
         where T : IExcelDataValidationFormula
     {
-        protected string _workSheetName;
+        internal protected string _workSheetName;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="workSheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
+        /// <param name="ws">The worksheet</param>
         /// <param name="address"></param>
         internal ExcelDataValidationWithFormula(string uid, string address, ExcelWorksheet ws)
             : base(uid, address, ws)
@@ -45,6 +45,7 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
+        /// <param name="ws">The worksheet</param>
         internal ExcelDataValidationWithFormula(XmlReader xr, ExcelWorksheet ws)
             : base(xr, ws)
         {
@@ -54,6 +55,8 @@ namespace OfficeOpenXml.DataValidation
         /// Copy Constructor
         /// </summary>
         /// <param name="copy"></param>
+        /// <param name="ws">The worksheet</param>
+
         internal ExcelDataValidationWithFormula(ExcelDataValidation copy, ExcelWorksheet ws)
             : base(copy, ws)
         {
@@ -67,14 +70,52 @@ namespace OfficeOpenXml.DataValidation
 
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
-            xr.ReadUntil(formulaIdentifier, "dataValidation", "extLst");
+            T retVal;
+
+            if (xr.LocalName == "AlternateContent")
+            {
+                if(xr.IsEmptyElement == false)
+                {
+                    if (xr.ReadUntil(formulaIdentifier, "AlternateContent"))
+                    {
+                        xr.Read();
+                        retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                        xr.Read();
+
+                        xr.ReadUntil("Formula2", "dataValidation", "dataValidations");
+                        return retVal;
+                    }
+                }
+                //Read over AlternateContent end node.
+                //to DataValidation or dataValidations end node
+                xr.Read();
+            }
+
+            if (xr.LocalName != formulaIdentifier)
+            {
+                return DefineFormulaClassType(null, _workSheetName);
+            }
 
             bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
+            //Old Epplus files did not read extLst properly it is possible to not be extLst before DefineFormulaClassType
+            //and become extLst after. Therefore don't split the check to before and after.
             if (InternalValidationType == InternalValidationType.ExtLst || isExt)
+            {
                 xr.Read();
 
-            return DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+
+                xr.Read();
+            }
+            else
+            {
+                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+            }
+
+            xr.Read();
+
+            return retVal;
         }
 
         abstract internal T DefineFormulaClassType(string formulaValue, string worksheetName);

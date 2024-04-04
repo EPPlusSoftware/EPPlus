@@ -1,0 +1,523 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  id: DoubleEnumerableParseOptions
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  langs:
+  - csharp
+  - vb
+  name: DoubleEnumerableParseOptions
+  nameWithType: DoubleEnumerableParseOptions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DoubleEnumerableParseOptions
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nOptions for parsing function arguments to a list of doubles\n"
+  example: []
+  syntax:
+    content: public class DoubleEnumerableParseOptions
+    content.vb: Public Class DoubleEnumerableParseOptions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  id: IgnoreErrors
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  langs:
+  - csharp
+  - vb
+  name: IgnoreErrors
+  nameWithType: DoubleEnumerableParseOptions.IgnoreErrors
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreErrors
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore errors in cells\n"
+  example: []
+  syntax:
+    content: public bool IgnoreErrors { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IgnoreErrors As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  id: IgnoreHiddenCells
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  langs:
+  - csharp
+  - vb
+  name: IgnoreHiddenCells
+  nameWithType: DoubleEnumerableParseOptions.IgnoreHiddenCells
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreHiddenCells
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore hidden cells\n"
+  example: []
+  syntax:
+    content: public bool IgnoreHiddenCells { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IgnoreHiddenCells As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  id: IgnoreNestedSubtotalAggregate
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  langs:
+  - csharp
+  - vb
+  name: IgnoreNestedSubtotalAggregate
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreNestedSubtotalAggregate
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore results from underlying SUBTOTAL or AGGREGATE functions\n"
+  example: []
+  syntax:
+    content: public bool IgnoreNestedSubtotalAggregate { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IgnoreNestedSubtotalAggregate As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  id: IgnoreNonNumeric
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+  langs:
+  - csharp
+  - vb
+  name: IgnoreNonNumeric
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNonNumeric
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreNonNumeric
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableParseOptions.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIgnore cells with non-numeric values\n"
+  example: []
+  syntax:
+    content: public bool IgnoreNonNumeric { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IgnoreNonNumeric As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+  name: IgnoreErrors
+  nameWithType: DoubleEnumerableParseOptions.IgnoreErrors
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreErrors
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+  name: IgnoreHiddenCells
+  nameWithType: DoubleEnumerableParseOptions.IgnoreHiddenCells
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreHiddenCells
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  name: IgnoreNestedSubtotalAggregate
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNestedSubtotalAggregate
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric
+  name: IgnoreNonNumeric
+  nameWithType: DoubleEnumerableParseOptions.IgnoreNonNumeric
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions.IgnoreNonNumeric

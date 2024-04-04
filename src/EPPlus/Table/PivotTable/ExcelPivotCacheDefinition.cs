@@ -11,12 +11,11 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Text;
 using System.Xml;
 using OfficeOpenXml.Utils;
-using System.Security;
 using System.Linq;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -130,6 +129,13 @@ namespace OfficeOpenXml.Table.PivotTable
         internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
         internal const string _sourceAddressPath = "d:cacheSource/d:worksheetSource/@ref";
         internal ExcelRangeBase _sourceRange = null;
+        internal Uri SourceExternalReference
+        {
+            get
+            {
+                return _cacheReference.SourceExternalReferenceUri;
+            }
+        }
         /// <summary>
         /// The source data range when the pivottable has a worksheet datasource. 
         /// The number of columns in the range must be intact if this property is changed.
@@ -186,9 +192,27 @@ namespace OfficeOpenXml.Table.PivotTable
                     PivotTable.CacheId = _cacheReference.CacheId;
                     _wb.AddPivotTableCache(_cacheReference);
                     Relationship.TargetUri = _cacheReference.CacheDefinitionUri;
+                    UpdateCacheInFields();
                 }
             }
         }
+
+        private void UpdateCacheInFields()
+        {
+            foreach (var field in PivotTable.Fields)
+            {
+                var cf = _cacheReference.Fields.Where(x => x.Name == field.Name).FirstOrDefault();
+                if (cf != null)
+                {
+                    field.CacheField = cf;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Pivot Table source change: Destination range headers does not match source range headers. Field Name {field.Name} is missing.");
+                }
+            }
+        }
+
         /// <summary>
         /// If Excel will save the source data with the pivot table.
         /// </summary>
@@ -211,6 +235,14 @@ namespace OfficeOpenXml.Table.PivotTable
             get
             {
                 return _cacheReference.CacheSource;
+            }
+        }
+
+        internal bool IsExternalReferernce 
+        {
+            get
+            {
+                return (CacheSource == eSourceType.Worksheet && string.IsNullOrEmpty(_cacheReference.SourceRId)) == false;
             }
         }
     }

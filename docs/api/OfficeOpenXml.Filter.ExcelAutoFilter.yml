@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.Filter.ExcelAutoFilter.Address
   - OfficeOpenXml.Filter.ExcelAutoFilter.ApplyFilter(System.Boolean)
+  - OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll
   - OfficeOpenXml.Filter.ExcelAutoFilter.Columns
   langs:
   - csharp
@@ -68,7 +69,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFilter
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 50
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -104,11 +105,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 82
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
-  summary: "\nThe range of the autofilter\n"
+  summary: "\nThe range of the autofilter\nAutofilter with address &quot;&quot; or null indicates empty autofilter.\n"
   example: []
   syntax:
     content: public ExcelAddressBase Address { get; }
@@ -141,7 +142,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 107
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -160,6 +161,38 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll
+  commentId: M:OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll
+  id: ClearAll
+  parent: OfficeOpenXml.Filter.ExcelAutoFilter
+  langs:
+  - csharp
+  - vb
+  name: ClearAll()
+  nameWithType: ExcelAutoFilter.ClearAll()
+  fullName: OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelAutoFilter.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClearAll
+    path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
+    startLine: 157
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nClear all columns Unhide all affected cells, nullify address and table.\n"
+  example: []
+  syntax:
+    content: public void ClearAll()
+    content.vb: Public Sub ClearAll
+  overload: OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.Filter
   commentId: N:OfficeOpenXml.Filter
@@ -503,3 +536,8 @@ references:
   name: ExcelFilterColumnCollection
   nameWithType: ExcelFilterColumnCollection
   fullName: OfficeOpenXml.Filter.ExcelFilterColumnCollection
+- uid: OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll
+  name: ClearAll
+  nameWithType: ExcelAutoFilter.ClearAll
+  fullName: OfficeOpenXml.Filter.ExcelAutoFilter.ClearAll

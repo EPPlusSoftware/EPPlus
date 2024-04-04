@@ -88,15 +88,22 @@ namespace EPPlusTest
             Assert.IsTrue(result);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void EvaluateShouldThrowIfOperatorIsNotBoolean()
+        [TestMethod]
+        public void EvaluateShouldReturnFalseOperatorIsNotBoolean()
         {
             var result = _evaluator.Evaluate(1d, "+1");
+            Assert.IsFalse(result);
         }
         [TestMethod]
         public void EvaluateShouldEvaluateToGreaterThanMinusOne ()
         {
             var result = _evaluator.Evaluate(1d, "<>-1");
+            Assert.IsTrue(result);
+        }
+        [TestMethod]
+        public void NegativeNumerics()
+        {
+            var result = _evaluator.Evaluate(" -1", " -1");
             Assert.IsTrue(result);
         }
         #endregion
@@ -354,6 +361,12 @@ namespace EPPlusTest
             result = _evaluator.Evaluate("b", "< a");
             Assert.IsFalse(result);
         }
-#endregion
+        [TestMethod]
+        public void EvaluateShouldHandleNegativeSignsCorrectlyWithText()
+        {
+            var result = _evaluator.Evaluate(" -something", " -something");
+            Assert.IsTrue(result);
+        }
+        #endregion
     }
 }

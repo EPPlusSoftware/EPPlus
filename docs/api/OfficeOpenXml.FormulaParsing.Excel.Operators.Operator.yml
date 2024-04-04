@@ -84,7 +84,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 58
+    startLine: 59
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -122,7 +122,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 63
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -159,7 +159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Apply
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 74
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -200,7 +200,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plus
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 94
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -237,7 +237,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minus
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 125
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -274,7 +274,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Multiply
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 152
+    startLine: 153
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -311,7 +311,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Divide
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 178
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -348,7 +348,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exp
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 208
+    startLine: 209
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -385,7 +385,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Concat
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 245
+    startLine: 246
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -422,7 +422,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colon
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 265
+    startLine: 266
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -459,7 +459,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Intersect
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 319
+    startLine: 320
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -498,7 +498,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 377
+    startLine: 378
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -537,7 +537,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Eq
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 398
+    startLine: 399
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -576,7 +576,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotEqualsTo
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 417
+    startLine: 418
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -613,7 +613,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 436
+    startLine: 437
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -650,7 +650,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 454
+    startLine: 455
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -687,7 +687,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 472
+    startLine: 473
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators

@@ -95,7 +95,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationDateTime.cs
-    startLine: 60
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

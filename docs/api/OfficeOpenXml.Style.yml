@@ -172,6 +172,18 @@ references:
   name: ExcelNumberFormat
   nameWithType: ExcelNumberFormat
   fullName: OfficeOpenXml.Style.ExcelNumberFormat
+- uid: OfficeOpenXml.Style.ExcelStyle
+  commentId: T:OfficeOpenXml.Style.ExcelStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelStyle
+  nameWithType: ExcelStyle
+  fullName: OfficeOpenXml.Style.ExcelStyle
+- uid: OfficeOpenXml.Style.ExcelTextFont
+  commentId: T:OfficeOpenXml.Style.ExcelTextFont
+  parent: OfficeOpenXml.Style
+  name: ExcelTextFont
+  nameWithType: ExcelTextFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont
 - uid: OfficeOpenXml.Style.ExcelParagraph
   commentId: T:OfficeOpenXml.Style.ExcelParagraph
   parent: OfficeOpenXml.Style
@@ -202,18 +214,6 @@ references:
   name: ExcelRichTextColor
   nameWithType: ExcelRichTextColor
   fullName: OfficeOpenXml.Style.ExcelRichTextColor
-- uid: OfficeOpenXml.Style.ExcelStyle
-  commentId: T:OfficeOpenXml.Style.ExcelStyle
-  parent: OfficeOpenXml.Style
-  name: ExcelStyle
-  nameWithType: ExcelStyle
-  fullName: OfficeOpenXml.Style.ExcelStyle
-- uid: OfficeOpenXml.Style.ExcelTextFont
-  commentId: T:OfficeOpenXml.Style.ExcelTextFont
-  parent: OfficeOpenXml.Style
-  name: ExcelTextFont
-  nameWithType: ExcelTextFont
-  fullName: OfficeOpenXml.Style.ExcelTextFont
 - uid: OfficeOpenXml.Style.StyleBase
   commentId: T:OfficeOpenXml.Style.StyleBase
   parent: OfficeOpenXml.Style

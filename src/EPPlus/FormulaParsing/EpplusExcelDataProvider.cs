@@ -616,7 +616,7 @@ namespace OfficeOpenXml.FormulaParsing
         public override string GetFormat(object value, string format)
         {
             var styles = _package.Workbook.Styles;
-            ExcelNumberFormatXml.ExcelFormatTranslator ft=null;
+            ExcelFormatTranslator ft=null;
             foreach(var f in styles.NumberFormats)
             {
                 if(f.Format==format)
@@ -627,7 +627,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             if(ft==null)
             {
-                ft=new ExcelNumberFormatXml.ExcelFormatTranslator(format, -1);
+                ft=new ExcelFormatTranslator(format, -1);
             }
             return ValueToTextHandler.FormatValue(value,false, ft, null);
         }

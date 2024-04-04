@@ -4,6 +4,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -36,9 +37,10 @@ namespace EPPlusTest.Core.Range.Insert
             ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
             ws2.Cells["A1"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
             ws2.Cells["B1:B2"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
+			ws2.Cells["A2"].Formula = "Sum(InsertRow_Sheet1!#REF!)";
 
-            //Act
-            ws.InsertRow(3, 1);
+			//Act
+			ws.InsertRow(3, 1);
 
             //Assert
             Assert.AreEqual(1, ws._sharedFormulas.Count);
@@ -50,8 +52,9 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["B1"].Formula);
             Assert.AreEqual("Sum(InsertRow_Sheet1!C7:C12)", ws2.Cells["B2"].Formula);
-        }
-        [TestMethod]
+			Assert.AreEqual("Sum(InsertRow_Sheet1!#REF!)", ws2.Cells["A2"].Formula);
+		}
+		[TestMethod]
         public void ValidateFormulasAfterInsert2Rows()
         {
             //Setup
@@ -82,6 +85,9 @@ namespace EPPlusTest.Core.Range.Insert
             var ws2 = _pck.Workbook.Worksheets.Add("InsertColumn_Sheet2");
             ws.Cells["A1"].Formula = "Sum(E1:J1)";
             ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
+            ws.Cells["A2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
+            ws.Cells["B2:C2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
+
             ws2.Cells["A1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
             ws2.Cells["B1:C1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
 
@@ -92,6 +98,8 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(F1:K1)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(F1:K1)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(G1:L1)", ws.Cells["C1"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["A2"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["B2"].Formula);
 
             Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["B1"].Formula);
@@ -105,6 +113,8 @@ namespace EPPlusTest.Core.Range.Insert
             var ws2 = _pck.Workbook.Worksheets.Add("Insert2Columns_Sheet2");
             ws.Cells["A1"].Formula = "Sum(E1:J1)";
             ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
+            ws.Cells["A2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
+            ws.Cells["B2:C2"].Formula = "Sum(Insert2Columns_Sheet2!E1:J1)";
             ws2.Cells["A1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
             ws2.Cells["B1:C1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
 
@@ -115,11 +125,14 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(G1:L1)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(G1:L1)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(H1:M1)", ws.Cells["C1"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["A2"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet2!E1:J1)", ws.Cells["B2"].Formula);
 
             Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["B1"].Formula);
             Assert.AreEqual("Sum(Insert2Columns_Sheet1!H1:M1)", ws2.Cells["C1"].Formula);
         }
+
         [TestMethod]
         public void InsertingColumnIntoTable()
         {
@@ -912,6 +925,92 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("B2:B5,C3:D6,E2:E5", cf.Address.Address);
         }
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftRightBetweenCols()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightBetweenCols");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C4:C7"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Collide(new ExcelAddress("B2:B10,E8,F5:F7,C4:C7")));
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftEntireRowBetweenCols()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightShiftEntireBetweenCols");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C4:C7"].Insert(eShiftTypeInsert.EntireRow);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B14")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E9:E12")));
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftEntireRowBetweenColsEdgeCase()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightEntireRowBetweenColsEdge");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C6:C7"].Insert(eShiftTypeInsert.EntireRow);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E10")));
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingInsertSingleCell()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormUnderRowSingleInsert");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["B11"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingInsertRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormUnderRowInsertRow");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["B11:C12"].Insert(eShiftTypeInsert.EntireRow);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingInsertColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormUnderRowInsertColumn");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["B11:C12"].Insert(eShiftTypeInsert.EntireColumn);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("D2:D10")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("G5:G8")));
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingInsertDownMiddle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormUnderRowInsertDownMiddle");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:B10,E5:E8"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["B3"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+        }
 
 
         [TestMethod]
@@ -1278,5 +1377,20 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("B13+G12", tbl2.Columns[2].CalculatedColumnFormula);
         }
 
+        //case: s635
+        [TestMethod]
+        public void InsertRowOnSpecificCase()
+        {
+            string sheetName = "test";
+
+            using (ExcelPackage package = OpenTemplatePackage("s635_Insert_Row.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+
+                worksheet.InsertRow(8, 1, 7);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

@@ -96,7 +96,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationInt.cs
-    startLine: 66
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -138,7 +138,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clone
     path: ../src/EPPlus/DataValidation/ExcelDataValidationInt.cs
-    startLine: 90
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

@@ -12,19 +12,11 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.Excel;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using System.Diagnostics;
-using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -107,9 +99,25 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         internal FilterInfo FilterInfo { get; private set; }
 
-        internal virtual object Parse(string formula, FormulaCellAddress cell)
+        internal virtual object Parse(string formula, FormulaCellAddress cell, ExcelCalculationOption options = default)
         {            
-            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, cell, new ExcelCalculationOption());
+            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, cell, options ?? new ExcelCalculationOption());
+        }
+
+        /// <summary>
+        /// Parse with option to not write result to cell but only return it
+        /// </summary>
+        /// <param name="formula"></param>
+        /// <param name="address"></param>
+        /// <param name="writeToCell">True if write result to cell false if not</param>
+        /// <returns></returns>
+        internal virtual object Parse(string formula, string address, bool writeToCell)
+        {
+            var calcOption = new ExcelCalculationOption();
+            calcOption.AllowCircularReferences = true;
+            calcOption.FollowDependencyChain = false;
+            
+            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, _parsingContext.RangeAddressFactory.CreateCell(address), calcOption);
         }
 
         /// <summary>
@@ -117,10 +125,11 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="formula">A string containing the formula</param>
         /// <param name="address">Address of the formula</param>
+        /// <param name="options">Calculation options</param>
         /// <returns></returns>
-        public virtual object Parse(string formula, string address)
+        public virtual object Parse(string formula, string address, ExcelCalculationOption options = default)
         {
-            return Parse(formula, _parsingContext.RangeAddressFactory.CreateCell(address));
+            return Parse(formula, _parsingContext.RangeAddressFactory.CreateCell(address), options);
         }
         
         /// <summary>
@@ -164,13 +173,6 @@ namespace OfficeOpenXml.FormulaParsing
                 var wsIx=_parsingContext.GetWorksheetIndex(worksheetName);
                 return Parse(f, new FormulaCellAddress(wsIx, row, col));
             }
-            //var dataItem = _excelDataProvider.GetRangeValues(address).FirstOrDefault();
-            //if (dataItem == null /*|| (dataItem.Value == null && dataItem.Formula == null)*/) return null;
-            //if (!string.IsNullOrEmpty(dataItem.Formula))
-            //{
-            //    return Parse(dataItem.Formula, _parsingContext.RangeAddressFactory.Create(address));
-            //}
-            //return Parse(dataItem.Value.ToString(), _parsingContext.RangeAddressFactory.Create(address));
         }
 
 

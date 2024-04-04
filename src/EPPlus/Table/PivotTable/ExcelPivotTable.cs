@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, pivotTableCache);
-            CacheId = pivotTableCache.CacheId;
+            CacheId = pivotTableCache.ExtLstCacheId;
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CreatePivotTable(sheet, address, sourceAddress._toCol - sourceAddress._fromCol + 1, name, tblId);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, sourceAddress);
-            CacheId = CacheDefinition._cacheReference.CacheId;
+            CacheId = CacheDefinition._cacheReference.ExtLstCacheId;
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
@@ -202,7 +202,7 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (XmlElement fieldElem in pivotFieldNode.SelectNodes("d:pivotField", NameSpaceManager))
             {
                 var fld = new ExcelPivotTableField(NameSpaceManager, fieldElem, this, index, index);
-                fld._cacheField = CacheDefinition._cacheReference.Fields[index++];
+                fld.CacheField = CacheDefinition._cacheReference.Fields[index++];
                 fld.LoadItems();
                 Fields.AddInternal(fld);
             }
@@ -1144,7 +1144,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var newCacheId = WorkSheet.Workbook.GetNewPivotCacheId();
             CacheId = newCacheId;
-            CacheDefinition._cacheReference.CacheId = newCacheId;
+            CacheDefinition._cacheReference.ExtLstCacheId = newCacheId;
             WorkSheet.Workbook.SetXmlNodeInt($"d:pivotCaches/d:pivotCache[@cacheId={oldCacheId}]/@cacheId", newCacheId);
 
             return newCacheId;
@@ -1166,14 +1166,6 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void Save()
         {
-            if(CacheDefinition.CacheSource==eSourceType.Worksheet)
-            {
-                if(CacheDefinition.SourceRange.Columns!=Fields.Count)
-                {   
-                    //if(Fields.Count)
-                    //CacheDefinition.Refresh();
-                }
-            }
             if (DataFields.Count > 1)
             {
                 XmlElement parentNode;
@@ -1250,7 +1242,6 @@ namespace OfficeOpenXml.Table.PivotTable
             UpdatePivotTableStyles();
             PivotTableXml.Save(Part.GetStream(FileMode.Create));
         }
-
         private void UpdatePivotTableStyles()
         {
             foreach (ExcelPivotTableAreaStyle a in Styles)

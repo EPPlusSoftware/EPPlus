@@ -92,7 +92,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 61
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -134,7 +134,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 66
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -176,7 +176,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HideDropDown
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 77
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -216,10 +216,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 79
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
+  summary: "\nValidate the validation\n"
+  example: []
   syntax:
     content: public override void Validate()
     content.vb: Public Overrides Sub Validate

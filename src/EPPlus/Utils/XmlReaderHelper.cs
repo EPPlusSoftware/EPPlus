@@ -19,16 +19,20 @@ namespace OfficeOpenXml.Utils
             }
             return xr.NodeType == XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]);
         }
-
-        /// <summary>
-        /// Read file until a tag in tagName is found or EOF.
-        /// This requires more careful consideration than when specifing depth.
-        /// As it will exit on endnodes and continue directly to end of file if nothing is found.
-        /// </summary>
-        /// <param name="xr">Handle to xml to read data from</param>
-        /// <param name="tagName">Array of tags to stop at in the order they should appear in the xml</param>
-        /// <returns></returns>
-        internal static bool ReadUntil(this XmlReader xr, params string[] tagName)
+		internal static bool ReadUntil(this XmlReader xr, params string[] tagName)
+        {
+            return ReadUntil(xr, XmlNodeType.Element, tagName);
+        }
+		/// <summary>
+		/// Read file until a tag in tagName is found or EOF.
+		/// This requires more careful consideration than when specifing depth.
+		/// As it will exit on endnodes and continue directly to end of file if nothing is found.
+		/// </summary>
+		/// <param name="xr">Handle to xml to read data from</param>
+        /// <param name="nodeType">The node</param>
+		/// <param name="tagName">Array of tags to stop at in the order they should appear in the xml</param>
+		/// <returns>false if EOF or found end tag. True if found tag of element type</returns>
+		internal static bool ReadUntil(this XmlReader xr, XmlNodeType nodeType, params string[] tagName)
         {
             if (xr.EOF) return false;
             do
@@ -37,8 +41,9 @@ namespace OfficeOpenXml.Utils
                 xr.Read();
             } while ((Array.Exists(tagName, tag => ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false);
 
-            return xr.NodeType == XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]);
+            return xr.NodeType == nodeType && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]);
         }
+
         internal static bool ReadUntil(this XmlReader xr, int depth, Dictionary<string, int> nodeOrder, string tag)
         {
             if (xr.EOF == false && nodeOrder.TryGetValue(tag, out int tagIx))

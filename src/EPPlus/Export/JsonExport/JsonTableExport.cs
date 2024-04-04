@@ -51,7 +51,7 @@ namespace OfficeOpenXml
             for (int i = 0; i < _table.Columns.Count; i++)
             {
                 WriteStart(sw);
-                WriteItem(sw, $"\"name\":\"{_table.Columns[i].Name}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
+                WriteItem(sw, $"\"name\":\"{JsonEscape(_table.Columns[i].Name)}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
                 if (_settings.AddDataTypesOn == eDataTypeOn.OnColumn)
                 {
                     var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(_table.DataRange.GetCellValue<object>(0, i));

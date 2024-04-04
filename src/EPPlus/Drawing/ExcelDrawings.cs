@@ -402,67 +402,139 @@ namespace OfficeOpenXml.Drawing
         }
         /// <summary>
         /// Adds a new stock chart to the worksheet.
-        /// Requires a range with four, five or six columns depending on the stock chart type.
-        /// The first column is the category series. 
-        /// The following columns in the range depend on the stock chart type (HLC, OHLC, VHLC, VOHLC).
+        /// Requires a range with four, five or six columns or rows depending on the stock chart type.
+        /// The first column/row is the category series. 
+        /// The following columns/rows in the range depend on the stock chart type (HLC, OHLC, VHLC, VOHLC).
+        /// You can control if the range should be read by column or by row via the <paramref name="readSeriesByColumn"/> parameter.
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">The Stock chart type</param>
-        /// <param name="Range">The category serie. A serie containng dates </param>
+        /// <param name="Range">The range containing all the series. Must match the stock chart type's expected ranges</param>
+        /// <param name="readSeriesByColumn">If true the series will be read by column (left to right), if false they will be read by row (top-down)</param>
         /// <returns>The chart</returns>
-        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase Range)
+        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase Range, bool readSeriesByColumn = true)
         {
             var startRow = Range.Start.Row;
             var startCol = Range.Start.Column;
             var endRow = Range.End.Row;
+            var endCol = Range.End.Column;
             var ws = Range.Worksheet;
             switch (ChartType)
             {
                 case eStockChartType.StockHLC:
-                    if (Range.Columns != 4)
+                    if (readSeriesByColumn)
                     {
-                        throw (new InvalidOperationException("Range must contain 4 columns with the Category serie to the left and the High Price, Low Price and Close Price series"));
-                    }
-                    return AddStockChart(Name,
+                        if (Range.Columns != 4)
+                        {
+                            throw (new InvalidOperationException("Range must contain 4 columns with the Category serie to the left of the High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
                         ws.Cells[startRow, startCol, endRow, startCol],
                         ws.Cells[startRow, startCol + 1, endRow, startCol + 1],
                         ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
                         ws.Cells[startRow, startCol + 3, endRow, startCol + 3]);
-                case eStockChartType.StockOHLC:
-                    if (Range.Columns != 5)
-                    {
-                        throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left and the Opening Price, High Price, Low Price and Close Price series"));
                     }
-                    return AddStockChart(Name,
+                    else
+                    {
+                        if (Range.Rows != 4)
+                        {
+                            throw (new InvalidOperationException("Range must contain 4 columns with the Category serie above the High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, startRow, endCol],
+                        ws.Cells[startRow + 1, startCol, startRow + 1, endCol],
+                        ws.Cells[startRow + 2, startCol, startRow + 2, endCol],
+                        ws.Cells[startRow + 3, startCol, startRow + 3, endCol]);
+                    }
+                case eStockChartType.StockOHLC:
+
+                    if (readSeriesByColumn)
+                    {
+                        if (Range.Columns != 5)
+                        {
+                            throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left of the Opening Price, High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
                         ws.Cells[startRow, startCol, endRow, startCol],
                         ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
                         ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
                         ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
                         ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
-                case eStockChartType.StockVHLC:
-                    if (Range.Columns != 5)
-                    {
-                        throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left and the Volume, High Price, Low Price and Close Price series"));
                     }
-                    return AddStockChart(Name,
+                    else
+                    {
+                        if (Range.Rows != 5)
+                        {
+                            throw (new InvalidOperationException("Range must contain 5 rows with the Category serie above the Opening Price, High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow + 2, startCol, startRow + 2, endCol],
+                        ws.Cells[startRow + 3, startCol, startRow + 3, endCol],
+                        ws.Cells[startRow + 4, startCol, startRow + 4, endCol],
+                        ws.Cells[startRow + 1, startCol, startRow + 1, endCol]);
+                    }
+
+                case eStockChartType.StockVHLC:
+
+                    if (readSeriesByColumn)
+                    {
+                        if (Range.Columns != 5)
+                        {
+                            throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left of the Volume, High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
                         ws.Cells[startRow, startCol, endRow, startCol],
                         ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
                         ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
                         ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
                         null,
                         ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
-                case eStockChartType.StockVOHLC:
-                    if (Range.Columns != 6)
-                    {
-                        throw (new InvalidOperationException("Range must contain 6 columns with the Category serie to the left and the Volume, Opening Price, High Price, Low Price and Close Price series"));
                     }
-                    return AddStockChart(Name,
+                    else
+                    {
+                        if (Range.Rows != 5)
+                        {
+                            throw (new InvalidOperationException("Range must contain 5 rows with the Category serie above the Volume, High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, startRow, endCol],
+                        ws.Cells[startRow + 2, startCol, startRow + 2, endCol],
+                        ws.Cells[startRow + 3, startCol, startRow + 3, endCol],
+                        ws.Cells[startRow + 4, startCol, startRow + 4, endCol],
+                        null,
+                        ws.Cells[startRow + 1, startCol, startRow + 1, endCol]);
+                    }
+                case eStockChartType.StockVOHLC:
+
+                    if (readSeriesByColumn)
+                    {
+                        if (Range.Columns != 6)
+                        {
+                            throw (new InvalidOperationException("Range must contain 6 columns with the Category serie to the left of the Volume, Opening Price, High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
                         ws.Cells[startRow, startCol, endRow, startCol],
                         ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
                         ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
                         ws.Cells[startRow, startCol + 5, endRow, startCol + 5],
                         ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
                         ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
+                    }
+                    else
+                    {
+                        if (Range.Rows != 6)
+                        {
+                            throw (new InvalidOperationException("Range must contain 6 rows with the Category serie to the left of the Volume, Opening Price, High Price, Low Price and Close Price series"));
+                        }
+                        return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, startRow, endCol],
+                        ws.Cells[startRow + 3, startCol, startRow + 3, endCol],
+                        ws.Cells[startRow + 4, startCol, startRow + 4, endCol],
+                        ws.Cells[startRow + 5, startCol, startRow + 5, endCol],
+                        ws.Cells[startRow + 2, startCol, startRow + 2, endCol],
+                        ws.Cells[startRow + 1, startCol, startRow + 1, endCol]);
+                    }
                 default:
                     throw new InvalidOperationException("Unknown eStockChartType");
             }
@@ -1215,9 +1287,9 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Can't add a slicer to a calculated field");
             }
-            if (Field._pivotTable.CacheId == 0)
+            if (Field.PivotTable.CacheId == 0)
             {
-                Field._pivotTable.ChangeCacheId(0); //Slicers can for some reason not have a cache id of 0.
+                Field.PivotTable.ChangeCacheId(0); //Slicers can for some reason not have a cache id of 0.
             }
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)
@@ -1692,5 +1764,15 @@ namespace OfficeOpenXml.Drawing
             return null;
         }
 
-    }
+		/// <summary>
+        /// Read the drawings coordinates, height and width.
+        /// </summary>
+        internal void ReadPositionsAndSize()
+		{
+			foreach(var d in _drawingsList)
+            {
+                d.GetPositionSize();
+            }
+		}
+	}
 }

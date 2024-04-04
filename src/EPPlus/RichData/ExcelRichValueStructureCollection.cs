@@ -17,21 +17,32 @@ namespace OfficeOpenXml.RichData
         private ExcelWorkbook _wb;
         private ZipPackagePart _part;
         private Uri _uri;
+        private const string PART_URI_PATH = "/xl/richData/rdrichvaluestructure.xml";
         private Dictionary<RichDataStructureFlags, int> _structures=new Dictionary<RichDataStructureFlags, int>();
         internal ExcelRichValueStructureCollection(ExcelWorkbook wb) 
         {
             _wb=wb;
-            var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueStructureRelationship).FirstOrDefault();
-            if (r != null)
+            var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueStructureRelationship).FirstOrDefault();            
+            if (r == null)
+            {
+                _uri = new Uri(PART_URI_PATH, UriKind.Relative);
+            }
+            else
             {
                 _uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
-                if (wb._package.ZipPackage.PartExists(_uri))
-                {
-                    _part = wb._package.ZipPackage.GetPart(_uri);
-                    ReadXml(_part.GetStream());
-                }
+            }
+            LoadPart(wb);
+        }
+
+        private void LoadPart(ExcelWorkbook wb)
+        {
+            if (wb._package.ZipPackage.PartExists(_uri))
+            {
+                _part = wb._package.ZipPackage.GetPart(_uri);
+                ReadXml(_part.GetStream());
             }
         }
+
         internal ZipPackagePart Part { get { return _part; } }
         private void ReadXml(Stream stream)
         {
@@ -87,9 +98,7 @@ namespace OfficeOpenXml.RichData
         {
             if (_part == null)
             {
-                _uri = new Uri("/xl/richData/rdrichvaluestructure.xml", UriKind.Relative);
                 _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValueStructure);
-                _part.ShouldBeSaved = false;
                 _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueStructureRelationship);
             }
             _part.SaveHandler = Save;

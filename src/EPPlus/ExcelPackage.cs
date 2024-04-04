@@ -143,7 +143,7 @@ namespace OfficeOpenXml
         internal ExcelPackage _loadedPackage = null;
         #region Properties
         /// <summary>
-        /// Extention Schema types
+        /// Extension Schema types
         /// </summary>
         internal const string schemaXmlExtension = "application/xml";
         internal const string schemaRelsExtension = "application/vnd.openxmlformats-package.relationships+xml";
@@ -842,17 +842,20 @@ namespace OfficeOpenXml
             {
                 if (_isExternalStream == false && _stream != null && (_stream.CanRead || _stream.CanWrite))
                 {
-                    CloseStream();
-                }
-                _zipPackage.Close();
-                if (_workbook != null)
+                    _stream.Close();
+                    _stream.Dispose();
+					_stream = null;
+				}
+
+				_zipPackage.Close();
+				_zipPackage.Dispose();
+				if (_workbook != null)
                 {
                     _workbook.Dispose();
                 }
-                _zipPackage = null;
+
+                    _zipPackage = null;
                 File = null;
-                _workbook = null;
-                _stream = null;
                 _workbook = null;
 
                 _isDisposed = true;

@@ -10,10 +10,8 @@ items:
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.DetachLogger
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.FunctionRepository
-  - OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.Logger
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.PrecisionAndRoundingStrategy
-  - OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer)
   langs:
   - csharp
   - vb
@@ -108,10 +106,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheExpressions
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 34
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf EPPlus will should cache expressions or not. Default is true.\n"
+  example: []
   syntax:
     content: public bool CacheExpressions { get; }
     parameters: []
@@ -143,7 +143,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 38
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -161,45 +161,6 @@ items:
   - get
   modifiers.vb:
   - Public
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
-  commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
-  id: Lexer
-  parent: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-  langs:
-  - csharp
-  - vb
-  name: Lexer
-  nameWithType: ParsingConfiguration.Lexer
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Lexer
-    path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 42
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nThe <xref href=\"OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer\" data-throw-if-not-resolved=\"false\"></xref> of the parser\n"
-  example: []
-  syntax:
-    content: public virtual ILexer Lexer { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
-    content.vb: Public Overridable ReadOnly Property Lexer As ILexer
-  overload: OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer*
-  modifiers.csharp:
-  - public
-  - virtual
-  - get
-  modifiers.vb:
-  - Public
-  - Overridable
   - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.Logger
   commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.Logger
@@ -219,7 +180,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 47
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -256,7 +217,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionRepository
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 62
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -275,45 +236,6 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer)
-  commentId: M:OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer)
-  id: SetLexer(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer)
-  parent: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-  langs:
-  - csharp
-  - vb
-  name: SetLexer(ILexer)
-  nameWithType: ParsingConfiguration.SetLexer(ILexer)
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: SetLexer
-    path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 86
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nReplaces the lexer with any instance implementing the <xref href=\"OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer\" data-throw-if-not-resolved=\"false\"></xref> interface.\n"
-  example: []
-  syntax:
-    content: public ParsingConfiguration SetLexer(ILexer lexer)
-    parameters:
-    - id: lexer
-      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
-      description: ''
-    return:
-      type: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-      description: ''
-    content.vb: Public Function SetLexer(lexer As ILexer) As ParsingConfiguration
-  overload: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
   commentId: M:OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
   id: AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
@@ -332,7 +254,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AttachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 119
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -371,7 +293,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DetachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 130
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -720,22 +642,6 @@ references:
   name: PrecisionAndRoundingStrategy
   nameWithType: PrecisionAndRoundingStrategy
   fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
-  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
-  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  name: ILexer
-  nameWithType: ILexer
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
-  name: Lexer
-  nameWithType: ParsingConfiguration.Lexer
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
 - uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
   commentId: T:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
   parent: OfficeOpenXml.FormulaParsing.Logging
@@ -771,22 +677,17 @@ references:
   name: OfficeOpenXml.FormulaParsing.Excel.Functions
   nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer
-  name: SetLexer
-  nameWithType: ParsingConfiguration.SetLexer
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer
+- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger
+  name: AttachLogger
+  nameWithType: ParsingConfiguration.AttachLogger
+  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration
   commentId: T:OfficeOpenXml.FormulaParsing.ParsingConfiguration
   parent: OfficeOpenXml.FormulaParsing
   name: ParsingConfiguration
   nameWithType: ParsingConfiguration
   fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger
-  name: AttachLogger
-  nameWithType: ParsingConfiguration.AttachLogger
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.DetachLogger*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.DetachLogger
   name: DetachLogger

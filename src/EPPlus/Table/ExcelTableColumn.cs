@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Globalization;
+using System.Text;
 using System.Xml;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer;
@@ -82,7 +83,14 @@ namespace OfficeOpenXml.Table
             set
             {
                 var v = ConvertUtil.ExcelEncodeString(value);
+
+                if(ExistsNode("@name"))
+                {
+                    _tbl.Columns.UpdateColName(Name, v);
+                }
+
                 SetXmlNodeString("@name", v);
+
                 if (_tbl.ShowHeader)
                 {
                     var cellValue = _tbl.WorkSheet.GetValue(_tbl.Address._fromRow, _tbl.Address._fromCol + Position);
@@ -292,7 +300,9 @@ namespace OfficeOpenXml.Table
             var colNum = _tbl.Address._fromCol + Position;
             if(clear)
             {
-                _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum].Clear();
+                var range = _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum];
+                range.ClearFormulas();
+                range.ClearFormulaValues();
             }
             else
             {
@@ -319,5 +329,29 @@ namespace OfficeOpenXml.Table
                 }
             }
         }
-    }
+		internal static string DecodeTableColumnName(string name)
+		{
+			var pc = '\0';
+			var sb = new StringBuilder();
+			for (var i = 0; i < name.Length; i++)
+			{
+				var c = name[i];
+
+				if (pc == '\'')
+				{
+					sb.Append(c);
+					pc = '\0';
+				}
+				else
+				{
+					if (c != '\'')
+					{
+						sb.Append(c);
+					}
+					pc = name[i];
+				}
+			}
+			return sb.ToString();
+		}
+	}
 }

@@ -114,6 +114,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelNamedRange AddValue(string Name, object value)
         {
+			if (!ExcelAddressUtil.IsValidName(Name))
+			{
+				throw (new ArgumentException("Name contains invalid characters or is not valid."));
+			}
+			
             var item = new ExcelNamedRange(Name,_wb, _ws, _dic.Count);
             item.NameValue = value;
             AddName(Name, item);
@@ -127,14 +132,24 @@ namespace OfficeOpenXml
         /// <param name="Formula"></param>
         /// <returns></returns>
         public ExcelNamedRange AddFormula(string Name, string Formula)
-        {
-            var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
-            item.NameFormula = Formula;
-            AddName(Name, item);
-            return item;
-        }
+		{
+			if (!ExcelAddressUtil.IsValidName(Name))
+			{
+				throw (new ArgumentException("Name contains invalid characters or is not valid."));
+			}
 
-        internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
+			return AddFormulaNoValidation(Name, Formula);
+		}
+
+		internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
+		{
+			var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
+			item.NameFormula = Formula;
+			AddName(Name, item);
+			return item;
+		}
+
+		internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
         {
             Insert(rowFrom, colFrom, rows, cols, n => true, lowerLimint, upperLimit);
         }

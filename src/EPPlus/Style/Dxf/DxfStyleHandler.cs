@@ -61,6 +61,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             //Set dxf styling for conditional Formatting
             XmlNode dxfsNode = wb.Styles.TopNode.SelectSingleNode(ExcelStyles.DxfsPath, wb.NameSpaceManager);
+            
             UpdateTableStyles(wb, wb.Styles, dxfsNode);
             UpdateDxfXmlWorksheet(wb, wb.Styles, dxfsNode);            
             if (dxfsNode != null) (dxfsNode as XmlElement).SetAttribute("count", wb.Styles.Dxfs.Count.ToString());

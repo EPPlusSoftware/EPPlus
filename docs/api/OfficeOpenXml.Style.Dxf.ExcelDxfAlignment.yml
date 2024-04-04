@@ -1,0 +1,1188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  id: ExcelDxfAlignment
+  parent: OfficeOpenXml.Style.Dxf
+  children:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText
+  langs:
+  - csharp
+  - vb
+  name: ExcelDxfAlignment
+  nameWithType: ExcelDxfAlignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDxfAlignment
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nRepresents a cell alignment properties used for differential style formatting.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDxfAlignment : DxfStyleBase'
+    content.vb: >-
+      Public Class ExcelDxfAlignment
+          Inherits DxfStyleBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase
+  inheritedMembers:
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment
+  id: HorizontalAlignment
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: HorizontalAlignment
+  nameWithType: ExcelDxfAlignment.HorizontalAlignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalAlignment
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nHorizontal alignment.\n"
+  example: []
+  syntax:
+    content: public ExcelHorizontalAlignment? HorizontalAlignment { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Style.ExcelHorizontalAlignment}
+    content.vb: Public Property HorizontalAlignment As ExcelHorizontalAlignment?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment
+  id: VerticalAlignment
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: VerticalAlignment
+  nameWithType: ExcelDxfAlignment.VerticalAlignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalAlignment
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nVertical alignment.\n"
+  example: []
+  syntax:
+    content: public ExcelVerticalAlignment? VerticalAlignment { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Style.ExcelVerticalAlignment}
+    content.vb: Public Property VerticalAlignment As ExcelVerticalAlignment?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+  id: TextRotation
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: TextRotation
+  nameWithType: ExcelDxfAlignment.TextRotation
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextRotation
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nText orientation in degrees. Values range from 0 to 180 or 255. \nSetting the rotation to 255 will align text vertically.\n"
+  example: []
+  syntax:
+    content: public int? TextRotation { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property TextRotation As Integer?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText
+  id: WrapText
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: WrapText
+  nameWithType: ExcelDxfAlignment.WrapText
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WrapText
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nWrap the text\n"
+  example: []
+  syntax:
+    content: public bool? WrapText { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property WrapText As Boolean?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent
+  id: Indent
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: Indent
+  nameWithType: ExcelDxfAlignment.Indent
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indent
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nThe margin between the border and the text\n"
+  example: []
+  syntax:
+    content: public int? Indent { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property Indent As Integer?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent
+  id: RelativeIndent
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: RelativeIndent
+  nameWithType: ExcelDxfAlignment.RelativeIndent
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RelativeIndent
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nThe additional number of spaces of indentation to adjust for text in a cell.\n"
+  example: []
+  syntax:
+    content: public int? RelativeIndent { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property RelativeIndent As Integer?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine
+  id: JustifyLastLine
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: JustifyLastLine
+  nameWithType: ExcelDxfAlignment.JustifyLastLine
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JustifyLastLine
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nIf the cells justified or distributed alignment should be used on the last line of text.\n"
+  example: []
+  syntax:
+    content: public bool? JustifyLastLine { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property JustifyLastLine As Boolean?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit
+  id: ShrinkToFit
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: ShrinkToFit
+  nameWithType: ExcelDxfAlignment.ShrinkToFit
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShrinkToFit
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nShrink the text to fit\n"
+  example: []
+  syntax:
+    content: public bool? ShrinkToFit { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property ShrinkToFit As Boolean?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder
+  id: ReadingOrder
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: ReadingOrder
+  nameWithType: ExcelDxfAlignment.ReadingOrder
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ReadingOrder
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nReading order\n0 - Context Dependent \n1 - Left-to-Right\n2 - Right-to-Left\n"
+  example: []
+  syntax:
+    content: public int? ReadingOrder { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property ReadingOrder As Integer?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical
+  id: SetTextVertical
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: SetTextVertical()
+  nameWithType: ExcelDxfAlignment.SetTextVertical()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetTextVertical
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nMakes the text vertically. This is the same as setting <xref href=\"OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation\" data-throw-if-not-resolved=\"false\"></xref> to 255.\n"
+  example: []
+  syntax:
+    content: public void SetTextVertical()
+    content.vb: Public Sub SetTextVertical
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue
+  id: HasValue
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: HasValue
+  nameWithType: ExcelDxfAlignment.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasValue
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nIf the dxf style has any values set.\n"
+  example: []
+  syntax:
+    content: public override bool HasValue { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property HasValue As Boolean
+  overridden: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear
+  id: Clear
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelDxfAlignment.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
+    startLine: 151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nClears all properties\n"
+  example: []
+  syntax:
+    content: public override void Clear()
+    content.vb: Public Overrides Sub Clear
+  overridden: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  commentId: T:OfficeOpenXml.Style.Dxf.DxfStyleBase
+  parent: OfficeOpenXml.Style.Dxf
+  name: DxfStyleBase
+  nameWithType: DxfStyleBase
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  commentId: M:OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  isExternal: true
+  name: SetValueColor(XmlHelper, String, ExcelDxfColor)
+  nameWithType: DxfStyleBase.SetValueColor(XmlHelper, String, ExcelDxfColor)
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper, System.String, OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment
+  name: HorizontalAlignment
+  nameWithType: ExcelDxfAlignment.HorizontalAlignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HorizontalAlignment
+- uid: System.Nullable{OfficeOpenXml.Style.ExcelHorizontalAlignment}
+  commentId: T:System.Nullable{OfficeOpenXml.Style.ExcelHorizontalAlignment}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<ExcelHorizontalAlignment>
+  nameWithType: Nullable<ExcelHorizontalAlignment>
+  fullName: System.Nullable<OfficeOpenXml.Style.ExcelHorizontalAlignment>
+  nameWithType.vb: Nullable(Of ExcelHorizontalAlignment)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Style.ExcelHorizontalAlignment)
+  name.vb: Nullable(Of ExcelHorizontalAlignment)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.ExcelHorizontalAlignment
+    name: ExcelHorizontalAlignment
+    nameWithType: ExcelHorizontalAlignment
+    fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.ExcelHorizontalAlignment
+    name: ExcelHorizontalAlignment
+    nameWithType: ExcelHorizontalAlignment
+    fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment
+  name: VerticalAlignment
+  nameWithType: ExcelDxfAlignment.VerticalAlignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.VerticalAlignment
+- uid: System.Nullable{OfficeOpenXml.Style.ExcelVerticalAlignment}
+  commentId: T:System.Nullable{OfficeOpenXml.Style.ExcelVerticalAlignment}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<ExcelVerticalAlignment>
+  nameWithType: Nullable<ExcelVerticalAlignment>
+  fullName: System.Nullable<OfficeOpenXml.Style.ExcelVerticalAlignment>
+  nameWithType.vb: Nullable(Of ExcelVerticalAlignment)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Style.ExcelVerticalAlignment)
+  name.vb: Nullable(Of ExcelVerticalAlignment)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.ExcelVerticalAlignment
+    name: ExcelVerticalAlignment
+    nameWithType: ExcelVerticalAlignment
+    fullName: OfficeOpenXml.Style.ExcelVerticalAlignment
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.ExcelVerticalAlignment
+    name: ExcelVerticalAlignment
+    nameWithType: ExcelVerticalAlignment
+    fullName: OfficeOpenXml.Style.ExcelVerticalAlignment
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+  name: TextRotation
+  nameWithType: ExcelDxfAlignment.TextRotation
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText
+  name: WrapText
+  nameWithType: ExcelDxfAlignment.WrapText
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.WrapText
+- uid: System.Nullable{System.Boolean}
+  commentId: T:System.Nullable{System.Boolean}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Boolean>
+  nameWithType: Nullable<Boolean>
+  fullName: System.Nullable<System.Boolean>
+  nameWithType.vb: Nullable(Of Boolean)
+  fullName.vb: System.Nullable(Of System.Boolean)
+  name.vb: Nullable(Of Boolean)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent
+  name: Indent
+  nameWithType: ExcelDxfAlignment.Indent
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Indent
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent
+  name: RelativeIndent
+  nameWithType: ExcelDxfAlignment.RelativeIndent
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.RelativeIndent
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine
+  name: JustifyLastLine
+  nameWithType: ExcelDxfAlignment.JustifyLastLine
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.JustifyLastLine
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit
+  name: ShrinkToFit
+  nameWithType: ExcelDxfAlignment.ShrinkToFit
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ShrinkToFit
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder
+  name: ReadingOrder
+  nameWithType: ExcelDxfAlignment.ReadingOrder
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.ReadingOrder
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.TextRotation
+  isExternal: true
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical
+  name: SetTextVertical
+  nameWithType: ExcelDxfAlignment.SetTextVertical
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.SetTextVertical
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  name: HasValue
+  nameWithType: DxfStyleBase.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue
+  name: HasValue
+  nameWithType: ExcelDxfAlignment.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.HasValue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  name: Clear()
+  nameWithType: DxfStyleBase.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear()
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+    name: Clear
+    nameWithType: DxfStyleBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+    name: Clear
+    nameWithType: DxfStyleBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear
+  name: Clear
+  nameWithType: ExcelDxfAlignment.Clear
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment.Clear

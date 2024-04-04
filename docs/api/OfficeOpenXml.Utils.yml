@@ -7,7 +7,7 @@ items:
   - OfficeOpenXml.Utils.AddressUtility
   - OfficeOpenXml.Utils.ArgumentExtensions
   - OfficeOpenXml.Utils.IArgument`1
-  - OfficeOpenXml.Utils.RecyclableMemory
+  - OfficeOpenXml.Utils.MemorySettings
   - OfficeOpenXml.Utils.Require
   - OfficeOpenXml.Utils.SqRefUtility
   langs:
@@ -66,11 +66,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.Utils.RecyclableMemory
-  commentId: T:OfficeOpenXml.Utils.RecyclableMemory
-  name: RecyclableMemory
-  nameWithType: RecyclableMemory
-  fullName: OfficeOpenXml.Utils.RecyclableMemory
+- uid: OfficeOpenXml.Utils.MemorySettings
+  commentId: T:OfficeOpenXml.Utils.MemorySettings
+  parent: OfficeOpenXml.Utils
+  name: MemorySettings
+  nameWithType: MemorySettings
+  fullName: OfficeOpenXml.Utils.MemorySettings
 - uid: OfficeOpenXml.Utils.Require
   commentId: T:OfficeOpenXml.Utils.Require
   name: Require
@@ -81,3 +82,8 @@ references:
   name: SqRefUtility
   nameWithType: SqRefUtility
   fullName: OfficeOpenXml.Utils.SqRefUtility
+- uid: OfficeOpenXml.Utils
+  commentId: N:OfficeOpenXml.Utils
+  name: OfficeOpenXml.Utils
+  nameWithType: OfficeOpenXml.Utils
+  fullName: OfficeOpenXml.Utils

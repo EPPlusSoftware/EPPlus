@@ -64,6 +64,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            var range = new ExcelRange(_ws, address.Address);
+            return !ExcelErrorValue.Values.IsErrorValue(range.Value);
+        }
+
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingNotContainsErrors(this, newWs);
@@ -77,9 +83,18 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            Formula = string.Format(
-              "NOT(ISERROR({0}))",
-              Address.Start.Address);
+            if (Address != null)
+            {
+                Formula = string.Format(
+                  "NOT(ISERROR({0}))",
+                  Address.Start.Address);
+            }
+            else
+            {
+                Formula = string.Format(
+                  "NOT(ISERROR({0}))",
+                  "#REF!");
+            }
         }
 
         #endregion Constructors

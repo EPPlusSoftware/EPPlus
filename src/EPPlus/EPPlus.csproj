@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>7.0.0.2</AssemblyVersion>
-    <FileVersion>7.0.0.2</FileVersion>
-    <Version>7.0.0-rc1</Version>
+    <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+    <AssemblyVersion>7.1.0.0</AssemblyVersion>
+    <FileVersion>7.1.0.0</FileVersion>
+    <Version>7.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 7.0.0-RC 1
+		EPPlus 7.1.0
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,8 +26,44 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-		## Version 7.0.0-RC 1
-		* Calculation engine update to support array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
+		## Version 7.1.0
+		* The html export now supports most conditional formattings.
+		* Updated performance for rich text handling on ranges.
+		* Improvments in sort order and cell formatting of the ExcelRangeBase.LoadFromCollection method
+		* Bug fixes - See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+
+		## Version 7.0.10
+		* Bug fixes 
+
+		## Version 7.0.9
+		* Bug fixes
+
+		## Version 7.0.8
+		* Bug fixes
+
+		## Version 7.0.7
+		* Bug fixes
+
+		## Version 7.0.6
+		* Bug fixes
+
+		## Version 7.0.5
+		* Bug fixes
+
+		## Version 7.0.4
+		* Bug fixes
+
+		## Version 7.0.3
+		* Bug fixes
+
+		## Version 7.0.2
+		* Bug fixes
+
+		## Version 7.0.1
+		* Bug fixes
+
+		## Version 7.0.0
+		* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
 		* Support for calculating legacy / dynamic array formulas.
 		* Support for intersect operator.
 		* Support for implicit intersection.
@@ -41,6 +77,15 @@
 		* Improved performance, xml is now read and written on load and save.
 		* Cross worksheet support formula support.
 		* Extended styling options for color scales, data bars and icon sets.
+
+		## Version 6.2.13
+		* Bug fixes.
+
+		## Version 6.2.12
+		* Bug fixes.
+
+		## Version 6.2.11
+		* Bug fixes.
 
 		## Version 6.2.10
 		* Bug fixes.
@@ -327,17 +372,32 @@
 		* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
 		* Pivot tables will always refresh on load.
 		* Adding and inserting table row will now copy styles from the row above.
-		* ...and more, see https://epplussoftware.com/docs/5.8/articles/breakingchanges.html
+		* ...and more, see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7
 
 		Worksheets collection behavior in .NET Framework
 		The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
 		For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
-		For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-5.0
-		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
+		For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7
+		A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 		Version history
-		7.0.0-rc 1		20231002 Calculation engine update for array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
-		6.2.10			20231002 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		7.1.0			20240328 Html export of Conditional formatting, Performance RichText, LoadFromCollection Enhancements. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
+		7.0.10			20240311 Minor bug fixes. 
+		7.0.9			20240215 Minor bug fixes.
+		7.0.8			20240124 Minor bug fixes.
+		7.0.7			20240119 Minor bug fixes.
+		7.0.6			20240110 Minor bug fixes.
+		7.0.5			20231222 Minor bug fixes.
+		7.0.4			20231215 Minor bug fixes.
+		7.0.3			20231205 Minor bug fixes.
+		7.0.2			20231123 Minor bug fixes.
+		7.0.1			20231109 Minor bug fixes.
+		7.0.0			20231026 Calculation engine update for array formulas. https://epplussoftware.com/en/Developers/EPPlus7
+		6.2.13			20231123 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.12			20231026 Minor bug fixes.
+		6.2.11			20231023 Minor bug fixes.
+		7.0.0-rc 1		20231002 Calculation engine update for array formulas.
+		6.2.10			20231002 Minor bug fixes.See
 		7.0.0-beta 1	20230912 Calculation engine update for array formulas.
 		6.2.9			20230908 Minor bug fixes.
 		6.2.8			20230815 Minor bug fixes.
@@ -435,8 +495,12 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0'">
     <DefineConstants>Core;NET70</DefineConstants>
   </PropertyGroup>
-	
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
+
+   <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0'">
+	<DefineConstants>Core;NET80</DefineConstants>
+   </PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
@@ -483,7 +547,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Threading.Tasks" />
 	<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		<Version>1.4.1</Version>
+		<Version>3.0.0</Version>
 	</PackageReference>
   </ItemGroup>
 
@@ -498,12 +562,12 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		  <Version>2.3.2</Version>
+		  <Version>3.0.0</Version>
 	  </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.30" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.32" />
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
@@ -513,7 +577,7 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		  <Version>2.3.2</Version>
+		  <Version>3.0.0</Version>
 	  </PackageReference>
   </ItemGroup>
 
@@ -522,27 +586,43 @@
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.3" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.4" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-			<Version>2.3.2</Version>
-		</PackageReference>
-	</ItemGroup>
+	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+		  <Version>3.0.0</Version>
+	  </PackageReference>
+  </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.2" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-		  <Version>2.3.2</Version>
+		  <Version>3.0.0</Version>
 	  </PackageReference>
   </ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+		<PackageReference Include="System.ComponentModel.Annotations">
+			<Version>5.0.0</Version>
+		</PackageReference>
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+			<Version>3.0.0</Version>
+		</PackageReference>
+	</ItemGroup>
 
- <ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="LoadFunctions\HeaderReader.cs" />
+	</ItemGroup>
+
+
+	<ItemGroup>
     <None Remove="resources\DefaultTableStyles.cst" />
     <None Remove="resources\fontsize.zip" />
     <None Remove="resources\TextMetrics.zip" />

@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Utils
             if (v == null) return "";
             var styles = wb.Styles;
             var nfID = styles.CellXfs[styleId].NumberFormatId;
-            ExcelNumberFormatXml.ExcelFormatTranslator nf = null;
+            ExcelFormatTranslator nf = null;
             for (int i = 0; i < styles.NumberFormats.Count; i++)
             {
                 if (nfID == styles.NumberFormats[i].NumFmtId)
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Utils
 
             return FormatValue(v, forWidthCalc, nf, cultureInfo);
         }
-        internal static string FormatValue(object v, bool forWidthCalc, ExcelNumberFormatXml.ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
+        internal static string FormatValue(object v, bool forWidthCalc, ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
         {
             var f = nf.GetFormatPart(v);
             string format;
@@ -61,6 +61,11 @@ namespace OfficeOpenXml.Utils
 
             if (v is decimal || TypeCompat.IsPrimitive(v))
             {
+                if(v is bool)
+                {
+                    return v.ToString().ToUpper();
+                }
+
                 double d;
                 try
                 {
@@ -172,15 +177,30 @@ namespace OfficeOpenXml.Utils
         private static string FormatNumber(double d, string format, CultureInfo cultureInfo)
         {
             var s = FormatNumberExcel(d, format, cultureInfo);
-            if (string.IsNullOrEmpty(s) == false && (
-                    s.StartsWith("--") && format.StartsWith("-") ||
-                   (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase)>0)))
+            var ns = cultureInfo?.NumberFormat?.NegativeSign ?? "-";
+            if (string.IsNullOrEmpty(s) == false)
             {
-                return s.Substring(1);
+                return CheckAndRemoveNegativeSign(format, s, ns);
             }
             else
             {
                 return s;
+            }
+        }
+
+        private static string CheckAndRemoveNegativeSign(string format, string s, string ns)
+        {
+            if((s.StartsWith($"{ns}{ns}") || s.StartsWith($"{ns}-")) && (format.StartsWith(ns) || format.StartsWith("-")))
+            {
+                return s.Remove(1,1);
+            }
+            else if((s.StartsWith($"{ns}(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0))
+            {
+                return s.Substring(1);
+            }
+            else
+            { 
+                return s; 
             }
         }
 
@@ -196,17 +216,17 @@ namespace OfficeOpenXml.Utils
             }
         }
 
-        private static string GetDateText(DateTime d, string format, ExcelNumberFormatXml.ExcelFormatTranslator.FormatPart f, CultureInfo cultureInfo)
+        private static string GetDateText(DateTime d, string format, ExcelFormatTranslator.FormatPart f, CultureInfo cultureInfo)
         {           
-            if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
+            if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
             {
                 return d.ToLongDateString();
             }
-            else if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongTime)
+            else if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemLongTime)
             {
                 return d.ToLongTimeString();
             }
-            else if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemShortDate)
+            else if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemShortDate)
             {
                 return d.ToShortDateString();
             }

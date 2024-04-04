@@ -51,12 +51,25 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             return result;
         }
+        public static List<object> FlattenRangeObject(IRangeInfo r1)
+        {
+            var result = new List<object>();
 
+            for (var row = 0; row < r1.Size.NumberOfRows; row++)
+            {
+                for (var column = 0; column < r1.Size.NumberOfCols; column++)
+                {
+                    result.Add(r1.GetOffset(row, column));
+                }
+            }
+            return result;
+        }
         /// <summary>
-        /// produces two lists based on the supplied ranges. The lists will contain all data from positions where both ranges has numeric values. 
+        /// Produces two lists based on the supplied ranges. The lists will contain all data from positions where both ranges has numeric values. 
         /// </summary>
         /// <param name="r1">range 1</param>
         /// <param name="r2">range 2</param>
+        /// <param name="dataPointsEqual"></param>
         /// <param name="l1">a list containing all numeric values from <paramref name="r1"/> that has a corresponding value in <paramref name="r2"/></param>
         /// <param name="l2">a list containing all numeric values from <paramref name="r2"/> that has a corresponding value in <paramref name="r1"/></param>
         public static void GetNumericPairLists(IRangeInfo r1  , IRangeInfo r2, bool dataPointsEqual,  out List<double> l1, out List<double> l2)

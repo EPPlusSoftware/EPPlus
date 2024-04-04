@@ -139,6 +139,10 @@ namespace EPPlusTest.Table.PivotTable
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
             s.Style.Font.Name = "Times New Roman";
+            s.Style.Alignment.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            s.Style.Alignment.VerticalAlignment = ExcelVerticalAlignment.Center;
+            s.Style.Protection.Locked = false;
+            s.Style.Protection.Hidden = true;
         }
         [TestMethod]
         public void AddPivotDataGrandColumn()
@@ -336,6 +340,26 @@ namespace EPPlusTest.Table.PivotTable
             styleTopRight2.Style.Fill.PatternType = ExcelFillStyle.Solid;
             styleTopRight2.Style.Fill.BackgroundColor.SetColor(Color.Yellow);            
         }
+
+        [TestMethod]
+        public void AddPivotDataAlignment()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StyleAlignment");
+            var pt = CreatePivotTable(ws);
+
+            var s = pt.Styles.AddData(pt.Fields[0], pt.Fields[1]);
+            s.Style.Alignment.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            s.Style.Alignment.VerticalAlignment = ExcelVerticalAlignment.Center;
+            s.Style.Alignment.SetTextVertical();
+            s.Style.Alignment.Indent = 1;
+            s.Style.Alignment.RelativeIndent = 1;
+            s.Style.Alignment.ReadingOrder = 1;
+            s.Style.Alignment.ShrinkToFit=true;
+            s.Style.Alignment.WrapText = true;
+            s.Style.Protection.Locked = false;
+            s.Style.Protection.Hidden = true;
+        }
+
     }
 }
 

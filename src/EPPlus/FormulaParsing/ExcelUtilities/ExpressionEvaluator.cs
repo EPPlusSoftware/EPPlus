@@ -68,7 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             var result = op.Apply(leftResult, rightResult, _parsingContext);
             if (result.DataType != DataType.Boolean)
             {
-                throw new ArgumentException("Illegal operator in expression");
+                return false;
             }
             return (bool)result.Result;
         }
@@ -183,6 +183,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         if (leftIsNumeric != rightIsNumeric)
                         {
                             return op.Operator == Operators.NotEqualTo;
+                        }
+                        if (rightIsNumeric == false && Enum.IsDefined(typeof(LimitedOperators), (LimitedOperators)op.Operator) == false)
+                        {
+                            return _wildCardValueMatcher.IsMatch(expression, left) == 0;
                         }
                         return EvaluateOperator(left, right, op);
                     }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
-    public class XLookupTests
+    public class XLookupTests : TestBase
     {
         private ExcelWorksheet _sheet;
         private ExcelPackage _package;
@@ -427,5 +427,34 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ix = LookupBinarySearch.SearchAsc(7, list.ToArray(), comparer);
             Assert.AreEqual(-3, ix);
         }
-    }
+        [TestMethod]
+		public void XlookupSharedAndArray()
+		{
+			_sheet.Cells[1, 1].Value = "A";
+			_sheet.Cells[2, 1].Value = "B";
+			_sheet.Cells[3, 1].Value = "C";
+			_sheet.Cells[1, 2].Value = "1";
+			_sheet.Cells[2, 2].Value = "2";
+			_sheet.Cells[3, 2].Value = "3";
+			_sheet.Cells[1, 3].Value = "12";
+			_sheet.Cells[2, 3].Value = "23";
+			_sheet.Cells[3, 3].Value = "34";
+
+			//_sheet.Cells["A5:A7"].SetFormula($"XLOOKUP(A1,$A$1:$A$3,$B$1:$C$3)", false);
+			_sheet.Cells["A5"].Formula = $"XLOOKUP(A1,$A$1:$A$3,$B$1:$C$3)";
+			_sheet.Cells["A6"].Formula = $"XLOOKUP(A2,$A$1:$A$3,$B$1:$C$3)";
+			_sheet.Cells["A7"].Formula = $"XLOOKUP(A3,$A$1:$A$3,$B$1:$C$3)";
+			_sheet.Cells["A15:A17"].Formula = $"= RANDARRAY(1,2)";
+
+			_sheet.Calculate();
+            SaveWorkbook("XLOOKUP.XLSX", _sheet._package);
+			Assert.AreEqual("1", _sheet.Cells["A5"].Value);
+			Assert.AreEqual("12", _sheet.Cells["B5"].Value);
+			Assert.AreEqual("2", _sheet.Cells["A6"].Value);
+			Assert.AreEqual("23", _sheet.Cells["B6"].Value);
+			Assert.AreEqual("3", _sheet.Cells["A7"].Value);
+			Assert.AreEqual("34", _sheet.Cells["B7"].Value);
+		}
+
+	}
 }

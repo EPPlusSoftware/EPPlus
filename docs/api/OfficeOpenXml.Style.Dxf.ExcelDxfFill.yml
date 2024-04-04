@@ -184,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFill.cs
-    startLine: 82
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -221,7 +221,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gradient
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFill.cs
-    startLine: 108
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -258,7 +258,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFill.cs
-    startLine: 135
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -298,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFill.cs
-    startLine: 154
+    startLine: 158
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

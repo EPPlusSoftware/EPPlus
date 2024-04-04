@@ -503,6 +503,14 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             }
         }
         [TestMethod]
+        public void TokenizeAddressWithEncodedChars()
+        {
+            var input = "SUM(MyDataTable[[#This Row],['[Column'['''] 1\"]])";
+            var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual("'[Column'['''] 1\"", tokens[9].Value);
+        }
+
+        [TestMethod]
         public void TokenizeKeepWhiteSpace()
         {
             var input = @"A1:B3  B2:C5";
@@ -578,5 +586,34 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             //Assert.AreEqual(TokenType.WorksheetNameContent, tokens[3].TokenType);
             //Assert.AreEqual(TokenType.WorksheetName, tokens[4].TokenType);
         }
-    }
+		[TestMethod]
+		public void TokenizeTableAddressShouldNotBeExponential()
+        {
+            var input = "SUM(Sheet1[2024E])";
+			var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual(7, tokens.Count);
+			Assert.AreEqual(TokenType.TableColumn, tokens[4].TokenType);
+		}
+		[TestMethod]
+		public void ValidateMinusWithTableAddress()
+		{
+			var input = "IF(ROUND(table1[[#This Row],[Col1]],0)=ROUND(table1[[#This Row],[column2]],0),0,table1[[#This Row],[Column3]]-table1[[#This Row],[column4]])";
+			var tokens = _tokenizer.Tokenize(input);
+			Assert.AreEqual(58, tokens.Count);
+			Assert.AreEqual("]", tokens[45].Value);
+			Assert.AreEqual("-", tokens[46].Value);
+			Assert.AreEqual("table1", tokens[47].Value);
+		}
+		[TestMethod]
+		public void ValidateEscapedCharactersInTableAddress()
+		{
+            var input = "SUM(Table1[[#This Row],['# days]])";
+			var tokens = _tokenizer.Tokenize(input);
+			Assert.AreEqual(13, tokens.Count);
+			Assert.AreEqual(TokenType.TableName, tokens[2].TokenType);
+			Assert.AreEqual(TokenType.TablePart, tokens[5].TokenType);
+			Assert.AreEqual(TokenType.TableColumn, tokens[9].TokenType);
+			Assert.AreEqual("'# days", tokens[9].Value);
+		}
+	}
 }

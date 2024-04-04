@@ -172,11 +172,14 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color == null ? "" : Color.Id) + "|" + GetAsString(Underline)
+                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color == null ? ExcelDxfColor.GetEmptyId() : Color.Id) + "|" + GetAsString(Underline)
                     + "|" + GetAsString(Name) + "|" + GetAsString(Size) + "|" + GetAsString(Family) + "|" + GetVAlign() + "|" + GetAsString(Outline) + "|" + GetAsString(Shadow) + "|" + GetAsString(Condense) + "|" + GetAsString(Extend) + "|" + GetAsString(Scheme);
             }
         }
-
+        internal static string GetEmptyId()
+        {
+            return $"|||{ExcelDxfColor.GetEmptyId()}||||||||||";            
+        }
         private string GetVAlign()
         {
             return VerticalAlign==ExcelVerticalAlignmentFont.None ? "" : GetAsString(VerticalAlign);
@@ -249,7 +252,8 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueBool(helper, path + "/d:i/@val", Italic);
             SetValueBool(helper, path + "/d:strike/@val", Strike);
             SetValue(helper, path + "/d:u/@val", Underline == null ? null : Underline.ToEnumString());
-            SetValueBool(helper, path + "/d:condense/@val", Condense);
+			SetValue(helper, path + "/d:vertAlign/@val", VerticalAlign == ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
+			SetValueBool(helper, path + "/d:condense/@val", Condense);
             SetValueBool(helper, path + "/d:extend/@val", Extend);
             SetValueBool(helper, path + "/d:outline/@val", Outline);
             SetValueBool(helper, path + "/d:shadow/@val", Shadow);
@@ -257,7 +261,6 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueColor(helper, path + "/d:color", Color);
             SetValue(helper, path + "/d:name/@val", Name);
             SetValue(helper, path + "/d:family/@val", Family);
-            SetValue(helper, path + "/d:vertAlign/@val", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
         }
         internal override void SetValuesFromXml(XmlHelper helper)
         {

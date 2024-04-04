@@ -141,7 +141,7 @@ namespace OfficeOpenXml
             /// </summary>
             public const string Spill = "#SPILL!";
 
-            private static Dictionary<string, eErrorType> _values = new Dictionary<string, eErrorType>()
+            private static Dictionary<string, eErrorType> _values = new Dictionary<string, eErrorType>(StringComparer.InvariantCultureIgnoreCase)
                 {
                     {Div0, eErrorType.Div0},
                     {NA, eErrorType.NA},

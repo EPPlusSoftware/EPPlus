@@ -284,7 +284,35 @@ namespace OfficeOpenXml.Drawing
                     throw (new InvalidOperationException($"Image with extension {extension} is not supported."));
             }
         }
-        internal static string GetExtension(ePictureType type)
+		internal static ePictureType? GetPictureTypeByContentType(string contentType)
+		{
+    		switch (contentType)
+			{
+				case "image/bmp":
+					return ePictureType.Bmp;
+				case "image/jpeg":
+					return ePictureType.Jpg;
+				case "image/gif":
+					return ePictureType.Gif;
+				case "image/png":
+					return ePictureType.Png;
+				case "image/x-emf":
+					return ePictureType.Emf;
+				case "image/x-wmf":
+					return ePictureType.Wmf;
+				case "image/x-tiff":
+					return ePictureType.Tif;
+				case "image/webp":
+					return ePictureType.WebP;
+				case "image/x-icon":
+					return ePictureType.Ico;
+				case "image/svg+xml":
+					return ePictureType.Svg;
+				default:
+                    return null;
+			}
+		}
+		internal static string GetExtension(ePictureType type)
         {
             switch (type)
             {

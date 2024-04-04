@@ -34,7 +34,6 @@ using System.Security;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using w = System.Windows;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
@@ -257,7 +256,7 @@ namespace OfficeOpenXml
             range._worksheet._flags.Clear(row, col, 1, 1);
             range._worksheet._metadataStore.Clear(row, col, 1, 1);
         }
-        private static void Set_Formula(ExcelRangeBase range, object value, int row, int col)
+        internal static void Set_Formula(ExcelRangeBase range, object value, int row, int col)
         {
             var f = range._worksheet._formulas.GetValue(row, col);
             if (f is int && (int)f >= 0) range.SplitFormulas(range._worksheet.Cells[row, col]);
@@ -300,8 +299,6 @@ namespace OfficeOpenXml
             f.Formula = value;
             f.Index = range._worksheet.GetMaxShareFunctionIndex(IsArray);
             f.Address = address.FirstAddress;
-            //f.StartCol = address.Start.Column;
-            //f.StartRow = address.Start.Row;
             f.FormulaType = IsArray ? FormulaType.Array : FormulaType.Shared;
 
             range._worksheet._sharedFormulas.Add(f.Index, f);
@@ -942,11 +939,6 @@ namespace OfficeOpenXml
             }
         }
 
-        private string AddNamespaceToFormula(IList<Token> tokens)
-        {
-            throw new NotImplementedException();
-        }
-
         private void Set_Formula_Range(ExcelRangeBase range, string formula)
         {
             if (formula[0] == '=') formula = formula.Substring(1); // remove any starting equalsign.
@@ -955,8 +947,6 @@ namespace OfficeOpenXml
             SharedFormula f = new SharedFormula(range);
             f.Formula = formula;
             f.Address = range.FirstAddress;
-            //f.StartCol = range.Start.Column;
-            //f.StartRow = range.Start.Row;
 
             if (range.Addresses == null)
             {
@@ -1293,6 +1283,13 @@ namespace OfficeOpenXml
             }
             set
             {
+                if(value == true &&( Value == null || Value.ToString() == string.Empty))
+                {
+                    if (_rtc == null)
+                    {
+                        _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    }
+                }
                 SetIsRichTextFlag(value);
             }
         }

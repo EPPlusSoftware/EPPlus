@@ -12,17 +12,26 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
     /// <summary>
     /// Two Colour Scale class
     /// </summary>
-    public class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTwoColorScale
     {
         internal ExcelConditionalFormattingTwoColorScale(
@@ -203,6 +212,122 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get { return _highValue; }
             set { _highValue = value; }
+        }
+
+        internal virtual string ApplyStyleOverride(ExcelAddress address)
+        {
+            var range = _ws.Cells[address.Address];
+            var cellValue = ConvertUtil.GetValueDouble(range.Value);
+            //TODO: Cache this for performance
+            if (cellValue.IsNumeric())
+            {
+                var cellValues = new List<double>();
+                foreach (var cell in Address.GetAllAddresses())
+                {
+                    for (int i = 1; i <= cell.Rows; i++)
+                    {
+                        for (int j = 1; j <= cell.Columns; j++)
+                        {
+                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
+                        }
+                    }
+                }
+
+                var values = cellValues.OrderBy(n => n);
+                int index = 0;
+
+                foreach(var value in values)
+                {
+                    if (value == cellValue)
+                    {
+                        break;
+                    }
+                    index++;
+                }
+
+                var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.Color, HighValue.Color);
+
+                return "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2) + ";";
+            }
+            return "";
+        }
+
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                var cellValue = _ws.Cells[address.Address].Value;
+
+                if(cellValue.IsNumeric())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        double TruncateTo3Decimals(double value)
+        {
+            double ret = Math.Round(value * 100);
+            return ret * 0.01;
+        }
+
+        protected Color LinearInterpolationTwoColors(Color color1, Color color2, double startPointWeight, double endPointWeight)
+        {
+            var newR = (int)Math.Round(color1.R * startPointWeight + color2.R * endPointWeight);
+            var newG = (int)Math.Round(color1.G * startPointWeight + color2.G * endPointWeight);
+            var newB = (int)Math.Round(color1.B * startPointWeight + color2.B * endPointWeight);
+
+            return Color.FromArgb(1, newR, newG, newB);
+        }
+
+        protected Color CalculateNumberedGradient(double currentStep, double numStepsBetween, Color color1, Color color2)
+        {
+            double endPointWeight = currentStep / numStepsBetween;
+            double startPointWeight = 1.0d - endPointWeight;
+
+            //Lower accuracy to match excel
+            startPointWeight = TruncateTo3Decimals(startPointWeight);
+            endPointWeight = TruncateTo3Decimals(endPointWeight);
+
+            return LinearInterpolationTwoColors(color1, color2, startPointWeight, endPointWeight);
+        }
+
+        protected string GetColor(ExcelDxfColor c, ExcelTheme theme)
+        {
+            Color ret;
+            if (c.Color.HasValue)
+            {
+                ret = c.Color.Value;
+            }
+            else if (c.Theme.HasValue)
+            {
+                ret = Utils.ColorConverter.GetThemeColor(theme, c.Theme.Value);
+            }
+            else if (c.Index != null)
+            {
+                if (c.Index.Value >= 0)
+                {
+                    ret = c._styles.GetIndexedColor(c.Index.Value);
+                }
+                else
+                {
+                    ret = Color.Empty;
+                }
+            }
+            else
+            {
+                //Automatic, set to black.
+                ret = Color.Black;
+            }
+
+            if (c.Tint != 0)
+            {
+                ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+            }
+
+            return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
     }
 }

@@ -1,4 +1,4 @@
-# EPPlus 6
+# EPPlus 7
 
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
@@ -9,7 +9,7 @@ This is explained in more detail [here](https://www.epplussoftware.com/Home/Lgpl
 
 Commercial licenses, which includes support, can be purchased at (https://www.epplussoftware.com/).
 
-The source code of EPPlus has moved to a [new github repository](https://github.com/EPPlusSoftware/EPPlus)
+The source code of EPPlus can be found at our [github repository](https://github.com/EPPlusSoftware/EPPlus)
 
 ## LicenseContext parameter must be set
 With the license change EPPlus has a new parameter that needs to be configured. If the LicenseContext is not set, EPPlus will throw a LicenseException (only in debug mode).
@@ -57,15 +57,13 @@ This might be the easiest way of configuring this. Just as above, set the variab
 **Important!** The environment variable should be set at the user level.
 
 
-## Breaking changes EPPlus 5
-* The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. 
-* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
-* And more..., see https://epplussoftware.com/docs/5.2/articles/breakingchanges.html
+## Breaking changes EPPlus 7
+See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7)
 
-## New features in EPPlus 5
-EPPlus 5 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
+## New features in EPPlus 7
+EPPlus 7 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
 
 ## Improved documentation
-EPPlus 5 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.
+EPPlus 7 has new, separate sample projects for [C#](https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp) and [Visual Basic](https://github.com/EPPlusSoftware/EPPlus.Samples.VB) respectively.
 There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). The work with improving the documentation will continue, feedback is highly appreciated!
 

@@ -12,6 +12,8 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -69,6 +71,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingContainsErrors(this, newWs);
         }
 
+        internal override bool ShouldApplyToCell(ExcelAddress address)
+        {
+            var range = new ExcelRange(_ws, address.Address);
+            return ExcelErrorValue.Values.IsErrorValue(range.Value);
+        }
+
         public override ExcelAddress Address 
         { 
             get { return base.Address; } 
@@ -77,9 +85,18 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            Formula = string.Format(
-              "ISERROR({0})",
-              Address.Start.Address);
+            if (Address != null)
+            {
+                Formula = string.Format(
+                  "ISERROR({0})",
+                  Address.Start.Address);
+            }
+            else
+            {
+                Formula = string.Format(
+                    "ISERROR({0})",
+                    "#REF!");
+            }
         }
 
         #endregion Constructors

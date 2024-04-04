@@ -186,6 +186,8 @@
     name: OfficeProperties
   - uid: OfficeOpenXml.PictureAlignment
     name: PictureAlignment
+  - uid: OfficeOpenXml.RangeExtensions
+    name: RangeExtensions
   - uid: OfficeOpenXml.ToCollectionOptions
     name: ToCollectionOptions
   - uid: OfficeOpenXml.ToCollectionRangeOptions
@@ -253,34 +255,8 @@
     name: ExcelConditionalFormattingColorScaleValue
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
     name: ExcelConditionalFormattingIconDataBarValue
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
-    name: ExcelConditionalFormattingLast7Days
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
-    name: ExcelConditionalFormattingLastMonth
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
-    name: ExcelConditionalFormattingLastWeek
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
-    name: ExcelConditionalFormattingNextMonth
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
-    name: ExcelConditionalFormattingNextWeek
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
     name: ExcelConditionalFormattingRule
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
-    name: ExcelConditionalFormattingThisMonth
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
-    name: ExcelConditionalFormattingThisWeek
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
-    name: ExcelConditionalFormattingThreeColorScale
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
-    name: ExcelConditionalFormattingTimePeriodGroup
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
-    name: ExcelConditionalFormattingToday
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
-    name: ExcelConditionalFormattingTomorrow
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
-    name: ExcelConditionalFormattingTwoColorScale
-  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
-    name: ExcelConditionalFormattingYesterday
   - uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
     name: IRangeConditionalFormatting
 - uid: OfficeOpenXml.ConditionalFormatting.Contracts
@@ -473,8 +449,6 @@
   items:
   - uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
     name: DataValidationFormulaTooLongException
-  - uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
-    name: DataValidationStaleException
 - uid: OfficeOpenXml.DataValidation.Formulas.Contracts
   name: OfficeOpenXml.DataValidation.Formulas.Contracts
   items:
@@ -796,6 +770,8 @@
     name: ExcelChartTrendlineLabel
   - uid: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
     name: ExcelDoughnutChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+    name: ExcelDrawingTextSettings
   - uid: OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
     name: ExcelHistogramChartSeries
   - uid: OfficeOpenXml.Drawing.Chart.ExcelLineChart
@@ -1293,6 +1269,21 @@
   items:
   - uid: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
     name: HtmlTableExportSettings
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  name: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  items:
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorder
+    name: IBorder
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IBorderItem
+    name: IBorderItem
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFill
+    name: IFill
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IFont
+    name: IFont
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+    name: IStyleColor
+  - uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleExport
+    name: IStyleExport
 - uid: OfficeOpenXml.Export.ToCollection
   name: OfficeOpenXml.Export.ToCollection
   items:
@@ -1459,6 +1450,8 @@
   items:
   - uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
     name: ExcelCellState
+  - uid: OfficeOpenXml.FormulaParsing.Excel.HiddenCellHandlingCategory
+    name: HiddenCellHandlingCategory
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: OfficeOpenXml.FormulaParsing.Excel.Functions
   items:
@@ -1489,8 +1482,8 @@
     name: DoubleArgumentParser
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
     name: DoubleEnumerableArgConverter
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
-    name: ErrorHandlingFunction
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
+    name: DoubleEnumerableParseOptions
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
     name: ExcelDoubleCellValue
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
@@ -1622,6 +1615,8 @@
   items:
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
     name: IOperator
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+    name: LimitedOperators
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
     name: Operator
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
@@ -1725,6 +1720,8 @@
     name: EpplusExcelExternalRangeInfo
   - uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
     name: ExternalCellInfo
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+    name: InMemoryRange
   - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
     name: NameInfo
   - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfoWithValue
@@ -1746,6 +1743,8 @@
 - uid: OfficeOpenXml.LoadFunctions
   name: OfficeOpenXml.LoadFunctions
   items:
+  - uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+    name: IExcelNumberFormatProvider
   - uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
     name: LoadFunctionFunctionParamsBase
 - uid: OfficeOpenXml.LoadFunctions.Params
@@ -1942,6 +1941,8 @@
   items:
   - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase
     name: DxfStyleBase
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+    name: ExcelDxfAlignment
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
     name: ExcelDxfBorderBase
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderItem
@@ -1962,6 +1963,8 @@
     name: ExcelDxfGradientFillColorCollection
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
     name: ExcelDxfNumberFormat
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfProtection
+    name: ExcelDxfProtection
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfSlicerStyle
     name: ExcelDxfSlicerStyle
   - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
@@ -2169,8 +2172,8 @@
   - uid: OfficeOpenXml.Utils.IArgument`1
     name: IArgument<T>
     name.vb: IArgument(Of T)
-  - uid: OfficeOpenXml.Utils.RecyclableMemory
-    name: RecyclableMemory
+  - uid: OfficeOpenXml.Utils.MemorySettings
+    name: MemorySettings
   - uid: OfficeOpenXml.Utils.Require
     name: Require
   - uid: OfficeOpenXml.Utils.SqRefUtility

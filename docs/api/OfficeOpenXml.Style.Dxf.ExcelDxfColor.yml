@@ -30,7 +30,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 25
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -77,7 +77,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 37
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -114,7 +114,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 53
+    startLine: 49
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -151,7 +151,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 69
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -188,7 +188,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 85
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -225,7 +225,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 101
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -262,11 +262,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 124
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
-  summary: "\nSet the color of the drawing\n"
+  summary: "\nSet the color of the drawing based on an RGB color. This method will remove any previous \n<xref href=\"OfficeOpenXml.Drawing.eThemeSchemeColor?text=ThemeSchemeColor\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"OfficeOpenXml.Style.ExcelIndexedColor?text=IndexedColor\" data-throw-if-not-resolved=\"false\"></xref> \nor Automatic color used.\n"
   example: []
   syntax:
     content: public void SetColor(Color color)
@@ -298,11 +298,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 135
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
-  summary: "\nSet the color of the drawing\n"
+  summary: "\nSet the color of the drawing based on an <xref href=\"OfficeOpenXml.Drawing.eThemeSchemeColor\" data-throw-if-not-resolved=\"false\"></xref> color. \nThis method will remove any previous <xref href=\"System.Drawing.Color\" data-throw-if-not-resolved=\"false\"></xref>, \n<xref href=\"OfficeOpenXml.Style.ExcelIndexedColor?text=IndexedColor\" data-throw-if-not-resolved=\"false\"></xref> or Automatic color used.\n"
   example: []
   syntax:
     content: public void SetColor(eThemeSchemeColor color)
@@ -334,11 +334,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 146
+    startLine: 153
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
-  summary: "\nSet the color of the drawing\n"
+  summary: "\nSet the color of the drawing based on an <xref href=\"OfficeOpenXml.Style.ExcelIndexedColor\" data-throw-if-not-resolved=\"false\"></xref> color. \nThis method will remove any previous <xref href=\"System.Drawing.Color?text=Color\" data-throw-if-not-resolved=\"false\"></xref>, \n<xref href=\"OfficeOpenXml.Drawing.eThemeSchemeColor?text=ThemeSchemeColor\" data-throw-if-not-resolved=\"false\"></xref> or Automatic color used.\n"
   example: []
   syntax:
     content: public void SetColor(ExcelIndexedColor color)
@@ -370,7 +370,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAuto
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 156
+    startLine: 163
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -402,7 +402,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 185
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -442,7 +442,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 199
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -1112,6 +1112,18 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+  commentId: T:OfficeOpenXml.Drawing.eThemeSchemeColor
+  parent: OfficeOpenXml.Drawing
+  name: eThemeSchemeColor
+  nameWithType: eThemeSchemeColor
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
+- uid: OfficeOpenXml.Style.ExcelIndexedColor
+  commentId: T:OfficeOpenXml.Style.ExcelIndexedColor
+  parent: OfficeOpenXml.Style
+  name: ExcelIndexedColor
+  nameWithType: ExcelIndexedColor
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor
 - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor*
   commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor
   name: SetColor
@@ -1124,34 +1136,22 @@ references:
   name: Color
   nameWithType: Color
   fullName: System.Drawing.Color
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
 - uid: System.Drawing
   commentId: N:System.Drawing
   isExternal: true
   name: System.Drawing
   nameWithType: System.Drawing
   fullName: System.Drawing
-- uid: OfficeOpenXml.Drawing.eThemeSchemeColor
-  commentId: T:OfficeOpenXml.Drawing.eThemeSchemeColor
-  parent: OfficeOpenXml.Drawing
-  name: eThemeSchemeColor
-  nameWithType: eThemeSchemeColor
-  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
-- uid: OfficeOpenXml.Drawing
-  commentId: N:OfficeOpenXml.Drawing
-  name: OfficeOpenXml.Drawing
-  nameWithType: OfficeOpenXml.Drawing
-  fullName: OfficeOpenXml.Drawing
-- uid: OfficeOpenXml.Style.ExcelIndexedColor
-  commentId: T:OfficeOpenXml.Style.ExcelIndexedColor
-  parent: OfficeOpenXml.Style
-  name: ExcelIndexedColor
-  nameWithType: ExcelIndexedColor
-  fullName: OfficeOpenXml.Style.ExcelIndexedColor
-- uid: OfficeOpenXml.Style
-  commentId: N:OfficeOpenXml.Style
-  name: OfficeOpenXml.Style
-  nameWithType: OfficeOpenXml.Style
-  fullName: OfficeOpenXml.Style
 - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetAuto*
   commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetAuto
   name: SetAuto

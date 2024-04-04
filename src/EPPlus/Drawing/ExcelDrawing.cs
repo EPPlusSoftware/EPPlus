@@ -97,12 +97,13 @@ namespace OfficeOpenXml.Drawing
                     AdjustXPathsForGrouping(false);
                     CellAnchor = GetAnchorFromName(node.LocalName);
                     SetPositionProperties(drawings, node);
-                    GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
-
+                    GetPositionSize();          //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
+                    
                     string relID = GetXmlNodeString(_hyperLinkPath + "/@r:id");
                     if (!string.IsNullOrEmpty(relID))
                     {
                         HypRel = drawings.Part.GetRelationship(relID);
+                        
                         if (HypRel.TargetUri == null)
                         {
                             if (!string.IsNullOrEmpty(HypRel.Target))
@@ -600,9 +601,16 @@ namespace OfficeOpenXml.Drawing
                                 {
                                     return new ExcelPivotTableSlicer(drawings, node, parent);
                                 }
-                                else if (choice.ChildNodes.Count > 0 && choice.FirstChild.LocalName=="sp")
+                                else if (choice.ChildNodes.Count > 0)
                                 {
-                                    return GetShapeOrControl(drawings, node, (XmlElement)choice.FirstChild, parent);
+                                    if (choice.FirstChild.LocalName == "sp")
+                                    {
+                                        return GetShapeOrControl(drawings, node, (XmlElement)choice.FirstChild, parent);
+                                    }
+                                    else if(choice.FirstChild.LocalName == "grpSp")
+                                    {
+										return new ExcelGroupShape(drawings, choice.FirstChild, parent);
+									}
                                 }
                                 break;
 

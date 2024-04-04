@@ -31,6 +31,13 @@ namespace OfficeOpenXml.Export.ToDataTable
             _range = range;
             _sheet = _range.Worksheet;
             _dataTable = dataTable;
+            if(_options.AlwaysAllowNull)
+            {
+                foreach(var mapping in _options.Mappings)
+                {
+                    mapping.AllowNull = true;
+                }
+            }
         }
 
         private readonly ToDataTableOptions _options;
@@ -56,7 +63,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                 foreach (var mapping in _options.Mappings)
                 {
                     var col = mapping.ZeroBasedColumnIndexInRange + _range.Start.Column;
-                    var val = _sheet.GetValueInner(row, col);
+                    var val = _sheet.GetValue(row, col);
                     if (val != null && rowIsEmpty) rowIsEmpty = false;
                     if(!mapping.AllowNull && val == null)
                     {
@@ -147,7 +154,9 @@ namespace OfficeOpenXml.Export.ToDataTable
             }
             else if (dataColumnType == typeof(DateTime))
             {
-                return ConvertUtility.GetValueDate(val);
+                var date = ConvertUtility.GetValueDate(val);
+				if(!date.HasValue) return DBNull.Value;
+                return date.Value;
             }
             else if (dataColumnType == typeof(double))
             {

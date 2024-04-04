@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.ExcelRange.Item(System.Int32,System.Int32)
   - OfficeOpenXml.ExcelRange.Item(System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.ExcelRange.Item(System.String)
+  - OfficeOpenXml.ExcelRange.SetFormula(System.String,System.Boolean)
   langs:
   - csharp
   - vb
@@ -22,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -96,6 +97,7 @@ items:
   - OfficeOpenXml.ExcelRangeBase.CopyStyles(OfficeOpenXml.ExcelRangeBase)
   - OfficeOpenXml.ExcelRangeBase.Clear
   - OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+  - OfficeOpenXml.ExcelRangeBase.FormulaRange
   - OfficeOpenXml.ExcelRangeBase.Dispose
   - OfficeOpenXml.ExcelRangeBase.GetEnumerator
   - OfficeOpenXml.ExcelRangeBase.System#Collections#IEnumerable#GetEnumerator
@@ -215,6 +217,8 @@ items:
   - OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String,System.String)
   - OfficeOpenXml.ExcelCellBase.IsSimpleAddress(System.String)
   - OfficeOpenXml.ExcelCellBase.IsValidAddress(System.String)
+  - OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  - OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
   - OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetType
@@ -224,6 +228,15 @@ items:
   - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.CalculationExtension.Calculate
   - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
   - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.SkipColumns(System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.SkipRows(System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeColumns(System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeRows(System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeSingleColumn(System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeColumnsBetween(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeSingleRow(System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeRowsBetween(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeSingleCell(System.Int32,System.Int32)
   modifiers.csharp:
   - public
   - class
@@ -248,7 +261,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -292,7 +305,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 105
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -339,7 +352,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 134
+    startLine: 135
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -374,6 +387,45 @@ items:
   - ReadOnly
   fullName.vb: OfficeOpenXml.ExcelRange.Item(System.Int32, System.Int32, System.Int32, System.Int32)
   name.vb: Item(Int32, Int32, Int32, Int32)
+- uid: OfficeOpenXml.ExcelRange.SetFormula(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRange.SetFormula(System.String,System.Boolean)
+  id: SetFormula(System.String,System.Boolean)
+  parent: OfficeOpenXml.ExcelRange
+  langs:
+  - csharp
+  - vb
+  name: SetFormula(String, Boolean)
+  nameWithType: ExcelRange.SetFormula(String, Boolean)
+  fullName: OfficeOpenXml.ExcelRange.SetFormula(System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRange.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetFormula
+    path: ../src/EPPlus/ExcelRange.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the formula for the range.\n"
+  example: []
+  syntax:
+    content: public void SetFormula(string formula, bool asSharedFormula = true)
+    parameters:
+    - id: formula
+      type: System.String
+      description: The formula for the range.
+    - id: asSharedFormula
+      type: System.Boolean
+      description: If the formula should be created as a shared formula. If false each cell will be set individually. This can be useful if the formula returns a dynamic array result.
+    content.vb: Public Sub SetFormula(formula As String, asSharedFormula As Boolean = True)
+  overload: OfficeOpenXml.ExcelRange.SetFormula*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml
   commentId: N:OfficeOpenXml
@@ -1718,6 +1770,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.FormulaRange
+  commentId: P:OfficeOpenXml.ExcelRangeBase.FormulaRange
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: FormulaRange
+  nameWithType: ExcelRangeBase.FormulaRange
+  fullName: OfficeOpenXml.ExcelRangeBase.FormulaRange
 - uid: OfficeOpenXml.ExcelRangeBase.Dispose
   commentId: M:OfficeOpenXml.ExcelRangeBase.Dispose
   parent: OfficeOpenXml.ExcelRangeBase
@@ -8396,6 +8454,84 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  isExternal: true
+  name: IsValidTableAddress(String)
+  nameWithType: ExcelCellBase.IsValidTableAddress(String)
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+    name: IsValidTableAddress
+    nameWithType: ExcelCellBase.IsValidTableAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidTableAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidTableAddress(System.String)
+    name: IsValidTableAddress
+    nameWithType: ExcelCellBase.IsValidTableAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidTableAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  isExternal: true
+  name: IsValidRangeAddress(String)
+  nameWithType: ExcelCellBase.IsValidRangeAddress(String)
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+    name: IsValidRangeAddress
+    nameWithType: ExcelCellBase.IsValidRangeAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress(System.String)
+    name: IsValidRangeAddress
+    nameWithType: ExcelCellBase.IsValidRangeAddress
+    fullName: OfficeOpenXml.ExcelCellBase.IsValidRangeAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
   commentId: M:OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
   parent: OfficeOpenXml.ExcelCellBase
@@ -8736,6 +8872,405 @@ references:
     name: ExcelCalculationOption
     nameWithType: ExcelCalculationOption
     fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.SkipColumns(System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.SkipColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.SkipColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  name: SkipColumns(Int32)
+  nameWithType: RangeExtensions.SkipColumns(Int32)
+  fullName: OfficeOpenXml.RangeExtensions.SkipColumns(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.SkipColumns(System.Int32)
+    name: SkipColumns
+    nameWithType: RangeExtensions.SkipColumns
+    fullName: OfficeOpenXml.RangeExtensions.SkipColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.SkipColumns(System.Int32)
+    name: SkipColumns
+    nameWithType: RangeExtensions.SkipColumns
+    fullName: OfficeOpenXml.RangeExtensions.SkipColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.SkipRows(System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.SkipRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.SkipRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  name: SkipRows(Int32)
+  nameWithType: RangeExtensions.SkipRows(Int32)
+  fullName: OfficeOpenXml.RangeExtensions.SkipRows(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.SkipRows(System.Int32)
+    name: SkipRows
+    nameWithType: RangeExtensions.SkipRows
+    fullName: OfficeOpenXml.RangeExtensions.SkipRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.SkipRows(System.Int32)
+    name: SkipRows
+    nameWithType: RangeExtensions.SkipRows
+    fullName: OfficeOpenXml.RangeExtensions.SkipRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeColumns(System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.TakeColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  name: TakeColumns(Int32)
+  nameWithType: RangeExtensions.TakeColumns(Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeColumns(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumns(System.Int32)
+    name: TakeColumns
+    nameWithType: RangeExtensions.TakeColumns
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumns(System.Int32)
+    name: TakeColumns
+    nameWithType: RangeExtensions.TakeColumns
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeRows(System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.TakeRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  name: TakeRows(Int32)
+  nameWithType: RangeExtensions.TakeRows(Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeRows(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRows(System.Int32)
+    name: TakeRows
+    nameWithType: RangeExtensions.TakeRows
+    fullName: OfficeOpenXml.RangeExtensions.TakeRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRows(System.Int32)
+    name: TakeRows
+    nameWithType: RangeExtensions.TakeRows
+    fullName: OfficeOpenXml.RangeExtensions.TakeRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeSingleColumn(System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeSingleColumn(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.TakeSingleColumn(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  name: TakeSingleColumn(Int32)
+  nameWithType: RangeExtensions.TakeSingleColumn(Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeSingleColumn(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleColumn(System.Int32)
+    name: TakeSingleColumn
+    nameWithType: RangeExtensions.TakeSingleColumn
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleColumn(System.Int32)
+    name: TakeSingleColumn
+    nameWithType: RangeExtensions.TakeSingleColumn
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeColumnsBetween(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeColumnsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  name: TakeColumnsBetween(Int32, Int32)
+  nameWithType: RangeExtensions.TakeColumnsBetween(Int32, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(System.Int32,System.Int32)
+    name: TakeColumnsBetween
+    nameWithType: RangeExtensions.TakeColumnsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumnsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(System.Int32,System.Int32)
+    name: TakeColumnsBetween
+    nameWithType: RangeExtensions.TakeColumnsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumnsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeSingleRow(System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeSingleRow(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.TakeSingleRow(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  name: TakeSingleRow(Int32)
+  nameWithType: RangeExtensions.TakeSingleRow(Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeSingleRow(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleRow(System.Int32)
+    name: TakeSingleRow
+    nameWithType: RangeExtensions.TakeSingleRow
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleRow(System.Int32)
+    name: TakeSingleRow
+    nameWithType: RangeExtensions.TakeSingleRow
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeRowsBetween(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeRowsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.TakeRowsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  name: TakeRowsBetween(Int32, Int32)
+  nameWithType: RangeExtensions.TakeRowsBetween(Int32, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeRowsBetween(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRowsBetween(System.Int32,System.Int32)
+    name: TakeRowsBetween
+    nameWithType: RangeExtensions.TakeRowsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeRowsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRowsBetween(System.Int32,System.Int32)
+    name: TakeRowsBetween
+    nameWithType: RangeExtensions.TakeRowsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeRowsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.OfficeOpenXml.RangeExtensions.TakeSingleCell(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeSingleCell(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  parent: OfficeOpenXml.RangeExtensions
+  definition: OfficeOpenXml.RangeExtensions.TakeSingleCell(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  name: TakeSingleCell(Int32, Int32)
+  nameWithType: RangeExtensions.TakeSingleCell(Int32, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeSingleCell(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleCell(System.Int32,System.Int32)
+    name: TakeSingleCell
+    nameWithType: RangeExtensions.TakeSingleCell
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleCell
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleCell(System.Int32,System.Int32)
+    name: TakeSingleCell
+    nameWithType: RangeExtensions.TakeSingleCell
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleCell
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -9912,6 +10447,528 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.RangeExtensions.SkipColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.SkipColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  isExternal: true
+  name: SkipColumns(ExcelRangeBase, Int32)
+  nameWithType: RangeExtensions.SkipColumns(ExcelRangeBase, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.SkipColumns(OfficeOpenXml.ExcelRangeBase, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.SkipColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: SkipColumns
+    nameWithType: RangeExtensions.SkipColumns
+    fullName: OfficeOpenXml.RangeExtensions.SkipColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.SkipColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: SkipColumns
+    nameWithType: RangeExtensions.SkipColumns
+    fullName: OfficeOpenXml.RangeExtensions.SkipColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions
+  commentId: T:OfficeOpenXml.RangeExtensions
+  parent: OfficeOpenXml
+  name: RangeExtensions
+  nameWithType: RangeExtensions
+  fullName: OfficeOpenXml.RangeExtensions
+- uid: OfficeOpenXml.RangeExtensions.SkipRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.SkipRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  isExternal: true
+  name: SkipRows(ExcelRangeBase, Int32)
+  nameWithType: RangeExtensions.SkipRows(ExcelRangeBase, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.SkipRows(OfficeOpenXml.ExcelRangeBase, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.SkipRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: SkipRows
+    nameWithType: RangeExtensions.SkipRows
+    fullName: OfficeOpenXml.RangeExtensions.SkipRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.SkipRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: SkipRows
+    nameWithType: RangeExtensions.SkipRows
+    fullName: OfficeOpenXml.RangeExtensions.SkipRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions.TakeColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  isExternal: true
+  name: TakeColumns(ExcelRangeBase, Int32)
+  nameWithType: RangeExtensions.TakeColumns(ExcelRangeBase, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeColumns(OfficeOpenXml.ExcelRangeBase, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeColumns
+    nameWithType: RangeExtensions.TakeColumns
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumns(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeColumns
+    nameWithType: RangeExtensions.TakeColumns
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumns
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions.TakeRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  isExternal: true
+  name: TakeRows(ExcelRangeBase, Int32)
+  nameWithType: RangeExtensions.TakeRows(ExcelRangeBase, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeRows(OfficeOpenXml.ExcelRangeBase, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeRows
+    nameWithType: RangeExtensions.TakeRows
+    fullName: OfficeOpenXml.RangeExtensions.TakeRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRows(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeRows
+    nameWithType: RangeExtensions.TakeRows
+    fullName: OfficeOpenXml.RangeExtensions.TakeRows
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions.TakeSingleColumn(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeSingleColumn(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  isExternal: true
+  name: TakeSingleColumn(ExcelRangeBase, Int32)
+  nameWithType: RangeExtensions.TakeSingleColumn(ExcelRangeBase, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeSingleColumn(OfficeOpenXml.ExcelRangeBase, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleColumn(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeSingleColumn
+    nameWithType: RangeExtensions.TakeSingleColumn
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleColumn(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeSingleColumn
+    nameWithType: RangeExtensions.TakeSingleColumn
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeColumnsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  isExternal: true
+  name: TakeColumnsBetween(ExcelRangeBase, Int32, Int32)
+  nameWithType: RangeExtensions.TakeColumnsBetween(ExcelRangeBase, Int32, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(OfficeOpenXml.ExcelRangeBase, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+    name: TakeColumnsBetween
+    nameWithType: RangeExtensions.TakeColumnsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumnsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeColumnsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+    name: TakeColumnsBetween
+    nameWithType: RangeExtensions.TakeColumnsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeColumnsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions.TakeSingleRow(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeSingleRow(OfficeOpenXml.ExcelRangeBase,System.Int32)
+  isExternal: true
+  name: TakeSingleRow(ExcelRangeBase, Int32)
+  nameWithType: RangeExtensions.TakeSingleRow(ExcelRangeBase, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeSingleRow(OfficeOpenXml.ExcelRangeBase, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleRow(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeSingleRow
+    nameWithType: RangeExtensions.TakeSingleRow
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleRow(OfficeOpenXml.ExcelRangeBase,System.Int32)
+    name: TakeSingleRow
+    nameWithType: RangeExtensions.TakeSingleRow
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions.TakeRowsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeRowsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  isExternal: true
+  name: TakeRowsBetween(ExcelRangeBase, Int32, Int32)
+  nameWithType: RangeExtensions.TakeRowsBetween(ExcelRangeBase, Int32, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeRowsBetween(OfficeOpenXml.ExcelRangeBase, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRowsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+    name: TakeRowsBetween
+    nameWithType: RangeExtensions.TakeRowsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeRowsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeRowsBetween(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+    name: TakeRowsBetween
+    nameWithType: RangeExtensions.TakeRowsBetween
+    fullName: OfficeOpenXml.RangeExtensions.TakeRowsBetween
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RangeExtensions.TakeSingleCell(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.RangeExtensions.TakeSingleCell(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+  isExternal: true
+  name: TakeSingleCell(ExcelRangeBase, Int32, Int32)
+  nameWithType: RangeExtensions.TakeSingleCell(ExcelRangeBase, Int32, Int32)
+  fullName: OfficeOpenXml.RangeExtensions.TakeSingleCell(OfficeOpenXml.ExcelRangeBase, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleCell(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+    name: TakeSingleCell
+    nameWithType: RangeExtensions.TakeSingleCell
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleCell
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.RangeExtensions.TakeSingleCell(OfficeOpenXml.ExcelRangeBase,System.Int32,System.Int32)
+    name: TakeSingleCell
+    nameWithType: RangeExtensions.TakeSingleCell
+    fullName: OfficeOpenXml.RangeExtensions.TakeSingleCell
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRange.Item*
   commentId: Overload:OfficeOpenXml.ExcelRange.Item
   name: Item
@@ -9937,3 +10994,15 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: OfficeOpenXml.ExcelRange.SetFormula*
+  commentId: Overload:OfficeOpenXml.ExcelRange.SetFormula
+  name: SetFormula
+  nameWithType: ExcelRange.SetFormula
+  fullName: OfficeOpenXml.ExcelRange.SetFormula
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

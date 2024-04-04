@@ -5,6 +5,7 @@ items:
   id: OfficeOpenXml.Style.Dxf
   children:
   - OfficeOpenXml.Style.Dxf.DxfStyleBase
+  - OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
   - OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
   - OfficeOpenXml.Style.Dxf.ExcelDxfBorderItem
   - OfficeOpenXml.Style.Dxf.ExcelDxfColor
@@ -15,6 +16,7 @@ items:
   - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
   - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
   - OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
+  - OfficeOpenXml.Style.Dxf.ExcelDxfProtection
   - OfficeOpenXml.Style.Dxf.ExcelDxfSlicerStyle
   - OfficeOpenXml.Style.Dxf.ExcelDxfStyle
   - OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
@@ -38,6 +40,12 @@ references:
   name: DxfStyleBase
   nameWithType: DxfStyleBase
   fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfAlignment
+  nameWithType: ExcelDxfAlignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
 - uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
   commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
   parent: OfficeOpenXml.Style.Dxf
@@ -98,6 +106,12 @@ references:
   name: ExcelDxfNumberFormat
   nameWithType: ExcelDxfNumberFormat
   fullName: OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfProtection
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfProtection
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfProtection
+  nameWithType: ExcelDxfProtection
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfProtection
 - uid: OfficeOpenXml.Style.Dxf.ExcelDxfSlicerStyle
   commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfSlicerStyle
   parent: OfficeOpenXml.Style.Dxf
@@ -116,6 +130,12 @@ references:
   name: ExcelDxfStyleBase
   nameWithType: ExcelDxfStyleBase
   fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleConditionalFormatting
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfStyleConditionalFormatting
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfStyleConditionalFormatting
+  nameWithType: ExcelDxfStyleConditionalFormatting
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleConditionalFormatting
 - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleFont
   commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfStyleFont
   parent: OfficeOpenXml.Style.Dxf
@@ -133,12 +153,6 @@ references:
   name: ExcelDxfTableStyle
   nameWithType: ExcelDxfTableStyle
   fullName: OfficeOpenXml.Style.Dxf.ExcelDxfTableStyle
-- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleConditionalFormatting
-  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfStyleConditionalFormatting
-  parent: OfficeOpenXml.Style.Dxf
-  name: ExcelDxfStyleConditionalFormatting
-  nameWithType: ExcelDxfStyleConditionalFormatting
-  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleConditionalFormatting
 - uid: OfficeOpenXml.Style.Dxf
   commentId: N:OfficeOpenXml.Style.Dxf
   name: OfficeOpenXml.Style.Dxf

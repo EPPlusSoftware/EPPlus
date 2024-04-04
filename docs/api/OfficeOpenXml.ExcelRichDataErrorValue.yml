@@ -19,7 +19,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichDataErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 78
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -35,6 +35,7 @@ items:
   - OfficeOpenXml.ExcelErrorValue
   inheritedMembers:
   - OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.ExcelErrorValue.AsCompileResult
   - OfficeOpenXml.ExcelErrorValue.Parse(System.String)
   - OfficeOpenXml.ExcelErrorValue.Type
   - OfficeOpenXml.ExcelErrorValue.ToString
@@ -105,6 +106,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.AsCompileResult
+  commentId: P:OfficeOpenXml.ExcelErrorValue.AsCompileResult
+  parent: OfficeOpenXml.ExcelErrorValue
+  name: AsCompileResult
+  nameWithType: ExcelErrorValue.AsCompileResult
+  fullName: OfficeOpenXml.ExcelErrorValue.AsCompileResult
 - uid: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
   commentId: M:OfficeOpenXml.ExcelErrorValue.Parse(System.String)
   parent: OfficeOpenXml.ExcelErrorValue

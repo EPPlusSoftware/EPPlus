@@ -39,7 +39,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         public override CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(context);
             
             if (!children.Any()) return new CompileResult(eErrorType.Value);
 
@@ -51,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix))
                 {
                     var range = cr.Result as IRangeInfo;
-                    if(range.IsMulti)
+                    if(range.GetNCells() > 1)
                     {
                         rangeArgs[ix] = range;
                     }

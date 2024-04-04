@@ -19,11 +19,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using OfficeOpenXml.LoadFunctions.Params;
-using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.IO;
 #if !NET35
 using System.ComponentModel.DataAnnotations;
 #endif
@@ -37,6 +36,7 @@ namespace OfficeOpenXml.LoadFunctions
             _items = items;
             _bindingFlags = parameters.BindingFlags;
             _headerParsingType = parameters.HeaderParsingType;
+            _numberFormatProvider = parameters.NumberFormatProvider;
             var type = typeof(T);
             var tableAttr = type.GetFirstAttributeOfType<EpplusTableAttribute>();
             if(tableAttr != null)
@@ -45,15 +45,10 @@ namespace OfficeOpenXml.LoadFunctions
                 ShowLastColumn = tableAttr.ShowLastColumn;
                 ShowTotal = tableAttr.ShowTotal;
             }
-            var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
-            if(classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
-            {
-                SortOrderProperties = classSortOrderAttr.Properties.ToList();
-            }
             LoadFromCollectionColumns<T> cols;
             if (parameters.Members == null)
             {
-                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties);
+                cols = new LoadFromCollectionColumns<T>(parameters);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
                 SetHiddenColumns();
@@ -64,16 +59,9 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
-                cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties, parameters.Members);
+                cols = new LoadFromCollectionColumns<T>(parameters);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
-                // the ValidateType method will throw an InvalidCastException
-                // if parameters.Members contains a MemberInfo that is not declared
-                // by any of the types used.
-                foreach (var member in parameters.Members)
-                {
-                    cols.ValidateType(member);
-                }
             }
         }
 
@@ -81,7 +69,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly ColumnInfo[] _columns;
         private readonly HeaderParsingTypes _headerParsingType;
         private readonly IEnumerable<T> _items;
-        private readonly bool _isSameType = true;
+        private IExcelNumberFormatProvider _numberFormatProvider;
 
         internal List<string> SortOrderProperties
         {
@@ -138,9 +126,16 @@ namespace OfficeOpenXml.LoadFunctions
             int col = 0, row = 0;
             columnFormats = new Dictionary<int, string>();
             formulaCells = new Dictionary<int, FormulaCell>();
-            if (_columns.Length > 0 && PrintHeaders)
+            if (_columns.Length > 0)
             {
-                SetHeaders(values, columnFormats, ref col, ref row);
+                if(PrintHeaders)
+                {
+                    SetHeaders(values, columnFormats, ref col, ref row);
+                }
+                else
+                {
+                    SetNumberFormats(columnFormats, col);
+                }
             }
 
             if (!_items.Any() && (_columns.Length == 0 || PrintHeaders == false))
@@ -190,46 +185,21 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         foreach (var colInfo in _columns)
                         {
-                            if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
+                            object v = null;
+                            if (colInfo.Path != null && colInfo.Path.IsFormulaColumn == false && colInfo.Path.Depth > 0)
                             {
-                                values[row, col++] = GetValueByPath(item, colInfo.Path);
-                                continue;
-                            }
-                            var obj = item;
-                            if (colInfo.MemberInfo != null)
-                            {
-                                var member = colInfo.MemberInfo;
-                                object v=null;
-                                if (_isSameType == false && obj.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
-                                {
-                                    col++;
-                                    continue; //Check if the property exists if and inherited class is used
-                                }
-                                else if (member is PropertyInfo)
-                                {
-                                    v = ((PropertyInfo)member).GetValue(obj, null);
-                                }
-                                else if (member is FieldInfo)
-                                {
-                                    v = ((FieldInfo)member).GetValue(obj);
-                                }
-                                else if (member is MethodInfo)
-                                {
-                                    v = ((MethodInfo)member).Invoke(obj, null);
-                                }
-
+                                v = colInfo.Path.GetLastMemberValue(item, _bindingFlags);
 #if (!NET35)
                                 if (v != null)
                                 {
                                     var type = v.GetType();
                                     if (type.IsEnum)
                                     {
-                                        v=GetEnumValue(v, type);
+                                        v = GetEnumValue(v, type);
                                     }
                                 }
 #endif
-
-                                values[row, col++] = v;                                
+                                values[row, col++] = v;
                             }
                             else if (!string.IsNullOrEmpty(colInfo.Formula))
                             {
@@ -258,39 +228,64 @@ namespace OfficeOpenXml.LoadFunctions
 #endif            
         }
 
-        private object GetValueByPath(object obj, string path)
+        private string GetColumnFormatById(int numberFormatId)
         {
-            var members = path.Split('.');
-            object o = obj;
-            foreach(var member in members)
+            if(_numberFormatProvider == null)
             {
-                if (o == null) return null;
-                var memberInfos = o.GetType().GetMember(member);
-                if(memberInfos == null || memberInfos.Length == 0)
+                var attr = typeof(T).GetFirstAttributeOfType<EpplusTableAttribute>();
+                if (attr != null && attr.NumberFormatProviderType != null)
                 {
-                    return null;
-                }
-                var memberInfo = memberInfos.First();
-                if(memberInfo is PropertyInfo pi)
-                {
-                    o = pi.GetValue(o, null);
-                }
-                else if(memberInfo is FieldInfo fi)
-                {
-                    o = fi.GetValue(obj);
-                }
-                else if(memberInfo is MethodInfo mi)
-                {
-                    o = mi.Invoke(obj, null);
+                    _numberFormatProvider = Activator.CreateInstance(attr.NumberFormatProviderType) as IExcelNumberFormatProvider;
+                    return _numberFormatProvider.GetFormat(numberFormatId);
                 }
                 else
                 {
-                    throw new NotSupportedException("Invalid member: '" + memberInfo.Name + "', not supported member type '" + memberInfo.GetType().FullName + "'");
+                    return string.Empty;
                 }
             }
-            return o;
+            else
+            {
+                return _numberFormatProvider.GetFormat(numberFormatId);
+            }
         }
-        
+
+        private void SetNumberFormats(Dictionary<int, string> columnFormats, int col)
+        {
+            var column = col;
+            foreach (var colInfo in _columns)
+            {
+                if(colInfo.MemberInfo == null || colInfo.MemberInfo.HasAttributeOfType<EpplusTableColumnAttribute>() == false)
+                {
+                    continue;
+                }
+                SetNumberFormatOnColumn(columnFormats, col++, colInfo);
+
+            }
+
+        }
+
+        private void SetNumberFormatOnColumn(Dictionary<int, string> columnFormats, int col, ColumnInfo colInfo)
+        {
+            if (colInfo.MemberInfo != null && colInfo.IsDictionaryProperty == false)
+            {
+                var member = colInfo.MemberInfo;
+                var epplusColumnAttribute = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
+
+                if (!string.IsNullOrEmpty(epplusColumnAttribute.NumberFormat))
+                {
+                    columnFormats.Add(col, epplusColumnAttribute.NumberFormat);
+                }
+                else if (epplusColumnAttribute.NumberFormatId > int.MinValue)
+                {
+                    var format = GetColumnFormatById(epplusColumnAttribute.NumberFormatId);
+                    if (_numberFormatProvider == null) throw new ArgumentNullException("NumberFormatProvider", "NumberFormatId was set on a column attribute, but no instance of IExcelNumberFormatProvider was supplied to the function. This can be done either via ExcelTableAttribute.NumberFormatProviderType or via the LoadFromCollectionParams.SetNumberFormatProvider method.");
+                    if (!string.IsNullOrEmpty(format))
+                    {
+                        columnFormats.Add(col, format);
+                    }
+                }
+            }
+        }
 
         private void SetHeaders(object[,] values, Dictionary<int, string> columnFormats, ref int col, ref int row)
         {
@@ -301,7 +296,7 @@ namespace OfficeOpenXml.LoadFunctions
                 // if the header is already set and contains a space it doesn't need more formatting or validation.
                 var useExistingHeader = !string.IsNullOrEmpty(header) && header.Contains(" ");
 
-                if (colInfo.MemberInfo != null)
+                if (colInfo.MemberInfo != null && colInfo.IsDictionaryProperty == false)
                 {
                     // column data based on a property read with reflection
                     var member = colInfo.MemberInfo;
@@ -314,15 +309,12 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 header = epplusColumnAttribute.Header;
                             }
-                            else
+                            else if(string.IsNullOrEmpty(colInfo.Header))
                             {
                                 header = ParseHeader(member.Name);
                             }
                         }
-                        if (!string.IsNullOrEmpty(epplusColumnAttribute.NumberFormat))
-                        {
-                            columnFormats.Add(col, epplusColumnAttribute.NumberFormat);
-                        }
+                        SetNumberFormatOnColumn(columnFormats, col, colInfo);
                     }
                     else if (!useExistingHeader)
                     {
@@ -341,7 +333,7 @@ namespace OfficeOpenXml.LoadFunctions
                         }
                     }
                 }
-                else
+                else if(colInfo.IsDictionaryProperty == false)
                 {
                     // column is a FormulaColumn
                     header = colInfo.Header;

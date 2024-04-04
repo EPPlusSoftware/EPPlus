@@ -4,6 +4,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -34,6 +35,9 @@ namespace EPPlusTest.Core.Range.Delete
             var ws2 = _pck.Workbook.Worksheets.Add("DeleteRow_Sheet2");
             ws.Cells["A1"].Formula = "Sum(C5:C10)";
             ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
+            ws.Cells["C1"].Formula = "Sum(DeleteRow_Sheet2!C5:C10)";
+            ws.Cells["D1:D2"].Formula = "Sum(DeleteRow_Sheet2!C5:C10)";
+
             ws2.Cells["A1"].Formula = "Sum(DeleteRow_Sheet1!C5:C10)";
             ws2.Cells["B1:B2"].Formula = "Sum(DeleteRow_Sheet1!C5:C10)";
 
@@ -50,6 +54,8 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual("Sum(C4:C9)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(C4:C9)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(C5:C10)", ws.Cells["B2"].Formula);
+            Assert.AreEqual("Sum(DeleteRow_Sheet2!C5:C10)", ws.Cells["C1"].Formula);
+            Assert.AreEqual("Sum(DeleteRow_Sheet2!C5:C10)", ws.Cells["D1"].Formula);
 
             Assert.AreEqual("Sum(DeleteRow_Sheet1!C4:C9)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(DeleteRow_Sheet1!C4:C9)", ws2.Cells["B1"].Formula);
@@ -1485,5 +1491,46 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual("A11+B11", tbl1.Columns[2].CalculatedColumnFormula);
             Assert.AreEqual("A11+E12", tbl2.Columns[2].CalculatedColumnFormula);
         }
-    }
+        [TestMethod]
+        public void DeleteEntireColumnAndShiftFormulas()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+            sheet.Cells["A1:A5"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["B1:B5"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["C1:C5"].Formula = "A1:A5 + 1";
+            sheet.Cells["D1:D5"].Formula = "C1:C5 + 1";
+            sheet.Cells["A1:D5"].Style.Fill.SetBackground(Color.LightYellow);
+            sheet.Cells["B1"].Delete(eShiftTypeDelete.EntireColumn);
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["B1"].Value, "Column C was not correctly shifted to B");
+            Assert.AreEqual(3d, sheet.Cells["C1"].Value, "Column D was not correctly shifted to C");
+        }
+        [TestMethod]
+        public void DeleteEntireRowAndShiftFormulas()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+            sheet.Cells["A1:E1"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["A2:E2"].FillNumber(x => x.StartValue = 1);
+            sheet.Cells["A3:E3"].Formula = "A1:E1 + 1";
+            sheet.Cells["A4:E4"].Formula = "A3:E3 + 1";
+            sheet.Cells["A5:E5"].Style.Fill.SetBackground(Color.LightYellow);
+            sheet.Cells["B2"].Delete(eShiftTypeDelete.EntireRow);
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["A2"].Value, "Row 3 was not correctly shifted to 2");
+            Assert.AreEqual(3d, sheet.Cells["A3"].Value, "Row 4 was not correctly shifted to 3");
+        }
+		[TestMethod]
+		public void DeleteRowValidateArrayFormula()
+		{
+			using var package = new ExcelPackage();
+			var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+			sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,$C:$C)";
+            sheet.Calculate();
+            sheet.DeleteRow(1);
+
+            Assert.AreEqual("XLOOKUP($A$2,$B:$B,$C:$C)", sheet.Cells["A1"].Formula);
+		}
+	}
 }

@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+  commentId: T:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+  id: IStyleColor
+  parent: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: IStyleColor
+  nameWithType: IStyleColor
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts.IStyleColor
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IStyleColor.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IStyleColor
+    path: ../src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IStyleColor.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  summary: "\nFor internal use\n"
+  example: []
+  syntax:
+    content: public interface IStyleColor
+    content.vb: Public Interface IStyleColor
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  commentId: N:OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  name: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  nameWithType: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
+  fullName: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts

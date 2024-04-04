@@ -56,39 +56,24 @@ This might be the easiest way of configuring this. Just as above, set the variab
 
 **Important!** The environment variable should be set at the user or process level.
 
-## New features in EPPlus 7 preview 1
-* Calculation engine update to array formulas. https://github.com/EPPlusSoftware/EPPlus/wiki/EPPlus-7-Preview
-	* Support for calculating legacy / dynamic array formulas.
-	* Support for intersect operator.
-	* Support for Implicit intersection.
-	* Support for array parameters in functions.
-	* Better support for using the colon operator with functions.
-	* 21 new functions
+## New features in EPPlus 7
+	* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
+		* Support for calculating legacy / dynamic array formulas.
+		* Support for intersect operator.
+		* Support for implicit intersection.
+		* Support for array parameters in functions.
+		* Better support for using the colon operator with functions.
+		* Better handling of circular references
+		* 90 new functions
+		* Faster optimized calculation engine with configurable expression caching.
+		* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information.
+		* Conditional Formatting improvements
+		* Improved performance, xml is now read and written on load and save.
+		* Cross worksheet support formula support.
+		* Extended styling options for color scales, data bars and icon sets.
 
 ## Breaking Changes
-The formula parser has changed significantly in EPPlus 7, requiring all custom functions that inherits from the `ExcelFunction` class to be reviewed. 
-The `ExcelFunction` class now exposes new properties used to handle array results and condition behaviour. 
-* `NamespacePrefix` - If the function requires a prefix when saved, for example "_xlfn." or "_xlfn._xlws."
-* `HasNormalArguments` a boolean indicating if the formula only has normal arguments. If false, the `GetParameterInfo` method must be implemented. Default is true.
-* `ReturnsReference` - If true the function can return a reference to a range. Use the `CreateAddressResult` to return the result with a reference. Returning a reference, will cause the dependency chain to check the address and will allow the colon operator to be used with the function.
-* `IsVolatile` -  If the function returns different result when called with the same parameters. Default false.
-* `ArrayBehaviour` - If the function allows arrays as input in a parameter, resulting in an array output. Also see the `GetArrayBehaviourConfig` method.
-Methods
-* `CreateAddressResult`  - Return the result with an range to a range.
-* `CreateDynamicArrayResult` - The result should be treated as a dynamic array.
-* `GetArrayBehaviourConfig` - Sets the index if the parameters that can be arrays. Also see the `ArrayBehaviour` property.
-
-* The source code tokenizer now tokenize more detailed, tokenizing addresses. 
-* The expression handling is totally rewritten and now uses reversed polish notation instead of group expressions.
-
-
-### Breaking Changes in version 6.
-* All public references to System.Drawing.Common has been removed from EPPlus. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6).
-* Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
-* ...and more, see https://epplussoftware.com/docs/6.0/articles/breakingchanges.html
-### Breaking Changes in version 5.
-* The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
-* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell". 
+See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7
 
 ## Improved documentation
 EPPlus 6 has a new web sample site available here: (https://samples.epplussoftware.com/) ,  Source code is available here: [EPPlus.WebSamples](https://github.com/EPPlusSoftware/EPPlus.WebSamples)

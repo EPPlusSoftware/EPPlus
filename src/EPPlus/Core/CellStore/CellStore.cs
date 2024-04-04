@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace OfficeOpenXml.Core.CellStore
 {
     /// <summary>
-    /// For testing purpouse only. Can be removed when cellsstore is fully optimized.
+    /// For testing purpose only. Can be removed when cell store is fully optimized.
     /// </summary>
     internal static class CellStoreSettings
     {
@@ -784,7 +784,7 @@ namespace OfficeOpenXml.Core.CellStore
                     {
                         if (pagePos == 0)
                         {
-                            pageStartRow = 1;
+                            pageStartRow = fromRow;
                         }
                         else
                         {

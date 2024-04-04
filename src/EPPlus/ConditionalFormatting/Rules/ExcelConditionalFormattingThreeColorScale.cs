@@ -12,13 +12,19 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-    public class ExcelConditionalFormattingThreeColorScale : ExcelConditionalFormattingTwoColorScale,
+    internal class ExcelConditionalFormattingThreeColorScale : ExcelConditionalFormattingTwoColorScale,
     IExcelConditionalFormattingThreeColorScale
     {
         internal ExcelConditionalFormattingThreeColorScale(ExcelAddress address, int priority, ExcelWorksheet ws)
@@ -140,6 +146,56 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get { return _middleValue; }
             set { _middleValue = value; }
+        }
+        internal override string ApplyStyleOverride(ExcelAddress address)
+        {
+            var range = _ws.Cells[address.Address];
+            var cellValue = range.Value;
+
+            if (cellValue.IsNumeric())
+            {
+                var cellValues = new List<double>();
+                double midPoint = 0;
+                double average = 0;
+                int count = 0;
+                foreach (var cell in Address.GetAllAddresses())
+                {
+                    for (int i = 1; i <= cell.Rows; i++)
+                    {
+                        for (int j = 1; j <= cell.Columns; j++)
+                        {
+                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
+                            average += ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                            count++;
+                        }
+                    }
+                }
+
+                average = average / count;
+
+                var values = cellValues.OrderBy(n => n);
+
+                var aValue = cellValues.Last();
+
+                var highest = Convert.ToDouble(values.Last());
+                var lowest = Convert.ToDouble(values.First());
+                //midPoint = (highest + lowest) * 0.5;
+                var realValue = Convert.ToDouble(cellValue);
+
+                Color newColor;
+
+                if (realValue < average)
+                {
+                    newColor = CalculateNumberedGradient(realValue - lowest, average - lowest, LowValue.Color, MiddleValue.Color);
+                }
+                else
+                {
+                    newColor = CalculateNumberedGradient(realValue - average, highest - average, MiddleValue.Color, HighValue.Color);
+                }
+
+                return  "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2)+";";
+            }
+            return "";
         }
     }
 }

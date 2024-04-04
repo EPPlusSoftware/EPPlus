@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The pivot area reference</returns>
         public ExcelPivotAreaReference Add(ExcelPivotTableField field)
         {
-            return Add(field._pivotTable, field.Index);
+            return Add(field.PivotTable, field.Index);
         }
         /// <summary>
         /// Adds a pivot table field to the collection. The field is usually a column or row field

@@ -1,0 +1,453 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Utils.MemorySettings
+  commentId: T:OfficeOpenXml.Utils.MemorySettings
+  id: MemorySettings
+  parent: OfficeOpenXml.Utils
+  children:
+  - OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  - OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  langs:
+  - csharp
+  - vb
+  name: MemorySettings
+  nameWithType: MemorySettings
+  fullName: OfficeOpenXml.Utils.MemorySettings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Utils/RecyclableMemory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MemorySettings
+    path: ../src/EPPlus/Utils/RecyclableMemory.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nMemmory settings for RecyclableMemoryStream handling\n"
+  example: []
+  syntax:
+    content: public class MemorySettings
+    content.vb: Public Class MemorySettings
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  commentId: P:OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  id: MemoryManager
+  parent: OfficeOpenXml.Utils.MemorySettings
+  langs:
+  - csharp
+  - vb
+  name: MemoryManager
+  nameWithType: MemorySettings.MemoryManager
+  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/RecyclableMemory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MemoryManager
+    path: ../src/EPPlus/Utils/RecyclableMemory.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nThe memory manager used, if RecyclableMemoryStream are used.\n<xref href=\"OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public RecyclableMemoryStreamManager MemoryManager { get; set; }
+    parameters: []
+    return:
+      type: Microsoft.IO.RecyclableMemoryStreamManager
+    content.vb: Public Property MemoryManager As RecyclableMemoryStreamManager
+  overload: OfficeOpenXml.Utils.MemorySettings.MemoryManager*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  commentId: P:OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  id: UseRecyclableMemory
+  parent: OfficeOpenXml.Utils.MemorySettings
+  langs:
+  - csharp
+  - vb
+  name: UseRecyclableMemory
+  nameWithType: MemorySettings.UseRecyclableMemory
+  fullName: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/RecyclableMemory.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseRecyclableMemory
+    path: ../src/EPPlus/Utils/RecyclableMemory.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nIf true RecyclableMemoryStream&apos;s will be used to handle MemoryStreams. Default.\nIf false normal MemoryStream will be used.\n"
+  example: []
+  syntax:
+    content: public bool UseRecyclableMemory { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UseRecyclableMemory As Boolean
+  overload: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Utils
+  commentId: N:OfficeOpenXml.Utils
+  name: OfficeOpenXml.Utils
+  nameWithType: OfficeOpenXml.Utils
+  fullName: OfficeOpenXml.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  commentId: P:OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  isExternal: true
+- uid: OfficeOpenXml.Utils.MemorySettings.MemoryManager*
+  commentId: Overload:OfficeOpenXml.Utils.MemorySettings.MemoryManager
+  name: MemoryManager
+  nameWithType: MemorySettings.MemoryManager
+  fullName: OfficeOpenXml.Utils.MemorySettings.MemoryManager
+- uid: Microsoft.IO.RecyclableMemoryStreamManager
+  commentId: T:Microsoft.IO.RecyclableMemoryStreamManager
+  parent: Microsoft.IO
+  isExternal: true
+  name: RecyclableMemoryStreamManager
+  nameWithType: RecyclableMemoryStreamManager
+  fullName: Microsoft.IO.RecyclableMemoryStreamManager
+- uid: Microsoft.IO
+  commentId: N:Microsoft.IO
+  isExternal: true
+  name: Microsoft.IO
+  nameWithType: Microsoft.IO
+  fullName: Microsoft.IO
+- uid: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory*
+  commentId: Overload:OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+  name: UseRecyclableMemory
+  nameWithType: MemorySettings.UseRecyclableMemory
+  fullName: OfficeOpenXml.Utils.MemorySettings.UseRecyclableMemory
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

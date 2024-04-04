@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Filter
         /// <summary>
         /// The calendar to be used. To be implemented
         /// </summary>
-        internal eCalendarType? CalendarTyp{get;set;}
+        internal eCalendarType? CalendarType{get;set;}
         /// <summary>
         /// Add a Date filter item. 
         /// </summary>
@@ -36,26 +36,41 @@ namespace OfficeOpenXml.Filter
             return value;
         }
         /// <summary>
-        /// Add a filter value that will be matched agains the ExcelRange.Text property
+        /// <para>Add a filter value that will be matched agains the ExcelRange.Text property</para>
+        /// If value is "" or null sets Blank=True instead of adding.
         /// </summary>
-        /// <param name="item">The value</param>
+        /// <param name="item">The value to add. If "" or null sets Blank=True instead.</param>
         /// <returns>The filter value item</returns>
         public ExcelFilterValueItem Add(ExcelFilterValueItem item)
         {
-            _list.Add(item);
+            AddOrSetBlank(item);
             return item;
         }
         /// <summary>
-        /// Add a filter value that will be matched agains the ExcelRange.Text property
+        /// <para>Add a filter value that will be matched agains the ExcelRange.Text property</para>
+        /// If value is "" or null sets Blank=True instead of adding.
         /// </summary>
-        /// <param name="value">The value</param>
+        /// <param name="value">The value to add. If "" or null sets Blank=True instead.</param>
         /// <returns>The filter value item</returns>
         public ExcelFilterValueItem Add(string value)
         {
             var v = new ExcelFilterValueItem(value);
-            _list.Add(v);
+            AddOrSetBlank(v);
             return v;
         }
+
+        internal void AddOrSetBlank(ExcelFilterValueItem item)
+        {
+            if (string.IsNullOrEmpty(item.Value))
+            {
+                Blank = true;
+            }
+            else
+            {
+                _list.Add(item);
+            }
+        }
+
         /// <summary>
         /// Clears the collection
         /// </summary>

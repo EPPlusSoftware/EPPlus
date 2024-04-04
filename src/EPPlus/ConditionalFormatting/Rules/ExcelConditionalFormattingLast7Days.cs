@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -18,7 +19,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// ExcelConditionalFormattingLast7Days
     /// </summary>
-    public class ExcelConditionalFormattingLast7Days: ExcelConditionalFormattingTimePeriodGroup
+    internal class ExcelConditionalFormattingLast7Days: ExcelConditionalFormattingTimePeriodGroup
     {
         #region Constructors
         /// <summary>
@@ -33,9 +34,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelWorksheet worksheet)
         : base(eExcelConditionalFormattingRuleType.Last7Days, address, priority, worksheet)
         {
+
             TimePeriod = eExcelConditionalFormattingTimePeriodType.Last7Days;
+
+            _baseFormula = "AND(TODAY()-FLOOR({0},1)<=6,FLOOR({0},1)<=TODAY())";
             Formula = string.Format(
-            "AND(TODAY()-FLOOR({0},1)<=6,FLOOR({0},1)<=TODAY())",
+            _baseFormula,
             Address.Start.Address);
         }
 
@@ -45,10 +49,16 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="address"></param>
         /// <param name="ws"></param>
         /// <param name="xr"></param>
-        public ExcelConditionalFormattingLast7Days(
+        internal ExcelConditionalFormattingLast7Days(
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.Last7Days, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.Last7Days;
+
+            _baseFormula = "AND(TODAY()-FLOOR({0},1)<=6,FLOOR({0},1)<=TODAY())";
+            Formula = string.Format(
+            _baseFormula,
+            Address.Start.Address);
         }
 
         internal ExcelConditionalFormattingLast7Days(ExcelConditionalFormattingLast7Days copy, ExcelWorksheet newWs = null) : base(copy, newWs)
@@ -59,6 +69,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             return new ExcelConditionalFormattingLast7Days(this, newWs);
         }
-        #endregion
-    }
+            #endregion
+        }
 }

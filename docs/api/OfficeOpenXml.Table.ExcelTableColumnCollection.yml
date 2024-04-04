@@ -28,7 +28,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableColumnCollection
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 25
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -76,7 +76,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 48
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -113,7 +113,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 56
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -150,7 +150,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 68
+    startLine: 70
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -194,7 +194,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 84
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -239,7 +239,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.ExcelTableColumn>.GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 99
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -272,7 +272,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 104
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -304,7 +304,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 128
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -343,7 +343,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Insert
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 138
+    startLine: 150
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -385,7 +385,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
-    startLine: 184
+    startLine: 196
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table

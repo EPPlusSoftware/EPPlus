@@ -17,11 +17,11 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraph.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraph.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelParagraph
-    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs
     startLine: 24
   assemblies:
   - EPPlus
@@ -80,11 +80,11 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraph.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraph.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
-    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs
     startLine: 35
   assemblies:
   - EPPlus
@@ -117,11 +117,11 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraph.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraph.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFirstInParagraph
-    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs
     startLine: 50
   assemblies:
   - EPPlus
@@ -154,11 +154,11 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/Style/ExcelParagraph.cs
+      path: src/EPPlus/Style/RichText/ExcelParagraph.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsLastInParagraph
-    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs
     startLine: 68
   assemblies:
   - EPPlus

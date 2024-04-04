@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Utils
         /// The memory manager used, if RecyclableMemoryStream are used.
 		/// <seealso cref="UseRecyclableMemory"/>
         /// </summary>
-        public RecyclableMemoryStreamManager MemoryManger 
+        public RecyclableMemoryStreamManager MemoryManager 
 		{
 			get
 			{
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Utils
 		private static RecyclableMemoryStreamManager _memoryManager;
 		private static object _dataLock = new object();
 
-        public static bool UseRecyclableMemory { get; set; }
+		public static bool UseRecyclableMemory { get; set; } = true;
 		internal static bool HasMemoryManager
 		{
 			get

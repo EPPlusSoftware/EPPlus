@@ -18,6 +18,8 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Core;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Collections.Specialized;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 
 namespace OfficeOpenXml
 {
@@ -772,22 +774,87 @@ namespace OfficeOpenXml
             return true;
         }
         /// <summary>
-        /// Returns true if the cell address is valid
+        /// Returns true if the range or table address is valid
         /// </summary>
         /// <param name="address">The address to check</param>
         /// <returns>Return true if the address is valid</returns>
         public static bool IsValidAddress(string address)
         {
-            if(address == null || address.Length < 2 )
+            if (address == null || address.Length < 2)
             {
                 return false;
             }
 
-            if (address.LastIndexOf('!', address.Length-2) > 0)   //Last char can be ! if address is set to #REF!, so use Lengh - 2 as start.
+            if (IsValidRangeAddress(address)==false) //TODO: update IsValidRangeAddress to use tokens instead;
+            {
+                return IsValidTableAddress(address);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true if the address is a valid table address. I.e table1[], table1[[#this row],[column1]]
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public static bool IsValidTableAddress(string address)
+        {
+            var bc = 0;
+            try
+            {
+                var tokens = SourceCodeTokenizer.Default.Tokenize(address);
+                if (tokens.Count < 3)
+                {
+                    return false;
+                }
+                foreach (var t in tokens)
+                {
+                    switch (t.TokenType)
+                    {
+                        case TokenType.OpeningBracket:
+                            bc++;
+                            break;
+                        case TokenType.ClosingBracket:
+                            if (bc == 0)
+                            {
+                                return false;
+                            }
+                            bc--;
+                            break;
+                        case TokenType.TableName:
+                        case TokenType.TablePart:
+                        case TokenType.TableColumn:
+                        case TokenType.Comma:
+                        case TokenType.WorksheetName:
+                        case TokenType.WorksheetNameContent:
+                        case TokenType.SingleQuote:
+                        case TokenType.ExternalReference:
+                            break;
+                        default:
+                            return false;
+
+                    }
+                }
+            }
+            catch 
+            { 
+                return false; 
+            }
+            return bc==0;
+        }
+        /// <summary>
+        /// Returns true if the range is valid
+        /// </summary>
+        /// <param name="address">The address to check</param>
+        /// <returns>Return true if the address is valid</returns>
+        public static bool IsValidRangeAddress(string address)
+        {
+            if (address.LastIndexOf('!', address.Length - 2) > 0)   //Last char can be ! if address is set to #REF!, so use Length - 2 as start.
             {
                 address = address.Substring(address.LastIndexOf('!') + 1);
             }
             if (string.IsNullOrEmpty(address.Trim())) return false;
+
             address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
             var addrs = address.Split(',');
             foreach (var a in addrs)
@@ -886,7 +953,7 @@ namespace OfficeOpenXml
             }
             return true;
         }
-        
+
         private static bool IsCol(char c)
         {
             return c >= 'A' && c <= 'Z';
@@ -942,10 +1009,9 @@ namespace OfficeOpenXml
             {
                 if (tokens == null)
                 {
-                    tokens = tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+                    tokens = SourceCodeTokenizer.Default.Tokenize(formula);
                 }
                 var f = "";
-                //string wsName = "";
                 for(int i=0;i<tokens.Count;i++) 
                 {
                     var t = tokens[i];
@@ -1026,23 +1092,22 @@ namespace OfficeOpenXml
                             f += "#REF!";
                         }
                         else
-                        {
-                            var ix = address.Address.LastIndexOf('!');
-                            if (ix > 0)
-                            {
-                                f += address.Address.Substring(ix + 1);
-                            }
-                            else
-                            {
-                                f += address.Address;
-                            }
+                        {                            
+                            f += address.LocalAddress;
                         }
 
 
                     }
                     else
                     {
-                        f += t.Value;
+                        if(t.TokenType == TokenType.Operator && t.Value == Operator.IntersectIndicator)
+                        {
+                            f += " ";
+                        }
+                        else
+                        {
+                            f += t.Value;
+                        }
                     }
                 }
                 return f;
@@ -1056,8 +1121,17 @@ namespace OfficeOpenXml
         private static ExcelAddressBase GetFullAddressFromToken(IList<Token> tokens, ref int i)
         {
             var sb = new StringBuilder();
-            while (tokens.Count > i && tokens[i].TokenTypeIsAddressToken)
+            var bracketCount = 0;
+            while (tokens.Count > i && (tokens[i].TokenTypeIsAddressToken || (tokens[i].TokenType==TokenType.Comma && bracketCount>0)))
             {
+                if (tokens[i].TokenType==TokenType.OpeningBracket)
+                {
+                    bracketCount++;
+                }
+                else if(tokens[i].TokenType == TokenType.ClosingBracket)
+                {
+					bracketCount--;
+				}
                 sb.Append(tokens[i].Value);
                 i++;
             }
@@ -1125,9 +1199,13 @@ namespace OfficeOpenXml
                 var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var tokens = sct.Tokenize(formula);
                 var f = "";
+                var extRef = "";
+                var adrWs = "";
                 foreach (var t in tokens)
                 {
-                    if (t.TokenTypeIsAddress)
+                    if (t.TokenTypeIsAddress && 
+                        string.IsNullOrEmpty(extRef) && 
+                        (string.IsNullOrEmpty(adrWs) || adrWs.Equals(currentSheet, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         var address = new ExcelAddressBase(t.Value);
                         if (((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed) ||
@@ -1203,10 +1281,22 @@ namespace OfficeOpenXml
                         }
 
 
-                    }
+                    }                   
                     else
                     {
                         f += t.Value;
+                        if (t.TokenType == TokenType.WorksheetNameContent)
+                        {
+                            adrWs = t.Value.ToString();
+                        }
+                        else if(t.TokenType==TokenType.ExternalReference)
+                        {
+                            extRef = t.Value.ToString(); ;
+                        }
+                        else if(!t.TokenTypeIsAddressToken)
+                        {
+                            extRef = adrWs = "";
+                        }
                     }
                 }
                 return f;

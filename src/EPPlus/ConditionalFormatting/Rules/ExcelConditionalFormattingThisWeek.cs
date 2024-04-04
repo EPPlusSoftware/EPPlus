@@ -18,7 +18,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// ExcelConditionalFormattingLast7Days
     /// </summary>
-    public class ExcelConditionalFormattingThisWeek: ExcelConditionalFormattingTimePeriodGroup
+    internal class ExcelConditionalFormattingThisWeek: ExcelConditionalFormattingTimePeriodGroup
     {
         #region Constructors
         /// <summary>
@@ -34,9 +34,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         : base(eExcelConditionalFormattingRuleType.ThisWeek, address, priority, worksheet)
         {
             TimePeriod = eExcelConditionalFormattingTimePeriodType.ThisWeek;
-            Formula = string.Format(
-              "AND(TODAY()-ROUNDDOWN({0},0)<=WEEKDAY(TODAY())-1,ROUNDDOWN({0},0)-TODAY()<=7-WEEKDAY(TODAY()))",
-              Address.Start.Address);
+            _baseFormula = "AND(TODAY()-ROUNDDOWN({0},0)<=WEEKDAY(TODAY())-1,ROUNDDOWN({0},0)-TODAY()<=7-WEEKDAY(TODAY()))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
 
         /// <summary>
@@ -45,10 +44,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="address"></param>
         /// <param name="ws"></param>
         /// <param name="xr"></param>
-        public ExcelConditionalFormattingThisWeek(
+        internal ExcelConditionalFormattingThisWeek(
             ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.ThisWeek, address, ws, xr)
         {
+            TimePeriod = eExcelConditionalFormattingTimePeriodType.ThisWeek;
+            _baseFormula = "AND(TODAY()-ROUNDDOWN({0},0)<=WEEKDAY(TODAY())-1,ROUNDDOWN({0},0)-TODAY()<=7-WEEKDAY(TODAY()))";
+            Formula = string.Format(_baseFormula, Address.Start.Address);
         }
         #endregion
     }

@@ -11,6 +11,7 @@ items:
   - OfficeOpenXml.Filter.ExcelFilterColumnCollection.AddIconFilterColumn(System.Int32)
   - OfficeOpenXml.Filter.ExcelFilterColumnCollection.AddTop10FilterColumn(System.Int32)
   - OfficeOpenXml.Filter.ExcelFilterColumnCollection.AddValueFilterColumn(System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear
   - OfficeOpenXml.Filter.ExcelFilterColumnCollection.Count
   - OfficeOpenXml.Filter.ExcelFilterColumnCollection.GetEnumerator
   - OfficeOpenXml.Filter.ExcelFilterColumnCollection.Item(System.Int32)
@@ -31,7 +32,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFilterColumnCollection
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 22
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -81,7 +82,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 61
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -118,7 +119,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 104
+    startLine: 115
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -162,7 +163,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddValueFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 123
+    startLine: 134
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -201,7 +202,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCustomFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 135
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -240,7 +241,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddColorFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 148
+    startLine: 159
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -279,7 +280,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddIconFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 161
+    startLine: 172
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -318,7 +319,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop10FilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 173
+    startLine: 184
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -357,7 +358,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDynamicFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 185
+    startLine: 196
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -396,7 +397,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 196
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -434,7 +435,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 204
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -469,7 +470,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 212
+    startLine: 223
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -505,7 +506,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-    startLine: 224
+    startLine: 235
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -519,6 +520,38 @@ items:
       description: The column
     content.vb: Public Sub Remove(column As ExcelFilterColumn)
   overload: OfficeOpenXml.Filter.ExcelFilterColumnCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.Filter.ExcelFilterColumnCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelFilterColumnCollection.Clear()
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
+    startLine: 244
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nClear all columns\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1227,3 +1260,8 @@ references:
   name: Remove
   nameWithType: ExcelFilterColumnCollection.Remove
   fullName: OfficeOpenXml.Filter.ExcelFilterColumnCollection.Remove
+- uid: OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear
+  name: Clear
+  nameWithType: ExcelFilterColumnCollection.Clear
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumnCollection.Clear

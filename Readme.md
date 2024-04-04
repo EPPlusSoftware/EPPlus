@@ -1,17 +1,18 @@
 ﻿![Nuget](https://img.shields.io/nuget/v/epplus)
  [![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
-[![Build status](https://ci.appveyor.com/api/projects/status/6jdk5tjxxvx99d5i?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus)
-
-# EPPlus 6
+[![Build status](https://ci.appveyor.com/api/projects/status/fn3lqpxfjff3jq0v?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus7)
+# EPPlus 7
 
 ## Announcement: new license model from version 5
-EPPlus has from version 5 and up changed its license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
+EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
 
-With the Polyform Noncommercial license EPPlus is still free to use in some cases, but will require a commercial license to be used in a commercial business.
+With the new license EPPlus is still free to use in some cases, but will require a commercial license to be used in a commercial business.
 
 This is explained in more detail [here](https://www.epplussoftware.com/Home/LgplToPolyform).
 
-Commercial licenses, which includes support, can be purchased at [EPPlus Software's website](https://www.epplussoftware.com/).
+Commercial licenses, which includes support, can be purchased at (https://www.epplussoftware.com/).
+
+The source code of EPPlus has moved to a [new github repository](https://github.com/EPPlusSoftware/EPPlus)
 
 ## LicenseContext parameter must be set
 With the license change EPPlus has a new parameter that needs to be configured. If the LicenseContext is not set, EPPlus will throw a LicenseException (only in debug mode).
@@ -58,23 +59,28 @@ This might be the easiest way of configuring this. Just as above, set the variab
 
 **Important!** The environment variable should be set at the user or process level.
 
-## New features in EPPlus 6
-EPPlus 6 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
+## New features in EPPlus 7
+* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
+	* Support for calculating legacy / dynamic array formulas.
+	* Support for intersect operator.
+	* Support for implicit intersection.
+	* Support for array parameters in functions.
+	* Better support for using the colon operator with functions.
+	* Better handling of circular references
+	* 90 new functions
+	* Faster optimized calculation engine with configurable expression caching.
+	* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information.
+	* Conditional Formatting improvements
+	* Improved performance, xml is now read and written on load and save.
+	* Cross worksheet support formula support.
+	* Extended styling options for color scales, data bars and icon sets.
 
 ## Breaking Changes
-* All public references to System.Drawing.Common has been removed from EPPlus. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6).
-* Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
-* ...and more, see https://epplussoftware.com/docs/6.0/articles/breakingchanges.html
-### Breaking Changes in version 5.
-* The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
-* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell". 
+See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7
 
 ## Improved documentation
-EPPlus 6 has a new web sample site available here: (https://samples.epplussoftware.com/) ,  Source code is available here: [EPPlus.WebSamples](https://github.com/EPPlusSoftware/EPPlus.WebSamples)
-There is also a new sample project for four different docker images, [EPPlus.DockerSample](https://github.com/EPPlusSoftware/EPPlus.DockerSample)
-EPPlus also has two separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore/tree/version/EPPlus6.0) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework/tree/version/EPPlus6.0) respectively.
+EPPlus 7 has a new web sample site available here: (https://samples.epplussoftware.com/) ,  Source code is available here: [EPPlus.WebSamples](https://github.com/EPPlusSoftware/EPPlus.WebSamples)
+There is also a new sample project for four different docker images, [EPPlus.DockerSample](https://github.com/EPPlusSoftware/EPPlus.DockerSample).  
+EPPlus also has two separate sample projects for [C#](https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp) and [Visual Basic](https://github.com/EPPlusSoftware/EPPlus.Samples.VB/) respectively.  
 There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). 
 The work with improving the documentation will continue, feedback is highly appreciated!
-
-## Nuget feed for latest builds
-The latest builds from the EPPlus develop branch can be fetched from this [Nuget feed](https://ci.appveyor.com/nuget/epplus)

@@ -75,6 +75,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// 
         /// </summary>
         /// <param name="ws">The worksheet</param>
+        /// <param name="ctx">Parsing context</param>
         public RangeInfo(ExcelWorksheet ws, ParsingContext ctx)
         {
             _address = new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.PositionId };
@@ -85,6 +86,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// </summary>
         /// <param name="ws"></param>
         /// <param name="address"></param>
+        /// <param name="ctx">Parsing context</param>
         public RangeInfo(ExcelWorksheet ws, ExcelAddressBase address, ParsingContext ctx=null)
         {
             SetAddress(ws, address, ctx);
@@ -115,7 +117,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         }
 
         /// <summary>
-        /// Returns true if the range represents a reference
+        /// Returns true if the range represents an invalid reference
         /// </summary>
         public bool IsRef
         {

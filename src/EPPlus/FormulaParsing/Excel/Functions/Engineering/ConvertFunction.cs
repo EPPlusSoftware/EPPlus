@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     [FunctionMetadata(
             Category = ExcelFunctionCategory.Engineering,
             EPPlusVersion = "5.1",
-            Description = "Calculates the modified Bessel function Yn(x)")]
+            Description = "Converts a number from one measurement system to another")]
     public class ConvertFunction : ExcelFunction
     {
         public override int ArgumentMinLength => 3;

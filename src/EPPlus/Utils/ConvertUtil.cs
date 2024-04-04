@@ -161,7 +161,7 @@ namespace OfficeOpenXml.Utils
 			result = false;
 			return false;
 		}
-        internal static bool ToBooleanString(string candidateString)
+        internal static bool ToBooleanString(string candidateString, bool defaultValue = false)
         {
             if (!string.IsNullOrEmpty(candidateString))
             {
@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Utils
                     }
                 }
             }
-            return false;
+            return defaultValue;
         }
 
         /// <summary>
@@ -434,24 +434,25 @@ namespace OfficeOpenXml.Utils
             }
 
         }
-        internal static string ExcelEscapeAndEncodeString(string t)
+        internal static string ExcelEscapeAndEncodeString(string t, bool crLfEncode = true)
         {
             if (string.IsNullOrEmpty(t))
             {
                 return t;
             }
-            return ExcelEncodeString(ExcelEscapeString(t));
+            return ExcelEncodeString(ExcelEscapeString(t), crLfEncode);
         }
         /// <summary>
         /// Return true if preserve space attribute is set.
         /// </summary>
         /// <param name="t"></param>
+        /// <param name="crLfEncode"></param>
         /// <returns></returns>
-        internal static string ExcelEncodeString(string t)
+        internal static string ExcelEncodeString(string t, bool crLfEncode=true)
         {
             StringBuilder sb=new StringBuilder();
             t=t.Replace("\r\n", "\n"); //For some reason can't table name have cr in them. Replace with nl
-            ExcelEncodeString(sb, t, true);
+            ExcelEncodeString(sb, t, crLfEncode);
             return sb.ToString();
         }
         internal static string ExcelDecodeString(string t)
