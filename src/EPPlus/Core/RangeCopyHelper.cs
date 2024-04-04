@@ -17,6 +17,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.ThreadedComments;
@@ -48,12 +49,17 @@ namespace OfficeOpenXml.Core
         private readonly ExcelRangeBase _sourceRange;
         private readonly ExcelRangeBase _destination;
         private readonly ExcelRangeCopyOptionFlags _copyOptions;
-        Dictionary<ulong, CopiedCell> _copiedCells=new Dictionary<ulong, CopiedCell>();
+        private readonly bool _sameWorkbook;
+		private ExcelMetadata _sourceMd, _destMd;
+		Dictionary<ulong, CopiedCell> _copiedCells=new Dictionary<ulong, CopiedCell>();
+        int _sourceDaIx = -1;
+        int _destDaIx = -1;
         internal RangeCopyHelper(ExcelRangeBase sourceRange, ExcelRangeBase destination, ExcelRangeCopyOptionFlags copyOptions)
         {
             _sourceRange = sourceRange;
             _destination = destination;
-            _copyOptions = copyOptions;
+			_sameWorkbook = _destination._worksheet.Workbook == _sourceRange._worksheet.Workbook;
+			_copyOptions = copyOptions;
         }
         internal void Copy()
         {
@@ -216,9 +222,8 @@ namespace OfficeOpenXml.Core
             var includeThreadedComments = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeThreadedComments);
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();
-            bool sameWorkbook = _destination._worksheet.Workbook == _sourceRange._worksheet.Workbook;
 
-            AddValuesFormulasAndStyles(worksheet, includeStyles, styleCashe, sameWorkbook);
+            AddValuesFormulasAndStyles(worksheet, includeStyles, styleCashe);
 
             if (includeComments)
             {
@@ -231,13 +236,12 @@ namespace OfficeOpenXml.Core
             }
         }
 
-        private void AddValuesFormulasAndStyles(ExcelWorksheet worksheet, bool includeStyles, Dictionary<int, int> styleCashe, bool sameWorkbook)
+        private void AddValuesFormulasAndStyles(ExcelWorksheet worksheet, bool includeStyles, Dictionary<int, int> styleCashe)
         {
             int styleId = 0;
             object o = null;
             byte flag = 0;
             Uri hl = null;
-
             var includeValues = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeValues);
             var includeFormulas = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeFormulas);
             var includeHyperlinks = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHyperLinks);
@@ -277,7 +281,7 @@ namespace OfficeOpenXml.Core
 
                 if (includeStyles && worksheet.ExistsStyleInner(row, col, ref styleId))
                 {
-                    if (sameWorkbook)
+                    if (_sameWorkbook)
                     {
                         cell.StyleID = styleId;
                     }
@@ -434,11 +438,49 @@ namespace OfficeOpenXml.Core
                 if(EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeFormulas | ExcelRangeCopyOptionFlags.ExcludeValues) &&
                     cell.MetaData.cm > 0 || cell.MetaData.vm > 0)
                 {
-                    _destination._worksheet._metadataStore.SetValue(cell.Row, cell.Column, cell.MetaData);
+					if (_sameWorkbook == false)
+					{
+						CopyMetaDataToNewPackage(cell);
+					}
+					_destination._worksheet._metadataStore.SetValue(cell.Row, cell.Column, cell.MetaData);
                 }
             }
         }
-        private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
+
+		private void CopyMetaDataToNewPackage(CopiedCell cell)
+		{
+            if(cell.MetaData.cm > 0)
+            {
+                if(_sourceDaIx==-1)
+                {
+                    _sourceMd = _sourceRange.Worksheet.Workbook.Metadata;
+					_destMd = _destination.Worksheet.Workbook.Metadata;
+                    _sourceMd.GetDynamicArrayIndex(out _sourceDaIx);
+				}
+
+				var md = cell.MetaData;
+				if (cell.MetaData.cm == _sourceDaIx)
+                {
+                    if(_destDaIx < 0)
+                    {
+						_destMd.GetDynamicArrayIndex(out _destDaIx);
+					}
+                    md.cm = _destDaIx;
+                    cell.MetaData = md;
+				}
+                else
+                {
+					cell.MetaData = default;
+				}
+			}
+            else
+            {
+                //We don't copy value meta data. Errors are handled on save for rich data types like #CALC and #SPILL, via the error values. Rich Data - DataTypes are currently not supported.
+                cell.MetaData = default;
+            }
+		}
+
+		private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
         {
             var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
             var offsetCol = c.Column - cell.Comment.Column;

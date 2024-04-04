@@ -19,7 +19,8 @@ namespace EPPlusTest.Core.Range
             Assert.IsFalse(ExcelAddressUtil.IsValidName("A+1"));   //invalid char
             Assert.IsFalse(ExcelAddressUtil.IsValidName("A%we"));   //Address invalid
             Assert.IsFalse(ExcelAddressUtil.IsValidName("BB73"));   //Address invalid
-            Assert.IsTrue(ExcelAddressUtil.IsValidName("BBBB75"));  //Valid
+			Assert.IsTrue(ExcelAddressUtil.IsValidName("\\tr"));    //Backslash at least three chars
+			Assert.IsTrue(ExcelAddressUtil.IsValidName("BBBB75"));  //Valid
             Assert.IsTrue(ExcelAddressUtil.IsValidName("BB1500005")); //Valid
         }
         [TestMethod]
