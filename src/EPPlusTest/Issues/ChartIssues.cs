@@ -168,5 +168,32 @@ namespace EPPlusTest.Issues
 				SaveWorkbook("s643.xlsx", p);
 			}
 		}
+		[TestMethod]
+		public void i1401()
+		{
+			using (var p = OpenPackage("i1401.xlsx", true))
+			{
+				var chartWorksheet = p.Workbook.Worksheets.Add("Sheet1");
+				LoadTestdata(chartWorksheet);
+				var chart = chartWorksheet.Drawings.AddBarChart("chart1", eBarChartType.ColumnClustered);
+				chart.Series.Add("B1:B100", "A1:A100");
+				chart.SetPosition(1, 10, 12, 0);
+				chart.SetSize(1200, 580);
+				chart.Legend.Remove();
+				chart.Title.Text = "t";
+				chart.Title.Font.Bold = true;
+				chart.Title.Font.UnderLine = OfficeOpenXml.Style.eUnderLineType.Single;
+				chart.Title.Font.Size = 16;
+
+				chart.XAxis.LabelPosition = eTickLabelPosition.NextTo;
+				chart.XAxis.TextBody.WrapText = eTextWrappingType.Square;
+				chart.XAxis.TextBody.Rotation = 45D;
+				chart.DataLabel.ShowValue = true;
+				chart.DataLabel.Position = eLabelPosition.OutEnd;
+				chart.DataLabel.TextBody.Rotation = 45D; //<= This line causes the error.
+			
+				SaveAndCleanup(p);
+			}
+		}
 	}
 }
