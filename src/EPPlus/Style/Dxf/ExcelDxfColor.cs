@@ -168,6 +168,22 @@ namespace OfficeOpenXml.Style.Dxf
             Index = null;
             Auto = true;
         }
+        /// <summary>
+        /// Set the color of the object
+        /// </summary>
+        /// <param name="alpha">Alpha component value</param>
+        /// <param name="red">Red component value</param>
+        /// <param name="green">Green component value</param>
+        /// <param name="blue">Blue component value</param>
+        public void SetColor(int alpha, int red, int green, int blue)
+        {
+            if (alpha < 0 || red < 0 || green < 0 || blue < 0 ||
+               alpha > 255 || red > 255 || green > 255 || blue > 255)
+            {
+                throw (new ArgumentException("Argument range must be from 0 to 255"));
+            }
+            SetColor(System.Drawing.Color.FromArgb(alpha, red, green, blue));
+        }
         internal override void SetStyle()
         {
             if (_callback != null)
