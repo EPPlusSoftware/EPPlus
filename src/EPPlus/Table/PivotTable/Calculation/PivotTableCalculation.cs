@@ -70,9 +70,8 @@ namespace OfficeOpenXml.Table.PivotTable
 			bool hasCf = false;
 			foreach (var df in pivotTable.GetFieldsToCalculate())
             {
-				dfIx++;
 				var dataFieldItems = new PivotCalculationStore();
-				calculatedItems.Add(new PivotCalculationStore());
+				calculatedItems.Add(dataFieldItems);
 				var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
 				keys.Add(keyDict);
 				if (string.IsNullOrEmpty(df.Field.CacheField.Formula))
@@ -89,9 +88,10 @@ namespace OfficeOpenXml.Table.PivotTable
 				{
 					hasCf=true;
 				}
-            }
-			
-			if(hasCf)
+				dfIx++;
+			}
+
+			if (hasCf)
 			{
 				CalculateSourceFields(pivotTable);
 				var ptCalc = new PivotTableColumnCalculation(pivotTable);
@@ -177,8 +177,8 @@ namespace OfficeOpenXml.Table.PivotTable
 				}
 
 				if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
-					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false) ||
-					(slicerFields.Count > 0 && PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields))
+					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false) &&
+					(slicerFields.Count == 0 || PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields)==false)
 					)
 				{
 					var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[index][r]] : recs.CacheItems[index][r];

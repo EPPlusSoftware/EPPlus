@@ -36,13 +36,23 @@ namespace OfficeOpenXml.Table.PivotTable
     /// <summary>
     /// Represents a null value in a pivot table caches shared items list.
     /// </summary>
-    public struct PivotNull
-    {
+    public struct PivotNull : IEqualityComparer<PivotNull>
+	{
+		public new bool Equals(PivotNull x, PivotNull y)
+		{
+            return true;
+		}
+
+		public int GetHashCode(PivotNull obj)
+		{
+			return 0;
+		}
+
 		/// <summary>
-        /// Return the string representation of the pivot null value
-        /// </summary>
-        /// <returns>An empty string</returns>
-        public override string ToString()
+		/// Return the string representation of the pivot null value
+		/// </summary>
+		/// <returns>An empty string</returns>
+		public override string ToString()
 		{
 			return "";
 		}
@@ -386,41 +396,45 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return value;
             }
-            if(hasGrouping)
-            {
-                if(GroupExists(key, keyFieldIndex, dfIx)==false)
-                {
-                    return ErrorValues.RefError;
 
-				}
-            }
-            return 0D;
-		}
-		private bool GroupExists(int[] key, List<int> keyFieldIndex, int dfIx)
-		{
-			for(int ix=0;ix<keyFieldIndex.Count;ix++)
+            if(ExistsValueInTable(key, keyFieldIndex, dfIx))
             {
-                if (Fields[keyFieldIndex[ix]].Grouping!=null)
+				return 0D;
+			}
+			return ErrorValues.RefError;
+		}
+		private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx)
+		{
+            //bool hasRowCol = false;
+            var groupKey = new int[keyFieldIndex.Count];
+			for (int ix=0;ix<keyFieldIndex.Count;ix++)
+            {
+                if (Fields[keyFieldIndex[ix]].Grouping==null)
                 {
+					groupKey[ix] = PivotCalculationStore.SumLevelValue;
                     var totalKey = new int[keyFieldIndex.Count];
-                    for(int i=0;i< keyFieldIndex.Count;i++)
+                    for (int i = 0; i < keyFieldIndex.Count; i++)
                     {
                         if (i == ix)
                         {
                             totalKey[i] = key[i];
-						}
+                        }
                         else
                         {
-							totalKey[i] = PivotCalculationStore.SumLevelValue;
-						}
-					}
-                    if (Keys[dfIx].ContainsKey(totalKey)==false)
+                            totalKey[i] = PivotCalculationStore.SumLevelValue;
+                        }
+                    }
+                    if (Keys[dfIx].ContainsKey(totalKey) == false)
                     {
                         return false;
                     }
                 }
-            }
-            return true;
+                else
+                {
+					groupKey[ix] = key[ix];
+				}
+			}
+            return Keys[dfIx].ContainsKey(groupKey);
 		}
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)

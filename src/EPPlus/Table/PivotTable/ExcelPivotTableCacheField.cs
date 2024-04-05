@@ -1059,15 +1059,16 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         public new bool Equals(object x, object y)
         {
-            x = GetCaseInsensitiveValue(x);
+			x = GetCaseInsensitiveValue(x);
             y = GetCaseInsensitiveValue(y);
+			return x.Equals(y);           
+		}
 
-            return x.Equals(y);
-        }
-
-        private static string GetCaseInsensitiveValue(object x)
+        private static object GetCaseInsensitiveValue(object x)
         {
-            if (x is string sx)
+            if (x == null || x.Equals(ExcelPivotTable.PivotNullValue)) return ExcelPivotTable.PivotNullValue;
+
+			if (x is string sx)
             {
 				return sx.ToLower();
 			}
@@ -1075,7 +1076,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return char.ToLower(cx).ToString();
             }
-            if(ConvertUtil.IsNumericOrDate(x))
+            if(ConvertUtil.IsExcelNumeric(x))
             {
                 return ConvertUtil.GetValueDouble(x).ToString(CultureInfo.InvariantCulture);
             }

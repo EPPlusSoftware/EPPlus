@@ -95,7 +95,15 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
 
 		internal static bool IsHiddenBySlicer(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r, List<ExcelPivotTableField> slicerFields)
 		{
-			throw new NotImplementedException();
+			foreach (var f in slicerFields)
+            {
+				var itemIx = recs.CacheItems[f.Index][r];
+				if (f.Items.HiddenItemIndex.Exists(x => x.Equals(itemIx)))
+				{
+					return true; //The item is hidden
+				}
+			}
+			return false;
 		}
 	}
 }
