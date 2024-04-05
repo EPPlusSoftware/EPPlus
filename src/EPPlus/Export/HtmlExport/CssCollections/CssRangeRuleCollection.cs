@@ -26,6 +26,7 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
@@ -191,7 +192,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
         internal void AddAdvancedCF(int cssOrder, ExcelConditionalFormattingThreeIconSet set, int id)
         {
-            var ruleName = $".{_settings.StyleClassPrefix}{_settings.CellStyleClassName}cf{id}";
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}cf{id}";
             var cfClass = new CssRule(ruleName, cssOrder);
 
             var cfCss = CF_Icons.GetIconSvg(eExcelconditionalFormattingCustomIcon.RedCircle);

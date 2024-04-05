@@ -222,9 +222,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.DataBar:
                             break;
                         case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                            if (!_exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId) || _addedToCssDxf.Contains(cfId) == false)
+
+                            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId);
+                            var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
+
+                            if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
                             {
                                 cssTranslator.AddAdvancedCF(OrderDefaultDxf + cf.Value.Priority, (ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cfId);
+                                _addedToCssDxf.Add(cfId);
                             }
                             break;
                         default:
