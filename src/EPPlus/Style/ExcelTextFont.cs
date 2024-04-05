@@ -103,7 +103,7 @@ namespace OfficeOpenXml.Style
                 _initXml?.Invoke();
                 CreateNode(_path);
                 TopNode = _rootNode.SelectSingleNode(_path, NameSpaceManager);
-                CreateNode("../../../a:bodyPr");
+                CreateNode("../../../a:bodyPr") ;
                 CreateNode("../../../a:lstStyle");
             }
             else if (TopNode.ParentNode?.ParentNode?.ParentNode?.LocalName == "rich")
