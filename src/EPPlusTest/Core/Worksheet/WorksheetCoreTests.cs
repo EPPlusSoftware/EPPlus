@@ -28,6 +28,7 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using System.Drawing;
 
 namespace EPPlusTest.Core.Worksheet
 {
@@ -89,29 +90,11 @@ namespace EPPlusTest.Core.Worksheet
                 var ws = p.Workbook.Worksheets.Add("RichTextOverwriteValue");
 
                 ws.Cells["A1:B2"].RichText.Add("RichText");
-
-                ws.Cells["A1"].Value = "Text";
-                ws.Cells["B2"].Value = "Text";
-                Assert.IsFalse(ws.Cells["A1"].IsRichText);
-                Assert.IsTrue(ws.Cells["A2"].IsRichText);
-                Assert.IsTrue(ws.Cells["B1"].IsRichText);
-                Assert.IsFalse(ws.Cells["B2"].IsRichText);
-            }
-        }
-
-        [TestMethod]
-        public void RichTextFlagShouldBeCleanedWhenOverwritingValueAddress()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("RichTextOverwriteAddress");
-
-                ws.Cells["A1:B2"].RichText.Add("RichText");
                 Assert.IsTrue(ws.Cells["A1"].IsRichText);
-                Assert.IsTrue(ws.Cells["B2"].IsRichText);
-
-                ws.Cells["A1:B2"].Value = "Text";
+                ws.Cells["A1"].Value = "Text";
                 Assert.IsFalse(ws.Cells["A1"].IsRichText);
+                Assert.IsFalse(ws.Cells["A2"].IsRichText);
+                Assert.IsFalse(ws.Cells["B1"].IsRichText);
                 Assert.IsFalse(ws.Cells["B2"].IsRichText);
             }
         }
@@ -125,16 +108,30 @@ namespace EPPlusTest.Core.Worksheet
 
                 ws.Cells["A1:C3"].RichText.Add("RichText");
                 Assert.IsTrue(ws.Cells["A1"].IsRichText);
-                Assert.IsTrue(ws.Cells["B2"].IsRichText);
+                Assert.IsFalse(ws.Cells["B2"].IsRichText);
 
                 ws.Cells["A1:B2"].Value = new string[,] { { "Text", "Text" }, { "Text", "Text" } };
                 Assert.IsFalse(ws.Cells["A1"].IsRichText);
                 Assert.IsFalse(ws.Cells["B2"].IsRichText);
-                Assert.IsTrue(ws.Cells["C1"].IsRichText);
-                Assert.IsTrue(ws.Cells["C3"].IsRichText);
-                Assert.IsTrue(ws.Cells["A3"].IsRichText);
             }
         }
+
+        [TestMethod]
+        public void RichTextColorSettingsShouldUseDifferentInstances()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var rt = ws.Cells["A1"].RichText;
+                var rt1 = rt.Add("No1");
+                var rt2 = rt.Add("No2");
+                rt2.Color = Color.Red;
+                Assert.AreEqual(rt1.Color, Color.Empty);
+                Assert.AreEqual(rt2.Color, Color.Red);
+            }
+        }
+
         [TestMethod]
         public void FormulaShouldBeCleanedWhenOverwritingWithArray()
         {

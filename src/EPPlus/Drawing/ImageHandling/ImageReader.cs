@@ -256,7 +256,7 @@ namespace OfficeOpenXml.Drawing
                     while (ms.Position < ms.Length)
                     {
                         var id = GetUInt16BigEndian(br);
-                        var length = (int)GetInt16BigEndian(br);
+                        var length = (int)GetUInt16BigEndian(br);
                         switch (id)
                         {
                             case 0xFFE0:
