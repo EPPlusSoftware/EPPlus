@@ -171,7 +171,7 @@ namespace OfficeOpenXml.Style
                 rt.FontName = prevRT.FontName;
                 rt.Charset = prevRT.Charset;
                 rt.Family = prevRT.Family;
-                rt.ColorSettings = prevRT.ColorSettings;
+                rt.ColorSettings = prevRT.ColorSettings.Clone();
                 rt.PreserveSpace = prevRT.PreserveSpace;
             }
             else if(_cells == null)
@@ -197,8 +197,8 @@ namespace OfficeOpenXml.Style
                 }
                 if (_isComment == false)
                 {
-                    _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._toCol, true, CellFlags.RichText);
-                    _cells.SetIsRichTextFlag(true);
+                    _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
+                    //_cells.SetIsRichTextFlag(true);
                 }
             }
             _list.Insert(index, rt);

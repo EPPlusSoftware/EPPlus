@@ -68,5 +68,17 @@ namespace OfficeOpenXml.Style
         /// A negative value means not set.
         /// </summary>
         public int? Indexed { get; set; }
+
+        internal ExcelRichTextColor Clone()
+        {
+            return new ExcelRichTextColor
+            {
+                Rgb = this.Rgb,
+                Theme = this.Theme,
+                Tint = this.Tint,
+                Auto = this.Auto,
+                Indexed = this.Indexed
+            };
+        }
     }
 }
