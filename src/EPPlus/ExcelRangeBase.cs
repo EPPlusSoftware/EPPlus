@@ -1279,7 +1279,13 @@ namespace OfficeOpenXml
             get
             {
                 IsRangeValid("richtext");
-                return _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
+                var isRt = _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
+                if (isRt)
+                {
+					_rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    return _rtc.Count>0;
+				}
+				return isRt;
             }
             set
             {
