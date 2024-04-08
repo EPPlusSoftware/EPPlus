@@ -196,7 +196,8 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             var cfClass = new CssRule(ruleName, cssOrder);
 
             var cfCss = CF_Icons.GetIconSvg(eExcelconditionalFormattingCustomIcon.RedCircle);
-            cfClass.AddDeclaration("margin-top", $"0.5%; {cfCss}");
+            cfClass.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
+            cfClass.AddDeclaration("height", $"100%");
 
             _ruleCollection.CssRules.Add(cfClass);
         }

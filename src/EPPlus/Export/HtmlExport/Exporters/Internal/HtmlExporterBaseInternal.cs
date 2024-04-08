@@ -129,34 +129,41 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                     SetColRowSpan(range, th, cell);
 
+                    HTMLElement contentElement;
+
                     if (Settings.IncludeCssClassNames)
                     {
-                        GetClassData(th, true, image, cell, Settings, _exporterContext, true);
+                        GetClassData(th, true, image, cell, Settings, _exporterContext, out contentElement, true);
+                    }
+                    else
+                    {
+                        contentElement = th;
                     }
 
-                    AddTableData(table, th, col);
+
+                    AddTableData(table, contentElement, col);
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
-                    AddImage(th, Settings, image, cell.Value);
+                    AddImage(contentElement, Settings, image, cell.Value);
 
                     if (headerRows > 0 || table != null)
                     {
                         if (cell.Hyperlink == null)
                         {
-                            th.Content = GetCellText(cell, Settings);
+                            contentElement.Content = GetCellText(cell, Settings);
                         }
                         else
                         {
-                            AddHyperlink(th, cell, Settings);
+                            AddHyperlink(contentElement, cell, Settings);
                         }
                     }
                     else if (headers.Count < col)
                     {
-                        th.Content = headers[col];
+                        contentElement.Content = headers[col];
                     }
 
                     rowElement.AddChildElement(th);
@@ -269,10 +276,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     }
                     else
                     {
-                        GetClassData(tblData, table != null, image, cell, Settings, _exporterContext);
+                        GetClassData(tblData, table != null, image, cell, Settings, _exporterContext, out HTMLElement contentElement);
 
-                        AddImage(tblData, Settings, image, cell.Value);
-                        AddHyperlink(tblData, cell, Settings);
+                        AddImage(contentElement, Settings, image, cell.Value);
+                        AddHyperlink(contentElement, cell, Settings);
                     }
                     tr.AddChildElement(tblData);
                 }
@@ -603,11 +610,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
         }
 
-        internal void GetClassData(HTMLElement element, bool isTable, HtmlImage image, ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext content, bool isHeader = false)
+        internal void GetClassData(HTMLElement element, bool isTable, HtmlImage image, ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext content, out HTMLElement valueElement, bool isHeader = false)
         {
             var imageCellClassName = GetImageCellClassName(image, Settings, isTable);
             var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, isHeader, settings, imageCellClassName, content);
-            var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(cell, settings, content, ref classString);
+            var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(cell, settings, content, ref classString, element, out HTMLElement contentElement);
+
+            valueElement = contentElement;
 
             if (!string.IsNullOrEmpty(classString))
             {
@@ -648,16 +657,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
             }
 
-            GetClassData(element, true, image, cell, settings, content);
+            GetClassData(element, true, image, cell, settings, content, out HTMLElement contentElement);
 
-            AddImage(element, settings, image, cell.Value);
+            AddImage(contentElement, settings, image, cell.Value);
             if (cell.IsRichText)
             {
-                element.Content = cell.RichText.HtmlText;
+                contentElement.Content = cell.RichText.HtmlText;
             }
             else
             {
-                element.Content = ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
+                contentElement.Content = ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
             }
         }
     }

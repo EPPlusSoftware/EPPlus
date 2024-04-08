@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             return cls;
         }
 
-        internal static List<string> GetConditionalFormattings(ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext context, ref string cls)
+        internal static List<string> GetConditionalFormattings(ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext context, ref string cls, HTMLElement element, out HTMLElement contentElement)
         {
             string inlineStyles = "";
             string extras = "";
@@ -112,6 +112,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             var styleClassPrefix = settings.StyleClassPrefix;
             var dxfStyleCache = context._dxfStyleCache;
 
+            contentElement = element;
 
             if (settings.RenderConditionalFormattings)
             {
@@ -136,9 +137,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 inlineStyles += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                                 break;
                             case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                //var test = ((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value);
-                                //test.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircleWithBorder;
-                                //extras += CF_Icons.GetIconSvgUnConvertedString(test.Icon1.CustomIcon.Value);
+                                var childDiv = new HTMLElement("div");
+                                element.AddChildElement(childDiv);
+
                                 dxfKey = cfItems[i].Value.Uid;
 
                                 if (dxfStyleCache.ContainsKey(dxfKey))
@@ -151,7 +152,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                     dxfStyleCache.Add(dxfKey, dxfId);
                                 }
 
-                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
+                                childDiv.AddAttribute("class", $"{styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}");
+
+                                contentElement = childDiv;
+                                inlineStyles += "height: 100%;";
+                                //cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 break;

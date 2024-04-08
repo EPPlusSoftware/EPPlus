@@ -222,7 +222,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.DataBar:
                             break;
                         case eExcelConditionalFormattingRuleType.ThreeIconSet:
-
                             var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId);
                             var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
 
