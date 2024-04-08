@@ -305,7 +305,7 @@ namespace EPPlusTest.LoadFunctions
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
-            _formatFixed.ReadStartPosition = FixedWidthReadType.Positions;
+            _formatFixed.ReadType = FixedWidthReadType.Positions;
             int[] arr = { 0, 8, 13, 24, 37, 69, 75, 81, 91, 95, 115, 135 };
             _formatFixed.SetColumns(FixedWidthReadType.Positions, arr );
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
@@ -343,7 +343,7 @@ namespace EPPlusTest.LoadFunctions
                 //Read positions
                 var ws2 = p.Workbook.Worksheets.Add("POSITION");
                 ExcelTextFormatFixedWidth fw2 = new ExcelTextFormatFixedWidth();
-                fw2.ReadStartPosition = FixedWidthReadType.Positions;
+                fw2.ReadType = FixedWidthReadType.Positions;
                 fw2.SetColumnPositions( 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 );
                 fw2.SkipLinesBeginning = 1;
                 fw2.ShouldUseRow = row =>
@@ -370,7 +370,7 @@ namespace EPPlusTest.LoadFunctions
                 //Read positions 3 cols
                 var ws4 = p.Workbook.Worksheets.Add("POSITION2");
                 ExcelTextFormatFixedWidth fw4 = new ExcelTextFormatFixedWidth();
-                fw4.ReadStartPosition = FixedWidthReadType.Positions;
+                fw4.ReadType = FixedWidthReadType.Positions;
                 fw4.SetColumnPositions( 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 );
                 fw4.SetUseColumns( false, false, true, true, false, false, false, false, false, true, true, false );
                 fw4.SkipLinesBeginning = 1;
@@ -417,11 +417,15 @@ namespace EPPlusTest.LoadFunctions
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                format.SetColumnPositions(0, 16, 26, 42, 50);
+                format.ReadType = FixedWidthReadType.Positions;
                 format.SetColumnLengths(16, 10, 16, 8, 2);
+                format.SetColumnPaddingAlignmentType(PaddingAlignmentType.Left, PaddingAlignmentType.Auto, PaddingAlignmentType.Right, PaddingAlignmentType.Right, PaddingAlignmentType.Auto);
+                format.SetColumnDataTypes(eDataTypes.String, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.Percent, eDataTypes.String);
                 ws.Cells["A1"].LoadFromText(myFile, format);
                 
-                Assert.AreEqual("Name", ws.Cells["A1"].Value);
-                Assert.AreEqual("A", ws.Cells["E2"].Value);
+                Assert.AreEqual("David", ws.Cells["A2"].Value);
+                Assert.AreEqual("C", ws.Cells["E6"].Value);
             }
 
         }

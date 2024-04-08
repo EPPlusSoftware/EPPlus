@@ -61,7 +61,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Set if we should read fixed width files from column widths or positions. Default is widths
         /// </summary>
-        public FixedWidthReadType ReadStartPosition { get; set; } = FixedWidthReadType.Length;
+        public FixedWidthReadType ReadType { get; set; } = FixedWidthReadType.Length;
 
         int _lineLength;
         int _lastPosition;
@@ -122,7 +122,7 @@ namespace OfficeOpenXml
                     _lastPosition = column;
                 }
             }
-            ReadStartPosition = readType;
+            ReadType = readType;
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace OfficeOpenXml
         /// Set the padding type for each column. 
         /// </summary>
         /// <param name="paddingTypes"></param>
-        public void SetColumnPaddingType(params int[] paddingTypes)
+        public void SetColumnPaddingAlignmentType(params PaddingAlignmentType[] paddingTypes)
         {
             int i = 0;
             foreach (PaddingAlignmentType paddingType in paddingTypes)

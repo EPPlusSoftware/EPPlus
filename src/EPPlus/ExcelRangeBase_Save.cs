@@ -280,11 +280,11 @@ namespace OfficeOpenXml
                     {
                         string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
                         var padding = 0;
-                        if (Format.ReadStartPosition == FixedWidthReadType.Length)
+                        if (Format.ReadType == FixedWidthReadType.Length)
                         {
                             padding = Format.ColumnFormat[ix].Length - t.Length;
                         }
-                        else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
+                        else if (Format.ReadType == FixedWidthReadType.Positions)
                         {
                             if (ix+1 < Format.ColumnFormat.Count)
                             {
@@ -321,11 +321,11 @@ namespace OfficeOpenXml
                         {
                             if (Format.ForceWrite)
                             {
-                                if (Format.ReadStartPosition == FixedWidthReadType.Length)
+                                if (Format.ReadType == FixedWidthReadType.Length)
                                 {
                                     t = t.Substring(0, Format.ColumnFormat[ix].Length);
                                 }
-                                else if (Format.ReadStartPosition == FixedWidthReadType.Positions)
+                                else if (Format.ReadType == FixedWidthReadType.Positions)
                                 {
                                     if(Format.ColumnFormat[ix].Length > 0)
                                     {
@@ -342,7 +342,7 @@ namespace OfficeOpenXml
                                 throw new FormatException("String was " + t.Length + ", Expected length of " + Format.ColumnFormat[ix].Length);
                             }
                         }
-                        if (Format.ReadStartPosition == FixedWidthReadType.Positions && Format.ForceWrite)
+                        if (Format.ReadType == FixedWidthReadType.Positions && Format.ForceWrite)
                         {
                             fc = fc.Substring(0, Format.ColumnFormat[ix].Position);
                         }

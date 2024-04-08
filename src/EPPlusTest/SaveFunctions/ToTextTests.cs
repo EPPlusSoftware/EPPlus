@@ -312,7 +312,7 @@ namespace EPPlusTest.SaveFunctions
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.SetColumns(FixedWidthReadType.Positions, 0, 3);
             format.ForceWrite = true;
-            format.ReadStartPosition = FixedWidthReadType.Positions;
+            format.ReadType = FixedWidthReadType.Positions;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  12" + format.EOL + "thi5" + format.EOL, text);
         }

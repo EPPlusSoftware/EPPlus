@@ -34,7 +34,7 @@ namespace OfficeOpenXml.LoadFunctions
                 return r;
             }
 
-            if (_format.ReadStartPosition == FixedWidthReadType.Length)
+            if (_format.ReadType == FixedWidthReadType.Length)
             {
                 return LoadWidths();
             }
