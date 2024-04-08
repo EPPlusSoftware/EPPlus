@@ -1,31 +1,16 @@
-/*******************************************************************************
- * You may amend and distribute as you like, but don't remove this header!
- *
- * Required Notice: Copyright (C) EPPlus Software AB. 
- * https://epplussoftware.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
- * See the GNU Lesser General Public License for more details.
- *
- * The GNU Lesser General Public License can be viewed at http://www.opensource.org/licenses/lgpl-license.php
- * If you unfamiliar with this license or have questions about it, here is an http://www.gnu.org/licenses/gpl-faq.html
- *
- * All code and executables are provided "" as is "" with no warranty either express or implied. 
- * The author accepts no liability for any damage or loss of business that this product may cause.
- *
- * Code change notes:
- * 
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
   Date               Author                       Change
- *******************************************************************************
+ *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *******************************************************************************/
+  07/07/2023         EPPlus Software AB       Epplus 7
+ *************************************************************************************************/
 using System;
 using System.Text;
 using System.Collections.Generic;

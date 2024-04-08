@@ -117,6 +117,13 @@ namespace OfficeOpenXml.Style
                 }
             }
         }
+
+        //public void SetBackgroundAndPatternColor(Color bgColor, Color fgColor)
+        //{
+        //    PatternColor.SetColor(bgColor);
+        //    BackgroundColor.SetColor(fgColor);
+        //}
+
         /// <summary>
         /// Set the background to a specific color and fillstyle
         /// </summary>

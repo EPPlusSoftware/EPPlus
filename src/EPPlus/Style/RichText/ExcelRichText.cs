@@ -71,6 +71,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+
                 UnderLineType = value ? ExcelUnderLineType.Single : ExcelUnderLineType.None;
             }
         }
@@ -89,7 +90,6 @@ namespace OfficeOpenXml.Style
         /// Name of the font
         /// </summary>
         public string FontName { get; set; } = "";
-
 
         /// <summary>
         /// Text color.
@@ -195,9 +195,9 @@ namespace OfficeOpenXml.Style
 
         internal ExcelRichText(string text, ExcelRichTextCollection collection)
         {
-            Text = text;
-            ColorSettings = new ExcelRichTextColor();
             _collection = collection;
+            ColorSettings = new ExcelRichTextColor();
+            Text = text;
         }
 
         internal ExcelRichText(XmlReader xr, ExcelRichTextCollection collection)
@@ -219,6 +219,7 @@ namespace OfficeOpenXml.Style
 
         internal ExcelRichText(ExcelRichText rt, ExcelRichTextCollection collection)
         {
+            _collection = collection;
             Text = rt.Text;
             Bold = rt.Bold;
             Italic = rt.Italic;
@@ -237,7 +238,6 @@ namespace OfficeOpenXml.Style
             Charset = rt.Charset;
             Family = rt.Family;
             UnderLineType = rt.UnderLineType;
-            _collection = collection;
         }
 
         /// <summary>
@@ -448,7 +448,7 @@ namespace OfficeOpenXml.Style
                     {
                         sb.Append($"<strike/>");
                     }
-                    if (Color != Color.Empty)
+                    if (ColorSettings.HasAttributes)
                     {
                         WriteRichTextColorAttributes(sb);
                     }

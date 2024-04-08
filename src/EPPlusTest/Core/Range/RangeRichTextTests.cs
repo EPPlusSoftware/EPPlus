@@ -183,8 +183,18 @@ namespace EPPlusTest.Core.Range
 
             Thread.CurrentThread.CurrentCulture = ci;
         }
-
         [TestMethod]
+        public void VerifyRichTextIsBlankIfAccess()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var t = ws.Cells["A1"].RichText.Text;
+
+                Assert.AreEqual(string.Empty, ws.Cells["A1"].Value);
+			}
+        }
+		[TestMethod]
         public void ValidateRichText_TextIsReflectedOnRemove()
         {
             var package = new OfficeOpenXml.ExcelPackage();

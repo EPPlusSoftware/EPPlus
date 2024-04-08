@@ -198,5 +198,30 @@ namespace EPPlusTest.Style
                 Assert.AreNotEqual(p.Workbook.Worksheets[0].Cells["A18"].RichText.Text, ws.Cells["A18"].RichText.Text);
             }
         }
+
+        [TestMethod]
+        public void RichTextWorkSheetCopy2()
+        {
+            using (var p = OpenPackage("RichTextTestFailedStyff.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Statistics for ";
+                using (ExcelRange r = ws.Cells["A1:O1"])
+                {
+                    r.Merge = true;
+                    r.Style.Font.SetFromFont("Arial", 22);
+                    r.Style.Font.Color.SetColor(Color.White);
+                    r.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous;
+                    r.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    r.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(23, 55, 93));
+                }
+
+                //Use the RichText property to change the font for the directory part of the cell
+                var rtDir = ws.Cells["A1"].RichText.Add("C:\\temp");
+                rtDir.FontName = "Consolas";
+                rtDir.Size = 18;
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

@@ -89,7 +89,10 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             if (_cssSettings.IncludeSharedClasses == false) return;
 
             //Css reset. Different browsers have different default values.
-            _ruleCollection.AddRule("* ", "margin", "0; padding:0");
+            if(_cssSettings.IncludeCssReset)
+            {
+                _ruleCollection.AddRule("* ", "margin", "0; padding:0");
+            }
 
             AddTableRule(tableClass);
 

@@ -23,11 +23,13 @@ namespace OfficeOpenXml.Drawing
     public class ExcelTextBody : XmlHelper
     {
         private readonly string _path;
-        internal ExcelTextBody(XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null) :
+        private readonly Action _initXml;
+        internal ExcelTextBody(XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null, Action initXml=null) :
             base(ns, topNode)   
         {
             _path = path;
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
+			_initXml = initXml;
+			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
         /// <summary>
         /// The anchoring position within the shape
@@ -40,7 +42,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeString($"{_path}/@anchor", value.TranslateTextAchoringText());
+                _initXml?.Invoke();
+				SetXmlNodeString($"{_path}/@anchor", value.TranslateTextAchoringText());
             }
         }
         /// <summary>
@@ -54,7 +57,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeBool($"{_path}/@anchorCtr", value, false);
+				_initXml?.Invoke();
+				SetXmlNodeBool($"{_path}/@anchorCtr", value, false);
             }
         }
         /// <summary>
@@ -74,7 +78,8 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    SetXmlNodeString($"{_path}/@u", value.TranslateUnderlineText());
+					_initXml?.Invoke();
+					SetXmlNodeString($"{_path}/@u", value.TranslateUnderlineText());
                 }
             }
         }
@@ -89,7 +94,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeEmuToPt($"{_path}/@bIns", value);
+				_initXml?.Invoke();
+				SetXmlNodeEmuToPt($"{_path}/@bIns", value);
             }
         }
         /// <summary>
@@ -103,7 +109,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeEmuToPt($"{_path}/@tIns", value);
+				_initXml?.Invoke();
+				SetXmlNodeEmuToPt($"{_path}/@tIns", value);
             }
         }
         /// <summary>
@@ -117,7 +124,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeEmuToPt($"{_path}/@rIns", value);
+				_initXml?.Invoke();
+				SetXmlNodeEmuToPt($"{_path}/@rIns", value);
             }
         }
         /// <summary>
@@ -131,7 +139,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeEmuToPt($"{_path}/@lIns", value);
+				_initXml?.Invoke();
+				SetXmlNodeEmuToPt($"{_path}/@lIns", value);
             }
         }
         /// <summary>
@@ -145,7 +154,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeAngel($"{_path}/@rot", value, "Rotation", -100000, 100000);
+				_initXml?.Invoke();
+				SetXmlNodeAngel($"{_path}/@rot", value, "Rotation", -100000, 100000);
             }
         }
         /// <summary>
@@ -160,7 +170,8 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 if (value < 0) throw new ArgumentOutOfRangeException("SpaceBetweenColumns", "Can't be negative");
-                SetXmlNodeEmuToPt($"{_path}/@spcCol", value);
+				_initXml?.Invoke();
+				SetXmlNodeEmuToPt($"{_path}/@spcCol", value);
             }
         }
 
@@ -175,7 +186,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeBool($"{_path}/@spcFirstLastPara", value);
+				_initXml?.Invoke();
+				SetXmlNodeBool($"{_path}/@spcFirstLastPara", value);
             }
         }
         /// <summary>
@@ -189,7 +201,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeBool($"{_path}/@upright", value);
+				_initXml?.Invoke();
+				SetXmlNodeBool($"{_path}/@upright", value);
             }
         }
         /// <summary>
@@ -203,7 +216,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeBool($"{_path}/@compatLnSpc", value);
+				_initXml?.Invoke();
+				SetXmlNodeBool($"{_path}/@compatLnSpc", value);
             }
         }
         /// <summary>
@@ -217,7 +231,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeBool($"{_path}/@forceAA", value);
+				_initXml?.Invoke();
+				SetXmlNodeBool($"{_path}/@forceAA", value);
             }
         }
         /// <summary>
@@ -231,7 +246,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeBool($"{_path}/@fromWordArt", value);
+				_initXml?.Invoke();
+				SetXmlNodeBool($"{_path}/@fromWordArt", value);
             }
         }
         /// <summary>
@@ -245,7 +261,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeString($"{_path}/@vert", value.TranslateTextVerticalText());
+				_initXml?.Invoke();
+				SetXmlNodeString($"{_path}/@vert", value.TranslateTextVerticalText());
             }
         }
         /// <summary>
@@ -259,7 +276,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeString($"{_path}/@horzOverflow", value.ToEnumString());
+				_initXml?.Invoke();
+				SetXmlNodeString($"{_path}/@horzOverflow", value.ToEnumString());
             }
         }
 
@@ -274,7 +292,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeString($"{_path}/@vertOverflow", value.ToEnumString());
+				_initXml?.Invoke();
+				SetXmlNodeString($"{_path}/@vertOverflow", value.ToEnumString());
             }
         }
         /// <summary>
@@ -288,7 +307,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeString($"{_path}/@wrap", value.ToEnumString());
+				_initXml?.Invoke();
+				SetXmlNodeString($"{_path}/@wrap", value.ToEnumString());
             }
         }
         /// <summary>
@@ -313,7 +333,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                switch (value)
+				_initXml?.Invoke();
+				switch (value)
                 {
                     case eTextAutofit.NormalAutofit:
                         if (value == TextAutofit) return;
@@ -347,7 +368,8 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 if (TextAutofit != eTextAutofit.NormalAutofit) throw new ArgumentException("AutofitNormalFontScale", "TextAutofit must be set to NormalAutofit to use set this property");
-                SetXmlNodePercentage($"{_path}/a:normAutofit/@fontScale", value, false);
+				_initXml?.Invoke();
+				SetXmlNodePercentage($"{_path}/a:normAutofit/@fontScale", value, false);
             }
         }
         /// <summary>
@@ -363,7 +385,8 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 if (TextAutofit != eTextAutofit.NormalAutofit) throw new ArgumentException("LineSpaceReduction", "TextAutofit must be set to NormalAutofit to use set this property");
-                SetXmlNodePercentage($"{_path}/a:normAutofit/@lnSpcReduction", value, false);
+				_initXml?.Invoke();
+				SetXmlNodePercentage($"{_path}/a:normAutofit/@lnSpcReduction", value, false);
             }
         }
         internal XmlElement PathElement
