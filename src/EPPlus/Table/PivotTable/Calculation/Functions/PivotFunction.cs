@@ -282,9 +282,10 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
         }
-        protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action)
-        {
-			int max = 1 << key.Length;
+        protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, )
+        {			
+            //TODO: Check if field should be aggregated
+            int max = 1 << key.Length;
 			for (int i = 1; i < max; i++)
 			{
 				var newKey = GetKey(key, i);

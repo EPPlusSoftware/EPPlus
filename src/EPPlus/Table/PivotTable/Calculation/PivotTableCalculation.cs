@@ -97,7 +97,6 @@ namespace OfficeOpenXml.Table.PivotTable
 				var ptCalc = new PivotTableColumnCalculation(pivotTable);
 				ptCalc.CalculateFormulaFields(fieldIndex);
 			}
-			
 			return true;
         }
 

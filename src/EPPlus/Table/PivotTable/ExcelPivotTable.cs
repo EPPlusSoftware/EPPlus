@@ -30,6 +30,7 @@ using OfficeOpenXml.Table.PivotTable.Filter;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -336,7 +337,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             var keyFieldIndex = RowColumnFieldIndicies;
             var key=new int[keyFieldIndex.Count];
-            var hasGrouping = false;
+            //var hasGrouping = false;
             for (int i=0;i < keyFieldIndex.Count;i++)
             {
                 key[i] = PivotCalculationStore.SumLevelValue;
@@ -355,7 +356,7 @@ namespace OfficeOpenXml.Table.PivotTable
                             {
                                 return errorValue;
                             }
-                            hasGrouping = true;
+                            //hasGrouping = true;
 						}
 						else
                         {
@@ -397,44 +398,58 @@ namespace OfficeOpenXml.Table.PivotTable
                 return value;
             }
 
-            if(ExistsValueInTable(key, keyFieldIndex, dfIx))
+            if(ExistsValueInTable(key, keyFieldIndex, dfIx, dataField.Field.PivotTable.RowFields.Count))
             {
 				return 0D;
 			}
 			return ErrorValues.RefError;
 		}
-		private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx)
+		private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx, int colFieldStart)
 		{
-            //bool hasRowCol = false;
-            var groupKey = new int[keyFieldIndex.Count];
-			for (int ix=0;ix<keyFieldIndex.Count;ix++)
+            if(key.Length<=1) return false;
+			var groupKeyRow = PivotKeyUtil.GetKey(key.Length);
+            var groupKeyCol = (int[])groupKeyRow.Clone();
+			for (int ix = 0;ix < keyFieldIndex.Count;ix++)
             {
-                if (Fields[keyFieldIndex[ix]].Grouping==null)
+				var groupKey = ix < colFieldStart ? groupKeyRow : groupKeyCol;
+
+				if (Fields[keyFieldIndex[ix]].Grouping==null)
                 {
 					groupKey[ix] = PivotCalculationStore.SumLevelValue;
-                    var totalKey = new int[keyFieldIndex.Count];
-                    for (int i = 0; i < keyFieldIndex.Count; i++)
-                    {
-                        if (i == ix)
-                        {
-                            totalKey[i] = key[i];
-                        }
-                        else
-                        {
-                            totalKey[i] = PivotCalculationStore.SumLevelValue;
-                        }
-                    }
-                    if (Keys[dfIx].ContainsKey(totalKey) == false)
-                    {
-                        return false;
-                    }
+                    //var totalKey = new int[keyFieldIndex.Count];
+                    //for (int i = 0; i < keyFieldIndex.Count; i++)
+                    //{
+                    //    if (i == ix)
+                    //    {
+                    //        totalKey[i] = key[i];
+                    //    }
+                    //    else
+                    //    {
+                    //        totalKey[i] = PivotCalculationStore.SumLevelValue;
+                    //    }
+                    //}
+                    //if (Keys[dfIx].ContainsKey(totalKey) == false)
+                    //{
+                    //    return false;
+                    //}
                 }
                 else
                 {
 					groupKey[ix] = key[ix];
 				}
 			}
-            return Keys[dfIx].ContainsKey(groupKey);
+            if (colFieldStart>0 && colFieldStart<key.Length)
+            {
+                return Keys[dfIx].ContainsKey(groupKeyRow) && Keys[dfIx].ContainsKey(groupKeyCol);
+            }
+            else if(colFieldStart == 0)
+            {
+				return Keys[dfIx].ContainsKey(groupKeyCol);
+			}
+            else
+            {
+				return Keys[dfIx].ContainsKey(groupKeyRow);
+            }
 		}
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
