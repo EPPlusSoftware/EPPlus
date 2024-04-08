@@ -135,11 +135,11 @@ namespace OfficeOpenXml.Style.XmlAccess
                 {
                     CreateNode(_backgroundColorPath);
                     BackgroundColor.CreateXmlNode(topNode.SelectSingleNode(_backgroundColorPath, NameSpaceManager));
-                    if (PatternColor.Exists)
-                    {
-                        CreateNode(_patternColorPath);
-                        PatternColor.CreateXmlNode(topNode.SelectSingleNode(_patternColorPath, NameSpaceManager));
-                    }
+                }
+                if (PatternColor.Exists)
+                {
+                    CreateNode(_patternColorPath);
+                    PatternColor.CreateXmlNode(topNode.SelectSingleNode(_patternColorPath, NameSpaceManager));
                 }
             }
             return topNode;

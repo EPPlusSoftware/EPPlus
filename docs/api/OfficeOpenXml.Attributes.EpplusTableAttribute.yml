@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.Attributes.EpplusTableAttribute.#ctor
   - OfficeOpenXml.Attributes.EpplusTableAttribute.AutoCalculate
   - OfficeOpenXml.Attributes.EpplusTableAttribute.AutofitColumns
+  - OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType
   - OfficeOpenXml.Attributes.EpplusTableAttribute.PrintHeaders
   - OfficeOpenXml.Attributes.EpplusTableAttribute.ShowFirstColumn
   - OfficeOpenXml.Attributes.EpplusTableAttribute.ShowLastColumn
@@ -27,7 +28,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusTableAttribute
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -119,7 +120,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 29
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -151,7 +152,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 36
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -188,7 +189,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintHeaders
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -225,7 +226,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFirstColumn
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 54
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -262,7 +263,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLastColumn
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 63
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -299,7 +300,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowTotal
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 72
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -336,7 +337,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitColumns
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 81
+    startLine: 82
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -373,7 +374,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoCalculate
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
-    startLine: 91
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Attributes
@@ -386,6 +387,43 @@ items:
       type: System.Boolean
     content.vb: Public Property AutoCalculate As Boolean
   overload: OfficeOpenXml.Attributes.EpplusTableAttribute.AutoCalculate*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType
+  commentId: P:OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType
+  id: NumberFormatProviderType
+  parent: OfficeOpenXml.Attributes.EpplusTableAttribute
+  langs:
+  - csharp
+  - vb
+  name: NumberFormatProviderType
+  nameWithType: EpplusTableAttribute.NumberFormatProviderType
+  fullName: OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Attributes/EpplusTableAttribute.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberFormatProviderType
+    path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Attributes
+  summary: "\nIf set, this <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> must be implementing the <xref href=\"OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider\" data-throw-if-not-resolved=\"false\"></xref> interface. If not an Exception will be thrown.\nNote that the implementing type must have an empty constructor.\n"
+  example: []
+  syntax:
+    content: public Type NumberFormatProviderType { get; set; }
+    parameters: []
+    return:
+      type: System.Type
+    content.vb: Public Property NumberFormatProviderType As Type
+  overload: OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType*
   modifiers.csharp:
   - public
   - get
@@ -2857,3 +2895,26 @@ references:
   name: AutoCalculate
   nameWithType: EpplusTableAttribute.AutoCalculate
   fullName: OfficeOpenXml.Attributes.EpplusTableAttribute.AutoCalculate
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  commentId: T:OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  parent: OfficeOpenXml.LoadFunctions
+  name: IExcelNumberFormatProvider
+  nameWithType: IExcelNumberFormatProvider
+  fullName: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+- uid: OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType*
+  commentId: Overload:OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType
+  name: NumberFormatProviderType
+  nameWithType: EpplusTableAttribute.NumberFormatProviderType
+  fullName: OfficeOpenXml.Attributes.EpplusTableAttribute.NumberFormatProviderType
+- uid: OfficeOpenXml.LoadFunctions
+  commentId: N:OfficeOpenXml.LoadFunctions
+  name: OfficeOpenXml.LoadFunctions
+  nameWithType: OfficeOpenXml.LoadFunctions
+  fullName: OfficeOpenXml.LoadFunctions

@@ -43,6 +43,7 @@ items:
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Order
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Header
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormat
+  - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.UseBuiltInHyperlinkStyle
   - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.TotalsRowFunction
@@ -147,6 +148,12 @@ references:
   name: NumberFormat
   nameWithType: EpplusTableColumnAttributeBase.NumberFormat
   fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormat
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
+  commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
+  parent: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  name: NumberFormatId
+  nameWithType: EpplusTableColumnAttributeBase.NumberFormatId
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
 - uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
   commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.Hidden
   parent: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase

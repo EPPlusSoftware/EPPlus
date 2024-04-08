@@ -23,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFunctionFunctionParamsBase
     path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions
@@ -71,7 +71,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintHeaders
     path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions
@@ -108,7 +108,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableName
     path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions
@@ -145,7 +145,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
-    startLine: 44
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions
@@ -182,7 +182,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseBuiltInStylesForHyperlinks
     path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
-    startLine: 53
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions

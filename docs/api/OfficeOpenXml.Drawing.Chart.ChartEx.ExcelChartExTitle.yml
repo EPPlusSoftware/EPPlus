@@ -42,6 +42,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Font
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.ThreeD
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText
@@ -224,6 +225,12 @@ references:
   name: TextBody
   nameWithType: ExcelChartTitle.TextBody
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: TextSettings
+  nameWithType: ExcelChartTitle.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle

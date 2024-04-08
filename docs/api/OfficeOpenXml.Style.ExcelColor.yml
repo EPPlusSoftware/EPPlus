@@ -31,7 +31,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColor
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -79,7 +79,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 122
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -116,7 +116,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 137
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -153,7 +153,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rgb
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 156
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -190,7 +190,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 172
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -227,7 +227,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 191
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -264,7 +264,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 209
+    startLine: 127
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -300,7 +300,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 217
+    startLine: 135
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -336,7 +336,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 225
+    startLine: 143
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -372,7 +372,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAuto
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 232
+    startLine: 150
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -404,7 +404,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 243
+    startLine: 161
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -449,7 +449,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LookupColor
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 297
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -484,7 +484,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LookupColor
     path: ../src/EPPlus/Style/ExcelColor.cs
-    startLine: 306
+    startLine: 224
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

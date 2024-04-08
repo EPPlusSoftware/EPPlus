@@ -58,6 +58,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString(System.Object)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger(System.Object)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String,System.Object[])
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.eErrorType)
@@ -1764,6 +1765,100 @@ references:
     name: Int32
     nameWithType: Int32
     fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToBool(IList<FunctionArgument>, Int32, Boolean)
+  nameWithType: ExcelFunction.ArgToBool(IList<FunctionArgument>, Int32, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, System.Boolean)
+  nameWithType.vb: ExcelFunction.ArgToBool(IList(Of FunctionArgument), Int32, Boolean)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, System.Boolean)
+  name.vb: ArgToBool(IList(Of FunctionArgument), Int32, Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+    name: ArgToBool
+    nameWithType: ExcelFunction.ArgToBool
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+    name: ArgToBool
+    nameWithType: ExcelFunction.ArgToBool
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )

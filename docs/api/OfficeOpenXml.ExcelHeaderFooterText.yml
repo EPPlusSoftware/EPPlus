@@ -24,7 +24,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHeaderFooterText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 48
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -50,7 +50,7 @@ items:
   - Public
   - Class
 - uid: OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
-  commentId: F:OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
+  commentId: P:OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
   id: LeftAlignedText
   parent: OfficeOpenXml.ExcelHeaderFooterText
   langs:
@@ -59,7 +59,7 @@ items:
   name: LeftAlignedText
   nameWithType: ExcelHeaderFooterText.LeftAlignedText
   fullName: OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
-  type: Field
+  type: Property
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
@@ -67,23 +67,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftAlignedText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 91
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
   summary: "\nGet/set the text to appear on the left hand side of the header (or footer) on the worksheet.\n"
   example: []
   syntax:
-    content: public string LeftAlignedText
+    content: public string LeftAlignedText { get; set; }
+    parameters: []
     return:
       type: System.String
-    content.vb: Public LeftAlignedText As String
+    content.vb: Public Property LeftAlignedText As String
+  overload: OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText*
   modifiers.csharp:
   - public
+  - get
+  - set
   modifiers.vb:
   - Public
 - uid: OfficeOpenXml.ExcelHeaderFooterText.CenteredText
-  commentId: F:OfficeOpenXml.ExcelHeaderFooterText.CenteredText
+  commentId: P:OfficeOpenXml.ExcelHeaderFooterText.CenteredText
   id: CenteredText
   parent: OfficeOpenXml.ExcelHeaderFooterText
   langs:
@@ -92,7 +96,7 @@ items:
   name: CenteredText
   nameWithType: ExcelHeaderFooterText.CenteredText
   fullName: OfficeOpenXml.ExcelHeaderFooterText.CenteredText
-  type: Field
+  type: Property
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
@@ -100,23 +104,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CenteredText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 95
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
   summary: "\nGet/set the text to appear in the center of the header (or footer) on the worksheet.\n"
   example: []
   syntax:
-    content: public string CenteredText
+    content: public string CenteredText { get; set; }
+    parameters: []
     return:
       type: System.String
-    content.vb: Public CenteredText As String
+    content.vb: Public Property CenteredText As String
+  overload: OfficeOpenXml.ExcelHeaderFooterText.CenteredText*
   modifiers.csharp:
   - public
+  - get
+  - set
   modifiers.vb:
   - Public
 - uid: OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
-  commentId: F:OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
+  commentId: P:OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
   id: RightAlignedText
   parent: OfficeOpenXml.ExcelHeaderFooterText
   langs:
@@ -125,7 +133,7 @@ items:
   name: RightAlignedText
   nameWithType: ExcelHeaderFooterText.RightAlignedText
   fullName: OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
-  type: Field
+  type: Property
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
@@ -133,19 +141,23 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightAlignedText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 99
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
   summary: "\nGet/set the text to appear on the right hand side of the header (or footer) on the worksheet.\n"
   example: []
   syntax:
-    content: public string RightAlignedText
+    content: public string RightAlignedText { get; set; }
+    parameters: []
     return:
       type: System.String
-    content.vb: Public RightAlignedText As String
+    content.vb: Public Property RightAlignedText As String
+  overload: OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText*
   modifiers.csharp:
   - public
+  - get
+  - set
   modifiers.vb:
   - Public
 - uid: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.FileInfo,OfficeOpenXml.PictureAlignment)
@@ -166,7 +178,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertPicture
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 105
+    startLine: 156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -207,7 +219,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertPicture
     path: ../src/EPPlus/ExcelHeaderFooter.cs
-    startLine: 126
+    startLine: 177
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -531,6 +543,11 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
+  name: LeftAlignedText
+  nameWithType: ExcelHeaderFooterText.LeftAlignedText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -538,6 +555,16 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: OfficeOpenXml.ExcelHeaderFooterText.CenteredText*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooterText.CenteredText
+  name: CenteredText
+  nameWithType: ExcelHeaderFooterText.CenteredText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.CenteredText
+- uid: OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
+  name: RightAlignedText
+  nameWithType: ExcelHeaderFooterText.RightAlignedText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
 - uid: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture*
   commentId: Overload:OfficeOpenXml.ExcelHeaderFooterText.InsertPicture
   name: InsertPicture

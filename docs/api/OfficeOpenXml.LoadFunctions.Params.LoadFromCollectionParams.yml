@@ -9,6 +9,9 @@ items:
   - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.DefaultBindingFlags
   - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.HeaderParsingType
   - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.Members
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.Collections.Generic.IEnumerable{System.String})
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.String,System.Collections.Generic.IEnumerable{System.String})
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider(OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider)
   langs:
   - csharp
   - vb
@@ -23,7 +26,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollectionParams
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-    startLine: 22
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions.Params
@@ -73,7 +76,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultBindingFlags
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-    startLine: 27
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions.Params
@@ -108,7 +111,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BindingFlags
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-    startLine: 32
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions.Params
@@ -145,7 +148,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Members
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-    startLine: 37
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions.Params
@@ -182,7 +185,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderParsingType
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-    startLine: 42
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.LoadFunctions.Params
@@ -199,6 +202,126 @@ items:
   - public
   - get
   - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.String,System.Collections.Generic.IEnumerable{System.String})
+  commentId: M:OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.String,System.Collections.Generic.IEnumerable{System.String})
+  id: RegisterDictionaryKeys(System.String,System.Collections.Generic.IEnumerable{System.String})
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+  langs:
+  - csharp
+  - vb
+  name: RegisterDictionaryKeys(String, IEnumerable<String>)
+  nameWithType: LoadFromCollectionParams.RegisterDictionaryKeys(String, IEnumerable<String>)
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.String, System.Collections.Generic.IEnumerable<System.String>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RegisterDictionaryKeys
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nRegister keys to a property decorated with the <xref href=\"OfficeOpenXml.Attributes.EPPlusDictionaryColumnAttribute\" data-throw-if-not-resolved=\"false\"></xref>. These will also\nbe used to create the column for this property.\nThe <code data-dev-comment-type=\"paramref\" class=\"paramref\">keyId</code> should map to the <xref href=\"OfficeOpenXml.Attributes.EPPlusDictionaryColumnAttribute.KeyId?text=KeyId+property+of+the+attribute.\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public void RegisterDictionaryKeys(string keyId, IEnumerable<string> keys)
+    parameters:
+    - id: keyId
+      type: System.String
+      description: Key id used to store this set of keys
+    - id: keys
+      type: System.Collections.Generic.IEnumerable{System.String}
+      description: 'Keys for the '
+    content.vb: Public Sub RegisterDictionaryKeys(keyId As String, keys As IEnumerable(Of String))
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys*
+  nameWithType.vb: LoadFromCollectionParams.RegisterDictionaryKeys(String, IEnumerable(Of String))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.String, System.Collections.Generic.IEnumerable(Of System.String))
+  name.vb: RegisterDictionaryKeys(String, IEnumerable(Of String))
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.Collections.Generic.IEnumerable{System.String})
+  commentId: M:OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.Collections.Generic.IEnumerable{System.String})
+  id: RegisterDictionaryKeys(System.Collections.Generic.IEnumerable{System.String})
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+  langs:
+  - csharp
+  - vb
+  name: RegisterDictionaryKeys(IEnumerable<String>)
+  nameWithType: LoadFromCollectionParams.RegisterDictionaryKeys(IEnumerable<String>)
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.Collections.Generic.IEnumerable<System.String>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RegisterDictionaryKeys
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nRegisters default keys for properties decorated with the <xref href=\"OfficeOpenXml.Attributes.EPPlusDictionaryColumnAttribute\" data-throw-if-not-resolved=\"false\"></xref>. These will also\nbe used to create the column for this property.\n"
+  example: []
+  syntax:
+    content: public void RegisterDictionaryKeys(IEnumerable<string> keys)
+    parameters:
+    - id: keys
+      type: System.Collections.Generic.IEnumerable{System.String}
+      description: The keys to register
+    content.vb: Public Sub RegisterDictionaryKeys(keys As IEnumerable(Of String))
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys*
+  nameWithType.vb: LoadFromCollectionParams.RegisterDictionaryKeys(IEnumerable(Of String))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys(System.Collections.Generic.IEnumerable(Of System.String))
+  name.vb: RegisterDictionaryKeys(IEnumerable(Of String))
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider(OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider)
+  commentId: M:OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider(OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider)
+  id: SetNumberFormatProvider(OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider)
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+  langs:
+  - csharp
+  - vb
+  name: SetNumberFormatProvider(IExcelNumberFormatProvider)
+  nameWithType: LoadFromCollectionParams.SetNumberFormatProvider(IExcelNumberFormatProvider)
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider(OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetNumberFormatProvider
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nSets an <xref href=\"OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider\" data-throw-if-not-resolved=\"false\"></xref> that will be used for setting NumberFormats in the range\n"
+  example: []
+  syntax:
+    content: public void SetNumberFormatProvider(IExcelNumberFormatProvider numberFormatProvider)
+    parameters:
+    - id: numberFormatProvider
+      type: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+      description: The <xref href="OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider" data-throw-if-not-resolved="false"></xref> to use
+    content.vb: Public Sub SetNumberFormatProvider(numberFormatProvider As IExcelNumberFormatProvider)
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider*
+  seealso:
+  - linkId: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
+    commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
+  modifiers.csharp:
+  - public
   modifiers.vb:
   - Public
 references:
@@ -597,3 +720,138 @@ references:
   name: HeaderParsingType
   nameWithType: LoadFromCollectionParams.HeaderParsingType
   fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.HeaderParsingType
+- uid: OfficeOpenXml.Attributes.EPPlusDictionaryColumnAttribute
+  commentId: T:OfficeOpenXml.Attributes.EPPlusDictionaryColumnAttribute
+  isExternal: true
+- uid: OfficeOpenXml.Attributes.EPPlusDictionaryColumnAttribute.KeyId
+  commentId: P:OfficeOpenXml.Attributes.EPPlusDictionaryColumnAttribute.KeyId
+  isExternal: true
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys
+  name: RegisterDictionaryKeys
+  nameWithType: LoadFromCollectionParams.RegisterDictionaryKeys
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.RegisterDictionaryKeys
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Collections.Generic.IEnumerable{System.String}
+  commentId: T:System.Collections.Generic.IEnumerable{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<String>
+  nameWithType: IEnumerable<String>
+  fullName: System.Collections.Generic.IEnumerable<System.String>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  commentId: T:OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+  parent: OfficeOpenXml.LoadFunctions
+  name: IExcelNumberFormatProvider
+  nameWithType: IExcelNumberFormatProvider
+  fullName: OfficeOpenXml.LoadFunctions.IExcelNumberFormatProvider
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
+  commentId: P:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
+  parent: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  name: NumberFormatId
+  nameWithType: EpplusTableColumnAttributeBase.NumberFormatId
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase.NumberFormatId
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider
+  name: SetNumberFormatProvider
+  nameWithType: LoadFromCollectionParams.SetNumberFormatProvider
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams.SetNumberFormatProvider
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  commentId: T:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  parent: OfficeOpenXml.Attributes
+  name: EpplusTableColumnAttributeBase
+  nameWithType: EpplusTableColumnAttributeBase
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+- uid: OfficeOpenXml.Attributes
+  commentId: N:OfficeOpenXml.Attributes
+  name: OfficeOpenXml.Attributes
+  nameWithType: OfficeOpenXml.Attributes
+  fullName: OfficeOpenXml.Attributes

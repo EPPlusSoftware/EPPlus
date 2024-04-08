@@ -55,6 +55,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Effect
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.ThreeD
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Font
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText(OfficeOpenXml.Drawing.Chart.eLabelPosition)
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum(System.String)
@@ -309,6 +310,12 @@ references:
   name: Font
   nameWithType: ExcelChartDataLabel.Font
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Font
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: TextSettings
+  nameWithType: ExcelChartDataLabel.TextSettings
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextSettings
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel

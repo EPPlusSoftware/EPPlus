@@ -30,7 +30,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableColumn
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -80,7 +80,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 38
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -117,7 +117,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 52
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -154,7 +154,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -191,7 +191,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 99
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -228,7 +228,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 116
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -265,7 +265,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 149
+    startLine: 157
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -302,7 +302,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 170
+    startLine: 178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -339,7 +339,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 201
+    startLine: 209
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -376,7 +376,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSlicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 234
+    startLine: 242
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -411,7 +411,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculatedColumnFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 247
+    startLine: 255
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -448,7 +448,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 280
+    startLine: 288
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table

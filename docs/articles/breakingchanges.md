@@ -116,9 +116,13 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 * Renamed misspelled properties `ColSpann` and `RowSpann` to `ColSpan` and `RowSpan` on the `ExcelHyperLink` class.
 
 ### Breaking Change From EPPlus 7.1
+*Misspelled property `MemorySettings.MemoryManger` was renamed `MemoryManager`
 #### Defined Names
 * EPPlus will now encode string values and in defined name .
 #### Data Validation
 * Removed DataValidationStaleException as DataValidations cannot be stale since Epplus 7.
 #### Conditional Formatting
 * When reading conditional formatting from file Style.Fill.PatternType is now always null if the patternType attribute in the xml has not been set.
+#### Rich Text
+* The `ExcelRichText._collection` has been set to internal.
+* Public static methods in the class `XmlHelper` used to getting richtext properties has been changed to internal.

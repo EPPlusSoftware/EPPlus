@@ -19,7 +19,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingBaseCollection
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingBaseCollection.cs
-    startLine: 26
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml

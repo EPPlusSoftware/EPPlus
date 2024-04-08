@@ -31,6 +31,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         public bool IncludeNormalFont { get; set; } = true;
 
         /// <summary>
+        /// Ensure margin and padding consistent between browsers
+        /// </summary>
+        public bool IncludeCssReset { get; set; } = false;
+
+        /// <summary>
         /// Css elements added to the table.
         /// </summary>
         public Dictionary<string, string> AdditionalCssElements

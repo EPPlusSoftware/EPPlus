@@ -115,7 +115,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 54
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -150,7 +150,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colors
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 66
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -187,7 +187,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientType
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 87
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -224,7 +224,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Degree
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 104
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -261,7 +261,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 121
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -298,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 138
+    startLine: 141
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -335,7 +335,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 155
+    startLine: 158
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -372,7 +372,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-    startLine: 171
+    startLine: 174
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

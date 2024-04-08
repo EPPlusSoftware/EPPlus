@@ -5,6 +5,7 @@ items:
   id: OfficeOpenXml.FormulaParsing.Excel.Operators
   children:
   - OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
   - OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
@@ -36,6 +37,12 @@ references:
   name: Operators
   nameWithType: Operators
   fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: LimitedOperators
+  nameWithType: LimitedOperators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
 - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
   name: OperatorsDict

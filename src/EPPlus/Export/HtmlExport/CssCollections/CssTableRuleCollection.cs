@@ -79,17 +79,17 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
                 bool rightDefault;
                 //We never want to default horizontal right if horizontal is excluded.
-                if (_context.Exclude.HorizontalAlignment == false)
-                {
-                    rightDefault = false;
-                }
-                else
-                {
+                //if (_context.Exclude.HorizontalAlignment == false)
+                //{
+                //    rightDefault = false;
+                //}
+                //else
+                //{
                     rightDefault = c < dataTypes.Count &&
                         (dataTypes[c] == HtmlDataTypes.Number || dataTypes[c] == HtmlDataTypes.DateTime);
-                }
+                //}
 
-                if (styleId > -1)
+                if (styleId > 0)
                 {
                     var styleClass = new CssRule($"table.{name} td:nth-child({col})", int.MaxValue);
 
@@ -141,15 +141,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         {
             if (element.Style.Border.Vertical.HasValue == false && element.Style.Border.Horizontal.HasValue == false) return; //Dont add empty elements
 
-            var s = new StyleDxf(element.Style);
+            var styleClass = new CssRule($"table.{name}{htmlElement} td,tr ", int.MaxValue);
 
-            var styleClass = new CssRule($"table.{name}{htmlElement}td,tr ", int.MaxValue);
-            if (s.Border != null)
-            {
-                var translator = new CssBorderTranslator(s.Border);
-                styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
-                RuleCollection.AddRule(styleClass);
-            }
+            var translator = new CssVerticalHorizontalBorderTranslator(element.Style.Border);
+            styleClass.AddDeclarationList(translator.GenerateDeclarationList(_context));
+            RuleCollection.AddRule(styleClass);
         }
 
         internal void AddTableToCollection(ExcelTable table, List<string> datatypes, string tableClassPreset)

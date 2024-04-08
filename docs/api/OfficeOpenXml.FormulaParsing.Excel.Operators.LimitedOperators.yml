@@ -1,0 +1,244 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  id: LimitedOperators
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.Equals
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThan
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThanOrEqual
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThan
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThanOrEqual
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.NotEqualTo
+  langs:
+  - csharp
+  - vb
+  name: LimitedOperators
+  nameWithType: LimitedOperators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LimitedOperators
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: public enum LimitedOperators
+    content.vb: Public Enum LimitedOperators
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.Equals
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.Equals
+  id: Equals
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  langs:
+  - csharp
+  - vb
+  name: Equals
+  nameWithType: LimitedOperators.Equals
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.Equals
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equals
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: Equals = 8
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThan
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThan
+  id: GreaterThan
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  langs:
+  - csharp
+  - vb
+  name: GreaterThan
+  nameWithType: LimitedOperators.GreaterThan
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThan
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: GreaterThan = 9
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThanOrEqual
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThanOrEqual
+  id: GreaterThanOrEqual
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  langs:
+  - csharp
+  - vb
+  name: GreaterThanOrEqual
+  nameWithType: LimitedOperators.GreaterThanOrEqual
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.GreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThanOrEqual
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: GreaterThanOrEqual = 10
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThan
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThan
+  id: LessThan
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  langs:
+  - csharp
+  - vb
+  name: LessThan
+  nameWithType: LimitedOperators.LessThan
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThan
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: LessThan = 11
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThanOrEqual
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThanOrEqual
+  id: LessThanOrEqual
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  langs:
+  - csharp
+  - vb
+  name: LessThanOrEqual
+  nameWithType: LimitedOperators.LessThanOrEqual
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.LessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThanOrEqual
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: LessThanOrEqual = 12
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.NotEqualTo
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.NotEqualTo
+  id: NotEqualTo
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  langs:
+  - csharp
+  - vb
+  name: NotEqualTo
+  nameWithType: LimitedOperators.NotEqualTo
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators.NotEqualTo
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotEqualTo
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: NotEqualTo = 13
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: OfficeOpenXml.FormulaParsing.Excel.Operators
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Operators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: LimitedOperators
+  nameWithType: LimitedOperators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators

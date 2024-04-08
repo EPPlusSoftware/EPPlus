@@ -545,5 +545,22 @@ namespace EPPlusTest.Export.HtmlExport
                 File.WriteAllText($"{_htmlOutput}CondtionalFormattingHtmlExport.html", htmlAsync);
             }
         }
+        [TestMethod]
+        public void ExportTables()
+        {
+            using (var p = OpenTemplatePackage("htmlWhiteBorder.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var exporter = ws.Tables[0].CreateHtmlExporter();
+                var css = exporter.GetCssString();
+                var html = exporter.GetHtmlString();
+                var htmlTemplate = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{0}</style></head>\r\n<body>\r\n{1}<hr></body>\r\n</html>";
+                var outputHtml = string.Format(htmlTemplate, css, html);
+                File.WriteAllText($"{_htmlOutput}TableBorders.html", outputHtml);
+    //            File.WriteAllText(FileUtil.GetFileInfo(outputFolder, "Table-04-MultipleTables.html", true).FullName,
+    //string.Format(htmlTemplate, css, tbl1Html, tbl2Html, tbl3Html));
+            }
+        }
     }
 }

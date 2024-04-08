@@ -52,12 +52,14 @@ items:
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -347,6 +349,12 @@ references:
   name: CellStyleClassName
   nameWithType: HtmlExportSettings.CellStyleClassName
   fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  name: DxfStyleClassName
+  nameWithType: HtmlExportSettings.DxfStyleClassName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
 - uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
   commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
   parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
@@ -383,6 +391,12 @@ references:
   name: RenderDataTypes
   nameWithType: HtmlExportSettings.RenderDataTypes
   fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  name: RenderConditionalFormattings
+  nameWithType: HtmlExportSettings.RenderConditionalFormattings
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object

@@ -1443,8 +1443,9 @@ namespace OfficeOpenXml
         internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
         {
             var v = GetCoreValueInner(row, col);
-            var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
-            if (isRt && v._value is ExcelRichTextCollection rtc)
+            //var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
+            //if (isRt && v._value is ExcelRichTextCollection rtc)
+            if (v._value is ExcelRichTextCollection rtc)
             {
                 return rtc;
             }
@@ -1459,7 +1460,6 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                     var item = new ExcelRichTextCollection(text, r);
                     SetValue(row, col, item);
                     return item;

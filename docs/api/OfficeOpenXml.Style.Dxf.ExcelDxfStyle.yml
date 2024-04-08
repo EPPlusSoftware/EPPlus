@@ -5,10 +5,12 @@ items:
   id: ExcelDxfStyle
   parent: OfficeOpenXml.Style.Dxf
   children:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment
   - OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Clear
   - OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Font
   - OfficeOpenXml.Style.Dxf.ExcelDxfStyle.HasValue
   - OfficeOpenXml.Style.Dxf.ExcelDxfStyle.NumberFormat
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection
   langs:
   - csharp
   - vb
@@ -73,7 +75,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-    startLine: 36
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -110,7 +112,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-    startLine: 40
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -123,6 +125,80 @@ items:
       type: OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
     content.vb: Public ReadOnly Property NumberFormat As ExcelDxfNumberFormat
   overload: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.NumberFormat*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment
+  id: Alignment
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+  langs:
+  - csharp
+  - vb
+  name: Alignment
+  nameWithType: ExcelDxfStyle.Alignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Alignment
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nCell alignment properties\n"
+  example: []
+  syntax:
+    content: public ExcelDxfAlignment Alignment { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+    content.vb: Public ReadOnly Property Alignment As ExcelDxfAlignment
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection
+  id: Protection
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+  langs:
+  - csharp
+  - vb
+  name: Protection
+  nameWithType: ExcelDxfStyle.Protection
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Protection
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nCell protection properties used when the worksheet is protected.d\n"
+  example: []
+  syntax:
+    content: public ExcelDxfProtection Protection { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfProtection
+    content.vb: Public ReadOnly Property Protection As ExcelDxfProtection
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection*
   modifiers.csharp:
   - public
   - get
@@ -147,7 +223,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-    startLine: 51
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -187,7 +263,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-    startLine: 90
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -615,6 +691,28 @@ references:
   name: ExcelDxfNumberFormat
   nameWithType: ExcelDxfNumberFormat
   fullName: OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment
+  name: Alignment
+  nameWithType: ExcelDxfStyle.Alignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Alignment
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfAlignment
+  nameWithType: ExcelDxfAlignment
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfAlignment
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection
+  name: Protection
+  nameWithType: ExcelDxfStyle.Protection
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyle.Protection
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfProtection
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfProtection
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfProtection
+  nameWithType: ExcelDxfProtection
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfProtection
 - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
   commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
   parent: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase

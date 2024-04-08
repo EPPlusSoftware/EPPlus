@@ -30,7 +30,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableCollection
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -78,7 +78,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 63
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -123,7 +123,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 110
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -168,7 +168,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 130
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -213,7 +213,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 147
+    startLine: 148
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -250,7 +250,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 159
+    startLine: 160
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -294,7 +294,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 175
+    startLine: 176
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -338,7 +338,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 193
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -376,7 +376,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 198
+    startLine: 199
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -408,7 +408,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 207
+    startLine: 208
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -447,7 +447,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 220
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -486,7 +486,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 233
+    startLine: 234
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

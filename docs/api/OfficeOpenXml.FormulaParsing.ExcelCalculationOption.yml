@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
+  - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
   langs:
   - csharp
@@ -172,7 +173,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-    startLine: 91
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -185,6 +186,43 @@ items:
       type: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
     content.vb: Public Property PrecisionAndRoundingStrategy As PrecisionAndRoundingStrategy
   overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain
+  id: FollowDependencyChain
+  parent: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  langs:
+  - csharp
+  - vb
+  name: FollowDependencyChain
+  nameWithType: ExcelCalculationOption.FollowDependencyChain
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FollowDependencyChain
+    path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf true, EPPlus will calculate the cells in order calculating any dependent cells.\nIf false, EPPlus will calculate the cells without calculating dependent cells.\n"
+  example: []
+  syntax:
+    content: public bool FollowDependencyChain { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FollowDependencyChain As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain*
   modifiers.csharp:
   - public
   - get
@@ -522,3 +560,8 @@ references:
   name: PrecisionAndRoundingStrategy
   nameWithType: PrecisionAndRoundingStrategy
   fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain
+  name: FollowDependencyChain
+  nameWithType: ExcelCalculationOption.FollowDependencyChain
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain

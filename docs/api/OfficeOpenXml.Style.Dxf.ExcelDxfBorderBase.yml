@@ -298,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorder.cs
-    startLine: 126
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -338,7 +338,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorder.cs
-    startLine: 141
+    startLine: 148
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -373,7 +373,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderAround
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorder.cs
-    startLine: 156
+    startLine: 163
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -412,7 +412,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderAround
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorder.cs
-    startLine: 172
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

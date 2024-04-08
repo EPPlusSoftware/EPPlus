@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style
         List<ExcelRichText> _list = new List<ExcelRichText>();
         internal ExcelRangeBase _cells = null;
         internal ExcelWorkbook _wb;
-
+        internal bool _isComment=false;
         internal ExcelRichTextCollection(ExcelWorkbook wb, ExcelRangeBase cells)
         {
             _wb = wb;
@@ -46,8 +46,7 @@ namespace OfficeOpenXml.Style
             _cells = cells;
             if (!string.IsNullOrEmpty(s))
             {
-                var item = new ExcelRichText(s, this);
-                _list.Add(item);
+                Add(s);
             }
         }
 
@@ -80,8 +79,9 @@ namespace OfficeOpenXml.Style
         {
             _wb = cells._workbook;
             _cells= cells;
+            _isComment = true;
 
-            foreach(XmlNode rElement in textElem.ChildNodes)
+			foreach (XmlNode rElement in textElem.ChildNodes)
             {
                 if(rElement.LocalName == "r")
                 {
@@ -171,7 +171,7 @@ namespace OfficeOpenXml.Style
                 rt.FontName = prevRT.FontName;
                 rt.Charset = prevRT.Charset;
                 rt.Family = prevRT.Family;
-                rt.ColorSettings = prevRT.ColorSettings;
+                rt.ColorSettings = prevRT.ColorSettings.Clone();
                 rt.PreserveSpace = prevRT.PreserveSpace;
             }
             else if(_cells == null)
@@ -186,8 +186,20 @@ namespace OfficeOpenXml.Style
                 rt.Size = style.Font.Size;
                 rt.Bold = style.Font.Bold;
                 rt.Italic = style.Font.Italic;
-                _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._toCol, true, CellFlags.RichText);
-                _cells.SetIsRichTextFlag(true);
+                rt.PreserveSpace = true;
+                rt.UnderLine = style.Font.UnderLine;
+                int hex;
+                var s = _cells.Worksheet.GetStyleInner(_cells._fromRow, _cells._fromCol);
+                var fnt = _cells.Worksheet.Workbook.Styles.GetStyleObject(s, _cells.Worksheet.PositionId, ExcelAddressBase.GetAddress(_cells._fromRow, _cells._fromCol)).Font;
+                if (fnt.Color.Rgb != "" && int.TryParse(fnt.Color.Rgb, NumberStyles.HexNumber, null, out hex))
+                {
+                    rt.Color = Color.FromArgb(hex);
+                }
+                if (_isComment == false)
+                {
+                    _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
+                    //_cells.SetIsRichTextFlag(true);
+                }
             }
             _list.Insert(index, rt);
             return rt;
@@ -199,9 +211,9 @@ namespace OfficeOpenXml.Style
         public void Clear()
         {
             _list.Clear();
-            if (_cells != null)
+            if (_cells != null && _isComment == false)
             {
-                _cells.DeleteMe(_cells, false, true, true, true, false, true, false, false, false);
+				_cells.DeleteMe(_cells, false, true, true, true, false, true, false, false, false);
                 _cells.SetIsRichTextFlag(false);
             }
         }
@@ -212,7 +224,7 @@ namespace OfficeOpenXml.Style
         public void RemoveAt(int Index)
         {
             _list.RemoveAt(Index);
-            if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
+            if (_cells != null && _list.Count == 0 && _isComment == false) _cells.SetIsRichTextFlag(false);
         }
         /// <summary>
         /// Removes an item
@@ -221,7 +233,7 @@ namespace OfficeOpenXml.Style
         public void Remove(ExcelRichText Item)
         {
             _list.Remove(Item);
-            if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
+            if (_cells != null && _list.Count == 0 && _isComment == false) _cells.SetIsRichTextFlag(false);
         }
         /// <summary>
         /// The text
