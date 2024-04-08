@@ -38,9 +38,10 @@ namespace OfficeOpenXml.Style
         {
             _wb = wb;
             _cells = cells;
-        }
+			_cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
+		}
 
-        internal ExcelRichTextCollection(string s, ExcelRangeBase cells)
+		internal ExcelRichTextCollection(string s, ExcelRangeBase cells)
         {
             _wb = cells._workbook;
             _cells = cells;

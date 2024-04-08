@@ -1443,15 +1443,14 @@ namespace OfficeOpenXml
         internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
         {
             var v = GetCoreValueInner(row, col);
-            //var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
-            //if (isRt && v._value is ExcelRichTextCollection rtc)
-            if (v._value is ExcelRichTextCollection rtc)
+            var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
+            if (isRt && v._value is ExcelRichTextCollection rtc)
             {
                 return rtc;
             }
             else
             {
-                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
+                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);                
                 if (string.IsNullOrEmpty(text))
                 {
                     var item = new ExcelRichTextCollection(Workbook, r);
@@ -2230,7 +2229,6 @@ namespace OfficeOpenXml
             var v = GetValueInner(Row, Column);
             if (v!=null)
             {
-                //var cell = ((ExcelCell)_cells[cellID]);
                 if (_flags.GetFlagValue(Row, Column, CellFlags.RichText))
                 {
                     return (object)Cells[Row, Column].RichText.Text;
