@@ -196,13 +196,33 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         internal void AddAdvancedCF(int cssOrder, ExcelConditionalFormattingThreeIconSet set, int id)
         {
             var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}cf{id}";
-            var cfClass = new CssRule(ruleName, cssOrder);
+            var contentRule = new CssRule(ruleName, cssOrder);
+            if(!set.ShowValue)
+            {
+                contentRule.AddDeclaration("visibility", "hidden");
+            }
+            else
+            {
+                contentRule.AddDeclaration("visibility", "visible");
+            }
+
+            if(set.Reverse) 
+            {
+                //Implement icons backwards here;
+            }
+
+            var beforeRule = new CssRule(ruleName+"::before", cssOrder);
 
             var cfCss = CF_Icons.GetIconSvg(eExcelconditionalFormattingCustomIcon.RedCircle);
-            cfClass.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
-            cfClass.AddDeclaration("height", $"100%");
+            beforeRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
+            //The below should be broken out into some kind of generic "before" rule.
+            beforeRule.AddDeclaration("content", $"\"\"");
+            beforeRule.AddDeclaration("min-width", $"1em");
+            beforeRule.AddDeclaration("min-height", $"1em");
+            beforeRule.AddDeclaration("float", $"left");
 
-            _ruleCollection.CssRules.Add(cfClass);
+            _ruleCollection.CssRules.Add(beforeRule);
+            _ruleCollection.CssRules.Add(contentRule);
         }
 
 

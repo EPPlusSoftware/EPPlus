@@ -137,8 +137,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 inlineStyles += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                                 break;
                             case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                var childDiv = new HTMLElement("div");
-                                element.AddChildElement(childDiv);
+                                //Check which of the icons/color of the icons to apply
+
+                                //var childDiv = new HTMLElement("div");
+                                //element.AddChildElement(childDiv);
 
                                 dxfKey = cfItems[i].Value.Uid;
 
@@ -152,11 +154,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                     dxfStyleCache.Add(dxfKey, dxfId);
                                 }
 
-                                childDiv.AddAttribute("class", $"{styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}");
+                                //childDiv.AddAttribute("class", $"{styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}");
 
-                                contentElement = childDiv;
-                                inlineStyles += "height: 100%;";
-                                //cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
+                                //contentElement = childDiv;
+                                //inlineStyles += "height: 100%;";
+                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 break;
