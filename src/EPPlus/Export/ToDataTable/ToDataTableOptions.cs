@@ -139,6 +139,8 @@ namespace OfficeOpenXml.Export.ToDataTable
         /// </summary>
         public bool AlwaysAllowNull { get; set; }
 
+        public bool Transpose { get; set; }
+
         /// <summary>
         /// Sets the primary key of the data table. 
         /// </summary>
