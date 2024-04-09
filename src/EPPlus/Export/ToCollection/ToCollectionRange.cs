@@ -2,23 +2,34 @@
 using OfficeOpenXml.Export.ToCollection.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OfficeOpenXml.Export.ToCollection
 {
     internal class ToCollectionRange
     {
-        internal static List<string> GetRangeHeaders(ExcelRangeBase range, string[] headers, int? headerRow)
+        internal static List<string> GetRangeHeaders(ExcelRangeBase range, string[] headers, int? headerRow, ToCollectionRangeOptions options)
         {
+            var start1 = range._fromCol;
+            var end1 = range._toCol;
+            var start2 = range._fromRow;
+            var end2 = range._toRow;
+            if (options.DataIsTransposed)
+            {
+                start2 = range._fromCol;
+                end2 = range._toCol;
+                start1 = range._fromRow;
+                end1 = range._toRow;
+            }
+
             List<string> headersList;
             if (headers == null || headers.Length == 0)
             {
                 headersList = new List<string>();
                 if (headerRow.HasValue == false) return headersList;
 
-                for (int c = range._fromCol; c <= range._toCol; c++)
+                for (int c = start1; c <= end1; c++)
                 {
-                    var h = range.Worksheet.Cells[range._fromRow + headerRow.Value, c].Text;
+                    var h = options.DataIsTransposed ? range.Worksheet.Cells[c, start2 + headerRow.Value].Text : range.Worksheet.Cells[start2 + headerRow.Value, c].Text;
                     if (string.IsNullOrEmpty(h))
                     {
                         throw new InvalidOperationException("Header cells cannot be empty");
@@ -44,18 +55,36 @@ namespace OfficeOpenXml.Export.ToCollection
         internal static List<T> ToCollection<T>(ExcelRangeBase range, Func<ToCollectionRow, T> setRow, ToCollectionRangeOptions options)
         {
             var ret = new List<T>();
-            if (range._toRow < range._fromRow) return null;
+            var start1 = range._fromCol;
+            var end1 = range._toCol;
+            var start2 = range._fromRow;
+            var end2 = range._toRow;
+            if (options.DataIsTransposed)
+            {
+                start2 = range._fromCol;
+                end2 = range._toCol;
+                start1 = range._fromRow;
+                end1 = range._toRow;
+            }
+            if (end2 < start2) return null;
 
-            var headers = GetRangeHeaders(range, options.Headers, options.HeaderRow);
+            var headers = GetRangeHeaders(range, options.Headers, options.HeaderRow, options);
 
             var values = new List<ExcelValue>();
             var row = new ToCollectionRow(headers, range._workbook, options.ConversionFailureStrategy);
             var startRow = options.DataStartRow ?? ((options.HeaderRow ?? -1) + 1);
-            for (int r = range._fromRow + startRow; r <= range._toRow; r++)
+            for (int r = start2 + startRow; r <= end2; r++)
             {
-                for (int c = range._fromCol; c <= range._toCol; c++)
+                for (int c = start1; c <= end1; c++)
                 {
-                    values.Add(range.Worksheet.GetCoreValueInner(r, c));
+                    if ((options.DataIsTransposed))
+                    {
+                        values.Add(range.Worksheet.GetCoreValueInner(c, r));
+                    }
+                    else
+                    {
+                        values.Add(range.Worksheet.GetCoreValueInner(r, c));
+                    }
                 }
                 row._cellValues = values;
                 var item = setRow(row);
@@ -72,7 +101,7 @@ namespace OfficeOpenXml.Export.ToCollection
         internal static List<T> ToCollection<T>(ExcelRangeBase range, ToCollectionRangeOptions options)
         {
             var t = typeof(T);
-            var h = GetRangeHeaders(range, options.Headers, options.HeaderRow);
+            var h = GetRangeHeaders(range, options.Headers, options.HeaderRow, options);
             if (h.Count <= 0) throw new InvalidOperationException("No headers specified. Please set a ToCollectionOptions.HeaderRow or ToCollectionOptions.Headers[].");
             var mappings = ToCollectionAutomap.GetAutomapList<T>(h);
             var l = new List<T>();

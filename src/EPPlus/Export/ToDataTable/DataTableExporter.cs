@@ -133,16 +133,12 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         private void Validate()
         {
-            var start1 = _range.Start.Column;
-            var end1 = _range.End.Column;
             var start2 = _range.Start.Row;
             var end2 = _range.End.Row;
             if (_options.DataIsTransposed)
             {
                 start2 = _range.Start.Column;
                 end2 = _range.End.Column;
-                start1 = _range.Start.Row;
-                end1 = _range.End.Row;
             }
 
             var startRow = _options.FirstRowIsColumnNames ? start2 + 1 : start2;
