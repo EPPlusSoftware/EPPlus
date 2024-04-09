@@ -63,9 +63,8 @@ namespace EPPlusTest.Issues
                 package.Workbook.Names.AddFormula("编制单位", "\"编制单位：\"&[1]dummyQuoteWorkbook!$D$6");
 
 
-                //Adding "s\"\"omething" here correctly? results in corrupt worksheet.
                 package.Workbook.Names.AddValue("Unended", "s\"omething");
-
+                package.Workbook.Names.AddValue("EndedRepeated", "s\"\"omething");
 
                 SaveAndCleanup(package);
             }
@@ -76,6 +75,8 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("zhak vo\"n\"fynh duj", package.Workbook.Names["Lae_Zel"].Value);
                 Assert.AreEqual("\"编制单位：\"&[1]dummyQuoteWorkbook!$D$6", package.Workbook.Names["编制单位"].Formula);
                 Assert.AreEqual("s\"omething", package.Workbook.Names["Unended"].Value);
+                Assert.AreEqual("s\"\"omething", package.Workbook.Names["EndedRepeated"].Value);
+
 
                 SaveAndCleanup(package);
             }
