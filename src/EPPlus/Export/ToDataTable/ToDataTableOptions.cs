@@ -139,7 +139,10 @@ namespace OfficeOpenXml.Export.ToDataTable
         /// </summary>
         public bool AlwaysAllowNull { get; set; }
 
-        public bool Transpose { get; set; }
+        /// <summary>
+        /// Set to true if the worksheet is contains transposed data.
+        /// </summary>
+        public bool DataIsTransposed { get; set; }
 
         /// <summary>
         /// Sets the primary key of the data table. 

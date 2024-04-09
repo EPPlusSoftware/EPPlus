@@ -41,6 +41,17 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         internal DataTable Build()
         {
+            var start1 = _range.Start.Column;
+            var end1 = _range.End.Column;
+            var start2 = _range.Start.Row;
+            var end2 = _range.End.Row;
+            if (_options.DataIsTransposed)
+            {
+                start2 = _range.Start.Column;
+                end2 = _range.End.Column;
+                start1 = _range.Start.Row;
+                end1 = _range.End.Row;
+            }
             var columnNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
             if(_dataTable == null)
             {
@@ -51,9 +62,9 @@ namespace OfficeOpenXml.Export.ToDataTable
                 _dataTable.Namespace = _options.DataTableNamespace;
             }
             var columnOrder = 0;
-            for (var col = _range.Start.Column; col <= _range.End.Column; col++)
+            for (var col = start1; col <= end1; col++)
             {
-                var row = _range.Start.Row;
+                var row = start2;
                 var name = _options.ColumnNamePrefix + ++columnOrder;
                 var origName = name;
                 var columnIndex = columnOrder - 1;
@@ -63,9 +74,9 @@ namespace OfficeOpenXml.Export.ToDataTable
                 }
                 else if (_options.FirstRowIsColumnNames)
                 {                    
-                    name = _sheet.GetValue(row, col)?.ToString();
+                    name = _options.DataIsTransposed ? _sheet.GetValue(col, row)?.ToString() : _sheet.GetValue(row, col)?.ToString();
                     origName = name;
-                    if (name == null) throw new InvalidOperationException(string.Format("First row contains an empty cell at index {0}", col - _range.Start.Column));
+                    if (name == null) throw new InvalidOperationException(string.Format("First row contains an empty cell at index {0}", col - start1));
                     name = GetColumnName(name);
                 }
                 else
@@ -78,10 +89,18 @@ namespace OfficeOpenXml.Export.ToDataTable
                 }
                 columnNames.Add(name);
                 // find type
-                while (_sheet.GetValue(++row, col) == null && row <= _range.End.Row)
-                    ;
-                var v = _sheet.GetValue(row, col);
-                if (row == _range.End.Row && v == null) throw new InvalidOperationException(string.Format("Column with index {0} does not contain any values", col));
+                if (_options.DataIsTransposed)
+                {
+                    while (_sheet.GetValue(col, ++row) == null && row <= end2)
+                        ;
+                }
+                else
+                {
+                    while (_sheet.GetValue(++row, col) == null && row <= end2)
+                        ;
+                }
+                var v = _options.DataIsTransposed ? _sheet.GetValue(col, row) : _sheet.GetValue(row, col);
+                if (row == end2 && v == null) throw new InvalidOperationException(string.Format("Column with index {0} does not contain any values", col));
                 var type = v == null ? typeof(Nullable) : v.GetType();
 
                 // check mapping

@@ -455,12 +455,12 @@ namespace EPPlusTest.Export.ToDataTable
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = "Id";
-                sheet.Cells["B1"].Value = "1";
-                sheet.Cells["C1"].Value = "2";
-                sheet.Cells["D1"].Value = "3";
-                sheet.Cells["E1"].Value = "4";
-                sheet.Cells["F1"].Value = "5";
-                sheet.Cells["G1"].Value = "6";
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["C1"].Value = 2;
+                sheet.Cells["D1"].Value = 3;
+                sheet.Cells["E1"].Value = 4;
+                sheet.Cells["F1"].Value = 5;
+                sheet.Cells["G1"].Value = 6;
                 sheet.Cells["A2"].Value = "Name";
                 sheet.Cells["B2"].Value = "Scott";
                 sheet.Cells["C2"].Value = "Mats";
@@ -471,10 +471,10 @@ namespace EPPlusTest.Export.ToDataTable
 
                 var options = ToDataTableOptions.Create(o =>
                 {
-                    o.Transpose = true;
+                    o.DataIsTransposed = true;
                 });
 
-                var dt = sheet.Cells["A1:C2"].ToDataTable(options);
+                var dt = sheet.Cells["A1:G2"].ToDataTable(options);
                 Assert.AreEqual("Scott", dt.Rows[0]["Name"]);
             }
         }
