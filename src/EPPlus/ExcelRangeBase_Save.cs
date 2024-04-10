@@ -252,7 +252,17 @@ namespace OfficeOpenXml
             var sw = new StreamWriter(stream, Format.Encoding);
             if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
             int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
-
+            var start1 = _fromCol;
+            var end1 = _toCol;
+            var start2 = _fromRow;
+            var end2 = _toRow;
+            if (Format.DataIsTransposed)
+            {
+                start2 = _fromCol;
+                end2 = _toCol;
+                start1 = _fromRow;
+                end1 = _toRow;
+            }
             bool hasTextQ = Format.TextQualifier != '\0';
             string encodedTextQualifier = "";
             if (hasTextQ)
@@ -268,9 +278,9 @@ namespace OfficeOpenXml
             }
             var skipLinesBegining = Format.SkipLinesBeginning + (Format.FirstRowIsHeader ? 1 : 0);
             CultureInfo ci = GetCultureInfo(Format);
-            for (int row = _fromRow; row <= _toRow; row++)
+            for (int row = start2; row <= end2; row++)
             {
-                if (row == _fromRow && Format.FirstRowIsHeader)
+                if (row == start2 && Format.FirstRowIsHeader)
                 {
                     await sw.WriteAsync(WriteHeaderRow(Format, hasTextQ, row, ci)).ConfigureAwait(false);
                     continue;
@@ -281,9 +291,9 @@ namespace OfficeOpenXml
                     continue;
                 }
 
-                for (int col = _fromCol; col <= _toCol; col++)
+                for (int col = start1; col <= end1; col++)
                 {
-                    string t = GetText(Format, maxFormats, ci, row, col, out bool isText);
+                    string t = Format.DataIsTransposed ? GetText(Format, maxFormats, ci, col, row, out bool isText) : GetText(Format, maxFormats, ci, row, col, out isText);
 
                     if (hasTextQ && isText)
                     {
@@ -293,9 +303,9 @@ namespace OfficeOpenXml
                     {
                         await sw.WriteAsync(t).ConfigureAwait(false);
                     }
-                    if (col != _toCol) await sw.WriteAsync(Format.Delimiter).ConfigureAwait(false);
+                    if (col != end1) await sw.WriteAsync(Format.Delimiter).ConfigureAwait(false);
                 }
-                if (row != _toRow - Format.SkipLinesEnd) await sw.WriteAsync(Format.EOL).ConfigureAwait(false);
+                if (row != end2 - Format.SkipLinesEnd) await sw.WriteAsync(Format.EOL).ConfigureAwait(false);
             }
             if (!string.IsNullOrEmpty(Format.Footer)) await sw.WriteAsync(Format.EOL + Format.Footer).ConfigureAwait(false);
             sw.Flush();
