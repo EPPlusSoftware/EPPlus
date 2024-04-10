@@ -154,11 +154,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                     dxfStyleCache.Add(dxfKey, dxfId);
                                 }
 
+                                var icCF = (ExcelConditionalFormattingThreeIconSet)cfItems[i].Value;
+
+                                //icCF.ShouldApplyToCell
                                 //childDiv.AddAttribute("class", $"{styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}");
 
                                 //contentElement = childDiv;
                                 //inlineStyles += "height: 100%;";
+                                cls += " cf-ic-shared";
                                 cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
+                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}1";
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 break;

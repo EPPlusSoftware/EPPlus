@@ -15,7 +15,10 @@ using System;
 using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -28,29 +31,29 @@ namespace OfficeOpenXml.ConditionalFormatting
         IExcelConditionalFormattingThreeIconSet<T>
         where T : struct, Enum
     {
-        private new string _uid = null;
+        //private new string _uid = null;
 
-        //internal override string Uid
-        //{
-        //    get
-        //    {
-        //        if (_uid == null)
-        //        {
-        //            return NewId();
-        //        }
+        ////internal override string Uid
+        ////{
+        ////    get
+        ////    {
+        ////        if (_uid == null)
+        ////        {
+        ////            return NewId();
+        ////        }
 
-        //        return _uid;
-        //    }
-        //    set
-        //    {
-        //        _uid = value;
-        //    }
-        //}
+        ////        return _uid;
+        ////    }
+        ////    set
+        ////    {
+        ////        _uid = value;
+        ////    }
+        ////}
 
-        //internal static string NewId()
-        //{
-        //    return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
-        //}
+        ////internal static string NewId()
+        ////{
+        ////    return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
+        ////}
 
         internal ExcelConditionalFormattingIconSetBase(
           eExcelConditionalFormattingRuleType type,
@@ -295,6 +298,154 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get;
             set;
+        }
+
+        internal int CalculateCorrectIcon(ExcelAddress address)
+        {
+            //Icon1.Type 
+            var range = _ws.Cells[address.Address];
+            var cellValue = range.Value;
+            if(cellValue.IsNumeric())
+            {
+                if(Icon1.Type != eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    var cellValues = new List<object>();
+                    double average = 0;
+                    int count = 0;
+                    foreach (var cell in Address.GetAllAddresses())
+                    {
+                        for (int i = 1; i <= cell.Rows; i++)
+                        {
+                            for (int j = 1; j <= cell.Columns; j++)
+                            {
+                                cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                                average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                                count++;
+                            }
+                        }
+                    }
+
+                    average = average / count;
+
+                    var values = cellValues.OrderBy(n => n);
+
+                    var highest = Convert.ToDouble(values.Last());
+                    var lowest = Convert.ToDouble(values.First());
+
+                    var realValue = Convert.ToDouble(cellValue);
+
+                    var icons = new ExcelConditionalFormattingIconDataBarValue[] { Icon3, Icon2, Icon1};
+
+
+                    icons[0].ShouldApplyIcon(realValue);
+
+                    for(int i = 0; i < icons.Length -1; i++)
+                    {
+                        var checkingValue = realValue;
+
+                        if(icons[i].Type == eExcelConditionalFormattingValueObjectType.Percent)
+                        {
+                            //var percentualValue = ((realValue - lowest) / (highest - lowest));
+                            //checkingValue = percentualValue;
+                            //var percentualValue = highest * icons[i].Value;
+                            checkingValue = (checkingValue / highest) * 100;
+                        }
+
+                        if (icons[i].Type == eExcelConditionalFormattingValueObjectType.Percentile)
+                        {
+                            //var percentualValue = ((realValue - lowest) / (highest - lowest));
+                            //checkingValue = percentualValue;
+
+                            //var numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < icons[i].Value).Count();
+
+                            //var percentileValue = (numValuesLessThan/cellValues.Count()) * 100;
+
+                            var numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
+
+
+                            checkingValue = (numValuesLessThan / cellValues.Count()) * 100;
+                        }
+
+
+
+                        if (icons[i].ShouldApplyIcon(checkingValue))
+                        {
+                            return i;
+                        }
+                    }
+
+                    return icons.Length -1;
+
+                    //var highestIcon = icons[icons.Length];
+
+                    //if (highestIcon.Type == eExcelConditionalFormattingValueObjectType.Num)
+                    //{
+                    //    if (highestIcon.GreaterThanOrEqualTo)
+                    //    {
+                    //        if (highestIcon.Value >= realValue)
+                    //        {
+                    //            return 2;
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        if (highestIcon.Value > realValue)
+                    //        {
+                    //            return 2;
+                    //        }
+                    //    }
+                    //}
+
+                    //if(Icon1.Type == eExcelConditionalFormattingValueObjectType.Num)
+                    //{
+                    //    if(realValue <= Icon2.Value)
+                    //    {
+                    //        return 0;
+                    //    }
+                    //    else if(realValue < Icon2.Value)
+                    //    {
+                    //        return 0;
+                    //    }
+                    //}
+
+                    //if(Icon2.Type == eExcelConditionalFormattingValueObjectType.Num)
+                    //{
+                    //    if(realValue < Icon3.Value && realValue > Icon2.Value)
+                    //    {
+                    //        return 1;
+                    //    }
+                    //    else if(realValue <= Icon3.Value && realValue >= Icon2.Value)
+                    //    {
+                    //        return 1;
+                    //    }
+                    //}
+
+                    //if(Icon3.Type == eExcelConditionalFormattingValueObjectType.Num)
+                    //{
+                    //    if(Icon3.GreaterThanOrEqualTo)
+                    //    {
+                    //        if (Icon3.Value >= realValue)
+                    //        {
+                    //            return 2;
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        if (Icon3.Value > realValue)
+                    //        {
+                    //            return 2;
+                    //        }
+                    //    }
+                    //}
+                    //if(Icon1.GreaterThanOrEqualTo)
+                    //{
+
+                    //}
+                }
+            }
+            //Icon1.Value = 
+
+            return 0;
         }
 
         internal string GetIconSetString()

@@ -193,8 +193,30 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.CssRules.Add(styleClass);
         }
 
+        internal void AddSharedIconsetRule()
+        {
+            if(_context.SharedIconSetRuleAdded == false)
+            {
+                _ruleCollection.AddRule(".cf-ic-shared::before", "content", "\"\"");
+
+                var beforeRule = _ruleCollection.Last();
+
+                beforeRule.AddDeclaration("content", $"\"\"");
+                beforeRule.AddDeclaration("min-width", $"1em");
+                beforeRule.AddDeclaration("min-height", $"1em");
+                beforeRule.AddDeclaration("float", $"left");
+
+                _context.SharedIconSetRuleAdded = true;
+            }
+        }
+
         internal void AddAdvancedCF(int cssOrder, ExcelConditionalFormattingThreeIconSet set, int id)
         {
+            if (_context.SharedIconSetRuleAdded == false)
+            {
+                AddSharedIconsetRule();
+            }
+
             var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}cf{id}";
             var contentRule = new CssRule(ruleName, cssOrder);
             if(!set.ShowValue)
@@ -211,17 +233,25 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 //Implement icons backwards here;
             }
 
-            var beforeRule = new CssRule(ruleName+"::before", cssOrder);
+            if(set.Custom == false)
+            {
+                var svgs = CF_Icons.GetIconSetSvgs(set.GetIconSetString());
+                for(int i = 0; i < svgs.Length; i++)
+                {
+                    var iconRule = new CssRule(ruleName+$"{i}::before", cssOrder);
+                    iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{svgs[i]})");
+                    _ruleCollection.CssRules.Add(iconRule);
+                }
+                //set.IconSet;
+                //ExcelConditionalFormattingFourIconSet test;
+                //test.IconSet
+            }
 
-            var cfCss = CF_Icons.GetIconSvg(eExcelconditionalFormattingCustomIcon.RedCircle);
-            beforeRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
-            //The below should be broken out into some kind of generic "before" rule.
-            beforeRule.AddDeclaration("content", $"\"\"");
-            beforeRule.AddDeclaration("min-width", $"1em");
-            beforeRule.AddDeclaration("min-height", $"1em");
-            beforeRule.AddDeclaration("float", $"left");
-
-            _ruleCollection.CssRules.Add(beforeRule);
+            //var cfCss = CF_Icons.GetIconSvg(eExcelconditionalFormattingCustomIcon.GreenCircle);
+            //var iconRule = new CssRule(ruleName+"::before", cssOrder);
+            //iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
+            ////beforeRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
+            //_ruleCollection.CssRules.Add(iconRule);
             _ruleCollection.CssRules.Add(contentRule);
         }
 

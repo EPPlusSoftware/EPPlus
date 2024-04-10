@@ -226,5 +226,20 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
             }
         }
+
+        internal bool ShouldApplyIcon(double aValue)
+        {
+            if(aValue < Value)
+            {
+                return false;
+            }
+
+            if(aValue == Value && GreaterThanOrEqualTo == false)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

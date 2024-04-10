@@ -17,9 +17,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal const string ArrowStyle = "style='fill: {0}; stroke: {1}; ";
         internal const string ArrowEnd = "stroke-width: 0.25;'  d='M 5.80786,0.125 V 11.57082 L 0.125,5.88848 v 5.19968 l 7.80004,7.80004 7.80005,-7.80004 V 5.88848 l -5.68286,5.68234 V 0.125 Z'/></g></svg>";
 
-        internal const string CircleFrontAndId = "<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg'><circle id='{0}' ";
-        internal const string CircleStyle = "style=' fill: {0}; stroke: {1}; stroke-width: 0.264583; stroke-opacity: 1;'";
-        internal const string CircleSize = " cx='{0}' cy='{0}' r='{0}'/></svg>\r\n";
+        internal const string CircleSvg = "<svg xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle style=' fill: {0}; stroke: {1}; stroke-width: 0.264583; stroke-opacity: 1;' cx='50%' cy='50%' r='50%'/></svg>\r\n";
 
         //0 id, 1 fillColor, 2 strokeColor, 3 radius
 
@@ -37,10 +35,25 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal static string GetIconSvgUnConvertedString(eExcelconditionalFormattingCustomIcon icon)
         {
-            var wholeString = string.Format(CircleFrontAndId, "circle1");
-            wholeString += GetIconMiddle(icon);
-            wholeString += string.Format(CircleSize, "50%", "50%", "50%");
-            return wholeString;
+            //var wholeString = CircleFrontAndId
+            //wholeString += GetIconMiddle(icon);
+            //wholeString += string.Format(CircleSize, "50%", "50%", "50%");
+            
+            return GetIconMiddle(icon);
+        }
+
+        internal static string[] GetIconSetSvgs(string setString)
+        {
+            var set = IconDict.GetIconSet(setString);
+
+            var retArr = new string[set.Length];
+
+            for(int i = 0; i < set.Length; i++) 
+            {
+                retArr[i] = GetIconSvg(set[i]);
+            }
+
+            return retArr;
         }
 
         internal static string GetIconMiddle(eExcelconditionalFormattingCustomIcon icon)
@@ -71,18 +84,18 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                 case eExcelconditionalFormattingCustomIcon.RedCircleWithBorder:
                 case eExcelconditionalFormattingCustomIcon.RedCircle:
-                    return string.Format(CircleStyle, "#d65532", "#ac563e");
+                    return string.Format(CircleSvg, "#d65532", "#ac563e");
                 case eExcelconditionalFormattingCustomIcon.YellowCircle:
-                    return string.Format(CircleStyle, "#eac282", "#a88636");
+                    return string.Format(CircleSvg, "#eac282", "#a88636");
                 case eExcelconditionalFormattingCustomIcon.GreenCircle:
-                    return string.Format(CircleStyle, "#68a490", "#387360");
+                    return string.Format(CircleSvg, "#68a490", "#387360");
                 case eExcelconditionalFormattingCustomIcon.BlackCircle:
                 case eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder:
-                    return string.Format(CircleStyle, "#505050", "#33312f");
+                    return string.Format(CircleSvg, "#505050", "#33312f");
                 case eExcelconditionalFormattingCustomIcon.GrayCircle:
-                    return string.Format(CircleStyle, "#b1b1b1", "#74716e");
+                    return string.Format(CircleSvg, "#b1b1b1", "#74716e");
                 case eExcelconditionalFormattingCustomIcon.PinkCircle:
-                    return string.Format(CircleStyle, "#edb9ab", "#b18478");
+                    return string.Format(CircleSvg, "#edb9ab", "#b18478");
 
                 default: throw new NotImplementedException();
             }
