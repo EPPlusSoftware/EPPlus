@@ -264,6 +264,8 @@ namespace EPPlusTest.Export.ToCollection
                 Assert.AreEqual(6, list.Count);
                 Assert.AreEqual(sheet.Cells["B1"].Value, list[0].Id);
                 Assert.AreEqual(sheet.Cells["B2"].Value, list[0].Name);
+                Assert.AreEqual(sheet.Cells["G1"].Value, list[5].Id);
+                Assert.AreEqual(sheet.Cells["G2"].Value, list[5].Name);
             }
         }
 
