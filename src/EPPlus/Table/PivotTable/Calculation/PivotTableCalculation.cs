@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Table.PivotTable
             pivotTable.Filters.ReloadTable();
 			pivotTable.Sort();
 			int dfIx = 0;
-			bool hasCf = false;
+			bool hasCalculatedField = false;
 			foreach (var df in pivotTable.GetFieldsToCalculate())
             {
 				var dataFieldItems = new PivotCalculationStore();
@@ -86,21 +86,47 @@ namespace OfficeOpenXml.Table.PivotTable
 				}
 				else
 				{
-					hasCf=true;
+					hasCalculatedField=true;
 				}
 				dfIx++;
 			}
-
-			if (hasCf)
+            SetItemsHashSets(pivotTable);
+            if (hasCalculatedField)
 			{
 				CalculateSourceFields(pivotTable);
 				var ptCalc = new PivotTableColumnCalculation(pivotTable);
 				ptCalc.CalculateFormulaFields(fieldIndex);
 			}
+
 			return true;
         }
 
-		private static void CalculateSourceFields(ExcelPivotTable pivotTable)
+        private static void SetItemsHashSets(ExcelPivotTable pivotTable)
+        {
+            var rowItems = new List<HashSet<int>>();
+            var colItems = new List<HashSet<int>>();
+			foreach (var dfCalcStore in pivotTable.CalculatedItems)
+			{
+				for (int i = 0; i < pivotTable.RowColumnFieldIndicies.Count; i++)
+				{
+					var hs = new HashSet<int>();
+					hs.UnionWith(dfCalcStore.Index.Select(x => x.Key[i]));
+
+					if (i < pivotTable.RowFields.Count)
+					{
+						rowItems.Add(hs);
+					}
+					else
+					{
+						colItems.Add(hs);
+					}
+				}
+			}
+            pivotTable._colItems = colItems;
+            pivotTable._rowItems = rowItems;
+        }
+
+        private static void CalculateSourceFields(ExcelPivotTable pivotTable)
 		{
 			var keys = new List<Dictionary<int[], HashSet<int[]>>>();
 			var calcFields = new Dictionary<string, PivotCalculationStore>(StringComparer.InvariantCultureIgnoreCase);

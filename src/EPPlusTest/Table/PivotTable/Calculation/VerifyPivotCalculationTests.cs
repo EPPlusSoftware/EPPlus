@@ -25,6 +25,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 		{
 			_package.Dispose();
 		}
+
 		private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
 			var l = new List<PivotDataCriteria>();

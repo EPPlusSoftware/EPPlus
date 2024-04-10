@@ -318,11 +318,13 @@ namespace OfficeOpenXml.Table.PivotTable
         internal List<Dictionary<int[], HashSet<int[]>>> Keys = null;
         internal List<PivotCalculationStore> CalculatedItems = null;
 		internal Dictionary<string, PivotCalculationStore> CalculatedFieldReferencedItems = null;
-		/// <summary>
-		/// Calculates the pivot table 
-		/// </summary>
-		/// <param name="refreshCache"></param>
-		public void Calculate(bool refreshCache=false)
+        internal List<HashSet<int>> _rowItems = null;
+        internal List<HashSet<int>> _colItems = null;
+        /// <summary>
+        /// Calculates the pivot table 
+        /// </summary>
+        /// <param name="refreshCache"></param>
+        public void Calculate(bool refreshCache=false)
         {
             if(refreshCache)
             {
@@ -406,51 +408,69 @@ namespace OfficeOpenXml.Table.PivotTable
 		}
 		private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx, int colFieldStart)
 		{
-            if(key.Length<=1) return false;
-			var groupKeyRow = PivotKeyUtil.GetKey(key.Length);
-            var groupKeyCol = (int[])groupKeyRow.Clone();
-			for (int ix = 0;ix < keyFieldIndex.Count;ix++)
+            for (int ix = 0; ix < keyFieldIndex.Count; ix++)
             {
-				var groupKey = ix < colFieldStart ? groupKeyRow : groupKeyCol;
-
-				if (Fields[keyFieldIndex[ix]].Grouping==null)
+                if(ix < colFieldStart)
                 {
-					groupKey[ix] = PivotCalculationStore.SumLevelValue;
-                    //var totalKey = new int[keyFieldIndex.Count];
-                    //for (int i = 0; i < keyFieldIndex.Count; i++)
-                    //{
-                    //    if (i == ix)
-                    //    {
-                    //        totalKey[i] = key[i];
-                    //    }
-                    //    else
-                    //    {
-                    //        totalKey[i] = PivotCalculationStore.SumLevelValue;
-                    //    }
-                    //}
-                    //if (Keys[dfIx].ContainsKey(totalKey) == false)
-                    //{
-                    //    return false;
-                    //}
+                    if (_rowItems[dfIx].Contains(key[ix]) == false)
+                    {
+                        return false;
+                    }                    
                 }
                 else
                 {
-					groupKey[ix] = key[ix];
-				}
-			}
-            if (colFieldStart>0 && colFieldStart<key.Length)
-            {
-                return Keys[dfIx].ContainsKey(groupKeyRow) && Keys[dfIx].ContainsKey(groupKeyCol);
+                    if (_colItems[dfIx].Contains(key[ix]) == false)
+                    {
+                        return false;
+                    }
+                }
             }
-            else if(colFieldStart == 0)
-            {
-				return Keys[dfIx].ContainsKey(groupKeyCol);
-			}
-            else
-            {
-				return Keys[dfIx].ContainsKey(groupKeyRow);
-            }
-		}
+            return true;
+            //if(key.Length<=1) return false;
+            //var groupKeyRow = PivotKeyUtil.GetKey(key.Length);
+            //         var groupKeyCol = (int[])groupKeyRow.Clone();
+            //for (int ix = 0;ix < keyFieldIndex.Count;ix++)
+            //         {
+            //	var groupKey = ix < colFieldStart ? groupKeyRow : groupKeyCol;
+
+                //	if (Fields[keyFieldIndex[ix]].Grouping==null)
+                //             {
+                //		groupKey[ix] = PivotCalculationStore.SumLevelValue;
+                //                 //var totalKey = new int[keyFieldIndex.Count];
+                //                 //for (int i = 0; i < keyFieldIndex.Count; i++)
+                //                 //{
+                //                 //    if (i == ix)
+                //                 //    {
+                //                 //        totalKey[i] = key[i];
+                //                 //    }
+                //                 //    else
+                //                 //    {
+                //                 //        totalKey[i] = PivotCalculationStore.SumLevelValue;
+                //                 //    }
+                //                 //}
+                //                 //if (Keys[dfIx].ContainsKey(totalKey) == false)
+                //                 //{
+                //                 //    return false;
+                //                 //}
+                //             }
+                //             else
+                //             {
+                //		groupKey[ix] = key[ix];
+                //	}
+                //}
+                //         if (colFieldStart>0 && colFieldStart<key.Length)
+                //         {
+                //             return Keys[dfIx].ContainsKey(groupKeyRow) && Keys[dfIx].ContainsKey(groupKeyCol);
+                //         }
+                //         else if(colFieldStart == 0)
+                //         {
+                //	return Keys[dfIx].ContainsKey(groupKeyCol);
+                //}
+                //         else
+                //         {
+                //	return Keys[dfIx].ContainsKey(groupKeyRow);
+                //         }
+        }
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
 		{
