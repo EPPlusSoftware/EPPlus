@@ -1,5 +1,15 @@
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.1.1
+### Minor Features and fixed issues
+* Added properties Rotation, HorizontalFilp and VerticalFlip to ExcelShapeBase and ExcelPicture
+* Fixed an issue where RichText wasn't set properly on a multicell range.
+* Escape character before an apostrophe in date formats are no longer removed by EPPlus
+* The GenericImageReader failed to read some jpeg/exif images.
+* Setting the TextBody.Rotation on Chart DataLabel's caused the workbook to become corrupt in some cases.
+* Added SetColor() method to ExcelDxfColor with int parameters as in ExcelColor
+* Fixed issue applying PatternFill without applying BackgroundFill now works as expected 
+
 ## Version 7.1
 ### Features
 * Improved HTMLExport
