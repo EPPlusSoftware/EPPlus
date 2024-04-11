@@ -171,7 +171,7 @@ namespace OfficeOpenXml.Utils
                 }
                 else if (candidateString == "0")
                 {
-                    return true;
+                    return false;
                 }
                 else
                 {

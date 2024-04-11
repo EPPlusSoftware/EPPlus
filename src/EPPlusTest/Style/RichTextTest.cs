@@ -223,5 +223,39 @@ namespace EPPlusTest.Style
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void RichTextWithFalseBools()
+        {
+            using (var p = OpenPackage("RichTextFalse.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var rt = ws.Cells["A1"].RichText;
+
+                rt.Add("Some");
+                rt.Add("Thing");
+
+                rt[0].Bold = false; 
+                rt[0].Italic = false;
+                //rt[0].UnderLineType = ExcelUnderLineType.None;
+                //rt[0].UnderLine = false;
+
+                rt[0].UnderLine = true;
+                rt[0].UnderLineType = ExcelUnderLineType.Double;
+
+                rt[1].Bold = false; 
+                rt[1].Italic = false;
+                rt[0].UnderLine = false;
+
+
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("RichTextFalse.xlsx"))
+            {
+
+            }
+        }
     }
 }

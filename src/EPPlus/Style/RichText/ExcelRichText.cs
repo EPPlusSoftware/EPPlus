@@ -62,6 +62,10 @@ namespace OfficeOpenXml.Style
 
         /// <summary>
         /// Underlined text
+        /// <para/>
+        /// True sets <see cref="UnderLineType">UnderLineType</see> to  <see cref="ExcelUnderLineType.Single">Single</see>
+        /// <para/>
+        /// False sets <see cref="UnderLineType">UnderLineType</see> to <see cref="ExcelUnderLineType.Single">None</see>
         /// </summary>
         public bool UnderLine
         {
@@ -71,7 +75,6 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-
                 UnderLineType = value ? ExcelUnderLineType.Single : ExcelUnderLineType.None;
             }
         }
@@ -257,6 +260,8 @@ namespace OfficeOpenXml.Style
                     return ExcelUnderLineType.SingleAccounting;
                 case "doubleAccounting":
                     return ExcelUnderLineType.DoubleAccounting;
+                case "none":
+                    return ExcelUnderLineType.None;
                 default:
                     return ExcelUnderLineType.Single;
             }
@@ -325,6 +330,11 @@ namespace OfficeOpenXml.Style
             while (xr.Read())
             {
                 if (xr.LocalName == "rPr") break;
+
+                if(xr.NodeType == XmlNodeType.EndElement) 
+                {
+                    continue;
+                }
 
                 switch (xr.LocalName)
                 {

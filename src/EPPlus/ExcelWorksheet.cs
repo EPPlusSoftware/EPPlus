@@ -1694,12 +1694,14 @@ namespace OfficeOpenXml
                     {
                         if (xr.LocalName == "r")
                         {
-                            var rXml = xr.ReadOuterXml();
-                            while (xr.LocalName == "r")
-                            {
-                                rXml += xr.ReadOuterXml();
-                            }
-                            SetValueInner(address._fromRow, address._fromCol, rXml);
+                            //var rXml = xr.ReadOuterXml();
+                            //while (xr.LocalName == "r")
+                            //{
+                            //    rXml += xr.ReadOuterXml();
+                            //}
+
+                            var rt = new ExcelRichTextCollection(xr, Workbook);
+                            SetValueInner(address._fromRow, address._fromCol, rt);
                         }
                         else
                         {
