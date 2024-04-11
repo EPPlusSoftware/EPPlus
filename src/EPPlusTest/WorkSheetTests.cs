@@ -1468,6 +1468,19 @@ namespace EPPlusTest
             Assert.AreEqual("A1:D2", range.Address);
         }
         [TestMethod]
+        public void LoadArrayTransposed()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Loaded Array");
+            List<object[]> testArray = new List<object[]>() { new object[] { 3, 4, 5 }, new string[] { "Test1", "test", "5", "6" } };
+            var range = ws.Cells["A1"].LoadFromArraysTransposed(testArray);
+            Assert.AreEqual("A1:B4", range.Address);
+            Assert.AreEqual(3, ws.Cells["A1"].Value);
+            Assert.AreEqual("Test1", ws.Cells["B1"].Value);
+            Assert.AreEqual("6", ws.Cells["B4"].Value);
+            SaveAndCleanup(_pck);
+        }
+
+        [TestMethod]
         public void SetBackground()
         {
             var ws = _pck.Workbook.Worksheets.Add("backimg");

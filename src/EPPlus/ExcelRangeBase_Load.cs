@@ -256,7 +256,29 @@ namespace OfficeOpenXml
 
             return _worksheet.Cells[_fromRow, _fromCol, row - 1, _fromCol + maxColumn - 1];
         }
-#endregion
+        /// <summary>
+        /// Loads data from the collection of arrays of objects into the range transposed, starting from
+        /// the top-left cell.
+        /// </summary>
+        /// <param name="Data"></param>
+        /// <returns></returns>
+        public ExcelRangeBase LoadFromArraysTransposed(IEnumerable<object[]> Data)
+        {
+            //thanx to Abdullin for the code contribution
+            if (!(Data?.Any() ?? false)) return null;
+
+            var maxRow = 0;
+            var col = _fromCol;
+            foreach (object[] item in Data)
+            {
+                _worksheet._values.SetValueRow_ValueTransposed(_fromRow, col, item);
+                if (maxRow < item.Length) maxRow = item.Length;
+                col++;
+            }
+
+            return _worksheet.Cells[_fromRow, _fromCol, _fromRow + maxRow - 1, col - 1];
+        }
+        #endregion
         #region LoadFromCollection
         /// <summary>
         /// Load a collection into a the worksheet starting from the top left row of the range.
