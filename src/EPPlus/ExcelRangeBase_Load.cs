@@ -233,7 +233,7 @@ namespace OfficeOpenXml
             paramsConfig.Invoke(parameters);
             return LoadFromDataTable(table, parameters.PrintHeaders, parameters.TableStyle);
         }
-#endregion
+        #endregion
         #region LoadFromArrays
         /// <summary>
         /// Loads data from the collection of arrays of objects into the range, starting from
@@ -386,6 +386,8 @@ namespace OfficeOpenXml
             paramsConfig.Invoke(param);
             if (collection is IEnumerable<IDictionary<string, object>>)
             {
+                if(param.Transpose)
+                    return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle, param.Transpose);
                 if (param.Members == null)
                     return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle);
                 return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle, param.Members.Select(x => x.Name));
@@ -693,6 +695,17 @@ namespace OfficeOpenXml
             var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
         }
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles? tableStyle, bool transpose)
+        {
+            var param = new LoadFromDictionariesParams
+            {
+                PrintHeaders = printHeaders,
+                TableStyle = tableStyle,
+                Transpose = transpose,
+            };
+            var func = new LoadFromDictionaries(this, items, param);
+            return func.Load();
+        }
 #if !NET35 && !NET40
         /// <summary>
         /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
@@ -782,7 +795,7 @@ namespace OfficeOpenXml
             paramsConfig.Invoke(param);
             var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
-        }
+        }        
 #endif
 
         #endregion

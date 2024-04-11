@@ -186,6 +186,34 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldIncludeHeadersTransposed()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3},
+                new Aclass(){ Id = "456", Name = "Item 2", Number = 6}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.Transpose = true;
+                });
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+                Assert.AreEqual("123", sheet.Cells["D1"].Value);
+                Assert.AreEqual("456", sheet.Cells["E1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["C2"].Value);
+                Assert.AreEqual("Item 1", sheet.Cells["D2"].Value);
+                Assert.AreEqual("Item 2", sheet.Cells["E2"].Value);
+                Assert.AreEqual("Number", sheet.Cells["C3"].Value);
+                Assert.AreEqual(3, sheet.Cells["D3"].Value);
+                Assert.AreEqual(6, sheet.Cells["E3"].Value);
+            }
+        }
+
+        [TestMethod]
         public void ShouldIncludeHeadersAndTableStyle()
         {
             var items = new List<Aclass>()
@@ -450,6 +478,38 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("Id", sheet.Cells["A1"].Value);
                 Assert.AreEqual(1, sheet.Cells["A2"].Value);
                 Assert.AreEqual("TestName 2", sheet.Cells["B3"].Value);
+            }
+        }
+        [TestMethod]
+        public void ShouldLoadExpandoObjectsTransposed()
+        {
+            dynamic o1 = new ExpandoObject();
+            o1.Id = 1;
+            o1.Name = "TestName 1";
+            dynamic o2 = new ExpandoObject();
+            o2.Id = 2;
+            o2.Name = "TestName 2";
+            dynamic o3 = new ExpandoObject();
+            o3.Id = 3;
+            o3.Name = "TestName 3";
+            var items = new List<ExpandoObject>()
+            {
+                o1,
+                o2,
+                o3,
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.Transpose = true;
+                });
+                Assert.AreEqual("A1:D2", r.Address);
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["C2"].Value);
             }
         }
         [TestMethod]
