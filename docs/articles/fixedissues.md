@@ -1,5 +1,9 @@
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.1.2
+### Fixed issues 
+* Reading in RichText data on in-line strings now works as expected.
+
 ## Version 7.1.1
 ### Minor Features and fixed issues
 * Added properties Rotation, HorizontalFilp and VerticalFlip to ExcelShapeBase and ExcelPicture
