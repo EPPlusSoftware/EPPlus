@@ -220,7 +220,7 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     if(_format.Transpose)
                     {
-                        _worksheet._values.SetValueRow_Value(_range._fromRow, _range._fromCol + row, items);
+                        _worksheet._values.SetValueRow_ValueTranspose(_range._fromRow, _range._fromCol + row, items);
                     }
                     else
                     {

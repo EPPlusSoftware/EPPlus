@@ -430,5 +430,35 @@ namespace EPPlusTest.LoadFunctions
 
         }
 
+        [TestMethod]
+        public void ReadFixedTextWidthTranposed()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Name            Date      Ammount          Percent Category");
+            sb.AppendLine("David           2024/03/02          130000      2% A");
+            sb.AppendLine("Meryl           2024/02/15             999     10% B");
+            sb.AppendLine("Hal             2005/11/24               0      0% A");
+            sb.AppendLine("Frank           1988/10/12           40,00     59% C");
+            sb.AppendLine("Naomi           2015/09/03       245000,99    100% C");
+            string myFile = sb.ToString();
+
+
+            //Do fixed width text stuff
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                format.SetColumnPositions(0, 16, 26, 42, 50);
+                format.ReadType = FixedWidthReadType.Positions;
+                format.SetColumnLengths(16, 10, 16, 8, 2);
+                format.Transpose = true;
+                var r = ws.Cells["A1"].LoadFromText(myFile, format);
+                Assert.AreEqual("A1:F5", r.Address);
+                Assert.AreEqual("David", ws.Cells["B1"].Value);
+                Assert.AreEqual("C", ws.Cells["F5"].Value);
+            }
+
+        }
+
     }
 }
