@@ -88,6 +88,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString(_sourceRIdPath, value);
             }
         }
+
         internal ExcelRangeBase SourceRange 
         { 
             get
@@ -113,6 +114,7 @@ namespace OfficeOpenXml.Table.PivotTable
                                     return sourceRange;
                                 }
                             }
+
                             foreach (var w in _wb.Worksheets)
                             {
                                 sourceRange = GetRangeByName(w, name);

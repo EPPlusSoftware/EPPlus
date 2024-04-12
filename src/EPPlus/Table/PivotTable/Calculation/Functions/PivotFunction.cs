@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
     internal abstract class PivotFunction
     {
         internal abstract void AddItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
-		internal abstract void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys);
+		internal abstract void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<bool> showTotals);
 		internal virtual void Calculate(List<object> list, PivotCalculationStore dataFieldItems) 
         {
         }
@@ -282,13 +282,15 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
         }
-        protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action)
+        protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, List<bool> showTotals)
         {			
             //TODO: Check if field should be aggregated
             int max = 1 << key.Length;
 			for (int i = 1; i < max; i++)
 			{
-				var newKey = GetKey(key, i);
+                //TODO:Handle collapsed row/columns and fields with subtotals - None or multiple values. The ShouldAggregateKey()  is a start. 
+                //if (ShouldAggregateKey(key, colStartRef, i, showTotals) == false) continue;      //Check if field has subtotal, otherwise dont aggregate the item.
+                var newKey = GetKey(key, i);
 				if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
 				{
 					hs = new HashSet<int[]>(new ArrayComparer());
@@ -334,7 +336,17 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
             return newKey;
         }
-
+        private static bool ShouldAggregateKey(int[] key, int colStartRef, int pos, List<bool> showTotals)
+        {
+            for (int i = 0; i < key.Length; i++)
+            {
+                if (showTotals[i] == false && ((1 << i) & pos) == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         internal void FilterValueFields(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<int> fieldIndex)
         {
             foreach (var valueFilter in pivotTable.Filters.Where(x => x.Type >= ePivotTableFilterType.ValueBetween))
@@ -354,8 +366,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
                 }
 
                 var keysToRemove = new List<int[]>();
-
-                if (valueFilter.Type == ePivotTableFilterType.Sum ||
+                if(valueFilter.Type == ePivotTableFilterType.Sum ||
                    valueFilter.Type == ePivotTableFilterType.Count ||
                    valueFilter.Type == ePivotTableFilterType.Percent)
                 {
@@ -558,9 +569,10 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 
 		internal void Aggregate(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
 		{
-			foreach(var key in dataFieldItems.Index.ToArray())
+            var showTotals = pivotTable.RowFields.Union(pivotTable.ColumnFields).Select(x => x.SubTotalFunctions != eSubTotalFunctions.None).ToList();
+            foreach(var key in dataFieldItems.Index.ToArray())
             {   
-                AggregateItems(key.Key, pivotTable.RowFields.Count, dataFieldItems[key.Key], dataFieldItems, keys);
+                AggregateItems(key.Key, pivotTable.RowFields.Count, dataFieldItems[key.Key], dataFieldItems, keys, showTotals);
             }
 		}
 	}

@@ -27,11 +27,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
         }
 
-		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<bool> showTotals)
 		{
 			if (IsNumeric(value))
 			{
-				AggregateKeys(key, colStartIx, dataFieldItems, keys, 1d, SumValue);
+				AggregateKeys(key, colStartIx, dataFieldItems, keys, 1d, SumValue, showTotals);
 			}
 		}
 	}

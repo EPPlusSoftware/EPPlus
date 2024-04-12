@@ -64,8 +64,9 @@ namespace OfficeOpenXml.Table.PivotTable
 			calculatedItems = new List<PivotCalculationStore>();
 			keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
-            pivotTable.Filters.ReloadTable();
-			pivotTable.Sort();
+			pivotTable.MatchFieldValuesToIndex();
+			pivotTable.Filters.ReloadTable();
+			pivotTable.Sort();			
 			int dfIx = 0;
 			bool hasCalculatedField = false;
 			foreach (var df in pivotTable.GetFieldsToCalculate())
@@ -90,8 +91,9 @@ namespace OfficeOpenXml.Table.PivotTable
 				}
 				dfIx++;
 			}
-            SetItemsHashSets(pivotTable);
-            if (hasCalculatedField)
+            SetRowColumnsItemsToHashSets(pivotTable);
+            //Handle Calculated fields after the pivot table fields has been calculated
+			if (hasCalculatedField)
 			{
 				CalculateSourceFields(pivotTable);
 				var ptCalc = new PivotTableColumnCalculation(pivotTable);
@@ -101,7 +103,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			return true;
         }
 
-        private static void SetItemsHashSets(ExcelPivotTable pivotTable)
+        private static void SetRowColumnsItemsToHashSets(ExcelPivotTable pivotTable)
         {
             var rowItems = new List<HashSet<int>>();
             var colItems = new List<HashSet<int>>();

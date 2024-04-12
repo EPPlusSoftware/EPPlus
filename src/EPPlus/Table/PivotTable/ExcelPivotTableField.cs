@@ -1026,7 +1026,6 @@ namespace OfficeOpenXml.Table.PivotTable
 
             return sb.ToString();
         }
-
         internal int GetGroupingKey(int shIndex)
         {
             object v;

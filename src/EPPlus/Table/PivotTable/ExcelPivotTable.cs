@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public struct PivotNull : IEqualityComparer<PivotNull>
 	{
-		public new bool Equals(PivotNull x, PivotNull y)
+		public bool Equals(PivotNull x, PivotNull y)
 		{
             return true;
 		}
@@ -339,8 +339,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             var keyFieldIndex = RowColumnFieldIndicies;
             var key=new int[keyFieldIndex.Count];
-            //var hasGrouping = false;
-            for (int i=0;i < keyFieldIndex.Count;i++)
+            for (int i=0;i < keyFieldIndex.Count; i++)
             {
                 key[i] = PivotCalculationStore.SumLevelValue;
                 for (int j = 0; j < criteria.Count; j++)
@@ -358,7 +357,6 @@ namespace OfficeOpenXml.Table.PivotTable
                             {
                                 return errorValue;
                             }
-                            //hasGrouping = true;
 						}
 						else
                         {
@@ -395,6 +393,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     return ErrorValues.RefError;
                 }
             }
+
             if(CalculatedItems[dfIx].TryGetValue(key, out var value))
             {
                 return value;
@@ -408,7 +407,7 @@ namespace OfficeOpenXml.Table.PivotTable
 		}
 		private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx, int colFieldStart)
 		{
-            for (int ix = 0; ix < keyFieldIndex.Count; ix++)
+            for(int ix = 0; ix < keyFieldIndex.Count; ix++)
             {
                 if(ix < colFieldStart)
                 {
@@ -426,50 +425,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             return true;
-            //if(key.Length<=1) return false;
-            //var groupKeyRow = PivotKeyUtil.GetKey(key.Length);
-            //         var groupKeyCol = (int[])groupKeyRow.Clone();
-            //for (int ix = 0;ix < keyFieldIndex.Count;ix++)
-            //         {
-            //	var groupKey = ix < colFieldStart ? groupKeyRow : groupKeyCol;
-
-                //	if (Fields[keyFieldIndex[ix]].Grouping==null)
-                //             {
-                //		groupKey[ix] = PivotCalculationStore.SumLevelValue;
-                //                 //var totalKey = new int[keyFieldIndex.Count];
-                //                 //for (int i = 0; i < keyFieldIndex.Count; i++)
-                //                 //{
-                //                 //    if (i == ix)
-                //                 //    {
-                //                 //        totalKey[i] = key[i];
-                //                 //    }
-                //                 //    else
-                //                 //    {
-                //                 //        totalKey[i] = PivotCalculationStore.SumLevelValue;
-                //                 //    }
-                //                 //}
-                //                 //if (Keys[dfIx].ContainsKey(totalKey) == false)
-                //                 //{
-                //                 //    return false;
-                //                 //}
-                //             }
-                //             else
-                //             {
-                //		groupKey[ix] = key[ix];
-                //	}
-                //}
-                //         if (colFieldStart>0 && colFieldStart<key.Length)
-                //         {
-                //             return Keys[dfIx].ContainsKey(groupKeyRow) && Keys[dfIx].ContainsKey(groupKeyCol);
-                //         }
-                //         else if(colFieldStart == 0)
-                //         {
-                //	return Keys[dfIx].ContainsKey(groupKeyCol);
-                //}
-                //         else
-                //         {
-                //	return Keys[dfIx].ContainsKey(groupKeyRow);
-                //         }
         }
 
 		private static ExcelErrorValue GetGroupingKey(List<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
@@ -1534,5 +1489,17 @@ namespace OfficeOpenXml.Table.PivotTable
 		{
             return DataFields.ToList();
 		}
-	}
+
+        internal void MatchFieldValuesToIndex()
+        {
+            foreach(var f in Fields)
+            {
+                //if(f.IsColumnField || f.IsRowField || f.IsPageField || f.Slicer!=null)
+                if(f.Items.Count > 0)
+                {
+                    f.Items.MatchValueToIndex();
+                }
+            }
+        }
+    }
 }

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (_list[i].Hidden)
                 {
-                    hiddenItems.Add(i);
+                    hiddenItems.Add(_list[i].X);
                 }
             }
             return hiddenItems;
@@ -91,6 +91,22 @@ namespace OfficeOpenXml.Table.PivotTable
                 return ix;
             }
             return -1;
+        }
+        internal void MatchValueToIndex()
+        {
+            var cacheLookup = _field.CacheField.GetCacheLookup();
+            foreach (var item in _list)
+            {
+                var v = item.Value ?? ExcelPivotTable.PivotNullValue;
+                if (item.Type == eItemType.Data && cacheLookup.TryGetValue(v, out int x))
+                {
+                    item.X = cacheLookup[v];
+                }
+                else
+                {
+                    item.X = -1;
+                }
+            }
         }
         /// <summary>
         /// Set Hidden to false for all items in the collection

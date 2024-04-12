@@ -33,16 +33,16 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
         }
 
-		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<bool> showTotals)
 		{
 			var d = GetValueDouble(value);
 			if (double.IsNaN(d))
 			{
-				AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
+				AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError, showTotals);
 			}
 			else
 			{
-				AggregateKeys<double>(key, colStartIx, dataFieldItems, keys, d, MaxValue);
+				AggregateKeys<double>(key, colStartIx, dataFieldItems, keys, d, MaxValue, showTotals);
 			}
 		}
 	}

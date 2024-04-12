@@ -40,15 +40,15 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             }
         }
 
-		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)
+		internal override void AggregateItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, List<bool> showTotals)
 		{
 			if (value is List<Double> d)
 			{
-				AggregateKeys<List<double>>(key, colStartIx, dataFieldItems, keys, d, DoubleListToList);
+				AggregateKeys<List<double>>(key, colStartIx, dataFieldItems, keys, d, DoubleListToList, showTotals);
 			}
 			else
 			{
-				AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError);
+				AggregateKeys<ExcelErrorValue>(key, colStartIx, dataFieldItems, keys, (ExcelErrorValue)value, SetError, showTotals);
 			}
 		}
 		internal override void Calculate(List<object> list, PivotCalculationStore dataFieldItems)
