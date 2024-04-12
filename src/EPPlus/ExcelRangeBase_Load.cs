@@ -56,6 +56,28 @@ namespace OfficeOpenXml
             }
             return r;
         }
+        /// <summary>
+        /// Load the data from the datareader starting from the top left cell of the range
+        /// </summary>
+        /// <param name="Reader">The datareader to loadfrom</param>
+        /// <param name="PrintHeaders">Print the column caption property (if set) or the columnname property if not, on first row</param>
+        /// <param name="TableName">The name of the table</param>
+        /// <param name="TableStyle">The table style to apply to the data</param>
+        /// <param name="Transpose">Transpose the data</param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromDataReader(IDataReader Reader, bool PrintHeaders, string TableName, bool Transpose, TableStyles TableStyle = TableStyles.None)
+        {
+            var r = Transpose ? LoadFromDataReader(Reader, PrintHeaders, Transpose) : LoadFromDataReader(Reader, PrintHeaders);
+
+            int rows = r.Rows - 1;
+            if (rows >= 0 && r.Columns > 0)
+            {
+                var tbl = _worksheet.Tables.Add(new ExcelAddressBase(_fromRow, _fromCol, _fromRow + (rows <= 0 ? 1 : rows), _fromCol + r.Columns - 1), TableName);
+                tbl.ShowHeader = PrintHeaders;
+                tbl.TableStyle = TableStyle;
+            }
+            return r;
+        }
 
         /// <summary>
         /// Load the data from the datareader starting from the top left cell of the range
@@ -93,6 +115,47 @@ namespace OfficeOpenXml
             }
             return _worksheet.Cells[_fromRow, _fromCol, row - 1, _fromCol + fieldCount - 1];
         }
+        /// <summary>
+        /// Load the data from the datareader starting from the top left cell of the range
+        /// </summary>
+        /// <param name="Reader">The datareader to load from</param>
+        /// <param name="PrintHeaders">Print the caption property (if set) or the columnname property if not, on first row</param>
+        /// <param name="Transpose">Must be true to transpose data</param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromDataReader(IDataReader Reader, bool PrintHeaders, bool Transpose)
+        {
+            if (Reader == null)
+            {
+                throw (new ArgumentNullException("Reader", "Reader can't be null"));
+            }
+            if(Transpose == false)
+            {
+                throw (new ArgumentNullException("Transpose", "Must be true, use LeadFromDataReader without argument Transpose instead"));
+            }
+            int fieldCount = Reader.FieldCount;
+
+            int col = _fromCol, row = _fromRow;
+            if (PrintHeaders)
+            {
+                for (int i = 0; i < fieldCount; i++)
+                {
+                    // If no caption is set, the ColumnName property is called implicitly.
+                    _worksheet.SetValueInner(row++, col, Reader.GetName(i));
+                }
+                col++;
+                row = _fromRow;
+            }
+            while (Reader.Read())
+            {
+                for (int i = 0; i < fieldCount; i++)
+                {
+                    _worksheet.SetValueInner(row++, col, Reader.GetValue(i));
+                }
+                col++;
+                row = _fromRow;
+            }
+            return _worksheet.Cells[_fromRow, _fromCol, _fromRow + fieldCount - 1, col - 1];
+        }
 #if !NET35 && !NET40
         /// <summary>
         /// Load the data from the datareader starting from the top left cell of the range
@@ -122,12 +185,48 @@ namespace OfficeOpenXml
         /// <summary>
         /// Load the data from the datareader starting from the top left cell of the range
         /// </summary>
+        /// <param name="Reader">The datareader to loadfrom</param>
+        /// <param name="PrintHeaders">Print the column caption property (if set) or the columnname property if not, on first row</param>
+        /// <param name="TableName">The name of the table</param>
+        /// <param name="Transpose"></param>
+        /// <param name="TableStyle">The table style to apply to the data</param>
+        /// <param name="cancellationToken">The cancellation token to use</param>
+        /// <returns>The filled range</returns>
+        public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders, string TableName, bool Transpose, TableStyles TableStyle = TableStyles.None, CancellationToken? cancellationToken = null)
+        {
+            cancellationToken = cancellationToken ?? CancellationToken.None;
+            var r = await LoadFromDataReaderAsync(Reader, PrintHeaders, cancellationToken.Value, Transpose).ConfigureAwait(false);
+
+            if (cancellationToken.Value.IsCancellationRequested) return r;
+
+            int rows = r.Rows - 1;
+            if (rows >= 0 && r.Columns > 0)
+            {
+                var tbl = _worksheet.Tables.Add(new ExcelAddressBase(_fromRow, _fromCol, _fromRow + (rows <= 0 ? 1 : rows), _fromCol + r.Columns - 1), TableName);
+                tbl.ShowHeader = PrintHeaders;
+                tbl.TableStyle = TableStyle;
+            }
+            return r;
+        }
+        /// <summary>
+        /// Load the data from the datareader starting from the top left cell of the range
+        /// </summary>
         /// <param name="Reader">The datareader to load from</param>
         /// <param name="PrintHeaders">Print the caption property (if set) or the columnname property if not, on first row</param>
         /// <returns>The filled range</returns>
         public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders)
         {
             return await LoadFromDataReaderAsync(Reader, PrintHeaders, CancellationToken.None);
+        }
+        /// <summary>
+        /// Load the data from the datareader starting from the top left cell of the range
+        /// </summary>
+        /// <param name="Reader">The datareader to load from</param>
+        /// <param name="PrintHeaders">Print the caption property (if set) or the columnname property if not, on first row</param>
+        /// <returns>The filled range</returns>
+        public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders, bool Transpose)
+        {
+            return Transpose ? await LoadFromDataReaderAsync(Reader, PrintHeaders, CancellationToken.None, Transpose) : await LoadFromDataReaderAsync(Reader, PrintHeaders, CancellationToken.None);
         }
         /// <summary>
         /// Load the data from the datareader starting from the top left cell of the range
@@ -170,6 +269,53 @@ namespace OfficeOpenXml
                 }
             }
             return _worksheet.Cells[_fromRow, _fromCol, row - 1, _fromCol + fieldCount - 1];
+        }
+        /// <summary>
+        /// Load the data from the datareader starting from the top left cell of the range
+        /// </summary>
+        /// <param name="Reader">The datareader to load from</param>
+        /// <param name="PrintHeaders">Print the caption property (if set) or the columnname property if not, on first row</param>
+        /// <param name="cancellationToken">The cancellation token to use</param>
+        /// <param name="Transpose"></param>
+        /// <returns>The filled range</returns>
+        public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders, CancellationToken cancellationToken, bool Transpose)
+        {
+            if (Reader == null)
+            {
+                throw (new ArgumentNullException("Reader", "Reader can't be null"));
+            }
+            if (Transpose == false)
+            {
+                throw (new ArgumentNullException("Transpose", "Must be true, use LeadFromDataReaderAsync without argument Transpose instead"));
+            }
+            int fieldCount = Reader.FieldCount;
+
+            int col = _fromCol, row = _fromRow;
+            if (PrintHeaders)
+            {
+                for (int i = 0; i < fieldCount; i++)
+                {
+                    // If no caption is set, the ColumnName property is called implicitly.
+                    _worksheet.SetValueInner(row++, col, Reader.GetName(i));
+                }
+                col++;
+                row = _fromRow;
+            }
+
+            while (await Reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+            {
+                for (int i = 0; i < fieldCount; i++)
+                {
+                    _worksheet.SetValueInner(row++, col, Reader.GetValue(i));
+                }
+                col++;
+                row = _fromRow;
+                if (row % 100 == 0 && cancellationToken.IsCancellationRequested)    //Check every 100 columns
+                {
+                    return _worksheet.Cells[_fromRow, _fromCol, _fromRow + fieldCount - 1, col - 1 ];
+                }
+            }
+            return _worksheet.Cells[_fromRow, _fromCol, _fromRow + fieldCount - 1, col - 1];
         }
 #endif
         #endregion

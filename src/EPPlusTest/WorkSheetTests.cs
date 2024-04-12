@@ -1259,6 +1259,34 @@ namespace EPPlusTest
             Assert.AreEqual(6, range.End.Row);
         }
         [TestMethod]
+        public void LoadDataReaderTransposed()
+        {
+            if (_pck == null) _pck = new ExcelPackage();
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader");
+            ExcelRangeBase range;
+            using (var dt = GetDataTable())
+            {
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = ws.Cells["A1"].LoadFromDataReader(reader, true, "My_Table", true, TableStyles.Medium5);
+                }
+                Assert.AreEqual(1, range.Start.Column);
+                Assert.AreEqual(3, range.End.Column);
+                Assert.AreEqual(1, range.Start.Row);
+                Assert.AreEqual(4, range.End.Row);
+
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = ws.Cells["A5"].LoadFromDataReader(reader, false, "My_Table2", true, TableStyles.Medium5);
+                }
+            }
+            Assert.AreEqual("A5:B8", range.Address);
+            Assert.AreEqual(1, range.Start.Column);
+            Assert.AreEqual(2, range.End.Column);
+            Assert.AreEqual(5, range.Start.Row);
+            Assert.AreEqual(8, range.End.Row);
+        }
+        [TestMethod]
         public async Task LoadDataReaderAsync()
         {
             if (_pck == null) _pck = new ExcelPackage();
@@ -1284,6 +1312,34 @@ namespace EPPlusTest
             Assert.AreEqual(4, range.End.Column);
             Assert.AreEqual(5, range.Start.Row);
             Assert.AreEqual(6, range.End.Row);
+        }
+        [TestMethod]
+        public async Task LoadDataReaderAsyncTransposed()
+        {
+            if (_pck == null) _pck = new ExcelPackage();
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader Async");
+            ExcelRangeBase range;
+            using (var dt = GetDataTable())
+            {
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = await ws.Cells["A1"].LoadFromDataReaderAsync(reader, true, "My_Table_Async", true, TableStyles.Medium5).ConfigureAwait(false);
+                }
+                Assert.AreEqual(1, range.Start.Column);
+                Assert.AreEqual(3, range.End.Column);
+                Assert.AreEqual(1, range.Start.Row);
+                Assert.AreEqual(4, range.End.Row);
+
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = await ws.Cells["A5"].LoadFromDataReaderAsync(reader, false, "My_Table_Async2", true, TableStyles.Medium5).ConfigureAwait(false);
+                }
+            }
+            Assert.AreEqual("A5:B8", range.Address);
+            Assert.AreEqual(1, range.Start.Column);
+            Assert.AreEqual(2, range.End.Column);
+            Assert.AreEqual(5, range.Start.Row);
+            Assert.AreEqual(8, range.End.Row);
         }
         private static DataTable GetDataTable()
         {
