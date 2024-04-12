@@ -195,6 +195,25 @@ namespace OfficeOpenXml
         /// Load the data from the datatable starting from the top left cell of the range
         /// </summary>
         /// <param name="Table">The datatable to load</param>
+        /// <param name="PrintHeaders">Print the column caption property (if set) or the columnname property if not, on first row</param>
+        /// <param name="TableStyle">The table style to apply to the data</param>
+        /// <param name="Transpose">Transpose the loaded data</param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders, TableStyles? TableStyle, bool Transpose)
+        {
+            var parameters = new LoadFromDataTableParams
+            {
+                PrintHeaders = PrintHeaders,
+                TableStyle = TableStyle,
+                Transpose = Transpose,
+            };
+            var func = new LoadFromDataTable(this, Table, parameters);
+            return func.Load();
+        }
+        /// <summary>
+        /// Load the data from the datatable starting from the top left cell of the range
+        /// </summary>
+        /// <param name="Table">The datatable to load</param>
         /// <param name="PrintHeaders">Print the caption property (if set) or the columnname property if not, on first row</param>
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders)
@@ -231,7 +250,7 @@ namespace OfficeOpenXml
         {
             var parameters = new LoadFromDataTableParams();
             paramsConfig.Invoke(parameters);
-            return LoadFromDataTable(table, parameters.PrintHeaders, parameters.TableStyle);
+            return LoadFromDataTable(table, parameters.PrintHeaders, parameters.TableStyle, parameters.Transpose);
         }
         #endregion
         #region LoadFromArrays
@@ -331,6 +350,20 @@ namespace OfficeOpenXml
             return LoadFromCollection<T>(Collection, PrintHeaders, TableStyle, BindingFlags.Public | BindingFlags.Instance, null);
         }
         /// <summary>
+        /// Load a collection of T into the worksheet starting from the top left row of the range.
+        /// Default option will load all public instance properties of T
+        /// </summary>
+        /// <typeparam name="T">The datatype in the collection</typeparam>
+        /// <param name="Collection">The collection to load</param>
+        /// <param name="PrintHeaders">Print the property names on the first row. If the property is decorated with a <see cref="DisplayNameAttribute"/> or a <see cref="DescriptionAttribute"/> that attribute will be used instead of the reflected member name.</param>
+        /// <param name="TableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
+        /// <param name="Transpose">Will load data transposed</param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, bool Transpose)
+        {
+            return LoadFromCollection<T>(Collection, PrintHeaders, TableStyle, Transpose, BindingFlags.Public | BindingFlags.Instance, null);
+        }
+        /// <summary>
         /// Load a collection into the worksheet starting from the top left row of the range.
         /// </summary>
         /// <typeparam name="T">The datatype in the collection</typeparam>
@@ -363,6 +396,52 @@ namespace OfficeOpenXml
             var func = new LoadFromCollection<T>(this, Collection, param);
             return func.Load();
         }
+        /// <summary>
+        /// Load a collection into the worksheet starting from the top left row of the range.
+        /// </summary>
+        /// <typeparam name="T">The datatype in the collection</typeparam>
+        /// <param name="Collection">The collection to load</param>
+        /// <param name="PrintHeaders">Print the property names on the first row. Any underscore in the property name will be converted to a space. If the property is decorated with a <see cref="DisplayNameAttribute"/> or a <see cref="DescriptionAttribute"/> that attribute will be used instead of the reflected member name.</param>
+        /// <param name="TableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
+        /// <param name="Transpose">Will insert data transposed/param>
+        /// <param name="memberFlags">Property flags to use</param>
+        /// <param name="Members">The properties to output. Must be of type T</param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, bool Transpose, BindingFlags memberFlags, MemberInfo[] Members)
+        {
+            return LoadFromCollectionInternal(Collection, PrintHeaders, TableStyle, Transpose, memberFlags, Members);
+        }
+
+        private ExcelRangeBase LoadFromCollectionInternal<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, bool Transpose, BindingFlags memberFlags, MemberInfo[] Members)
+        {
+            if (Collection is IEnumerable<IDictionary<string, object>>)
+            {
+                if (Members == null)
+                    return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, c =>
+                    {
+                        c.PrintHeaders = PrintHeaders;
+                        c.TableStyle = TableStyle;
+                        c.Transpose = Transpose;
+                    });
+                return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, c =>
+                {
+                    c.PrintHeaders = PrintHeaders;
+                    c.TableStyle = TableStyle;
+                    c.Transpose = Transpose;
+                    c.SetKeys(Members.Select(x => x.Name).ToArray());
+                });
+            }
+            var param = new LoadFromCollectionParams
+            {
+                PrintHeaders = PrintHeaders,
+                TableStyle = TableStyle,
+                BindingFlags = memberFlags,
+                Members = Members,
+                Transpose = Transpose,
+            };
+            var func = new LoadFromCollection<T>(this, Collection, param);
+            return func.Load();
+        }
 
         /// <summary>
         /// Load a collection into the worksheet starting from the top left row of the range.
@@ -386,11 +465,23 @@ namespace OfficeOpenXml
             paramsConfig.Invoke(param);
             if (collection is IEnumerable<IDictionary<string, object>>)
             {
-                if(param.Transpose)
-                    return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle, param.Transpose);
                 if (param.Members == null)
-                    return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle);
-                return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle, param.Members.Select(x => x.Name));
+                {
+                    return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, c =>
+                    {
+                        c.PrintHeaders = param.PrintHeaders;
+                        c.TableStyle = param.TableStyle;
+                        c.Transpose = param.Transpose;
+                    });
+                }
+                return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, c =>
+                {
+                    c.PrintHeaders = param.PrintHeaders;
+                    c.TableStyle = param.TableStyle;
+                    c.Transpose = param.Transpose;
+                    c.SetKeys(param.Members.Select(x => x.Name).ToArray());
+                });
+                //return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle, param.Members.Select(x => x.Name));
             }
             var func = new LoadFromCollection<T>(this, collection, param);
             return func.Load();
@@ -692,17 +783,6 @@ namespace OfficeOpenXml
             {
                 param.SetKeys(keys.ToArray());
             }
-            var func = new LoadFromDictionaries(this, items, param);
-            return func.Load();
-        }
-        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles? tableStyle, bool transpose)
-        {
-            var param = new LoadFromDictionariesParams
-            {
-                PrintHeaders = printHeaders,
-                TableStyle = tableStyle,
-                Transpose = transpose,
-            };
             var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
         }

@@ -37,6 +37,7 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Attributes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 
@@ -170,6 +171,31 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldNotIncludeHeadersWhenPrintHeadersIsOmittedTransposed()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3},
+                new Aclass(){ Id = "456", Name = "Item 2", Number = 6}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, c =>
+                {
+                    c.Transpose = true;
+                });
+
+                Assert.AreEqual("123", sheet.Cells["C1"].Value);
+                Assert.AreEqual(6, sheet.Cells["D3"].Value);
+                Assert.AreEqual(3, sheet.Dimension._fromCol);
+                Assert.AreEqual(4, sheet.Dimension._toCol);
+                Assert.AreEqual(1, sheet.Dimension._fromRow);
+                Assert.AreEqual(3, sheet.Dimension._toRow);
+            }
+        }
+
+        [TestMethod]
         public void ShouldIncludeHeaders()
         {
             var items = new List<Aclass>()
@@ -285,6 +311,34 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("Name", sheet.Cells["D1"].Value);
                 Assert.IsNull(sheet.Cells["E1"].Value);
                 Assert.AreEqual("123", sheet.Cells["C2"].Value);
+                Assert.AreEqual("Item 1", sheet.Cells["D2"].Value);
+                Assert.IsNull(sheet.Cells["E2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldFilterMembersTransposed()
+        {
+            var items = new List<BaseClass>()
+            {
+                new Implementation(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                var t = typeof(Implementation);
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, true, LoadFromCollectionParams.DefaultBindingFlags,
+                    new MemberInfo[]
+                    {
+                        t.GetProperty("Id"),
+                        t.GetProperty("Name")
+                    });
+
+                Assert.AreEqual(1, sheet.Dimension._toCol - sheet.Dimension._fromCol);
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["C2"].Value);
+                Assert.IsNull(sheet.Cells["C3"].Value);
+                Assert.AreEqual("123", sheet.Cells["D1"].Value);
                 Assert.AreEqual("Item 1", sheet.Cells["D2"].Value);
                 Assert.IsNull(sheet.Cells["E2"].Value);
             }
@@ -568,6 +622,26 @@ namespace EPPlusTest.LoadFunctions
             }
         }
         [TestMethod]
+        public void LoadListOfEnumWithDescriptionTransposed()
+        {
+            var items = new List<AnEnum>()
+            {
+                AnEnum.Red,
+                AnEnum.Green,
+                AnEnum.Blue
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("EnumList");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
+                Assert.AreEqual("The color Red", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Green", sheet.Cells["B1"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["C1"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
         public void LoadListOfNullableEnumWithDescription()
         {
             var items = new List<AnEnum?>()
@@ -618,6 +692,36 @@ namespace EPPlusTest.LoadFunctions
             }
         }
         [TestMethod]
+        public void LoadListOfClassWithEnumWithDescriptionTransposed()
+        {
+            var items = new List<EnumClass>()
+            {
+                new EnumClass(){Id=1, Enum=AnEnum.Red, NullableEnum = AnEnum.Blue},
+                new EnumClass(){Id=2, Enum=AnEnum.Blue, NullableEnum = null},
+                new EnumClass(){Id=3, Enum=AnEnum.Green, NullableEnum = AnEnum.Red},
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Enum", sheet.Cells["A2"].Value);
+                Assert.AreEqual("Nullable Enum", sheet.Cells["A3"].Value);
+                Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual("The color Red", sheet.Cells["B2"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["B3"].Value);
+                Assert.AreEqual(2, sheet.Cells["C1"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["C2"].Value);
+                Assert.IsNull(sheet.Cells["C3"].Value);
+                Assert.AreEqual(3, sheet.Cells["D1"].Value);
+                Assert.AreEqual("Green", sheet.Cells["D2"].Value);
+                Assert.AreEqual("The color Red", sheet.Cells["D3"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
         public void LoadWithAttributesTest()
         {
             var l = new List<Company>();
@@ -627,6 +731,20 @@ namespace EPPlusTest.LoadFunctions
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].LoadFromCollection(l, x => x.UseBuiltInStylesForHyperlinks = true);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void LoadWithAttributesTestTransposed()
+        {
+            var l = new List<Company>();
+            l.Add(new Company(1, "EPPlus Software AB", new Uri("https://epplussoftware.com")));
+
+            using (var package = OpenPackage("LoadFromCollectionAttr.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].LoadFromCollection(l, x => { x.UseBuiltInStylesForHyperlinks = true; x.Transpose = true; });
 
                 SaveAndCleanup(package);
             }
