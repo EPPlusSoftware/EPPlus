@@ -3,6 +3,7 @@
 ## Version 7.1.2
 ### Fixed issues 
 * Defined Names with `"` symbols no longer get extraneous `"` added when saving in epplus.
+* Reading in RichText data on in-line strings now works as expected.
 
 ## Version 7.1.1
 ### Minor Features and fixed issues
