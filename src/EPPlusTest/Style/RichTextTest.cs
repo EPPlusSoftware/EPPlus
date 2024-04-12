@@ -238,15 +238,13 @@ namespace EPPlusTest.Style
 
                 rt[0].Bold = false; 
                 rt[0].Italic = false;
-                //rt[0].UnderLineType = ExcelUnderLineType.None;
-                //rt[0].UnderLine = false;
 
                 rt[0].UnderLine = true;
                 rt[0].UnderLineType = ExcelUnderLineType.Double;
 
                 rt[1].Bold = false; 
                 rt[1].Italic = false;
-                rt[0].UnderLine = false;
+                rt[1].UnderLine = false;
 
 
                 SaveAndCleanup(p);
@@ -254,7 +252,17 @@ namespace EPPlusTest.Style
 
             using (var p = OpenPackage("RichTextFalse.xlsx"))
             {
+                var ws = p.Workbook.Worksheets[0];
 
+                var rt = ws.Cells["A1"].RichText;
+
+                Assert.AreEqual(false, rt[0].Bold);
+                Assert.AreEqual(false, rt[0].Italic);
+                Assert.AreEqual(true, rt[0].UnderLine);
+
+                Assert.AreEqual(false, rt[1].Bold);
+                Assert.AreEqual(false, rt[1].Italic);
+                Assert.AreEqual(false, rt[1].UnderLine);
             }
         }
     }
