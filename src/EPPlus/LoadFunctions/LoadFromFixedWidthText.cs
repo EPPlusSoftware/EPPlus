@@ -115,11 +115,22 @@ namespace OfficeOpenXml.LoadFunctions
                             col++;
                         }
                     }
-                    _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    if (_format.Transpose)
+                    {
+                        _worksheet._values.SetValueRow_ValueTranspose(_range._fromRow, _range._fromCol + row, items);
+                    }
+                    else
+                    {
+                        _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    }
                     if (col > maxCol) maxCol = col;
                     row++;
                 }
                 lineNo++;
+            }
+            if(_format.Transpose)
+            {
+                return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + maxCol - 1, _range._fromCol + row - 1];
             }
             return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol - 1];
         }
@@ -207,11 +218,22 @@ namespace OfficeOpenXml.LoadFunctions
                             col++;
                         }
                     }
-                    _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    if(_format.Transpose)
+                    {
+                        _worksheet._values.SetValueRow_Value(_range._fromRow, _range._fromCol + row, items);
+                    }
+                    else
+                    {
+                        _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    }
                     if (col > maxCol) maxCol = col;
                     row++;
                 }
                 lineNo++;
+            }
+            if (_format.Transpose)
+            {
+                return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + maxCol - 1, _range._fromCol + row - 1];
             }
             return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol - 1];
         }

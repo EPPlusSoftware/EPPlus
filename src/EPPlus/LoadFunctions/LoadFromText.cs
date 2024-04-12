@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/16/2020         EPPlus Software AB       EPPlus 5.2.1
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.LoadFunctions.Params;
 using System;
 using System.Collections.Generic;
@@ -140,8 +141,14 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         items.Add(ConvertData(_format, _format.DataTypes, v, col, isText));
                     }
-
-                    _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    if (_format.Transpose)
+                    {
+                        _worksheet._values.SetValueRow_ValueTranspose(_range._fromRow, _range._fromCol + row, items);
+                    }
+                    else
+                    {
+                        _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    }
 
                     if (col > maxCol) maxCol = col;
                     row++;
@@ -152,6 +159,10 @@ namespace OfficeOpenXml.LoadFunctions
             if (row <= 0)
             {
                 return null;
+            }
+            if(_format.Transpose)
+            {
+                return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow +maxCol, _range._fromCol + row - 1];
             }
             return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol];
         }

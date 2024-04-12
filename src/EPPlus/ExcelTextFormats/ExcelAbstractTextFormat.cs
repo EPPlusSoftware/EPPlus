@@ -56,5 +56,9 @@ namespace OfficeOpenXml
         /// Will be called for each row. Should return true if the row should be used in the export/import, otherwise false
         /// </summary>
         public Func<string, bool> ShouldUseRow { get; set; } = null;
+        /// <summary>
+        /// Set if data should be transposed
+        /// </summary>
+        public bool Transpose { get; set; } = false;
     }
 }
