@@ -305,13 +305,13 @@ namespace OfficeOpenXml.ConditionalFormatting
             //Icon1.Type 
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
-            if(cellValue.IsNumeric())
+            if(cellValue.IsNumeric() && cellValue != null)
             {
                 if(Icon1.Type != eExcelConditionalFormattingValueObjectType.Formula)
                 {
                     var cellValues = new List<object>();
-                    double average = 0;
-                    int count = 0;
+                    //double average = 0;
+                    //int count = 0;
                     foreach (var cell in Address.GetAllAddresses())
                     {
                         for (int i = 1; i <= cell.Rows; i++)
@@ -319,13 +319,13 @@ namespace OfficeOpenXml.ConditionalFormatting
                             for (int j = 1; j <= cell.Columns; j++)
                             {
                                 cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                                average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                                count++;
+                                //average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+                                //count++;
                             }
                         }
                     }
 
-                    average = average / count;
+                    //average = average / count;
 
                     var values = cellValues.OrderBy(n => n);
 
@@ -348,7 +348,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                             //var percentualValue = ((realValue - lowest) / (highest - lowest));
                             //checkingValue = percentualValue;
                             //var percentualValue = highest * icons[i].Value;
-                            checkingValue = (checkingValue / highest) * 100;
+
+                            //Calculate percentage of distance of total numbers
+                            checkingValue = (realValue + Math.Abs(lowest)) / (Math.Abs(lowest) + Math.Abs(highest));
+                            checkingValue = checkingValue * 100;
                         }
 
                         if (icons[i].Type == eExcelConditionalFormattingValueObjectType.Percentile)
@@ -361,20 +364,16 @@ namespace OfficeOpenXml.ConditionalFormatting
                             //var percentileValue = (numValuesLessThan/cellValues.Count()) * 100;
 
                             var numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
-
-
                             checkingValue = (numValuesLessThan / cellValues.Count()) * 100;
                         }
 
-
-
                         if (icons[i].ShouldApplyIcon(checkingValue))
                         {
-                            return i;
+                            return icons.Length - i - 1;
                         }
                     }
 
-                    return icons.Length -1;
+                    return 0;
 
                     //var highestIcon = icons[icons.Length];
 
@@ -445,7 +444,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             //Icon1.Value = 
 
-            return 0;
+            return -1;
         }
 
         internal string GetIconSetString()

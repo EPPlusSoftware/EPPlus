@@ -163,7 +163,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 //inlineStyles += "height: 100%;";
                                 cls += " cf-ic-shared";
                                 cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
-                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}1";
+
+                                var iconId = icCF.CalculateCorrectIcon(cell);
+                                if(iconId != -1)
+                                {
+                                    cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}{iconId}";
+                                }
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 break;
