@@ -27,7 +27,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
         
         private readonly IRangeInfo _range;
-        //private bool _isNegated;
 
         internal EnumerableExpression(CompileResult result, ParsingContext ctx)
             : base(ctx)
