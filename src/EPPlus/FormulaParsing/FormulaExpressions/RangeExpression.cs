@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 using System.Diagnostics;
@@ -10,17 +11,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     internal class RangeExpression : Expression
     {
         protected FormulaRangeAddress _addressInfo;
-        protected int _negate;
+        //protected int _negate;
         internal RangeExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
             _addressInfo = result.Address;
-            _negate = 0;
+            //_negate = 0;
         }
-        internal RangeExpression(FormulaRangeAddress address, int negate) : base(address._context)
+        internal RangeExpression(FormulaRangeAddress address/*, int negate*/) : base(address._context)
         {
             _addressInfo = address;
-            _negate = negate;
+            //_negate = negate;
         }
         public RangeExpression(string address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
         {
@@ -44,7 +45,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
                         var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
                         var v = ws.GetValue(_addressInfo.FromRow, _addressInfo.FromCol); //Use GetValue to get richtext values.
-                        _cachedCompileResult = GetNegatedValue(v, _addressInfo);                       
+                        //_cachedCompileResult = GetNegatedValue(v, _addressInfo);                       
+                        _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
                         _cachedCompileResult.IsHiddenCell = ws.IsRowHidden(_addressInfo.FromRow);
                     }
                     else
@@ -62,49 +64,39 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     else
                     {
                         var v = ri.GetOffset(0, 0);
-                        _cachedCompileResult = GetNegatedValue(v, _addressInfo);                        
+                        _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
                     }
                 }
             }
             return _cachedCompileResult;
         }
 
-        private CompileResult GetNegatedValue(object value, FormulaRangeAddress addressInfo)
-        {
-            if (_negate == 0)
-            {
-                return CompileResultFactory.Create(value, addressInfo);
-            }
-            else
-            {
-                var d = ConvertUtil.GetValueDouble(value??0D, false, true);
-                if (double.IsNaN(d))
-                {
-                    return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value), addressInfo);
-                }
-                else
-                {
-                    return CompileResultFactory.Create(d * _negate, addressInfo);
-                }
-            }
-        }
-        public override void Negate()
+        //private CompileResult GetNegatedValue(object value, FormulaRangeAddress addressInfo)
+        //{
+        //    if (_negate == 0)
+        //    {
+        //        return CompileResultFactory.Create(value, addressInfo);
+        //    }
+        //    else
+        //    {
+        //        var d = ConvertUtil.GetValueDouble(value??0D, false, true);
+        //        if (double.IsNaN(d))
+        //        {
+        //            return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value), addressInfo);
+        //        }
+        //        else
+        //        {
+        //            return CompileResultFactory.Create(d * _negate);
+        //        }
+        //    }
+        //}
+        public override Expression Negate()
         {
             if (_cachedCompileResult == null)
             {
-                if (_negate == 0)
-                {
-                    _negate = -1;
-                }
-                else
-                {
-                    _negate *= -1;
-                }
+                Compile();
             }
-            else
-            {
-                _cachedCompileResult.Negate();
-            }
+            return new RangeExpression(_cachedCompileResult.Negate(), Context);
         }
         internal override ExpressionStatus Status
         {
@@ -122,7 +114,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 FromCol = (_addressInfo.FixedFlag & FixedFlag.FromColFixed) == FixedFlag.FromColFixed ? _addressInfo.FromCol : _addressInfo.FromCol + col,
                 ToCol = (_addressInfo.FixedFlag & FixedFlag.ToColFixed) == FixedFlag.ToColFixed ? _addressInfo.ToCol : _addressInfo.ToCol + col,
             };
-            return new RangeExpression(fa, _negate)
+            return new RangeExpression(fa/*, _negate*/)
             {
                 Status = Status,                
                 Operator= Operator

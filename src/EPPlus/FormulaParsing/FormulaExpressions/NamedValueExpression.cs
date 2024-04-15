@@ -32,6 +32,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             _worksheetIx = worksheetIx;
             _name = Context.ExcelDataProvider.GetName(_externalReferenceIx, worksheetIx, name);
         }
+        public NamedValueExpression(INameInfo nameInfo, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx, int negate) : base(parsingContext)
+        {
+            _externalReferenceIx = externalReferenceIx;
+            _worksheetIx = worksheetIx;
+            _name = nameInfo;
+            _negate = negate;
+        }
 
         internal override ExpressionType ExpressionType => ExpressionType.NameValue;
         public override CompileResult Compile()
@@ -110,7 +117,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
                 else
                 {
-                    return CompileResultFactory.Create(d * _negate, address);
+                    //return CompileResultFactory.Create(d * _negate, address);
+                    return CompileResultFactory.Create(d * _negate);
                 }
             }
         }
@@ -137,16 +145,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             return resultRange;
         }
 
-        public override void Negate()
+        public override Expression Negate()
         {
-            if(_negate==0)
+            int n;
+            if (_negate == 0)
             {
-                _negate = -1;
+                n = -1;
             }
             else
             {
-                _negate *= -1;
+                n = _negate * -1;
             }
+            return new NamedValueExpression(_name, Context, _externalReferenceIx, _worksheetIx, n);
         }
         private ExcelExternalDefinedName GetExternalName()
         {

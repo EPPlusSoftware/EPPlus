@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Data;
 
@@ -17,18 +18,26 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal class BooleanExpression : Expression
     {
+        private BooleanExpression _negatedExpression;
         internal BooleanExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
             var value = bool.Parse(tokenValue);
             _cachedCompileResult = new CompileResult(value, DataType.Boolean);
+            _negatedExpression = new BooleanExpression(ctx, this, !value);
         }
         internal BooleanExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
+            _negatedExpression = new BooleanExpression(ctx, this, !((bool)result.ResultValue));
         }
 
         public BooleanExpression(ParsingContext ctx) : base(ctx)
         {
+        }
+        public BooleanExpression(ParsingContext ctx, BooleanExpression exp, bool negatedValue) : base(ctx)
+        {
+            _cachedCompileResult = new CompileResult(negatedValue,DataType.Boolean);
+            _negatedExpression = exp;
         }
 
         internal override ExpressionType ExpressionType => ExpressionType.Boolean;
@@ -37,9 +46,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             return _cachedCompileResult;
         }
-        public override void Negate()
+        public override Expression Negate()
         {
-            _cachedCompileResult.Negate();
+            return _negatedExpression;
         }
         internal override ExpressionStatus Status
         {

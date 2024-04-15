@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
         
         private readonly IRangeInfo _range;
-        private bool _isNegated;
+        //private bool _isNegated;
 
         internal EnumerableExpression(CompileResult result, ParsingContext ctx)
             : base(ctx)
@@ -53,9 +53,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             return _cachedCompileResult;
         }
 
-        public override void Negate()
+        public override Expression Negate()
         {
-            _isNegated = !_isNegated;
+            //_isNegated = !_isNegated;
+            var negatedResult = _cachedCompileResult.Negate();
+            return new EnumerableExpression(negatedResult, Context);
         }
         internal override ExpressionStatus Status
         {

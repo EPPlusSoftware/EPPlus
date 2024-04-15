@@ -495,7 +495,6 @@ namespace OfficeOpenXml.FormulaParsing
 
                     depChain._formulaStack.Push(f);
                     MergeToRd(rd, row, col, fe, false);
-
                     if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
                     {
                         goto ExecuteFormula;
@@ -644,6 +643,7 @@ namespace OfficeOpenXml.FormulaParsing
             var endCol = fe._endCol;
             if (++fromCol > fe._endCol)
             {
+                if (endRow <= fromRow) return;
                 fromCol = startCol;
                 fromRow++;
             }
@@ -786,8 +786,8 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Array:
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
-                    case TokenType.Negator:
-                        s.Peek().Negate();
+                    case TokenType.Negator:                        
+                        s.Push(s.Pop().Negate());
                         break;
                     case TokenType.CellAddress:
                     case TokenType.ExcelAddress:                    
@@ -1094,7 +1094,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             if(funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null)
             {
-                f._expressionStack.Push(new RangeExpression(result.Address, funcExp._negate));
+                f._expressionStack.Push(new RangeExpression(result.Address/*, funcExp._negate*/));
             }
             else
             {
