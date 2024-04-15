@@ -94,6 +94,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                 var setValue = _iconStringSetDictionary[set];
                 int iconValue = setValue << 4;
                 iconValue += i;
+                //Special case
+                if(iconValue == 82)
+                {
+                    iconValue = (int)eExcelconditionalFormattingCustomIcon.GreenCircle;
+                }
                 retArr[i] = (eExcelconditionalFormattingCustomIcon)iconValue;
             }
 

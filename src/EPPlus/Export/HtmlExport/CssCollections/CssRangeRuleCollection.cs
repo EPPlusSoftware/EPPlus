@@ -202,9 +202,13 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 var beforeRule = _ruleCollection.Last();
 
                 beforeRule.AddDeclaration("content", $"\"\"");
-                beforeRule.AddDeclaration("min-width", $"1em");
-                beforeRule.AddDeclaration("min-height", $"1em");
+                //TODO: Figure out where the .22 we need to account for comes from.
+                //We add this because 1em does not make the svg box the same size as text of the font otherwise.
+                //Likely due to some kind of margin setting somewhere?
+                beforeRule.AddDeclaration("min-width", $"1.22em");
+                beforeRule.AddDeclaration("min-height", $"1.22em");
                 beforeRule.AddDeclaration("float", $"left");
+                beforeRule.AddDeclaration("background-repeat", $"no-repeat");
 
                 _context.SharedIconSetRuleAdded = true;
             }
