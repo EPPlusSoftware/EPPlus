@@ -55,7 +55,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public override Expression Negate()
         {
-            //_isNegated = !_isNegated;
             var negatedResult = _cachedCompileResult.Negate();
             return new EnumerableExpression(negatedResult, Context);
         }

@@ -46,19 +46,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             if (_name == null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
             var value = _name.GetValue(Context.CurrentCell);
-            //if (value == null)
-            //{
-            //    // check if there is a table with the name
-            //    var table = Context.ExcelDataProvider.GetExcelTable(_name.Name);
-            //    if(table != null)
-            //    {
-            //        var ri = new RangeInfo(table.WorkSheet, table.Address);
-            //        return new AddressCompileResult(ri, DataType.ExcelRange, ri.Address);
-            //    }
-
-            //    return new CompileResult(eErrorType.Name);
-            //}
-
             if (value==null)
             {
                 return new CompileResult(null, DataType.Empty);
@@ -117,7 +104,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
                 else
                 {
-                    //return CompileResultFactory.Create(d * _negate, address);
                     return CompileResultFactory.Create(d * _negate);
                 }
             }

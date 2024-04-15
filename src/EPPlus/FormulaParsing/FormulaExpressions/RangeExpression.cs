@@ -11,17 +11,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     internal class RangeExpression : Expression
     {
         protected FormulaRangeAddress _addressInfo;
-        //protected int _negate;
         internal RangeExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
             _addressInfo = result.Address;
-            //_negate = 0;
         }
-        internal RangeExpression(FormulaRangeAddress address/*, int negate*/) : base(address._context)
+        internal RangeExpression(FormulaRangeAddress address) : base(address._context)
         {
             _addressInfo = address;
-            //_negate = negate;
         }
         public RangeExpression(string address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
         {
@@ -45,7 +42,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
                         var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
                         var v = ws.GetValue(_addressInfo.FromRow, _addressInfo.FromCol); //Use GetValue to get richtext values.
-                        //_cachedCompileResult = GetNegatedValue(v, _addressInfo);                       
                         _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
                         _cachedCompileResult.IsHiddenCell = ws.IsRowHidden(_addressInfo.FromRow);
                     }
@@ -71,25 +67,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             return _cachedCompileResult;
         }
 
-        //private CompileResult GetNegatedValue(object value, FormulaRangeAddress addressInfo)
-        //{
-        //    if (_negate == 0)
-        //    {
-        //        return CompileResultFactory.Create(value, addressInfo);
-        //    }
-        //    else
-        //    {
-        //        var d = ConvertUtil.GetValueDouble(value??0D, false, true);
-        //        if (double.IsNaN(d))
-        //        {
-        //            return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value), addressInfo);
-        //        }
-        //        else
-        //        {
-        //            return CompileResultFactory.Create(d * _negate);
-        //        }
-        //    }
-        //}
         public override Expression Negate()
         {
             if (_cachedCompileResult == null)
@@ -114,7 +91,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 FromCol = (_addressInfo.FixedFlag & FixedFlag.FromColFixed) == FixedFlag.FromColFixed ? _addressInfo.FromCol : _addressInfo.FromCol + col,
                 ToCol = (_addressInfo.FixedFlag & FixedFlag.ToColFixed) == FixedFlag.ToColFixed ? _addressInfo.ToCol : _addressInfo.ToCol + col,
             };
-            return new RangeExpression(fa/*, _negate*/)
+            return new RangeExpression(fa)
             {
                 Status = Status,                
                 Operator= Operator
