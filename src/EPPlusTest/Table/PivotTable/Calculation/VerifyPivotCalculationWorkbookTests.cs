@@ -28,7 +28,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			_package.Dispose();
 		}
         [TestMethod]
-        public void VerifyCalculationPivotTable0()
+        public void VerifyCalculationPivotTable1()
         {
             var pt = _ptWs.PivotTables["PivotTable1"];
 
@@ -45,7 +45,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(1D, (double)GetPtData(pt, 2, null, null), 0.00000001D);
         }
         [TestMethod]
-        public void VerifyCalculationPivotTable1()
+        public void VerifyCalculationPivotTable2()
         {
             var pt = _ptWs.PivotTables["PivotTable2"];
 
@@ -59,7 +59,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(9895964D, GetPtData(pt, 1, null, null, null));
         }
         [TestMethod]
-        public void VerifyCalculationPivotTable2()
+        public void VerifyCalculationPivotTable3()
         {
             var pt = _ptWs.PivotTables["PivotTable3"];
 
@@ -68,6 +68,19 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(9689.13, GetPtData(pt, 2));
             Assert.AreEqual(9895964.00, GetPtData(pt, 3));
 
+        }
+        [TestMethod]
+        public void VerifyCalculationPivotTable4()
+        {
+            var pt = _ptWs.PivotTables["PivotTable4"];
+            //Santa Catarina	134091,14	44697,04667	3
+
+            Assert.AreEqual(134091.14, GetPtData(pt, 0, "Santa Catarina"));
+            Assert.AreEqual(44697.04667, (double)GetPtData(pt, 1, "Santa Catarina"), 0.00001);
+            Assert.AreEqual(3D, GetPtData(pt, 2, "Santa Catarina"));
+            Assert.AreEqual(8996331.09, GetPtData(pt, 0, null));
+            Assert.AreEqual(44981.65545, GetPtData(pt, 1, null));
+            Assert.AreEqual(200D, GetPtData(pt, 2, null));
         }
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
