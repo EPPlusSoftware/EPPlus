@@ -316,10 +316,8 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("Scatter");
             var chrt = ws.Drawings.AddChart("ScatterChart1", eChartType.XYScatterSmoothNoMarkers) as ExcelScatterChart;
             AddTestSerie(ws, chrt);
-           // chrt.Series[0].Marker = eMarkerStyle.Diamond;
             chrt.To.Row = 23;
             chrt.To.Column = 12;
-            //chrt.Title.String = "Header String";
             var r1=chrt.Title.RichText.Add("Header");
             r1.Bold = true;
             var r2=chrt.Title.RichText.Add("  Text");
@@ -346,11 +344,7 @@ namespace EPPlusTest
             chrt.From.Row=25;
             chrt.To.Row = 53;
             chrt.To.Column = 12;
-            chrt.Legend.Position = eLegendPosition.Bottom;
-            
-            ////chrt.Series[0].DataLabel.Position = eLabelPosition.Center;
-            //Assert.IsTrue(chrt.ChartType == eChartType.XYScatter, "Invalid Charttype");
-
+            chrt.Legend.Position = eLegendPosition.Bottom;          
         }
        [TestMethod]
         public void Bubble()
@@ -445,7 +439,7 @@ namespace EPPlusTest
             //chrt.From.Column = 12;
             //chrt.To.Row = 58;
             //chrt.To.Column = 22;
-            //chrt.Title.String = "Radar Chart 2";
+            //chrt.Title.Text = "Radar Chart 2";
 
             //chrt = ws.Drawings.AddChart("Radar3", eChartType.RadarMarkers) as ExcelRadarChart;
             //var rs = (ExcelRadarChartSerie)chrt.Series.Add("V19:V24", "U19:U24");
@@ -458,7 +452,7 @@ namespace EPPlusTest
             //chrt.From.Column = 12;
             //chrt.To.Row = 78;
             //chrt.To.Column = 22;
-            //chrt.Title.String = "Radar Chart 3";
+            //chrt.Title.Text = "Radar Chart 3";
         }
         [TestMethod]
         public void Pyramid()

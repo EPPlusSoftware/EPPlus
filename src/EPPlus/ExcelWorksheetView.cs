@@ -604,7 +604,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// If the sheet is in 'right to left' display mode. Column A is on the far right and column B to the left of A. String is also 'right to left'.
+        /// If the sheet is in 'right to left' display mode. Column A is on the far right and column B to the left of A. Text is also 'right to left'.
         /// </summary>
         public bool RightToLeft
         {

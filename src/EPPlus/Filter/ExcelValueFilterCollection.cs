@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Filter
             return item;
         }
         /// <summary>
-        /// <para>Add a filter value that will be matched agains the ExcelRange.String property</para>
+        /// <para>Add a filter value that will be matched agains the ExcelRange.Text property</para>
         /// If value is "" or null sets Blank=True instead of adding.
         /// </summary>
         /// <param name="value">The value to add. If "" or null sets Blank=True instead.</param>

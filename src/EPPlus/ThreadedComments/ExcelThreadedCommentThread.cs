@@ -105,7 +105,7 @@ namespace OfficeOpenXml.ThreadedComments
         /// Adds a <see cref="ExcelThreadedComment"/> to the thread
         /// </summary>
         /// <param name="personId">Id of the author, see <see cref="ExcelThreadedCommentPerson"/></param>
-        /// <param name="text">String of the comment</param>
+        /// <param name="text">Text of the comment</param>
         public ExcelThreadedComment AddComment(string personId, string text)
         {
             return AddComment(personId, text, true);

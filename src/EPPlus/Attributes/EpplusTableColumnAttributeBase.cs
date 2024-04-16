@@ -107,7 +107,7 @@ namespace OfficeOpenXml.Attributes
         }
 
         /// <summary>
-        /// String in this columns cell in the totals row
+        /// Text in this columns cell in the totals row
         /// </summary>
         public string TotalsRowLabel
         {

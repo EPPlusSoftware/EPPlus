@@ -190,7 +190,7 @@ namespace OfficeOpenXml.Style
             }
         }
         /// <summary>
-        /// String orientation in degrees. Values range from 0 to 180 or 255. 
+        /// Text orientation in degrees. Values range from 0 to 180 or 255. 
         /// Setting the rotation to 255 will align text vertically.
         /// </summary>
         public int TextRotation

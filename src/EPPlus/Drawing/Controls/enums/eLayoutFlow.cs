@@ -18,11 +18,11 @@ namespace OfficeOpenXml.Drawing.Controls
     public enum eLayoutFlow
     {
         /// <summary>
-        /// String is displayed horizontally.
+        /// Text is displayed horizontally.
         /// </summary>
         Horizontal,
         /// <summary>
-        /// String is displayed vertically.
+        /// Text is displayed vertically.
         /// </summary>
         Vertical,
         /// <summary>

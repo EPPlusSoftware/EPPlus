@@ -481,7 +481,7 @@ namespace EPPlusTest.Core.Worksheet
         {
             using(var package = new ExcelPackage())
             {
-                //package.Workbook.TextSettings.FallbackTextMeasurer = new OfficeOpenXml.SkiaSharp.String.SkiaSharpTextMeasurer();
+                //package.Workbook.TextSettings.FallbackTextMeasurer = new OfficeOpenXml.SkiaSharp.Text.SkiaSharpTextMeasurer();
                 //var sheet = package.Workbook.Worksheets.Add("Test");
                 //sheet.Cells["A1"].Value = "abc 123 SDFÖLKJE !wueriopiquwejklöpasdfj";
                 //sheet.Cells["A1"].Style.Font.Name = "Times New Roman";

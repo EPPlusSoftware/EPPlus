@@ -97,7 +97,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Reading order
         /// 0 - Context Dependent 
         /// 1 - Left-to-Right
-        /// 2 - Right-to-   
+        /// 2 - Right-to-Left
         /// </summary>
         public int? ReadingOrder { get; set; }
         /// <summary>

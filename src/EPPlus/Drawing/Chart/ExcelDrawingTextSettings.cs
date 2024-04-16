@@ -16,7 +16,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 namespace OfficeOpenXml.Drawing.Chart
 {
 	/// <summary>
-	/// String settings for drawing objects.
+	/// Text settings for drawing objects.
 	/// </summary>
 	public class ExcelDrawingTextSettings : XmlHelper
 	{
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
 		ExcelDrawingEffectStyle _effect = null;
 		/// <summary>
-		/// String effects
+		/// Text effects
 		/// </summary>
 		public ExcelDrawingEffectStyle Effect
 		{

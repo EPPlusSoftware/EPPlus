@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         public TextWriter StatusMessageWriter { get; set; }
 
         /// <summary>
-        /// The <c>System.String.Encoding</c> to use when reading in the zip archive. Be
+        /// The <c>System.Text.Encoding</c> to use when reading in the zip archive. Be
         /// careful specifying the encoding.  If the value you use here is not the same
         /// as the Encoding used when the zip archive was created (possibly by a
         /// different archiver) you will get unexpected results and possibly exceptions.
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <remarks>
         /// <para>
-        /// The stream is read using the default <c>System.String.Encoding</c>, which is the
+        /// The stream is read using the default <c>System.Text.Encoding</c>, which is the
         /// <c>IBM437</c> codepage.
         /// </para>
         /// </remarks>
@@ -161,7 +161,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// var options = new ReadOptions
         /// {
         ///   StatusMessageWriter = System.Console.Out,
-        ///   Encoding = System.String.Encoding.GetEncoding(950)
+        ///   Encoding = System.Text.Encoding.GetEncoding(950)
         /// };
         /// using (ZipFile zip = ZipFile.Read(zipToExtract, options))
         /// {
@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Dim zipToExtract as String = "MyArchive.zip"
         /// Dim extractDirectory as String = "extract"
         /// Dim options as New ReadOptions
-        /// options.Encoding = System.String.Encoding.GetEncoding(950)
+        /// options.Encoding = System.Text.Encoding.GetEncoding(950)
         /// options.StatusMessageWriter = System.Console.Out
         /// Using zip As ZipFile = ZipFile.Read(zipToExtract, options)
         ///     Dim e As ZipEntry
@@ -309,7 +309,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </param>
         ///
         /// <param name="encoding">
-        /// The <c>System.String.Encoding</c> to use when reading in the zip archive. Be
+        /// The <c>System.Text.Encoding</c> to use when reading in the zip archive. Be
         /// careful specifying the encoding.  If the value you use here is not the same
         /// as the Encoding used when the zip archive was created (possibly by a
         /// different archiver) you will get unexpected results and possibly exceptions.
@@ -356,7 +356,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   Using this overload, the stream is read using the default
-        ///   <c>System.String.Encoding</c>, which is the <c>IBM437</c>
+        ///   <c>System.Text.Encoding</c>, which is the <c>IBM437</c>
         ///   codepage. If you want to specify the encoding to use when
         ///   reading the zipfile content, see
         ///   <see cref="ZipFile.Read(Stream,

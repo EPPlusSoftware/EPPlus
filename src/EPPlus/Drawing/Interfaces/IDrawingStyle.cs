@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Drawing.Interfaces
         /// </summary>
         ExcelTextFont Font { get;  }
         /// <summary>
-        /// String body settings
+        /// Text body settings
         /// </summary>
         ExcelTextBody TextBody { get; }
     }

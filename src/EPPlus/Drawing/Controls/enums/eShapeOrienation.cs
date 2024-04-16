@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing.Controls
 {
     /// <summary>
-    /// String orientation in a shape
+    /// Text orientation in a shape
     /// </summary>
     public enum eShapeOrientation
     {

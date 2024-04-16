@@ -19,7 +19,7 @@ using System.Xml;
 namespace OfficeOpenXml.Drawing.Style.ThreeD
 {
     /// <summary>
-    /// 3D String settings
+    /// 3D Text settings
     /// </summary>
     public class ExcelDrawing3DText : ExcelDrawing3D
     {

@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
-    /// String alignment
+    /// Text alignment
     /// </summary>
     public enum eTextAlignment
     {

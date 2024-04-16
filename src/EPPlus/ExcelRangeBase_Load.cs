@@ -377,7 +377,7 @@ namespace OfficeOpenXml
         /// Loads a CSV text into a range starting from the top left cell.
         /// Default settings is Comma separation
         /// </summary>
-        /// <param name="Text">The String</param>
+        /// <param name="Text">The Text</param>
         /// <returns>The range containing the data</returns>
         public ExcelRangeBase LoadFromText(string Text)
         {
@@ -386,7 +386,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Loads a CSV text into a range starting from the top left cell.
         /// </summary>
-        /// <param name="Text">The String</param>
+        /// <param name="Text">The Text</param>
         /// <param name="Format">Information how to load the text</param>
         /// <returns>The range containing the data</returns>
         public ExcelRangeBase LoadFromText(string Text, ExcelTextFormat Format)
@@ -408,7 +408,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Loads a CSV text into a range starting from the top left cell.
         /// </summary>
-        /// <param name="Text">The String</param>
+        /// <param name="Text">The Text</param>
         /// <param name="Format">Information how to load the text</param>
         /// <param name="TableStyle">Create a table with this style. If this parameter is not null no table will be created.</param>
         /// <param name="FirstRowIsHeader">Use the first row as header</param>

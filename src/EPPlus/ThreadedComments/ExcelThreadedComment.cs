@@ -54,7 +54,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Indicates whether the String contains mentions. If so the
+        /// Indicates whether the Text contains mentions. If so the
         /// Mentions property will contain data about those mentions.
         /// </summary>
         public bool ContainsMentions
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// String of the comment. To edit the text on an existing comment, use the EditText function.
+        /// Text of the comment. To edit the text on an existing comment, use the EditText function.
         /// </summary>
         public string Text
         {
@@ -223,7 +223,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Edit the String of an existing comment
+        /// Edit the Text of an existing comment
         /// </summary>
         /// <param name="newText"></param>
         public void EditText(string newText)
@@ -234,7 +234,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Edit the String of an existing comment with mentions
+        /// Edit the Text of an existing comment with mentions
         /// </summary>
         /// <param name="newTextWithFormats">A string with format placeholders - same as in string.Format. Index in these should correspond to an index in the <paramref name="personsToMention"/> array.</param>
         /// <param name="personsToMention">A params array of <see cref="ExcelThreadedCommentPerson"/>. Their DisplayName property will be used to replace the format placeholders.</param>

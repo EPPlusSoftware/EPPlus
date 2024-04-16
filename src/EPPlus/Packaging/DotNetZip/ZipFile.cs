@@ -1269,7 +1269,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   When using DotNetZip to read a zip archive, and the zip archive uses an
         ///   arbitrary code page, you must specify the encoding to use before or when
         ///   the <c>Zipfile</c> is READ.  This means you must use a <c>ZipFile.Read()</c>
-        ///   method that allows you to specify a System.String.Encoding parameter.  Setting
+        ///   method that allows you to specify a System.Text.Encoding parameter.  Setting
         ///   the ProvisionalAlternateEncoding property after your application has read in
         ///   the zip archive will not affect the entry names of entries that have already
         ///   been read in.
@@ -1301,7 +1301,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// the correct code page in <c>ZipFile.Read()</c>, then names of entries within the
         /// zip archive would not be correctly retrieved.
         /// <code>
-        /// using (var zip = ZipFile.Read(zipFileName, System.String.Encoding.GetEncoding("big5")))
+        /// using (var zip = ZipFile.Read(zipFileName, System.Text.Encoding.GetEncoding("big5")))
         /// {
         ///     // retrieve and extract an entry using a name encoded with CP950
         ///     zip[MyDesiredEntry].Extract("unpack");
@@ -1309,7 +1309,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </code>
         ///
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Read(ZipToExtract, System.String.Encoding.GetEncoding("big5"))
+        /// Using zip As ZipFile = ZipFile.Read(ZipToExtract, System.Text.Encoding.GetEncoding("big5"))
         ///     ' retrieve and extract an entry using a name encoded with CP950
         ///     zip(MyDesiredEntry).Extract("unpack")
         /// End Using
@@ -1335,7 +1335,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   A String Encoding to use when encoding the filenames and comments for
+        ///   A Text Encoding to use when encoding the filenames and comments for
         ///   all the ZipEntry items, during a ZipFile.Save() operation.
         /// </summary>
         /// <remarks>
@@ -3188,7 +3188,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///         foreach (String s in subitems)
         ///         {
         ///             ListViewItem.ListViewSubItem subitem = new ListViewItem.ListViewSubItem();
-        ///             subitem.String = s;
+        ///             subitem.Text = s;
         ///             item.SubItems.Add(subitem);
         ///         }
         ///
