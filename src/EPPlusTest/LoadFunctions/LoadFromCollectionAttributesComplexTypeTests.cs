@@ -74,7 +74,7 @@ namespace EPPlusTest.LoadFunctions
                 NullableInt = 5,
                 NonNull = 15,
                 NullableDateTime = new DateTime(2021, 7, 1),
-                NestedNullableNullable = new NestedNullable { nullableValue = -2 },
+                NestedNullableNullable = new NestedNullable { NullableValue = -2 },
                 ExplicitlyNullableString = "I'm nullable"
             }) ;
         }
@@ -256,6 +256,7 @@ namespace EPPlusTest.LoadFunctions
             }
         }
 
+        //Testing i1416 I1416 Issue1416
         [TestMethod]
         public void NullablePropertiesShouldLoad()
         {
@@ -271,11 +272,19 @@ namespace EPPlusTest.LoadFunctions
 
                 var child0 = _collectionNoAttributes[0];
 
+                Assert.AreEqual("NullableInt", ws.Cells["A1"].Value);
+                Assert.AreEqual("NonNull", ws.Cells["B1"].Value);
+                Assert.AreEqual("NullableDateTime", ws.Cells["C1"].Value);
+                //Nested nullable table column with property gets the property name
+                Assert.AreEqual("NullableValue", ws.Cells["D1"].Value);
+                Assert.AreEqual("ExplicitlyNullableString", ws.Cells["E1"].Value);
+                Assert.IsNull(ws.Cells["F1"].Value);
+
                 Assert.AreEqual(child0.NullableInt.Value, ws.Cells["A2"].Value);
                 Assert.AreEqual(child0.NonNull, ws.Cells["B2"].Value);
                 Assert.AreEqual(child0.NullableDateTime.Value, ws.Cells["C2"].Value);
                 //Nested nullable table column with property
-                Assert.AreEqual(child0.NestedNullableNullable.nullableValue.Value, ws.Cells["D2"].Value);
+                Assert.AreEqual(child0.NestedNullableNullable.NullableValue.Value, ws.Cells["D2"].Value);
                 Assert.AreEqual(child0.ExplicitlyNullableString, ws.Cells["E2"].Value);
                 Assert.IsNull(ws.Cells["F2"].Value);
 

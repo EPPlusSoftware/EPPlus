@@ -141,7 +141,7 @@ namespace EPPlusTest.LoadFunctions
 #nullable enable
     public class NestedNullable
     {
-        public int? nullableValue { get; set; }
+        public int? NullableValue { get; set; }
     }
 
     public class ColumnsWithoutAttributes
