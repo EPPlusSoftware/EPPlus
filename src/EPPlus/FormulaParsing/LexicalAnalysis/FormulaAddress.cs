@@ -276,7 +276,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             foreach(var expression in _compiledExpressions)
             {
                 if(expression.Value.ExpressionType == ExpressionType.CellAddress ||
-                   expression.Value.ExpressionType == ExpressionType.TableAddress)
+                   expression.Value.ExpressionType == ExpressionType.TableAddress ||
+                   expression.Value.ExpressionType == ExpressionType.NameValue)
                 {
                     l.Add(expression.Key, expression.Value.CloneWithOffset(row - StartRow, col - StartCol));
                 }

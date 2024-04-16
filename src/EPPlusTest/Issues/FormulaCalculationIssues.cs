@@ -197,5 +197,20 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
+        [TestMethod]
+        public void CalcError()
+		{
+			using (var package = OpenTemplatePackage("calc.xlsx"))
+			{
+				var summary =
+				package.Workbook.Worksheets["Summary"];
+				ExcelCalculationOption eco = new();
+				eco.AllowCircularReferences = true;
+				eco.CacheExpressions = false;
+				var original = summary.Cells["M22"].Value;
+				package.Workbook.Calculate(eco);
+				Assert.AreEqual(42354.210446, (double)summary.Cells["M22"].Value, 0.000001);
+			}
+        }
 	}
 }

@@ -31,9 +31,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             return _cachedCompileResult;
         }
-        public override void Negate()
+        public override Expression Negate()
         {
-            _cachedCompileResult.Negate();
+            var cr = _cachedCompileResult.Negate();
+            if(cr.DataType == DataType.Decimal)
+            {
+                return new DecimalExpression(cr, Context);
+            }
+            else
+            {
+                return ErrorExpression.ValueError;
+            }
         }
         internal override ExpressionStatus Status
         {
