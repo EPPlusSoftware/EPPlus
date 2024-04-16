@@ -428,13 +428,15 @@ namespace OfficeOpenXml
                 namedRange = nameWorksheet.Names.AddName(elem.GetAttribute("name"), range);
             }
 
-			var tokens = FormulaParser.Tokenizer.Tokenize(fullAddress);
+            var tokens = FormulaParser.Tokenizer.Tokenize(fullAddress);
 			if (tokens.Count == 1)
             {
 				switch(tokens[0].TokenType)
 				{
 					case TokenType.StringContent:
-						namedRange.NameValue = tokens[0].Value;
+                        //Excel does not allow e.g."abc\"e\"fg" this results in corrupt worksheet.
+						//We assume non-corrupt file AKA "abc\"\"e\"\"fg".
+                        namedRange.NameValue = tokens[0].Value.ParseXmlString();
 						break;
 					case TokenType.Boolean:
 						if (ConvertUtil.TryParseBooleanString(fullAddress, out bool b))

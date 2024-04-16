@@ -713,6 +713,18 @@ namespace OfficeOpenXml.Utils
             }
         }
 
+        internal static string ParseXmlString(this string xmlString)
+        {
+            //Remove start and end "
+            xmlString = xmlString.Substring(1, xmlString.Length - 2);
+
+            xmlString = ExcelDecodeString(xmlString);
+
+            //Unescape string
+            xmlString = xmlString.Replace("\"\"","\"");
+            return xmlString;
+        }
+
         internal static int ParseInt(object obj, RoundingMethod roundingMethod)
         {
             int result;
