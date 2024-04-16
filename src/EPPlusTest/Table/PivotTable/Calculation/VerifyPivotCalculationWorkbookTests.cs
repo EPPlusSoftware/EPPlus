@@ -31,7 +31,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         public void VerifyCalculationPivotTable0()
         {
             var pt = _ptWs.PivotTables["PivotTable1"];
-            pt.Calculate();
 
             Assert.AreEqual(86936.95, GetPtData(pt, 0, "Australia", "TRUE"));
             Assert.AreEqual(24.581, GetPtData(pt, 1, "Australia", "FALSE"));
@@ -49,7 +48,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         public void VerifyCalculationPivotTable1()
         {
             var pt = _ptWs.PivotTables["PivotTable2"];
-            pt.Calculate();
 
             Assert.AreEqual(49286.72, GetPtData(pt, 0, "Austria", "Niedersachsen", "TRUE"));
             Assert.AreEqual(54215D, GetPtData(pt, 1, "Austria", "Niedersachsen", "TRUE"));
@@ -64,7 +62,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         public void VerifyCalculationPivotTable2()
         {
             var pt = _ptWs.PivotTables["PivotTable3"];
-            pt.Calculate();
 
             Assert.AreEqual(8996331.09, GetPtData(pt, 0));
             Assert.AreEqual(3727.881, GetPtData(pt, 1));

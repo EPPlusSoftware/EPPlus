@@ -43,8 +43,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             pt.CacheDefinition.Refresh();
             var df = pt.DataFields.Add(pt.Fields["Price"]);
             pf.Items.SelectSingleItem(0);
-
-            pt.Calculate();
+			pt.Calculate();
             Assert.AreEqual(270.6, pt.CalculatedItems[0][Array.Empty<int>()]);
         }
         [TestMethod]
@@ -61,7 +60,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             pf.Items[5].Hidden = true;
 
             pt.Calculate();
-           // Assert.AreEqual(391.92, pt.CalculatedItems[0][Array.Empty<int>()]);
+            Assert.AreEqual(391.92, pt.CalculatedItems[0][Array.Empty<int>()]);
         }
         [TestMethod]
         public void FilterPageFieldCustomCaptionFilterEquals()

@@ -32,7 +32,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         {
             var ws = _package.Workbook.Worksheets[3];
             var pt = ws.PivotTables[0];
-            pt.Calculate();
 
             Assert.AreEqual(4335.69, GetPtData(pt, 0, "Good Samaritan Hospital", "Tissue Sealer", "2023", "mar"));
             Assert.AreEqual(34454.62, GetPtData(pt, 0, "Palm Beach Garden Comm Hospital", null, 2022, "Nov"));

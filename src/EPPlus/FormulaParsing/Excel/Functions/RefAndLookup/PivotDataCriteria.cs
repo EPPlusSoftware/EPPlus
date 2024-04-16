@@ -14,14 +14,28 @@ using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
+    /// <summary>
+    /// A criteria for GetPivotData to filter row/column fields
+    /// </summary>
     public struct PivotDataCriteria
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="field">The row/column field to filter</param>
+        /// <param name="value">The value to filter on</param>
         public PivotDataCriteria(ExcelPivotTableField field, object value) 
         {
             Field = field;
             Value = value;
         }
+        /// <summary>
+        /// The row or column field.
+        /// </summary>
         public ExcelPivotTableField Field { get; set; }
+        /// <summary>
+        /// The value to filter on.
+        /// </summary>
         public object Value { get; set; }
     }
 }

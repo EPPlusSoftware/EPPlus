@@ -55,7 +55,6 @@ namespace EPPlusTest
             public string Country { get; set; }
             public string State { get; set; }
             public double Sales { get; set; }
-
         }
         protected static FileInfo _file;
         protected static string _clipartPath ="";

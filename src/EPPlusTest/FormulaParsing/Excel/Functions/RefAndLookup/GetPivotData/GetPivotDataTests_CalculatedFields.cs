@@ -22,10 +22,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 		{
 			_package = OpenPackage("GetPivotData_CalculatedFields.xlsx", true);
 			_dateWs1 = _package.Workbook.Worksheets.Add("Data1");
-			//_dateWs2 = _package.Workbook.Worksheets.Add("Data2");
-			//_dateWs3 = _package.Workbook.Worksheets.Add("Data3");
 			LoadItemData(_dateWs1);
-			//LoadTestdata(_dateWs2);
 		}
 
 		[ClassCleanup]
@@ -43,7 +40,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			pt.Fields.AddCalculatedField("Calculated Value", "Price * Stock * 'Date for grouping'");
 			var df = pt.DataFields.Add(pt.Fields["Calculated Value"]);
 			df.Function = DataFieldFunctions.Sum;
-			pt.Calculate(true);			
 			ws.Calculate();
 		}
 

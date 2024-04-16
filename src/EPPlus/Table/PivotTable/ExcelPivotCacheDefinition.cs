@@ -217,74 +217,74 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
-        {
-            var items = _cacheReference.Records.CacheItems;
-            List<int> rows=null;
-            foreach(var criteriaItem in criteria)
-            {
-                var cf = criteriaItem.Field.CacheField;
-                if(cf._cacheLookup.ContainsKey(criteriaItem.Value))
-                {
-                    var ix = cf._cacheLookup[criteriaItem.Value];
-                    if (rows == null)
-                    {
-                        rows = cf._fieldRecordIndex[ix];
-                    }
-                    else
-                    {
-                        rows = IntersectRows(rows, cf._fieldRecordIndex[ix]);
-                    }
-                }
-                else
-                {
-                    return ErrorValues.RefError;
-                }
-            }
-            return GetDataFromRows(rows, dataField);
-        }
+        //internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
+        //{
+        //    var items = _cacheReference.Records.CacheItems;
+        //    List<int> rows=null;
+        //    foreach(var criteriaItem in criteria)
+        //    {
+        //        var cf = criteriaItem.Field.CacheField;
+        //        if(cf._cacheLookup.ContainsKey(criteriaItem.Value))
+        //        {
+        //            var ix = cf._cacheLookup[criteriaItem.Value];
+        //            if (rows == null)
+        //            {
+        //                rows = cf._fieldRecordIndex[ix];
+        //            }
+        //            else
+        //            {
+        //                rows = IntersectRows(rows, cf._fieldRecordIndex[ix]);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return ErrorValues.RefError;
+        //        }
+        //    }
+        //    return GetDataFromRows(rows, dataField);
+        //}
 
-        private object GetDataFromRows(List<int> rows, ExcelPivotTableDataField dataField)
-        {
-            if (rows.Count == 0)
-            { 
-                return ErrorValues.RefError;
-            }
-            var ix = dataField.Index;
-            double d = 0;
-            int c = 0;
-            foreach(var r in rows)
-            {
-                var v = _cacheReference.Records.CacheItems[ix][r];
-                switch(dataField.Function)
-                {
-                    case DataFieldFunctions.Sum:
-                        d += ConvertUtil.GetValueDouble(v);
-                        break;
-                    case DataFieldFunctions.Average:
-                        d += ConvertUtil.GetValueDouble(v);
-                        c++;
-                        break;
-                    case DataFieldFunctions.Count:
-                        c++;
-                        break;
-                    case DataFieldFunctions.CountNums:
-                        if (ConvertUtil.IsExcelNumeric(v))
-                        {
-                            c++; 
-                        }
-                        break;
-                    case DataFieldFunctions.Max:
-                    case DataFieldFunctions.Min:
-                    case DataFieldFunctions.Var:
-                    case DataFieldFunctions.VarP:
-                    case DataFieldFunctions.StdDev:
-                    case DataFieldFunctions.StdDevP:
-                        break;
-                }
-            }
-            return d;
-        }
+        //private object GetDataFromRows(List<int> rows, ExcelPivotTableDataField dataField)
+        //{
+        //    if (rows.Count == 0)
+        //    { 
+        //        return ErrorValues.RefError;
+        //    }
+        //    var ix = dataField.Index;
+        //    double d = 0;
+        //    int c = 0;
+        //    foreach(var r in rows)
+        //    {
+        //        var v = _cacheReference.Records.CacheItems[ix][r];
+        //        switch(dataField.Function)
+        //        {
+        //            case DataFieldFunctions.Sum:
+        //                d += ConvertUtil.GetValueDouble(v);
+        //                break;
+        //            case DataFieldFunctions.Average:
+        //                d += ConvertUtil.GetValueDouble(v);
+        //                c++;
+        //                break;
+        //            case DataFieldFunctions.Count:
+        //                c++;
+        //                break;
+        //            case DataFieldFunctions.CountNums:
+        //                if (ConvertUtil.IsExcelNumeric(v))
+        //                {
+        //                    c++; 
+        //                }
+        //                break;
+        //            case DataFieldFunctions.Max:
+        //            case DataFieldFunctions.Min:
+        //            case DataFieldFunctions.Var:
+        //            case DataFieldFunctions.VarP:
+        //            case DataFieldFunctions.StdDev:
+        //            case DataFieldFunctions.StdDevP:
+        //                break;
+        //        }
+        //    }
+        //    return d;
+        //}
 
         private List<int> IntersectRows(List<int> rows1, List<int> rows2)
         {

@@ -326,15 +326,32 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="refreshCache"></param>
         public void Calculate(bool refreshCache=false)
         {
-            if(refreshCache)
+            if(refreshCache || CacheDefinition._cacheReference.Records.RecordCount==0)
             {
                 CacheDefinition.Refresh();
             }
             PivotTableCalculation.Calculate(this, out CalculatedItems, out Keys);
             IsCalculated = true;
         }
-        internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
+        /// <summary>
+        /// Returns a calculated value for a row or column field. This function works similar to the GetPivotData function.
+        /// If a row or column field is omitted, the subtotal for that field is retrieved.
+        /// If the pivot table is not calculated a calculation will be performed without refreshing the pivot cache.
+        /// If the pivot table is created in EPPlus without refreshing the cache, the cache will be created.
+        /// Please not the any source data containing formulas must be calculated before the pivot table is calculated.
+        /// <seealso cref="Calculate(bool)"/>
+        /// <seealso cref="IsCalculated"/>
+        /// <seealso cref="ExcelPivotCacheDefinition.Refresh"/>
+        /// </summary>
+        /// <param name="criteria">A list of criterias to determin which value to retrieve. If the criteria does not exist in the pivot tabvle a #REF! error is returned.</param>
+        /// <param name="dataField">The data field</param>
+        /// <returns>The calculated value</returns>
+        public object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
         {
+            if(IsCalculated==false)
+            {
+                Calculate();
+            }
             var items = CacheDefinition._cacheReference.Records.CacheItems;
 
             var keyFieldIndex = RowColumnFieldIndicies;
