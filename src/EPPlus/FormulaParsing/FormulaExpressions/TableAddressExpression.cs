@@ -34,9 +34,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
         }
 
-        public override void Negate()
+        public override Expression Negate()
         {
             _negate = !_negate;
+            return this;
         }
         internal override ExpressionStatus Status
         {

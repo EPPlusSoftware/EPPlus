@@ -126,29 +126,22 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             DataType = dataType;
         }
 
-        internal void Negate()
+        internal CompileResult Negate()
         {
             if(DataType == DataType.ExcelRange && Result is IRangeInfo ri)
             {
-                Result = RangeOperationsOperator.Negate(ri);
+                return new CompileResult(RangeOperationsOperator.Negate(ri), DataType.ExcelRange);
             }
 
             else if (IsNumeric)
             {
-                if (_resultNumeric.HasValue)
-                {
-                    _resultNumeric *= -1;
-                }
-                else 
-                {
-                    _resultNumeric = ResultNumeric * -1; 
-                }
-                Result = ResultNumeric;
+                return new CompileResult(ResultNumeric * -1, DataType.Decimal);
             }
             else if (DataType != DataType.ExcelError)
             {
-                Result = ErrorValues.ValueError;
+                return _errorValue;
             }
+            return this;
         }
         internal static CompileResult GetDynamicArrayResultError(eErrorType errorType)
         {
