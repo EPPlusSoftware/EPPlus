@@ -26,13 +26,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal int _worksheetIx;
         internal INameInfo _name;        
         int _negate = 0; //0 if no negation is performed. -1 or 1 if the value should be negated. In this case the value is converted to a double and negated. If the value is non numeric #VALUE is returned.
-        public NamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
+        internal NamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
         {
             _externalReferenceIx = externalReferenceIx;
             _worksheetIx = worksheetIx;
             _name = Context.ExcelDataProvider.GetName(_externalReferenceIx, worksheetIx, name);
         }
-        public NamedValueExpression(INameInfo nameInfo, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx, int negate) : base(parsingContext)
+        private NamedValueExpression(INameInfo nameInfo, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx, int negate) : base(parsingContext)
         {
             _externalReferenceIx = externalReferenceIx;
             _worksheetIx = worksheetIx;
@@ -143,23 +143,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 n = _negate * -1;
             }
             return new NamedValueExpression(_name, Context, _externalReferenceIx, _worksheetIx, n);
-        }
-        private ExcelExternalDefinedName GetExternalName()
-        {
-            ExcelWorkbook wb = Context.Package.Workbook;
-            if (_externalReferenceIx >= 0 && _externalReferenceIx < wb.ExternalLinks.Count && wb.ExternalLinks[_externalReferenceIx].ExternalLinkType == ExternalReferences.eExternalLinkType.ExternalWorkbook)
-            {
-                var er = (ExcelExternalWorkbook)wb.ExternalLinks[_externalReferenceIx];
-                if (_worksheetIx < 0)
-                {
-                    return er.CachedNames[_name.Name];
-                }
-                else
-                {
-                    return er.CachedWorksheets[_worksheetIx].CachedNames[_name.Name];
-                }
-            }
-            return null;
         }
         public override FormulaRangeAddress GetAddress()
         {

@@ -1094,7 +1094,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             if(funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null)
             {
-                f._expressionStack.Push(new RangeExpression(result.Address/*, funcExp._negate*/));
+                f._expressionStack.Push(new RangeExpression(result.Address));
             }
             else
             {

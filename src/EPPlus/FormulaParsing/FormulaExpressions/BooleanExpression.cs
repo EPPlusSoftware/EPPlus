@@ -30,11 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             _cachedCompileResult = result;
             _negatedExpression = new BooleanExpression(ctx, this, !((bool)result.ResultValue));
         }
-
-        public BooleanExpression(ParsingContext ctx) : base(ctx)
-        {
-        }
-        public BooleanExpression(ParsingContext ctx, BooleanExpression exp, bool negatedValue) : base(ctx)
+        private BooleanExpression(ParsingContext ctx, BooleanExpression exp, bool negatedValue) : base(ctx)
         {
             _cachedCompileResult = new CompileResult(negatedValue,DataType.Boolean);
             _negatedExpression = exp;

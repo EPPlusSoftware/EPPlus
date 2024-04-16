@@ -139,7 +139,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             else if (DataType != DataType.ExcelError)
             {
-                return CompileResult.GetErrorResult(eErrorType.Value);
+                return _errorValue;
             }
             return this;
         }
