@@ -29,6 +29,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             {
                 t = ut;
             }
+
             return t;
         }
 

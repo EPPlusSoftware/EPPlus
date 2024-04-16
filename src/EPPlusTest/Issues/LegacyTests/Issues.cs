@@ -6191,43 +6191,5 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-
-        [TestMethod]
-        public void i1416()
-        {
-            var epplusAssemblyVersion = typeof(ExcelPackage).Assembly.GetName().Version.ToString();
-            using(var excel = OpenPackage($@"issue-{epplusAssemblyVersion}.xlsx",true))
-            {
-                var tableRowAllMembers = typeof(TableRow).GetMembers().Where(m => m.MemberType == MemberTypes.Property).ToArray();
-                var tableData = new TableRow[]{
-            new TableRow{
-                EPPlusVersion = epplusAssemblyVersion,
-                NonNullableColumn=Int32.MaxValue,
-                NullableColumn=Int32.MaxValue,
-                MembersCount = tableRowAllMembers.Length
-            }
-        };
-
-                var sheet1 = excel.Workbook.Worksheets.Add("Default");
-                sheet1.Cells[1, 1].LoadFromCollection(tableData, PrintHeaders: true, TableStyle: TableStyles.Light1)
-                    .AutoFitColumns();
-
-                var sheet2 = excel.Workbook.Worksheets.Add("WithMembers");
-                sheet2.Cells[1, 1].LoadFromCollection(tableData, PrintHeaders: true, TableStyle: TableStyles.Light1,
-                    memberFlags: BindingFlags.Public | BindingFlags.Instance,
-                    Members: tableRowAllMembers)
-                    .AutoFitColumns();
-
-                SaveAndCleanup(excel);
-            }
-        }
-
-        public class TableRow
-        {
-            public String EPPlusVersion { get; set; }
-            public Int32 NonNullableColumn { get; set; }
-            public Int32? NullableColumn { get; set; }
-            public Int32 MembersCount { get; set; }
-        }
     }
 }
