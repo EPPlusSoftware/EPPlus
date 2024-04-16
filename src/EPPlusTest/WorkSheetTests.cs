@@ -1262,7 +1262,7 @@ namespace EPPlusTest
         public void LoadDataReaderTransposed()
         {
             if (_pck == null) _pck = new ExcelPackage();
-            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader");
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader Transposed");
             ExcelRangeBase range;
             using (var dt = GetDataTable())
             {
@@ -1317,7 +1317,7 @@ namespace EPPlusTest
         public async Task LoadDataReaderAsyncTransposed()
         {
             if (_pck == null) _pck = new ExcelPackage();
-            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader Async");
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader Async Transposed");
             ExcelRangeBase range;
             using (var dt = GetDataTable())
             {
@@ -1526,7 +1526,7 @@ namespace EPPlusTest
         [TestMethod]
         public void LoadArrayTransposed()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Loaded Array");
+            var ws = _pck.Workbook.Worksheets.Add("Loaded Array Transposed");
             List<object[]> testArray = new List<object[]>() { new object[] { 3, 4, 5 }, new string[] { "Test1", "test", "5", "6" } };
             var range = ws.Cells["A1"].LoadFromArraysTransposed(testArray);
             Assert.AreEqual("A1:B4", range.Address);
