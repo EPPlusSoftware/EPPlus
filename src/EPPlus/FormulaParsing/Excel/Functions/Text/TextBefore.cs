@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     internal class TextBefore : ExcelFunctionTextBase
     {
         public override int ArgumentMinLength => 2;
-        //public override string NamespacePrefix => "_xlfn.";
+        public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
