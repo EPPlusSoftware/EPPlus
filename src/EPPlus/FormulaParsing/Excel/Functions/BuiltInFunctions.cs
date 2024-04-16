@@ -67,6 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dollar"] = new Dollar();
             Functions["textsplit"] = new TextSplit();
             Functions["textbefore"] = new TextBefore();
+            Functions["textafter"] = new TextAfter();
             // Numbers
             Functions["int"] = new IntFunction();
             // Math
