@@ -39,9 +39,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             return _cachedCompileResult;
         }
-        public override void Negate()
+        public override Expression Negate()
         {
-            _cachedCompileResult.Negate();
+            return new IntegerExpression(_cachedCompileResult.Negate(), Context);
         }
         internal override ExpressionStatus Status
         {
