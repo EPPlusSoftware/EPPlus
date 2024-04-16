@@ -193,6 +193,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["odd"] = new Odd();
             Functions["even"] = new Even();
             Functions["sequence"] = new Sequence();
+            Functions["mmult"] = new MMult();
             // Statistical
             Functions["confidence.norm"] = new ConfidenceNorm();
             Functions["confidence"] = new Confidence();
