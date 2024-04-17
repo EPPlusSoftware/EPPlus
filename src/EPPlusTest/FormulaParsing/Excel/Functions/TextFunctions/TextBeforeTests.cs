@@ -49,7 +49,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             Assert.AreEqual("Scott Mats", sheet.Cells["D3"].Value);
             Assert.AreEqual("Scott Mats Jimmy Cameron Luther", sheet.Cells["D4"].Value);
-            Assert.AreEqual(ExcelErrorValue.Values.NA, sheet.Cells["D5"].Value.ToString());
+            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D5"].Value);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             Assert.AreEqual("Scott Mats Jimmy Cameron", sheet.Cells["D3"].Value);
             Assert.AreEqual("Scott", sheet.Cells["D4"].Value);
-            Assert.AreEqual(ExcelErrorValue.Values.NA, sheet.Cells["D5"].Value.ToString());
+            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D5"].Value);
         }
 
         [TestMethod]
@@ -95,8 +95,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Scott Mats Jimmy Cameron Luther Josh", sheet.Cells["D4"].Value);
             Assert.AreEqual("Scott Mats Jimmy Cameron", sheet.Cells["D5"].Value);
             Assert.AreEqual("Scott Mats", sheet.Cells["D6"].Value);
-            Assert.AreEqual(ExcelErrorValue.Values.NA, sheet.Cells["D7"].Value.ToString());
-            Assert.AreEqual(ExcelErrorValue.Values.NA, sheet.Cells["D8"].Value.ToString());
+            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D7"].Value);
+            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D8"].Value);
         }
 
         [TestMethod]
@@ -128,6 +128,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         }
 
         [TestMethod]
+        public void TextBeforeRangeText()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A4"].Value = "Scott Mats Jimmy";
+            sheet.Cells["A5"].Value = "Cameron Luther Josh";
+            sheet.Cells["B4"].Value = "Cameron Luther Josh";
+            sheet.Cells["D12"].Formula = "TEXTBEFORE(A4:A5, \" \")";
+            sheet.Cells["E12"].Formula = "TEXTBEFORE(A4:B4, \" \")";
+            sheet.Calculate();
+            Assert.AreEqual("Scott", sheet.Cells["D12"].Value);
+            Assert.AreEqual("Cameron", sheet.Cells["D13"].Value);
+            Assert.AreEqual("Scott", sheet.Cells["E12"].Value);
+            Assert.AreEqual("Cameron", sheet.Cells["F12"].Value);
+        }
+
+        [TestMethod]
         public void TextBeforeCreateWorkBookTest()
         {
             using var package = OpenPackage("TextBefore.xlsx", true);
@@ -149,7 +166,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Scott Mats Jimmy Cameron", sheet.Cells["D5"].Value);
             Assert.AreEqual("ScottXMatsxJimmyxCameron", sheet.Cells["D6"].Value);
             Assert.AreEqual("Scott Mats", sheet.Cells["D7"].Value);
-            Assert.AreEqual(ExcelErrorValue.Values.NA, sheet.Cells["D8"].Value.ToString());
+            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D8"].Value);
             Assert.AreEqual("Test", sheet.Cells["D9"].Value);
             Assert.AreEqual("Scott,Mats-Jimmy-Cameron", sheet.Cells["D10"].Value);
             SaveAndCleanup(package);

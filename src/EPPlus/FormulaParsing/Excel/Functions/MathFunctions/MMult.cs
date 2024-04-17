@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "7.2",
-        Description = "Rounds a number up or down, to the nearest multiple of significance",
+        Description = "Multiply to matrixes",
         SupportsArrays = true)]
     internal class MMult : ExcelFunction
     {
@@ -40,7 +40,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return CreateResult(CompileResult.GetErrorResult(eErrorType.Value), DataType.ExcelError);
             }
-
             double temp = 0;
             double[,] result = new double[r1+1, c2+1];
             var returnRange = new InMemoryRange(r1 + 1, (short)(c2 + 1));
@@ -72,22 +71,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 x1++;
                 y2 = m2.Address.FromCol;
             }
-
-
-            //for (int i = 0; i < r1; i++)
-            //{
-            //    for (int j = 0; j < c2; j++)
-            //    {
-            //        temp = 0;
-            //        for (int k = 0; k < c1; k++)
-            //        {
-            //            temp += matrix1[i, k] * matrix2[k, j];
-            //        }
-            //        result[i, j] = temp;
-            //    }
-            //}
-
-
             return CreateResult(returnRange, DataType.ExcelRange);
         }
     }
