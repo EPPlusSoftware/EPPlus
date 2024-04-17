@@ -83,7 +83,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             for (int i = 0; i < retArr.Length; i++)
             {
-                retArr[i] = ConvertIntIdToEnum(iconValueBase + indicies[i]);
+                retArr[i] = ConvertIntIdToEnum(iconValueBase, indicies[i]);
             }
 
             return retArr;
@@ -95,7 +95,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             for (int i = 0; i < retArr.Length; i++)
             {
-                retArr[i] = ConvertIntIdToEnum(iconValueBase + indicies[i]);
+                retArr[i] = ConvertIntIdToEnum(iconValueBase, indicies[i]);
             }
 
             return retArr;
@@ -106,7 +106,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             var setValue = _iconStringSetDictionary[set];
             var iconValueBase = setValue << 4;
 
-            return ConvertIntIdToEnum(iconValueBase + index);
+            return ConvertIntIdToEnum(iconValueBase, index);
         }
 
         internal static eExcelconditionalFormattingCustomIcon GetIcon(string set, int index, int iconValueBase = -1)
@@ -119,20 +119,53 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             int iconValue = iconValueBase + index;
 
-            return ConvertIntIdToEnum(iconValue);
+            return ConvertIntIdToEnum(iconValueBase, index);
         }
 
-        private static eExcelconditionalFormattingCustomIcon ConvertIntIdToEnum(int iconValue)
+        private static eExcelconditionalFormattingCustomIcon ConvertIntIdToEnum(int iconValueBase, int index)
         {
-            //Special case
-            if (iconValue == 82)
+            var iconValue = iconValueBase + index;
+
+            if (Enum.IsDefined(typeof(eExcelconditionalFormattingCustomIcon), iconValueBase) == false)
             {
-                iconValue = (int)eExcelconditionalFormattingCustomIcon.GreenCircle;
+                if(160 > iconValueBase && iconValueBase >= 16)
+                {
+                    iconValue -= 16 -index;
+                }
+                else if(iconValueBase >= 160)
+                {
+                    iconValue -= 160 -index;
+                }
             }
-            if (iconValue == 260)
-            {
-                iconValue = (int)eExcelconditionalFormattingCustomIcon.BlackCircle;
-            }
+            ////Special case
+            //if (iconValue == 82)
+            //{
+            //    iconValue = (int)eExcelconditionalFormattingCustomIcon.GreenCircle;
+            //}else if(iconValue == 160)
+            //{
+            //    iconValue = (int)eExcelconditionalFormattingCustomIcon.RedDownArrow;
+            //}else if(iconValue == 163)
+            //{
+            //    iconValue = (int)eExcelconditionalFormattingCustomIcon.GreenUpArrow;
+            //}
+            //else if(iconValue == 176)
+            //{
+            //    iconValue = (int)eExcelconditionalFormattingCustomIcon.GrayDownArrow;
+            //}
+            //else if(iconValue == 179)
+            //{
+            //    iconValue = (int)eExcelconditionalFormattingCustomIcon.GrayUpArrow;
+            //}
+            //else if(iconValue == 260)
+            //{
+            //    iconValue = (int)eExcelconditionalFormattingCustomIcon.BlackCircle;
+            //}
+            //else if (iconValue > 224 && iconValue < 228)
+            //{
+            //    //Move to circles
+            //    var val = iconValue - 225;
+            //    iconValue = 47 + val;
+            //}
 
             return (eExcelconditionalFormattingCustomIcon)iconValue;
         }

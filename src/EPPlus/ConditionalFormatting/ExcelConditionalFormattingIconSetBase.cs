@@ -339,6 +339,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if(Icon1.Type != eExcelConditionalFormattingValueObjectType.Formula)
                 {
+
                     var cellValues = new List<object>();
                     //double average = 0;
                     //int count = 0;

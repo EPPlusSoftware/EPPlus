@@ -100,7 +100,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     styleCache.Add(key, id);
                 }
 
-                cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
+                if(string.IsNullOrEmpty(cls))
+                {
+                    cls += $"{styleClassPrefix}{settings.CellStyleClassName}{id}";
+                }
+                else
+                {
+                    cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
+                }
             }
 
             return cls;

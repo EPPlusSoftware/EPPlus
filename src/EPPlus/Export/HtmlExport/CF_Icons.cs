@@ -300,7 +300,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     return "";
 
                 default: 
-                    throw new NotImplementedException($"The symboltype: {Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icon)} has not been implemented");
+                    throw new NotImplementedException($"the symbolId {(int)icon} with The symboltype: {Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icon)} has not been implemented it is preceeded by {Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icon-1)}");
             }
         }
     }
