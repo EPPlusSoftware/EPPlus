@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -71,6 +73,71 @@ namespace OfficeOpenXml.ConditionalFormatting
              { "NoIcons" , 18},
             };
 
+
+        internal static eExcelconditionalFormattingCustomIcon[] GetIconAtIndicies(string set, int[] indicies)
+        {
+            var setValue = _iconStringSetDictionary[set];
+            var iconValueBase = setValue << 4;
+
+            eExcelconditionalFormattingCustomIcon[] retArr = new eExcelconditionalFormattingCustomIcon[indicies.Length];
+
+            for (int i = 0; i < retArr.Length; i++)
+            {
+                retArr[i] = ConvertIntIdToEnum(iconValueBase + indicies[i]);
+            }
+
+            return retArr;
+        }
+
+        internal static eExcelconditionalFormattingCustomIcon[] GetIconAtIndicies(int iconValueBase, int[] indicies)
+        {
+            eExcelconditionalFormattingCustomIcon[] retArr = new eExcelconditionalFormattingCustomIcon[indicies.Length];
+
+            for (int i = 0; i < retArr.Length; i++)
+            {
+                retArr[i] = ConvertIntIdToEnum(iconValueBase + indicies[i]);
+            }
+
+            return retArr;
+        }
+
+        internal static eExcelconditionalFormattingCustomIcon GetIconAtIndex(string set, int index)
+        {
+            var setValue = _iconStringSetDictionary[set];
+            var iconValueBase = setValue << 4;
+
+            return ConvertIntIdToEnum(iconValueBase + index);
+        }
+
+        internal static eExcelconditionalFormattingCustomIcon GetIcon(string set, int index, int iconValueBase = -1)
+        {
+            if(iconValueBase == -1)
+            {
+                var setValue = _iconStringSetDictionary[set];
+                iconValueBase = setValue << 4;
+            }
+
+            int iconValue = iconValueBase + index;
+
+            return ConvertIntIdToEnum(iconValue);
+        }
+
+        private static eExcelconditionalFormattingCustomIcon ConvertIntIdToEnum(int iconValue)
+        {
+            //Special case
+            if (iconValue == 82)
+            {
+                iconValue = (int)eExcelconditionalFormattingCustomIcon.GreenCircle;
+            }
+            if (iconValue == 260)
+            {
+                iconValue = (int)eExcelconditionalFormattingCustomIcon.BlackCircle;
+            }
+
+            return (eExcelconditionalFormattingCustomIcon)iconValue;
+        }
+
+
         internal static eExcelconditionalFormattingCustomIcon[] GetIconSet(string set)
         {
             int size = 3;
@@ -87,23 +154,28 @@ namespace OfficeOpenXml.ConditionalFormatting
                 size = 1;
             }
 
-            eExcelconditionalFormattingCustomIcon[] retArr = new eExcelconditionalFormattingCustomIcon[size];
+            //eExcelconditionalFormattingCustomIcon[] retArr = new eExcelconditionalFormattingCustomIcon[size];
 
-            for (int i = 0; i < retArr.Length; i++)
+            //var setValue = _iconStringSetDictionary[set];
+            //var iconValueBase = setValue << 4;
+
+            //for (int i = 0; i < retArr.Length; i++)
+            //{
+            //    retArr[i] = ConvertIntIdToEnum(iconValueBase + i);
+            //}
+
+            //return retArr;
+
+            var arr = new int[size];
+
+            for (int i = 0; i < arr.Length; i++)
             {
-                var setValue = _iconStringSetDictionary[set];
-                int iconValue = setValue << 4;
-                iconValue += i;
-                //Special case
-                if(iconValue == 82)
-                {
-                    iconValue = (int)eExcelconditionalFormattingCustomIcon.GreenCircle;
-                }
-                retArr[i] = (eExcelconditionalFormattingCustomIcon)iconValue;
+                arr[i] = i;
             }
 
-            return retArr;
+            return GetIconAtIndicies(set, arr);
         }
+
 
         //internal static virtual string GetCustomIconStringValue()
         //{

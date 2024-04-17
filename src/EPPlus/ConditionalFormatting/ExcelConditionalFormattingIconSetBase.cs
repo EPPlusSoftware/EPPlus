@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -97,6 +98,11 @@ namespace OfficeOpenXml.ConditionalFormatting
             icon.Value = value;
 
             return icon;
+        }
+
+        internal ExcelConditionalFormattingIconSetBase<T> GetIconSetType()
+        {
+            return this;
         }
 
         internal ExcelConditionalFormattingIconSetBase(
@@ -300,7 +306,31 @@ namespace OfficeOpenXml.ConditionalFormatting
             set;
         }
 
-        internal int CalculateCorrectIcon(ExcelAddress address)
+        internal int GetIconNum(ExcelAddress address)
+        {
+            return CalculateCorrectIcon(address, GetIconArray(true));
+        }
+
+        internal virtual ExcelConditionalFormattingIconDataBarValue[] GetIconArray(bool reversed = false)
+        {
+            return reversed ? [Icon3, Icon2, Icon1] : [Icon1, Icon2, Icon3];
+        }
+
+        internal List<ExcelConditionalFormattingIconDataBarValue> GetCustomIconList(bool reversed = false)
+        {
+            var list = GetIconArray(reversed);
+            var customIconList = new List<ExcelConditionalFormattingIconDataBarValue>();
+            foreach (var icon in list)
+            {
+                if(icon.CustomIcon != null)
+                {
+                    customIconList.Add(icon);
+                }
+            }
+            return customIconList;
+        }
+
+        protected int CalculateCorrectIcon(ExcelAddress address, ExcelConditionalFormattingIconDataBarValue[] icons)
         {
             //Icon1.Type 
             var range = _ws.Cells[address.Address];
@@ -334,10 +364,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                     var realValue = Convert.ToDouble(cellValue);
 
-                    var icons = new ExcelConditionalFormattingIconDataBarValue[] { Icon3, Icon2, Icon1};
-
-
-                    icons[0].ShouldApplyIcon(realValue);
+                    
+                    //var icons = new ExcelConditionalFormattingIconDataBarValue[] { Icon3, Icon2, Icon1};
 
                     for(int i = 0; i < icons.Length -1; i++)
                     {
@@ -369,10 +397,18 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                         if (icons[i].ShouldApplyIcon(checkingValue))
                         {
+                            if(Reverse)
+                            {
+                                return i;
+                            }
                             return icons.Length - i - 1;
                         }
                     }
 
+                    if (Reverse)
+                    {
+                        return icons.Length - 1;
+                    }
                     return 0;
 
                     //var highestIcon = icons[icons.Length];

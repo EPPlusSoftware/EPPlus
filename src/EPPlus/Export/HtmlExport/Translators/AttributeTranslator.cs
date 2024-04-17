@@ -15,11 +15,13 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
@@ -119,6 +121,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 int dxfId;
                 string dxfKey;
 
+                var prefix = $" { styleClassPrefix }{ settings.DxfStyleClassName}";
+
                 List<string> extraClasses = new List<string>();
 
                 var cfItems = context._cfQuadTree.GetIntersectingRangeItems
@@ -137,55 +141,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 inlineStyles += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                                 break;
                             case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                //Check which of the icons/color of the icons to apply
-
-                                //var childDiv = new HTMLElement("div");
-                                //element.AddChildElement(childDiv);
-
-                                dxfKey = cfItems[i].Value.Uid;
-
-                                if (dxfStyleCache.ContainsKey(dxfKey))
-                                {
-                                    dxfId = dxfStyleCache[dxfKey];
-                                }
-                                else
-                                {
-                                    dxfId = dxfStyleCache.Count + 1;
-                                    dxfStyleCache.Add(dxfKey, dxfId);
-                                }
-
-                                var icCF = (ExcelConditionalFormattingThreeIconSet)cfItems[i].Value;
-
-                                //icCF.ShouldApplyToCell
-                                //childDiv.AddAttribute("class", $"{styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}");
-
-                                //contentElement = childDiv;
-                                //inlineStyles += "height: 100%;";
-                                cls += " cf-ic-shared";
-                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}";
-
-                                var iconId = icCF.CalculateCorrectIcon(cell);
-                                if(iconId != -1)
-                                {
-                                    cls += $" {styleClassPrefix}{settings.DxfStyleClassName}cf{dxfId}{iconId}";
-                                }
+                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                var iconIdThree = GetIconId((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value.As.ThreeIconSet, cell);
+                                cls += AddIconClasses(dxfId, iconIdThree, prefix);
+                                break;
+                            case eExcelConditionalFormattingRuleType.FourIconSet:
+                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                var iconIdFour = GetIconId((ExcelConditionalFormattingFourIconSet)cfItems[i].Value.As.FourIconSet, cell);
+                                cls += AddIconClasses(dxfId, iconIdFour, prefix);
+                                break;
+                            case eExcelConditionalFormattingRuleType.FiveIconSet:
+                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                var iconIdFive = GetIconId((ExcelConditionalFormattingFiveIconSet)cfItems[i].Value.As.FiveIconSet, cell);
+                                cls += AddIconClasses(dxfId, iconIdFive, prefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 break;
                             default:
                                 dxfKey = cfItems[i].Value.Style.Id;
+                                dxfStyleCache.IsAdded(dxfKey, out dxfId);
 
-                                if (dxfStyleCache.ContainsKey(dxfKey))
-                                {
-                                    dxfId = dxfStyleCache[dxfKey];
-                                }
-                                else
-                                {
-                                    dxfId = dxfStyleCache.Count + 1;
-                                    dxfStyleCache.Add(dxfKey, dxfId);
-                                }
-
-                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}{dxfId}";
+                                cls += $"{prefix}{dxfId}";
                                 break;
                         }
                     }
@@ -198,6 +174,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             }
 
             return new List<string> { inlineStyles };
+        }
+
+        internal static int GetIconId<T>(ExcelConditionalFormattingIconSetBase<T> set, ExcelRangeBase cell)
+            where T : struct, Enum
+        {
+            var iconId = set.GetIconNum(cell);
+            return iconId;
+        }
+
+        internal static string AddIconClasses(int dxfId, int iconId, string prefix)
+        {
+            string retString = "";
+            retString += " cf-ic-shared";
+            retString += $"{prefix}cf{dxfId}";
+
+            if (iconId != -1)
+            {
+                retString += $"{prefix}cf{dxfId}{iconId}";
+            }
+
+            return retString;
         }
     }
 }

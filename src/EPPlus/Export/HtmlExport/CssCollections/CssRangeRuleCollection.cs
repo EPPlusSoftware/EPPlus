@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
@@ -210,11 +211,15 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 beforeRule.AddDeclaration("float", $"left");
                 beforeRule.AddDeclaration("background-repeat", $"no-repeat");
 
+                //Ensure cells don't overflow
+                _ruleCollection.AddRule(".cf-ic-shared", "min-width", "2.24em");
+
                 _context.SharedIconSetRuleAdded = true;
             }
         }
 
-        internal void AddAdvancedCF(int cssOrder, ExcelConditionalFormattingThreeIconSet set, int id)
+        internal void AddAdvancedCF<T>(ExcelConditionalFormattingIconSetBase<T> set, int cssOrder, int id)
+            where T : struct, Enum
         {
             if (_context.SharedIconSetRuleAdded == false)
             {
@@ -225,37 +230,39 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             var contentRule = new CssRule(ruleName, cssOrder);
             if(!set.ShowValue)
             {
-                contentRule.AddDeclaration("visibility", "hidden");
+                contentRule.AddDeclaration("color", "transparent");
             }
             else
             {
                 contentRule.AddDeclaration("visibility", "visible");
             }
 
-            if(set.Reverse) 
+            string[] svgs;
+
+            if (set.Custom)
             {
-                //Implement icons backwards here;
+                svgs = CF_Icons.GetIconSetSvgsWithCustoms(set.GetIconSetString(), set.GetIconArray());
+
+                //for(int i = 0; i < arr.Length;)
+                //{
+                //    if (arr[i].CustomIcon != null)
+                //    {
+                //        svgs[i] = CF_Icons.GetIconSvg(arr[i].CustomIcon.Value);
+                //    }
+                //}
+            }
+            else
+            {
+                svgs = CF_Icons.GetIconSetSvgs(set.GetIconSetString());
             }
 
-            if(set.Custom == false)
+            for (int i = 0; i < svgs.Length; i++)
             {
-                var svgs = CF_Icons.GetIconSetSvgs(set.GetIconSetString());
-                for(int i = 0; i < svgs.Length; i++)
-                {
-                    var iconRule = new CssRule(ruleName+$"{i}::before", cssOrder);
-                    iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{svgs[i]})");
-                    _ruleCollection.CssRules.Add(iconRule);
-                }
-                //set.IconSet;
-                //ExcelConditionalFormattingFourIconSet test;
-                //test.IconSet
+                var iconRule = new CssRule(ruleName + $"{i}::before", cssOrder);
+                iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{svgs[i]})");
+                _ruleCollection.CssRules.Add(iconRule);
             }
 
-            //var cfCss = CF_Icons.GetIconSvg(eExcelconditionalFormattingCustomIcon.GreenCircle);
-            //var iconRule = new CssRule(ruleName+"::before", cssOrder);
-            //iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
-            ////beforeRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{cfCss})");
-            //_ruleCollection.CssRules.Add(iconRule);
             _ruleCollection.CssRules.Add(contentRule);
         }
 

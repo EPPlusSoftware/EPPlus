@@ -24,9 +24,11 @@ using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -211,7 +213,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             if (cellAddress != null)
             {
                 var items = GetCFItemsAtAddress(cellAddress);
-
+                
                 foreach (var cf in items)
                 {
                     switch(cf.Value.Type)
@@ -222,14 +224,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.DataBar:
                             break;
                         case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId);
-                            var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
-
-                            if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
-                            {
-                                cssTranslator.AddAdvancedCF(OrderDefaultDxf + cf.Value.Priority, (ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cfId);
-                                _addedToCssDxf.Add(cfId);
-                            }
+                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cf.Value, cssTranslator);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FourIconSet:
+                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingFourIconSet)cf.Value.As.FourIconSet, cf.Value, cssTranslator);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FiveIconSet:
+                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingFiveIconSet)cf.Value.As.FiveIconSet, cf.Value, cssTranslator);
                             break;
                         default:
                             if (cf.Value.Style.HasValue)
@@ -245,6 +246,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             break;
                     }
                 }
+            }
+        }
+
+        internal void AddAdvancedConditionalFormattingsToCollection<T>(ExcelConditionalFormattingIconSetBase<T> iconSet, ExcelConditionalFormattingRule rule, CssRangeRuleCollection cssTranslator) 
+            where T : struct, Enum
+        {
+            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{rule.Uid}", out int cfId);
+            var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
+
+            if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
+            {
+                cssTranslator.AddAdvancedCF(iconSet, OrderDefaultDxf + rule.Priority, cfId);
+                _addedToCssDxf.Add(cfId);
             }
         }
 
