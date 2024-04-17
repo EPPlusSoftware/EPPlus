@@ -35,7 +35,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var text = ArgToString(arguments, 0);
+            var range = ArgToRangeInfo(arguments, 0);
+            var text = string.Empty;
+            if (range == null)
+            {
+                text = ArgToString(arguments, 0);
+            }
             var delimiters = ArgDelimiterCollectionToString(arguments, 1, out CompileResult error);
             if (error != null) return error;
             var instanceNum = 1;
@@ -67,80 +72,136 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 ifNotFound = ArgToString(arguments, 5);
             }
-
-            int length = 0;
-            int instances = 0;
-            if (instanceNum < 0)
+            int row = range == null ? 0 : range.Address.FromRow;
+            int col = range == null ? 0 : range.Address.FromCol;
+            var r = range == null ? 1 : (range.Address.ToRow - range.Address.FromRow) + 1;
+            var c = range == null ? 1 : (range.Address.ToCol - range.Address.FromCol) + 1;
+            var returnRange = new InMemoryRange(r, (short)c);
+            for (int y = 0; y < r; y++)
             {
-                for (int i = text.Length - 1; i >= 0; i--)
+                for (int x = 0; x < c; x++)
                 {
-                    char c = text[i];
-                    if (delimiters.Contains(c))
+                    text = range == null ? text : range.GetValue(row, col).ToString();
+                    col++;
+                    int length = 0;
+                    int instances = 0;
+                    if (instanceNum < 0)
                     {
-                        instances--;
-                        length = i;
-                        if (instances == instanceNum) break;
-                    }
-                }
-
-                if (instances > instanceNum && matchEnd == 0)
-                {
-                    if (ifNotFound != "#N/A")
-                        return CreateResult(ifNotFound, DataType.String);
-                    return CompileResult.GetErrorResult(eErrorType.NA);
-                }
-                if (matchEnd == 1 && instances - instanceNum == 1)
-                {
-                    return CreateResult(text, DataType.String);
-                }
-                else if (matchEnd == 1 && instances - instanceNum > 1)
-                {
-                    if (ifNotFound != "#N/A")
-                        return CreateResult(ifNotFound, DataType.String);
-                    return CompileResult.GetErrorResult(eErrorType.NA);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < text.Length; i++)
-                {
-                    char c = text[i];
-                    if (delimiters.Contains(c))
-                    {
-                        instances++;
-                        length = i;
-                        if (instances == instanceNum)
+                        for (int i = text.Length - 1; i >= 0; i--)
                         {
-                            break;
+                            char t = text[i];
+                            if (delimiters.Contains(t))
+                            {
+                                instances--;
+                                length = i;
+                                if (instances == instanceNum) break;
+                            }
                         }
+
+
+                        if (instances > instanceNum && matchEnd == 0)
+                        {
+                            if (ifNotFound != "#N/A")
+                            {
+                                returnRange.SetValue(y, x, ifNotFound);
+                                continue;
+                                //return CreateResult(ifNotFound, DataType.String);
+                            }
+                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            continue;
+                            //return CompileResult.GetErrorResult(eErrorType.NA);
+                        }
+                        if (matchEnd == 1 && instances - instanceNum == 1)
+                        {
+                            returnRange.SetValue(y, x, text);
+                            continue;
+                            //return CreateResult(text, DataType.String);
+                        }
+                        else if (matchEnd == 1 && instances - instanceNum > 1)
+                        {
+                            if (ifNotFound != "#N/A")
+                            {
+                                returnRange.SetValue(y, x, ifNotFound);
+                                continue;
+                                //return CreateResult(ifNotFound, DataType.String);
+                            }
+                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            continue;
+                            //return CompileResult.GetErrorResult(eErrorType.NA);
+                        }
+
+
                     }
+                    else
+                    {
+                        for (int i = 0; i < text.Length; i++)
+                        {
+                            char t = text[i];
+                            if (delimiters.Contains(t))
+                            {
+                                instances++;
+                                length = i;
+                                if (instances == instanceNum)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+
+
+                        if (instances < instanceNum && matchEnd == 0)
+                        {
+                            if (ifNotFound != "#N/A")
+                            {
+                                returnRange.SetValue(y, x, ifNotFound);
+                                continue;
+                                //return CreateResult(ifNotFound, DataType.String);
+                            }
+                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            continue;
+                            //return CompileResult.GetErrorResult(eErrorType.NA);
+                        }
+                        if (matchEnd == 1 && instances - instanceNum == -1)
+                        {
+                            returnRange.SetValue(y, x, text);
+                            continue;
+                            //return CreateResult(text, DataType.String);
+                        }
+                        else if (matchEnd == 1 && instances - instanceNum < -1)
+                        {
+                            if (ifNotFound != "#N/A")
+                            {
+                                returnRange.SetValue(y, x, ifNotFound);
+                                continue;
+                                //return CreateResult(ifNotFound, DataType.String);
+                            }
+                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            continue;
+                            //return CompileResult.GetErrorResult(eErrorType.NA);
+                        }
+
+
+                    }
+                    length++;
+                    if (length >= text.Length)
+                    {
+                        if (ifNotFound != "#N/A")
+                        {
+                            returnRange.SetValue(y, x, ifNotFound);
+                            continue;
+                            //return CreateResult(ifNotFound, DataType.String);
+                        }
+                        returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                        continue;
+                        //return CompileResult.GetErrorResult(eErrorType.NA);
+                    }
+                    //resultString = text.Substring(0, length);
+                    returnRange.SetValue(y, x, text.Substring(length));
                 }
-                if (instances < instanceNum && matchEnd == 0)
-                {
-                    if (ifNotFound != "#N/A")
-                        return CreateResult(ifNotFound, DataType.String);
-                    return CompileResult.GetErrorResult(eErrorType.NA);
-                }
-                if (matchEnd == 1 && instances - instanceNum == -1)
-                {
-                    return CreateResult(text, DataType.String);
-                }
-                else if (matchEnd == 1 && instances - instanceNum < -1)
-                {
-                    if (ifNotFound != "#N/A")
-                        return CreateResult(ifNotFound, DataType.String);
-                    return CompileResult.GetErrorResult(eErrorType.NA);
-                }
+                row++;
+                col = range == null ? 0 : range.Address.FromCol;
             }
-            length++;
-            if (length >= text.Length)
-            {
-                if (ifNotFound != "#N/A")
-                    return CreateResult(ifNotFound, DataType.String);
-                return CompileResult.GetErrorResult(eErrorType.NA);
-            }
-            resultString = text.Substring(length);
-            return CreateResult(resultString, DataType.String);
+            return CreateResult(returnRange, DataType.ExcelRange);
         }
     }
 }
