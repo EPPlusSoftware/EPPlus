@@ -84,9 +84,10 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal void SetCustomIconStringAndId(string set, int id)
         {
-            int myKey = _iconStringSetDictionary.FirstOrDefault(x => x.Value == set).Key << 4;
-            myKey += id;
-            CustomIcon = (eExcelconditionalFormattingCustomIcon)myKey;
+            //int myKey = _iconStringSetDictionary.FirstOrDefault(x => x.Value == set).Key << 4;
+            //myKey += id;
+            //CustomIcon = (eExcelconditionalFormattingCustomIcon)myKey;
+            CustomIcon = IconDict.GetIconAtIndex(set, id);
         }
 
         internal virtual string GetCustomIconStringValue()

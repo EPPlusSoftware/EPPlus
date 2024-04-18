@@ -379,7 +379,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                             //var percentualValue = highest * icons[i].Value;
 
                             //Calculate percentage of distance of total numbers
-                            checkingValue = (realValue + Math.Abs(lowest)) / (Math.Abs(lowest) + Math.Abs(highest));
+                            checkingValue = (realValue - lowest) / (highest - lowest);
                             checkingValue = checkingValue * 100;
                         }
 
@@ -392,8 +392,9 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             //var percentileValue = (numValuesLessThan/cellValues.Count()) * 100;
 
-                            var numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
-                            checkingValue = (numValuesLessThan / cellValues.Count()) * 100;
+                            double numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
+                            double percentile = (numValuesLessThan / cellValues.Count()) * 100d;
+                            checkingValue = percentile;
                         }
 
                         if (icons[i].ShouldApplyIcon(checkingValue))
