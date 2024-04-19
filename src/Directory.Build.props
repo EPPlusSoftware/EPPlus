@@ -20,6 +20,10 @@
     <DefineConstants>Core;NET80</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net481'">
+    <DefineConstants>NET481;NETFULL</DefineConstants>
+  </PropertyGroup>
+
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NET462;NETFULL</DefineConstants>
   </PropertyGroup>
