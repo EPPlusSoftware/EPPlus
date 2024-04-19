@@ -217,7 +217,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			df.Function = DataFieldFunctions.Sum;
 			pt.Calculate(true);
 
-			ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 12, \"Minutes\", 30)";
+			var grandTotal = pt.CalculatedData.GetValue("Stock");
+			var item1230 = pt.CalculatedData.Criterias(x => {x.FieldName = "Hours", x.Value = 12; }).Criterias(x => { x.FieldName = "Minutes", x.Value = 30; }).GetValue("Stock");
+
+            ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 12, \"Minutes\", 30)";
 			ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 16)";
 			ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 22)";
 			ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Stock\",$A$1)";

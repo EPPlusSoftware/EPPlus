@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using FakeItEasy;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.ConditionalFormatting;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
@@ -35,10 +37,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         {
             var ws = _package.Workbook.Worksheets.Add("SumRowData");
             var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable1");
-            pt.ColumnFields.Add(pt.Fields["Continent"]);
-            pt.RowFields.Add(pt.Fields["Country"]);
+            var columnField = pt.ColumnFields.Add(pt.Fields["Continent"]);
+            var rowField = pt.RowFields.Add(pt.Fields["Country"]);
             pt.DataFields.Add(pt.Fields["Sales"]);
             pt.Calculate(true);
+            pt.GetPivotData("Sales", new List<PivotDataCriteria> { new  PivotDataCriteria("Continent", "North America"), new PivotDataCriteria("Country", "USA") });
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
@@ -67,6 +70,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\")";
             ws.Cells["G9"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Invalid Field\",\"North America\")";
             ws.Calculate();
+
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["G5"].Value);
             Assert.AreEqual(818D, ws.Cells["G6"].Value);
             Assert.AreEqual(3188D, ws.Cells["G7"].Value);

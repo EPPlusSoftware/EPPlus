@@ -39,7 +39,14 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 foreach (var field in _list)
                 {
-                    if (field.Name.Equals(name,StringComparison.OrdinalIgnoreCase))
+                    if (field.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return field;
+                    }
+                }
+                foreach (var field in _list)
+                {
+                    if (field.Cache.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     {
                         return field;
                     }

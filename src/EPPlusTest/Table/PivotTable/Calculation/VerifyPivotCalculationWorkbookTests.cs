@@ -82,6 +82,19 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(44981.65545, GetPtData(pt, 1, null));
             Assert.AreEqual(200D, GetPtData(pt, 2, null));
         }
+        [TestMethod]
+        public void VerifyCalculationPivotTable5()
+        {
+            var pt = _ptWs.PivotTables["PivotTable5"];
+
+            //Collapsed country with SubTotal Function - None.
+            Assert.AreEqual(ErrorValues.RefError, GetPtData(pt, 0, "Australia", "Pskov Oblast"));
+            Assert.AreEqual(273798.42, GetPtData(pt, 0, "Australia", null));
+
+            //Expanded country with SubTotal Function - None.
+            Assert.AreEqual(50879.73, GetPtData(pt, 0, "Belgium", "Rogaland"));
+            Assert.AreEqual(ErrorValues.RefError, GetPtData(pt, 0, "Belgium", null));
+        }
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
 			var l = new List<PivotDataCriteria>();
@@ -90,12 +103,12 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			{
 				if (values!=null && values[ix] != null)
 				{
-					l.Add(new PivotDataCriteria(pt.Fields[f], values[ix]));
+					l.Add(new PivotDataCriteria(pt.Fields[f].Name, values[ix]));
 				}
 				ix++;
 			}
 
-			return pt.GetPivotData(l, pt.DataFields[datafield]);
+			return pt.GetPivotData(pt.DataFields[datafield].Name, l);
 		}
 	}
 }

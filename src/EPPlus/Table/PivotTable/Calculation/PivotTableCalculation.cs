@@ -64,12 +64,10 @@ namespace OfficeOpenXml.Table.PivotTable
 			calculatedItems = new List<PivotCalculationStore>();
 			keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
-			pivotTable.MatchFieldValuesToIndex();
-			pivotTable.Filters.ReloadTable();
-			pivotTable.Sort();			
+			pivotTable.InitCalculation();
 			int dfIx = 0;
 			bool hasCalculatedField = false;
-			foreach (var df in pivotTable.GetFieldsToCalculate())
+			foreach(var df in pivotTable.GetFieldsToCalculate())
             {
 				var dataFieldItems = new PivotCalculationStore();
 				calculatedItems.Add(dataFieldItems);
@@ -177,8 +175,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			var slicerFields = pivotTable.Fields.Where(x=>x.Slicer!=null).ToList();
 			var keyDict = keys[keys.Count-1];
 			int index = cacheField.Index;
-			
-			for (var r = 0; r < recs.RecordCount; r++)
+            for (var r = 0; r < recs.RecordCount; r++)
 			{
 				var key = new int[fieldIndex.Count];
 				for (int i = 0; i < fieldIndex.Count; i++)
@@ -201,7 +198,7 @@ namespace OfficeOpenXml.Table.PivotTable
 						}
 						key[i] = field.GetGroupingKey((int)recs.CacheItems[ix][r]);						
 					}
-				}
+				 }
 
 				if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
 					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false) &&

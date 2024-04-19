@@ -44,12 +44,12 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			{
 				if (values!=null && values[ix] != null)
 				{
-					l.Add(new PivotDataCriteria(pt.Fields[f], values[ix]));
+					l.Add(new PivotDataCriteria(pt.Fields[f].Name, values[ix]));
 				}
 				ix++;
 			}
 
-			return pt.GetPivotData(l, pt.DataFields[datafield]);
+			return pt.GetPivotData(pt.DataFields[datafield].Name, l);
 		}
 	}
 }

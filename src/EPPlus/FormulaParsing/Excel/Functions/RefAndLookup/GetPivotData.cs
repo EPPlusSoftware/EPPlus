@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             var dataFieldName = (arguments[0].Value ?? "").ToString();
 
-            var dataField = pivotTable.DataFields.FirstOrDefault(x=>  (string.IsNullOrEmpty(x.Name) ? x.Field.Name : x.Name) == dataFieldName || x.Field.Name== dataFieldName);
+            var dataField = pivotTable.DataFields[dataFieldName];
             if(dataField == null)
             {
                 return CompileResult.GetErrorResult(eErrorType.Ref);
@@ -58,10 +58,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 var value = arguments[i+1].Value;
 
-                criteria.Add(new PivotDataCriteria(field, value));
+                criteria.Add(new PivotDataCriteria(field.Name, value));
             }
             //Calulate value;      
-            var result = pivotTable.GetPivotData(criteria, dataField);
+            var result = pivotTable.GetPivotData(dataFieldName, criteria);
             return new CompileResult(result, DataType.Decimal);
         }
 

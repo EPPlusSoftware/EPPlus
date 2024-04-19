@@ -22,17 +22,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="field">The row/column field to filter</param>
+        /// <param name="fieldName">The row/column field to filter</param>
         /// <param name="value">The value to filter on</param>
-        public PivotDataCriteria(ExcelPivotTableField field, object value) 
+        public PivotDataCriteria(string fieldName, object value) 
         {
-            Field = field;
+            FieldName = fieldName;
             Value = value;
         }
         /// <summary>
         /// The row or column field.
         /// </summary>
-        public ExcelPivotTableField Field { get; set; }
+        public string FieldName { get; set; }
         /// <summary>
         /// The value to filter on.
         /// </summary>

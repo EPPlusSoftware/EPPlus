@@ -23,13 +23,17 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         ExcelPivotTableField _field;
+        internal Dictionary<int, int> _cacheDictionary = null;
 
         List<int> _hiddenItemIndex=null;
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
             _field = field;
         }
-
+        internal void InitNewCalculation()
+        {
+            _hiddenItemIndex = null;
+        }
         internal List<int> HiddenItemIndex
         {
             get
@@ -74,12 +78,15 @@ namespace OfficeOpenXml.Table.PivotTable
             var cl = _field.CacheField.GetCacheLookup();
             if (cl.TryGetValue(value, out int ix))
             {
-                return _list[ix];
+                if (_cacheDictionary.TryGetValue(ix, out int i))
+                {
+                    return _list[i];
+                }
             }
 			return null;
         }
         /// <summary>
-        /// Get the index of the item with the value supplied. If the value does not exist, null is returned.
+        /// Get the index of the item with the value supplied. If the value does not exist, -1 is returned.
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The index of the item</returns>
@@ -88,7 +95,10 @@ namespace OfficeOpenXml.Table.PivotTable
 			var cl = _field.CacheField.GetCacheLookup();
 			if (cl.TryGetValue(value, out int ix))
             {
-                return ix;
+                if(_cacheDictionary.TryGetValue(ix, out int i))
+                {
+                    return i;
+                }
             }
             return -1;
         }
@@ -107,6 +117,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     item.X = -1;
                 }
             }
+            _cacheDictionary = _list.Where(x=>x.X>=0).ToDictionary(x => x.X, y => _list.IndexOf(y));
         }
         /// <summary>
         /// Set Hidden to false for all items in the collection
@@ -164,15 +175,26 @@ namespace OfficeOpenXml.Table.PivotTable
         public void Refresh()
         {
             _field.Cache.Refresh();
+            _hiddenItemIndex = null;
         }
 
 		internal void Sort(eSortType sort)
 		{
             var comparer = new PivotItemComparer(sort, _field);
-
 			_list.Sort(comparer);
+            _cacheDictionary = _list.ToDictionary(x => x.X, y=>_list.IndexOf(y));
 		}
-		internal class PivotItemComparer : IComparer<ExcelPivotTableFieldItem>
+
+        internal ExcelPivotTableFieldItem GetByCacheIndex(int index)
+        {
+            if(_cacheDictionary.TryGetValue(index, out int i))
+            {
+                return _list[i];
+            }
+            return null;
+        }
+
+        internal class PivotItemComparer : IComparer<ExcelPivotTableFieldItem>
 		{
 			private int _mult;
 			private ExcelPivotTableField _field;
