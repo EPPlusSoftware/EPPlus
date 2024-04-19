@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var cf = _cacheReference.Fields.Where(x => x.Name == field.Name).FirstOrDefault();
                 if (cf != null)
                 {
-                    field.CacheField = cf;
+                    field.Cache = cf;
                 }
                 else
                 {

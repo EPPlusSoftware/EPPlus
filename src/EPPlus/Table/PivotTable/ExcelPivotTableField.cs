@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         internal ExcelPivotTable PivotTable { get; set; }
-        internal ExcelPivotTableCacheField CacheField { get; set; } = null;
+        //internal ExcelPivotTableCacheField CacheField { get; set; } = null;
 
         /// <summary>
         /// The index of the pivot table field
@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 string v = GetXmlNodeString("@name");
                 if (v == "")
                 {
-                    return CacheField?.Name;
+                    return Cache?.Name;
                 }
                 else
                 {
@@ -680,6 +680,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 _items.AddInternal(item);
             }
         }
+        ExcelPivotTableCacheField _cacheField=null;
         /// <summary>
         /// A reference to the cache for the pivot table field.
         /// </summary>
@@ -687,7 +688,15 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return PivotTable.CacheDefinition._cacheReference.Fields[Index];
+                if(_cacheField==null)
+                {
+                    _cacheField = PivotTable.CacheDefinition._cacheReference.Fields[Index];
+                }
+                return _cacheField;
+            }
+            set
+            {
+                _cacheField=value;
             }
         }
         /// <summary>
@@ -699,8 +708,8 @@ namespace OfficeOpenXml.Table.PivotTable
         public void AddNumericGrouping(double Start, double End, double Interval)
         {
             ValidateGrouping();
-            CacheField.SetNumericGroup(BaseIndex, Start, End, Interval);
-            UpdateGroupItems(CacheField, true);
+            Cache.SetNumericGroup(BaseIndex, Start, End, Interval);
+            UpdateGroupItems(Cache, true);
             UpdatePivotTableGroupItems(this, PivotTable.CacheDefinition._cacheReference, true);
         }
         /// <summary>
@@ -808,7 +817,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
 
                 var cacheRef = PivotTable.CacheDefinition._cacheReference;
-                field.CacheField = cacheRef.AddDateGroupField(field, groupBy, startDate, endDate, interval);
+                field.Cache= cacheRef.AddDateGroupField(field, groupBy, startDate, endDate, interval);
                 UpdatePivotTableGroupItems(field, cacheRef, false);
 
                 if (IsRowField)
@@ -826,7 +835,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 firstField = false;
                 Compact = false;
-                CacheField.SetDateGroup(this, groupBy, startDate, endDate, interval, true);
+                Cache.SetDateGroup(this, groupBy, startDate, endDate, interval, true);
                 UpdatePivotTableGroupItems(this, PivotTable.CacheDefinition._cacheReference, true);
                 return this;
             }
@@ -841,7 +850,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     if(field.Index >= pt.Fields.Count)
                     {
                          var newField = pt.Fields.AddDateGroupField((int)f.Grouping.BaseIndex);
-                        newField.CacheField = f;
+                        newField.Cache = f;
                     }
 
                     pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
@@ -957,14 +966,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 AddField(eDateGroupBy.Years, startDate, endDate, ref firstField);
             }
 
-            if (fields > PivotTable.Fields.Count) CacheField.SetXmlNodeString("d:fieldGroup/@par", (PivotTable.Fields.Count-1).ToString());
+            if (fields > PivotTable.Fields.Count) Cache.SetXmlNodeString("d:fieldGroup/@par", (PivotTable.Fields.Count-1).ToString());
             if (groupInterval != 1)
             {
-                CacheField.SetXmlNodeString("d:fieldGroup/d:rangePr/@groupInterval", groupInterval.ToString());
+                Cache.SetXmlNodeString("d:fieldGroup/d:rangePr/@groupInterval", groupInterval.ToString());
             }
             else
             {
-                CacheField.DeleteNode("d:fieldGroup/d:rangePr/@groupInterval");
+                Cache.DeleteNode("d:fieldGroup/d:rangePr/@groupInterval");
             }
         }
 

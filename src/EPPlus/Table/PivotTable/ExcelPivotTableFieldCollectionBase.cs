@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns></returns>
         public bool Contains(object value)
         {
-			var cl = _field.CacheField.GetCacheLookup();
+			var cl = _field.Cache.GetCacheLookup();
 			return cl.ContainsKey(value);
         }
         /// <summary>
@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The pivot table field</returns>
         public ExcelPivotTableFieldItem GetByValue(object value)
         {
-            var cl = _field.CacheField.GetCacheLookup();
+            var cl = _field.Cache.GetCacheLookup();
             if (cl.TryGetValue(value, out int ix))
             {
                 if (_cacheDictionary.TryGetValue(ix, out int i))
@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The index of the item</returns>
         public int GetIndexByValue(object value)
         {
-			var cl = _field.CacheField.GetCacheLookup();
+			var cl = _field.Cache.GetCacheLookup();
 			if (cl.TryGetValue(value, out int ix))
             {
                 if(_cacheDictionary.TryGetValue(ix, out int i))
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         internal void MatchValueToIndex()
         {
-            var cacheLookup = _field.CacheField.GetCacheLookup();
+            var cacheLookup = _field.Cache.GetCacheLookup();
             foreach (var item in _list)
             {
                 var v = item.Value ?? ExcelPivotTable.PivotNullValue;
@@ -175,6 +175,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public void Refresh()
         {
             _field.Cache.Refresh();
+            MatchValueToIndex();
             _hiddenItemIndex = null;
         }
 
@@ -182,7 +183,7 @@ namespace OfficeOpenXml.Table.PivotTable
 		{
             var comparer = new PivotItemComparer(sort, _field);
 			_list.Sort(comparer);
-            _cacheDictionary = _list.ToDictionary(x => x.X, y=>_list.IndexOf(y));
+            _cacheDictionary = _list.Where(x=>x.X > -1).ToDictionary(x => x.X, y=>_list.IndexOf(y));
 		}
 
         internal ExcelPivotTableFieldItem GetByCacheIndex(int index)

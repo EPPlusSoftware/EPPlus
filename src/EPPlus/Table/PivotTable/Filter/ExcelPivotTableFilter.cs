@@ -471,7 +471,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
 		/// <returns></returns>
 		private bool MatchCaptions(ExcelPivotTable pivotTable, int index)
     {
-        var value = pivotTable.Fields[Fld].CacheField.SharedItems[index].ToString();
+        var value = pivotTable.Fields[Fld].Cache.SharedItems[index].ToString();
         switch (Type)
         {
             //Caption filters (String)
@@ -516,7 +516,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         /// <returns></returns>
         private bool MatchDate(ExcelPivotTable pivotTable, int index)
         {
-            var date = ConvertUtil.GetValueDate(pivotTable.Fields[Fld].CacheField.SharedItems[index]);
+            var date = ConvertUtil.GetValueDate(pivotTable.Fields[Fld].Cache.SharedItems[index]);
             var value1Date = ConvertUtil.GetValueDate(Value1);
             if (date.HasValue && value1Date.HasValue)
             {

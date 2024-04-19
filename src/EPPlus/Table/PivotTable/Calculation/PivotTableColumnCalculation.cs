@@ -157,7 +157,7 @@ namespace OfficeOpenXml.Table.PivotTable
 		private List<int> GetCalcOrder()
 		{
 			var calcOrder = new List<int>();
-			foreach (var f in _tbl.Fields.Where(x => string.IsNullOrEmpty(x.CacheField.Formula) == false))
+			foreach (var f in _tbl.Fields.Where(x => string.IsNullOrEmpty(x.Cache.Formula) == false))
 			{
 				if (calcOrder.Contains(f.Index)) continue;
 				ValidateNoCircularReference(f, calcOrder);
@@ -168,7 +168,7 @@ namespace OfficeOpenXml.Table.PivotTable
 		private bool ValidateNoCircularReference(ExcelPivotTableField f, List<int> calcOrder, Stack<ExcelPivotTableField> prevFields = null)
 		{
 			if (prevFields == null) prevFields = new Stack<ExcelPivotTableField>();
-			var tokens = SourceCodeTokenizer.PivotFormula.Tokenize(f.CacheField.Formula);
+			var tokens = SourceCodeTokenizer.PivotFormula.Tokenize(f.Cache.Formula);
 			foreach (var t in tokens)
 			{
 				if (t.TokenType == TokenType.PivotField)

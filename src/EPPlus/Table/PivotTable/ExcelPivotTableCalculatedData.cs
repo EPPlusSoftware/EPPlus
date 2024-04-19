@@ -28,6 +28,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTableCalculatedData(ExcelPivotTable pivotTable, List<PivotDataCriteria> criterias)
         {
             _pivotTable = pivotTable;
+            _criterias = criterias;
         }
         public ExcelPivotTableCalculatedData Criterias(Action<PivotDataCriteria> x)
         {

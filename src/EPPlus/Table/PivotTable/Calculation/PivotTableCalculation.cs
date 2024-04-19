@@ -73,9 +73,9 @@ namespace OfficeOpenXml.Table.PivotTable
 				calculatedItems.Add(dataFieldItems);
 				var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
 				keys.Add(keyDict);
-				if (string.IsNullOrEmpty(df.Field.CacheField.Formula))
+				if (string.IsNullOrEmpty(df.Field.Cache.Formula))
 				{
-					CalculateField(pivotTable, calculatedItems[calculatedItems.Count-1], keys, df.Field.CacheField, df.Function);
+					CalculateField(pivotTable, calculatedItems[calculatedItems.Count-1], keys, df.Field.Cache, df.Function);
 
 					if (df.ShowDataAs.Value != eShowDataAs.Normal)
 					{
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Table.PivotTable
 		{
 			var keys = new List<Dictionary<int[], HashSet<int[]>>>();
 			var calcFields = new Dictionary<string, PivotCalculationStore>(StringComparer.InvariantCultureIgnoreCase);
-			foreach(var field in pivotTable.DataFields.Where(x=>string.IsNullOrEmpty(x.Field.CacheField.Formula)==false).Select(x=>x.Field.CacheField))
+			foreach(var field in pivotTable.DataFields.Where(x=>string.IsNullOrEmpty(x.Field.Cache.Formula)==false).Select(x=>x.Field.Cache))
 			{ 
 				foreach(var token in field.FormulaTokens)
 				{

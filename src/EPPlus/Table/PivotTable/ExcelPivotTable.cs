@@ -224,7 +224,7 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (XmlElement fieldElem in pivotFieldNode.SelectNodes("d:pivotField", NameSpaceManager))
             {
                 var fld = new ExcelPivotTableField(NameSpaceManager, fieldElem, this, index, index);
-                fld.CacheField = CacheDefinition._cacheReference.Fields[index++];
+                fld.Cache = CacheDefinition._cacheReference.Fields[index++];
                 fld.LoadItems();
                 Fields.AddInternal(fld);
             }
@@ -376,7 +376,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
                     if (field.Index == keyFieldIndex[i])
                     {
-                        var cache = field.CacheField.GetCacheLookup();
+                        var cache = field.Cache.GetCacheLookup();
                         
                         var isGrouping = field.Grouping != null;
 
@@ -467,7 +467,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (key[i] == PivotCalculationStore.SumLevelValue)
                 {
-                    if (isParentFunctionNone && isCollapsed==false)
+                    if (isParentFunctionNone && isCollapsed==false && Keys[DataFields.IndexOf(datafield)][key].Count > 1)
                     {
                         return true;
                     }
@@ -1474,7 +1474,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return RowFields.Union(ColumnFields).Select(x => x.CacheField.Index).ToList();
+                return RowFields.Union(ColumnFields).Select(x => x.Cache.Index).ToList();
             }
         }
 

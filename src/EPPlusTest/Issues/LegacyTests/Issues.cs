@@ -5676,7 +5676,7 @@ namespace EPPlusTest
                 pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
                 var definition = pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition;
 
-                Assert.AreEqual(definition.PivotTable.Fields[0].CacheField._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
+                Assert.AreEqual(definition.PivotTable.Fields[0].Cache._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
 
                 SaveAndCleanup(package);
             }

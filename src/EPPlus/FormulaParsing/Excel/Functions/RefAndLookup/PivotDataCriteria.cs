@@ -17,8 +17,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     /// <summary>
     /// A criteria for GetPivotData to filter row/column fields
     /// </summary>
-    public struct PivotDataCriteria
+    public class PivotDataCriteria
     {
+        internal PivotDataCriteria()
+        {
+            
+        }
         /// <summary>
         /// Constructor
         /// </summary>

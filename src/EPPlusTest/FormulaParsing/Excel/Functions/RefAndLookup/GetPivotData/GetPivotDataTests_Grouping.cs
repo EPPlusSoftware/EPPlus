@@ -178,7 +178,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			Assert.AreEqual(120D, (double)ws.Cells["G7"].Value);
 			Assert.AreEqual(4D, (double)ws.Cells["G8"].Value);
 			Assert.AreEqual(1D, (double)ws.Cells["G9"].Value);
-			Assert.AreEqual(2881D, (double)ws.Cells["G10"].Value);
+			Assert.AreEqual(ErrorValues.RefError, ws.Cells["G10"].Value);
 			Assert.AreEqual(2881D, (double)ws.Cells["G11"].Value);
 		}
 		[TestMethod]
@@ -218,7 +218,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			pt.Calculate(true);
 
 			var grandTotal = pt.CalculatedData.GetValue("Stock");
-			var item1230 = pt.CalculatedData.Criterias(x => { x.FieldName = "Hours"; x.Value = 12; }).Criterias(x => { x.FieldName = "Minutes"; x.Value = 30; }).GetValue("Stock");
+
+			var item1230 = pt.CalculatedData
+                .Criterias(x => { x.FieldName = "Hours"; x.Value = 12; })
+                .Criterias(x => { x.FieldName = "Minutes"; x.Value = 30; })
+                .GetValue("Stock");
 
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 12, \"Minutes\", 30)";
 			ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 16)";
@@ -229,7 +233,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			ws.Calculate();
 
 			Assert.AreEqual(12D, (double)ws.Cells["G5"].Value);
-			Assert.AreEqual(555D, (double)ws.Cells["G6"].Value);
+			Assert.AreEqual(ErrorValues.RefError, ws.Cells["G6"].Value);
 			Assert.AreEqual(1200D, (double)ws.Cells["G7"].Value);
 			Assert.AreEqual(2886D, (double)ws.Cells["G8"].Value);
 			Assert.AreEqual(550D, (double)ws.Cells["G9"].Value);
