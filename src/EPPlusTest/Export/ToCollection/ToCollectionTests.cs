@@ -227,10 +227,62 @@ namespace EPPlusTest.Export.ToCollection
                 Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
             }
         }
+        [TestMethod]
+        [ExpectedException(typeof(EPPlusDataTypeConvertionException))]
+        public void ToCollection_AutoMap_EPPlusDataTypeConvertionException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                sheet.Cells["A2"].Value = "Error";
+                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
+                {
+                    var item = new TestDto();
+                    x.Automap(item);
+                    item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    item.FormattedRatio = x.GetText("Ratio");
+                    item.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return item;
+                }, x => x.HeaderRow = 0);
+            }
+        }
+        [TestMethod]
+        public void ToCollection_AutoMapInCallback_SetDefaultValueOnConversionError()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                sheet.Cells["A2"].Value = "Error";
+                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
+                {
+                    var item = new TestDto();
+                    x.Automap(item);
+                    item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    item.FormattedRatio = x.GetText("Ratio");
+                    item.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return item;
+                }, x => { x.HeaderRow = 0; x.ConversionFailureStrategy = ToCollectionConversionFailureStrategy.SetDefaultValue; });
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(default(int), list[0].Id); //sheet.Cells["A2"].Value is invalid for int as it contains a string
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+            }
+        }
 
 #endif
         #endregion
-#region Table
+        #region Table
         [TestMethod]
         public void ToCollectionTable_AutoMap()
         {
