@@ -341,6 +341,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {
 
                     var cellValues = new List<object>();
+                    var realValue = Convert.ToDouble(cellValue);
+
                     //double average = 0;
                     //int count = 0;
                     foreach (var cell in Address.GetAllAddresses())
@@ -349,9 +351,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                         {
                             for (int j = 1; j <= cell.Columns; j++)
                             {
-                                cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                                //average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                                //count++;
+                                var currentCellValue = _ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value;
+                                if(currentCellValue.IsNumeric())
+                                {
+                                    cellValues.Add(currentCellValue);
+                                }
                             }
                         }
                     }
@@ -360,11 +364,13 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                     var values = cellValues.OrderBy(n => n);
 
+
+                    //double rank = -1;
+
+                    //int rank = cellValues.First(n => n.Equals(realValue));
+
                     var highest = Convert.ToDouble(values.Last());
                     var lowest = Convert.ToDouble(values.First());
-
-                    var realValue = Convert.ToDouble(cellValue);
-
                     
                     //var icons = new ExcelConditionalFormattingIconDataBarValue[] { Icon3, Icon2, Icon1};
 
@@ -392,8 +398,36 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             //var percentileValue = (numValuesLessThan/cellValues.Count()) * 100;
 
+                            //if(rank == -1)
+                            //{
+                            //    for (int j = 0; j < cellValues.Count; j++)
+                            //    {
+                            //        if (cellValues[j].Equals(realValue))
+                            //        {
+                            //            rank = j;
+                            //        }
+                            //    }
+
+                            //    if (rank < 0)
+                            //    {
+                            //        throw new Exception($"Impossible rank in Iconset with Uid:{Uid} at value:{realValue}");
+                            //    }
+                            //}
+
                             double numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
-                            double percentile = (numValuesLessThan / cellValues.Count()) * 100d;
+
+                            //double numValuesLessThan = 0;
+                            //if (icons[i].GreaterThanOrEqualTo)
+                            //{
+                            //    numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) <= checkingValue).Count();
+                            //}
+                            //else
+                            //{
+                            //    numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
+                            //}
+                            // double percentile = (numValuesLessThan / cellValues.Count()) * 100d;
+                            //double percentile = (checkingValue * (cellValues.Count())) / 100;
+                            double percentile = (numValuesLessThan / (cellValues.Count() - 1)) * 100d;
                             checkingValue = percentile;
                         }
 

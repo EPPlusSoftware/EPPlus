@@ -27,11 +27,11 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         static readonly List<eExcelconditionalFormattingCustomIcon> ThreeSymbols =
             new List<eExcelconditionalFormattingCustomIcon>()
-            { eExcelconditionalFormattingCustomIcon.RedCross, eExcelconditionalFormattingCustomIcon.YellowExclamation, eExcelconditionalFormattingCustomIcon.GreenCheck};
+            { eExcelconditionalFormattingCustomIcon.RedCrossSymbol, eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol, eExcelconditionalFormattingCustomIcon.GreenCheckSymbol};
 
         static readonly List<eExcelconditionalFormattingCustomIcon> ThreeSymbols2 =
             new List<eExcelconditionalFormattingCustomIcon>()
-            { eExcelconditionalFormattingCustomIcon.RedCrossSymbol, eExcelconditionalFormattingCustomIcon.YellowExclamationSymbol, eExcelconditionalFormattingCustomIcon.GreenCheckSymbol};
+            { eExcelconditionalFormattingCustomIcon.RedCross, eExcelconditionalFormattingCustomIcon.YellowExclamation, eExcelconditionalFormattingCustomIcon.GreenCheck};
 
         static readonly List<eExcelconditionalFormattingCustomIcon> TrafficLights1 =
             new List<eExcelconditionalFormattingCustomIcon>()
