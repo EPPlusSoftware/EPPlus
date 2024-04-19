@@ -187,7 +187,7 @@ namespace OfficeOpenXml.Export.ToCollection
                     {
                         if (_failureStrategy == ToCollectionConversionFailureStrategy.Exception)
                         {
-                            var dtcExeption = new EPPlusDataTypeConvertionException($"Can not convert item {_cellValues[m.Index]._value} to datatype {m.PropertyInfo.DeclaringType}", ex);
+                            var dtcExeption = new EPPlusDataTypeConvertionException($"Can not convert item {_cellValues[m.Index]._value} to datatype {m.PropertyInfo.PropertyType}", ex);
                             throw dtcExeption;
                         }
                         else
