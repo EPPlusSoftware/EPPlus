@@ -6158,14 +6158,10 @@ namespace EPPlusTest
                 var array = new int[] { 1, 2, 3, 4, 5 };
                 Assert.AreEqual("array", nameof(array));
 
-                //var end = array[^1];
-
                 int? value1 = 2;
                 int? value2 = 3;
 
                 var something = value1 ??= value2;
-
-                var test = "test";
 
                 int[] row0 = [1, 2, 3];
                 int[] row1 = [4, 5, 6];
@@ -6179,13 +6175,20 @@ namespace EPPlusTest
                 {
                     variable += $"{element}, ";
                 }
+            }
+        }
 
-                //Assert.AreEqual("a", variable);
+        [TestMethod]
+        public void s660()
+        {
+            using (var package = OpenTemplatePackage("s660.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var cellValue = sheet.Cells["J15"];
 
-                //Debug.Assert(package.Workbook.Worksheets.Count == 2);
-                //package.Workbook.Worksheets.Delete("Sheet1");
-                //Debug.Assert(package.Workbook.Worksheets.Count == 1);
-                //SaveAndCleanup(package);
+                Assert.AreEqual("    10.01", cellValue.Value);
+
+                SaveAndCleanup(package);
             }
         }
     }

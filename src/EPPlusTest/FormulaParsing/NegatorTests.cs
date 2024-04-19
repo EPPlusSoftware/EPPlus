@@ -113,6 +113,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
+
         public void NegateMultiCellRange()
         {
             using (var pck = new ExcelPackage())

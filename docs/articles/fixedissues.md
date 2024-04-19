@@ -1,5 +1,11 @@
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.1.2
+### Fixed issues 
+* Defined Names with `"` symbols no longer get extraneous `"` added when saving in epplus.
+* Reading in RichText data on in-line strings now works as expected.
+* Negations of Defined Names and Ranges in shared formulas sometimes recieved the wrong sign in the calculation as the negation flag was not cleared.
+
 ## Version 7.1.1
 ### Minor Features and fixed issues
 * Added properties Rotation, HorizontalFilp and VerticalFlip to ExcelShapeBase and ExcelPicture

@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         }
         internal override ExpressionType ExpressionType => ExpressionType.Function;
-        public override void Negate()
+        public override Expression Negate()
         {
             if (_negate == 0)
             {
@@ -64,6 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 _negate *= -1;
             }
+            return this;
         }
         IList<CompileResult> _args=null;
         internal Queue<FormulaRangeAddress> _dependencyAddresses = null;
