@@ -614,9 +614,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         {
             var imageCellClassName = GetImageCellClassName(image, Settings, isTable);
             var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, isHeader, settings, imageCellClassName, content);
-            var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(cell, settings, content, ref classString, element, out HTMLElement contentElement);
+            var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(cell, settings, content, ref classString);
 
-            valueElement = contentElement;
+            valueElement = element;
 
             if (!string.IsNullOrEmpty(classString))
             {

@@ -20,6 +20,7 @@ using OfficeOpenXml.Utils.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -27,8 +28,8 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// IconSet base class
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class ExcelConditionalFormattingIconSetBase<T> : 
-        ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingIconSetBase<T> :
+        CachingCFAdvanced,
         IExcelConditionalFormattingThreeIconSet<T>
         where T : struct, Enum
     {
@@ -337,185 +338,70 @@ namespace OfficeOpenXml.ConditionalFormatting
             var cellValue = range.Value;
             if(cellValue.IsNumeric() && cellValue != null)
             {
-                if(Icon1.Type != eExcelConditionalFormattingValueObjectType.Formula)
+                if (cellValueCache.Count == 0)
                 {
-
-                    var cellValues = new List<object>();
-                    var realValue = Convert.ToDouble(cellValue);
-
-                    //double average = 0;
-                    //int count = 0;
-                    foreach (var cell in Address.GetAllAddresses())
-                    {
-                        for (int i = 1; i <= cell.Rows; i++)
-                        {
-                            for (int j = 1; j <= cell.Columns; j++)
-                            {
-                                var currentCellValue = _ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value;
-                                if(currentCellValue.IsNumeric())
-                                {
-                                    cellValues.Add(currentCellValue);
-                                }
-                            }
-                        }
-                    }
-
-                    //average = average / count;
-
-                    var values = cellValues.OrderBy(n => n);
-
-
-                    //double rank = -1;
-
-                    //int rank = cellValues.First(n => n.Equals(realValue));
-
-                    var highest = Convert.ToDouble(values.Last());
-                    var lowest = Convert.ToDouble(values.First());
-                    
-                    //var icons = new ExcelConditionalFormattingIconDataBarValue[] { Icon3, Icon2, Icon1};
-
-                    for(int i = 0; i < icons.Length -1; i++)
-                    {
-                        var checkingValue = realValue;
-
-                        if(icons[i].Type == eExcelConditionalFormattingValueObjectType.Percent)
-                        {
-                            //var percentualValue = ((realValue - lowest) / (highest - lowest));
-                            //checkingValue = percentualValue;
-                            //var percentualValue = highest * icons[i].Value;
-
-                            //Calculate percentage of distance of total numbers
-                            checkingValue = (realValue - lowest) / (highest - lowest);
-                            checkingValue = checkingValue * 100;
-                        }
-
-                        if (icons[i].Type == eExcelConditionalFormattingValueObjectType.Percentile)
-                        {
-                            //var percentualValue = ((realValue - lowest) / (highest - lowest));
-                            //checkingValue = percentualValue;
-
-                            //var numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < icons[i].Value).Count();
-
-                            //var percentileValue = (numValuesLessThan/cellValues.Count()) * 100;
-
-                            //if(rank == -1)
-                            //{
-                            //    for (int j = 0; j < cellValues.Count; j++)
-                            //    {
-                            //        if (cellValues[j].Equals(realValue))
-                            //        {
-                            //            rank = j;
-                            //        }
-                            //    }
-
-                            //    if (rank < 0)
-                            //    {
-                            //        throw new Exception($"Impossible rank in Iconset with Uid:{Uid} at value:{realValue}");
-                            //    }
-                            //}
-
-                            double numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
-
-                            //double numValuesLessThan = 0;
-                            //if (icons[i].GreaterThanOrEqualTo)
-                            //{
-                            //    numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) <= checkingValue).Count();
-                            //}
-                            //else
-                            //{
-                            //    numValuesLessThan = cellValues.Where(n => Convert.ToDouble(n) < checkingValue).Count();
-                            //}
-                            // double percentile = (numValuesLessThan / cellValues.Count()) * 100d;
-                            //double percentile = (checkingValue * (cellValues.Count())) / 100;
-                            double percentile = (numValuesLessThan / (cellValues.Count() - 1)) * 100d;
-                            checkingValue = percentile;
-                        }
-
-                        if (icons[i].ShouldApplyIcon(checkingValue))
-                        {
-                            if(Reverse)
-                            {
-                                return i;
-                            }
-                            return icons.Length - i - 1;
-                        }
-                    }
-
-                    if (Reverse)
-                    {
-                        return icons.Length - 1;
-                    }
-                    return 0;
-
-                    //var highestIcon = icons[icons.Length];
-
-                    //if (highestIcon.Type == eExcelConditionalFormattingValueObjectType.Num)
-                    //{
-                    //    if (highestIcon.GreaterThanOrEqualTo)
-                    //    {
-                    //        if (highestIcon.Value >= realValue)
-                    //        {
-                    //            return 2;
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        if (highestIcon.Value > realValue)
-                    //        {
-                    //            return 2;
-                    //        }
-                    //    }
-                    //}
-
-                    //if(Icon1.Type == eExcelConditionalFormattingValueObjectType.Num)
-                    //{
-                    //    if(realValue <= Icon2.Value)
-                    //    {
-                    //        return 0;
-                    //    }
-                    //    else if(realValue < Icon2.Value)
-                    //    {
-                    //        return 0;
-                    //    }
-                    //}
-
-                    //if(Icon2.Type == eExcelConditionalFormattingValueObjectType.Num)
-                    //{
-                    //    if(realValue < Icon3.Value && realValue > Icon2.Value)
-                    //    {
-                    //        return 1;
-                    //    }
-                    //    else if(realValue <= Icon3.Value && realValue >= Icon2.Value)
-                    //    {
-                    //        return 1;
-                    //    }
-                    //}
-
-                    //if(Icon3.Type == eExcelConditionalFormattingValueObjectType.Num)
-                    //{
-                    //    if(Icon3.GreaterThanOrEqualTo)
-                    //    {
-                    //        if (Icon3.Value >= realValue)
-                    //        {
-                    //            return 2;
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        if (Icon3.Value > realValue)
-                    //        {
-                    //            return 2;
-                    //        }
-                    //    }
-                    //}
-                    //if(Icon1.GreaterThanOrEqualTo)
-                    //{
-
-                    //}
+                    UpdateCellValueCache(false, true);
                 }
-            }
-            //Icon1.Value = 
 
+                double percentile = -1d;
+                double percent = -1d;
+
+                double cellValueAsDouble = Convert.ToDouble(cellValue);
+
+                for (int i = 0; i < icons.Length -1; i++)
+                {
+                    var checkingValue = cellValueAsDouble;
+
+                    if(icons[i].Type == eExcelConditionalFormattingValueObjectType.Percent)
+                    {
+                        if(percent == -1d)
+                        {
+                            double numerator = cellValueAsDouble - _lowest;
+                            double denominator = _highest - _lowest;
+                            percent = numerator / denominator;
+
+                            percent = percent * 100d;
+                        }
+                        checkingValue = percent;
+                    }else if (icons[i].Type == eExcelConditionalFormattingValueObjectType.Percentile)
+                    {
+                        if(percentile == -1)
+                        {
+                            double numValuesLessThan = cellValueCache.Where(n => Convert.ToDouble(n) < cellValueAsDouble).Count();
+
+                            percentile = (numValuesLessThan / (cellValueCache.Count() - 1d)) * 100d;
+                        }
+                        checkingValue = percentile;
+                    }
+                    else if(icons[i].Type == eExcelConditionalFormattingValueObjectType.Formula)
+                    {
+                        var formulaResult = _ws.Workbook.FormulaParserManager.Parse(icons[i].Formula, address.FullAddress, false);
+                        if(formulaResult.IsNumeric())
+                        {
+                            icons[i]._formulaCalculatedValue = Convert.ToDouble(formulaResult);
+                        }
+                        else
+                        {
+                            throw new Exception($"The icon formula {icons[i].Formula} must return a numeric value. Error found on cell {address.Address} in Iconset with uid:{Uid} icon index: {i}.");
+                        }
+                    }
+
+                    if (icons[i].ShouldApplyIcon(checkingValue))
+                    {
+                        if(Reverse)
+                        {
+                            return i;
+                        }
+                        return icons.Length - i - 1;
+                    }
+                }
+
+                if (Reverse)
+                {
+                    return icons.Length - 1;
+                }
+                return 0;
+            }
             return -1;
         }
 

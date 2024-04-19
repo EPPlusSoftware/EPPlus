@@ -113,15 +113,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             return cls;
         }
 
-        internal static List<string> GetConditionalFormattings(ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext context, ref string cls, HTMLElement element, out HTMLElement contentElement)
+        internal static List<string> GetConditionalFormattings(ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext context, ref string cls)
         {
             string inlineStyles = "";
             string extras = "";
 
             var styleClassPrefix = settings.StyleClassPrefix;
             var dxfStyleCache = context._dxfStyleCache;
-
-            contentElement = element;
 
             if (settings.RenderConditionalFormattings)
             {

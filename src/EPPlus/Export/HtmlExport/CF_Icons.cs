@@ -39,11 +39,13 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal const string Checkmark = "<path fill='{0}' stroke='{1}' stroke-width='3.2' {2} d='m80.752 1.9707-40.986 63.324-24.045-23.678-13.867 13.926 37.311 41.52c21.329-25.855 39.554-54.017 59.256-81.205z'/>";
         internal const string StarBase = "{0}<path d='m49.75 1.6191c-1.7923-1e-7 -11.105 34.102-12.555 35.207-1.45 1.1047-35.257-0.14682-35.811 1.6406-0.55384 1.7874 27.497 21.613 28.051 23.4 0.55384 1.7874-11.028 35.118-9.5781 36.223s28.1-20.744 29.893-20.744c1.7923 0 28.441 21.849 29.891 20.744 1.45-1.1047-10.132-34.435-9.5781-36.223 0.55384-1.7874 28.607-21.613 28.053-23.4-0.55384-1.7874-34.361-0.53592-35.811-1.6406-1.45-1.1047-10.762-35.207-12.555-35.207z' fill='{1}' stroke='#a6812d' stroke-width='3.1177'/>";
         internal const string YellowDash = "<rect x='1.7947' y='31.795' width='96.41' height='33.145' fill='#edc87e' stroke='#a4802c' stroke-width='3.5893'/>";
+        
         internal const string SignalMeter = "<g stroke-width='3.2'>" +
             "<path {0} d='m0.60156 58.35v41.049h19.523v-41.049z'/>" +
             "<path {1} d='m21.207 38.609v60.664h19.273v-60.664z'/>" +
             "<path {2} d='m41.789 19.557v79.623h19.07v-79.623z'/>" +
             "<path {3} d='m62.357 0.91602v98.18h18.895v-98.18z'/></g>";
+        
         internal const string FilledBoxes = "<g>" +
             "<rect id='middle-background' x='46.176' y='46.679' width='7.834' height='7.8854' rx='.73604' ry='.74507' fill='#757575' stroke-width='.35486'/>" +
             "<g stroke-width='2.2'>" +
@@ -51,13 +53,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             "<rect {1} x='50.562' y='50.234' width='48.757' height='49.077' rx='4.581' ry='4.6372'/>" +
             "<rect {2} x='.87471' y='.6901' width='48.757' height='49.077' rx='4.581' ry='4.6372'/>" +
             "<rect {3} x='50.563' y='.6892' width='48.757' height='49.077' rx='4.581' ry='4.6372'/></g></g>";
-        //internal const string AllQuarters = "<circle shape-rendering='crispEdges' cx='50' cy='50' r='43%' fill-opacity='0' stroke='#393939' stroke-width='6%'/>" +
-        //    "<circle shape-rendering='crispEdges' cx='50' cy='50' r='43' fill='#505050'/>" +
-        //    "<g fill='#fff' shape-rendering='crispEdges'>" +
-        //    "<path {0} id='botLeft' d='m7 50a43 43 0 0 0 43 43v-43z'/>" +
-        //    "<path {1} id='botRight' d='m50 50v43c23.748 0 43-19.252 43-43z'/>" +
-        //    "<path {2} id='topLeft' d='m50 7c-23.748 0-43 19.252-43 43h43z'/>" +
-        //    "<path {3} id='topRight' d='m50 7v43h43c0-23.748-19.252-43-43-43z'/></g>";
 
         internal const string AllQuarters = "<circle fill='#505050' cx='50' cy='50' r='43'/>" +
             "<g fill='#fff'>" +
@@ -125,29 +120,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             var set = IconDict.GetIconSet(setString);
 
             var retArr = new string[set.Length];
-            //var retArr = new string[3];
-
-            //retArr[0] = Convert.ToBase64String(Encoding.ASCII.GetBytes(StarBase));  
-            //retArr[1] = Convert.ToBase64String(Encoding.ASCII.GetBytes(GetIconMiddle(eExcelconditionalFormattingCustomIcon.GreenFlag)));
-            //retArr[2] = Convert.ToBase64String(Encoding.ASCII.GetBytes(GetIconMiddle(eExcelconditionalFormattingCustomIcon.RedCircle)));
 
             for (int i = 0; i < set.Length; i++) 
             {
                 retArr[i] = GetIconSvg(set[i]);
             }
-
-            //if(set.Length == 5)
-            //{
-            //    retArr[2] = retArr[4];
-            //}
-
-            //if(setString != "3Triangles")
-            //{
-            //    retArr[0] = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format(SmallTriangleBaseFirst, 0, "#d65532", "#ac563e")));
-            //    retArr[1] = GetIconSvg(eExcelconditionalFormattingCustomIcon.YellowDash);
-            //    retArr[2] = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format(SmallTriangleBaseFirst, 180, "#76a797", "#326f5b")));
-            //}
-
             return retArr;
         }
 

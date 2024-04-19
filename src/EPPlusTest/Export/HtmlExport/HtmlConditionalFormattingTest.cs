@@ -42,11 +42,12 @@ namespace EPPlusTest.Export.HtmlExport
                 var context = new ExporterContext();
                 context.InitializeQuadTree(range);
 
-                var list = AttributeTranslator.GetClassAttributeFromStyle(sheet.Cells["B3"], false, settings, string.Empty, context);
+                var classString = AttributeTranslator.GetClassAttributeFromStyle(sheet.Cells["B3"], false, settings, string.Empty, context);
+                var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(sheet.Cells["B3"], settings, context, ref classString);
 
-                Assert.AreEqual(2, list.Length);
-                Assert.AreEqual(list[0], "epp-ar");
-                Assert.AreEqual(list[1], "background-color:#"+ Color.Teal.ToArgb().ToString("x8").Substring(2)+";");
+                Assert.AreEqual("epp-ar", classString);
+                var expectedString = "background-color:#" + Color.Teal.ToArgb().ToString("x8").Substring(2) + ";";
+                Assert.AreEqual(expectedString, stylesAndExtras[0]);
             }
         }
         [TestMethod]

@@ -154,6 +154,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         private double? _value = double.NaN;
 
+        internal double _formulaCalculatedValue = double.NaN;
+
         /// <summary>
         /// The value
         /// </summary>
@@ -230,12 +232,19 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal bool ShouldApplyIcon(double aValue)
         {
-            if(aValue < Value)
+            double conditionValue = Value;
+
+            if(Type == eExcelConditionalFormattingValueObjectType.Formula)
+            {
+                conditionValue = _formulaCalculatedValue;
+            }
+
+            if(aValue < conditionValue)
             {
                 return false;
             }
 
-            if(aValue == Value && GreaterThanOrEqualTo == false)
+            if(aValue == conditionValue && GreaterThanOrEqualTo == false)
             {
                 return false;
             }
