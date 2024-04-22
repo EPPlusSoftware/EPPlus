@@ -1,5 +1,9 @@
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.2
+### Minor Features and fixed issues
+* Added all icons and iconset features to html export. Including custom iconsets.
+
 ## Version 7.1.1
 ### Minor Features and fixed issues
 * Added properties Rotation, HorizontalFilp and VerticalFlip to ExcelShapeBase and ExcelPicture
