@@ -314,10 +314,16 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             private set;
         }
-        internal bool IsCalculated { get; set; } = false;
+        public bool IsCalculated 
+        { 
+            get; 
+            private set; 
+        } = false;
+        
         internal List<Dictionary<int[], HashSet<int[]>>> Keys = null;
         internal List<PivotCalculationStore> CalculatedItems = null;
 		internal Dictionary<string, PivotCalculationStore> CalculatedFieldReferencedItems = null;
+        internal Dictionary<string, PivotCalculationStore> CalculatedFieldRowColumnSubTotals = null;
         internal List<HashSet<int>> _rowItems = null;
         internal List<HashSet<int>> _colItems = null;
         /// <summary>
@@ -516,7 +522,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 default:
                     return eSubTotalFunctions.Default;
             }
-            return 0;
         }
 
         private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx, int colFieldStart)

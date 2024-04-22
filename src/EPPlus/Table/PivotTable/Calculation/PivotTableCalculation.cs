@@ -25,6 +25,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 namespace OfficeOpenXml.Table.PivotTable
 {
     internal partial class PivotTableCalculation
@@ -90,7 +91,10 @@ namespace OfficeOpenXml.Table.PivotTable
 				dfIx++;
 			}
             SetRowColumnsItemsToHashSets(pivotTable);
-            //Handle Calculated fields after the pivot table fields has been calculated
+
+			CalculateRowColumnSubtotals(pivotTable, keys);
+
+            //Handle Calculated fields after the pivot table fields has been calculated.
 			if (hasCalculatedField)
 			{
 				CalculateSourceFields(pivotTable);
@@ -101,6 +105,56 @@ namespace OfficeOpenXml.Table.PivotTable
 			return true;
         }
 
+        private static void CalculateRowColumnSubtotals(ExcelPivotTable pivotTable, List<Dictionary<int[], HashSet<int[]>>> keys)
+        {
+            foreach(var field in pivotTable.RowFields.Union(pivotTable.ColumnFields).Where(x=>x.SubTotalFunctions!=eSubTotalFunctions.None && x.SubTotalFunctions!=eSubTotalFunctions.Default))
+			{
+                var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+                keys.Add(keyDict);
+
+				foreach (eSubTotalFunctions stf in Enum.GetValues(typeof(eSubTotalFunctions)))
+				{
+					if (stf == eSubTotalFunctions.None || stf == eSubTotalFunctions.Default) continue;
+					if((field.SubTotalFunctions & stf) != 0)
+					{
+                        var store = new PivotCalculationStore();
+						pivotTable.CalculatedFieldRowColumnSubTotals.Add(field.Name+","+stf.ToString(), store);
+                        CalculateField(pivotTable, store, keys, field.Cache, GetDataTypeFunction(stf));
+                    }
+                }
+            }
+        }
+
+        private static DataFieldFunctions GetDataTypeFunction(eSubTotalFunctions stf)
+        {
+                switch (stf)
+                {
+                    case eSubTotalFunctions.Sum:
+	                    return DataFieldFunctions.Sum;
+                    case eSubTotalFunctions.Avg:
+                        return DataFieldFunctions.Average;
+                    case eSubTotalFunctions.Count:
+                        return DataFieldFunctions.Count;
+                    case eSubTotalFunctions.CountA:
+                        return DataFieldFunctions.CountNums;
+                    case eSubTotalFunctions.Product:
+                        return DataFieldFunctions.Product;
+                    case eSubTotalFunctions.Var:
+                        return DataFieldFunctions.Var;
+					case eSubTotalFunctions.VarP:
+						return DataFieldFunctions.VarP;
+					case eSubTotalFunctions.StdDev:
+                        return DataFieldFunctions.StdDev;
+					case eSubTotalFunctions.StdDevP:
+						return DataFieldFunctions.StdDevP;
+	                case eSubTotalFunctions.Min:
+                        return DataFieldFunctions.Min;
+                    case eSubTotalFunctions.Max:
+                        return DataFieldFunctions.Max;
+                    default:
+                        return DataFieldFunctions.None;
+                }
+            }		
         private static void SetRowColumnsItemsToHashSets(ExcelPivotTable pivotTable)
         {
             var rowItems = new List<HashSet<int>>();
