@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -23,11 +22,11 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.MathAndTrig,
-        EPPlusVersion = "7.2",
-        Description = "Get the inverse of Matrix",
-        SupportsArrays = true)]
-    internal class MInverse : ExcelFunction
+    Category = ExcelFunctionCategory.MathAndTrig,
+    EPPlusVersion = "7.2",
+    Description = "Get the determinant of Matrix"
+    )]
+    internal class MDeterm : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
 
@@ -43,8 +42,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (r != c)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Value));
-                return CreateResult(returnRange, DataType.ExcelRange);
             }
             for (int i = 0; i < r; i++)
             {
@@ -52,18 +49,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 for (int j = 0; j < c; j++)
                 {
                     var cell = range.GetValue(y, x);
-                    if(cell == null)
+                    if (cell == null)
                     {
                         return CompileResult.GetErrorResult(eErrorType.Value);
-                        returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Value));
-                        return CreateResult(returnRange, DataType.ExcelRange);
                     }
                     bool e1 = double.TryParse(range.GetValue(y, x).ToString(), out double t);
-                    if( !e1 )
+                    if (!e1)
                     {
                         return CompileResult.GetErrorResult(eErrorType.Value);
-                        returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Value));
-                        return CreateResult(returnRange, DataType.ExcelRange);
                     }
                     m[i][j] = t;
                     x++;
@@ -71,35 +64,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 x = range.Address.FromCol;
                 y++;
             }
-            var dm = MatrixHelper.GetDecompose(m, out int[] permutations, out int rowSwap);
-            if(dm == null)
-            {
-                return CompileResult.GetErrorResult(eErrorType.Num);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Num));
-                return CreateResult(returnRange, DataType.ExcelRange);
-            }
-            if (MatrixHelper.GetDeterminant(dm, rowSwap) == 0)
-            {
-                return CompileResult.GetErrorResult(eErrorType.Num);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Num));
-                return CreateResult(returnRange, DataType.ExcelRange);
-
-            }
-            var inverse = MatrixHelper.GetInverse(dm, permutations, rowSwap);
-            if(inverse == null)
-            {
-                return CompileResult.GetErrorResult(eErrorType.Num);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Num));
-                return CreateResult(returnRange, DataType.ExcelRange);
-            }
-            for (int i = 0; i < r; i++)
-            {
-                for (int j = 0; j < c; j++)
-                {
-                    returnRange.SetValue(i, j, inverse[i][j]);
-                }
-            }
-            return CreateResult(returnRange, DataType.ExcelRange);
+            var d = MatrixHelper.GetDeterminant(m);
+            return CreateResult(d, DataType.Decimal);
         }
     }
 }

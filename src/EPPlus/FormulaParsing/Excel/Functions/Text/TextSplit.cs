@@ -34,7 +34,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var text = ArgToString(arguments, 0);
+            var range = ArgToRangeInfo(arguments, 0);
+            var text = string.Empty;
+            if (range == null)
+            {
+                text = ArgToString(arguments, 0);
+            }
             string colDelimiter = ArgDelimiterCollectionToString(arguments, 1, out CompileResult result);
             if (result != null) return result;
             string rowDelimiter = string.Empty;

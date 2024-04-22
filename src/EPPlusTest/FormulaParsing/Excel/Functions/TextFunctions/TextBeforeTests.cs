@@ -130,8 +130,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         [TestMethod]
         public void TextBeforeRangeText()
         {
-            using var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            using var package = OpenTemplatePackage("TextBeforeTest.xlsx");
+            var sheet = package.Workbook.Worksheets["Sheet1"];
             sheet.Cells["A4"].Value = "Scott Mats Jimmy";
             sheet.Cells["A5"].Value = "Cameron Luther Josh";
             sheet.Cells["B4"].Value = "Cameron Luther Josh";
@@ -142,6 +142,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Cameron", sheet.Cells["D13"].Value);
             Assert.AreEqual("Scott", sheet.Cells["E12"].Value);
             Assert.AreEqual("Cameron", sheet.Cells["F12"].Value);
+            SaveAndCleanup(package);
         }
 
         [TestMethod]
