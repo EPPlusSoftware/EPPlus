@@ -58,6 +58,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var colGivenButEmpty = false;
             if(arguments.Count > 2)
             {
+                var arg3 = arguments[2];
+                if (arg3.DataType == DataType.ExcelError)
+                {
+                    return CompileResult.GetErrorResult(((ExcelErrorValue)arg3.Value).Type);
+                }
+
                 col = ArgToInt(arguments, 2, RoundingMethod.Floor);
                 colGivenButEmpty = (arguments[2].Value == null);
             }
