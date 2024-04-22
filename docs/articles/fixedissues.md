@@ -3,6 +3,7 @@
 ## Version 7.2
 ### Minor Features and fixed issues
 * Added all icons and iconset features to html export. Including custom iconsets.
+* Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
 
 ## Version 7.1.1
 ### Minor Features and fixed issues
