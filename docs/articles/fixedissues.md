@@ -2,9 +2,11 @@
 # Features / Fixed issues - EPPlus 7
 ## Version 7.1.2
 ### Fixed issues 
-* Defined Names with `"` symbols no longer get extraneous `"` added when saving in epplus.
-* Reading in RichText data on in-line strings now works as expected.
-* Negations of Defined Names and Ranges in shared formulas sometimes recieved the wrong sign in the calculation as the negation flag was not cleared.
+* Defined Names with `"` symbols no longer get extraneous `"` added when saving in EPPlus.
+* Reading RichText data on in-line strings now works as expected.
+* Negations of Defined Names and Ranges in shared formulas sometimes received the wrong sign in the calculation as the negation flag was not cleared.
+* 'ExcelRangeBase.ToCollection()' auto-mapping sometimes threw an exception as the wrong property type was used.
+* Using 'ExcelRangeBse.LoadFromCollection' with Nullable property members in a collection now returns columns as expected.
 
 ## Version 7.1.1
 ### Minor Features and fixed issues
