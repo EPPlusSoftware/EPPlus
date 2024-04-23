@@ -391,7 +391,7 @@ namespace EPPlusTest.LoadFunctions
                 ExcelTextFormatFixedWidth fw = new ExcelTextFormatFixedWidth();
                 fw.SkipLinesBeginning = 36;
                 fw.SkipLinesEnd = 6;
-                int[] arr = { 0, 15, 31, 42, 54, 61 };
+                int[] arr = { 0, 16, 32, 43, 55, 62 };
                 fw.SetColumns(FixedWidthReadType.Positions, arr);
                 fw.SetColumnsNames("Name", "Position", "Prot", "Entry_Name", "Code", "Description");
                 ws.Cells["A1"].LoadFromText(myFileInfo, fw, TableStyles.Dark10, true);

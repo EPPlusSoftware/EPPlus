@@ -1,15 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FakeItEasy;
+using Microsoft.SqlServer.Server;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EPPlusTest.SaveFunctions
 {
     [TestClass]
-    public class ToTextTests
+    public class ToTextTests : TestBase
     {
         private ExcelPackage _package;
         private ExcelWorksheet _sheet;
@@ -329,6 +333,26 @@ namespace EPPlusTest.SaveFunctions
             format.SkipLinesBeginning = 1;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  4   5" + format.EOL, text);
+        }
+
+        [TestMethod]
+        public void WriteFixedWidthTextFile()
+        {
+            using (var p = OpenTemplatePackage("Fixed3.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["TEST"];
+                ExcelOutputTextFormatFixedWidth fw = new ExcelOutputTextFormatFixedWidth();
+                int[] arr =                     { 0,                        16,                        32,                        43,                        55,                        62 };
+                fw.SetColumnsNames              ("Name",                    "Position",                "Prot",                    "Entry_Name",              "Code",                    "Description");
+                fw.SetColumnPaddingAlignmentType(PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Left, PaddingAlignmentType.Auto);
+                fw.SetColumns(FixedWidthReadType.Positions, arr);
+                var text = ws.Cells["A1:F2073"].ToText(fw);
+                using (StreamWriter outputFile = new StreamWriter("C:\\Users\\AdrianParnéus\\Documents\\Test\\NewFW2.txt"))
+                {
+                        outputFile.WriteLine(text);
+                }
+            }
+
         }
     }
 }

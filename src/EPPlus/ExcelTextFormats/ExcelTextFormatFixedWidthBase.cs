@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/30/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,6 +97,23 @@ namespace OfficeOpenXml
             }
         }
 
+        private void CreateColumnFormatList(int size)
+        {
+            for (int i =0; i<size; i++)
+            {
+                ColumnFormat.Add(new ExcelTextFormatColumn());
+            }
+        }
+
+        /// <summary>
+        /// Clear the collection of column formats.
+        /// </summary>
+        public void ClearColumnFormats()
+        {
+            _lineLength = _lastPosition = 0;
+            ColumnFormat.Clear();
+        }
+
         /// <summary>
         /// Adds the column read by column length or position and data.
         /// </summary>
@@ -103,24 +121,13 @@ namespace OfficeOpenXml
         /// <param name="columns"></param>
         public void SetColumns(FixedWidthReadType readType, params int[] columns)
         {
-            ColumnFormat.Clear();
             if (readType == FixedWidthReadType.Length)
             {
-                foreach (int column in columns)
-                {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = column });
-                    _lineLength += column;
-                    _lastPosition = _lineLength;
-                }
+                SetColumnLengths(columns);
             }
             else if (readType == FixedWidthReadType.Positions)
             {
-                foreach (int column in columns)
-                {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = column });
-                    _lineLength = column;
-                    _lastPosition = column;
-                }
+                SetColumnPositions(columns);
             }
             ReadType = readType;
         }
@@ -131,17 +138,18 @@ namespace OfficeOpenXml
         /// <param name="lengths"></param>
         public void SetColumnLengths(params int[] lengths)
         {
-            int i = 0;
-            foreach (int length in lengths)
+            if (ColumnFormat.Count <= 0)
             {
-                if (ColumnFormat.Count <= i)
+                CreateColumnFormatList(lengths.Length);
+            }
+            for (int i = 0; i < lengths.Length; i++)
+            {
+                ColumnFormat[i].Length = lengths[i];
+                if (ReadType == FixedWidthReadType.Length)
                 {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Length = length });
-                    _lineLength += length;
+                    _lineLength += lengths[i];
                     _lastPosition = _lineLength;
                 }
-                ColumnFormat[i].Length = length;
-                i++;
             }
         }
 
@@ -151,17 +159,18 @@ namespace OfficeOpenXml
         /// <param name="positions"></param>
         public void SetColumnPositions(params int[] positions)
         {
-            int i = 0;
-            foreach (int position in positions)
+            if (ColumnFormat.Count <= 0)
             {
-                if (ColumnFormat.Count <= i)
+                CreateColumnFormatList(positions.Length);
+            }
+            for (int i = 0; i < positions.Length; i++)
+            {
+                ColumnFormat[i].Position = positions[i];
+                if (ReadType == FixedWidthReadType.Positions)
                 {
-                    ColumnFormat.Add(new ExcelTextFormatColumn() { Position = position });
-                    _lineLength = position;
-                    _lastPosition = position;
-                }        
-                ColumnFormat[i].Position = position;
-                i++;
+                    _lineLength = positions[i];
+                    _lastPosition = positions[i];
+                }
             }
         }
 
@@ -172,6 +181,10 @@ namespace OfficeOpenXml
         public void SetColumnDataTypes(params eDataTypes[] dataTypes)
         {
             int i = 0;
+            if (ColumnFormat.Count <= 0)
+            {
+                CreateColumnFormatList(dataTypes.Length);
+            }
             foreach (eDataTypes dataType in dataTypes)
             {
                 if (ColumnFormat.Count <= i)
@@ -190,6 +203,10 @@ namespace OfficeOpenXml
         public void SetColumnPaddingAlignmentType(params PaddingAlignmentType[] paddingTypes)
         {
             int i = 0;
+            if(ColumnFormat.Count <= 0)
+            {
+                CreateColumnFormatList(paddingTypes.Length);
+            }
             foreach (PaddingAlignmentType paddingType in paddingTypes)
             {
                 if (ColumnFormat.Count <= i)
@@ -208,6 +225,10 @@ namespace OfficeOpenXml
         public void SetUseColumns(params bool[] UseColumns)
         {
             int i = 0;
+            if (ColumnFormat.Count <= 0)
+            {
+                CreateColumnFormatList(UseColumns.Length);
+            }
             foreach (bool UseColumn in UseColumns)
             {
                 if (ColumnFormat.Count <= i)
@@ -226,6 +247,10 @@ namespace OfficeOpenXml
         public void SetColumnsNames(params string[] Names)
         {
             int i = 0;
+            if (ColumnFormat.Count <= 0)
+            {
+                CreateColumnFormatList(Names.Length);
+            }
             foreach (string name in Names)
             {
                 if (ColumnFormat.Count <= i)
