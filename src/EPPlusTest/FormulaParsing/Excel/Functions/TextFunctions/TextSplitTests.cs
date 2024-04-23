@@ -70,7 +70,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Cells["A2"].Value = "-";
             sheet.Cells["D3"].Formula = "TEXTSPLIT(A1, A2:A3)";
             sheet.Calculate();
-            Assert.AreEqual(ExcelErrorValue.Values.Value, sheet.Cells["D3"].Value.ToString());
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D3"].Value);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Scott", sheet.Cells["D3"].Value);
             Assert.AreEqual("Josh", sheet.Cells["D7"].Value);
             Assert.AreEqual("Cameron", sheet.Cells["E5"].Value);
-            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["E3"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["E3"].Value);
         }
 
         [TestMethod]
@@ -208,21 +208,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         [TestMethod]
         public void TextSplitRangeTest()
         {
-            using var p = OpenTemplatePackage("TextSplitTest.xlsx");
-            var ws = p.Workbook.Worksheets["Sheet1"];
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
             ws.Cells["A1"].Value = "Scott Mats Jimmy Cameron Luther Josh";
             ws.Cells["A2"].Value = "Scott Mats Jimmy Cameron Luther Josh";
             ws.Cells["A3"].Value = "Scott Mats Jimmy Cameron Luther Josh";
-            ws.Cells["A4"].Value = "Scott Mats Jimmy Cameron Luther Josh";
             ws.Cells["A5"].Value = "Scott Mats Jimmy Cameron Luther Josh";
             ws.Cells["D15"].Formula = "TEXTSPLIT(A1:A5,\" \")";
             ws.Calculate();
             Assert.AreEqual("Scott", ws.Cells["D15"].Value);
             Assert.AreEqual("Scott", ws.Cells["D16"].Value);
             Assert.AreEqual("Scott", ws.Cells["D17"].Value);
-            Assert.AreEqual("Scott", ws.Cells["D18"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), ws.Cells["D18"].Value);
             Assert.AreEqual("Scott", ws.Cells["D19"].Value);
-            SaveAndCleanup(p);
         }
 
         [TestMethod]

@@ -69,36 +69,71 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 padWith = ArgToString(arguments, 5);
             }
 
-            var rows = new string[] { text };
-            if ( !string.IsNullOrEmpty( rowDelimiter))
+            if (range != null)
             {
-                rows = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(rowDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(rowDelimiter.ToCharArray());
-            }
-            var cols = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(colDelimiter.ToCharArray());
-            var returnRange = new InMemoryRange(rows.Length, (short)cols.Length);
-            for (var row = 0; row < rows.Length; row++)
-            {
-                string[] rowCols = (ignoreEmpty == "1" || ignoreEmpty=="TRUE") ? rows[row].Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : rows[row].Split(colDelimiter.ToCharArray());
-                for (var col = 0; col < cols.Length; col++)
+                int row = range == null ? 0 : range.Address.FromRow;
+                int col = range == null ? 0 : range.Address.FromCol;
+                var r = range == null ? 1 : (range.Address.ToRow - range.Address.FromRow) + 1;
+                var c = range == null ? 1 : (range.Address.ToCol - range.Address.FromCol) + 1;
+                var returnRange = new InMemoryRange(r, (short)c);
+                var delimiters = rowDelimiter + colDelimiter;
+                for (int y = 0; y < r; y++)
                 {
-                    if (rowCols.Length < cols.Length && col >= rowCols.Length)
+                    for (int x = 0; x < c; x++)
                     {
-                        if (padWith == "#N/A")
+                        var cell = range.GetValue(row, col);
+                        text = cell == null ? string.Empty : cell.ToString();
+                        var v = text.Split(delimiters.ToCharArray());
+                        col++;
+                        if (string.IsNullOrEmpty(v[0]))
                         {
-                            returnRange.SetValue(row, col, CompileResult.GetErrorResult(eErrorType.NA));
+                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.Value));
                         }
                         else
                         {
-                            returnRange.SetValue(row, col, padWith);
+                            returnRange.SetValue(y, x, v[0]);
                         }
                     }
-                    else
+                    row++;
+                    col = range == null ? 0 : range.Address.FromCol;
+                }
+                return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
+            }
+
+            else
+            {
+                var rows = new string[] { text };
+                if (!string.IsNullOrEmpty(rowDelimiter))
+                {
+                    rows = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(rowDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(rowDelimiter.ToCharArray());
+                }
+                var cols = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(colDelimiter.ToCharArray());
+                var returnRange = new InMemoryRange(rows.Length, (short)cols.Length);
+                for (var row = 0; row < rows.Length; row++)
+                {
+                    string[] rowCols = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? rows[row].Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : rows[row].Split(colDelimiter.ToCharArray());
+                    for (var col = 0; col < cols.Length; col++)
                     {
-                        returnRange.SetValue(row, col, rowCols[col]);
+                        if (rowCols.Length < cols.Length && col >= rowCols.Length)
+                        {
+                            if (padWith == "#N/A")
+                            {
+                                returnRange.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                            }
+                            else
+                            {
+                                returnRange.SetValue(row, col, padWith);
+                            }
+                        }
+                        else
+                        {
+                            returnRange.SetValue(row, col, rowCols[col]);
+                        }
                     }
                 }
+                return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
             }
-            return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
         }
     }
 }

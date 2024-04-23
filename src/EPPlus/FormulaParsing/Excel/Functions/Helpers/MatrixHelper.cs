@@ -230,31 +230,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return x;
         }
 
-        //// --------------------------------------------------
-
-        //static double[][] MatrixProduct(double[][] matrixA, double[][] matrixB)
-        //{
-        //    int aRows = matrixA.Length; int aCols = matrixA[0].Length;
-        //    int bRows = matrixB.Length; int bCols = matrixB[0].Length;
-        //    if (aCols != bRows)
-        //        throw new Exception("Non-conformable matrices in MatrixProduct");
-
-        //    double[][] result = MatrixCreate(aRows, bCols);
-
-        //    for (int i = 0; i < aRows; ++i) // each row of A
-        //        for (int j = 0; j < bCols; ++j) // each col of B
-        //            for (int k = 0; k < aCols; ++k) // could use k less-than bRows
-        //                result[i][j] += matrixA[i][k] * matrixB[k][j];
-
-        //    //Parallel.For(0, aRows, i =greater-than
-        //    //  {
-        //    //    for (int j = 0; j less-than bCols; ++j) // each col of B
-        //    //      for (int k = 0; k less-than aCols; ++k) // could use k less-than bRows
-        //    //        result[i][j] += matrixA[i][k] * matrixB[k][j];
-        //    //  }
-        //    //);
-
-        //    return result;
-        //}
+        static double[][] MatrixProduct(double[][] A, double[][] B)
+        {
+            int Ay = A.Length; 
+            int Ax = A[0].Length;
+            int By = B.Length; 
+            int Bx = B[0].Length;
+            if (Ax != By)
+            {
+                return null;
+            }
+            double[][] result = CreateMatrix(Ay, Bx);
+            for (int i = 0; i < Ay; i++)
+            {
+                for (int j = 0; j < Bx; j++)
+                {
+                    for (int k = 0; k < Ax; k++)
+                    {
+                        result[i][j] += A[i][k] * B[k][j];
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

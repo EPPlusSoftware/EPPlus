@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var c2 = m2.Address.ToCol - m2.Address.FromCol;
             if(c1 != r2)
             {
-                return CreateResult(CompileResult.GetErrorResult(eErrorType.Value), DataType.ExcelError);
+                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
             }
             double temp = 0;
             double[,] result = new double[r1+1, c2+1];
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         bool e2 = double.TryParse(m2.GetValue(x2, y2).ToString(), out double t2);
                         if( !e1 || !e2)
                         {
-                            return CreateResult(CompileResult.GetErrorResult(eErrorType.Value), DataType.ExcelError);
+                            return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
                         }
                         temp += t1 * t2;
                         y1++;

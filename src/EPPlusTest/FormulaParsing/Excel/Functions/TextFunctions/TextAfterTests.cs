@@ -49,7 +49,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             Assert.AreEqual("Jimmy Cameron Luther Josh", sheet.Cells["D3"].Value);
             Assert.AreEqual("Josh", sheet.Cells["D4"].Value);
-            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D5"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D5"].Value);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             Assert.AreEqual("Luther Josh", sheet.Cells["D3"].Value);
             Assert.AreEqual("Mats Jimmy Cameron Luther Josh", sheet.Cells["D4"].Value);
-            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D5"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D5"].Value);
         }
 
         [TestMethod]
@@ -95,8 +95,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Scott Mats Jimmy Cameron Luther Josh", sheet.Cells["D4"].Value);
             Assert.AreEqual("Luther Josh", sheet.Cells["D5"].Value);
             Assert.AreEqual("Jimmy Cameron Luther Josh", sheet.Cells["D6"].Value);
-            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D7"].Value);
-            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D8"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D7"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D8"].Value);
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Luther Josh", sheet.Cells["D5"].Value);
             Assert.AreEqual("LutherxJosh", sheet.Cells["D6"].Value);
             Assert.AreEqual("Jimmy Cameron Luther Josh", sheet.Cells["D7"].Value);
-            Assert.AreEqual(CompileResult.GetErrorResult(eErrorType.NA), sheet.Cells["D8"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D8"].Value);
             Assert.AreEqual("Test", sheet.Cells["D9"].Value);
             Assert.AreEqual("Luther,Josh", sheet.Cells["D10"].Value);
             SaveAndCleanup(package);

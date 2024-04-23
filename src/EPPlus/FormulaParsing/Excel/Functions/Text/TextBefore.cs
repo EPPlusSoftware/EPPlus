@@ -107,7 +107,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                                 continue;
                                 //return CreateResult(ifNotFound, DataType.String);
                             }
-                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
                             continue;
                             //return CompileResult.GetErrorResult(eErrorType.NA);
                         }
@@ -125,7 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                                 continue;
                                 //return CreateResult(ifNotFound, DataType.String);
                             }
-                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
                             continue;
                             //return CompileResult.GetErrorResult(eErrorType.NA);
                         }
@@ -157,7 +157,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                                 continue;
                                 //return CreateResult(ifNotFound, DataType.String);
                             }
-                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
                             continue;
                             //return CompileResult.GetErrorResult(eErrorType.NA);
                         }
@@ -175,7 +175,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                                 continue;
                                 //return CreateResult(ifNotFound, DataType.String);
                             }
-                            returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
                             continue;
                             //return CompileResult.GetErrorResult(eErrorType.NA);
                         }
@@ -191,7 +191,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                             continue;
                             //return CreateResult(ifNotFound, DataType.String);
                         }
-                        returnRange.SetValue(y, x, CompileResult.GetErrorResult(eErrorType.NA));
+                        returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
                         continue;
                         //return CompileResult.GetErrorResult(eErrorType.NA);
                     }
@@ -201,7 +201,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 row++;
                 col = range == null ? 0 : range.Address.FromCol;
             }
-            return CreateResult(returnRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
         }
     }
 }
