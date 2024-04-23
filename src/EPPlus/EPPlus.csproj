@@ -387,8 +387,9 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 		Version history
+		7.1.2			20240423 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
 		7.1.1			20240408 Minor bug fixes.
-		7.1.0			20240328 Html export of Conditional formatting, Performance RichText, LoadFromCollection Enhancements. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
+		7.1.0			20240328 Html export of Conditional formatting, Performance RichText, LoadFromCollection Enhancements.
 		7.0.10			20240311 Minor bug fixes.
 		7.0.9			20240215 Minor bug fixes.
 		7.0.8			20240124 Minor bug fixes.
