@@ -5,6 +5,8 @@ using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using System.Collections.Generic;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
 	[TestClass]
@@ -95,20 +97,99 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(50879.73, GetPtData(pt, 0, "Belgium", "Rogaland"));
             Assert.AreEqual(ErrorValues.RefError, GetPtData(pt, 0, "Belgium", null));
         }
+        [TestMethod]
+        public void VerifyCalculationPivotTable6()
+        {
+            var pt = _ptWs.PivotTables["PivotTable6"];
+
+            //Canada Sum	280213,09 Canada Count	8 Canada Average	35026,63625
+            
+            Assert.AreEqual(280213.09, GetPtData(pt, 0, null, "Country[Canada;Sum]"));
+            Assert.AreEqual(8D, GetPtData(pt, 0, null, "Country[Canada,Count]"));
+            Assert.AreEqual(35026.63625, GetPtData(pt, 0, null, "Country[Canada,Average]"));        
+        }
+
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
 			var l = new List<PivotDataCriteria>();
 			int ix = 0;
 			foreach (var f in pt.RowColumnFieldIndicies)
-			{
-				if (values!=null && values[ix] != null)
-				{
-					l.Add(new PivotDataCriteria(pt.Fields[f].Name, values[ix]));
-				}
+			{				
+                if (values!=null && values[ix] != null)
+				{					
+                    if(values[ix].ToString().Contains("["))
+                    {
+                        var tokens = SourceCodeTokenizer.Default.Tokenize(values[ix].ToString());
+                        if(tokens.Count==4)
+                        {
+                            var fieldTokens = SourceCodeTokenizer.Default.Tokenize(tokens[2].Value);
+                            if(GetSubTotalFunctionFromString(fieldTokens[2].Value, out eSubTotalFunctions functions))
+                            {
+                                l.Add(new PivotDataCriteria(tokens[0].Value, fieldTokens[0].Value, functions));
+                            }
+                            else
+                            {
+                                return ErrorValues.RefError;
+                            }                            
+                        }
+                        else
+                        {
+                            return ErrorValues.RefError;
+                        }
+                    }
+                    else
+                    {
+                        l.Add(new PivotDataCriteria(pt.Fields[f].Name, values[ix]));
+                    }
+                }
 				ix++;
 			}
 
 			return pt.GetPivotData(pt.DataFields[datafield].Name, l);
 		}
-	}
+
+        private bool GetSubTotalFunctionFromString(string value, out eSubTotalFunctions function)
+        {
+            switch(value.ToLower())
+            {
+                case "sum":
+                    function = eSubTotalFunctions.Sum;
+                    break;
+                case "count":
+                    function = eSubTotalFunctions.CountA;
+                    break;
+                case "count nums":
+                    function = eSubTotalFunctions.Count;
+                    break;
+                case "average":
+                    function = eSubTotalFunctions.Avg;
+                    break;
+                case "min":
+                    function = eSubTotalFunctions.Min;
+                    break;
+                case "max":
+                    function = eSubTotalFunctions.Max;
+                    break;
+                case "stddev":
+                    function = eSubTotalFunctions.StdDev;
+                    break;
+                case "stddevp":
+                    function = eSubTotalFunctions.StdDevP;
+                    break;
+                case "var":
+                    function = eSubTotalFunctions.Var;
+                    break;
+                case "varp":
+                    function = eSubTotalFunctions.VarP;
+                    break;
+                case "product":
+                    function = eSubTotalFunctions.Product;
+                    break;
+                default:
+                    function = eSubTotalFunctions.None;
+                    return false;
+            }
+            return true;
+        }
+    }
 }

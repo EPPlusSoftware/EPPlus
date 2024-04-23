@@ -34,6 +34,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             Value = value;
         }
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="fieldName">The row/column field to filter</param>
+        /// <param name="value">The value to filter on</param>
+        /// <param name="subtotalFunction">If a row/column field has one or multiple Subtotal Functions specified, you can access them here.</param>
+        public PivotDataCriteria(string fieldName, object value, eSubTotalFunctions subtotalFunction)
+        {
+            FieldName = fieldName;
+            Value = value;
+            SubtotalFunction = subtotalFunction;
+        }
+        /// <summary>
         /// The row or column field.
         /// </summary>
         public string FieldName { get; set; }
@@ -41,5 +53,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         /// The value to filter on.
         /// </summary>
         public object Value { get; set; }
+        /// <summary>
+        /// If a row/column field has a subtotal subtotalFunction other that "Default" or "None", it can be specified in the criteria.
+        /// </summary>
+        public eSubTotalFunctions SubtotalFunction { get; set; } = eSubTotalFunctions.None;
     }
 }

@@ -107,21 +107,26 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private static void CalculateRowColumnSubtotals(ExcelPivotTable pivotTable, List<Dictionary<int[], HashSet<int[]>>> keys)
         {
-            foreach(var field in pivotTable.RowFields.Union(pivotTable.ColumnFields).Where(x=>x.SubTotalFunctions!=eSubTotalFunctions.None && x.SubTotalFunctions!=eSubTotalFunctions.Default))
+			pivotTable.CalculatedFieldRowColumnSubTotals = new Dictionary<string, PivotCalculationStore>();
+            foreach (var field in pivotTable.RowFields.Union(pivotTable.ColumnFields).Where(x=>x.SubTotalFunctions!=eSubTotalFunctions.None && x.SubTotalFunctions!=eSubTotalFunctions.Default))
 			{
                 var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
                 keys.Add(keyDict);
 
-				foreach (eSubTotalFunctions stf in Enum.GetValues(typeof(eSubTotalFunctions)))
+				for(var dfIx=0;dfIx < pivotTable.DataFields.Count;dfIx++)
 				{
-					if (stf == eSubTotalFunctions.None || stf == eSubTotalFunctions.Default) continue;
-					if((field.SubTotalFunctions & stf) != 0)
+					foreach (eSubTotalFunctions stf in Enum.GetValues(typeof(eSubTotalFunctions)))
 					{
-                        var store = new PivotCalculationStore();
-						pivotTable.CalculatedFieldRowColumnSubTotals.Add(field.Name+","+stf.ToString(), store);
-                        CalculateField(pivotTable, store, keys, field.Cache, GetDataTypeFunction(stf));
-                    }
-                }
+						if (stf == eSubTotalFunctions.None || stf == eSubTotalFunctions.Default) continue;
+						if ((field.SubTotalFunctions & stf) != 0)
+						{
+							var store = new PivotCalculationStore();
+							pivotTable.CalculatedFieldRowColumnSubTotals.Add($"{field.Index},{dfIx},{stf}", store);
+							var df = pivotTable.DataFields[dfIx];
+                            CalculateField(pivotTable, store, keys, df.Field.Cache, GetDataTypeFunction(stf));
+						}
+					}
+				}
             }
         }
 
