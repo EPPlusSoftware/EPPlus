@@ -29,11 +29,13 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             {
                 t = ut;
             }
+
             return t;
         }
 
         public static bool IsComplexType(this Type type)
         {
+            type = GetTypeOrUnderlyingType(type);
             return type != typeof(string) && (type.IsClass || type.IsInterface || type.IsGenericType);
         }
 
