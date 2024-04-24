@@ -28,7 +28,6 @@ using System.IO;
 using System.Globalization;
 using OfficeOpenXml.Table.PivotTable.Filter;
 using OfficeOpenXml.Table.PivotTable.Calculation;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
 
@@ -349,16 +348,17 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <seealso cref="IsCalculated"/>
         /// <seealso cref="ExcelPivotCacheDefinition.Refresh"/>
         /// </summary>
-        /// <param name="criteria">A list of criterias to determin which value to retrieve. If the criteria does not exist in the pivot tabvle a #REF! error is returned.</param>
+        /// <param name="fieldItemSelection">A list of criterias to determin which value to retrieve. If the fieldItemSelection does not exist in the pivot tabvle a #REF! error is returned.</param>
         /// <param name="dataFieldName">The name of the data field. If a data field with the name does exist in the table, a #REF! error is returned-</param>
         /// <returns>The calculated value</returns>
-        public object GetPivotData(string dataFieldName, IList<PivotDataCriteria> criteria)
+        public object GetPivotData(string dataFieldName, IList<PivotDataFieldItemSelection> fieldItemSelection)
         {
             var dataField = DataFields[dataFieldName];
-            if (dataField == null)
+            if(dataField == null)
             {
                 return ErrorValues.RefError;
             }
+
             if (IsCalculated == false)
             {
                 Calculate();
@@ -373,22 +373,22 @@ namespace OfficeOpenXml.Table.PivotTable
             for (int i = 0; i < keyFieldIndex.Count; i++)
             {
                 key[i] = PivotCalculationStore.SumLevelValue;
-                for (int j = 0; j < criteria.Count; j++)
+                for (int j = 0; j < fieldItemSelection.Count; j++)
                 {
-                    var field = Fields[criteria[j].FieldName];
+                    var field = Fields[fieldItemSelection[j].FieldName];
 
                     if (field == null)
                     {
                         return ErrorValues.RefError;
                     }
-                    if (criteria[j].SubtotalFunction != eSubTotalFunctions.None && function != criteria[j].SubtotalFunction)
+                    if (fieldItemSelection[j].SubtotalFunction != eSubTotalFunctions.None && function != fieldItemSelection[j].SubtotalFunction)
                     {
                         if (function != eSubTotalFunctions.None && (functionFieldIx != field.Index))
                         {
                             return ErrorValues.RefError;
                         }
                         functionFieldIx = field.Index;
-                        function = criteria[j].SubtotalFunction;
+                        function = fieldItemSelection[j].SubtotalFunction;
                     }
 
                     if (field.Index == keyFieldIndex[i])
@@ -399,7 +399,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
                         if (isGrouping)
                         {
-                            var errorValue = GetGroupingKey(criteria, ref key, i, j, cache);
+                            var errorValue = GetGroupingKey(fieldItemSelection, ref key, i, j, cache);
                             if (errorValue != null)
                             {
                                 return errorValue;
@@ -407,7 +407,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                         else
                         {
-                            var v = criteria[j].Value;
+                            var v = fieldItemSelection[j].Value;
                             if (cache.ContainsKey(v))
                             {
                                 key[i] = cache[v];
@@ -473,7 +473,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// Access to the calculated data when the pivot table has been calculated.
         /// <seealso cref="Calculate(bool)"/>
         /// <seealso cref="IsCalculated"/>
-        /// <seealso cref="GetPivotData(string, IList{PivotDataCriteria})"/>
+        /// <seealso cref="GetPivotData(string, IList{PivotDataFieldItemSelection})"/>
         /// </summary>
         public ExcelPivotTableCalculatedData CalculatedData
         {
@@ -573,7 +573,7 @@ namespace OfficeOpenXml.Table.PivotTable
             return true;
         }
 
-		private ExcelErrorValue GetGroupingKey(IList<PivotDataCriteria> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
+		private ExcelErrorValue GetGroupingKey(IList<PivotDataFieldItemSelection> criteria, ref int[] key, int i, int j, Dictionary<object, int> cache)
 		{
             var field = Fields[criteria[j].FieldName];
             if(field.Grouping is ExcelPivotTableFieldNumericGroup grp)

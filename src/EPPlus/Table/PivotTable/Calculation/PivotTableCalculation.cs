@@ -247,7 +247,7 @@ namespace OfficeOpenXml.Table.PivotTable
 					else
 					{
 						int ix;
-						if (field.Grouping.BaseIndex != fieldIndex[i])
+						if (field.Grouping.BaseIndex.HasValue && field.Grouping.BaseIndex != fieldIndex[i])
 						{
 							ix= field.Grouping.BaseIndex.Value;
 						}
@@ -261,8 +261,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
 				if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
 					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false) &&
-					(slicerFields.Count == 0 || PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields)==false)
-					)
+					(slicerFields.Count == 0 || PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields)==false))
 				{
 					var v = cacheField.IsRowColumnOrPage ? cacheField.SharedItems[(int)recs.CacheItems[index][r]] : recs.CacheItems[index][r];
 					_calculateFunctions[function].AddItems(key, pivotTable.RowFields.Count, v, dataFieldItems, keyDict);

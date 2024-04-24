@@ -4,10 +4,9 @@ using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using System.Collections.Generic;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
-	[TestClass]
+    [TestClass]
 	public class VerifyPivotCalculationTests : TestBase
 	{
 		static ExcelPackage _package;
@@ -38,13 +37,13 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         }
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
-			var l = new List<PivotDataCriteria>();
+			var l = new List<PivotDataFieldItemSelection>();
 			int ix = 0;
 			foreach (var f in pt.RowColumnFieldIndicies)
 			{
 				if (values!=null && values[ix] != null)
 				{
-					l.Add(new PivotDataCriteria(pt.Fields[f].Name, values[ix]));
+					l.Add(new PivotDataFieldItemSelection(pt.Fields[f].Name, values[ix]));
 				}
 				ix++;
 			}

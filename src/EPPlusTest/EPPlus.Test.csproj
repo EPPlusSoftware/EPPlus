@@ -43,7 +43,6 @@
     <Compile Remove="FormulaParsing\ExpressionGraph\EnumerableExpressionTests.cs" />
     <Compile Remove="FormulaParsing\ExpressionGraph\ExpressionCompilerTests.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -51,8 +50,6 @@
     <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <!--<PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />-->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />

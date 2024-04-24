@@ -282,28 +282,69 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
         }
+        //      protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, List<bool> showTotals)
+        //      {			
+        //          //TODO: Check if field should be aggregated
+        //          int max = 1 << key.Length;
+        //	for (int r = 1; r < max; r++)
+        //	{
+        //              //TODO:Handle collapsed row/columns and fields with subtotals - None or multiple values. The ShouldAggregateKey()  is a start. 
+        //              //if (ShouldAggregateKey(key, colStartRef, r, showTotals) == false) continue;      //Check if field has subtotal, otherwise dont aggregate the item.
+        //              var newKey = GetKey(key, r);
+        //		if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
+        //		{
+        //			hs = new HashSet<int[]>(new ArrayComparer());
+        //			keys.Add(newKey, hs);
+        //		}
+        //		if (hs.Contains(key) == false)
+        //		{
+        //			hs.Add(key);
+        //		}
+        //		action(newKey, dataFieldItems, d);
+        //	}
+        //}
         protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, List<bool> showTotals)
-        {			
+        {
             //TODO: Check if field should be aggregated
-            int max = 1 << key.Length;
-			for (int i = 1; i < max; i++)
-			{
-                //TODO:Handle collapsed row/columns and fields with subtotals - None or multiple values. The ShouldAggregateKey()  is a start. 
-                //if (ShouldAggregateKey(key, colStartRef, i, showTotals) == false) continue;      //Check if field has subtotal, otherwise dont aggregate the item.
-                var newKey = GetKey(key, i);
-				if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
-				{
-					hs = new HashSet<int[]>(new ArrayComparer());
-					keys.Add(newKey, hs);
-				}
-				if (hs.Contains(key) == false)
-				{
-					hs.Add(key);
-				}
-				action(newKey, dataFieldItems, d);
-			}
-		}
-		internal static bool IsNonTopLevel(int[] newKey, int colStartRef)
+            int[] newKey = (int[])key.Clone();
+            for (int r = colStartRef-1; r >= 0; r--)
+            {
+                newKey[r] = PivotCalculationStore.SumLevelValue;
+                AddKey(key, dataFieldItems, keys, d, action, newKey);
+                newKey = (int[])newKey.Clone();
+            }
+
+            for (int r = key.Length - 1; r >= colStartRef; r--)
+            {
+                newKey[r] = PivotCalculationStore.SumLevelValue;
+                AddKey(key, dataFieldItems, keys, d, action, newKey);
+                newKey = (int[])newKey.Clone();
+            }
+
+            newKey = (int[])key.Clone();
+            for (int r = key.Length-1; r >= colStartRef; r--)
+            {
+                newKey[r] = PivotCalculationStore.SumLevelValue;
+                AddKey(key, dataFieldItems, keys, d, action, newKey);
+                newKey = (int[])newKey.Clone();
+            }
+        }
+
+        private static void AddKey<T>(int[] key, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, int[] newKey)
+        {
+            if (keys.TryGetValue(newKey, out HashSet<int[]> hs) == false)
+            {
+                hs = new HashSet<int[]>(new ArrayComparer());
+                keys.Add(newKey, hs);
+            }
+            if (hs.Contains(key) == false)
+            {
+                hs.Add(key);
+            }
+            action(newKey, dataFieldItems, d);
+        }
+
+        internal static bool IsNonTopLevel(int[] newKey, int colStartRef)
         {
            if(colStartRef > 0 && newKey[0] == PivotCalculationStore.SumLevelValue && HasSumLevel(newKey, 1, colStartRef)==false)
             {

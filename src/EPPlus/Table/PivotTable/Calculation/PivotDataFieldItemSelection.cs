@@ -10,25 +10,38 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
+
+/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  22/3/2023         EPPlus Software AB           EPPlus v7
+ *************************************************************************************************/
 using OfficeOpenXml.Table.PivotTable;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
+namespace OfficeOpenXml.Table.PivotTable.Calculation
 {
     /// <summary>
-    /// A criteria for GetPivotData to filter row/column fields
+    /// An Item selection for a row or colummn field used as argument to the GetPivotData method to filter.
     /// </summary>
-    public class PivotDataCriteria
+    public class PivotDataFieldItemSelection
     {
-        internal PivotDataCriteria()
+        internal PivotDataFieldItemSelection()
         {
-            
+
         }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="fieldName">The row/column field to filter</param>
         /// <param name="value">The value to filter on</param>
-        public PivotDataCriteria(string fieldName, object value) 
+        public PivotDataFieldItemSelection(string fieldName, object value)
         {
             FieldName = fieldName;
             Value = value;
@@ -39,7 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         /// <param name="fieldName">The row/column field to filter</param>
         /// <param name="value">The value to filter on</param>
         /// <param name="subtotalFunction">If a row/column field has one or multiple Subtotal Functions specified, you can access them here.</param>
-        public PivotDataCriteria(string fieldName, object value, eSubTotalFunctions subtotalFunction)
+        public PivotDataFieldItemSelection(string fieldName, object value, eSubTotalFunctions subtotalFunction)
         {
             FieldName = fieldName;
             Value = value;

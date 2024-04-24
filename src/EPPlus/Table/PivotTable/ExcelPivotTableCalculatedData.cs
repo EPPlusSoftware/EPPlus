@@ -10,33 +10,74 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Table.PivotTable.Calculation;
 using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// Represents a selection of a row or column field to retreive the calculated value from a pivot table.
+    /// </summary>
     public class ExcelPivotTableCalculatedData
     {
         private ExcelPivotTable _pivotTable;
-        List<PivotDataCriteria> _criterias;
+        List<PivotDataFieldItemSelection> _criterias;
         internal ExcelPivotTableCalculatedData(ExcelPivotTable pivotTable)
         {
             _pivotTable = pivotTable;
-            _criterias=new List<PivotDataCriteria>();
+            _criterias=new List<PivotDataFieldItemSelection>();
         }
-        internal ExcelPivotTableCalculatedData(ExcelPivotTable pivotTable, List<PivotDataCriteria> criterias)
+        internal ExcelPivotTableCalculatedData(ExcelPivotTable pivotTable, List<PivotDataFieldItemSelection> criterias)
         {
             _pivotTable = pivotTable;
             _criterias = criterias;
         }
-        public ExcelPivotTableCalculatedData Criterias(Action<PivotDataCriteria> x)
+        /// <summary>
+        /// Specifies which value to use for a field.
+        /// </summary>
+        /// <param name="fieldName">The name of the field</param>
+        /// <param name="value">The value</param>
+        /// <returns>A new <see cref="ExcelPivotTableCalculatedData"/> to select other row or column field values or fetch the calulated value in a fluent way.</returns>
+        /// <seealso cref="GetValue(string)"/>
+        public ExcelPivotTableCalculatedData SelectField(string fieldName, object value)
         {
-            var criteria = new PivotDataCriteria();
-            x.Invoke(criteria);
-            _criterias.Add(criteria);
+            CreateField(fieldName, value);
             return new ExcelPivotTableCalculatedData(_pivotTable, _criterias);
         }
+
+        /// <summary>
+        /// Specifies which value to use for a field.
+        /// </summary>
+        /// <param name="fieldName">The name of the field</param>
+        /// <param name="value">The value</param>
+        /// <param name="subtotalFunction"></param>
+        /// <returns></returns>
+        public ExcelPivotTableCalculatedData SelectField(string fieldName, object value, eSubTotalFunctions subtotalFunction)
+        {
+            var fieldSelection = CreateField(fieldName, value); 
+            fieldSelection.SubtotalFunction = subtotalFunction;
+
+            _criterias.Add(fieldSelection);
+            return new ExcelPivotTableCalculatedData(_pivotTable, _criterias);
+        }
+        private PivotDataFieldItemSelection CreateField(string fieldName, object value)
+        {
+            var fieldSelection = new PivotDataFieldItemSelection();
+            fieldSelection.FieldName = fieldName;
+            fieldSelection.Value = value;
+            _criterias.Add(fieldSelection);
+            return fieldSelection;
+        }
+
+        /// <summary>
+        /// Get the value for the current field selection.
+        /// <see cref="SelectField(string, object)"/>
+        /// <see cref="SelectField(string, object, eSubTotalFunctions)"/>
+        /// </summary>
+        /// 
+        /// <param name="dataFieldName"></param>
+        /// <returns></returns>
         public object GetValue(string dataFieldName)
         { 
             return _pivotTable.GetPivotData(dataFieldName, _criterias);

@@ -220,8 +220,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			var grandTotal = pt.CalculatedData.GetValue("Stock");
 
 			var item1230 = pt.CalculatedData
-                .Criterias(x => { x.FieldName = "Hours"; x.Value = 12; })
-                .Criterias(x => { x.FieldName = "Minutes"; x.Value = 30; })
+                .SelectField("Hours", 12)
+                .SelectField("Minutes", 30)
                 .GetValue("Stock");
 
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Stock\",$A$1,\"Hours\", 12, \"Minutes\", 30)";

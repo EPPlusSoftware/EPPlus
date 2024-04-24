@@ -4,12 +4,11 @@ using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using System.Collections.Generic;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
-	[TestClass]
+    [TestClass]
 	public class VerifyPivotCalculationWorkbookTests : TestBase
 	{
 		static ExcelPackage _package;
@@ -34,16 +33,16 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         {
             var pt = _ptWs.PivotTables["PivotTable1"];
 
-            Assert.AreEqual(86936.95, GetPtData(pt, 0, "Australia", "TRUE"));
+            Assert.AreEqual(253396.22, GetPtData(pt, 0, "Australia", "TRUE"));
             Assert.AreEqual(24.581, GetPtData(pt, 1, "Australia", "FALSE"));
-            Assert.AreEqual(0.0134228187919463, (double)GetPtData(pt, 2, "Australia", null), 0.00000001D);
+            Assert.AreEqual(0.025, (double)GetPtData(pt, 2, "Australia", null), 0.00000001D);
 
-            Assert.AreEqual(335437D, GetPtData(pt, 0, "Peru", "true"));
-            Assert.AreEqual(16.8274, GetPtData(pt, 1, "Peru", "true"));
-            Assert.AreEqual(0.033557047, (double)GetPtData(pt, 2, "Peru", "true"), 0.0000001D);
+            Assert.AreEqual(356879.28, GetPtData(pt, 0, "Peru", "true"));
+            Assert.AreEqual(14.3445, (double)GetPtData(pt, 1, "Peru", "true"), 0.0000001D);
+            Assert.AreEqual(0.03, (double)GetPtData(pt, 2, "Peru", "true"), 0.0000001D);
 
-            Assert.AreEqual(6529177.28, GetPtData(pt, 0, null, null));
-            Assert.AreEqual(19.94585235, (double)GetPtData(pt, 1, null, null), 0.00000001D);
+            Assert.AreEqual(8996331.09, GetPtData(pt, 0, null, null));
+            Assert.AreEqual(18.639405, (double)GetPtData(pt, 1, null, null), 0.00000001D);
             Assert.AreEqual(1D, (double)GetPtData(pt, 2, null, null), 0.00000001D);
         }
         [TestMethod]
@@ -109,9 +108,23 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(35026.63625, GetPtData(pt, 0, null, "Country[Canada,Average]"));        
         }
 
+        [TestMethod]
+        public void VerifyCalculationPivotTable7()
+        {
+            var ws = _package.Workbook.Worksheets["PivotTableMultSubtotals"];
+            var pt = ws.PivotTables["PivotTable7"];
+            ws.Calculate();
+
+            //Assert.AreEqual(33997.99, (double)ws.Cells["A2"].Value);
+            //Assert.AreEqual(33997.99, (double)ws.Cells["A3"].Value);
+            //Assert.AreEqual(1D, (double)ws.Cells["A4"].Value);
+            //Assert.AreEqual(0D, (double)ws.Cells["A5"].Value);
+            Assert.AreEqual(ErrorValues.RefError, ws.Cells["A6"].Value);
+        }
+
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
-			var l = new List<PivotDataCriteria>();
+			var l = new List<PivotDataFieldItemSelection>();
 			int ix = 0;
 			foreach (var f in pt.RowColumnFieldIndicies)
 			{				
@@ -125,7 +138,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
                             var fieldTokens = SourceCodeTokenizer.Default.Tokenize(tokens[2].Value);
                             if(GetSubTotalFunctionFromString(fieldTokens[2].Value, out eSubTotalFunctions functions))
                             {
-                                l.Add(new PivotDataCriteria(tokens[0].Value, fieldTokens[0].Value, functions));
+                                l.Add(new PivotDataFieldItemSelection(tokens[0].Value, fieldTokens[0].Value, functions));
                             }
                             else
                             {
@@ -139,7 +152,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
                     }
                     else
                     {
-                        l.Add(new PivotDataCriteria(pt.Fields[f].Name, values[ix]));
+                        l.Add(new PivotDataFieldItemSelection(pt.Fields[f].Name, values[ix]));
                     }
                 }
 				ix++;

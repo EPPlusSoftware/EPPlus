@@ -216,7 +216,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        //internal object GetPivotData(List<PivotDataCriteria> criteria, ExcelPivotTableDataField dataField)
+        //internal object GetPivotData(List<PivotDataFieldItemSelection> criteria, ExcelPivotTableDataField dataField)
         //{
         //    var items = _cacheReference.Records.CacheItems;
         //    List<int> rows=null;

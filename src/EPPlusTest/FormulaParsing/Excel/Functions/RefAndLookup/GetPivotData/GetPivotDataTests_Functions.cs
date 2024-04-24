@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using FakeItEasy;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.ConditionalFormatting;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -41,7 +40,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             var rowField = pt.RowFields.Add(pt.Fields["Country"]);
             pt.DataFields.Add(pt.Fields["Sales"]);
             pt.Calculate(true);
-            pt.GetPivotData("Sales", new List<PivotDataCriteria> { new  PivotDataCriteria("Continent", "North America"), new PivotDataCriteria("Country", "USA") });
+            pt.GetPivotData("Sales", new List<PivotDataFieldItemSelection> { new  PivotDataFieldItemSelection("Continent", "North America"), new PivotDataFieldItemSelection("Country", "USA") });
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
