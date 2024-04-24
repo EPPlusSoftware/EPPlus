@@ -158,6 +158,10 @@ namespace OfficeOpenXml
             ColumnFormat[0].Position = firstPosition;
             for (int i = 0; i < positions.Length; i++)
             {
+                if (positions[i] < ColumnFormat[i].Position)
+                {
+                    throw new ArgumentException("Positions value at " + i + " was lower that previous value " + ColumnFormat[i].Position);
+                }
                 ColumnFormat[i+1].Position = positions[i];
             }
             if(lineLength > 0 && lineLength > ColumnFormat[ColumnFormat.Count - 1].Position)

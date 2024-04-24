@@ -21,7 +21,7 @@ namespace OfficeOpenXml.LoadFunctions
     internal class LoadFromFixedWidthText : LoadFromTextBase<ExcelTextFormatFixedWidth>
     {
 
-        public LoadFromFixedWidthText(ExcelRangeBase range, string text, ExcelTextFormatFixedWidth Format) 
+        public LoadFromFixedWidthText(ExcelRangeBase range, string text, ExcelTextFormatFixedWidth Format)
             : base(range, text, Format)
         {
         }
@@ -128,7 +128,7 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 lineNo++;
             }
-            if(_format.Transpose)
+            if (_format.Transpose)
             {
                 return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + maxCol - 1, _range._fromCol + row - 1];
             }
@@ -153,7 +153,7 @@ namespace OfficeOpenXml.LoadFunctions
                     col++;
                 }
             }
-            if(columnNames.Count > 0)
+            if (columnNames.Count > 0)
             {
                 _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, columnNames);
                 if (col > maxCol) maxCol = col;
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         continue;
                     }
-                    if(line.Length < _format.LineLength && _format.ForceRead == false)
+                    if (line.Length < _format.LineLength && _format.ForceRead == false)
                     {
                         continue;
                     }
@@ -182,7 +182,7 @@ namespace OfficeOpenXml.LoadFunctions
                     col = 0;
                     for (int i = 0; i < _format.ColumnFormat.Count; i++)
                     {
-                        if(line.Length < _format.ColumnFormat[i].Position)
+                        if (line.Length < _format.ColumnFormat[i].Position)
                         {
                             continue;
                         }
@@ -196,16 +196,16 @@ namespace OfficeOpenXml.LoadFunctions
                             else
                             {
                                 content = line.Substring(_format.ColumnFormat[i].Position);
-                            }                            
+                            }
                         }
                         else
                         {
                             var readLength = _format.ColumnFormat[i + 1].Position - _format.ColumnFormat[i].Position;
-                            if((readLength > _format.ColumnFormat[i].Position && _format.ForceRead))
+                            if ((readLength > _format.ColumnFormat[i].Position && _format.ForceRead))
                             {
                                 content = line.Substring(_format.ColumnFormat[i].Position);
                             }
-                            else 
+                            else
                             {
                                 content = line.Substring(_format.ColumnFormat[i].Position, readLength);
                             }
@@ -217,7 +217,7 @@ namespace OfficeOpenXml.LoadFunctions
                             col++;
                         }
                     }
-                    if(_format.Transpose)
+                    if (_format.Transpose)
                     {
                         _worksheet._values.SetValueRow_ValueTranspose(_range._fromRow, _range._fromCol + row, items);
                     }
