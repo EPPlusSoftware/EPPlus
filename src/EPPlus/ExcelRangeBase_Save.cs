@@ -278,25 +278,30 @@ namespace OfficeOpenXml
                 {
                     if (Format.ColumnFormat[ix].UseColumn)
                     {
-                        string t = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
+                        string text = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
                         var padding = 0;
                         if (Format.ReadType == FixedWidthReadType.Length)
                         {
-                            padding = Format.ColumnFormat[ix].Length - t.Length;
+                            padding = Format.ColumnFormat[ix].Length - text.Length;
                         }
                         else if (Format.ReadType == FixedWidthReadType.Positions)
                         {
                             if (ix+1 < Format.ColumnFormat.Count)
                             {
-                                padding = (Format.ColumnFormat[ix + 1].Position - Format.ColumnFormat[ix].Position) - t.Length;
+                                padding = (Format.ColumnFormat[ix + 1].Position - Format.ColumnFormat[ix].Position) - text.Length;
+                            }
+                            else if (Format.ColumnFormat[ix].Length > 0)
+                            {
+                                padding = Format.ColumnFormat[ix].Length - text.Length;
                             }
                         }
                         if (padding > 0)
                         {
                             PaddingAlignmentType pat = Format.ColumnFormat[ix].PaddingType;
+                            bool numericPadding = double.TryParse(text, NumberStyles.Any, Format.Culture, out double result);
                             if (Format.ColumnFormat[ix].PaddingType == PaddingAlignmentType.Auto)
                             {
-                                if (double.TryParse(t, NumberStyles.Any, Format.Culture, out double result) || t.EndsWith("%"))
+                                if ( numericPadding || text.EndsWith("%"))
                                 {
                                     pat = PaddingAlignmentType.Right;
                                 }
@@ -309,11 +314,25 @@ namespace OfficeOpenXml
                             {
                                 if (pat == PaddingAlignmentType.Left)
                                 {
-                                    t += Format.PaddingCharacter;
+                                    if (numericPadding && Format.PaddingCharacterNumeric != null)
+                                    {
+                                        text += Format.PaddingCharacterNumeric;
+                                    }
+                                    else
+                                    {
+                                        text += Format.PaddingCharacter;
+                                    }
                                 }
                                 else if (pat == PaddingAlignmentType.Right)
                                 {
-                                    t = Format.PaddingCharacter + t;
+                                    if (numericPadding && Format.PaddingCharacterNumeric != null)
+                                    {
+                                        text = Format.PaddingCharacterNumeric + text;
+                                    }
+                                    else
+                                    {
+                                        text = Format.PaddingCharacter + text;
+                                    }
                                 }
                             }
                         }
@@ -323,30 +342,30 @@ namespace OfficeOpenXml
                             {
                                 if (Format.ReadType == FixedWidthReadType.Length)
                                 {
-                                    t = t.Substring(0, Format.ColumnFormat[ix].Length);
+                                    text = text.Substring(0, Format.ColumnFormat[ix].Length);
                                 }
                                 else if (Format.ReadType == FixedWidthReadType.Positions)
                                 {
                                     if(Format.ColumnFormat[ix].Length > 0)
                                     {
-                                        t = t.Substring(0, Format.ColumnFormat[ix].Length);
+                                        text = text.Substring(0, Format.ColumnFormat[ix].Length);
                                     }
                                     else
                                     {
-                                        t = t.Substring(0);
+                                        text = text.Substring(0);
                                     }
                                 }
                             }
                             else
                             {
-                                throw new FormatException("String was " + t.Length + ", Expected length of " + Format.ColumnFormat[ix].Length);
+                                throw new FormatException("String was " + text.Length + ", Expected length of " + Format.ColumnFormat[ix].Length);
                             }
                         }
                         if (Format.ReadType == FixedWidthReadType.Positions && Format.ForceWrite)
                         {
                             fc = fc.Substring(0, Format.ColumnFormat[ix].Position);
                         }
-                        fc += t;
+                        fc += text;
                     }
                     ix++;
                 }

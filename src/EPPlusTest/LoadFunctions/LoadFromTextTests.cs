@@ -193,7 +193,7 @@ namespace EPPlusTest.LoadFunctions
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
-            _formatFixed.SetColumns(FixedWidthReadType.Length, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.SetColumns(FixedWidthReadType.Length,0,0, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
@@ -208,7 +208,7 @@ namespace EPPlusTest.LoadFunctions
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
-            _formatFixed.SetColumns(FixedWidthReadType.Length, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.SetColumns(FixedWidthReadType.Length,0,0, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
             _formatFixed.ColumnFormat[0].DataType = eDataTypes.Number;
             _formatFixed.ColumnFormat[1].DataType = eDataTypes.Number;
             _formatFixed.ColumnFormat[2].DataType = eDataTypes.DateTime;
@@ -236,7 +236,7 @@ namespace EPPlusTest.LoadFunctions
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
-            _formatFixed.SetColumns(FixedWidthReadType.Length, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.SetColumns(FixedWidthReadType.Length,0,0, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
@@ -247,7 +247,7 @@ namespace EPPlusTest.LoadFunctions
         public void ShouldReturnRangeFixedWidth()
         {
             AddLine("Entry   Per. Post Date  GL Account   Description                     Srce. Cflow Ref.      Post               Debit              Credit  Alloc.");
-            _formatFixed.SetColumns(FixedWidthReadType.Length, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.SetColumns(FixedWidthReadType.Length,0,0, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
             var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
             Assert.AreEqual("Alloc.", _worksheet.Cells["L1"].Value);
             Assert.AreEqual("A1:L1", r.FirstAddress);
@@ -263,7 +263,7 @@ namespace EPPlusTest.LoadFunctions
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _formatFixed.SkipLinesBeginning = 2;
             _formatFixed.SkipLinesEnd = 1;
-            _formatFixed.SetColumns(FixedWidthReadType.Length, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.SetColumns(FixedWidthReadType.Length,0,0, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
             Assert.AreEqual(191675d, _worksheet.Cells["A1"].Value);
@@ -278,7 +278,7 @@ namespace EPPlusTest.LoadFunctions
             AddLine(" 16524  01   10/17/2012 3930621977   TXNPUES                         S1    Yes   RHMXWPCP  Yes                                 5,007.10  No    ");
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
-            _formatFixed.SetColumns(FixedWidthReadType.Length, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
+            _formatFixed.SetColumns(FixedWidthReadType.Length,0,0, 8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
             _formatFixed.ColumnFormat[0].UseColumn = false;
             _formatFixed.ColumnFormat[1].UseColumn = false;
             _formatFixed.ColumnFormat[2].UseColumn = true;
@@ -306,8 +306,8 @@ namespace EPPlusTest.LoadFunctions
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _formatFixed.ReadType = FixedWidthReadType.Positions;
-            int[] arr = { 0, 8, 13, 24, 37, 69, 75, 81, 91, 95, 115, 135 };
-            _formatFixed.SetColumns(FixedWidthReadType.Positions, arr );
+            int[] arr = { 8, 13, 24, 37, 69, 75, 81, 91, 95, 115, 135 };
+            _formatFixed.SetColumns(FixedWidthReadType.Positions,0, 0, arr );
             _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
@@ -317,15 +317,15 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ReadFileFromDiskAndSaveAsXLSXFixedWidth()
         {
-            string myFile = File.ReadAllText("C:\\Users\\AdrianParnéus\\Documents\\Test\\FixedWidth.txt");
-            FileInfo myFileInfo = new FileInfo("C:\\Users\\AdrianParnéus\\Documents\\Test\\FixedWidth.txt");
+            string myFile = File.ReadAllText("C:\\epplusTest\\Workbooks\\FixedWidth.txt");
+            FileInfo myFileInfo = new FileInfo("C:\\epplusTest\\Workbooks\\FixedWidth.txt");
             using (var p = OpenTemplatePackage("Fixed.xlsx"))
             {
                 //Read length
                 var ws = p.Workbook.Worksheets.Add("WIDTH");
                 ExcelTextFormatFixedWidth fw = new ExcelTextFormatFixedWidth();
                 int[] arr = { 8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8 };
-                fw.SetColumns(FixedWidthReadType.Length, arr);
+                fw.SetColumns(FixedWidthReadType.Length,0,0, arr);
                 fw.SkipLinesBeginning = 1;
                 fw.ShouldUseRow = row =>
                 {
@@ -382,8 +382,8 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ReadFileFromDiskAndSaveAsXLSXFixedWidth2()
         {
-            string myFile = File.ReadAllText("C:\\Users\\AdrianParnéus\\Documents\\Test\\FW2.txt");
-            FileInfo myFileInfo = new FileInfo("C:\\Users\\AdrianParnéus\\Documents\\Test\\FW2.txt");
+            string myFile = File.ReadAllText("C:\\epplusTest\\Workbooks\\FW2.txt");
+            FileInfo myFileInfo = new FileInfo("C:\\epplusTest\\Workbooks\\FW2.txt");
             using (var p = OpenTemplatePackage("Fixed2.xlsx"))
             {
                 //Read length
@@ -392,7 +392,7 @@ namespace EPPlusTest.LoadFunctions
                 fw.SkipLinesBeginning = 36;
                 fw.SkipLinesEnd = 6;
                 int[] arr = { 0, 16, 32, 43, 55, 62 };
-                fw.SetColumns(FixedWidthReadType.Positions, arr);
+                fw.SetColumns(FixedWidthReadType.Positions,0,0, arr);
                 fw.SetColumnsNames("Name", "Position", "Prot", "Entry_Name", "Code", "Description");
                 ws.Cells["A1"].LoadFromText(myFileInfo, fw, TableStyles.Dark10, true);
                 p.Save();
@@ -417,7 +417,7 @@ namespace EPPlusTest.LoadFunctions
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
-                format.SetColumnPositions(0, 16, 26, 42, 50);
+                format.SetColumnPositions(0,0, 16, 26, 42, 50);
                 format.ReadType = FixedWidthReadType.Positions;
                 format.SetColumnLengths(16, 10, 16, 8, 2);
                 format.SetColumnPaddingAlignmentType(PaddingAlignmentType.Left, PaddingAlignmentType.Auto, PaddingAlignmentType.Right, PaddingAlignmentType.Right, PaddingAlignmentType.Auto);
@@ -448,7 +448,7 @@ namespace EPPlusTest.LoadFunctions
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
-                format.SetColumnPositions(0, 16, 26, 42, 50);
+                format.SetColumnPositions(0,0, 16, 26, 42, 50);
                 format.ReadType = FixedWidthReadType.Positions;
                 format.SetColumnLengths(16, 10, 16, 8, 2);
                 format.Transpose = true;

@@ -180,7 +180,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B1"].Value = 2;
             _sheet.Cells["C1"].Value = "51%";
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 5, 3, 5);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 5, 3, 5);
             var text = _sheet.Cells["A1:C1"].ToText(format);
             Assert.AreEqual("Value  2  51%" + format.EOL, text);
         }
@@ -191,7 +191,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A1"].Value = 1;
             _sheet.Cells["B1"].Value = 2;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4);
             format.ColumnFormat[0].PaddingType = PaddingAlignmentType.Left;
             format.ColumnFormat[1].PaddingType = PaddingAlignmentType.Left;
             var text = _sheet.Cells["A1:B1"].ToText(format);
@@ -204,7 +204,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A1"].Value = 1;
             _sheet.Cells["B1"].Value = 2;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4);
             format.ColumnFormat[0].PaddingType = PaddingAlignmentType.Right;
             format.ColumnFormat[1].PaddingType = PaddingAlignmentType.Right;
             var text = _sheet.Cells["A1:B1"].ToText(format);
@@ -226,7 +226,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B3"].Value = 8;
             _sheet.Cells["C3"].Value = 10;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4, 3 );
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4, 3 );
             format.ShouldUseRow = row =>
             {
                 if (row.Contains("5"))
@@ -254,7 +254,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B3"].Value = 8;
             _sheet.Cells["C3"].Value = 10;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4, 3);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4, 3);
             format.ColumnFormat[0].UseColumn = true;
             format.ColumnFormat[0].PaddingType = PaddingAlignmentType.Left;
             format.ColumnFormat[1].UseColumn = false;
@@ -273,7 +273,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A2"].Value = 4;
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4);
             format.ExcludeHeader = true;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  4   5" + format.EOL, text);
@@ -288,7 +288,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A2"].Value = "this will throw an exception";
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4);
             var text = _sheet.Cells["A1:B2"].ToText(format);
         }
 
@@ -300,7 +300,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A2"].Value = "this will not throw an exception";
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4);
             format.ForceWrite = true;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  1   2" + format.EOL + "thi   5" + format.EOL, text);
@@ -314,7 +314,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A2"].Value = "this will not throw an exception";
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Positions, 0, 3);
+            format.SetColumns(FixedWidthReadType.Positions,0, 0, 3);
             format.ForceWrite = true;
             format.ReadType = FixedWidthReadType.Positions;
             var text = _sheet.Cells["A1:B2"].ToText(format);
@@ -329,7 +329,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A2"].Value = 4;
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumns(FixedWidthReadType.Length, 3, 4);
+            format.SetColumns(FixedWidthReadType.Length,0,0, 3, 4);
             format.SkipLinesBeginning = 1;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  4   5" + format.EOL, text);
@@ -342,17 +342,17 @@ namespace EPPlusTest.SaveFunctions
             {
                 var ws = p.Workbook.Worksheets["TEST"];
                 ExcelOutputTextFormatFixedWidth fw = new ExcelOutputTextFormatFixedWidth();
-                int[] arr =                     { 0,                        16,                        32,                        43,                        55,                        62 };
-                fw.SetColumnsNames              ("Name",                    "Position",                "Prot",                    "Entry_Name",              "Code",                    "Description");
+                int[] arr = { 16, 32, 43, 55, 62 };
+                fw.SetColumnsNames("Name", "Position", "Prot", "Entry_Name", "Code", "Description");
                 fw.SetColumnPaddingAlignmentType(PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Left, PaddingAlignmentType.Auto);
-                fw.SetColumns(FixedWidthReadType.Positions, arr);
+                fw.SetColumns(FixedWidthReadType.Positions, 80, 0, arr);
+                fw.ForceWrite = true;
                 var text = ws.Cells["A1:F2073"].ToText(fw);
-                using (StreamWriter outputFile = new StreamWriter("C:\\Users\\AdrianParnéus\\Documents\\Test\\NewFW2.txt"))
+                using (StreamWriter outputFile = new StreamWriter("C:\\epplusTest\\Testoutput\\NewFW2.txt"))
                 {
-                        outputFile.WriteLine(text);
+                    outputFile.WriteLine(text);
                 }
             }
-
         }
     }
 }

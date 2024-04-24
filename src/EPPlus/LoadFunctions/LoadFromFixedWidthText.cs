@@ -182,12 +182,11 @@ namespace OfficeOpenXml.LoadFunctions
                     col = 0;
                     for (int i = 0; i < _format.ColumnFormat.Count; i++)
                     {
-
-                        string content;
                         if(line.Length < _format.ColumnFormat[i].Position)
                         {
                             continue;
                         }
+                        string content;
                         if (i == _format.ColumnFormat.Count - 1)
                         {
                             if (_format.ColumnFormat[i].Length > 0)
@@ -202,7 +201,7 @@ namespace OfficeOpenXml.LoadFunctions
                         else
                         {
                             var readLength = _format.ColumnFormat[i + 1].Position - _format.ColumnFormat[i].Position;
-                            if(readLength > _format.ColumnFormat[i].Position && _format.ForceRead)
+                            if((readLength > _format.ColumnFormat[i].Position && _format.ForceRead))
                             {
                                 content = line.Substring(_format.ColumnFormat[i].Position);
                             }
