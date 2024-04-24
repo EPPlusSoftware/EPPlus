@@ -417,12 +417,11 @@ namespace EPPlusTest.LoadFunctions
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
-                format.SetColumnPositions(0,0, 16, 26, 42, 50);
+                format.SetColumnPositions(52,0, 16, 26, 42, 50);
                 format.ReadType = FixedWidthReadType.Positions;
-                format.SetColumnLengths(16, 10, 16, 8, 2);
                 format.SetColumnPaddingAlignmentType(PaddingAlignmentType.Left, PaddingAlignmentType.Auto, PaddingAlignmentType.Right, PaddingAlignmentType.Right, PaddingAlignmentType.Auto);
                 format.SetColumnDataTypes(eDataTypes.String, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.Percent, eDataTypes.String);
-                ws.Cells["A1"].LoadFromText(myFile, format);
+                var range = ws.Cells["A1"].LoadFromText(myFile, format);
                 
                 Assert.AreEqual("David", ws.Cells["A2"].Value);
                 Assert.AreEqual("C", ws.Cells["E6"].Value);

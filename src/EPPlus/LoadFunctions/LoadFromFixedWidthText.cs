@@ -173,7 +173,7 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         continue;
                     }
-                    if(line.Length <= _format.LineLength && _format.ForceRead == false)
+                    if(line.Length < _format.LineLength && _format.ForceRead == false)
                     {
                         continue;
                     }
