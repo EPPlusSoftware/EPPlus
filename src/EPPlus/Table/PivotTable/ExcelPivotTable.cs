@@ -427,9 +427,10 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (Keys[dfIx].TryGetValue(key, out HashSet<int[]> uniqueItems))
                 {
-                    if (uniqueItems.Count == 1)
+                    if (GetMatchingCount(uniqueItems, key, dataField.Field.PivotTable.RowFields.Count, out int[] newKey) == 1)
                     {
-                        key = PivotTableCalculation.GetKeyWithParentLevel(key, uniqueItems.First(), dataField.Field.PivotTable.RowFields.Count);
+                        //key = PivotTableCalculation.GetKeyWithParentLevel(key, newKey, dataField.Field.PivotTable.RowFields.Count);
+                        key = newKey;
                     }
                     else
                     {
@@ -438,7 +439,23 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else
                 {
-                    return ErrorValues.RefError;
+                    var sumKey = GetSumKey(key);
+                    if (Keys[dfIx].TryGetValue(sumKey, out uniqueItems))
+                    {
+                        if (GetMatchingCount(uniqueItems, key, dataField.Field.PivotTable.RowFields.Count, out int[] newKey) == 1)
+                        {
+                            //key = PivotTableCalculation.GetKeyWithParentLevel(key, newKey, dataField.Field.PivotTable.RowFields.Count);
+                            key = newKey;
+                        }
+                        else
+                        {
+                            return ErrorValues.RefError;
+                        }
+                    }
+                    else
+                    {
+                        return ErrorValues.RefError;
+                    }
                 }
             }
 
@@ -469,6 +486,82 @@ namespace OfficeOpenXml.Table.PivotTable
 			}
 			return ErrorValues.RefError;
 		}
+
+        private int GetMatchingCount(HashSet<int[]> uniqueItems, int[] key, int colStartIx, out int[] newKey)
+        {
+            var count = 0;
+            newKey = default;
+            foreach (var uniqueKey in uniqueItems)
+            {
+                var equal = true;
+                for (int i = 0; i < key.Length; i++)
+                {
+                    if (key[i] != PivotCalculationStore.SumLevelValue && uniqueKey[i] != key[i])
+                    {
+                        equal = false;
+                        break;
+                    }
+                }
+                if (equal)
+                {
+                    newKey = (int[])key.Clone();
+                    if (PivotKeyUtil.IsRowGrandTotal(key, colStartIx) == false)
+                    {
+                        var isSum = false;
+                        for (int i = 0; i < colStartIx; i++)
+                        {
+                            if (newKey[i] == PivotCalculationStore.SumLevelValue)
+                            {
+                                newKey[i] = uniqueKey[i];
+                                isSum = true;
+                            }
+                            else
+                            {
+                                if(isSum) break;
+                            }
+                        }
+                    }
+                    if (PivotKeyUtil.IsColumnGrandTotal(key, colStartIx) == false)
+                    {
+                        var isSum = false;
+                        for (int i = colStartIx; i < key.Length; i++)
+                        {
+                            if (newKey[i] == PivotCalculationStore.SumLevelValue)
+                            {
+                                newKey[i] = uniqueKey[i];
+                                isSum = true;
+                            }
+                            else
+                            {
+                                if (isSum) break;
+                            }
+                        }
+                    }
+                    if (count == 1) return 2;
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        private int[] GetSumKey(int[] key)
+        {
+            var newKey = (int[])key.Clone();
+            var hasSumKey = false;
+            for (int i = 0;i < key.Length;i++)
+            {
+                if (newKey[i] == PivotCalculationStore.SumLevelValue)
+                {
+                    hasSumKey = true;
+                }
+                if(hasSumKey==true && key[i] != PivotCalculationStore.SumLevelValue)
+                {
+                    newKey[i] = PivotCalculationStore.SumLevelValue;
+                }
+            }
+            return newKey;
+        }
+
         /// <summary>
         /// Access to the calculated data when the pivot table has been calculated.
         /// <seealso cref="Calculate(bool)"/>
@@ -500,7 +593,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (key[i] == PivotCalculationStore.SumLevelValue)
                 {
-                    if (isParentFunctionNone && isCollapsed==false && Keys[DataFields.IndexOf(datafield)][key].Count > 1)
+                    if (isParentFunctionNone && isCollapsed==false && Keys[DataFields.IndexOf(datafield)].ContainsKey(key) && Keys[DataFields.IndexOf(datafield)][key].Count > 1)
                     {
                         return true;
                     }

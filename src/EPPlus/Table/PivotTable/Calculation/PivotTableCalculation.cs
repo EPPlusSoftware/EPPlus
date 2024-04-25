@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Table.PivotTable
 				keys.Add(keyDict);
 				if (string.IsNullOrEmpty(df.Field.Cache.Formula))
 				{
-					CalculateField(pivotTable, calculatedItems[calculatedItems.Count-1], keys, df.Field.Cache, df.Function);
+					CalculateField(pivotTable, calculatedItems[calculatedItems.Count - 1], keys, df.Field.Cache, df.Function);
 
 					if (df.ShowDataAs.Value != eShowDataAs.Normal)
 					{

@@ -99,5 +99,28 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 
 			return false;
 		}
-	}
+		internal static bool IsRowGrandTotal(int[] key, int colFieldStart)
+		{
+			for(int i = 0; i < colFieldStart; i++)
+			{
+				if (key[i]!=PivotCalculationStore.SumLevelValue)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+        internal static bool IsColumnGrandTotal(int[] key, int colFieldStart)
+        {
+            for (int i = colFieldStart; i < key.Length; i++)
+            {
+                if (key[i] != PivotCalculationStore.SumLevelValue)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+    }
 }

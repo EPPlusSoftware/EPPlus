@@ -36,15 +36,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             if (arguments.Count == 2 && arguments[1].IsExcelRangeOrSingleCell==false)
             {
-                return GetCriteriasTokenizedString(arguments);
+                //String syntax including a row/column function.
+                return GetCriteriasFromString(arguments);
             }
             else
             {
-                return GetCriteriasArguments(arguments);
+                //Normal syntax
+                return GetCriteriasFromArguments(arguments);
             }
         }
 
-        private CompileResult GetCriteriasTokenizedString(IList<FunctionArgument> arguments)
+        /// <summary>
+        /// Gets the Criterias for the row/column field from the normal argument syntax 
+        /// </summary>
+        /// <param name="arguments">The arguments to the GetPivotData</param>
+        /// <returns>The compiled result</returns>
+        private CompileResult GetCriteriasFromString(IList<FunctionArgument> arguments)
         {
             var address = arguments[0].ValueAsRangeInfo;
             if (address == null)
@@ -205,7 +212,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return true;
         }
 
-        private CompileResult GetCriteriasArguments(IList<FunctionArgument> arguments)
+        /// <summary>
+        /// Gets the Criterias a string. This syntax is used when a row/column field has its own subtotals. 
+        /// In this case the first parameter is the address to the pivot table and the second parameter is a string containing all information regarding criteria and which function is used.
+        /// Syntax 'Field Name'['Field Value',Function]. If the value is not the first row/column field values are space separated before and after. Example =GETPIVOTDATA($B$2;"Australia Sindey 'Years (InvoiceDate)'['2022',Count] '9232'") .
+        /// </summary>
+        /// <param name="arguments">The arguments to the GetPivotData</param>
+        /// <returns>The compiled result</returns>
+        private CompileResult GetCriteriasFromArguments(IList<FunctionArgument> arguments)
         {
             var address = arguments[1].ValueAsRangeInfo;
             if (address == null)
