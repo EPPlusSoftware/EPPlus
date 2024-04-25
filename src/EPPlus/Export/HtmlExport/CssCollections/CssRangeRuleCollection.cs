@@ -28,6 +28,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
@@ -218,6 +219,106 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
         }
 
+        internal void AddSharedDatabarRule(ExcelConditionalFormattingDataBar dataBar)
+        {
+            if(_context.SharedDatabarRulesAdded == false)
+            {
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-db-shared", "position", "relative");
+                var sharedRule = _ruleCollection.Last();
+                sharedRule.AddDeclaration("position", "relative");
+                sharedRule.AddDeclaration("overflow", "hidden");
+                sharedRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{DatabarSvg.GetConvertedAxisStripes()})");
+                sharedRule.AddDeclaration("background-size", "5% 10%");
+                sharedRule.AddDeclaration("background-repeat", "repeat-y");
+                sharedRule.AddDeclaration("background-position", "-10% 0%");
+
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-db-shared::after", "content", "\"\"");
+                var sharedRuleAfter = _ruleCollection.Last();
+                sharedRule.AddDeclaration("position", "absolute");
+                sharedRule.AddDeclaration("width", "98%");
+                sharedRule.AddDeclaration("height", "90%");
+                sharedRule.AddDeclaration("z-index", "-1");
+                sharedRule.AddDeclaration("top", "5%");
+                sharedRule.AddDeclaration("background", "0 0 no-repeat");
+                sharedRule.AddDeclaration("background-size", "100% 100%");
+
+                _context.SharedDatabarRulesAdded = true;
+            }
+        }
+
+        internal void AddDatabar(ExcelConditionalFormattingDataBar dataBar, int cssOrder, int id)
+        {
+            if (_context.SharedDatabarRulesAdded == false)
+            {
+                AddSharedDatabarRule(dataBar);
+            }
+            //DatabarSvg.GetConvertedAxisStripes();
+
+            //TODO: Should cache and only create one of them if identical
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-{id}-";
+            var positiveDatabarRule = new CssRule(ruleName + "pos::after", cssOrder);
+            var negativeDatabarRule = new CssRule(ruleName + "neg::after", cssOrder);
+
+            var positiveDatabarSVG = DatabarSvg.GetConvertedDatabarString(dataBar.FillColor.GetColorAsColor(), dataBar.Gradient, dataBar.BorderColor.GetColorAsColor());
+            var negativeDatabarSVG = DatabarSvg.GetConvertedDatabarString(dataBar.NegativeFillColor.GetColorAsColor(), dataBar.Gradient, dataBar.NegativeBorderColor.GetColorAsColor());
+
+            positiveDatabarRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{positiveDatabarSVG})");
+            negativeDatabarRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{negativeDatabarSVG})");
+
+            if (dataBar.AxisPosition != eExcelDatabarAxisPosition.None)
+            {
+                double axisPercent;
+                if (dataBar.AxisPosition == eExcelDatabarAxisPosition.Automatic)
+                {
+                    var absLowest = Math.Abs(dataBar.lowest);
+                    var absHighest = Math.Abs(dataBar.highest);
+
+                    axisPercent = dataBar.lowest < 0 && dataBar.highest > 0 ? Math.Abs(dataBar.lowest) / Math.Abs(dataBar.highest) : 0;
+                    axisPercent *= 100;
+                    //double leftWidthPercentage;
+
+                    //if (axisPercent > 1)
+                    //{
+                    //    leftWidthPercentage = 1 - (1 / axisPercent);
+                    //    //leftWidthPercentage = (0.5 + (0.5 / axisPercent)) * 100;
+                    //}
+                    //else
+                    //{
+                    //    leftWidthPercentage = axisPercent;
+                    //    //leftWidthPercentage = (axisPercent * 0.5) * 100;
+                    //}
+
+                    //leftWidthPercentage *= 100;
+
+                }
+                else
+                {
+                    //is middle
+                    axisPercent = 50;
+                }
+
+                _ruleCollection.AddRule($"{ruleName + "pos"}, {ruleName + "neg"}", "background-position", $"{axisPercent}% 0%");
+
+                positiveDatabarRule.AddDeclaration("width", $"{100 - axisPercent}%");
+                positiveDatabarRule.AddDeclaration("left", $"{axisPercent}%");
+
+                negativeDatabarRule.AddDeclaration("width", $"{axisPercent - 1}%");
+                negativeDatabarRule.AddDeclaration("right", $"{100 - axisPercent + 0.5}");
+                negativeDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
+            }
+
+            _ruleCollection.CssRules.Add(positiveDatabarRule);
+            _ruleCollection.CssRules.Add(negativeDatabarRule);
+
+            for (int i = 0; i < dataBar.Address.Addresses.Count; i++) 
+            {
+                var className = dataBar.GetDataBarCssClasses(dataBar.Address.Addresses[i], ruleName, out double percentage);
+                var databarRule = new CssRule(className, cssOrder);
+                databarRule.AddDeclaration("background-size", $"{percentage} 100%");
+                _ruleCollection.CssRules.Add(databarRule);
+            }
+        }
+
         internal void AddAdvancedCF<T>(ExcelConditionalFormattingIconSetBase<T> set, int cssOrder, int id)
             where T : struct, Enum
         {
@@ -242,14 +343,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             if (set.Custom)
             {
                 svgs = CF_Icons.GetIconSetSvgsWithCustoms(set.GetIconSetString(), set.GetIconArray());
-
-                //for(int i = 0; i < arr.Length;)
-                //{
-                //    if (arr[i].CustomIcon != null)
-                //    {
-                //        svgs[i] = CF_Icons.GetIconSvg(arr[i].CustomIcon.Value);
-                //    }
-                //}
             }
             else
             {

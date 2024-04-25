@@ -29,6 +29,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using System.Data;
+using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -222,6 +224,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.ThreeColorScale:
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
+                            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId);
+                            var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
+
+                            if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
+                            {
+                                cssTranslator.AddDatabar((ExcelConditionalFormattingDataBar)cf.Value, OrderDefaultDxf + cf.Value.Priority, cfId);
+                                _addedToCssDxf.Add(cfId);
+                            }
                             break;
                         case eExcelConditionalFormattingRuleType.ThreeIconSet:
                             AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cf.Value, cssTranslator);

@@ -35,6 +35,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         private TranslatorBase strategy;
 
         internal bool SharedIconSetRuleAdded = false;
+        internal bool SharedDatabarRulesAdded = false;
+
 
         public TranslatorContext(HtmlRangeExportSettings settings) 
         {

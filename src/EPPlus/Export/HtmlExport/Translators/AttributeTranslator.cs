@@ -16,6 +16,8 @@ using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -23,6 +25,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Runtime;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
 {
@@ -161,6 +165,25 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 cls += AddIconClasses(dxfId, iconIdFive, prefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
+                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                cls += $"{prefix}-{settings.ConditionalFormattingClassName}-db-shared";
+                                //var dbar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
+
+                                var ruleName = $"{prefix}-{settings.ConditionalFormattingClassName}-{dxfId}-";
+                                var realValue = Convert.ToDouble(cell.Value);
+
+                                //Color borderColor;
+                                if (realValue > 0)
+                                {
+                                    cls += ruleName + "pos::after";
+                                    cls += ruleName + cell.Address + "-pos::after";
+                                }
+                                else
+                                {
+                                    cls += ruleName + "neg::after";
+                                    cls += ruleName + cell.Address + "-neg::after";
+                                }
+
                                 break;
                             default:
                                 dxfKey = cfItems[i].Value.Style.Id;

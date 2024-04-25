@@ -111,10 +111,15 @@ namespace OfficeOpenXml.Export.HtmlExport
 		/// </summary>
 		public string DxfStyleClassName { get; set; } = "dxf";
 
-		/// <summary>
-		/// If picture drawings will be included. Default is true.
-		/// </summary>
-		public HtmlPictureSettings Pictures
+        /// <summary>
+        /// The name of the classes used for cell styles. 
+        /// The name will be prefixed with the <see cref="DxfStyleClassName"/> and suffixed with the conditional formatting style index.
+        /// </summary>
+        public string ConditionalFormattingClassName { get; set; } = "cf";
+        /// <summary>
+        /// If picture drawings will be included. Default is true.
+        /// </summary>
+        public HtmlPictureSettings Pictures
         {
             get;
         } = new HtmlPictureSettings();

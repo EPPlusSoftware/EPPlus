@@ -12,21 +12,18 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System.Drawing;
-using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using System.Globalization;
-using System;
-using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using System.Collections.Generic;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Utils.Extensions;
+using System;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.ConditionalFormatting.Rules;
+using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -49,7 +46,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         RightToLeft = 2
     }
 
-    internal class ExcelConditionalFormattingDataBar : CachingCF,
+    internal class ExcelConditionalFormattingDataBar : CachingCFAdvanced,
             IExcelConditionalFormattingDataBarGroup
     {
         internal ExcelConditionalFormattingDataBar(
@@ -331,7 +328,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
-        internal virtual string ApplyStyleOverride(ExcelAddress address)
+        double averageValueRange = -1;
+
+        internal string GetDataBarCssClasses(ExcelAddressBase address, string baseName, out double percentage)
         {
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
@@ -339,54 +338,45 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (cellValue.IsNumeric() && color != Color.Empty)
             {
-                //var cellValues = new List<object>();
-                //double average = 0;
-                //int count = 0;
-                //foreach (var cell in Address.GetAllAddresses())
-                //{
-                //    for (int i = 1; i <= cell.Rows; i++)
-                //    {
-                //        for (int j = 1; j <= cell.Columns; j++)
-                //        {
-                //            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                //            average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                //            count++;
-                //        }
-                //    }
-                //}
 
-                //average = average / count;
+                if (cellValueCache.Count == 0)
+                {
+                    UpdateCellValueCache(false, true);
 
-                //var values = cellValues.OrderBy(n => n);
+                    //var avgFormula = $"AVERAGE({Address})";
 
-                //var highest = Convert.ToDouble(values.Last());
-                //var lowest = Convert.ToDouble(values.First());
+                    //var avgResult = _ws.Workbook.FormulaParserManager.Parse(avgFormula, address.FullAddress, false).ToString();
+
+                    //averageValueRange = double.TryParse(avgResult, out double avgDouble) ? avgDouble : -1;
+                }
 
                 var realValue = Convert.ToDouble(cellValue);
 
-                string ret = "";
-                string borderAdd = "";
-                var percentage = 0.0d;
-                Color borderColor = Color.Empty;
-
+                string styleOverrideString;
+                //Color borderColor;
                 if (realValue > 0)
                 {
                     percentage = realValue / highest;
-                    borderColor = BorderColor.GetColorAsColor();
+                    //borderColor = BorderColor.GetColorAsColor();
+                    styleOverrideString = (baseName + address.AddressSpaceSeparated + "-pos::after");
                 }
                 else
                 {
                     percentage = realValue / lowest;
-                    borderColor = NegativeBorderColor.GetColorAsColor();
+                    //borderColor = NegativeBorderColor.GetColorAsColor();
+                    styleOverrideString = (baseName + address.AddressSpaceSeparated + "-neg::after");
                 }
                 double added = percentage == 0.0d ? 0 : 1.5;
-                borderAdd = borderColor == Color.Empty ? "" : $", {((percentage * 98) + added).ToString(CultureInfo.InvariantCulture)}% 95%";
 
-                ret += $"background-size: {(percentage * 98).ToString(CultureInfo.InvariantCulture)}% 90%";
-                ret += borderAdd + ";";
+                //baseName += address.Address;
+                //string borderAdd = borderColor == Color.Empty ? "" : $", {((percentage * 98) + added).ToString(CultureInfo.InvariantCulture)}% 95%";
 
-                return ret;
+                //styleOverrideString += $"background-size: {(percentage * 98).ToString(CultureInfo.InvariantCulture)}% 90%";
+                //styleOverrideString += borderAdd + ";";
+
+                return styleOverrideString;
             }
+            percentage = 0.0;
             return "";
         }
 
