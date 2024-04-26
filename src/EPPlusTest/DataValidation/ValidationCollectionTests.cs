@@ -150,6 +150,44 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        public void ExcelDataValidationCollection_Clear_ShouldEmptyValidationsRDToo()
+        {
+            // Arrange
+            var v = _sheet.DataValidations.AddDateTimeValidation("A1");
+
+            // Act
+            _sheet.DataValidations.Clear();
+
+            // Assert
+            Assert.AreEqual(0, _sheet.DataValidations.Count);
+
+            var validation = _sheet.DataValidations.AddCustomValidation("A1");
+            _sheet.DataValidations.Clear();
+        }
+
+        [TestMethod]
+        public void ExcelDataValidationCollection_RemoveShouldRemoveFromRD()
+        {
+            // Arrange
+            var v = _sheet.DataValidations.AddDateTimeValidation("A1:A3");
+            var v2 = _sheet.DataValidations.AddDecimalValidation("B1:B3");
+            var v3 = _sheet.DataValidations.AddAnyValidation("A4:C4");
+
+            _sheet.DataValidations.Remove(v2);
+
+            var addresses = _sheet.DataValidations._validationsRD._addresses;
+
+            Assert.AreEqual(1, addresses[1].Count);
+
+            // Assert
+            Assert.AreEqual(0, _sheet.DataValidations.Count);
+
+            var validation = _sheet.DataValidations.AddCustomValidation("A1");
+            _sheet.DataValidations.Clear();
+        }
+
+
+        [TestMethod]
         public void ExcelDataValidationCollection_ExtLst_Clear_ShouldBeEmpty()
         {
             // Arrange

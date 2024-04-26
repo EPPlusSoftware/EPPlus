@@ -422,7 +422,7 @@ namespace OfficeOpenXml.DataValidation
             {
                 throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
             }
-
+            DeleteRangeInRangeDictionary(item.Address, false);
             var retVal = _validations.Remove((ExcelDataValidation)item);
             if (retVal) OnValidationCountChanged();
             return retVal;
@@ -443,7 +443,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public void Clear()
         {
-            foreach(var validation in  _validations)
+            foreach (var validation in _validations)
             {
                 ClearRangeDictionary(validation.Address);
             }
@@ -532,6 +532,7 @@ namespace OfficeOpenXml.DataValidation
                 {
                     throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
                 }
+                ClearRangeDictionary(m.Address);
             }
             _validations.RemoveAll(match);
         }
