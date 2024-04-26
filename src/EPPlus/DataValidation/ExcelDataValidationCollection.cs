@@ -443,6 +443,10 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public void Clear()
         {
+            foreach(var validation in  _validations)
+            {
+                ClearRangeDictionary(validation.Address);
+            }
             _validations.Clear();
         }
 
