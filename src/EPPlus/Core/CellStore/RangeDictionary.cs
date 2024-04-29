@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using System.ComponentModel.Design;
 
 namespace OfficeOpenXml.Core.CellStore
 {
@@ -256,9 +257,115 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
+
+        internal RangeItem[] SplitRangeItem(RangeItem item, int fromRow, int toRow)
+        {
+            if (ExistsInSpan(fromRow, toRow, item.RowSpan))
+            {
+                var fromRowRangeItem = (int)(item.RowSpan >> 20) + 1;
+                var toRowRangeItem = (int)(item.RowSpan & 0xFFFFF) + 1;
+
+                var endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
+                var endItem = new RangeItem(endSpan);
+                endItem.Value = item.Value;
+
+                if(fromRowRangeItem == fromRow)
+                {
+                    return [endItem];
+                }
+
+                long topSpan = ((fromRowRangeItem - 1) << 20) | (fromRow - 2);
+                var topItem = new RangeItem(topSpan);
+                topItem.Value = item.Value;
+
+                long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
+                var middleItem = new RangeItem(clearSpan);
+
+                return [topItem, endItem];
+            }
+            else 
+            {
+                throw new InvalidOperationException("Does not exist in RangeDictionary span");
+            }
+        }
+
+        internal void ClearRows(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
+        {
+            var toRow = fromRow + noRows - 1;
+            long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
+
+            long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
+            var clearedSpan = new RangeItem(clearSpan);
+
+            foreach (var c in _addresses.Keys)
+            {
+                if (c >= fromCol && c <= toCol)
+                {
+                    var rows = _addresses[c];
+
+                    List<RangeItem[]> newRangeItems = new List<RangeItem[]>();
+
+                    for(int i= 0; i < rows.Count; i++)
+                    {
+                        var newItems = SplitRangeItem(rows[i], fromRow, toRow);
+                        newRangeItems.Add(newItems);
+                    }
+
+                    rows.Clear();
+
+                    for (int i = 0; i < newRangeItems.Count; i++)
+                    {
+                        for(int j = 0; j < newRangeItems[i].Length; j++)
+                        {
+                            rows.Add(newRangeItems[i][j]);
+                        }
+                    }
+
+
+                    //var ri = new RangeItem(rowSpan);
+
+                    //var rowStartIndex = rows.BinarySearch(ri);
+                    //if (rowStartIndex < 0)
+                    //{
+                    //    rowStartIndex = ~rowStartIndex;
+                    //    if (rowStartIndex > 0) rowStartIndex--;
+                    //}
+
+                    //for (int i = rowStartIndex; i < rows.Count; i++)
+                    //{
+                    //    ri = rows[i];
+                    //    //var fromRowRangeItem = (int)(ri.RowSpan >> 20) + 1;
+                    //    //var toRowRangeItem = (int)(ri.RowSpan & 0xFFFFF) + 1;
+
+                    //    //fromRowRangeItem = Math.Max(fromRowRangeItem, toRow);
+                    //    //toRowRangeItem = Math.Max(toRowRangeItem, toRow);
+
+                    //    ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);
+                    //    rows[i] = ri;
+                    //}
+
+                    //rows.Insert(clearedSpan);
+                    //var ri = new RangeItem(clearSpan);
+
+                    //var rowStartIndex = rows.BinarySearch(ri);
+                    //if (rowStartIndex < 0)
+                    //{
+                    //    rowStartIndex = ~rowStartIndex;
+                    //    if (rowStartIndex > 0) rowStartIndex--;
+                    //}
+
+                    //var delete = (noRows << 20) | (noRows);
+
+                    //rows.Add(ri);
+                }
+            }
+        }
+
+
         internal void DeleteRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns, bool shiftRow = true)
         {
             long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
+            var toRow = fromRow + noRows - 1;
             foreach (var c in _addresses.Keys)
             {
                 if (c >= fromCol && c <= toCol)
@@ -273,25 +380,32 @@ namespace OfficeOpenXml.Core.CellStore
                     }
 
                     var delete = (noRows << 20) | (noRows);
+                    long rowSpanTest = ((fromRow - 1) << 20) | (toRow - 1);
+                    var riTest = new RangeItem(rowSpanTest);
+                    var deleteTest = new RangeItem(delete);
+
                     for (int i = rowStartIndex; i < rows.Count; i++)
                     {
                         ri = rows[i];
                         var fromRowRangeItem = (int)(ri.RowSpan >> 20) + 1;
                         var toRowRangeItem = (int)(ri.RowSpan & 0xFFFFF) + 1;
 
-                        if (fromRowRangeItem >= fromRow)
+                        bool startAboveOrOnRangeItem = fromRowRangeItem >= fromRow;
+                        bool fromRowAboveOrOnEndOfRangeItem = toRowRangeItem >= fromRow;
+
+                        if (startAboveOrOnRangeItem)
                         {
-                            if (fromRowRangeItem >= fromRow && toRowRangeItem <= fromRow + noRows)
+                            if (fromRowRangeItem >= fromRow && toRowRangeItem <= toRow)
                             {
                                 rows.RemoveAt(i--);
                                 continue;
                             }
-                            else if (fromRowRangeItem >= fromRow + noRows)
+                            else if (fromRowRangeItem >= toRow)
                             {
                                 if (shiftRow)
                                 {
-                                    toRowRangeItem -= noRows;
-                                    fromRowRangeItem -= noRows;
+                                    fromRowRangeItem = Math.Max(fromRow, fromRowRangeItem - noRows);
+                                    toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                                 }
                             }
                             else
@@ -303,14 +417,22 @@ namespace OfficeOpenXml.Core.CellStore
                                 }
                                 else
                                 {
-                                    fromRowRangeItem = Math.Max(fromRowRangeItem, fromRow + noRows + 1);
-                                    toRowRangeItem = Math.Max(toRowRangeItem, fromRow + noRows + 1);
+                                    fromRowRangeItem = Math.Max(fromRowRangeItem, toRow);
+                                    toRowRangeItem = Math.Max(toRowRangeItem, toRow);
                                 }
                             }
                         }
-                        else if (toRowRangeItem >= fromRow)
+                        else if (fromRowAboveOrOnEndOfRangeItem)
                         {
-                            toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
+                            if (shiftRow)
+                            {
+                                toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
+                            }
+                            else
+                            {
+
+                                //fromRowRangeItem = Math.Max(fromRowRangeItem, toRow);
+                            }
                         }
 
                         ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);

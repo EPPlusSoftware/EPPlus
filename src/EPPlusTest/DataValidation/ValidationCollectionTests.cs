@@ -168,6 +168,8 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ExcelDataValidationCollection_RemoveShouldRemoveFromRD()
         {
+            _sheet.DataValidations.Clear();
+
             // Arrange
             var v = _sheet.DataValidations.AddDateTimeValidation("A1:A3");
             var v2 = _sheet.DataValidations.AddDecimalValidation("B1:B3");
@@ -177,12 +179,9 @@ namespace EPPlusTest.DataValidation
 
             var addresses = _sheet.DataValidations._validationsRD._addresses;
 
-            Assert.AreEqual(1, addresses[1].Count);
+            Assert.AreEqual(1, addresses[2].Count);
 
-            // Assert
-            Assert.AreEqual(0, _sheet.DataValidations.Count);
-
-            var validation = _sheet.DataValidations.AddCustomValidation("A1");
+            var validation = _sheet.DataValidations.AddCustomValidation("B2");
             _sheet.DataValidations.Clear();
         }
 

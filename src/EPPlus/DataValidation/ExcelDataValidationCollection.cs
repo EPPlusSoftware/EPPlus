@@ -422,7 +422,7 @@ namespace OfficeOpenXml.DataValidation
             {
                 throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
             }
-            DeleteRangeInRangeDictionary(item.Address, false);
+            ClearRangeDictionary(item.Address);
             var retVal = _validations.Remove((ExcelDataValidation)item);
             if (retVal) OnValidationCountChanged();
             return retVal;

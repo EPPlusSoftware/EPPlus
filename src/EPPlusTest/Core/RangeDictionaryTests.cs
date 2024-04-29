@@ -195,6 +195,40 @@ namespace EPPlusTest.Core
             //Assert.AreEqual(2, rd[6, 2]);
         }
         [TestMethod]
+        public void VerifyDeleteOnRowOneRowWithoutShifting()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(8, 2, 10, 3, 2);
+
+            rd.DeleteRow(1, 2, 1, 1, false);
+            Assert.AreEqual(0, rd[1, 1]);
+            Assert.AreEqual(0, rd[1, 2]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(1, rd[4, 4]);
+            Assert.AreEqual(1, rd[5, 5]);
+        }
+        [TestMethod]
+        public void VerifyDeleteOnRowTwoRowWithoutShifting()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(8, 2, 10, 3, 2);
+
+            rd.ClearRows(2, 2, 1, 1);
+
+            //rd.DeleteRow(2, 2, 1, 1, false);
+            //var something = rd[1, 2];
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(0, rd[2, 1]);
+            Assert.AreEqual(0, rd[3, 1]);
+            Assert.AreEqual(1, rd[4, 1]);
+            Assert.AreEqual(1, rd[5, 1]);
+        }
+        [TestMethod]
         public void VerifyDeleteBeforeRowWithDeleteOneRow()
         {
             var rd = new RangeDictionary<int>();
