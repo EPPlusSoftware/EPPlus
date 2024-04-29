@@ -581,7 +581,9 @@ namespace OfficeOpenXml.DataValidation
             var internalAddress = new ExcelAddressBase (address.Address.Replace(" ", ","));
             foreach (var individualAddress in internalAddress.GetAllAddresses())
             {
-                _validationsRD.DeleteRow(individualAddress._fromRow, individualAddress.Rows, 
+                //_validationsRD.ClearRows(individualAddress._fromRow, individualAddress.Rows,
+                //                         individualAddress._fromCol, individualAddress._toCol);
+                _validationsRD.DeleteRow(individualAddress._fromRow, individualAddress.Rows,
                                          individualAddress._fromCol, individualAddress._toCol, false);
             }
         }

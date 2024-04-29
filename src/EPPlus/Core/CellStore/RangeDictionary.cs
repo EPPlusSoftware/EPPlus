@@ -265,27 +265,64 @@ namespace OfficeOpenXml.Core.CellStore
                 var fromRowRangeItem = (int)(item.RowSpan >> 20) + 1;
                 var toRowRangeItem = (int)(item.RowSpan & 0xFFFFF) + 1;
 
-                var endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
-                var endItem = new RangeItem(endSpan);
-                endItem.Value = item.Value;
+                if(fromRow == fromRowRangeItem && toRow == toRowRangeItem)
+                {
+                    return [new RangeItem(-1L)];
+                }
+
+                long endSpan;
+                if(toRow <= toRowRangeItem)
+                {
+                   endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
+                }
+                else
+                {
+                    if(fromRow == toRowRangeItem)
+                    {
+                        endSpan = (fromRowRangeItem -1) << 20 | (toRowRangeItem - 2);
+                        item.RowSpan = endSpan;
+                        return [item];
+                    }
+                    else
+                    {
+                        endSpan = ((fromRow - 1) << 20) | (toRowRangeItem - 1);
+                    }
+                }
+            
+
+                item.RowSpan = endSpan;
+                //var endItem = new RangeItem(endSpan);
+                //endItem.Value = item.Value;
 
                 if(fromRowRangeItem == fromRow)
                 {
-                    return [endItem];
+                    return [item];
+                }
+                long topSpan;
+
+                if(fromRow > fromRowRangeItem)
+                {
+                    topSpan = ((fromRowRangeItem - 1) << 20) | (fromRow - 2);
+                }
+                else
+                {
+                    if(fromRowRangeItem == toRow)
+                    {
+                        return [item];
+                    }
+                    topSpan = ((fromRowRangeItem - 1) << 20) | (toRow - 1);
                 }
 
-                long topSpan = ((fromRowRangeItem - 1) << 20) | (fromRow - 2);
-                var topItem = new RangeItem(topSpan);
-                topItem.Value = item.Value;
+                var topItem = new RangeItem(topSpan, item.Value);
 
-                long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
-                var middleItem = new RangeItem(clearSpan);
+                //long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
+                //var middleItem = new RangeItem(clearSpan);
 
-                return [topItem, endItem];
+                return [topItem, item];
             }
             else 
             {
-                throw new InvalidOperationException("Does not exist in RangeDictionary span");
+                return new RangeItem[0];
             }
         }
 
@@ -303,23 +340,41 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     var rows = _addresses[c];
 
-                    List<RangeItem[]> newRangeItems = new List<RangeItem[]>();
+                    //List<RangeItem[]> newRangeItems = new List<RangeItem[]>();
 
                     for(int i= 0; i < rows.Count; i++)
                     {
                         var newItems = SplitRangeItem(rows[i], fromRow, toRow);
-                        newRangeItems.Add(newItems);
-                    }
 
-                    rows.Clear();
-
-                    for (int i = 0; i < newRangeItems.Count; i++)
-                    {
-                        for(int j = 0; j < newRangeItems[i].Length; j++)
+                        if(newItems.Length == 0)
                         {
-                            rows.Add(newRangeItems[i][j]);
+                            continue;
+                        }
+
+                        if (newItems[0].RowSpan == -1)
+                        {
+                            rows.Remove(rows[i]);
+                            i--;
+                            continue;
+                        }
+
+                        rows[i] = newItems[0];
+                        if(newItems.Length > 1)
+                        {
+                            i++;
+                            rows.Insert(i, newItems[1]);
                         }
                     }
+
+                    //rows.Clear();
+
+                    //for (int i = 0; i < newRangeItems.Count; i++)
+                    //{
+                    //    for(int j = 0; j < newRangeItems[i].Length; j++)
+                    //    {
+                    //        rows.Add(newRangeItems[i][j]);
+                    //    }
+                    //}
 
 
                     //var ri = new RangeItem(rowSpan);
