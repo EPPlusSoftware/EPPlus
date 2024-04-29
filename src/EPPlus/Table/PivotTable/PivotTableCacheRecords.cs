@@ -119,6 +119,7 @@ namespace EPPlusTest.Table.PivotTable
 
 		internal void CreateRecords()
         {
+            CacheItems.Clear();
             var sr = Cache.SourceRange;
             var ws = sr.Worksheet;
 			var toRow = Cache.GetMaxRow();
@@ -132,20 +133,11 @@ namespace EPPlusTest.Table.PivotTable
 				}
                 else
                 {
-                    //lookup = Cache.Fields[f.Grouping.BaseIndex.Value]._cacheLookup;
                     continue;
 				}
 
                 var l = new List<object>();
-				//int c;
-				//if(f.Grouping==null)
-				//{
 					var c = sr._fromCol + f.Index;
-				//}
-    //            else
-    //            {
-				//	c = sr._fromCol + (f.Grouping.BaseIndex ?? f.Index);
-				//}
 
                 if (f.IsRowColumnOrPage)
                 {

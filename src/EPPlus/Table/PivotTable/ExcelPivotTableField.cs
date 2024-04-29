@@ -26,6 +26,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Table.PivotTable.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -333,7 +334,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 eSubTotalFunctions ret = 0;
                 XmlNodeList nl = TopNode.SelectNodes("d:items/d:item/@t", NameSpaceManager);
-                if (nl.Count == 0) return eSubTotalFunctions.None;
+                if (nl.Count == 0) return GetXmlNodeBool("@defaultSubtotal", true) ? eSubTotalFunctions.Default : eSubTotalFunctions.None;
                 foreach (XmlAttribute item in nl)
                 {
                     try
@@ -358,45 +359,33 @@ namespace OfficeOpenXml.Table.PivotTable
                     throw (new ArgumentException("Value Default cannot be combined with other values."));
                 }
 
+                Cache.UpdateSubTotalItems(Items._list, value);
 
-                // remove old attribute                 
-                XmlNodeList nl = TopNode.SelectNodes("d:items/d:item/@t", NameSpaceManager);
-                if (nl.Count > 0)
+                for (int i = 0; i < TopNode.Attributes.Count; i++)
                 {
-                    foreach (XmlAttribute item in nl)
+                    var a = TopNode.Attributes[i];
+                    if (a.LocalName.EndsWith("Subtotal"))
                     {
-                        DeleteNode("@" + item.Value + "Subtotal");
-                        item.OwnerElement.ParentNode.RemoveChild(item.OwnerElement);
+                        TopNode.Attributes.Remove(a);
+                        i--;
                     }
                 }
-
 
                 if (value == eSubTotalFunctions.None)
                 {
                     // for no subtotals, set defaultSubtotal to off
                     SetXmlNodeBool("@defaultSubtotal", false);
-                    //TopNode.InnerXml = "<items count=\"1\"><item x=\"0\"/></items>";
-                    //_cacheFieldHelper.TopNode.InnerXml = "<sharedItems count=\"1\"><m/></sharedItems>";
                 }
                 else
                 {
-                    string innerXml = "";
-                    int count = 0;
                     foreach (eSubTotalFunctions e in Enum.GetValues(typeof(eSubTotalFunctions)))
                     {
                         if ((value & e) == e)
                         {
-                            var newTotalType = e.ToString();
-                            var totalType = char.ToLowerInvariant(newTotalType[0]) + newTotalType.Substring(1);
                             // add new attribute
-                            SetXmlNodeBool("@" + totalType + "Subtotal", true);
-                            innerXml += "<item t=\"" + totalType + "\" />";
-                            count++;
+                            SetXmlNodeBool("@" + e.ToEnumString() + "Subtotal", true);
                         }
                     }
-                    SetXmlNodeInt("d:items/@count", count);
-                    var itemsNode=GetNode("d:items");
-                    itemsNode.InnerXml = innerXml;
                 }
             }
         }
@@ -861,7 +850,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-
         internal void UpdateGroupItems(ExcelPivotTableCacheField cacheField, bool addTypeDefault)
         {
             XmlElement itemsNode = CreateNode("d:items") as XmlElement;
@@ -1141,7 +1129,15 @@ namespace OfficeOpenXml.Table.PivotTable
 			}
 		}
 
-		ExcelPivotTableFieldFilterCollection _filters = null;
+        internal bool ShouldHaveItems
+        {
+            get 
+            {
+                return IsColumnField || IsRowField || IsPageField || Slicer != null;
+            }
+        }
+
+        ExcelPivotTableFieldFilterCollection _filters = null;
         /// <summary>
         /// Filters used on the pivot table field.
         /// </summary>

@@ -561,20 +561,24 @@ namespace OfficeOpenXml.Table.PivotTable
             var groupNode = GetNode("d:fieldGroup");
             if (groupNode != null)
             {
-                var groupBy = groupNode.SelectSingleNode("d:rangePr/@groupBy", NameSpaceManager);
-                if (groupBy == null)
+                var rangePr = groupNode.SelectSingleNode("d:rangePr", NameSpaceManager);
+                if (rangePr != null) 
                 {
-                    Grouping = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
-                }
-                else
-                {
-                    DateGrouping = (eDateGroupBy)Enum.Parse(typeof(eDateGroupBy), groupBy.Value, true);
-                    Grouping = new ExcelPivotTableFieldDateGroup(NameSpaceManager, groupNode);
-                }
-                var groupItems = groupNode.SelectSingleNode("d:groupItems", NameSpaceManager);
-                if (groupItems != null)
-                {
-                    AddItems(GroupItems, groupItems, _groupLookup);
+                    var groupBy = rangePr.Attributes["groupBy"];
+                    if (groupBy == null)
+                    {
+                        Grouping = new ExcelPivotTableFieldNumericGroup(NameSpaceManager, groupNode);
+                    }
+                    else
+                    {
+                        DateGrouping = (eDateGroupBy)Enum.Parse(typeof(eDateGroupBy), groupBy.Value, true);
+                        Grouping = new ExcelPivotTableFieldDateGroup(NameSpaceManager, groupNode);
+                    }
+                    var groupItems = groupNode.SelectSingleNode("d:groupItems", NameSpaceManager);
+                    if (groupItems != null)
+                    {
+                        AddItems(GroupItems, groupItems, _groupLookup);
+                    }
                 }
             }
 
@@ -933,13 +937,14 @@ namespace OfficeOpenXml.Table.PivotTable
 				AddSharedItemToHashSet(siHs, ws.GetValue(row, column));
 			}
 
-            if (Grouping == null)
+            if (Grouping == null || (IsRowColumnOrPage && Index==(Grouping.BaseIndex??-1))  || HasSlicer)
             {
                 //A pivot table cache can reference multiple Pivot tables, so we need to update them all
                 foreach (var pt in _cache._pivotTables)
                 {
-                    var existingItems = new HashSet<object>(new InvariantObjectComparer());
                     var ptField = pt.Fields[Index];
+                    if (ptField.ShouldHaveItems == false) continue;
+                    var existingItems = new HashSet<object>(new InvariantObjectComparer());
                     var list = ptField.Items._list;
 
                     for (var ix = 0; ix < list.Count; ix++)
@@ -964,9 +969,9 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                     }
 
-                    if (list.Count > 0 && list[list.Count - 1].Type != eItemType.Default && ptField.GetXmlNodeBool("@defaultSubtotal", true) == true)
+                    if (list.Count > 0)
                     {
-                        list.Add(new ExcelPivotTableFieldItem() { Type = GetItemTypeFromFunction(ptField.SubTotalFunctions), X = -1 });
+                        UpdateSubTotalItems(list, ptField.SubTotalFunctions);
                     }
                 } 
             }
@@ -978,35 +983,65 @@ namespace OfficeOpenXml.Table.PivotTable
 			}
 		}
 
-		private eItemType GetItemTypeFromFunction(eSubTotalFunctions subTotalFunctions)
+        internal void UpdateSubTotalItems(List<ExcelPivotTableFieldItem> list, eSubTotalFunctions functions)
         {
-            switch (subTotalFunctions)
+            while(list.Count > 0 && list[list.Count-1].Type!=eItemType.Data) { list.RemoveAt(list.Count - 1); }
+            if (functions == eSubTotalFunctions.None) return;
+            foreach (var t in GetItemTypeFromFunctionList(functions))
             {
-                case eSubTotalFunctions.Sum:
-                    return eItemType.Sum;
-                case eSubTotalFunctions.Min:
-                    return eItemType.Min;
-                case eSubTotalFunctions.Max:
-                    return eItemType.Max;
-                case eSubTotalFunctions.Avg:
-                    return eItemType.Avg;
-                case eSubTotalFunctions.Count:
-                    return eItemType.Count;
-                case eSubTotalFunctions.CountA:
-                    return eItemType.CountA;
-                case eSubTotalFunctions.Product:
-                    return eItemType.Product;
-                case eSubTotalFunctions.StdDev:
-                    return eItemType.StdDev;
-                case eSubTotalFunctions.StdDevP:
-                    return eItemType.StdDevP;
-                case eSubTotalFunctions.Var:
-                    return eItemType.Var;
-                case eSubTotalFunctions.VarP:
-                    return eItemType.VarP;                
-                default:
-                    return eItemType.Default;
+                list.Add(new ExcelPivotTableFieldItem() { Type = t, X = -1 }); 
             }
+        }
+
+        private List<eItemType> GetItemTypeFromFunctionList(eSubTotalFunctions subTotalFunctions)
+        {
+            var l = new List<eItemType>();
+            foreach(eSubTotalFunctions t in Enum.GetValues(typeof(eSubTotalFunctions)))
+            {
+                if ((t & subTotalFunctions) != 0)
+                {
+                    switch (t)
+                    {
+                        case eSubTotalFunctions.Sum:
+                            l.Add(eItemType.Sum);
+                            break;
+                        case eSubTotalFunctions.Min:
+                            l.Add(eItemType.Min);
+                            break;
+                        case eSubTotalFunctions.Max:
+                            l.Add(eItemType.Max);
+                            break;
+                        case eSubTotalFunctions.Avg:
+                            l.Add(eItemType.Avg);
+                            break;
+                        case eSubTotalFunctions.Count:
+                            l.Add(eItemType.Count);
+                            break;
+                        case eSubTotalFunctions.CountA:
+                            l.Add(eItemType.CountA);
+                            break;
+                        case eSubTotalFunctions.Product:
+                            l.Add(eItemType.Product);
+                            break;
+                        case eSubTotalFunctions.StdDev:
+                            l.Add(eItemType.StdDev);
+                            break;
+                        case eSubTotalFunctions.StdDevP:
+                            l.Add(eItemType.StdDevP);
+                            break;
+                        case eSubTotalFunctions.Var:
+                            l.Add(eItemType.Var);
+                            break;
+                        case eSubTotalFunctions.VarP:
+                            l.Add(eItemType.VarP);
+                            break;
+                        default:
+                            l.Add(eItemType.Default);
+                            break;
+                    }
+                }
+            }
+            return l;
         }
 
         internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)

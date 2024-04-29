@@ -1354,6 +1354,7 @@ namespace OfficeOpenXml
 						{
 							FixFieldNamesAndUpdateSharedItems(cache, t, fields);
 						}
+
 						cache.RefreshOnLoad = true;
 						cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
 						cache.ResetRecordXml(_package.ZipPackage);

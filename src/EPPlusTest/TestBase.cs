@@ -226,7 +226,7 @@ namespace EPPlusTest
                 }
             }
         }
-        protected void SaveWorkbook(string name, ExcelPackage pck)
+        protected static void SaveWorkbook(string name, ExcelPackage pck)
             {
             if (pck.Workbook.Worksheets.Count == 0) return;
             var fi = new FileInfo(_worksheetPath + name);
