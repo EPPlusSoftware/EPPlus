@@ -24,12 +24,12 @@ namespace OfficeOpenXml
     /// <seealso cref="ExcelTextFormatBase"/>
     /// <seealso cref="ExcelTextFormatFixedWidthBase"/>
     /// </summary>
-    public abstract class ExcelAbstractTextFormat
+    public abstract class ExcelTextFileFormat
     {
         /// <summary>
         /// 
         /// </summary>
-        public ExcelAbstractTextFormat() 
+        public ExcelTextFileFormat() 
         {
         }
         /// <summary>

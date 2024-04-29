@@ -180,27 +180,18 @@ namespace OfficeOpenXml
                 int ix = 0;
                 for (int col = _fromCol; col <= _toCol; col++)
                 {
-                    if (Format.UseColumns == null || Format.UseColumns[ix])
+                    string t = GetTextCSV(Format, maxFormats, ci, row, col, out bool isText);
+                    if (hasTextQ && isText)
                     {
-                        string t = GetTextCSV(Format, maxFormats, ci, row, col, out bool isText);
-
-                        if (hasTextQ && isText)
-                        {
-                            finalRow += Format.TextQualifier;
-                            finalRow += t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers);
-                            finalRow += Format.TextQualifier;
-                            //sw.Write(Format.TextQualifier);
-                            //sw.Write(t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers));
-                            //sw.Write(Format.TextQualifier);
-                        }
-                        else
-                        {
-                            finalRow += t;
-                            //sw.Write(t);
-                        }
-                        if (col != _toCol) finalRow += (Format.Delimiter);
-                        //if (col != _toCol) sw.Write(Format.Delimiter);
+                        finalRow += Format.TextQualifier;
+                        finalRow += t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers);
+                        finalRow += Format.TextQualifier;
                     }
+                    else
+                    {
+                        finalRow += t;
+                    }
+                    if (col != _toCol) finalRow += (Format.Delimiter);
                     ix++;
                 }
                 if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(finalRow) == false)
@@ -255,7 +246,7 @@ namespace OfficeOpenXml
         public void SaveToText(Stream stream, ExcelOutputTextFormatFixedWidth Format)
         {
             if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();
-            if(Format.ColumnFormat == null) throw new ArgumentNullException("Format.ColumnFormat: Set ColumnFormat.Length or ColumnFormat.Position");
+            if(Format.Columns == null) throw new ArgumentNullException("Format.ColumnFormat: Set ColumnFormat.Length or ColumnFormat.Position");
             var sw = new StreamWriter(stream, Format.Encoding);
             if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
             int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
@@ -276,30 +267,38 @@ namespace OfficeOpenXml
                 int ix = 0;
                 for (int col = _fromCol; col <= _toCol; col++)
                 {
-                    if (Format.ColumnFormat[ix].UseColumn)
+                    if (Format.Columns[ix].UseColumn)
                     {
-                        string text = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
+                        string text;
+                        if ( string.IsNullOrEmpty( Format.Columns[ix].Name))
+                        {
+                            text = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
+                        }
+                        else
+                        {
+                            text = Format.Columns[ix].Name;
+                        }
                         var padding = 0;
                         if (Format.ReadType == FixedWidthReadType.Length)
                         {
-                            padding = Format.ColumnFormat[ix].Length - text.Length;
+                            padding = Format.Columns[ix].Length - text.Length;
                         }
                         else if (Format.ReadType == FixedWidthReadType.Positions)
                         {
-                            if (ix+1 < Format.ColumnFormat.Count)
+                            if (ix+1 < Format.Columns.Count)
                             {
-                                padding = (Format.ColumnFormat[ix + 1].Position - Format.ColumnFormat[ix].Position) - text.Length;
+                                padding = (Format.Columns[ix + 1].Position - Format.Columns[ix].Position) - text.Length;
                             }
-                            else if (Format.ColumnFormat[ix].Length > 0)
+                            else if (Format.Columns[ix].Length > 0)
                             {
-                                padding = Format.ColumnFormat[ix].Length - text.Length;
+                                padding = Format.Columns[ix].Length - text.Length;
                             }
                         }
                         if (padding > 0)
                         {
-                            PaddingAlignmentType pat = Format.ColumnFormat[ix].PaddingType;
+                            PaddingAlignmentType pat = Format.Columns[ix].PaddingType;
                             bool numericPadding = double.TryParse(text, NumberStyles.Any, Format.Culture, out double result);
-                            if (Format.ColumnFormat[ix].PaddingType == PaddingAlignmentType.Auto)
+                            if (Format.Columns[ix].PaddingType == PaddingAlignmentType.Auto)
                             {
                                 if ( numericPadding || text.EndsWith("%"))
                                 {
@@ -338,17 +337,17 @@ namespace OfficeOpenXml
                         }
                         else if (padding < 0)
                         {
-                            if (Format.ForceWrite)
+                            if (Format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Overwrite)
                             {
                                 if (Format.ReadType == FixedWidthReadType.Length)
                                 {
-                                    text = text.Substring(0, Format.ColumnFormat[ix].Length);
+                                    text = text.Substring(0, Format.Columns[ix].Length);
                                 }
                                 else if (Format.ReadType == FixedWidthReadType.Positions)
                                 {
-                                    if(Format.ColumnFormat[ix].Length > 0)
+                                    if(Format.Columns[ix].Length > 0)
                                     {
-                                        text = text.Substring(0, Format.ColumnFormat[ix].Length);
+                                        text = text.Substring(0, Format.Columns[ix].Length);
                                     }
                                     else
                                     {
@@ -358,12 +357,12 @@ namespace OfficeOpenXml
                             }
                             else
                             {
-                                throw new FormatException("String was " + text.Length + ", Expected length of " + Format.ColumnFormat[ix].Length);
+                                throw new FormatException("String was " + text.Length + ", Expected length of " + Format.Columns[ix].Length);
                             }
                         }
-                        if (Format.ReadType == FixedWidthReadType.Positions && Format.ForceWrite)
+                        if (Format.ReadType == FixedWidthReadType.Positions && Format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Overwrite)
                         {
-                            fc = fc.Substring(0, Format.ColumnFormat[ix].Position);
+                            fc = fc.Substring(0, Format.Columns[ix].Position);
                         }
                         fc += text;
                     }
@@ -626,6 +625,15 @@ namespace OfficeOpenXml
                 EncodedTextQualifiers = format.EncodedTextQualifiers,
             };
             string t = GetText(f, maxFormats, ci, row, col, out isText);
+            if (format.UseTrailingMinus && isText == false)
+            {
+                double d = Convert.ToDouble(t, format.Culture);
+                if (d < 0d)
+                {
+                    var s = t.Substring(1);
+                    t = s + "-";
+                }
+            }
             return t;
         }
 

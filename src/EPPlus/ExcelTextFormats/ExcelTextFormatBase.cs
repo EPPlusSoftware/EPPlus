@@ -25,15 +25,14 @@ namespace OfficeOpenXml
     /// <seealso cref="ExcelTextFormat"/>
     /// <seealso cref="ExcelOutputTextFormat"/>
     /// </summary>
-    public class ExcelTextFormatBase : ExcelAbstractTextFormat
+    public abstract class ExcelTextFormatBase : ExcelTextFileFormat
     {
         /// <summary>
         /// Creates a new instance if ExcelTextFormatBase
         /// </summary>
-        public ExcelTextFormatBase() : base()
+        internal ExcelTextFormatBase() : base()
         {
             DataTypes = null;
-            UseColumns = null;
         }
         /// <summary>
         /// Delimiter character
@@ -47,9 +46,5 @@ namespace OfficeOpenXml
         /// Datatypes list for each column (if column is not present Unknown is assumed)
         /// </summary>
         public eDataTypes[] DataTypes { get; set; }
-        /// <summary>
-        /// Datatypes list for each column (if column is not present Unknown is assumed)
-        /// </summary>
-        public bool[] UseColumns { get; set; }
     }
 }

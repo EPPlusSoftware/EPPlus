@@ -21,7 +21,7 @@ using OfficeOpenXml.LoadFunctions.Params;
 namespace OfficeOpenXml.LoadFunctions
 {
     internal abstract class LoadFromTextBase<T>
-        where T : ExcelAbstractTextFormat
+        where T : ExcelTextFileFormat
     {
         protected ExcelWorksheet _worksheet;
         protected ExcelRangeBase _range;

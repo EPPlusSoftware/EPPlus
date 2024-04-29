@@ -34,26 +34,29 @@ namespace OfficeOpenXml
         Positions,
     }
 
+    public enum FixedWidthFormatErrorStrategy
+    {
+        Overwrite,
+
+        ThrowError,
+    }
+
     /// <summary>
     /// 
     /// </summary>
-    public class ExcelTextFormatFixedWidthBase : ExcelAbstractTextFormat
+    public class ExcelTextFormatFixedWidthBase : ExcelTextFileFormat
     {
 
         /// <summary>
         /// The collection of column formats.
         /// </summary>
-        public List<ExcelTextFormatColumn> ColumnFormat { get; set; } = new List<ExcelTextFormatColumn>();
+        public List<ExcelTextFormatColumn> Columns { get; set; } = new List<ExcelTextFormatColumn>();
 
         /// <summary>
-        /// Force writing to file, this will only write the n first found characters, where n is column width
+        /// 
         /// </summary>
-        public bool ForceWrite { get; set; } = false;
+        public FixedWidthFormatErrorStrategy FormatErrorStrategy { get; set; } = FixedWidthFormatErrorStrategy.ThrowError;
 
-        /// <summary>
-        /// Force Reading content. Setting this will force reading line a line that is not following column spec.
-        /// </summary>
-        public bool ForceRead { get; set; } = false;
         /// <summary>
         /// Padding character for Text Can be set to null to skip trimming padding characters when reading
         /// </summary>
@@ -67,7 +70,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Set if we should read fixed width files from column widths or positions. Default is widths
         /// </summary>
-        public FixedWidthReadType ReadType { get; set; } = FixedWidthReadType.Length;
+        internal FixedWidthReadType ReadType { get; set; } = FixedWidthReadType.Length;
 
         int _lineLength;
 
@@ -90,7 +93,7 @@ namespace OfficeOpenXml
         {
             for (int i =0; i<size; i++)
             {
-                ColumnFormat.Add(new ExcelTextFormatColumn());
+                Columns.Add(new ExcelTextFormatColumn());
             }
         }
 
@@ -100,27 +103,7 @@ namespace OfficeOpenXml
         public void ClearColumnFormats()
         {
             _lineLength = 0;
-            ColumnFormat.Clear();
-        }
-
-        /// <summary>
-        /// Adds the column read by column length or position and data.
-        /// </summary>
-        /// <param name="readType">Specify if lenght or position is provided</param>
-        /// <param name="lineLength">The length of a line in the file. If readType is position, a value greater than  0 or negative will read until EOL. If readType is lengths you can ignore this argument</param>
-        /// <param name="firstPosition">The start position of the</param>
-        /// <param name="columns"></param>
-        public void SetColumns(FixedWidthReadType readType, int lineLength = 0, int firstPosition = 0, params int[] columns)
-        {
-            if (readType == FixedWidthReadType.Length)
-            {
-                SetColumnLengths(columns);
-            }
-            else if (readType == FixedWidthReadType.Positions)
-            {
-                SetColumnPositions(lineLength, firstPosition, columns);
-            }
-            ReadType = readType;
+            Columns.Clear();
         }
 
         /// <summary>
@@ -129,13 +112,14 @@ namespace OfficeOpenXml
         /// <param name="lengths"></param>
         public void SetColumnLengths(params int[] lengths)
         {
-            if (ColumnFormat.Count <= 0)
+            ReadType = FixedWidthReadType.Length;
+            if (Columns.Count <= 0)
             {
                 CreateColumnFormatList(lengths.Length);
             }
             for (int i = 0; i < lengths.Length; i++)
             {
-                ColumnFormat[i].Length = lengths[i];
+                Columns[i].Length = lengths[i];
                 if (ReadType == FixedWidthReadType.Length)
                 {
                     _lineLength += lengths[i];
@@ -149,25 +133,29 @@ namespace OfficeOpenXml
         /// <param name="lineLength">The Length of a line. Set to 0 or negative to read until end of line</param>
         /// <param name="firstPosition">The starting position of the first column</param>
         /// <param name="positions">Starting positions for the other columns in order from second column</param>
-        public void SetColumnPositions(int lineLength, int firstPosition, params int[] positions)
+        public void SetColumnPositions(int lineLength, params int[] positions)
         {
-            if (ColumnFormat.Count <= 0)
+            if(positions.Length <= 0)
             {
-                CreateColumnFormatList(positions.Length + 1);
+                throw new ArgumentException("Requires atleast 1 element in positions.");
             }
-            ColumnFormat[0].Position = firstPosition;
+            ReadType = FixedWidthReadType.Positions;
+            if (Columns.Count <= 0)
+            {
+                CreateColumnFormatList(positions.Length);
+            }
             for (int i = 0; i < positions.Length; i++)
             {
-                if (positions[i] < ColumnFormat[i].Position)
+                if (positions[i] < Columns[i].Position)
                 {
-                    throw new ArgumentException("Positions value at " + i + " was lower that previous value " + ColumnFormat[i].Position);
+                    throw new ArgumentException("Positions value at " + i + " was lower that previous value " + Columns[i].Position);
                 }
-                ColumnFormat[i+1].Position = positions[i];
+                Columns[i].Position = positions[i];
             }
-            if(lineLength > 0 && lineLength > ColumnFormat[ColumnFormat.Count - 1].Position)
+            if(lineLength > 0 && lineLength > Columns[Columns.Count - 1].Position)
             {
-                var lastPosLen = lineLength - ColumnFormat[ColumnFormat.Count - 1].Position;
-                ColumnFormat[ColumnFormat.Count - 1].Length = lastPosLen;
+                var lastPosLen = lineLength - Columns[Columns.Count - 1].Position;
+                Columns[Columns.Count - 1].Length = lastPosLen;
                 _lineLength = lineLength;
                 return;
             }
@@ -175,7 +163,7 @@ namespace OfficeOpenXml
             {
                 if(lineLength <= 0)
                 {
-                    _lineLength = ColumnFormat[ColumnFormat.Count - 1].Position;
+                    _lineLength = Columns[Columns.Count - 1].Position;
                     return;
                 }
                 else
@@ -192,17 +180,21 @@ namespace OfficeOpenXml
         public void SetColumnDataTypes(params eDataTypes[] dataTypes)
         {
             int i = 0;
-            if (ColumnFormat.Count <= 0)
+            if (Columns.Count <= 0)
             {
                 CreateColumnFormatList(dataTypes.Length);
             }
+            if(dataTypes.Length > Columns.Count)
+            {
+                throw new ArgumentException("dataTypes has more elements than Columns");
+            }
             foreach (eDataTypes dataType in dataTypes)
             {
-                if (ColumnFormat.Count <= i)
+                if (Columns.Count <= i)
                 {
                     return;
                 }
-                ColumnFormat[i].DataType = dataType;
+                Columns[i].DataType = dataType;
                 i++;
             }
         }
@@ -214,17 +206,21 @@ namespace OfficeOpenXml
         public void SetColumnPaddingAlignmentType(params PaddingAlignmentType[] paddingTypes)
         {
             int i = 0;
-            if(ColumnFormat.Count <= 0)
+            if(Columns.Count <= 0)
             {
                 CreateColumnFormatList(paddingTypes.Length);
             }
+            if (paddingTypes.Length > Columns.Count)
+            {
+                throw new ArgumentException("paddingTypes has more elements than Columns");
+            }
             foreach (PaddingAlignmentType paddingType in paddingTypes)
             {
-                if (ColumnFormat.Count <= i)
+                if (Columns.Count <= i)
                 {
                     return;
                 }
-                ColumnFormat[i].PaddingType = paddingType;
+                Columns[i].PaddingType = paddingType;
                 i++;
             }
         }
@@ -236,17 +232,21 @@ namespace OfficeOpenXml
         public void SetUseColumns(params bool[] UseColumns)
         {
             int i = 0;
-            if (ColumnFormat.Count <= 0)
+            if (Columns.Count <= 0)
             {
                 CreateColumnFormatList(UseColumns.Length);
             }
+            if (UseColumns.Length > Columns.Count)
+            {
+                throw new ArgumentException("UseColumns has more elements than Columns");
+            }
             foreach (bool UseColumn in UseColumns)
             {
-                if (ColumnFormat.Count <= i)
+                if (Columns.Count <= i)
                 {
                     return;
                 }
-                ColumnFormat[i].UseColumn = UseColumn;
+                Columns[i].UseColumn = UseColumn;
                 i++;
             }
         }
@@ -258,17 +258,21 @@ namespace OfficeOpenXml
         public void SetColumnsNames(params string[] Names)
         {
             int i = 0;
-            if (ColumnFormat.Count <= 0)
+            if (Columns.Count <= 0)
             {
                 CreateColumnFormatList(Names.Length);
             }
+            if (Names.Length > Columns.Count)
+            {
+                throw new ArgumentException("Names has more elements than Columns");
+            }
             foreach (string name in Names)
             {
-                if (ColumnFormat.Count <= i)
+                if (Columns.Count <= i)
                 {
                     return;
                 }
-                ColumnFormat[i].Name = name;
+                Columns[i].Name = name;
                 i++;
             }
         }

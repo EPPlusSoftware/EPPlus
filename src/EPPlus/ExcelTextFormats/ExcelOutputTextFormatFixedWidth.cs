@@ -75,5 +75,9 @@ namespace OfficeOpenXml
         /// Default is two Text Qualifiers characters. For example " is replaced with "".
         /// </summary>
         public string EncodedTextQualifiers { get; set; } = null;
+        /// <summary>
+        /// Set this to output file with trailing minus signs.
+        /// </summary>
+        public bool UseTrailingMinus { get; set; } = false;
     }
 }

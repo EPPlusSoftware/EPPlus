@@ -107,10 +107,7 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 if (c == _format.Delimiter)
                                 {
-                                    if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[col]))
-                                    {
-                                        items.Add(ConvertData(_format, _format.DataTypes, v, col, isText));
-                                    }
+                                    items.Add(ConvertData(_format, _format.DataTypes, v, col, isText));
                                     v = "";
                                     isText = false;
                                     col++;
@@ -137,10 +134,8 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     if (lineQCount % 2 == 1)
                         throw (new Exception(string.Format("Text delimiter is not closed in line : {0}", line)));
-                    if (_format.UseColumns == null || (_format.UseColumns != null && _format.UseColumns[col]))
-                    {
-                        items.Add(ConvertData(_format, _format.DataTypes, v, col, isText));
-                    }
+
+                    items.Add(ConvertData(_format, _format.DataTypes, v, col, isText));
                     if (_format.Transpose)
                     {
                         _worksheet._values.SetValueRow_ValueTranspose(_range._fromRow, _range._fromCol + row, items);
