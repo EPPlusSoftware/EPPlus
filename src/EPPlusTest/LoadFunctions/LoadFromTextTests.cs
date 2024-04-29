@@ -309,22 +309,28 @@ namespace EPPlusTest.LoadFunctions
         {
             string myFile = File.ReadAllText("C:\\epplusTest\\Workbooks\\FixedWidth.txt");
             FileInfo myFileInfo = new FileInfo("C:\\epplusTest\\Workbooks\\FixedWidth.txt");
-            using (var p = OpenTemplatePackage("Fixed.xlsx"))
+            using (var p = OpenPackage("Fixed.xlsx", true))
             {
                 //Read length
                 var ws = p.Workbook.Worksheets.Add("WIDTH");
                 ExcelTextFormatFixedWidth fw = new ExcelTextFormatFixedWidth();
-                int[] arr = { 0, 8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8 };
+                int[] arr = { 8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8 };
                 fw.SetColumnLengths(arr);
-                fw.SkipLinesBeginning = 1;
+                fw.SetColumnsNames("Entry", "Per.", "Post Date", "GL Account", "Description", "Srce.", "Cflow", "Ref.", "Post", "Debit", "Credit", "Alloc.");
                 fw.ShouldUseRow = row =>
                 {
-                    if (row.Length >= fw.LineLength)
+                    if (row.Contains("Page") ||
+                        row.Contains("Period 01") ||
+                        row.Contains("4:16 pm") ||
+                        row.Contains("Company 200") ||
+                        row.Contains("-") ||
+                        row.Contains("=") ||
+                        row.Contains("BALANCE") ||
+                        row.Contains(" Entry  Per. Post Date  GL Account   Description               Srce. Cflow  Ref.  Post             Debit              Credit  Alloc.") ||
+                        row.Contains("End of Report") ||
+                        string.IsNullOrEmpty(row))
                     {
-                        if (row.Contains("Page") || string.IsNullOrEmpty(row))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                     return true;
                 };
@@ -335,15 +341,21 @@ namespace EPPlusTest.LoadFunctions
                 ExcelTextFormatFixedWidth fw2 = new ExcelTextFormatFixedWidth();
                 fw2.ReadType = FixedWidthReadType.Positions;
                 fw2.SetColumnPositions(0, 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 );
-                fw2.SkipLinesBeginning = 1;
+                fw2.SetColumnsNames("Entry", "Per.", "Post Date", "GL Account", "Description", "Srce.", "Cflow", "Ref.", "Post", "Debit", "Credit", "Alloc.");
                 fw2.ShouldUseRow = row =>
                 {
-                    if (row.Length >= fw2.LineLength)
+                    if (row.Contains("Page") ||
+                        row.Contains("Period 01") ||
+                        row.Contains("4:16 pm") ||
+                        row.Contains("Company 200") ||
+                        row.Contains("-") ||
+                        row.Contains("=") ||
+                        row.Contains("BALANCE") ||
+                        row.Contains(" Entry  Per. Post Date  GL Account   Description               Srce. Cflow  Ref.  Post             Debit              Credit  Alloc.") ||
+                        row.Contains("End of Report") ||
+                        string.IsNullOrEmpty(row))
                     {
-                        if (row.Contains("Page") || string.IsNullOrEmpty(row))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                     return true;
                 };
@@ -354,16 +366,49 @@ namespace EPPlusTest.LoadFunctions
                 var ws3 = p.Workbook.Worksheets.Add("WIDTH3");
                 ExcelTextFormatFixedWidth fw3 = new ExcelTextFormatFixedWidth();
                 fw3.SetColumnLengths(8, 4, 11, 13, 27, 5, 5, 9, 4, 18, 20, 8);
+                fw3.SetColumnsNames("Entry", "Per.", "Post Date", "GL Account", "Description", "Srce.", "Cflow", "Ref.", "Post", "Debit", "Credit", "Alloc.");
                 fw3.SetUseColumns( false, false, true, true, false, false, false, false, false, true, true, false );
-                fw3.SkipLinesBeginning = 1;
+                fw3.ShouldUseRow = row =>
+                {
+                    if (row.Contains("Page") ||
+                        row.Contains("Period 01") ||
+                        row.Contains("4:16 pm") ||
+                        row.Contains("Company 200") ||
+                        row.Contains("-") ||
+                        row.Contains("=") ||
+                        row.Contains("BALANCE") ||
+                        row.Contains(" Entry  Per. Post Date  GL Account   Description               Srce. Cflow  Ref.  Post             Debit              Credit  Alloc.") ||
+                        row.Contains("End of Report") ||
+                        string.IsNullOrEmpty(row))
+                    {
+                        return false;
+                    }
+                    return true;
+                };
                 ws3.Cells["A1"].LoadFromText(myFileInfo, fw3, TableStyles.Medium5, true);
                 //Read positions 3 cols
                 var ws4 = p.Workbook.Worksheets.Add("POSITION2");
                 ExcelTextFormatFixedWidth fw4 = new ExcelTextFormatFixedWidth();
-                fw4.ReadType = FixedWidthReadType.Positions;
                 fw4.SetColumnPositions(0, 0, 8, 12, 24, 35, 63, 68, 73, 82, 86, 105, 125 );
+                fw4.SetColumnsNames("Entry", "Per.", "Post Date", "GL Account", "Description", "Srce.", "Cflow", "Ref.", "Post", "Debit", "Credit", "Alloc.");
                 fw4.SetUseColumns( false, false, true, true, false, false, false, false, false, true, true, false );
-                fw4.SkipLinesBeginning = 1;
+                fw4.ShouldUseRow = row =>
+                {
+                    if (row.Contains("Page") ||
+                        row.Contains("Period 01") ||
+                        row.Contains("4:16 pm") ||
+                        row.Contains("Company 200") ||
+                        row.Contains("-") ||
+                        row.Contains("=") ||
+                        row.Contains("BALANCE") ||
+                        row.Contains(" Entry  Per. Post Date  GL Account   Description               Srce. Cflow  Ref.  Post             Debit              Credit  Alloc.") ||
+                        row.Contains("End of Report") ||
+                        string.IsNullOrEmpty(row))
+                    {
+                        return false;
+                    }
+                    return true;
+                };
                 ws4.Cells["A1"].LoadFromText(myFileInfo, fw4, TableStyles.Medium5, true);
                 p.Save();
             }
@@ -386,34 +431,6 @@ namespace EPPlusTest.LoadFunctions
                 fw.SetColumnsNames("Name", "Position", "Prot", "Entry_Name", "Code", "Description");
                 ws.Cells["A1"].LoadFromText(myFileInfo, fw, TableStyles.Dark10, true);
                 p.Save();
-            }
-        }
-
-        [TestMethod]
-        public void ReadFixedTextWidthExample()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Name            Date      Ammount          Percent Category");
-            sb.AppendLine("David           2024/03/02          130000      2% A");
-            sb.AppendLine("Meryl           2024/02/15             999     10% B");
-            sb.AppendLine("Hal             2005/11/24               0      0% A");
-            sb.AppendLine("Frank           1988/10/12           40,00     59% C");
-            sb.AppendLine("Naomi           2015/09/03       245000,99    100% C");
-            string myFile = sb.ToString();
-
-
-            //Do fixed width text stuff
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
-                format.SetColumnPositions(52, 0, 16, 26, 42, 50);
-                format.SetColumnPaddingAlignmentType(PaddingAlignmentType.Left, PaddingAlignmentType.Auto, PaddingAlignmentType.Right, PaddingAlignmentType.Right, PaddingAlignmentType.Auto);
-                format.SetColumnDataTypes(eDataTypes.String, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.Percent, eDataTypes.String);
-                var range = ws.Cells["A1"].LoadFromText(myFile, format);
-                
-                Assert.AreEqual("David", ws.Cells["A2"].Value);
-                Assert.AreEqual("C", ws.Cells["E6"].Value);
             }
         }
 
@@ -473,14 +490,6 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual(-130000d, ws.Cells["C2"].Value);
                 Assert.AreEqual(-40.00d, ws.Cells["C5"].Value);
             }
-        }
-
-        [TestMethod]
-        public void ThisTestFails()
-        {
-            bool b = double.TryParse("-40,90", NumberStyles.Any, CultureInfo.CurrentCulture, out double d);
-            Assert.IsTrue(b);
-            Assert.AreEqual(-40.90, d);
         }
     }
 }

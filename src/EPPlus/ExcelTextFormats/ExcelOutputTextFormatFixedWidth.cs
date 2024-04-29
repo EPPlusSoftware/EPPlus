@@ -22,8 +22,17 @@ namespace OfficeOpenXml
     /// </summary>
     public enum PaddingAlignmentType
     {
+        /// <summary>
+        /// Detects the padding type automatically. Text will be left and numbers will be right.
+        /// </summary>
         Auto,
+        /// <summary>
+        /// Add padding to the left.
+        /// </summary>
         Left,
+        /// <summary>
+        /// Add padding to the right.
+        /// </summary>
         Right
     }
 

@@ -18,31 +18,29 @@ using System.Text;
 
 namespace OfficeOpenXml
 {
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public enum FixedWidthReadType
+    internal enum FixedWidthReadType
     {
-        /// <summary>
-        /// 
-        /// </summary>
         Length,
-        /// <summary>
-        /// 
-        /// </summary>
         Positions,
     }
 
+    /// <summary>
+    /// How to handle missmatch with data and column format specifications.
+    /// </summary>
     public enum FixedWidthFormatErrorStrategy
     {
+        /// <summary>
+        /// If data is larger than format specification, write anyway. Might lead to data loss.
+        /// </summary>
         Overwrite,
-
+        /// <summary>
+        /// If data is larger than format specification, throw error
+        /// </summary>
         ThrowError,
     }
 
     /// <summary>
-    /// 
+    /// Describes how to import a fixed width text file.
     /// </summary>
     public class ExcelTextFormatFixedWidthBase : ExcelTextFileFormat
     {
@@ -53,7 +51,7 @@ namespace OfficeOpenXml
         public List<ExcelTextFormatColumn> Columns { get; set; } = new List<ExcelTextFormatColumn>();
 
         /// <summary>
-        /// 
+        /// The strategy to use when writing fixed width text files.
         /// </summary>
         public FixedWidthFormatErrorStrategy FormatErrorStrategy { get; set; } = FixedWidthFormatErrorStrategy.ThrowError;
 
@@ -130,9 +128,8 @@ namespace OfficeOpenXml
         /// <summary>
         /// Set the column start positions of fixed width text.
         /// </summary>
-        /// <param name="lineLength">The Length of a line. Set to 0 or negative to read until end of line</param>
-        /// <param name="firstPosition">The starting position of the first column</param>
-        /// <param name="positions">Starting positions for the other columns in order from second column</param>
+        /// <param name="lineLength">The Length of a line. Set to 0 or negative to read until end of line.</param>
+        /// <param name="positions">The positions where each column starts. This array requires atleast one element.</param>
         public void SetColumnPositions(int lineLength, params int[] positions)
         {
             if(positions.Length <= 0)

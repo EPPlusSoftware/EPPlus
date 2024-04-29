@@ -90,8 +90,7 @@ namespace OfficeOpenXml.LoadFunctions
                     bool lineread = false;
                     if (line.Length < _format.LineLength && _format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.ThrowError)
                     {
-                        //throw error here?
-                        continue;
+                        throw new FormatException("Line was " + line.Length + ", Expected length of " + _format.LineLength + " at Line " + lineNo );
                     }
                     for (int i = 0; i < _format.Columns.Count; i++)
                     {
@@ -177,8 +176,7 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     if (line.Length < _format.LineLength && _format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.ThrowError)
                     {
-                        //throw error here?
-                        continue;
+                        throw new FormatException("Line was " + line.Length + ", Expected length of " + _format.LineLength);
                     }
                     var isText = false;
                     var items = new List<object>();
