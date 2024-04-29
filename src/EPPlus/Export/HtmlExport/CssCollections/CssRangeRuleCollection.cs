@@ -228,19 +228,19 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 sharedRule.AddDeclaration("position", "relative");
                 sharedRule.AddDeclaration("overflow", "hidden");
                 sharedRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{DatabarSvg.GetConvertedAxisStripes()})");
-                sharedRule.AddDeclaration("background-size", "5% 10%");
+                sharedRule.AddDeclaration("background-size", "5px 10px");
                 sharedRule.AddDeclaration("background-repeat", "repeat-y");
                 sharedRule.AddDeclaration("background-position", "-10% 0%");
 
                 _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-db-shared::after", "content", "\"\"");
                 var sharedRuleAfter = _ruleCollection.Last();
-                sharedRule.AddDeclaration("position", "absolute");
-                sharedRule.AddDeclaration("width", "98%");
-                sharedRule.AddDeclaration("height", "90%");
-                sharedRule.AddDeclaration("z-index", "-1");
-                sharedRule.AddDeclaration("top", "5%");
-                sharedRule.AddDeclaration("background", "0 0 no-repeat");
-                sharedRule.AddDeclaration("background-size", "100% 100%");
+                sharedRuleAfter.AddDeclaration("position", "absolute");
+                sharedRuleAfter.AddDeclaration("width", "98%");
+                sharedRuleAfter.AddDeclaration("height", "90%");
+                sharedRuleAfter.AddDeclaration("z-index", "-1");
+                sharedRuleAfter.AddDeclaration("top", "5%");
+                sharedRuleAfter.AddDeclaration("background-repeat", "no-repeat");
+                sharedRuleAfter.AddDeclaration("background-size", "100% 100%");
 
                 _context.SharedDatabarRulesAdded = true;
             }
@@ -274,22 +274,8 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                     var absHighest = Math.Abs(dataBar.highest);
 
                     axisPercent = dataBar.lowest < 0 && dataBar.highest > 0 ? Math.Abs(dataBar.lowest) / Math.Abs(dataBar.highest) : 0;
+                    axisPercent = axisPercent > 1 ? 1d - (1d / axisPercent) : axisPercent;
                     axisPercent *= 100;
-                    //double leftWidthPercentage;
-
-                    //if (axisPercent > 1)
-                    //{
-                    //    leftWidthPercentage = 1 - (1 / axisPercent);
-                    //    //leftWidthPercentage = (0.5 + (0.5 / axisPercent)) * 100;
-                    //}
-                    //else
-                    //{
-                    //    leftWidthPercentage = axisPercent;
-                    //    //leftWidthPercentage = (axisPercent * 0.5) * 100;
-                    //}
-
-                    //leftWidthPercentage *= 100;
-
                 }
                 else
                 {
@@ -297,24 +283,41 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                     axisPercent = 50;
                 }
 
-                _ruleCollection.AddRule($"{ruleName + "pos"}, {ruleName + "neg"}", "background-position", $"{axisPercent}% 0%");
+                axisPercent = Math.Round(axisPercent, 3);
+                string axisPercentStr = (axisPercent).ToString(CultureInfo.InvariantCulture);
 
-                positiveDatabarRule.AddDeclaration("width", $"{100 - axisPercent}%");
-                positiveDatabarRule.AddDeclaration("left", $"{axisPercent}%");
+                _ruleCollection.AddRule($"{ruleName + "pos"}, {ruleName + "neg"}", "background-position", $"{axisPercentStr}% 0%");
+                var contentRule = _ruleCollection.Last();
+                contentRule.AddDeclaration("z-index", "0");
+                //var axisOpposite string.Format(,CultureInfo.InvariantCulture)
 
-                negativeDatabarRule.AddDeclaration("width", $"{axisPercent - 1}%");
-                negativeDatabarRule.AddDeclaration("right", $"{100 - axisPercent + 0.5}");
+                axisPercentStr = (axisPercent + 0.5).ToString(CultureInfo.InvariantCulture);
+
+                double posWidth = Math.Round(100d - axisPercent, 3);
+                string posWidthStr = posWidth.ToString(CultureInfo.InvariantCulture);
+                string axisPercentCorrected = (axisPercent - 0.5d).ToString(CultureInfo.InvariantCulture);
+                string posWidthCorrcted = (posWidth + 0.5d).ToString(CultureInfo.InvariantCulture);
+
+                positiveDatabarRule.AddDeclaration("width", $"{posWidthStr}%");
+                positiveDatabarRule.AddDeclaration("left", $"{axisPercentStr}%");
+
+                negativeDatabarRule.AddDeclaration("width", $"{axisPercentCorrected}%");
+                negativeDatabarRule.AddDeclaration("right", $"{posWidthCorrcted}%");
                 negativeDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
             }
 
             _ruleCollection.CssRules.Add(positiveDatabarRule);
             _ruleCollection.CssRules.Add(negativeDatabarRule);
 
-            for (int i = 0; i < dataBar.Address.Addresses.Count; i++) 
+            var addresses = dataBar.Address.GetAllAddresses();
+
+            var cells = dataBar._ws.Cells[dataBar.Address.Address];
+
+            foreach (var cell in cells)
             {
-                var className = dataBar.GetDataBarCssClasses(dataBar.Address.Addresses[i], ruleName, out double percentage);
+                var className = dataBar.GetDataBarCssClasses(cell, ruleName, out double percentage);
                 var databarRule = new CssRule(className, cssOrder);
-                databarRule.AddDeclaration("background-size", $"{percentage} 100%");
+                databarRule.AddDeclaration("background-size", $"{Math.Round(percentage, 3).ToString(CultureInfo.InvariantCulture)}% 100%");
                 _ruleCollection.CssRules.Add(databarRule);
             }
         }

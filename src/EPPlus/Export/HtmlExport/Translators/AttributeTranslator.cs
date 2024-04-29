@@ -175,13 +175,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 //Color borderColor;
                                 if (realValue > 0)
                                 {
-                                    cls += ruleName + "pos::after";
-                                    cls += ruleName + cell.Address + "-pos::after";
+                                    cls += ruleName + "pos";
+                                    cls += ruleName + cell.Address + "-pos";
                                 }
                                 else
                                 {
-                                    cls += ruleName + "neg::after";
-                                    cls += ruleName + cell.Address + "-neg::after";
+                                    cls += ruleName + "neg";
+                                    cls += ruleName + cell.Address + "-neg";
                                 }
 
                                 break;

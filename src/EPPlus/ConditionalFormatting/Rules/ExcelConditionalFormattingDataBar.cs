@@ -368,6 +368,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
                 double added = percentage == 0.0d ? 0 : 1.5;
 
+                percentage = percentage * 100;
                 //baseName += address.Address;
                 //string borderAdd = borderColor == Color.Empty ? "" : $", {((percentage * 98) + added).ToString(CultureInfo.InvariantCulture)}% 95%";
 
