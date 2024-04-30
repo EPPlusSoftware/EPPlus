@@ -246,7 +246,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual(1, rd[5, 3]);
         }
         [TestMethod]
-        public void VerifyDeleteOnRowTwoRowWithoutShiftingBetween()
+        public void VerifyDeleteOnRowTwoRowWithoutShiftingWhenBetweenRanges()
         {
             var rd = new RangeDictionary<int>();
 
@@ -271,6 +271,61 @@ namespace EPPlusTest.Core
             Assert.AreEqual(0, rd[8, 3]);
             Assert.AreEqual(2, rd[9, 3]);
             Assert.AreEqual(2, rd[10, 3]);
+        }
+        [TestMethod]
+        public void VerifyDeleteWithoutShiftingWhenToRowEqualsToRowRangeItem()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(8, 2, 10, 3, 2);
+
+            rd.ClearRows(2, 4, 1, 3);
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(0, rd[2, 1]);
+            Assert.AreEqual(0, rd[3, 1]);
+            Assert.AreEqual(0, rd[4, 1]);
+            Assert.AreEqual(0, rd[5, 1]);
+
+            Assert.AreEqual(1, rd[1, 2]);
+            Assert.AreEqual(0, rd[2, 2]);
+            Assert.AreEqual(0, rd[3, 2]);
+            Assert.AreEqual(0, rd[4, 2]);
+            Assert.AreEqual(0, rd[5, 2]);
+
+            Assert.AreEqual(1, rd[1, 3]);
+            Assert.AreEqual(0, rd[2, 3]);
+            Assert.AreEqual(0, rd[3, 3]);
+            Assert.AreEqual(0, rd[4, 3]);
+            Assert.AreEqual(0, rd[5, 3]);
+        }
+        [TestMethod]
+        public void VerifyDeleteWhenFromRowLessAndToRowLargerThanToRowRangeItemWithoutShifting()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+
+            rd.ClearRows(3, 4, 1, 4);
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 1]);
+            Assert.AreEqual(0, rd[3, 1]);
+            Assert.AreEqual(0, rd[4, 1]);
+            Assert.AreEqual(0, rd[5, 1]);
+
+            Assert.AreEqual(1, rd[1, 4]);
+            Assert.AreEqual(1, rd[2, 4]);
+            Assert.AreEqual(0, rd[3, 4]);
+            Assert.AreEqual(0, rd[4, 4]);
+            Assert.AreEqual(0, rd[5, 4]);
+
+            Assert.AreEqual(1, rd[1, 5]);
+            Assert.AreEqual(1, rd[2, 5]);
+            Assert.AreEqual(1, rd[3, 5]);
+            Assert.AreEqual(1, rd[4, 5]);
+            Assert.AreEqual(1, rd[5, 5]);
         }
         [TestMethod]
         public void VerifyClearFullColumn()

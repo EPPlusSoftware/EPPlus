@@ -260,65 +260,79 @@ namespace OfficeOpenXml.Core.CellStore
 
         internal RangeItem[] SplitRangeItem(RangeItem item, int fromRow, int toRow)
         {
+
             if (ExistsInSpan(fromRow, toRow, item.RowSpan))
             {
                 var fromRowRangeItem = (int)(item.RowSpan >> 20) + 1;
                 var toRowRangeItem = (int)(item.RowSpan & 0xFFFFF) + 1;
 
-                if(fromRow == fromRowRangeItem && toRow == toRowRangeItem)
+                long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
+                var clearedSpan = new RangeItem(clearSpan);
+
+                var andTest = item.RowSpan | clearSpan;
+
+                var spanTest = new RangeItem(andTest);
+
+                bool hasEndSpan = toRow != toRowRangeItem;
+                bool hasTopSpan = fromRow != fromRowRangeItem;
+
+                RangeItem[] ResultArr = [new RangeItem(-1L)];
+
+                if (hasEndSpan)
                 {
-                    return [new RangeItem(-1L)];
+                    if (fromRow == toRowRangeItem)
+                    {
+                        //remove one from right side of span
+                        item.RowSpan -= 1;
+                        return [item];
+                    }
+
+                    if(fromRow == fromRowRangeItem && fromRow == toRow)
+                    {
+                        //Add one to left side of span
+                        item.RowSpan += (1 << 20);
+                        return [item];
+                    }
+
+                    if (toRow < toRowRangeItem)
+                    {
+                        long endSpan;
+                        endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
+                        item.RowSpan = endSpan;
+                        ResultArr[0] = item;
+                    }
                 }
 
-                long endSpan;
-                if(toRow <= toRowRangeItem)
+                if (hasTopSpan)
                 {
-                   endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
-                }
-                else
-                {
-                    if(fromRow == toRowRangeItem)
+                    long topSpan;
+
+                    if (fromRow > fromRowRangeItem)
                     {
-                        endSpan = (fromRowRangeItem -1) << 20 | (toRowRangeItem - 2);
-                        item.RowSpan = endSpan;
-                        return [item];
+                        topSpan = ((fromRowRangeItem - 1) << 20) | (fromRow - 2);
+
+                        if(ResultArr[0].RowSpan == -1)
+                        {
+                            item.RowSpan = topSpan;
+                            return [item];
+                        }
+                        else
+                        {
+                            ResultArr = [new RangeItem(topSpan, item.Value), item];
+                        }
                     }
                     else
                     {
-                        endSpan = ((fromRow - 1) << 20) | (toRowRangeItem - 1);
+                        if (fromRowRangeItem == toRow)
+                        {
+                            topSpan = (fromRowRangeItem) << 20 | (toRowRangeItem - 1);
+                            item.RowSpan = topSpan;
+                            return [item];
+                        }
                     }
                 }
-            
 
-                item.RowSpan = endSpan;
-                //var endItem = new RangeItem(endSpan);
-                //endItem.Value = item.Value;
-
-                if(fromRowRangeItem == fromRow)
-                {
-                    return [item];
-                }
-                long topSpan;
-
-                if(fromRow > fromRowRangeItem)
-                {
-                    topSpan = ((fromRowRangeItem - 1) << 20) | (fromRow - 2);
-                }
-                else
-                {
-                    if(fromRowRangeItem == toRow)
-                    {
-                        return [item];
-                    }
-                    topSpan = ((fromRowRangeItem - 1) << 20) | (toRow - 1);
-                }
-
-                var topItem = new RangeItem(topSpan, item.Value);
-
-                //long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
-                //var middleItem = new RangeItem(clearSpan);
-
-                return [topItem, item];
+                return ResultArr;
             }
             else 
             {
@@ -329,10 +343,8 @@ namespace OfficeOpenXml.Core.CellStore
         internal void ClearRows(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
         {
             var toRow = fromRow + noRows - 1;
+            //A sheet has a maximum of 65,534 dataValidations. Shifting by 20 more than enough.
             long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
-
-            long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
-            var clearedSpan = new RangeItem(clearSpan);
 
             foreach (var c in _addresses.Keys)
             {
@@ -340,9 +352,18 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     var rows = _addresses[c];
 
+                    var ri = new RangeItem(rowSpan);
+
+                    var rowStartIndex = rows.BinarySearch(ri);
+                    if (rowStartIndex < 0)
+                    {
+                        rowStartIndex = ~rowStartIndex;
+                        if (rowStartIndex > 0) rowStartIndex--;
+                    }
+
                     //List<RangeItem[]> newRangeItems = new List<RangeItem[]>();
 
-                    for(int i= 0; i < rows.Count; i++)
+                    for (int i= rowStartIndex; i < rows.Count; i++)
                     {
                         var newItems = SplitRangeItem(rows[i], fromRow, toRow);
 
@@ -365,53 +386,6 @@ namespace OfficeOpenXml.Core.CellStore
                             rows.Insert(i, newItems[1]);
                         }
                     }
-
-                    //rows.Clear();
-
-                    //for (int i = 0; i < newRangeItems.Count; i++)
-                    //{
-                    //    for(int j = 0; j < newRangeItems[i].Length; j++)
-                    //    {
-                    //        rows.Add(newRangeItems[i][j]);
-                    //    }
-                    //}
-
-
-                    //var ri = new RangeItem(rowSpan);
-
-                    //var rowStartIndex = rows.BinarySearch(ri);
-                    //if (rowStartIndex < 0)
-                    //{
-                    //    rowStartIndex = ~rowStartIndex;
-                    //    if (rowStartIndex > 0) rowStartIndex--;
-                    //}
-
-                    //for (int i = rowStartIndex; i < rows.Count; i++)
-                    //{
-                    //    ri = rows[i];
-                    //    //var fromRowRangeItem = (int)(ri.RowSpan >> 20) + 1;
-                    //    //var toRowRangeItem = (int)(ri.RowSpan & 0xFFFFF) + 1;
-
-                    //    //fromRowRangeItem = Math.Max(fromRowRangeItem, toRow);
-                    //    //toRowRangeItem = Math.Max(toRowRangeItem, toRow);
-
-                    //    ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);
-                    //    rows[i] = ri;
-                    //}
-
-                    //rows.Insert(clearedSpan);
-                    //var ri = new RangeItem(clearSpan);
-
-                    //var rowStartIndex = rows.BinarySearch(ri);
-                    //if (rowStartIndex < 0)
-                    //{
-                    //    rowStartIndex = ~rowStartIndex;
-                    //    if (rowStartIndex > 0) rowStartIndex--;
-                    //}
-
-                    //var delete = (noRows << 20) | (noRows);
-
-                    //rows.Add(ri);
                 }
             }
         }
