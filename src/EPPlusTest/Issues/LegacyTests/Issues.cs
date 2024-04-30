@@ -6177,6 +6177,22 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void i1435()
+        {
+            using (var package = OpenTemplatePackage("i1435.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var groupDrawing = ((ExcelGroupShape)sheet.Drawings["img_d2_bt"]);
+                var childLine1 = groupDrawing.Drawings.FirstOrDefault(x=> x.Name=="D2_Line1_BT");
+                var childLine2 = groupDrawing.Drawings["D2_Line2_BT"];
+                var childLine3 = groupDrawing.Drawings["D2_Line3_BT"];
+
+                var childa = groupDrawing.Drawings[3];
+                var childb = groupDrawing.Drawings[4];
+                var childc = groupDrawing.Drawings[5];
+            }
+        }
 
         [TestMethod]
         public void s660()
