@@ -1,17 +1,6 @@
-﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Runtime.CompilerServices;
-using System.Net;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Security.Cryptography;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using System.ComponentModel.Design;
 
 namespace OfficeOpenXml.Core.CellStore
 {
@@ -258,86 +247,57 @@ namespace OfficeOpenXml.Core.CellStore
             }
         }
 
+        /// <summary>
+        /// Returns empty array if no result because fromRow, toRow covers entire spane
+        /// Returns rangeItem with rowspan -1 if the item does not exist within fromRow ToRow
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="fromRow"></param>
+        /// <param name="toRow"></param>
+        /// <returns></returns>
         internal RangeItem[] SplitRangeItem(RangeItem item, int fromRow, int toRow)
         {
-
-            if (ExistsInSpan(fromRow, toRow, item.RowSpan))
+            if(ExistsInSpan(fromRow,toRow,item.RowSpan))
             {
                 var fromRowRangeItem = (int)(item.RowSpan >> 20) + 1;
                 var toRowRangeItem = (int)(item.RowSpan & 0xFFFFF) + 1;
 
-                long clearSpan = ((fromRow - 1) << 20) | (toRow - 1);
-                var clearedSpan = new RangeItem(clearSpan);
+                var topItem = new RangeItem();
+                var botItem = new RangeItem();
 
-                var andTest = item.RowSpan | clearSpan;
+                List<RangeItem> result = new List<RangeItem>();
 
-                var spanTest = new RangeItem(andTest);
-
-                bool hasEndSpan = toRow != toRowRangeItem;
-                bool hasTopSpan = fromRow != fromRowRangeItem;
-
-                RangeItem[] ResultArr = [new RangeItem(-1L)];
-
-                if (hasEndSpan)
+                if (fromRow > fromRowRangeItem)
                 {
+                    int rangeItemOffset = 1;
                     if (fromRow == toRowRangeItem)
                     {
-                        //remove one from right side of span
-                        item.RowSpan -= 1;
-                        return [item];
+                        rangeItemOffset += 1;
                     }
 
-                    if(fromRow == fromRowRangeItem && fromRow == toRow)
-                    {
-                        //Add one to left side of span
-                        item.RowSpan += (1 << 20);
-                        return [item];
-                    }
-
-                    if (toRow < toRowRangeItem)
-                    {
-                        long endSpan;
-                        endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
-                        item.RowSpan = endSpan;
-                        ResultArr[0] = item;
-                    }
+                    long topSpan = ((fromRowRangeItem - rangeItemOffset) << 20) | (fromRow - 2);
+                    topItem.RowSpan = topSpan;
+                    topItem.Value = item.Value;
+                    result.Add(topItem);
                 }
 
-                if (hasTopSpan)
+                if (toRow < toRowRangeItem)
                 {
-                    long topSpan;
-
-                    if (fromRow > fromRowRangeItem)
+                    if (toRow == toRowRangeItem)
                     {
-                        topSpan = ((fromRowRangeItem - 1) << 20) | (fromRow - 2);
+                        toRow += 1;
+                    }
 
-                        if(ResultArr[0].RowSpan == -1)
-                        {
-                            item.RowSpan = topSpan;
-                            return [item];
-                        }
-                        else
-                        {
-                            ResultArr = [new RangeItem(topSpan, item.Value), item];
-                        }
-                    }
-                    else
-                    {
-                        if (fromRowRangeItem == toRow)
-                        {
-                            topSpan = (fromRowRangeItem) << 20 | (toRowRangeItem - 1);
-                            item.RowSpan = topSpan;
-                            return [item];
-                        }
-                    }
+                    long endSpan;
+                    endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
+                    botItem.RowSpan = endSpan;
+                    botItem.Value = item.Value;
+                    result.Add(botItem);
                 }
 
-                return ResultArr;
+                return result.ToArray();
             }
-            else 
-            {
-                return new RangeItem[0];
-            }
+            return [new RangeItem(-1L)];
         }
 
         internal void ClearRows(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
@@ -369,13 +329,13 @@ namespace OfficeOpenXml.Core.CellStore
 
                         if(newItems.Length == 0)
                         {
+                            rows.Remove(rows[i]);
+                            i--;
                             continue;
                         }
 
                         if (newItems[0].RowSpan == -1)
                         {
-                            rows.Remove(rows[i]);
-                            i--;
                             continue;
                         }
 
