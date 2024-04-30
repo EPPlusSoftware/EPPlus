@@ -7,6 +7,7 @@
 * Negations of Defined Names and Ranges in shared formulas sometimes received the wrong sign in the calculation as the negation flag was not cleared.
 * 'ExcelRangeBase.ToCollection()' auto-mapping sometimes threw an exception as the wrong property type was used.
 * Using 'ExcelRangeBse.LoadFromCollection' with Nullable property members in a collection now returns columns as expected.
+* DataValidationList no longer fails to read in rare cases. 
 
 ## Version 7.1.1
 ### Minor Features and fixed issues

@@ -31,8 +31,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
-using System;
 using System.IO;
+using System.Xml;
 
 namespace EPPlusTest.DataValidation
 {
@@ -244,5 +244,55 @@ namespace EPPlusTest.DataValidation
                 pck.SaveAs(stream2);
             }
         }
+
+        //s664
+        [TestMethod]
+        public void BoolParsing()
+        {
+            using (var package = OpenTemplatePackage("s664.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var cellVal = sheet.Cells["A1"].Value;
+            }
+        }
+        //s664
+        [TestMethod]
+        public void ZeroShowDropDownShouldNotThrow()
+        {
+            //Test checks if showDropDown = 0 can be read.
+            //We cannot create this state within epplus or excel normally.
+            //So let's use a string.
+            string ZeroDropDownData = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><worksheet xmlns='http://schemas.openxmlformats.org/spreadsheetml/2006/main' xmlns:r='http://schemas.openxmlformats.org/officeDocument/2006/relationships' xmlns:mc='http://schemas.openxmlformats.org/markup-compatibility/2006' mc:Ignorable='x14ac xr xr2 xr3' xmlns:x14ac='http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' xmlns:xr='http://schemas.microsoft.com/office/spreadsheetml/2014/revision' xmlns:xr2='http://schemas.microsoft.com/office/spreadsheetml/2015/revision2' xmlns:xr3='http://schemas.microsoft.com/office/spreadsheetml/2016/revision3' xr:uid='{CA8FD7CC-E246-49DC-A925-78ADCCAB8017}'><dataValidations count='1'><dataValidation type='list' allowBlank='1' showDropDown='0' showInputMessage='1' showErrorMessage='1' sqref='A1:A9' xr:uid='{3B036BC1-69BC-45FF-B77B-4775A658E050}'><formula1>$D$1:$D$9</formula1></dataValidation></dataValidations></worksheet>";
+
+            using (var dataReader = new StringReader(ZeroDropDownData))
+            {
+                var reader = XmlReader.Create(dataReader);
+                reader.Read();
+                reader.Read();
+                reader.Read();
+
+                using (var pck = OpenPackage("DataValidationListBoolWs.xlsx", true))
+                {
+                    var testSheet = pck.Workbook.Worksheets.Add("testSheet");
+                    for(int i = 1; i< 9; i++)
+                    {
+                        testSheet.Cells[i, 4].Value = i;
+                    }
+
+                    var collection = new ExcelDataValidationCollection(reader, testSheet);
+                    testSheet._dataValidations = collection;
+                    SaveAndCleanup(pck);
+                }
+            }
+
+
+            using (var pck = OpenPackage("DataValidationListBoolWs.xlsx"))
+            {
+                var testSheet = pck.Workbook.Worksheets.GetByName("testSheet");
+                Assert.IsFalse(testSheet.DataValidations[0].As.ListValidation.HideDropDown);
+                SaveAndCleanup(pck);
+            }
+        }
+
     }
 }
