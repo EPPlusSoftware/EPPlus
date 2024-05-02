@@ -583,8 +583,6 @@ namespace OfficeOpenXml.DataValidation
             {
                 _validationsRD.ClearRows(individualAddress._fromRow, individualAddress.Rows,
                                          individualAddress._fromCol, individualAddress._toCol);
-                //_validationsRD.DeleteRow(individualAddress._fromRow, individualAddress.Rows,
-                //                         individualAddress._fromCol, individualAddress._toCol, false);
             }
         }
         
