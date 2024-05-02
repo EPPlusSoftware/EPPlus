@@ -10,9 +10,10 @@
 *************************************************************************************************
  01/18/2024         EPPlus Software AB       EPPlus 7.1
 *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
+namespace OfficeOpenXml.Table.PivotTable.Calculation
 {
 	internal class PivotKeyUtil
 	{
@@ -122,5 +123,22 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             return true;
         }
 
+        internal static int[] GetKeyPart(int[] key, int fromIndex, int toIndex)
+        {
+			var newKey = new int[key.Length];
+
+            for (int i=0;i<key.Length;i++)
+			{
+				if(i>=fromIndex && i<= toIndex)
+				{
+					newKey[i] = key[i];	
+				}
+				else
+				{
+                    newKey[i] = PivotCalculationStore.SumLevelValue;
+                }
+			}
+			return newKey;
+        }
     }
 }

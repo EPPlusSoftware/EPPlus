@@ -118,10 +118,10 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             ws.Calculate();
 
             Assert.AreEqual(33997.99, (double)ws.Cells["A2"].Value);
-            //Assert.AreEqual(33997.99, (double)ws.Cells["A3"].Value);
-            //Assert.AreEqual(1D, (double)ws.Cells["A4"].Value);
-            //Assert.AreEqual(0D, (double)ws.Cells["A5"].Value);
-            //Assert.AreEqual(ErrorValues.RefError, ws.Cells["A6"].Value);
+            Assert.AreEqual(33997.99, (double)ws.Cells["A3"].Value);
+            Assert.AreEqual(1D, (double)ws.Cells["A4"].Value);
+            Assert.AreEqual(0D, (double)ws.Cells["A5"].Value);
+            Assert.AreEqual(ErrorValues.RefError, ws.Cells["A6"].Value);
         }
 
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)

@@ -12,11 +12,13 @@
 *************************************************************************************************/
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.Table.PivotTable.Filter;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -283,60 +285,38 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
             bool newUniqeKey = dataFieldItems.ContainsKey(key)==false;
             action(key, dataFieldItems, d);
         }
-        //      protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, List<bool> showTotals)
-        //      {			
-        //          //TODO: Check if field should be aggregated
-        //          int max = 1 << key.Length;
-        //	for (int c = 1; c < max; c++)
-        //	{
-        //              //TODO:Handle collapsed row/columns and fields with subtotals - None or multiple values. The ShouldAggregateKey()  is a start. 
-        //              //if (ShouldAggregateKey(key, colStartRef, c, showTotals) == false) continue;      //Check if field has subtotal, otherwise dont aggregate the item.
-        //              var sumKey = GetKey(key, c);
-        //		if (keys.TryGetValue(sumKey, out HashSet<int[]> hs) == false)
-        //		{
-        //			hs = new HashSet<int[]>(new ArrayComparer());
-        //			keys.Add(sumKey, hs);
-        //		}
-        //		if (hs.Contains(key) == false)
-        //		{
-        //			hs.Add(key);
-        //		}
-        //		action(sumKey, dataFieldItems, d);
-        //	}
-        //}
         protected static void AggregateKeys<T>(int[] key, int colStartRef, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, List<bool> showTotals)
         {
             //TODO: Check if field should be aggregated
-            int[] newKey = (int[])key.Clone();
-
-            for (int r = key.Length - 1; r >= 0; r--)
-            {
-                newKey[r] = PivotCalculationStore.SumLevelValue;
-                action(newKey, dataFieldItems, d);
-                AddToKeys(keys, newKey, key);
-                newKey = (int[])newKey.Clone();
-            }
 
             if (colStartRef > 0 && colStartRef < key.Length)
             {
-                newKey = (int[])key.Clone();
-                for (int c = colStartRef - 1; c >= 0; c--)
+                AddAggregatedKey(key, key.Length-1, colStartRef, dataFieldItems, keys, d, action, key);
+                int[] newKey = (int[])key.Clone();
+                for (int c = colStartRef-1; c >= 0; c--)
                 {
                     newKey[c] = PivotCalculationStore.SumLevelValue;
                     action(newKey, dataFieldItems, d);
                     AddToKeys(keys, newKey, key);
+                    AddAggregatedKey(newKey, key.Length-1, colStartRef, dataFieldItems, keys, d, action, key);
                     newKey = (int[])newKey.Clone();
                 }
             }
-
-            for (int i=1;i<key.Length;i++)
+            else
             {
-                if(i!=colStartRef)
-                {
-                    newKey = GetGrandTotalKey(key.Length);
-                    newKey[i] = key[i];
-                    AddToKeys(keys, newKey, key);
-                }
+                AddAggregatedKey(key, key.Length-1, 0, dataFieldItems, keys, d, action, key);
+            }
+        }
+
+        private static void AddAggregatedKey<T>(int[] key, int highIx,int lowIx, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys, T d, Action<int[], PivotCalculationStore, T> action, int[] uniqueKey)
+        {
+            int[] newKey = (int[])key.Clone();
+            for (int c = highIx; c >= lowIx; c--)
+            {
+                newKey[c] = PivotCalculationStore.SumLevelValue;
+                action(newKey, dataFieldItems, d);
+                AddToKeys(keys, newKey, uniqueKey);
+                newKey = (int[])newKey.Clone();
             }
         }
 

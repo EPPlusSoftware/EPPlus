@@ -442,7 +442,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var sumKey = GetSumKey(key);
                     if (Keys[dfIx].TryGetValue(sumKey, out uniqueItems))
                     {
-                        if (GetMatchingCount(uniqueItems, key, dataField.Field.PivotTable.RowFields.Count, out int[] newKey) == 1)
+                        if (GetMatchingCount(uniqueItems, key, RowFields.Count, out int[] newKey) == 1)
                         {
                             //key = PivotTableCalculation.GetKeyWithParentLevel(key, newKey, dataField.Field.PivotTable.RowFields.Count);
                             key = newKey;
@@ -480,7 +480,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     return value;
                 }
             }
-            if(ExistsValueInTable(key, keyFieldIndex, dfIx, dataField.Field.PivotTable.RowFields.Count))
+            if(ExistsValueInTable(key, keyFieldIndex, dfIx))
             {
 				return 0D;
 			}
@@ -550,6 +550,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var hasSumKey = false;
             for (int i = 0;i < key.Length;i++)
             {
+                if (i == RowFields.Count) hasSumKey = false;
                 if (newKey[i] == PivotCalculationStore.SumLevelValue)
                 {
                     hasSumKey = true;
@@ -644,22 +645,46 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx, int colFieldStart)
+        private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx)
 		{
-            for(int ix = 0; ix < keyFieldIndex.Count; ix++)
+            var colFieldStart = RowFields.Count;
+            for (int ix = 0; ix < keyFieldIndex.Count; ix++)
             {
+                var field = Fields[keyFieldIndex[ix]];
                 if(ix < colFieldStart)
                 {
-                    if (_rowItems[dfIx].Contains(key[ix]) == false)
+                    if (field.Grouping == null)
                     {
-                        return false;
-                    }                    
+                        if (_rowItems[dfIx].Contains(key[ix]) == false)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        var groupKey = PivotKeyUtil.GetKeyPart(key, 0, colFieldStart-1);
+                        if(CalculatedItems[dfIx].ContainsKey(groupKey)==false)
+                        {
+                            return false;
+                        }
+                    }
                 }
                 else
                 {
-                    if (_colItems[dfIx].Contains(key[ix]) == false)
+                    if (field.Grouping == null)
                     {
-                        return false;
+                        if (_colItems[dfIx].Contains(key[ix]) == false)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        var groupKey = PivotKeyUtil.GetKeyPart(key, colFieldStart, ix);
+                        if (CalculatedItems[dfIx].ContainsKey(groupKey) == false)
+                        {
+                            return false;
+                        }
                     }
                 }
             }

@@ -51,6 +51,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     Format = styles.NumberFormats[ix].Format;
                 }
             }
+            Load_SubTotalFunction();
         }
 
         internal ExcelPivotTable PivotTable { get; set; }
@@ -325,6 +326,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@includeNewItemsInFilter", value);
             }
         }
+        eSubTotalFunctions _subTotalFunctions=eSubTotalFunctions.Default;
         /// <summary>
         /// Enumeration of the different subtotal operations that can be applied to page, row or column fields
         /// </summary>
@@ -332,21 +334,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                eSubTotalFunctions ret = 0;
-                XmlNodeList nl = TopNode.SelectNodes("d:items/d:item/@t", NameSpaceManager);
-                if (nl.Count == 0) return GetXmlNodeBool("@defaultSubtotal", true) ? eSubTotalFunctions.Default : eSubTotalFunctions.None;
-                foreach (XmlAttribute item in nl)
-                {
-                    try
-                    {
-                        ret |= (eSubTotalFunctions)Enum.Parse(typeof(eSubTotalFunctions), item.Value, true);
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        throw new ArgumentException("Unable to parse value of " + item.Value + " to a valid pivot table subtotal function", ex);
-                    }
-                }
-                return ret;
+                return _subTotalFunctions;
             }
             set
             {
@@ -357,37 +345,73 @@ namespace OfficeOpenXml.Table.PivotTable
                 if ((value & eSubTotalFunctions.Default) == eSubTotalFunctions.Default && (value != eSubTotalFunctions.Default))
                 {
                     throw (new ArgumentException("Value Default cannot be combined with other values."));
-                }
-
-                Cache.UpdateSubTotalItems(Items._list, value);
-
-                for (int i = 0; i < TopNode.Attributes.Count; i++)
-                {
-                    var a = TopNode.Attributes[i];
-                    if (a.LocalName.EndsWith("Subtotal"))
-                    {
-                        TopNode.Attributes.Remove(a);
-                        i--;
-                    }
-                }
-
-                if (value == eSubTotalFunctions.None)
-                {
-                    // for no subtotals, set defaultSubtotal to off
-                    SetXmlNodeBool("@defaultSubtotal", false);
-                }
-                else
-                {
-                    foreach (eSubTotalFunctions e in Enum.GetValues(typeof(eSubTotalFunctions)))
-                    {
-                        if ((value & e) == e)
-                        {
-                            // add new attribute
-                            SetXmlNodeBool("@" + e.ToEnumString() + "Subtotal", true);
-                        }
-                    }
-                }
+                }                
+                _subTotalFunctions = value;
             }
+            //get
+            //{
+            //    eSubTotalFunctions ret = 0;
+            //    foreach (XmlAttribute item in TopNode.Attributes)
+            //    {
+            //        try
+            //        {
+            //            if(item.Name.EndsWith("Subtotal") && item.Value!="0" && item.Value != "false")
+            //            {
+            //                ret |= (eSubTotalFunctions)Enum.Parse(typeof(eSubTotalFunctions), item.Name.Substring(0, item.Name.Length-8), true);
+            //            }
+            //        }
+            //        catch (ArgumentException ex)
+            //        {
+            //            throw new ArgumentException("Unable to parse value of " + item.Value + " to a valid pivot table subtotal function", ex);
+            //        }
+            //    }
+            //    return ret == 0 ? 
+            //        GetXmlNodeBool("@defaultSubtotal", true) 
+            //        ? 
+            //            eSubTotalFunctions.Default : 
+            //            eSubTotalFunctions.None : 
+            //        ret;
+            //}
+            //set
+            //{
+            //    if ((value & eSubTotalFunctions.None) == eSubTotalFunctions.None && (value != eSubTotalFunctions.None))
+            //    {
+            //        throw (new ArgumentException("Value None cannot be combined with other values."));
+            //    }
+            //    if ((value & eSubTotalFunctions.Default) == eSubTotalFunctions.Default && (value != eSubTotalFunctions.Default))
+            //    {
+            //        throw (new ArgumentException("Value Default cannot be combined with other values."));
+            //    }
+
+            //    Cache.UpdateSubTotalItems(Items._list, value);
+
+            //    for (int i = 0; i < TopNode.Attributes.Count; i++)
+            //    {
+            //        var a = TopNode.Attributes[i];
+            //        if (a.LocalName.EndsWith("Subtotal"))
+            //        {
+            //            TopNode.Attributes.Remove(a);
+            //            i--;
+            //        }
+            //    }
+
+            //    if (value == eSubTotalFunctions.None)
+            //    {
+            //        // for no subtotals, set defaultSubtotal to off
+            //        SetXmlNodeBool("@defaultSubtotal", false);
+            //    }
+            //    else
+            //    {
+            //        foreach (eSubTotalFunctions e in Enum.GetValues(typeof(eSubTotalFunctions)))
+            //        {
+            //            if ((value & e) == e)
+            //            {
+            //                // add new attribute
+            //                SetXmlNodeBool("@" + e.ToEnumString() + "Subtotal", true);
+            //            }
+            //        }
+            //    }
+            //}
         }
         /// <summary>
         /// Type of axis
@@ -668,6 +692,62 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 _items.AddInternal(item);
             }
+            Cache.UpdateSubTotalItems(Items._list, _subTotalFunctions);
+        }
+
+        private void Load_SubTotalFunction()
+        {
+            eSubTotalFunctions ret = 0;
+            foreach (XmlAttribute item in TopNode.Attributes)
+            {
+                try
+                {
+                    if (item.Name.EndsWith("Subtotal") && item.Value != "0" && item.Value != "false")
+                    {
+                        ret |= (eSubTotalFunctions)Enum.Parse(typeof(eSubTotalFunctions), item.Name.Substring(0, item.Name.Length - 8), true);
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new ArgumentException("Unable to parse value of " + item.Value + " to a valid pivot table subtotal function", ex);
+                }
+            }
+            SubTotalFunctions = 
+                (ret == 0 ?
+                GetXmlNodeBool("@defaultSubtotal", true)
+                ?
+                    eSubTotalFunctions.Default :
+                    eSubTotalFunctions.None :
+                ret);
+        }
+        private void Update_SubTotalFunctions()
+        {
+            for (int i = 0; i < TopNode.Attributes.Count; i++)
+            {
+                var a = TopNode.Attributes[i];
+                if (a.LocalName.EndsWith("Subtotal"))
+                {
+                    TopNode.Attributes.Remove(a);
+                    i--;
+                }
+            }
+
+            if (_subTotalFunctions == eSubTotalFunctions.None)
+            {
+                // for no subtotals, set defaultSubtotal to off
+                SetXmlNodeBool("@defaultSubtotal", false);
+            }
+            else
+            {
+                foreach (eSubTotalFunctions e in Enum.GetValues(typeof(eSubTotalFunctions)))
+                {
+                    if ((_subTotalFunctions & e) == e)
+                    {
+                        // add new attribute
+                        SetXmlNodeBool("@" + e.ToEnumString() + "Subtotal", true);
+                    }
+                }
+            }            
         }
         ExcelPivotTableCacheField _cacheField=null;
         /// <summary>
@@ -984,8 +1064,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        internal string SaveToXml()
+        internal void SaveToXml()
         {
+            Update_SubTotalFunctions();
             var sb = new StringBuilder();
             var fld = PivotTable.CacheDefinition._cacheReference.Fields[Index];
 
@@ -994,7 +1075,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 AutoSort.Conditions.UpdateXml();
             }
-            if (cacheLookup == null) return "";
+            if (cacheLookup == null) return;
             
             if (cacheLookup.Count==0)
             {
@@ -1021,7 +1102,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 node.SetAttribute("count", Items.Count.ToString());
             }
 
-            return sb.ToString();
+            //return sb.ToString();
         }
         internal int GetGroupingKey(int shIndex)
         {

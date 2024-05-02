@@ -64,12 +64,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
 
             string dataFieldName = "";
+            List<string> fieldValues = new List<string>();
             var criteria = new List<PivotDataFieldItemSelection>();
             var criteriaString = arguments[1].Value.ToString();
             var sb = new StringBuilder();
             int bracketCount = 0;
             bool isInString = false;
-            int rowColIndex = 0;
+            bool hasValue = false;
+            bool? functionIsRowField = null;
             for (int i = 0;i< criteriaString.Length;i++)
             {
                 var c = criteriaString[i];
@@ -77,8 +79,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     if (sb.Length > 0)
                     {
-                        dataFieldName = AddFieldValue(pivotTable, criteria, ref sb, rowColIndex);
-                        rowColIndex++;
+                        fieldValues.Add(sb.ToString());
+                        sb.Length=0;
                     }
                 }
                 else if (c == '\'')
@@ -91,23 +93,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 else if (c == '[' && isInString == false)
                 {
-                    var sel = new PivotDataFieldItemSelection();
-                    sel.FieldName = sb.ToString();
-                    criteria.Add(sel);
-                    sb = new StringBuilder();
+                    var fieldName = sb.ToString();
+                    fieldValues.Add(fieldName);
+                    sb.Length = 0;
+                    var f = pivotTable.Fields[fieldName];
+                    if(f==null || (f.IsRowField==false && f.IsColumnField==false))
+                    {
+                        return CompileResult.GetErrorResult(eErrorType.Ref);
+                    }
+                    else if (f.IsRowField)
+                    {
+                        functionIsRowField = true;
+                    }
+                    else 
+                    {
+                        functionIsRowField = false;
+                    }
+                    AddCriterias(fieldValues, (functionIsRowField.Value ? pivotTable.RowFields: pivotTable.ColumnFields), ref criteria);
+                    fieldValues.Clear();
                     bracketCount++;
-                    if(rowColIndex < pivotTable.RowFields.Count)
-                    {
-                        rowColIndex = pivotTable.RowFields.Count;
-                    }
-                    else
-                    {
-                        rowColIndex = pivotTable.RowFields.Count+ pivotTable.ColumnFields.Count;
-                    }
                 }
                 else if ((c == ','  || c == ';') && isInString == false && bracketCount>0)
                 {
+                    if(hasValue)
+                    {
+                        return CompileResult.GetErrorResult(eErrorType.Ref);
+                    }
                     criteria[criteria.Count-1].Value = sb.ToString();
+                    hasValue = true;
                     sb = new StringBuilder();
                 }
                 else if (c ==']' && isInString == false)
@@ -127,16 +140,48 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if (sb.Length > 0)
             {
-                dataFieldName = AddFieldValue(pivotTable, criteria, ref sb, rowColIndex);
+                var fieldName = sb.ToString();
+                var field = pivotTable.Fields[fieldName];
+                if (field != null && field.IsDataField)
+                {
+                    dataFieldName = fieldName;
+                }
+                else
+                {
+                    fieldValues.Add(fieldName);
+                }
             }
-            
+
+            if(fieldValues.Count > 0)
+            {
+                if (functionIsRowField.HasValue)
+                {
+                    AddCriterias(fieldValues, (functionIsRowField.Value ? pivotTable.ColumnFields : pivotTable.RowFields), ref criteria);
+                    criteria[criteria.Count - 1].Value = fieldValues[fieldValues.Count - 1];
+                }
+                else
+                {
+                    return CompileResult.GetErrorResult(eErrorType.Ref);
+                }
+            }
+
             if(dataFieldName==string.Empty && pivotTable.DataFields.Count==1)
             {
                 dataFieldName = pivotTable.DataFields[0].Name;
                 if (dataFieldName == string.Empty) dataFieldName = pivotTable.DataFields[0].Field.Name;
             }
+
             var result = pivotTable.GetPivotData(dataFieldName, criteria);
             return new CompileResult(result, DataType.Decimal);
+        }
+
+        private void AddCriterias(List<string> fieldValues, ExcelPivotTableRowColumnFieldCollection fields, ref List<PivotDataFieldItemSelection> criteria)
+        {
+            for (int i=0;i<fieldValues.Count-1; i++)
+            {
+                criteria.Add(new PivotDataFieldItemSelection(fields[i].Name, fieldValues[i]));
+            }
+            criteria.Add(new PivotDataFieldItemSelection(fields[fieldValues.Count - 1].Name, null));
         }
 
         private static string AddFieldValue(ExcelPivotTable pivotTable, List<PivotDataFieldItemSelection> criteria, ref StringBuilder sb, int rowColIndex)
