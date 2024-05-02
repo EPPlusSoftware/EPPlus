@@ -28,8 +28,7 @@ namespace OfficeOpenXml
             Uri uri = null;
             int commentIx = 0;
             await WriteItemAsync(sw, $"\"{_settings.RowsElementName}\":[", true);
-            var fromRow1 = fromRow + headerRows;
-            for (int r = fromRow1; r <= toRow; r++)
+            for (int r = fromRow + headerRows; r <= toRow; r++)
             {
                 await WriteStartAsync(sw);
                 await WriteItemAsync(sw, $"\"{_settings.CellsElementName}\":[", true);

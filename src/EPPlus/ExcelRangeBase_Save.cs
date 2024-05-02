@@ -149,24 +149,24 @@ namespace OfficeOpenXml
             var sw = new StreamWriter(stream, Format.Encoding);
             if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
             int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
-            var fromCol1 = _fromCol;
-            var toCol1 = _toCol;
-            var fromRow1 = _fromRow;
-            var toRow1 = _toRow;
+            var fromCol = _fromCol;
+            var toCol = _toCol;
+            var fromRow = _fromRow;
+            var toRow = _toRow;
             if (Format.DataIsTransposed)
             {
-                fromRow1 = _fromCol;
-                toRow1 = _toCol;
-                fromCol1 = _fromRow;
-                toCol1 = _toRow;
+                fromRow = _fromCol;
+                toRow = _toCol;
+                fromCol = _fromRow;
+                toCol = _toRow;
             }
             bool hasTextQ = Format.TextQualifier != '\0';
             string doubleTextQualifiers = new string(Format.TextQualifier, 2);
             var skipLinesBegining = Format.SkipLinesBeginning + (Format.FirstRowIsHeader ? 1 : 0);
             CultureInfo ci = GetCultureInfo(Format);
-            for (int row = fromRow1; row <= toRow1; row++)
+            for (int row = fromRow; row <= toRow; row++)
             {
-                if (row == fromRow1 && Format.FirstRowIsHeader)
+                if (row == fromRow && Format.FirstRowIsHeader)
                 {
                     sw.Write(WriteHeaderRow(Format, hasTextQ, row, ci));
                     continue;
@@ -178,7 +178,7 @@ namespace OfficeOpenXml
                     continue;
                 }
 
-                for (int col = fromCol1; col <= toCol1; col++)
+                for (int col = fromCol; col <= toCol; col++)
                 {
                     string t = Format.DataIsTransposed ? GetText(Format, maxFormats, ci, col, row, out bool isText) : GetText(Format, maxFormats, ci, row, col, out isText);
 
@@ -192,9 +192,9 @@ namespace OfficeOpenXml
                     {
                         sw.Write(t);
                     }
-                    if (col != toCol1) sw.Write(Format.Delimiter);
+                    if (col != toCol) sw.Write(Format.Delimiter);
                 }
-                if (row != toRow1 - Format.SkipLinesEnd) sw.Write(Format.EOL);
+                if (row != toRow - Format.SkipLinesEnd) sw.Write(Format.EOL);
             }
             if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
             sw.Flush();
@@ -252,16 +252,16 @@ namespace OfficeOpenXml
             var sw = new StreamWriter(stream, Format.Encoding);
             if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
             int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
-            var fromCol1 = _fromCol;
-            var toCol1 = _toCol;
-            var fromRow1 = _fromRow;
-            var toRow1 = _toRow;
+            var fromCol = _fromCol;
+            var toCol = _toCol;
+            var fromRow = _fromRow;
+            var toRow = _toRow;
             if (Format.DataIsTransposed)
             {
-                fromRow1 = _fromCol;
-                toRow1 = _toCol;
-                fromCol1 = _fromRow;
-                toCol1 = _toRow;
+                fromRow = _fromCol;
+                toRow = _toCol;
+                fromCol = _fromRow;
+                toCol = _toRow;
             }
             bool hasTextQ = Format.TextQualifier != '\0';
             string encodedTextQualifier = "";
@@ -278,9 +278,9 @@ namespace OfficeOpenXml
             }
             var skipLinesBegining = Format.SkipLinesBeginning + (Format.FirstRowIsHeader ? 1 : 0);
             CultureInfo ci = GetCultureInfo(Format);
-            for (int row = fromRow1; row <= toRow1; row++)
+            for (int row = fromRow; row <= toRow; row++)
             {
-                if (row == fromRow1 && Format.FirstRowIsHeader)
+                if (row == fromRow && Format.FirstRowIsHeader)
                 {
                     await sw.WriteAsync(WriteHeaderRow(Format, hasTextQ, row, ci)).ConfigureAwait(false);
                     continue;
@@ -291,7 +291,7 @@ namespace OfficeOpenXml
                     continue;
                 }
 
-                for (int col = fromCol1; col <= toCol1; col++)
+                for (int col = fromCol; col <= toCol; col++)
                 {
                     string t = Format.DataIsTransposed ? GetText(Format, maxFormats, ci, col, row, out bool isText) : GetText(Format, maxFormats, ci, row, col, out isText);
 
@@ -303,9 +303,9 @@ namespace OfficeOpenXml
                     {
                         await sw.WriteAsync(t).ConfigureAwait(false);
                     }
-                    if (col != toCol1) await sw.WriteAsync(Format.Delimiter).ConfigureAwait(false);
+                    if (col != toCol) await sw.WriteAsync(Format.Delimiter).ConfigureAwait(false);
                 }
-                if (row != toRow1 - Format.SkipLinesEnd) await sw.WriteAsync(Format.EOL).ConfigureAwait(false);
+                if (row != toRow - Format.SkipLinesEnd) await sw.WriteAsync(Format.EOL).ConfigureAwait(false);
             }
             if (!string.IsNullOrEmpty(Format.Footer)) await sw.WriteAsync(Format.EOL + Format.Footer).ConfigureAwait(false);
             sw.Flush();
