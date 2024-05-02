@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -53,12 +54,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     temp = 0;
                     for (int k = 0; k <= c1; k++)
                     {
-                        bool e1 = double.TryParse(m1.GetValue(x1, y1).ToString(), out double t1);
-                        bool e2 = double.TryParse(m2.GetValue(x2, y2).ToString(), out double t2);
-                        if( !e1 || !e2)
+                        var e1 = m1.GetValue(x1, y1);
+                        var e2 = m2.GetValue(x2, y2);
+
+                        if( !IsNumeric(e1) || !IsNumeric(e2))
                         {
                             return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
                         }
+                        var t1 = ConvertUtil.GetValueDouble(e1);
+                        var t2 = ConvertUtil.GetValueDouble(e2);
                         temp += t1 * t2;
                         y1++;
                         x2++;

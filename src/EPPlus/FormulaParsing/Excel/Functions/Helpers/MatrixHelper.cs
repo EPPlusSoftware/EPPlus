@@ -30,34 +30,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return matrix;
         }
 
-        internal static double[][] Multiply(double[][] A, double[][] B)
+        internal static double[][] Multiply(double[][] a, double[][] b)
         {
-            int Ay = A.Length;
-            int Ax = A[0].Length;
-            int By = B.Length;
-            int Bx = B[0].Length;
-            if (Ax != By)
+            int aY = a.Length;
+            int aX = a[0].Length;
+            int bY = b.Length;
+            int bX = b[0].Length;
+            if (aX != bY)
             {
                 return null;
             }
-            double[][] matrix = CreateMatrix(Ay, Bx);
-            for (int i = 0; i < Ay; i++)
+            double[][] matrix = CreateMatrix(aY, bX);
+            for (int i = 0; i < aY; i++)
             {
-                for (int j = 0; j < Bx; j++)
+                for (int j = 0; j < bX; j++)
                 {
-                    for (int k = 0; k < Ax; k++)
+                    for (int k = 0; k < aX; k++)
                     {
-                        matrix[i][j] += A[i][k] * B[k][j];
+                        matrix[i][j] += a[i][k] * b[k][j];
                     }
                 }
             }
             return matrix;
         }
 
-        internal static double[][] GetIdentityMatrix(int n)
+        internal static double[][] GetIdentityMatrix(int size)
         {
-            double[][] identity = CreateMatrix(n, n);
-            for (int i = 0; i < n; i++)
+            double[][] identity = CreateMatrix(size, size);
+            for (int i = 0; i < size; i++)
             {
                 identity[i][i] = 1.0d;
             }
@@ -68,23 +68,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             int[] permutations;
             int rowSwap;
-            double[][] LU = Decompose(matrix, out permutations, out rowSwap);
-            if (LU == null) return double.NaN;
+            double[][] lu = Decompose(matrix, out permutations, out rowSwap);
+            if (lu == null) return double.NaN;
             double result = rowSwap;
-            for (int i = 0; i < LU.Length; ++i)
+            for (int i = 0; i < lu.Length; ++i)
             {
-                result *= LU[i][i];
+                result *= lu[i][i];
             }
             return result;
         }
 
-        internal static double GetDeterminant(double[][] LU, int rowSwap)
+        internal static double GetDeterminant(double[][] lu, int rowSwap)
         {
-            if (LU == null) return double.NaN;
+            if (lu == null) return double.NaN;
             double result = rowSwap;
-            for (int i = 0; i < LU.Length; ++i)
+            for (int i = 0; i < lu.Length; ++i)
             {
-                result *= LU[i][i];
+                result *= lu[i][i];
             }
             return result;
         }
@@ -167,8 +167,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         internal static double[][] Inverse(double[][] matrix)
         {
             double[][] inverse = Duplicate(matrix);
-            double[][] LU = Decompose(matrix, out int[] permutations, out int rowSwap);
-            if (LU == null) return null;
+            double[][] lu = Decompose(matrix, out int[] permutations, out int rowSwap);
+            if (lu == null) return null;
             double[] unit = new double[matrix.Length];
             for (int i = 0; i < matrix.Length; i++)
             {
@@ -183,7 +183,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                         unit[j] = 0.0;
                     }
                 }
-                double[] element = InverserSolver(LU, unit);
+                double[] element = InverserSolver(lu, unit);
                 for (int j = 0; j < matrix.Length; j++)
                 {
                     inverse[j][i] = element[j];
@@ -192,14 +192,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return inverse;
         }
 
-        internal static double[][] Inverse(double[][] LU, int[] permutations, int rowSwap)
+        internal static double[][] Inverse(double[][] lu, int[] permutations, int rowSwap)
         {
-            double[][] inverse = Duplicate(LU);
-            if (LU == null) return null;
-            double[] unit = new double[LU.Length];
-            for (int i = 0; i < LU.Length; i++)
+            double[][] inverse = Duplicate(lu);
+            if (lu == null) return null;
+            double[] unit = new double[lu.Length];
+            for (int i = 0; i < lu.Length; i++)
             {
-                for (int j = 0; j < LU.Length; j++)
+                for (int j = 0; j < lu.Length; j++)
                 {
                     if (i == permutations[j])
                     {
@@ -210,8 +210,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                         unit[j] = 0.0;
                     }
                 }
-                double[] elements = InverserSolver(LU, unit);
-                for (int j = 0; j < LU.Length; j++)
+                double[] elements = InverserSolver(lu, unit);
+                for (int j = 0; j < lu.Length; j++)
                 {
                     inverse[j][i] = elements[j];
                 }
@@ -219,28 +219,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return inverse;
         }
 
-        private static double[] InverserSolver(double[][] LUMatrix, double[] unit)
+        private static double[] InverserSolver(double[][] luMatrix, double[] unit)
         {
-            double[] elements = new double[LUMatrix.Length];
+            double[] elements = new double[luMatrix.Length];
             unit.CopyTo(elements, 0);
-            for (int i = 1; i < LUMatrix.Length; i++)
+            for (int i = 1; i < luMatrix.Length; i++)
             {
                 double product = elements[i];
                 for (int j = 0; j < i; j++)
                 {
-                    product -= LUMatrix[i][j] * elements[j];
+                    product -= luMatrix[i][j] * elements[j];
                 }
                 elements[i] = product;
             }
-            elements[LUMatrix.Length - 1] /= LUMatrix[LUMatrix.Length - 1][LUMatrix.Length - 1];
-            for (int i = LUMatrix.Length - 2; i >= 0; i--)
+            elements[luMatrix.Length - 1] /= luMatrix[luMatrix.Length - 1][luMatrix.Length - 1];
+            for (int i = luMatrix.Length - 2; i >= 0; i--)
             {
                 double product = elements[i];
-                for (int j = i + 1; j < LUMatrix.Length; j++)
+                for (int j = i + 1; j < luMatrix.Length; j++)
                 {
-                    product -= LUMatrix[i][j] * elements[j];
+                    product -= luMatrix[i][j] * elements[j];
                 }
-                elements[i] = product / LUMatrix[i][i];
+                elements[i] = product / luMatrix[i][i];
             }
             return elements;
         }

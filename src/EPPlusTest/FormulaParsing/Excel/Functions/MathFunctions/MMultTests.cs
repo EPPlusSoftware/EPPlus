@@ -66,5 +66,27 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             Assert.AreEqual(222d, ws.Cells["I13"].Value);
             SaveAndCleanup(p);
         }
+
+        [TestMethod]
+        public void FaultyMatrix()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = 5;
+            ws.Cells["B1"].Value = 6;
+            ws.Cells["C1"].Value = 7;
+            ws.Cells["A2"].Value = 3;
+            ws.Cells["C2"].Value = 2;
+
+            ws.Cells["A4"].Value = 9;
+            ws.Cells["A5"].Value = 1;
+            ws.Cells["A6"].Value = 3;
+            ws.Cells["B4"].Value = 8;
+            ws.Cells["B5"].Value = 1;
+            ws.Cells["B6"].Value = 3;
+            ws.Cells["E1"].Formula = "MMULT(A1:C2,A4:B6)";
+            ws.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), ws.Cells["E1"].Value);
+        }
     }
 }
