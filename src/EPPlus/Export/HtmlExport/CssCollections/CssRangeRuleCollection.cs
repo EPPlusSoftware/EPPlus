@@ -201,9 +201,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _ruleCollection.AddRule(".cf-ic-shared::before", "content", "\"\"");
 
                 var beforeRule = _ruleCollection.Last();
-                //TODO: Figure out where the .22 we need to account for comes from.
-                //We add this because 1em does not make the svg box the same size as text of the font otherwise.
-                //Likely due to some kind of margin setting somewhere?
+                //Set to 1.22 em because our standard-height for columns is 20px
                 beforeRule.AddDeclaration("min-width", $"1.22em");
                 beforeRule.AddDeclaration("min-height", $"1.22em");
                 beforeRule.AddDeclaration("float", $"left");
