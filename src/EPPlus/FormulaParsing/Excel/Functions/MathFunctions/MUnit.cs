@@ -63,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
-            double[][] m = MatrixHelper.GetIdentity(size);
+            double[][] m = MatrixHelper.GetIdentityMatrix(size);
             var returnRange2 = new InMemoryRange(size, (short)size);
             for(int i = 0; i< m.Length;i++)
             {

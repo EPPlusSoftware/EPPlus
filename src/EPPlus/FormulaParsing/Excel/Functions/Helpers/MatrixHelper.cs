@@ -32,15 +32,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
         internal static double[][] Multiply(double[][] A, double[][] B)
         {
-            return A;
+            int Ay = A.Length;
+            int Ax = A[0].Length;
+            int By = B.Length;
+            int Bx = B[0].Length;
+            if (Ax != By)
+            {
+                return null;
+            }
+            double[][] matrix = CreateMatrix(Ay, Bx);
+            for (int i = 0; i < Ay; i++)
+            {
+                for (int j = 0; j < Bx; j++)
+                {
+                    for (int k = 0; k < Ax; k++)
+                    {
+                        matrix[i][j] += A[i][k] * B[k][j];
+                    }
+                }
+            }
+            return matrix;
         }
 
-        internal static double[][] GetIdentity(int n)
+        internal static double[][] GetIdentityMatrix(int n)
         {
             double[][] identity = CreateMatrix(n, n);
             for (int i = 0; i < n; i++)
             {
-                identity[i][i] = 1.0;
+                identity[i][i] = 1.0d;
             }
             return identity;
         }
@@ -49,8 +68,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             int[] permutations;
             int rowSwap;
-            double[][] LU = GetDecompose(matrix, out permutations, out rowSwap);
-            if (LU == null) return 0;
+            double[][] LU = Decompose(matrix, out permutations, out rowSwap);
+            if (LU == null) return double.NaN;
             double result = rowSwap;
             for (int i = 0; i < LU.Length; ++i)
             {
@@ -61,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
         internal static double GetDeterminant(double[][] LU, int rowSwap)
         {
-            if (LU == null) return 0;
+            if (LU == null) return double.NaN;
             double result = rowSwap;
             for (int i = 0; i < LU.Length; ++i)
             {
@@ -70,188 +89,160 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return result;
         }
 
-        internal static double[][] GetDecompose(double[][] matrix, out int[] permutations, out int rowSwap)
+        internal static double[][] Decompose(double[][] matrix, out int[] permutations, out int rowSwap)
         {
             int rows = matrix.Length;
             int cols = matrix[0].Length;
-            double[][] result = GetDuplicate(matrix);
+            double[][] decomposedMatrix = Duplicate(matrix);
             permutations = new int[rows];
             for (int i = 0; i < rows; i++)
             {
                 permutations[i] = i;
             }
             rowSwap = 1;
-            for (int j = 0; j < rows - 1; j++)
+            for (int i = 0; i < rows - 1; i++)
             {
-                double colMax = System.Math.Abs(result[j][j]);
-                int pRow = j;
-                for (int i = j + 1; i < rows; i++)
+                double maxCols = System.Math.Abs(decomposedMatrix[i][i]);
+                int permRow = i;
+                for (int j = i + 1; j < rows; j++)
                 {
-                    if (System.Math.Abs(result[i][j]) > colMax)
+                    if (System.Math.Abs(decomposedMatrix[j][i]) > maxCols)
                     {
-                        colMax = System.Math.Abs(result[i][j]);
-                        pRow = i;
+                        maxCols = System.Math.Abs(decomposedMatrix[j][i]);
+                        permRow = j;
                     }
                 }
-                if (pRow != j)
+                if (permRow != i)
                 {
-                    double[] tempRow = result[pRow];
-                    result[pRow] = result[j];
-                    result[j] = tempRow;
-                    int temp = permutations[pRow];
-                    permutations[pRow] = permutations[j];
-                    permutations[j] = temp;
+                    double[] swapRow = decomposedMatrix[permRow];
+                    decomposedMatrix[permRow] = decomposedMatrix[i];
+                    decomposedMatrix[i] = swapRow;
+                    int swap = permutations[permRow];
+                    permutations[permRow] = permutations[i];
+                    permutations[i] = swap;
                     rowSwap = -rowSwap;
                 }
-                if (result[j][j] == 0.0)
+                if (decomposedMatrix[i][i] == 0.0)
                 {
                     int swapRowIndex = -1;
-                    for (int row = j + 1; row < rows; row++)
+                    for (int row = i + 1; row < rows; row++)
                     {
-                        if (result[row][j] != 0.0)
+                        if (decomposedMatrix[row][i] != 0.0)
                             swapRowIndex = row;
                     }
                     if (swapRowIndex == -1) return null;
-                    double[] tempRow = result[swapRowIndex];
-                    result[swapRowIndex] = result[j];
-                    result[j] = tempRow;
-                    int temp = permutations[swapRowIndex];
-                    permutations[swapRowIndex] = permutations[j];
-                    permutations[j] = temp;
+                    double[] swapRow = decomposedMatrix[swapRowIndex];
+                    decomposedMatrix[swapRowIndex] = decomposedMatrix[i];
+                    decomposedMatrix[i] = swapRow;
+                    int swap = permutations[swapRowIndex];
+                    permutations[swapRowIndex] = permutations[i];
+                    permutations[i] = swap;
                     rowSwap = -rowSwap;
                 }
-                for (int i = j + 1; i < rows; i++)
+                for (int j = i + 1; j < rows; j++)
                 {
-                    result[i][j] /= result[j][j];
-                    for (int k = j + 1; k < rows; k++)
+                    decomposedMatrix[j][i] /= decomposedMatrix[i][i];
+                    for (int k = i + 1; k < rows; k++)
                     {
-                        result[i][k] -= result[i][j] * result[j][k];
+                        decomposedMatrix[j][k] -= decomposedMatrix[j][i] * decomposedMatrix[i][k];
                     }
                 }
             }
-            return result;
+            return decomposedMatrix;
         }
 
-        internal static double[][] GetDuplicate(double[][] source)
+        internal static double[][] Duplicate(double[][] matrix)
         {
-            var duplicate = new double[source.Length][];
-            for (var x = 0; x < source.Length; x++)
+            var duplicate = new double[matrix.Length][];
+            for (int i = 0; i < matrix.Length; i++)
             {
-                var row = source[x];
+                var row = matrix[i];
                 var newRow = new double[row.Length];
                 Array.Copy(row, newRow, row.Length);
-                duplicate[x] = newRow;
+                duplicate[i] = newRow;
             }
             return duplicate;
         }
 
-        internal static double[][] GetInverse(double[][] matrix)
+        internal static double[][] Inverse(double[][] matrix)
         {
-            int n = matrix.Length;
-            double[][] result = GetDuplicate(matrix);
-            int[] permutations;
-            int rowSwap;
-            double[][] LU = GetDecompose(matrix, out permutations, out rowSwap);
+            double[][] inverse = Duplicate(matrix);
+            double[][] LU = Decompose(matrix, out int[] permutations, out int rowSwap);
             if (LU == null) return null;
-            double[] b = new double[n];
-            for (int i = 0; i < n; i++)
+            double[] unit = new double[matrix.Length];
+            for (int i = 0; i < matrix.Length; i++)
             {
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < matrix.Length; j++)
                 {
                     if (i == permutations[j])
                     {
-                        b[j] = 1.0;
+                        unit[j] = 1.0;
                     }
                     else
                     {
-                        b[j] = 0.0;
+                        unit[j] = 0.0;
                     }
                 }
-                double[] x = InverserSolver(LU, b);
-                for (int j = 0; j < n; j++)
+                double[] element = InverserSolver(LU, unit);
+                for (int j = 0; j < matrix.Length; j++)
                 {
-                    result[j][i] = x[j];
+                    inverse[j][i] = element[j];
                 }
             }
-            return result;
+            return inverse;
         }
 
-        internal static double[][] GetInverse(double[][] LU, int[] permutations, int rowSwap)
+        internal static double[][] Inverse(double[][] LU, int[] permutations, int rowSwap)
         {
-            double[][] result = GetDuplicate(LU);
+            double[][] inverse = Duplicate(LU);
             if (LU == null) return null;
-            double[] b = new double[LU.Length];
+            double[] unit = new double[LU.Length];
             for (int i = 0; i < LU.Length; i++)
             {
                 for (int j = 0; j < LU.Length; j++)
                 {
                     if (i == permutations[j])
                     {
-                        b[j] = 1.0;
+                        unit[j] = 1.0;
                     }
                     else
                     {
-                        b[j] = 0.0;
+                        unit[j] = 0.0;
                     }
                 }
-                double[] x = InverserSolver(LU, b);
+                double[] elements = InverserSolver(LU, unit);
                 for (int j = 0; j < LU.Length; j++)
                 {
-                    result[j][i] = x[j];
+                    inverse[j][i] = elements[j];
                 }
             }
-            return result;
+            return inverse;
         }
 
-        private static double[] InverserSolver(double[][] LUMatrix, double[] b)
+        private static double[] InverserSolver(double[][] LUMatrix, double[] unit)
         {
-            int n = LUMatrix.Length;
-            double[] x = new double[n];
-            b.CopyTo(x, 0);
-            for (int i = 1; i < n; i++)
+            double[] elements = new double[LUMatrix.Length];
+            unit.CopyTo(elements, 0);
+            for (int i = 1; i < LUMatrix.Length; i++)
             {
-                double sum = x[i];
+                double product = elements[i];
                 for (int j = 0; j < i; j++)
                 {
-                    sum -= LUMatrix[i][j] * x[j];
+                    product -= LUMatrix[i][j] * elements[j];
                 }
-                x[i] = sum;
+                elements[i] = product;
             }
-            x[n - 1] /= LUMatrix[n - 1][n - 1];
-            for (int i = n - 2; i >= 0; i--)
+            elements[LUMatrix.Length - 1] /= LUMatrix[LUMatrix.Length - 1][LUMatrix.Length - 1];
+            for (int i = LUMatrix.Length - 2; i >= 0; i--)
             {
-                double sum = x[i];
-                for (int j = i + 1; j < n; j++)
+                double product = elements[i];
+                for (int j = i + 1; j < LUMatrix.Length; j++)
                 {
-                    sum -= LUMatrix[i][j] * x[j];
+                    product -= LUMatrix[i][j] * elements[j];
                 }
-                x[i] = sum / LUMatrix[i][i];
+                elements[i] = product / LUMatrix[i][i];
             }
-            return x;
-        }
-
-        static double[][] MatrixProduct(double[][] A, double[][] B)
-        {
-            int Ay = A.Length; 
-            int Ax = A[0].Length;
-            int By = B.Length; 
-            int Bx = B[0].Length;
-            if (Ax != By)
-            {
-                return null;
-            }
-            double[][] result = CreateMatrix(Ay, Bx);
-            for (int i = 0; i < Ay; i++)
-            {
-                for (int j = 0; j < Bx; j++)
-                {
-                    for (int k = 0; k < Ax; k++)
-                    {
-                        result[i][j] += A[i][k] * B[k][j];
-                    }
-                }
-            }
-            return result;
+            return elements;
         }
     }
 }

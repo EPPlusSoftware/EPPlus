@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
@@ -87,121 +88,120 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     int instances = 0;
                     if (instanceNum < 0)
                     {
-                        for (int i = text.Length - 1; i >= 0; i--)
-                        {
-                            char t = text[i];
-                            if (delimiters.Contains(t))
-                            {
-                                instances--;
-                                length = i;
-                                if (instances == instanceNum) break;
-                            }
-                        }
-
-
-                        if (instances > instanceNum && matchEnd == 0)
-                        {
-                            if (ifNotFound != "#N/A")
-                            {
-                                returnRange.SetValue(y, x, ifNotFound);
-                                continue;
-                                //return CreateResult(ifNotFound, DataType.String);
-                            }
-                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                            continue;
-                            //return CompileResult.GetErrorResult(eErrorType.NA);
-                        }
-                        if (matchEnd == 1 && instances - instanceNum == 1)
-                        {
-                            returnRange.SetValue(y, x, text);
-                            continue;
-                            //return CreateResult(text, DataType.String);
-                        }
-                        else if (matchEnd == 1 && instances - instanceNum > 1)
-                        {
-                            if (ifNotFound != "#N/A")
-                            {
-                                returnRange.SetValue(y, x, ifNotFound);
-                                continue;
-                                //return CreateResult(ifNotFound, DataType.String);
-                            }
-                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                            continue;
-                            //return CompileResult.GetErrorResult(eErrorType.NA);
-                        }
-
-
+                        CountBackwards(returnRange, x, y, text, delimiters, instanceNum, matchEnd, ifNotFound, out instances, out length);
                     }
                     else
                     {
-                        for (int i = 0; i < text.Length; i++)
-                        {
-                            char t = text[i];
-                            if (delimiters.Contains(t))
-                            {
-                                instances++;
-                                length = i;
-                                if (instances == instanceNum)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-
-
-                        if (instances < instanceNum && matchEnd == 0)
-                        {
-                            if (ifNotFound != "#N/A")
-                            {
-                                returnRange.SetValue(y, x, ifNotFound);
-                                continue;
-                                //return CreateResult(ifNotFound, DataType.String);
-                            }
-                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                            continue;
-                            //return CompileResult.GetErrorResult(eErrorType.NA);
-                        }
-                        if (matchEnd == 1 && instances - instanceNum == -1)
-                        {
-                            returnRange.SetValue(y, x, text);
-                            continue;
-                            //return CreateResult(text, DataType.String);
-                        }
-                        else if (matchEnd == 1 && instances - instanceNum < -1)
-                        {
-                            if (ifNotFound != "#N/A")
-                            {
-                                returnRange.SetValue(y, x, ifNotFound);
-                                continue;
-                                //return CreateResult(ifNotFound, DataType.String);
-                            }
-                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                            continue;
-                            //return CompileResult.GetErrorResult(eErrorType.NA);
-                        }
-
-
+                        countForward(returnRange, x, y, text, delimiters, instanceNum, matchEnd, ifNotFound, out instances, out length);
                     }
-                    length++;
-                    if (length >= text.Length)
-                    {
-                        if (ifNotFound != "#N/A")
-                        {
-                            returnRange.SetValue(y, x, ifNotFound);
-                            continue;
-                            //return CreateResult(ifNotFound, DataType.String);
-                        }
-                        returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                        continue;
-                        //return CompileResult.GetErrorResult(eErrorType.NA);
-                    }
-                    //resultString = text.Substring(0, length);
-                    returnRange.SetValue(y, x, text.Substring(length));
                 }
                 row++;
                 col = range == null ? 0 : range.Address.FromCol;
             }
             return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
+        }
+
+        private void SetValue(InMemoryRange returnRange, string text, int x, int y, string ifNotFound, int length)
+        {
+            length++;
+            if (length >= text.Length)
+            {
+                if (ifNotFound != "#N/A")
+                {
+                    returnRange.SetValue(y, x, ifNotFound);
+                    return;
+                }
+                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
+                return;
+            }
+            returnRange.SetValue(y, x, text.Substring(length));
+        }
+
+        private void countForward(InMemoryRange returnRange, int x, int y, string text, string delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
+        {
+            length = 0;
+            instances = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char t = text[i];
+                if (delimiters.Contains(t))
+                {
+                    instances++;
+                    length = i;
+                    if (instances == instanceNum)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (instances < instanceNum && matchEnd == 0)
+            {
+                if (ifNotFound != "#N/A")
+                {
+                    returnRange.SetValue(y, x, ifNotFound);
+                    return;
+                }
+                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
+                return;
+            }
+            if (matchEnd == 1 && instances - instanceNum == -1)
+            {
+                returnRange.SetValue(y, x, text);
+                return;
+            }
+            else if (matchEnd == 1 && instances - instanceNum < -1)
+            {
+                if (ifNotFound != "#N/A")
+                {
+                    returnRange.SetValue(y, x, ifNotFound);
+                    return;
+                }
+                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
+                return;
+            }
+            SetValue(returnRange, text, x, y, ifNotFound, length);
+        }
+
+        private void CountBackwards(InMemoryRange returnRange, int x, int y, string text, string delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
+        {
+            instances = 0;
+            length = 0;
+            for (int i = text.Length - 1; i >= 0; i--)
+            {
+                char t = text[i];
+                if (delimiters.Contains(t))
+                {
+                    instances = instances - 1;
+                    length = i;
+                    if (instances == instanceNum) break;
+                }
+            }
+            if (instances > instanceNum && matchEnd == 0)
+            {
+                if (ifNotFound != "#N/A")
+                {
+                    returnRange.SetValue(y, x, ifNotFound);
+                    return;
+                }
+                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
+                return;
+            }
+            if (matchEnd == 1 && instances - instanceNum == 1)
+            {
+                returnRange.SetValue(y, x, text);
+                return;
+            }
+            else if (matchEnd == 1 && instances - instanceNum > 1)
+            {
+                if (ifNotFound != "#N/A")
+                {
+                    returnRange.SetValue(y, x, ifNotFound);
+                    return;
+                }
+                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
+                return;
+            }
+            SetValue(returnRange, text, x, y, ifNotFound, length);
         }
     }
 }

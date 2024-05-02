@@ -71,69 +71,78 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
             if (range != null)
             {
-                int row = range == null ? 0 : range.Address.FromRow;
-                int col = range == null ? 0 : range.Address.FromCol;
-                var r = range == null ? 1 : (range.Address.ToRow - range.Address.FromRow) + 1;
-                var c = range == null ? 1 : (range.Address.ToCol - range.Address.FromCol) + 1;
-                var returnRange = new InMemoryRange(r, (short)c);
-                var delimiters = rowDelimiter + colDelimiter;
-                for (int y = 0; y < r; y++)
-                {
-                    for (int x = 0; x < c; x++)
-                    {
-                        var cell = range.GetValue(row, col);
-                        text = cell == null ? string.Empty : cell.ToString();
-                        var v = text.Split(delimiters.ToCharArray());
-                        col++;
-                        if (string.IsNullOrEmpty(v[0]))
-                        {
-                            returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.Value));
-                        }
-                        else
-                        {
-                            returnRange.SetValue(y, x, v[0]);
-                        }
-                    }
-                    row++;
-                    col = range == null ? 0 : range.Address.FromCol;
-                }
-                return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
+                return CreateRangeResult(text, range, colDelimiter, rowDelimiter, ignoreEmpty, matchMode, padWith);
             }
 
             else
             {
-                var rows = new string[] { text };
-                if (!string.IsNullOrEmpty(rowDelimiter))
+                return CreateStringResult(text, colDelimiter, rowDelimiter, ignoreEmpty, matchMode, padWith);
+            }
+        }
+
+        private CompileResult CreateStringResult(string text, string colDelimiter, string rowDelimiter, string ignoreEmpty, string matchMode, string padWith)
+        {
+            var rows = new string[] { text };
+            if (!string.IsNullOrEmpty(rowDelimiter))
+            {
+                rows = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(rowDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(rowDelimiter.ToCharArray());
+            }
+            var cols = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(colDelimiter.ToCharArray());
+            var returnRange = new InMemoryRange(rows.Length, (short)cols.Length);
+            for (var row = 0; row < rows.Length; row++)
+            {
+                string[] rowCols = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? rows[row].Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : rows[row].Split(colDelimiter.ToCharArray());
+                for (var col = 0; col < cols.Length; col++)
                 {
-                    rows = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(rowDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(rowDelimiter.ToCharArray());
-                }
-                var cols = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? text.Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : text.Split(colDelimiter.ToCharArray());
-                var returnRange = new InMemoryRange(rows.Length, (short)cols.Length);
-                for (var row = 0; row < rows.Length; row++)
-                {
-                    string[] rowCols = (ignoreEmpty == "1" || ignoreEmpty == "TRUE") ? rows[row].Split(colDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : rows[row].Split(colDelimiter.ToCharArray());
-                    for (var col = 0; col < cols.Length; col++)
+                    if (rowCols.Length < cols.Length && col >= rowCols.Length)
                     {
-                        if (rowCols.Length < cols.Length && col >= rowCols.Length)
+                        if (padWith == "#N/A")
                         {
-                            if (padWith == "#N/A")
-                            {
-                                returnRange.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
-                            }
-                            else
-                            {
-                                returnRange.SetValue(row, col, padWith);
-                            }
+                            returnRange.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
                         }
                         else
                         {
-                            returnRange.SetValue(row, col, rowCols[col]);
+                            returnRange.SetValue(row, col, padWith);
                         }
                     }
+                    else
+                    {
+                        returnRange.SetValue(row, col, rowCols[col]);
+                    }
                 }
-                return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
             }
-            return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
+            return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
+        }
+
+        private CompileResult CreateRangeResult(string text, IRangeInfo range, string colDelimiter, string rowDelimiter, string ignoreEmpty, string matchMode, string padWith)
+        {
+            int row = range == null ? 0 : range.Address.FromRow;
+            int col = range == null ? 0 : range.Address.FromCol;
+            var r = range == null ? 1 : (range.Address.ToRow - range.Address.FromRow) + 1;
+            var c = range == null ? 1 : (range.Address.ToCol - range.Address.FromCol) + 1;
+            var returnRange = new InMemoryRange(r, (short)c);
+            var delimiters = rowDelimiter + colDelimiter;
+            for (int y = 0; y < r; y++)
+            {
+                for (int x = 0; x < c; x++)
+                {
+                    var cell = range.GetValue(row, col);
+                    text = cell == null ? string.Empty : cell.ToString();
+                    var v = text.Split(delimiters.ToCharArray());
+                    col++;
+                    if (string.IsNullOrEmpty(v[0]))
+                    {
+                        returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.Value));
+                    }
+                    else
+                    {
+                        returnRange.SetValue(y, x, v[0]);
+                    }
+                }
+                row++;
+                col = range == null ? 0 : range.Address.FromCol;
+            }
+            return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
         }
     }
 }

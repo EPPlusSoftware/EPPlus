@@ -43,9 +43,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (r != c)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Value));
-                return CreateResult(returnRange, DataType.ExcelRange);
             }
+            //Check if Matrix is valid
             for (int i = 0; i < r; i++)
             {
                 m[i] = new double[c];
@@ -55,15 +54,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     if(cell == null)
                     {
                         return CompileResult.GetErrorResult(eErrorType.Value);
-                        returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Value));
-                        return CreateResult(returnRange, DataType.ExcelRange);
                     }
                     bool e1 = double.TryParse(range.GetValue(y, x).ToString(), out double t);
                     if( !e1 )
                     {
                         return CompileResult.GetErrorResult(eErrorType.Value);
-                        returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Value));
-                        return CreateResult(returnRange, DataType.ExcelRange);
                     }
                     m[i][j] = t;
                     x++;
@@ -71,26 +66,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 x = range.Address.FromCol;
                 y++;
             }
-            var dm = MatrixHelper.GetDecompose(m, out int[] permutations, out int rowSwap);
+
+            var dm = MatrixHelper.Decompose(m, out int[] permutations, out int rowSwap);
             if(dm == null)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Num));
-                return CreateResult(returnRange, DataType.ExcelRange);
             }
             if (MatrixHelper.GetDeterminant(dm, rowSwap) == 0)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Num));
-                return CreateResult(returnRange, DataType.ExcelRange);
 
             }
-            var inverse = MatrixHelper.GetInverse(dm, permutations, rowSwap);
+            var inverse = MatrixHelper.Inverse(dm, permutations, rowSwap);
             if(inverse == null)
             {
                 return CompileResult.GetErrorResult(eErrorType.Num);
-                returnRange.SetValue(0, 0, CompileResult.GetErrorResult(eErrorType.Num));
-                return CreateResult(returnRange, DataType.ExcelRange);
             }
             for (int i = 0; i < r; i++)
             {
