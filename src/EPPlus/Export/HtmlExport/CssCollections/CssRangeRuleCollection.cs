@@ -201,8 +201,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _ruleCollection.AddRule(".cf-ic-shared::before", "content", "\"\"");
 
                 var beforeRule = _ruleCollection.Last();
-
-                beforeRule.AddDeclaration("content", $"\"\"");
                 //TODO: Figure out where the .22 we need to account for comes from.
                 //We add this because 1em does not make the svg box the same size as text of the font otherwise.
                 //Likely due to some kind of margin setting somewhere?
@@ -242,14 +240,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             if (set.Custom)
             {
                 svgs = CF_Icons.GetIconSetSvgsWithCustoms(set.GetIconSetString(), set.GetIconArray());
-
-                //for(int i = 0; i < arr.Length;)
-                //{
-                //    if (arr[i].CustomIcon != null)
-                //    {
-                //        svgs[i] = CF_Icons.GetIconSvg(arr[i].CustomIcon.Value);
-                //    }
-                //}
             }
             else
             {

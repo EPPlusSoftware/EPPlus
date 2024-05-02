@@ -33,30 +33,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         IExcelConditionalFormattingThreeIconSet<T>
         where T : struct, Enum
     {
-        //private new string _uid = null;
-
-        ////internal override string Uid
-        ////{
-        ////    get
-        ////    {
-        ////        if (_uid == null)
-        ////        {
-        ////            return NewId();
-        ////        }
-
-        ////        return _uid;
-        ////    }
-        ////    set
-        ////    {
-        ////        _uid = value;
-        ////    }
-        ////}
-
-        ////internal static string NewId()
-        ////{
-        ////    return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
-        ////}
-
         internal ExcelConditionalFormattingIconSetBase(
           eExcelConditionalFormattingRuleType type,
           ExcelAddress address,
