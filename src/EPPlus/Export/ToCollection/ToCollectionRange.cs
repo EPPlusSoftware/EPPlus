@@ -9,16 +9,16 @@ namespace OfficeOpenXml.Export.ToCollection
     {
         internal static List<string> GetRangeHeaders(ExcelRangeBase range, string[] headers, int? headerRow, ToCollectionRangeOptions options)
         {
-            var start1 = range._fromCol;
-            var end1 = range._toCol;
-            var start2 = range._fromRow;
-            var end2 = range._toRow;
+            var fromCol = range._fromCol;
+            var toCol = range._toCol;
+            var fromRow = range._fromRow;
+            var toRow = range._toRow;
             if (options.DataIsTransposed)
             {
-                start2 = range._fromCol;
-                end2 = range._toCol;
-                start1 = range._fromRow;
-                end1 = range._toRow;
+                fromRow = range._fromCol;
+                toRow = range._toCol;
+                fromCol = range._fromRow;
+                toCol = range._toRow;
             }
 
             List<string> headersList;
@@ -27,9 +27,9 @@ namespace OfficeOpenXml.Export.ToCollection
                 headersList = new List<string>();
                 if (headerRow.HasValue == false) return headersList;
 
-                for (int c = start1; c <= end1; c++)
+                for (int c = fromCol; c <= toCol; c++)
                 {
-                    var h = options.DataIsTransposed ? range.Worksheet.Cells[c, start2 + headerRow.Value].Text : range.Worksheet.Cells[start2 + headerRow.Value, c].Text;
+                    var h = options.DataIsTransposed ? range.Worksheet.Cells[c, fromRow + headerRow.Value].Text : range.Worksheet.Cells[fromRow + headerRow.Value, c].Text;
                     if (string.IsNullOrEmpty(h))
                     {
                         throw new InvalidOperationException("Header cells cannot be empty");
@@ -55,27 +55,27 @@ namespace OfficeOpenXml.Export.ToCollection
         internal static List<T> ToCollection<T>(ExcelRangeBase range, Func<ToCollectionRow, T> setRow, ToCollectionRangeOptions options)
         {
             var ret = new List<T>();
-            var start1 = range._fromCol;
-            var end1 = range._toCol;
-            var start2 = range._fromRow;
-            var end2 = range._toRow;
+            var fromCol = range._fromCol;
+            var toCol = range._toCol;
+            var fromRow = range._fromRow;
+            var toRow = range._toRow;
             if (options.DataIsTransposed)
             {
-                start2 = range._fromCol;
-                end2 = range._toCol;
-                start1 = range._fromRow;
-                end1 = range._toRow;
+                fromRow = range._fromCol;
+                toRow = range._toCol;
+                fromCol = range._fromRow;
+                toCol = range._toRow;
             }
-            if (end2 < start2) return null;
+            if (toRow < fromRow) return null;
 
             var headers = GetRangeHeaders(range, options.Headers, options.HeaderRow, options);
 
             var values = new List<ExcelValue>();
             var row = new ToCollectionRow(headers, range._workbook, options.ConversionFailureStrategy);
             var startRow = options.DataStartRow ?? ((options.HeaderRow ?? -1) + 1);
-            for (int r = start2 + startRow; r <= end2; r++)
+            for (int r = fromRow + startRow; r <= toRow; r++)
             {
-                for (int c = start1; c <= end1; c++)
+                for (int c = fromCol; c <= toCol; c++)
                 {
                     if ((options.DataIsTransposed))
                     {

@@ -24,13 +24,13 @@ namespace OfficeOpenXml
 
         private async Task WriteColumnDataAsync(StreamWriter sw)
         {
-            var total1 = _range.Columns;
+            var total = _range.Columns;
             if (_settings.DataIsTransposed)
             {
-                total1 = _range.Rows;
+                total = _range.Rows;
             }
             await WriteItemAsync(sw, $"\"{_settings.ColumnsElementName}\":[", true);
-            for (int i = 0; i < total1; i++)
+            for (int i = 0; i < total; i++)
             {
                 await WriteStartAsync(sw);
                 if (_settings.FirstRowIsHeader)
@@ -43,7 +43,7 @@ namespace OfficeOpenXml
                     var dt = _settings.DataIsTransposed ? HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(i, 1)) : HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(1, i));
                     await WriteItemAsync(sw, $"\"dt\":\"{dt}\"");
                 }
-                if (i == total1 - 1)
+                if (i == total - 1)
                 {
                     await WriteEndAsync(sw, "}");
                 }

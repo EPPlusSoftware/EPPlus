@@ -48,23 +48,23 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         public void Export()
         {
-            var start1 = _range.Start.Column;
-            var end1 = _range.End.Column;
-            var start2 = _range.Start.Row;
-            var end2 = _range.End.Row;
+            var fromCol = _range.Start.Column;
+            var toCol = _range.End.Column;
+            var FromRow = _range.Start.Row;
+            var toRow = _range.End.Row;
             if (_options.DataIsTransposed)
             {
-                start2 = _range.Start.Column;
-                end2 = _range.End.Column;
-                start1 = _range.Start.Row;
-                end1 = _range.End.Row;
+                FromRow = _range.Start.Column;
+                toRow = _range.End.Column;
+                fromCol = _range.Start.Row;
+                toCol = _range.End.Row;
             }
 
-            var row = _options.FirstRowIsColumnNames ? start2 + 1 : start2;
+            var row = _options.FirstRowIsColumnNames ? FromRow + 1 : FromRow;
             Validate();
             row += _options.SkipNumberOfRowsStart;
             
-            while (row <= (end2 - _options.SkipNumberOfRowsEnd))
+            while (row <= (toRow - _options.SkipNumberOfRowsEnd))
             {
                 var dataRow = _dataTable.NewRow();
                 dataRow.BeginEdit();
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                 var rowErrorExists = false;
                 foreach (var mapping in _options.Mappings)
                 {
-                    var col = mapping.ZeroBasedColumnIndexInRange + start1;
+                    var col = mapping.ZeroBasedColumnIndexInRange + fromCol;
                     var val = _options.DataIsTransposed ? _sheet.GetValue(col, row) : _sheet.GetValue(row, col);
                     if (val != null && rowIsEmpty) rowIsEmpty = false;
                     if(!mapping.AllowNull && val == null)
@@ -133,24 +133,24 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         private void Validate()
         {
-            var start2 = _range.Start.Row;
-            var end2 = _range.End.Row;
+            var fromRow = _range.Start.Row;
+            var toRow = _range.End.Row;
             if (_options.DataIsTransposed)
             {
-                start2 = _range.Start.Column;
-                end2 = _range.End.Column;
+                fromRow = _range.Start.Column;
+                toRow = _range.End.Column;
             }
 
-            var startRow = _options.FirstRowIsColumnNames ? start2 + 1 : start2;
-            if (_options.SkipNumberOfRowsStart < 0 || _options.SkipNumberOfRowsStart > (end2 - startRow))
+            var startRow = _options.FirstRowIsColumnNames ? fromRow + 1 : fromRow;
+            if (_options.SkipNumberOfRowsStart < 0 || _options.SkipNumberOfRowsStart > (toRow - startRow))
             {
                 throw new IndexOutOfRangeException("SkipNumberOfRowsStart was out of range: " + _options.SkipNumberOfRowsStart);
             }
-            if (_options.SkipNumberOfRowsEnd < 0 || _options.SkipNumberOfRowsEnd > (end2 - startRow))
+            if (_options.SkipNumberOfRowsEnd < 0 || _options.SkipNumberOfRowsEnd > (toRow - startRow))
             {
                 throw new IndexOutOfRangeException("SkipNumberOfRowsEnd was out of range: " + _options.SkipNumberOfRowsEnd);
             }
-            if((_options.SkipNumberOfRowsEnd + _options.SkipNumberOfRowsStart) > (end2 - startRow))
+            if((_options.SkipNumberOfRowsEnd + _options.SkipNumberOfRowsStart) > (toRow - startRow))
             {
                 throw new ArgumentException("Total number of skipped rows was larger than number of rows in range");
             }

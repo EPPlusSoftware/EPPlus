@@ -29,13 +29,13 @@ namespace OfficeOpenXml
 
         private void WriteColumnData(StreamWriter sw)
         {
-            var total1 = _range.Columns;
+            var total = _range.Columns;
             if (_settings.DataIsTransposed)
             {
-                total1 = _range.Rows;
+                total = _range.Rows;
             }
             WriteItem(sw, $"\"{_settings.ColumnsElementName}\":[", true);
-            for (int i = 0; i < total1; i++)
+            for (int i = 0; i < total; i++)
             {
                 WriteStart(sw);
                 if (_settings.FirstRowIsHeader)
@@ -48,7 +48,7 @@ namespace OfficeOpenXml
                     var dt = _settings.DataIsTransposed ? HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(i, 1)) : HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(1, i));
                     WriteItem(sw, $"\"dt\":\"{dt}\"");
                 }
-                if (i == total1 - 1)
+                if (i == total - 1)
                 {
                     WriteEnd(sw, "}");
                 }

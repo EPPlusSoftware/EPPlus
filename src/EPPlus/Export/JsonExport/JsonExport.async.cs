@@ -12,28 +12,28 @@ namespace OfficeOpenXml
     {
         internal protected async Task WriteCellDataAsync(StreamWriter sw, ExcelRangeBase dr, int headerRows)
         {
-            var start1 = dr._fromCol;
-            var end1 = dr._toCol;
-            var start2 = dr._fromRow;
-            var end2 = dr._toRow;
+            var fromCol = dr._fromCol;
+            var toCol = dr._toCol;
+            var fromRow = dr._fromRow;
+            var toRow = dr._toRow;
             if (_settings.DataIsTransposed)
             {
-                start2 = dr._fromCol;
-                end2 = dr._toCol;
-                start1 = dr._fromRow;
-                end1 = dr._toRow;
+                fromRow = dr._fromCol;
+                toRow = dr._toCol;
+                fromCol = dr._fromRow;
+                toCol = dr._toRow;
             }
             bool dtOnCell = _settings.AddDataTypesOn == eDataTypeOn.OnCell;
             ExcelWorksheet ws = dr.Worksheet;
             Uri uri = null;
             int commentIx = 0;
             await WriteItemAsync(sw, $"\"{_settings.RowsElementName}\":[", true);
-            var fromRow = start2 + headerRows;
-            for (int r = fromRow; r <= end2; r++)
+            var fromRow1 = fromRow + headerRows;
+            for (int r = fromRow1; r <= toRow; r++)
             {
                 await WriteStartAsync(sw);
                 await WriteItemAsync(sw, $"\"{_settings.CellsElementName}\":[", true);
-                for (int c = start1; c <= end1; c++)
+                for (int c = fromCol; c <= toCol; c++)
                 {
                     var cv = _settings.DataIsTransposed ? ws.GetCoreValueInner(c, r) : ws.GetCoreValueInner(r, c);
                     var t = JsonEscape(ValueToTextHandler.GetFormattedText(cv._value, ws.Workbook, cv._styleId, false, _settings.Culture));
@@ -67,7 +67,7 @@ namespace OfficeOpenXml
                         await WriteItemAsync(sw, $"\"comment\":\"{comment.Text}\"");
                     }
 
-                    if (c == end1)
+                    if (c == toCol)
                     {
                         await WriteEndAsync(sw, "}");
                     }
@@ -77,7 +77,7 @@ namespace OfficeOpenXml
                     }
                 }
                 await WriteEndAsync(sw, "]");
-                if (r == end2)
+                if (r == toRow)
                 {
                     await WriteEndAsync(sw);
                 }
