@@ -163,6 +163,7 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("sle15", ExcelPackage.schemaSlicer);
             NameSpaceManager.AddNamespace("a14", ExcelPackage.schemaDrawings2010);
             NameSpaceManager.AddNamespace("asvg", "http://schemas.microsoft.com/office/drawing/2016/SVG/main");
+            NameSpaceManager.AddNamespace("m", "http://schemas.openxmlformats.org/officeDocument/2006/math");
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion

@@ -629,12 +629,25 @@ namespace OfficeOpenXml.Drawing
             {
                 return ControlFactory.GetControl(drawings, drawNode, control, parent);
             }
+            else if ( IsEquationShape(drawings, drawNode))
+            {
+                return new ExcelEquation(drawings, node, parent);
+            }
             else
             {
                 return new ExcelShape(drawings, node, parent);
             }
         }
-            
+
+        private static bool IsEquationShape(ExcelDrawings drawings, XmlElement drawNode)
+        {
+            if(drawNode.SelectSingleNode("xdr:txBody/a:p/a14:m/m:oMathPara", drawings.NameSpaceManager) != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
         {
             var idNode = drawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr/@id", nameSpaceManager);
