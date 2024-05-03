@@ -272,6 +272,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 case eExcelConditionalFormattingValueObjectType.Num:
                     calculatedValue = Value;
                     break;
+                case eExcelConditionalFormattingValueObjectType.Percent:
+                    calculatedValue = ((Value * 0.01) * (maxValue - minValue)) + minValue; 
+                    break;
                 case eExcelConditionalFormattingValueObjectType.Percentile:
                     var percentileResult = wb.FormulaParserManager.Parse(
                         $"PERCENTILE.INC({rangeAddress.AddressSpaceSeparated}, {(Value * 0.01).ToString(System.Globalization.CultureInfo.InvariantCulture)})", address.FullAddress, false
@@ -285,8 +288,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                     {
                         throw new Exception($"The databar percentile input '{Value}' must be a numeric value. Error found in databar conditional formatting at cell {address.Address}");
                     }
-                    //double numValuesLessThan = values.Where(n => Convert.ToDouble(n) < Value).Count();
-                    //calculatedValue = (numValuesLessThan / (values.Count() - 1d)) * 100d;
                     break;
                     case eExcelConditionalFormattingValueObjectType.Formula:
                     var formulaResult = wb.FormulaParserManager.Parse(Formula, address.FullAddress, false);
