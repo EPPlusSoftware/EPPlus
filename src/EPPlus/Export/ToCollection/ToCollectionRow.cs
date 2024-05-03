@@ -187,19 +187,26 @@ namespace OfficeOpenXml.Export.ToCollection
                     {
                         if (_failureStrategy == ToCollectionConversionFailureStrategy.Exception)
                         {
-                            var dtcExeption = new EPPlusDataTypeConvertionException($"Can not convert item {_cellValues[m.Index]._value} to datatype {m.PropertyInfo.DeclaringType}", ex);
+                            var dtcExeption = new EPPlusDataTypeConvertionException($"Can not convert item {_cellValues[m.Index]._value} to datatype {m.PropertyInfo.PropertyType}", ex);
                             throw dtcExeption;
                         }
                         else
                         {
                             //Set the default value
-                            if(m.PropertyInfo.DeclaringType.IsValueType)
+                            if(m.PropertyInfo.PropertyType.IsValueType)
                             {
                                 m.PropertyInfo.SetValue(item, null, null);
                             }
                             else
                             {
-                                m.PropertyInfo.SetValue(item, Activator.CreateInstance(m.PropertyInfo.DeclaringType), null);
+                                try
+                                {
+                                    m.PropertyInfo.SetValue(item, Activator.CreateInstance(m.PropertyInfo.PropertyType), null);
+                                }
+                                catch
+                                {
+                                    m.PropertyInfo.SetValue(item, null, null);
+                                }
                             }
                         }
                     }

@@ -12,13 +12,16 @@
  *************************************************************************************************/
 
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
@@ -43,7 +46,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0");
         }
 
-        internal static List<string> GetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, 
+        internal static string GetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, 
             string additionalClasses, ExporterContext context)
         {
             string cls = string.IsNullOrEmpty(additionalClasses) ? "" : additionalClasses;
@@ -55,7 +58,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
             if (styleId < 0 || styleId >= styles.CellXfs.Count)
             {
-                return new List<string> { "" };
+                return  "";
             }
 
             var xfs = styles.CellXfs[styleId];
@@ -73,14 +76,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 }
             }
 
-            var returnList = new List<string> { "" };
-
-            if (styleId == 0 || HasStyle(xfs) == false)
-            {
-                if (string.IsNullOrEmpty(cls) == false)
-                    returnList[0] = cls;
-            }
-            else
+            if (styleId > 0 && HasStyle(xfs) == true)
             {
                 string key = GetStyleKey(xfs);
 
@@ -104,15 +100,33 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     styleCache.Add(key, id);
                 }
 
-                cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
+                if(string.IsNullOrEmpty(cls))
+                {
+                    cls += $"{styleClassPrefix}{settings.CellStyleClassName}{id}";
+                }
+                else
+                {
+                    cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
+                }
             }
 
-            string specials = "";
+            return cls;
+        }
+
+        internal static List<string> GetConditionalFormattings(ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext context, ref string cls)
+        {
+            string inlineStyles = "";
+            string extras = "";
+
+            var styleClassPrefix = settings.StyleClassPrefix;
+            var dxfStyleCache = context._dxfStyleCache;
 
             if (settings.RenderConditionalFormattings)
             {
                 int dxfId;
                 string dxfKey;
+
+                var prefix = $" { styleClassPrefix }{ settings.DxfStyleClassName}";
 
                 List<string> extraClasses = new List<string>();
 
@@ -126,34 +140,66 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                         switch (cfItems[i].Value.Type)
                         {
                             case eExcelConditionalFormattingRuleType.TwoColorScale:
-                                specials += ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                                inlineStyles += ((ExcelConditionalFormattingTwoColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                                 break;
                             case eExcelConditionalFormattingRuleType.ThreeColorScale:
-                                specials += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                                inlineStyles += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
+                                break;
+                            case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                var iconIdThree = GetIconId((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value.As.ThreeIconSet, cell);
+                                cls += AddIconClasses(dxfId, iconIdThree, prefix);
+                                break;
+                            case eExcelConditionalFormattingRuleType.FourIconSet:
+                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                var iconIdFour = GetIconId((ExcelConditionalFormattingFourIconSet)cfItems[i].Value.As.FourIconSet, cell);
+                                cls += AddIconClasses(dxfId, iconIdFour, prefix);
+                                break;
+                            case eExcelConditionalFormattingRuleType.FiveIconSet:
+                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                var iconIdFive = GetIconId((ExcelConditionalFormattingFiveIconSet)cfItems[i].Value.As.FiveIconSet, cell);
+                                cls += AddIconClasses(dxfId, iconIdFive, prefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 break;
                             default:
                                 dxfKey = cfItems[i].Value.Style.Id;
+                                dxfStyleCache.IsAdded(dxfKey, out dxfId);
 
-                                if (dxfStyleCache.ContainsKey(dxfKey))
-                                {
-                                    dxfId = dxfStyleCache[dxfKey];
-                                }
-                                else
-                                {
-                                    dxfId = dxfStyleCache.Count + 1;
-                                    dxfStyleCache.Add(dxfKey, dxfId);
-                                }
-
-                                cls += $" {styleClassPrefix}{settings.DxfStyleClassName}{dxfId}";
+                                cls += $"{prefix}{dxfId}";
                                 break;
                         }
                     }
                 }
             }
 
-            return new List<string> { cls.Trim(), specials };
+            if (extras != "")
+            {
+                return new List<string> { inlineStyles, extras };
+            }
+
+            return new List<string> { inlineStyles };
+        }
+
+        internal static int GetIconId<T>(ExcelConditionalFormattingIconSetBase<T> set, ExcelRangeBase cell)
+            where T : struct, Enum
+        {
+            var iconId = set.GetIconNum(cell);
+            return iconId;
+        }
+
+        internal static string AddIconClasses(int dxfId, int iconId, string prefix)
+        {
+            string retString = "";
+            retString += " cf-ic-shared";
+            retString += $"{prefix}cf{dxfId}";
+
+            if (iconId != -1)
+            {
+                retString += $"{prefix}cf{dxfId}{iconId}";
+            }
+
+            return retString;
         }
     }
 }

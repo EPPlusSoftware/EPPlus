@@ -5,6 +5,8 @@ using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.ConditionalFormatting;
 using System.Drawing;
+using System.IO;
+using System.Text;
 
 namespace EPPlusTest.Export.HtmlExport
 {
@@ -40,11 +42,42 @@ namespace EPPlusTest.Export.HtmlExport
                 var context = new ExporterContext();
                 context.InitializeQuadTree(range);
 
-                var list = AttributeTranslator.GetClassAttributeFromStyle(sheet.Cells["B3"], false, settings, string.Empty, context);
+                var classString = AttributeTranslator.GetClassAttributeFromStyle(sheet.Cells["B3"], false, settings, string.Empty, context);
+                var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(sheet.Cells["B3"], settings, context, ref classString);
 
-                Assert.AreEqual(2, list.Count);
-                Assert.AreEqual(list[0], "epp-ar");
-                Assert.AreEqual(list[1], "background-color:#"+ Color.Teal.ToArgb().ToString("x8").Substring(2)+";");
+                Assert.AreEqual("epp-ar", classString);
+                var expectedString = "background-color:#" + Color.Teal.ToArgb().ToString("x8").Substring(2) + ";";
+                Assert.AreEqual(expectedString, stylesAndExtras[0]);
+            }
+        }
+        [TestMethod]
+        public void ExportingHtmlTemplate()
+        {
+            using (var package = OpenTemplatePackage("CF_IconSetsCompareTemplate.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                //var model = new ExportViewModel();
+                var exporter = ws.Cells["A1:AC108"].CreateHtmlExporter();
+
+                var settings = exporter.Settings;
+                settings.Pictures.Include = ePictureInclude.Include;
+                //settings.Pictures.KeepOriginalSize = true;
+                settings.Minify = false;
+                settings.SetColumnWidth = true;
+                settings.SetRowHeight = true;
+                settings.Pictures.AddNameAsId = true;
+
+                //var Css = exporter.GetCssString();
+                //var Html = exporter.GetHtmlString();
+
+                // Create the file, or overwrite if the file exists.
+                using (FileStream fs = File.Create("C:\\epplusTest\\Testoutput\\CF_IconSetsCompareTemplate.html"))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(exporter.GetSinglePage());
+                    // Add some information to the file.
+                    fs.Write(info, 0, info.Length);
+                }
             }
         }
     }

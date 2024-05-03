@@ -42,7 +42,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     bool Custom { get; }
 
     /// <summary>
-    /// IconSet (3, 4 ou 5 IconSet)
+    /// IconSet (3, 4 or 5 IconSet)
     /// </summary>
     T IconSet { get; set; }
     #endregion Public Properties
