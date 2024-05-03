@@ -258,10 +258,13 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                             var types = new List<string>();
                             var values = new List<string>();
+                            var gteValues = new List<bool>();
 
                             do
                             {
                                 types.Add(xr.GetAttribute("type"));
+                                var test = xr.GetAttribute("gte");
+                                gteValues.Add(test != "0");
 
                                 xr.Read();
                                 xr.Read();
@@ -330,7 +333,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     ApplyIconSetExtValues(
                                         new ExcelConditionalFormattingIconDataBarValue[]
                                         { threeIconSet.Icon1, threeIconSet.Icon2, threeIconSet.Icon3 },
-                                        types, values, customIconTypes, customIconIds);
+                                        types, values, gteValues, customIconTypes, customIconIds);
 
                                     ApplyIconSetAttributes(showValue, percent, reverse, threeIconSet);
 
@@ -353,7 +356,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     ApplyIconSetExtValues(
                                     new ExcelConditionalFormattingIconDataBarValue[]
                                     { fourSet.Icon1, fourSet.Icon2, fourSet.Icon3, fourSet.Icon4 },
-                                    types, values, customIconTypes, customIconIds);
+                                    types, values, gteValues, customIconTypes, customIconIds);
 
                                     ApplyIconSetAttributes(showValue, percent, reverse, fourSet);
 
@@ -373,7 +376,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     ApplyIconSetExtValues(
                                      new ExcelConditionalFormattingIconDataBarValue[]
                                      { fiveSet.Icon1, fiveSet.Icon2, fiveSet.Icon3, fiveSet.Icon4 , fiveSet.Icon5 },
-                                     types, values, customIconTypes, customIconIds);
+                                     types, values, gteValues, customIconTypes, customIconIds);
 
                                     ApplyIconSetAttributes(showValue, percent, reverse, fiveSet);
 
@@ -427,6 +430,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelConditionalFormattingIconDataBarValue[] iconArr, 
             List<string> types, 
             List<string> values,
+            List<bool> gteValues,
             List<string> customIconTypes = null,
             List<int> customIconIds = null)
         {
@@ -442,6 +446,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                 else
                 {
                     iconArr[i].Formula = values[i];
+                }
+
+                if (gteValues[i] == false)
+                {
+                    iconArr[i].GreaterThanOrEqualTo = gteValues[i];
                 }
 
                 if(customIconTypes != null)

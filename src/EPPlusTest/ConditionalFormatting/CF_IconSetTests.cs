@@ -525,5 +525,17 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(pck);
             }
         }
+
+        [TestMethod]
+        public void CanReadIconsetFormulas()
+        {
+            using(var package = OpenTemplatePackage("s665.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.GetByName("Answer Sheet");
+                var iconFormula = sheet.ConditionalFormatting[0].As.ThreeIconSet.Icon2.Formula;
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
