@@ -131,7 +131,7 @@ namespace OfficeOpenXml.Packaging
                     {
                         if (id >= _maxRId && id < int.MaxValue - 10000) //Not likly to have this high id's but make sure we have space to avoid overflow.
                         {
-                            _maxRId = id + 1;                            
+                            _maxRId = id + 1;
                         }
                     }
                 }

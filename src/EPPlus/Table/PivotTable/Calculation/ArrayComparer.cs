@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/08/2024         EPPlus Software AB       Initial release EPPlus 7.1
+  01/08/2024         EPPlus Software AB       Initial release EPPlus 7.2
  *************************************************************************************************/
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using System.Collections.Generic;

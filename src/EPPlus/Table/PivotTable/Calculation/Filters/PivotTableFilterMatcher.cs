@@ -18,26 +18,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
 {
     internal static class PivotTableFilterMatcher
     {
-   //     internal static bool IsFiltered(ExcelPivotTable pivotTable, PivotTableCacheRecords recs, int r)
-   //     {
-   //         if (pfCount > 0)
-   //         {
-   //             if(IsHiddenByPageField(pivotTable, recs, r))
-   //             {
-   //                 return true;
-   //             }
-   //         }
-
-			//if (filterCount > 0)
-   //         {                
-   //             if(IsHiddenByRowColumnFilter(pivotTable, recs, r))
-   //             { 
-   //                 return true; 
-   //             }
-   //         }
-   //         return false;
-   //     }
-
         /// <summary>
         /// Returns true if the record is hidden by a page filter in the pivot table
         /// </summary>

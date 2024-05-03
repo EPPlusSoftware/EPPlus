@@ -1,7 +1,7 @@
 // ZipEntry.cs
 // ------------------------------------------------------------------
 //
-// Copyright (c) 006-2010 Dino Chiesa.
+// Copyright (c) 2006-2010 Dino Chiesa.
 // All rights reserved.
 //
 // This code module is part of DotNetZip, a zipfile class library.

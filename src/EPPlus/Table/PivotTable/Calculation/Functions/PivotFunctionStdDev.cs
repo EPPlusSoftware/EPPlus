@@ -8,7 +8,7 @@
 *************************************************************************************************
  Date               Author                       Change
 *************************************************************************************************
- 01/18/2024         EPPlus Software AB       EPPlus 7.1
+ 01/18/2024         EPPlus Software AB       EPPlus 7.2
 *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
@@ -21,10 +21,6 @@ using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.Functions
 {
-    //internal class StdDevItem
-    //{
-    //    List<double> values;
-    //}
     internal class PivotFunctionStdDev : PivotFunction
     {
         internal override void AddItems(int[] key, int colStartIx, object value, PivotCalculationStore dataFieldItems, Dictionary<int[], HashSet<int[]>> keys)

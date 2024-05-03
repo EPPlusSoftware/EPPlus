@@ -311,7 +311,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get;
             private set;
-        }
+s        }
         /// <summary>
         /// A boolean that indicates whether manual filter is in inclusive mode
         /// </summary>
@@ -348,70 +348,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 }                
                 _subTotalFunctions = value;
             }
-            //get
-            //{
-            //    eSubTotalFunctions ret = 0;
-            //    foreach (XmlAttribute item in TopNode.Attributes)
-            //    {
-            //        try
-            //        {
-            //            if(item.Name.EndsWith("Subtotal") && item.Value!="0" && item.Value != "false")
-            //            {
-            //                ret |= (eSubTotalFunctions)Enum.Parse(typeof(eSubTotalFunctions), item.Name.Substring(0, item.Name.Length-8), true);
-            //            }
-            //        }
-            //        catch (ArgumentException ex)
-            //        {
-            //            throw new ArgumentException("Unable to parse value of " + item.Value + " to a valid pivot table subtotal function", ex);
-            //        }
-            //    }
-            //    return ret == 0 ? 
-            //        GetXmlNodeBool("@defaultSubtotal", true) 
-            //        ? 
-            //            eSubTotalFunctions.Default : 
-            //            eSubTotalFunctions.None : 
-            //        ret;
-            //}
-            //set
-            //{
-            //    if ((value & eSubTotalFunctions.None) == eSubTotalFunctions.None && (value != eSubTotalFunctions.None))
-            //    {
-            //        throw (new ArgumentException("Value None cannot be combined with other values."));
-            //    }
-            //    if ((value & eSubTotalFunctions.Default) == eSubTotalFunctions.Default && (value != eSubTotalFunctions.Default))
-            //    {
-            //        throw (new ArgumentException("Value Default cannot be combined with other values."));
-            //    }
-
-            //    Cache.UpdateSubTotalItems(Items._list, value);
-
-            //    for (int i = 0; i < TopNode.Attributes.Count; i++)
-            //    {
-            //        var a = TopNode.Attributes[i];
-            //        if (a.LocalName.EndsWith("Subtotal"))
-            //        {
-            //            TopNode.Attributes.Remove(a);
-            //            i--;
-            //        }
-            //    }
-
-            //    if (value == eSubTotalFunctions.None)
-            //    {
-            //        // for no subtotals, set defaultSubtotal to off
-            //        SetXmlNodeBool("@defaultSubtotal", false);
-            //    }
-            //    else
-            //    {
-            //        foreach (eSubTotalFunctions e in Enum.GetValues(typeof(eSubTotalFunctions)))
-            //        {
-            //            if ((value & e) == e)
-            //            {
-            //                // add new attribute
-            //                SetXmlNodeBool("@" + e.ToEnumString() + "Subtotal", true);
-            //            }
-            //        }
-            //    }
-            //}
         }
         /// <summary>
         /// Type of axis

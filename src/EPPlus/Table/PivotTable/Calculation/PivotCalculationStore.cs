@@ -8,7 +8,7 @@
 *************************************************************************************************
  Date               Author                       Change
 *************************************************************************************************
- 01/18/2024         EPPlus Software AB       EPPlus 7.1
+ 01/18/2024         EPPlus Software AB       EPPlus 7.2
 *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
