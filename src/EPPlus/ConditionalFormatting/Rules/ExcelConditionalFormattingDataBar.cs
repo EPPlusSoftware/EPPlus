@@ -328,8 +328,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
-        double averageValueRange = -1;
-
         internal string GetDataBarCssClasses(ExcelAddressBase address, string baseName, out double percentage)
         {
             var range = _ws.Cells[address.Address];
@@ -342,38 +340,40 @@ namespace OfficeOpenXml.ConditionalFormatting
                 if (cellValueCache.Count == 0)
                 {
                     UpdateCellValueCache(false, true);
-
-                    //var avgFormula = $"AVERAGE({Address})";
-
-                    //var avgResult = _ws.Workbook.FormulaParserManager.Parse(avgFormula, address.FullAddress, false).ToString();
-
-                    //averageValueRange = double.TryParse(avgResult, out double avgDouble) ? avgDouble : -1;
                 }
 
                 var realValue = Convert.ToDouble(cellValue);
 
                 string styleOverrideString;
-                //Color borderColor;
-                if (realValue > 0)
+                if(AxisPosition != eExcelDatabarAxisPosition.None)
                 {
-                    percentage = realValue / highest;
-                    //borderColor = BorderColor.GetColorAsColor();
-                    styleOverrideString = (baseName + address.AddressSpaceSeparated + "-pos::after");
+                    if (realValue > 0)
+                    {
+                        percentage = realValue / highest;
+                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-pos::after");
+                    }
+                    else
+                    {
+                        percentage = realValue / lowest;
+                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-neg::after");
+                    }
                 }
                 else
                 {
-                    percentage = realValue / lowest;
-                    //borderColor = NegativeBorderColor.GetColorAsColor();
-                    styleOverrideString = (baseName + address.AddressSpaceSeparated + "-neg::after");
+                    var newHighest = Math.Abs(lowest) + Math.Abs(highest);
+                    percentage = (realValue + Math.Abs(lowest)) / newHighest;
+
+                    if (realValue > 0)
+                    {
+                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-pos::after");
+                    }
+                    else
+                    {
+                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-neg::after");
+                    }
                 }
-                double added = percentage == 0.0d ? 0 : 1.5;
 
                 percentage = percentage * 100;
-                //baseName += address.Address;
-                //string borderAdd = borderColor == Color.Empty ? "" : $", {((percentage * 98) + added).ToString(CultureInfo.InvariantCulture)}% 95%";
-
-                //styleOverrideString += $"background-size: {(percentage * 98).ToString(CultureInfo.InvariantCulture)}% 90%";
-                //styleOverrideString += borderAdd + ";";
 
                 return styleOverrideString;
             }

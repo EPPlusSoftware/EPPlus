@@ -230,7 +230,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 sharedRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{DatabarSvg.GetConvertedAxisStripes()})");
                 sharedRule.AddDeclaration("background-size", "5px 10px");
                 sharedRule.AddDeclaration("background-repeat", "repeat-y");
-                sharedRule.AddDeclaration("background-position", "-10% 0%");
+                sharedRule.AddDeclaration("background-position", "-30px 0%");
 
                 _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-db-shared::after", "content", "\"\"");
                 var sharedRuleAfter = _ruleCollection.Last();
@@ -252,58 +252,105 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             {
                 AddSharedDatabarRule(dataBar);
             }
-            //DatabarSvg.GetConvertedAxisStripes();
 
             //TODO: Should cache and only create one of them if identical
             var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-{id}-";
             var positiveDatabarRule = new CssRule(ruleName + "pos::after", cssOrder);
             var negativeDatabarRule = new CssRule(ruleName + "neg::after", cssOrder);
 
-            var positiveDatabarSVG = DatabarSvg.GetConvertedDatabarString(dataBar.FillColor.GetColorAsColor(), dataBar.Gradient, dataBar.BorderColor.GetColorAsColor());
+            var positiveDatabarSVG = DatabarSvg.GetConvertedDatabarString(dataBar.FillColor.GetColorAsColor(), dataBar.Gradient, dataBar.BorderColor.GetColorAsColor(true));
             var negativeDatabarSVG = DatabarSvg.GetConvertedDatabarString(dataBar.NegativeFillColor.GetColorAsColor(), dataBar.Gradient, dataBar.NegativeBorderColor.GetColorAsColor());
 
             positiveDatabarRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{positiveDatabarSVG})");
             negativeDatabarRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{negativeDatabarSVG})");
 
+            _ruleCollection.AddRule($"{ruleName + "pos"}, {ruleName + "neg"}", "z-index", $"0");
+            var sharedContentRule = _ruleCollection.Last();
+
             if (dataBar.AxisPosition != eExcelDatabarAxisPosition.None)
             {
-                double axisPercent;
+                double AxisPositionPercent;
                 if (dataBar.AxisPosition == eExcelDatabarAxisPosition.Automatic)
                 {
                     var absLowest = Math.Abs(dataBar.lowest);
                     var absHighest = Math.Abs(dataBar.highest);
 
-                    axisPercent = dataBar.lowest < 0 && dataBar.highest > 0 ? Math.Abs(dataBar.lowest) / Math.Abs(dataBar.highest) : 0;
-                    axisPercent = axisPercent > 1 ? 1d - (1d / axisPercent) : axisPercent;
-                    axisPercent *= 100;
+                    double denominator = dataBar.highest - dataBar.lowest;
+
+                    var percent = Math.Abs(dataBar.lowest / denominator);
+                    AxisPositionPercent = percent * 100;
                 }
                 else
                 {
                     //is middle
-                    axisPercent = 50;
+                    AxisPositionPercent = 50;
                 }
 
-                axisPercent = Math.Round(axisPercent, 3);
-                string axisPercentStr = (axisPercent).ToString(CultureInfo.InvariantCulture);
+                if (dataBar.Direction == eDatabarDirection.RightToLeft)
+                {
+                    //Note: switches right/left and positive/negative
+                    AxisPositionPercent = 100 - AxisPositionPercent;
+                    var temp = positiveDatabarRule;
+                    positiveDatabarRule = negativeDatabarRule;
+                    negativeDatabarRule = temp;
+                }
 
-                _ruleCollection.AddRule($"{ruleName + "pos"}, {ruleName + "neg"}", "background-position", $"{axisPercentStr}% 0%");
-                var contentRule = _ruleCollection.Last();
-                contentRule.AddDeclaration("z-index", "0");
-                //var axisOpposite string.Format(,CultureInfo.InvariantCulture)
+                AxisPositionPercent = Math.Round(AxisPositionPercent, 3);
+                string xPositionInPercentString = (AxisPositionPercent).ToString(CultureInfo.InvariantCulture);
 
-                axisPercentStr = (axisPercent + 0.5).ToString(CultureInfo.InvariantCulture);
+                if(dataBar.lowest < 0 | dataBar.AxisPosition == eExcelDatabarAxisPosition.Middle)
+                {
+                    sharedContentRule.AddDeclaration("background-position", $"{xPositionInPercentString}% 0%");
+                }
 
-                double posWidth = Math.Round(100d - axisPercent, 3);
-                string posWidthStr = posWidth.ToString(CultureInfo.InvariantCulture);
-                string axisPercentCorrected = (axisPercent - 0.5d).ToString(CultureInfo.InvariantCulture);
-                string posWidthCorrcted = (posWidth + 0.5d).ToString(CultureInfo.InvariantCulture);
+                if (dataBar.AxisColor != null)
+                {
+                    var axisColorSvg = DatabarSvg.GetConvertedAxisStripesWithColor(dataBar.AxisColor.GetColorAsColor());
+                    sharedContentRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{axisColorSvg})");
+                }
 
-                positiveDatabarRule.AddDeclaration("width", $"{posWidthStr}%");
-                positiveDatabarRule.AddDeclaration("left", $"{axisPercentStr}%");
+                //Left of axis Negative, Right of axis Positive
+                double negativeWidthPercent = AxisPositionPercent;
+                double positiveWidthPercent = Math.Round(100d - AxisPositionPercent, 3);
 
-                negativeDatabarRule.AddDeclaration("width", $"{axisPercentCorrected}%");
-                negativeDatabarRule.AddDeclaration("right", $"{posWidthCorrcted}%");
+                string negativeWidth = negativeWidthPercent.ToString(CultureInfo.InvariantCulture);
+                string positiveWidth = positiveWidthPercent.ToString(CultureInfo.InvariantCulture);
+
+                string rightOffset = positiveWidth;
+                string leftOffset = negativeWidth;
+
+                //Corrections for bar not to cover axis
+                if (negativeWidthPercent > 50)
+                {
+                    negativeDatabarRule.AddDeclaration("background-position", $"2px");
+                }
+                else if(positiveWidthPercent < 50)
+                {
+                    positiveDatabarRule.AddDeclaration("background-position", $"2px");
+                }
+                else
+                {
+                    negativeDatabarRule.AddDeclaration("background-position", $"1px");
+                    positiveDatabarRule.AddDeclaration("background-position", $"1px");
+                }
+
+                positiveDatabarRule.AddDeclaration("width", $"{positiveWidth}%");
+                positiveDatabarRule.AddDeclaration("left", $"{leftOffset}%");
+
+                negativeDatabarRule.AddDeclaration("width", $"{negativeWidth}%");
+                negativeDatabarRule.AddDeclaration("right", $"{rightOffset}%");
                 negativeDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
+            }
+            else
+            {
+                positiveDatabarRule.AddDeclaration("left", $"0%");
+                negativeDatabarRule.AddDeclaration("left", $"0%");
+
+                if (dataBar.Direction == eDatabarDirection.RightToLeft)
+                {
+                    positiveDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
+                    negativeDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
+                }
             }
 
             _ruleCollection.CssRules.Add(positiveDatabarRule);

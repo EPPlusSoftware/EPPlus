@@ -18,7 +18,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             "<linearGradient id='Gradient1'><stop class='stop1' offset='0%' /><stop class='stop2' offset='90%' /></linearGradient>" +
             "<style> #rect1 {0} .stop1 {1} .stop2 {2} </style></defs>" +
             "<rect id='rect1' width='100%' height='100%' stroke='{3}' stroke-width='2px'/></svg>";
-        internal const string AxisStripes = "<svg width='10%' height='25%' version='1.1' viewBox='0 0 5 100' xmlns='http://www.w3.org/2000/svg'><g fill='#140904'><rect id='stripe' width='15px' height='75%'/></g></svg>";
+        internal const string AxisStripes = "<svg version='1.1' viewBox='0 0 15 100' xmlns='http://www.w3.org/2000/svg'><g fill='#140904'><rect id='stripe' width='15px' height='75%'/></g></svg>";
+        internal const string AxisStripesColor = "<svg version='1.1' viewBox='0 0 15 100' xmlns='http://www.w3.org/2000/svg'><g fill='{0}'><rect id='stripe' width='15px' height='75%'/></g></svg>";
+
 
         internal static string GetConvertedDatabarString(Color databarColor, bool isGradient, Color? borderColor = null)
         {
@@ -28,6 +30,12 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal static string GetConvertedAxisStripes()
         {
             return Convert.ToBase64String(Encoding.ASCII.GetBytes(AxisStripes));
+        }
+
+        internal static string GetConvertedAxisStripesWithColor(Color axisColor)
+        {
+            var colorAxis = string.Format(AxisStripesColor, GetColorCode(axisColor));
+            return Convert.ToBase64String(Encoding.ASCII.GetBytes(colorAxis));
         }
 
         internal static string GetUncovertedDatabar(Color databarColor, bool isGradient, Color? borderColor = null)
@@ -64,7 +72,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             return stringRet;
         }
 
-        static string GetColorCode(Color color) 
+        static string GetColorCode(Color color)
         {
             return "#" + color.ToArgb().ToString("x8").Substring(2);
         }
