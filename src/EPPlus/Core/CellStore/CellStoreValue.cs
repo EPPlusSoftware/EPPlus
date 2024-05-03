@@ -52,6 +52,20 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
+        internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
+        {
+            for (int c = 0; c < array.Length; c++)
+            {
+                if (array[c] == DBNull.Value)
+                {
+                    SetValue_Value(row + c, col, null);
+                }
+                else
+                {
+                    SetValue_Value(row + c, col, array[c]);
+                }
+            }
+        }
         internal void SetValueRow_Value(int row, int col, IEnumerable collection)
         {
             int offset=0;
