@@ -289,6 +289,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             if (cacheUpdated) UpdateRowColumnPageFields(tableFields);
+            
             RefreshPivotTableItems();
             Records.CreateRecords();
         }

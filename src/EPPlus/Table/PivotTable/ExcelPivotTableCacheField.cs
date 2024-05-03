@@ -937,7 +937,7 @@ namespace OfficeOpenXml.Table.PivotTable
 				AddSharedItemToHashSet(siHs, ws.GetValue(row, column));
 			}
 
-            if (Grouping == null || (IsRowColumnOrPage && Index==(Grouping.BaseIndex??-1))  || HasSlicer)
+            if (Grouping == null/* || (IsRowColumnOrPage && Index==(Grouping.BaseIndex??-1))  || HasSlicer*/)
             {
                 //A pivot table cache can reference multiple Pivot tables, so we need to update them all
                 foreach (var pt in _cache._pivotTables)
