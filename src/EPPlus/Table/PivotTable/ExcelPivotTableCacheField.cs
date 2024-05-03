@@ -937,51 +937,56 @@ namespace OfficeOpenXml.Table.PivotTable
 				AddSharedItemToHashSet(siHs, ws.GetValue(row, column));
 			}
 
-            if (Grouping == null/* || (IsRowColumnOrPage && Index==(Grouping.BaseIndex??-1))  || HasSlicer*/)
+            if (Grouping == null)
             {
-                //A pivot table cache can reference multiple Pivot tables, so we need to update them all
-                foreach (var pt in _cache._pivotTables)
-                {
-                    var ptField = pt.Fields[Index];
-                    if (ptField.ShouldHaveItems == false) continue;
-                    var existingItems = new HashSet<object>(new InvariantObjectComparer());
-                    var list = ptField.Items._list;
-
-                    for (var ix = 0; ix < list.Count; ix++)
-                    {
-                        var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
-                        if (!siHs.Contains(v) || existingItems.Contains(v))
-                        {
-                            list.RemoveAt(ix);
-                            ix--;
-                        }
-                        else
-                        {
-                            existingItems.Add(v);
-                        }
-                    }
-                    var hasSubTotalSubt = list.Count > 0 && list[list.Count - 1].Type == eItemType.Default ? 1 : 0;
-                    foreach (var c in siHs)
-                    {
-                        if (!existingItems.Contains(c))
-                        {
-                            list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c });
-                        }
-                    }
-
-                    if (list.Count > 0)
-                    {
-                        UpdateSubTotalItems(list, ptField.SubTotalFunctions);
-                    }
-                } 
+                UpdatePivotItemsFromSharedItems(siHs);
             }
-			SharedItems._list = siHs.ToList();
+            SharedItems._list = siHs.ToList();
 			UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
 			if (HasSlicer)
 			{
 				UpdateSlicers();
 			}
 		}
+
+        private void UpdatePivotItemsFromSharedItems(HashSet<object> siHs)
+        {
+            //A pivot table cache can reference multiple Pivot tables, so we need to update them all
+            foreach (var pt in _cache._pivotTables)
+            {
+                var ptField = pt.Fields[Index];
+                if (ptField.ShouldHaveItems == false) continue;
+                var existingItems = new HashSet<object>(new InvariantObjectComparer());
+                var list = ptField.Items._list;
+
+                for (var ix = 0; ix < list.Count; ix++)
+                {
+                    var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
+                    if (!siHs.Contains(v) || existingItems.Contains(v))
+                    {
+                        list.RemoveAt(ix);
+                        ix--;
+                    }
+                    else
+                    {
+                        existingItems.Add(v);
+                    }
+                }
+                var hasSubTotalSubt = list.Count > 0 && list[list.Count - 1].Type == eItemType.Default ? 1 : 0;
+                foreach (var c in siHs)
+                {
+                    if (!existingItems.Contains(c))
+                    {
+                        list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c });
+                    }
+                }
+
+                if (list.Count > 0)
+                {
+                    UpdateSubTotalItems(list, ptField.SubTotalFunctions);
+                }
+            }
+        }
 
         internal void UpdateSubTotalItems(List<ExcelPivotTableFieldItem> list, eSubTotalFunctions functions)
         {
