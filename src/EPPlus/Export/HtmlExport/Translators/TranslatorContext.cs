@@ -34,6 +34,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         private TranslatorBase strategy;
 
+        internal bool SharedIconSetRuleAdded = false;
+
         public TranslatorContext(HtmlRangeExportSettings settings) 
         {
             Exclude = settings.Css.CssExclude;

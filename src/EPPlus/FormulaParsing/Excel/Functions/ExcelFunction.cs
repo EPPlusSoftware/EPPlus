@@ -28,6 +28,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Runtime.CompilerServices;
 using Utils = OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {

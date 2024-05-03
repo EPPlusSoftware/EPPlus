@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using System.Globalization;
 using System.Text;
 
 namespace OfficeOpenXml
@@ -67,6 +68,10 @@ namespace OfficeOpenXml
         /// The CulturInfo used when formatting values.
         /// </summary>
         public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+        /// <summary>
+        /// Set if data in worksheet is transposed.
+        /// </summary>
+        public bool DataIsTransposed { get; set; } = false;
     }
     /// <summary>
     /// Settings used when exporting a range to Json

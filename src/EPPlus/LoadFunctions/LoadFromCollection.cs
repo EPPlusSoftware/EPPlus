@@ -142,7 +142,6 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 return;
             }
-
             SetValuesAndFormulas(values, formulaCells, ref col, ref row);
         }
 
@@ -175,11 +174,25 @@ namespace OfficeOpenXml.LoadFunctions
                     var t = item.GetType();
                     if (item is string || item is decimal || item is DateTime || t.IsPrimitive)
                     {
-                        values[row, col++] = item;
+                        if (transpose)
+                        {
+                            values[col++, row] = item;
+                        }
+                        else
+                        {
+                            values[row, col++] = item;
+                        }
                     }
                     else if(t.IsEnum)
-                    {                        
-                        values[row, col++] = GetEnumValue(item, t); ;
+                    {    
+                        if(transpose)
+                        {
+                            values[col++, row] = GetEnumValue(item, t); ;
+                        }
+                        else
+                        {
+                            values[row, col++] = GetEnumValue(item, t); ;
+                        }
                     }
                     else
                     {
@@ -199,7 +212,14 @@ namespace OfficeOpenXml.LoadFunctions
                                     }
                                 }
 #endif
-                                values[row, col++] = v;
+                                if (transpose)
+                                {
+                                    values[col++, row] = v;
+                                }
+                                else
+                                {
+                                    values[row, col++] = v;
+                                }
                             }
                             else if (!string.IsNullOrEmpty(colInfo.Formula))
                             {
@@ -339,8 +359,14 @@ namespace OfficeOpenXml.LoadFunctions
                     header = colInfo.Header;
                     columnFormats.Add(colInfo.Index, colInfo.NumberFormat);
                 }
-
-                values[row, col++] = header;
+                if(transpose)
+                {
+                    values[col++, row] = header;
+                }
+                else
+                {
+                    values[row, col++] = header;
+                }
             }
             row++;
         }

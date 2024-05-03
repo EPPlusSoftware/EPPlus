@@ -57,5 +57,10 @@ namespace OfficeOpenXml.LoadFunctions
             get;
             set;
         } = true;
+
+        /// <summary>
+        /// Set if data should be transposed
+        /// </summary>
+        public bool Transpose { get; set; } = false;
     }
 }

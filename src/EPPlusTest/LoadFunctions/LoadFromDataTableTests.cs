@@ -44,6 +44,21 @@ namespace EPPlusTest.LoadFunctions
             _worksheet.Cells["A1"].LoadFromDataTable(_table, false);
             Assert.AreEqual("1", _worksheet.Cells["A1"].Value);
         }
+        [TestMethod]
+        public void ShouldLoadTableTransposed()
+        {
+            _table.Rows.Add("1", "Testname 1");
+            _table.Rows.Add("2", "Testname 2");
+            _table.Rows.Add("3", "Testname 3");
+            var r = _worksheet.Cells["A1"].LoadFromDataTable(_table, false, TableStyles.None, true);
+            Assert.AreEqual("A1:C2", r.Address);
+            Assert.AreEqual("1", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual("2", _worksheet.Cells["B1"].Value);
+            Assert.AreEqual("3", _worksheet.Cells["C1"].Value);
+            Assert.AreEqual("Testname 1", _worksheet.Cells["A2"].Value);
+            Assert.AreEqual("Testname 2", _worksheet.Cells["B2"].Value);
+            Assert.AreEqual("Testname 3", _worksheet.Cells["C2"].Value);
+        }
 
         [TestMethod]
         public void CreateAndFillDataTable()
@@ -75,6 +90,14 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldLoadTableWithTableStyleTransposed()
+        {
+            _table.Rows.Add("1", "Test name");
+            _worksheet.Cells["A1"].LoadFromDataTable(_table, false, TableStyles.Dark1, true);
+            Assert.AreEqual(1, _worksheet.Tables.Count);
+        }
+
+        [TestMethod]
         public void ShouldUseCaptionForHeader()
         {
             _table.Columns["Id"].Caption = "An Id";
@@ -82,12 +105,28 @@ namespace EPPlusTest.LoadFunctions
             _worksheet.Cells["A1"].LoadFromDataTable(_table, true);
             Assert.AreEqual("An Id", _worksheet.Cells["A1"].Value);
         }
+        [TestMethod]
+        public void ShouldUseCaptionForHeaderTransposed()
+        {
+            _table.Columns["Id"].Caption = "An Id";
+            _table.Columns["Name"].Caption = "A name";
+            _worksheet.Cells["A1"].LoadFromDataTable(_table, true, TableStyles.None, true);
+            Assert.AreEqual("An Id", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual("A name", _worksheet.Cells["A2"].Value);
+        }
 
         [TestMethod]
         public void ShouldUseColumnNameForHeaderIfNoCaption()
         {
             _worksheet.Cells["A1"].LoadFromDataTable(_table, true);
             Assert.AreEqual("Id", _worksheet.Cells["A1"].Value);
+        }
+        [TestMethod]
+        public void ShouldUseColumnNameForHeaderIfNoCaptionTransposed()
+        {
+            _worksheet.Cells["A1"].LoadFromDataTable(_table, true, TableStyles.None, true);
+            Assert.AreEqual("Id", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual("Name", _worksheet.Cells["A2"].Value);
         }
 
         [TestMethod]
@@ -170,6 +209,19 @@ namespace EPPlusTest.LoadFunctions
             {
                 c.PrintHeaders = true;
                 c.TableStyle = TableStyles.Dark1;
+            });
+            Assert.IsNull(_worksheet.Cells["B2"].Value);
+        }
+        [TestMethod]
+        public void ShouldReplaceWithNullIfDbNullTranspose()
+        {
+            _table.Rows.Add("1", null);
+            _worksheet.Cells["B2"].Value = 2;
+            _worksheet.Cells["A1"].LoadFromDataTable(_table, c =>
+            {
+                c.PrintHeaders = true;
+                c.TableStyle = TableStyles.Dark1;
+                c.Transpose = true;
             });
             Assert.IsNull(_worksheet.Cells["B2"].Value);
         }

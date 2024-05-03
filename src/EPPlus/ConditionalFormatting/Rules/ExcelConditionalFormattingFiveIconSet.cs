@@ -68,6 +68,12 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             Icon5 = copy.Icon5;
         }
 
+
+        internal override ExcelConditionalFormattingIconDataBarValue[] GetIconArray(bool reversed = false)
+        {
+            return reversed ? [Icon5, Icon4, Icon3, Icon2, Icon1] : [Icon1, Icon2, Icon3, Icon4, Icon5];
+        }
+
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)
         {
             return new ExcelConditionalFormattingFiveIconSet(this, newWs);

@@ -84,9 +84,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal void SetCustomIconStringAndId(string set, int id)
         {
-            int myKey = _iconStringSetDictionary.FirstOrDefault(x => x.Value == set).Key << 4;
-            myKey += id;
-            CustomIcon = (eExcelconditionalFormattingCustomIcon)myKey;
+            CustomIcon = IconDict.GetIconAtIndex(set, id);
         }
 
         internal virtual string GetCustomIconStringValue()
@@ -152,6 +150,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         public bool GreaterThanOrEqualTo { get; set; } = true;
 
         private double? _value = double.NaN;
+
+        internal double _formulaCalculatedValue = double.NaN;
 
         /// <summary>
         /// The value
@@ -225,6 +225,28 @@ namespace OfficeOpenXml.ConditionalFormatting
                     throw new InvalidOperationException("Cannot store formula in a percentile type");
                 }
             }
+        }
+
+        internal bool ShouldApplyIcon(double aValue)
+        {
+            double conditionValue = Value;
+
+            if(Type == eExcelConditionalFormattingValueObjectType.Formula)
+            {
+                conditionValue = _formulaCalculatedValue;
+            }
+
+            if(aValue < conditionValue)
+            {
+                return false;
+            }
+
+            if(aValue == conditionValue && GreaterThanOrEqualTo == false)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
