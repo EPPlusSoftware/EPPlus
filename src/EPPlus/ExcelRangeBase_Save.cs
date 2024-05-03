@@ -21,12 +21,9 @@ using System.Collections.Generic;
 using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.Export.ToCollection;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-<<<<<<< HEAD
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Export.ToCollection.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-=======
->>>>>>> develop7_2
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -178,18 +175,20 @@ namespace OfficeOpenXml
                     continue;
                 }
 
-
                 if (SkipLines(Format, row, skipLinesBegining))
                 {
                     continue;
                 }
-
+                string finalRow = "";
                 for (int col = fromCol; col <= toCol; col++)
                 {
-                    string t = Format.DataIsTransposed ? GetText(Format, maxFormats, ci, col, row, out bool isText) : GetText(Format, maxFormats, ci, row, col, out isText);
+                    string t = Format.DataIsTransposed ? GetTextCSV(Format, maxFormats, ci, col, row, out bool isText) : GetTextCSV(Format, maxFormats, ci, row, col, out isText);
 
                     if (hasTextQ && isText)
                     {
+                        //sw.Write(Format.TextQualifier);
+                        //sw.Write(t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers));
+                        //sw.Write(Format.TextQualifier);
                         finalRow += Format.TextQualifier;
                         finalRow += t.Replace(Format.TextQualifier.ToString(), doubleTextQualifiers);
                         finalRow += Format.TextQualifier;
@@ -198,7 +197,15 @@ namespace OfficeOpenXml
                     {
                         finalRow += t;
                     }
-                    if (col != toCol) sw.Write(Format.Delimiter);
+                    if (col != toCol) finalRow += Format.Delimiter;//sw.Write(Format.Delimiter);
+                }
+                if (Format.ShouldUseRow != null && Format.ShouldUseRow.Invoke(finalRow) == false)
+                {
+                    continue;
+                }
+                else
+                {
+                    sw.Write(finalRow);
                 }
                 if (row != toRow - Format.SkipLinesEnd) sw.Write(Format.EOL);
             }

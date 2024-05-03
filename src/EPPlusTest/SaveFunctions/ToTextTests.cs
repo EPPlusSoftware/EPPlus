@@ -115,7 +115,8 @@ namespace EPPlusTest.SaveFunctions
                 TextQualifier = '\'',
                 FirstRowIsHeader = false
             };
-            format.ShouldUseRow = row => {
+            format.ShouldUseRow = row =>
+            {
                 if (row.Contains("e"))
                 {
                     return false;
@@ -158,7 +159,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["A1"].Value = 1;
             _sheet.Cells["B1"].Value = 2;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumnLengths( 3, 4);
+            format.SetColumnLengths(3, 4);
             format.Columns[0].PaddingType = PaddingAlignmentType.Right;
             format.Columns[1].PaddingType = PaddingAlignmentType.Right;
             var text = _sheet.Cells["A1:B1"].ToText(format);
@@ -180,7 +181,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B3"].Value = 8;
             _sheet.Cells["C3"].Value = 10;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
-            format.SetColumnLengths( 3, 4, 3 );
+            format.SetColumnLengths(3, 4, 3);
             format.ShouldUseRow = row =>
             {
                 if (row.Contains("5"))
@@ -269,7 +270,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.SetColumnPositions(0, 0, 3);
-            format.FormatErrorStrategy= FixedWidthFormatErrorStrategy.Overwrite;
+            format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Overwrite;
             format.ReadType = FixedWidthReadType.Positions;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  12" + format.EOL + "thi5" + format.EOL, text);
@@ -320,7 +321,8 @@ namespace EPPlusTest.SaveFunctions
             format.UseTrailingMinus = true;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual(" 4-   5" + format.EOL, text);
-        
+        }
+
         [TestMethod]
         public void TransposedToText()
         {
@@ -349,3 +351,4 @@ namespace EPPlusTest.SaveFunctions
         }
     }
 }
+
