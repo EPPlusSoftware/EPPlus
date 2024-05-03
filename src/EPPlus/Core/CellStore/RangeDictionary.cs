@@ -247,12 +247,6 @@ namespace OfficeOpenXml.Core.CellStore
             }
         }
 
-
-        //internal RangeItem RemoveRangeFromRangeItem(int fromRow, int toRow, RangeItem item)
-        //{
-
-        //}
-
         /// <summary>
         /// Returns empty array if no result because fromRow, toRow covers entire spane
         /// Returns rangeItem with rowspan -1 if the item does not exist within fromRow ToRow
