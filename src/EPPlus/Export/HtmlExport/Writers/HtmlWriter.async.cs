@@ -94,13 +94,14 @@ namespace OfficeOpenXml.Export.HtmlExport
                     Indent--;
                 }
             }
-            else
-            {
-                await WriteAsync(element.Content);
-            }
+
+            await WriteAsync(element.Content);
 
             await RenderEndTagAsync(element.ElementName);
-            await ApplyFormatAsync(minify);
+            if (element.ElementName != "a")
+            {
+                await ApplyFormatAsync(minify);
+            }
         }
 #endif
     }
