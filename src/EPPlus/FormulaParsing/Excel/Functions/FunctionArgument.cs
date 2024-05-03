@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -157,6 +158,32 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                         return v.GetValue(v.Address.FromRow, v.Address.FromCol);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// If the value is a <see cref="IRangeInfo"/> the value will return the value of the first cell, otherwise the <see cref="Value"/> will be returned.
+        ///
+        /// </summary>
+        public List<object> ValueToList
+        {
+            get
+            {
+                List<object> obj = new List<object>();
+                var v = _result.Result as IRangeInfo;
+                if(v == null)
+                {
+                    obj.Add(_result.Result);
+                    return obj;
+                }
+                for (int row = v.Address.FromRow; row <= v.Address.ToRow; row++)
+                {
+                    for (int col = v.Address.FromCol; col <= v.Address.ToCol; col++)
+                    {
+                        obj.Add(v.GetValue(row, col));
+                    }
+                }
+                return obj;
             }
         }
 

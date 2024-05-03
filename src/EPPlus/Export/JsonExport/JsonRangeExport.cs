@@ -1,11 +1,5 @@
 ﻿using OfficeOpenXml.Export.HtmlExport;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -35,20 +29,26 @@ namespace OfficeOpenXml
 
         private void WriteColumnData(StreamWriter sw)
         {
+            var total = _range.Columns;
+            if (_settings.DataIsTransposed)
+            {
+                total = _range.Rows;
+            }
             WriteItem(sw, $"\"{_settings.ColumnsElementName}\":[", true);
-            for (int i = 0; i < _range.Columns; i++)
+            for (int i = 0; i < total; i++)
             {
                 WriteStart(sw);
                 if (_settings.FirstRowIsHeader)
                 {
-                    WriteItem(sw, $"\"name\":\"{JsonEscape(_range.GetCellValue<string>(0,i))}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
+                    var v = _settings.DataIsTransposed ? _range.GetCellValue<string>(i, 0) : _range.GetCellValue<string>(0, i);
+                    WriteItem(sw, $"\"name\":\"{JsonEscape(v)}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
                 }
                 if (_settings.AddDataTypesOn==eDataTypeOn.OnColumn)
                 {
-                    var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(1, i));
+                    var dt = _settings.DataIsTransposed ? HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(i, 1)) : HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(1, i));
                     WriteItem(sw, $"\"dt\":\"{dt}\"");
                 }
-                if (i == _range.Columns - 1)
+                if (i == total - 1)
                 {
                     WriteEnd(sw, "}");
                 }

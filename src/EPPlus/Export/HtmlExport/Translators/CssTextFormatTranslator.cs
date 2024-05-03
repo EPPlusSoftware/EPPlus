@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 hAlign = GetHorizontalAlignment();
             }
 
-            if ((_verticalAlignment != ExcelVerticalAlignment.Bottom) && (context.Exclude.VerticalAlignment == false))
+            if ((_verticalAlignment != ExcelVerticalAlignment.Center) && (context.Exclude.VerticalAlignment == false))
             {
                 vAlign = GetVerticalAlignment();
             }
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 AddDeclaration("text-align", hAlign);
             }
 
-            if (_verticalAlignment != ExcelVerticalAlignment.Bottom && (context.Exclude.VerticalAlignment == false))
+            if (_verticalAlignment != ExcelVerticalAlignment.Center && (context.Exclude.VerticalAlignment == false))
             {
                 AddDeclaration("vertical-align", vAlign);
             }

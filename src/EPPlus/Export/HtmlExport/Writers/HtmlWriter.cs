@@ -101,10 +101,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     Indent--;
                 }
             }
-            else
-            {
-                Write(element.Content);
-            }
+
+            Write(element.Content);
 
             RenderEndTag(element.ElementName);
             if(element.ElementName != "a")

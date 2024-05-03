@@ -11,6 +11,7 @@
   03/14/2024         EPPlus Software AB           Epplus 7.1
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
@@ -25,6 +26,8 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
@@ -190,6 +193,68 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             _ruleCollection.CssRules.Add(styleClass);
         }
+
+        internal void AddSharedIconsetRule()
+        {
+            if(_context.SharedIconSetRuleAdded == false)
+            {
+                _ruleCollection.AddRule(".cf-ic-shared::before", "content", "\"\"");
+
+                var beforeRule = _ruleCollection.Last();
+                //Set to 1.22 em because our standard-height for columns is 20px
+                beforeRule.AddDeclaration("min-width", $"1.22em");
+                beforeRule.AddDeclaration("min-height", $"1.22em");
+                beforeRule.AddDeclaration("float", $"left");
+                beforeRule.AddDeclaration("background-repeat", $"no-repeat");
+
+                //Ensure cells don't overflow
+                _ruleCollection.AddRule(".cf-ic-shared", "min-width", "2.24em");
+
+                _context.SharedIconSetRuleAdded = true;
+            }
+        }
+
+        internal void AddAdvancedCF<T>(ExcelConditionalFormattingIconSetBase<T> set, int cssOrder, int id)
+            where T : struct, Enum
+        {
+            if (_context.SharedIconSetRuleAdded == false)
+            {
+                AddSharedIconsetRule();
+            }
+
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}cf{id}";
+            var contentRule = new CssRule(ruleName, cssOrder);
+            if(!set.ShowValue)
+            {
+                contentRule.AddDeclaration("color", "transparent");
+            }
+            else
+            {
+                contentRule.AddDeclaration("visibility", "visible");
+            }
+
+            string[] svgs;
+
+            if (set.Custom)
+            {
+                svgs = CF_Icons.GetIconSetSvgsWithCustoms(set.GetIconSetString(), set.GetIconArray());
+            }
+            else
+            {
+                svgs = CF_Icons.GetIconSetSvgs(set.GetIconSetString());
+            }
+
+            for (int i = 0; i < svgs.Length; i++)
+            {
+                var iconRule = new CssRule(ruleName + $"{i}::before", cssOrder);
+                iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{svgs[i]})");
+                _ruleCollection.CssRules.Add(iconRule);
+            }
+
+            _ruleCollection.CssRules.Add(contentRule);
+        }
+
+
 
         internal void AddPictureToCss(HtmlImage p)
         {

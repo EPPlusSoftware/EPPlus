@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
 
         protected List<object> cellValueCache = new List<object>();
 
-        protected virtual void UpdateCellValueCache(bool asStrings = false)
+        protected virtual void UpdateCellValueCache(bool asStrings = false, bool cacheOnlyNumeric = false)
         {
             cellValueCache.Clear();
 
@@ -67,7 +68,17 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
                             }
                             else
                             {
-                                cellValueCache.Add(value);
+                                if(cacheOnlyNumeric)
+                                {
+                                    if(value.IsNumeric())
+                                    {
+                                        cellValueCache.Add(value);
+                                    }
+                                }
+                                else
+                                {
+                                    cellValueCache.Add(value);
+                                }
                             }
                         }
                     }

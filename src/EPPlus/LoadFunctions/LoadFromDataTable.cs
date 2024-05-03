@@ -28,6 +28,7 @@ namespace OfficeOpenXml.LoadFunctions
             _dataTable = dataTable;
             _printHeaders = parameters.PrintHeaders;
             _tableStyle = parameters.TableStyle;
+            _transpose = parameters.Transpose;
         }
 
         private readonly ExcelRangeBase _range;
@@ -35,6 +36,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly DataTable _dataTable;
         private readonly bool _printHeaders;
         private TableStyles? _tableStyle;
+        private readonly bool _transpose;
 
         public ExcelRangeBase Load()
         {
@@ -52,12 +54,26 @@ namespace OfficeOpenXml.LoadFunctions
             var row = _range._fromRow;
             if (_printHeaders)
             {
-                _worksheet._values.SetValueRow_Value(_range._fromRow, _range._fromCol, _dataTable.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
+                if (_transpose)
+                {
+                    _worksheet._values.SetValueRow_ValueTransposed(_range._fromRow, _range._fromCol, _dataTable.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
+                }
+                else
+                {
+                    _worksheet._values.SetValueRow_Value(_range._fromRow, _range._fromCol, _dataTable.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
+                }
                 row++;
             }
             foreach (DataRow dr in _dataTable.Rows)
             {
-                _range.Worksheet._values.SetValueRow_Value(row++, _range._fromCol, dr.ItemArray);
+                if (_transpose)
+                {
+                    _range.Worksheet._values.SetValueRow_ValueTransposed(_range._fromCol, row++, dr.ItemArray);
+                }
+                else
+                {
+                    _range.Worksheet._values.SetValueRow_Value(row++, _range._fromCol, dr.ItemArray);
+                }                
             }
             if (row != _range._fromRow) row--;
 
@@ -71,11 +87,15 @@ namespace OfficeOpenXml.LoadFunctions
                     name = _worksheet.Tables.GetNewTableName();
                 }
 
-                var tbl = _worksheet.Tables.Add(new ExcelAddressBase(_range._fromRow, _range._fromCol, _range._fromRow + rows - 1, _range._fromCol + _dataTable.Columns.Count - 1), name);
+                var tbl = _transpose ? _worksheet.Tables.Add(new ExcelAddressBase(_range._fromRow, _range._fromCol, _range._fromRow + _dataTable.Columns.Count - 1, _range._fromCol + rows - 1), name) : 
+                                       _worksheet.Tables.Add(new ExcelAddressBase(_range._fromRow, _range._fromCol, _range._fromRow + rows - 1, _range._fromCol + _dataTable.Columns.Count - 1), name);
                 tbl.ShowHeader = _printHeaders;
                 tbl.TableStyle = _tableStyle.Value;
             }
-
+            if(_transpose)
+            {
+                return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromCol + _dataTable.Columns.Count - 1, row];
+            }
             return _worksheet.Cells[_range._fromRow, _range._fromCol, row, _range._fromCol + _dataTable.Columns.Count - 1];
         }
     }

@@ -13,6 +13,7 @@
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 
@@ -30,6 +31,7 @@ namespace OfficeOpenXml.LoadFunctions
             TableStyle = parameters.TableStyle;
             TableName = parameters.TableName?.Trim();
             _useBuiltInStylesForHyperlinks = parameters.UseBuiltInStylesForHyperlinks;
+            transpose = parameters.Transpose;
         }
 
         private readonly bool _useBuiltInStylesForHyperlinks;
@@ -55,6 +57,8 @@ namespace OfficeOpenXml.LoadFunctions
         protected bool ShowLastColumn { get; set; }
 
         protected bool ShowTotal { get; set; }
+
+        protected readonly bool transpose;
 
         /// <summary>
         /// Returns how many rows there are in the range (header row not included)
@@ -83,7 +87,7 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var nRows = PrintHeaders ? GetNumberOfRows() + 1 : GetNumberOfRows();
             var nCols = GetNumberOfColumns();
-            var values = new object[nRows, nCols];
+            var values = new object[transpose ? nCols : nRows, transpose ? nRows : nCols];
 
             //if(Range.Worksheet._values.Capacity < values.Length)
             //{
@@ -118,7 +122,7 @@ namespace OfficeOpenXml.LoadFunctions
                 return null;
             }
 
-            var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
+            var r = transpose ? ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nCols - 1, Range._fromCol + nRows - 1] : ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
 
             if (TableStyle.HasValue)
             {

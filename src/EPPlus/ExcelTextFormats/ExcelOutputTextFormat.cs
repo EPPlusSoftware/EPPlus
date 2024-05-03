@@ -87,5 +87,11 @@ namespace OfficeOpenXml
         /// Default is two Text Qualifiers characters. For example " is replaced with "".
         /// </summary>
         public string EncodedTextQualifiers { get; set; } = null;
+
+        /// <summary>
+        /// Set if data in worksheet is transposed.
+        /// </summary>
+        public bool DataIsTransposed { get; set; } = false;
+
     }
 }

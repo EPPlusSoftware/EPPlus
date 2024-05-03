@@ -28,6 +28,11 @@ namespace EPPlusTest.LoadFunctions
                 {
                     { "Id", 2 },
                     { "Name", "TestName 2" }
+                },
+                new Dictionary<string, object>()
+                {
+                    { "Id", 3 },
+                    { "Name", "TestName 3" }
                 }
             };
         }
@@ -44,10 +49,34 @@ namespace EPPlusTest.LoadFunctions
                 var r = sheet.Cells["A1"].LoadFromDictionaries(_items);
 
                 Assert.AreEqual(1, sheet.Cells["A1"].Value);
+                Assert.AreEqual(2, sheet.Cells["A2"].Value);
+                Assert.AreEqual(3, sheet.Cells["A3"].Value);
+                Assert.AreEqual("TestName 1", sheet.Cells["B1"].Value);
                 Assert.AreEqual("TestName 2", sheet.Cells["B2"].Value);
+                Assert.AreEqual("TestName 3", sheet.Cells["B3"].Value);
             }
         }
-        
+
+        [TestMethod]
+        public void ShouldLoadDictionaryWithoutHeadersTransposed()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromDictionaries(_items, c =>
+                {
+                    c.Transpose = true;
+                });
+
+                Assert.AreEqual(1, sheet.Cells["A1"].Value);
+                Assert.AreEqual(2, sheet.Cells["B1"].Value);
+                Assert.AreEqual(3, sheet.Cells["C1"].Value);
+                Assert.AreEqual("TestName 1", sheet.Cells["A2"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["B2"].Value);
+                Assert.AreEqual("TestName 3", sheet.Cells["C2"].Value);
+            }
+        }
+
         [TestMethod]
         public void ShouldLoadDictionaryWithHeaders()
         {
@@ -55,10 +84,34 @@ namespace EPPlusTest.LoadFunctions
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 var r = sheet.Cells["A1"].LoadFromDictionaries(_items, true, TableStyles.None, null);
-
+                Assert.AreEqual("A1:B4", r.ToString());
                 Assert.AreEqual("Id", sheet.Cells["A1"].Value);
                 Assert.AreEqual(1, sheet.Cells["A2"].Value);
                 Assert.AreEqual("TestName 2", sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldLoadDictionaryWithHeadersTransposed()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromDictionaries(_items, c =>
+                {
+                    c.TableStyle = TableStyles.None;
+                    c.PrintHeaders = true;
+                    c.Transpose = true;
+                });
+                Assert.AreEqual("A1:D2", r.ToString());
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["A2"].Value);
+                Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual(2, sheet.Cells["C1"].Value);
+                Assert.AreEqual(3, sheet.Cells["D1"].Value);
+                Assert.AreEqual("TestName 1", sheet.Cells["B2"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["C2"].Value);
+                Assert.AreEqual("TestName 3", sheet.Cells["D2"].Value);
             }
         }
 
@@ -172,6 +225,45 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldLoadExpandoObjectsTransposed()
+        {
+            dynamic o1 = new ExpandoObject();
+            o1.Id = 1;
+            o1.Name = "TestName 1";
+            dynamic o2 = new ExpandoObject();
+            o2.Id = 2;
+            o2.Name = "TestName 2";
+            dynamic o3 = new ExpandoObject();
+            o3.Id = 3;
+            o3.Name = "TestName 3";
+            var items = new List<ExpandoObject>()
+            {
+                o1,
+                o2,
+                o3
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromDictionaries(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.Transpose = true;
+                });
+
+                Assert.AreEqual("A1:D2", r.ToString());
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["A2"].Value);
+                Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual(2, sheet.Cells["C1"].Value);
+                Assert.AreEqual(3, sheet.Cells["D1"].Value);
+                Assert.AreEqual("TestName 1", sheet.Cells["B2"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["C2"].Value);
+                Assert.AreEqual("TestName 3", sheet.Cells["D2"].Value);
+            }
+        }
+
+        [TestMethod]
         public void ShouldLoadDynamicObjects()
         {
             dynamic o1 = new { Id = 1, Name = "TestName 1"};
@@ -189,6 +281,39 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("Id", sheet.Cells["A1"].Value);
                 Assert.AreEqual(1, sheet.Cells["A2"].Value);
                 Assert.AreEqual("TestName 2", sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldLoadDynamicObjectsTransposed()
+        {
+            dynamic o1 = new { Id = 1, Name = "TestName 1" };
+            dynamic o2 = new { Id = 2, Name = "TestName 2" };
+            dynamic o3 = new { Id = 3, Name = "TestName 3" };
+            var items = new List<dynamic>()
+            {
+                o1,
+                o2,
+                o3,
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromDictionaries(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.Transpose = true;
+                });
+
+                Assert.AreEqual("A1:D2", r.ToString());
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["A2"].Value);
+                Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual(2, sheet.Cells["C1"].Value);
+                Assert.AreEqual(3, sheet.Cells["D1"].Value);
+                Assert.AreEqual("TestName 1", sheet.Cells["B2"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["C2"].Value);
+                Assert.AreEqual("TestName 3", sheet.Cells["D2"].Value);
             }
         }
     }

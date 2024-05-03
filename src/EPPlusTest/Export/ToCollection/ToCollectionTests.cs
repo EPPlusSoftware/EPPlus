@@ -227,10 +227,104 @@ namespace EPPlusTest.Export.ToCollection
                 Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
             }
         }
+        [TestMethod]
+        [ExpectedException(typeof(EPPlusDataTypeConvertionException))]
+        public void ToCollection_AutoMap_EPPlusDataTypeConvertionException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                sheet.Cells["A2"].Value = "Error";
+                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
+                {
+                    var item = new TestDto();
+                    x.Automap(item);
+                    item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    item.FormattedRatio = x.GetText("Ratio");
+                    item.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return item;
+                }, x => x.HeaderRow = 0);
+            }
+        }
+        [TestMethod]
+        public void ToCollection_AutoMapInCallback_SetDefaultValueOnConversionError()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                sheet.Cells["A2"].Value = "Error";
+                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
+                {
+                    var item = new TestDto();
+                    x.Automap(item);
+                    item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    item.FormattedRatio = x.GetText("Ratio");
+                    item.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return item;
+                }, x => { x.HeaderRow = 0; x.ConversionFailureStrategy = ToCollectionConversionFailureStrategy.SetDefaultValue; });
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(default(int), list[0].Id); //sheet.Cells["A2"].Value is invalid for int as it contains a string
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+            }
+        }
+
+        [TestMethod]
+        public void ToCollection_Transposed()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["C1"].Value = 2;
+                sheet.Cells["D1"].Value = 3;
+                sheet.Cells["E1"].Value = 4;
+                sheet.Cells["F1"].Value = 5;
+                sheet.Cells["G1"].Value = 6;
+                sheet.Cells["A2"].Value = "Name";
+                sheet.Cells["B2"].Value = "Scott";
+                sheet.Cells["C2"].Value = "Mats";
+                sheet.Cells["D2"].Value = "Jimmy";
+                sheet.Cells["E2"].Value = "Cameron";
+                sheet.Cells["F2"].Value = "Luther";
+                sheet.Cells["G2"].Value = "Josh";
+
+                var list = sheet.Cells["A1:G2"].ToCollectionWithMappings((ToCollectionRow row) =>
+                {
+                    var dto = new TestDto();
+                    dto.Id = row.GetValue<int>("Id");
+                    dto.Name = row.GetText("Name");
+                    return dto;
+                }, x => {
+                            x.DataIsTransposed = true;
+                            x.HeaderRow = 0;
+                        }
+                );
+
+                Assert.AreEqual(6, list.Count);
+                Assert.AreEqual(sheet.Cells["B1"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Value, list[0].Name);
+                Assert.AreEqual(sheet.Cells["G1"].Value, list[5].Id);
+                Assert.AreEqual(sheet.Cells["G2"].Value, list[5].Name);
+            }
+        }
+
 
 #endif
         #endregion
-#region Table
+        #region Table
         [TestMethod]
         public void ToCollectionTable_AutoMap()
         {
@@ -420,6 +514,7 @@ namespace EPPlusTest.Export.ToCollection
 
             }
         }
+
         #endregion
         private ExcelWorksheet LoadTestData(ExcelPackage p, string wsName, bool addTable = false)
         {

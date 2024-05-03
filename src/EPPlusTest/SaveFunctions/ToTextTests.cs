@@ -320,6 +320,32 @@ namespace EPPlusTest.SaveFunctions
             format.UseTrailingMinus = true;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual(" 4-   5" + format.EOL, text);
+        
+        [TestMethod]
+        public void TransposedToText()
+        {
+            _sheet.Cells["A1"].Value = "Id";
+            _sheet.Cells["B1"].Value = 1;
+            _sheet.Cells["C1"].Value = 2;
+            _sheet.Cells["D1"].Value = 3;
+            _sheet.Cells["E1"].Value = 4;
+            _sheet.Cells["F1"].Value = 5;
+            _sheet.Cells["G1"].Value = 6;
+            _sheet.Cells["A2"].Value = "Name";
+            _sheet.Cells["B2"].Value = "Scott";
+            _sheet.Cells["C2"].Value = "Mats";
+            _sheet.Cells["D2"].Value = "Jimmy";
+            _sheet.Cells["E2"].Value = "Cameron";
+            _sheet.Cells["F2"].Value = "Luther";
+            _sheet.Cells["G2"].Value = "Josh";
+
+            var format = new ExcelOutputTextFormat
+            {
+                TextQualifier = '\'',
+                DataIsTransposed = true,
+            };
+            var text = _sheet.Cells["A1:G2"].ToText(format);
+            Assert.IsTrue(text.Contains("Luther"));
         }
     }
 }

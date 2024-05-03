@@ -202,7 +202,8 @@ namespace OfficeOpenXml.Core
                 var colOffset = address._fromCol - _sourceRange._fromCol;
                 var fr = Math.Min(Math.Max(_destination._fromRow + rowOffset, 1), ExcelPackage.MaxRows);
                 var fc = Math.Min(Math.Max(_destination._fromCol + colOffset, 1), ExcelPackage.MaxColumns);
-                address = new ExcelAddressBase(fr, fc, Math.Min(fr + address.Rows-1, ExcelPackage.MaxRows), Math.Min(fc + address.Columns-1, ExcelPackage.MaxColumns));
+                address = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? new ExcelAddressBase(fc, fr, Math.Min(fc + address.Columns - 1, ExcelPackage.MaxColumns), Math.Min(fr + address.Rows - 1, ExcelPackage.MaxRows)) :
+                                                                                                new ExcelAddressBase(fr, fc, Math.Min(fr + address.Rows-1, ExcelPackage.MaxRows), Math.Min(fc + address.Columns-1, ExcelPackage.MaxColumns));
                 return address.Address;
             }
             return "";
@@ -253,8 +254,8 @@ namespace OfficeOpenXml.Core
                 var col = cse.Column;       //Issue 15070
                 var cell = new CopiedCell
                 {
-                    Row = _destination._fromRow + (row - _sourceRange._fromRow),
-                    Column = _destination._fromCol + (col - _sourceRange._fromCol),
+                    Row = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? _destination._fromRow + (col - _sourceRange._fromCol) : _destination._fromRow + (row - _sourceRange._fromRow),
+                    Column = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? _destination._fromCol + (row - _sourceRange._fromRow) : _destination._fromCol + (col - _sourceRange._fromCol),
                 };
 
                 if(includeValues)
@@ -337,8 +338,8 @@ namespace OfficeOpenXml.Core
                 {
                     cell = new CopiedCell
                     {
-                        Row = _destination._fromRow + (row - _sourceRange._fromRow),
-                        Column = _destination._fromCol + (col - _sourceRange._fromCol),
+                        Row = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? _destination._fromRow + (col - _sourceRange._fromCol) : _destination._fromRow + (row - _sourceRange._fromRow),
+                        Column = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? _destination._fromCol + (row - _sourceRange._fromRow) : _destination._fromCol + (col - _sourceRange._fromCol),
                     };
                     _copiedCells.Add(cellId, cell);
                 }
@@ -363,8 +364,8 @@ namespace OfficeOpenXml.Core
                 {
                     cell = new CopiedCell
                     {
-                        Row = _destination._fromRow + (row - _sourceRange._fromRow),
-                        Column = _destination._fromCol + (col - _sourceRange._fromCol),
+                        Row = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? _destination._fromRow + (col - _sourceRange._fromCol) : _destination._fromRow + (row - _sourceRange._fromRow),
+                        Column = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? _destination._fromCol + (row - _sourceRange._fromRow) : _destination._fromCol + (col - _sourceRange._fromCol),
                     };
                     _copiedCells.Add(cellId, cell);
                 }
@@ -520,6 +521,11 @@ namespace OfficeOpenXml.Core
             //Clear all existing cells; 
             int rows = _sourceRange._toRow - _sourceRange._fromRow + 1,
                 cols = _sourceRange._toCol - _sourceRange._fromCol + 1;
+            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose))
+            {
+                rows = _sourceRange._toCol - _sourceRange._fromCol + 1;
+                cols = _sourceRange._toRow - _sourceRange._fromRow + 1;
+            }
 
             _destination._worksheet.MergedCells.Clear(new ExcelAddressBase(_destination._fromRow, _destination._fromCol, _destination._fromRow + rows - 1, _destination._fromCol + cols - 1));
 
@@ -549,11 +555,22 @@ namespace OfficeOpenXml.Core
                     var collideResult = _sourceRange.Collide(adr);
                     if (collideResult == eAddressCollition.Inside || collideResult == eAddressCollition.Equal)
                     {
-                        copiedMergedCells.Add(csem.Value, new ExcelAddress(
-                            _destination._fromRow + (adr.Start.Row - _sourceRange._fromRow),
-                            _destination._fromCol + (adr.Start.Column - _sourceRange._fromCol),
-                            _destination._fromRow + (adr.End.Row - _sourceRange._fromRow),
-                            _destination._fromCol + (adr.End.Column - _sourceRange._fromCol)));
+                        if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose))
+                        {
+                            copiedMergedCells.Add(csem.Value, new ExcelAddress(
+                                _destination._fromRow + (adr.Start.Row - _sourceRange._fromRow),
+                                _destination._fromCol + (adr.Start.Column - _sourceRange._fromCol),
+                                _destination._fromRow + (adr.End.Column - _sourceRange._fromRow),
+                                _destination._fromCol + (adr.End.Row - _sourceRange._fromCol)));
+                        }
+                        else
+                        {
+                            copiedMergedCells.Add(csem.Value, new ExcelAddress(
+                                _destination._fromRow + (adr.Start.Row - _sourceRange._fromRow),
+                                _destination._fromCol + (adr.Start.Column - _sourceRange._fromCol),
+                                _destination._fromRow + (adr.End.Row - _sourceRange._fromRow),
+                                _destination._fromCol + (adr.End.Column - _sourceRange._fromCol)));
+                        }
                     }
                     else
                     {

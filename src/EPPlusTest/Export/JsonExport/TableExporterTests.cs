@@ -47,23 +47,23 @@ namespace EPPlusTest.Export.JsonExport
                 ws.SetValue("B3", 10.48);
                 ws.SetValue("C3", 9.59);
 
-                var json = ws.Cells["A1:C3"].ToJson(x => 
-                {                    
+                var json = ws.Cells["A1:C3"].ToJson(x =>
+                {
                     x.AddDataTypesOn = eDataTypeOn.OnColumn;
                     x.Culture = new CultureInfo("sv-SE");
                 });
                 string jsonAsync;
                 using (var ms = new MemoryStream())
                 {
-                      await ws.Cells["A1:C3"].SaveToJsonAsync(ms, x =>
-                      {
-                          x.AddDataTypesOn = eDataTypeOn.OnColumn;
-                          x.Culture = new CultureInfo("sv-SE");
-                      });
+                    await ws.Cells["A1:C3"].SaveToJsonAsync(ms, x =>
+                    {
+                        x.AddDataTypesOn = eDataTypeOn.OnColumn;
+                        x.Culture = new CultureInfo("sv-SE");
+                    });
                     jsonAsync = Encoding.UTF8.GetString(ms.ToArray());
                 }
-                Assert.AreEqual(json, jsonAsync); 
-                Assert.AreEqual("{\"range\":{\"columns\":[{\"name\":\"SEK\",\"dt\":\"number\"},{\"name\":\"EUR\",\"dt\":\"number\"},{\"name\":\"USD\",\"dt\":\"number\"}],\"rows\":[{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.35\",\"t\":\"10,35\"},{\"v\":\"9.51\",\"t\":\"9,51\"}]},{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.48\",\"t\":\"10,48\"},{\"v\":\"9.59\",\"t\":\"9,59\"}]}]}}", 
+                Assert.AreEqual(json, jsonAsync);
+                Assert.AreEqual("{\"range\":{\"columns\":[{\"name\":\"SEK\",\"dt\":\"number\"},{\"name\":\"EUR\",\"dt\":\"number\"},{\"name\":\"USD\",\"dt\":\"number\"}],\"rows\":[{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.35\",\"t\":\"10,35\"},{\"v\":\"9.51\",\"t\":\"9,51\"}]},{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.48\",\"t\":\"10,48\"},{\"v\":\"9.59\",\"t\":\"9,59\"}]}]}}",
                     json);
             }
         }
@@ -91,6 +91,49 @@ namespace EPPlusTest.Export.JsonExport
                 s = range.ToJson(x => x.FirstRowIsHeader = false);
                 Assert.AreEqual("{\"range\":{\"rows\":[{\"cells\":[{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"}]},{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\",\"dt\":\"string\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\",\"dt\":\"string\"},{\"v\":\"\\f\",\"t\":\"\\f\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\b\",\"t\":\"\\b\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\",\"dt\":\"string\"}]}]}}"
                     , s);
+            }
+        }
+
+        [TestMethod]
+        public async Task TransposedJson()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = p.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["C1"].Value = 2;
+                sheet.Cells["D1"].Value = 3;
+                sheet.Cells["E1"].Value = 4;
+                sheet.Cells["F1"].Value = 5;
+                sheet.Cells["G1"].Value = 6;
+                sheet.Cells["A2"].Value = "Name";
+                sheet.Cells["B2"].Value = "Scott";
+                sheet.Cells["C2"].Value = "Mats";
+                sheet.Cells["D2"].Value = "Jimmy";
+                sheet.Cells["E2"].Value = "Cameron";
+                sheet.Cells["F2"].Value = "Luther";
+                sheet.Cells["G2"].Value = "Josh";
+
+                var json = sheet.Cells["A1:G2"].ToJson(x =>
+                {
+                    x.AddDataTypesOn = eDataTypeOn.OnColumn;
+                    x.Culture = new CultureInfo("sv-SE");
+                    x.DataIsTransposed = true;
+                });
+
+                string jsonAsync;
+                using (var ms = new MemoryStream())
+                {
+                    await sheet.Cells["A1:G2"].SaveToJsonAsync(ms, x =>
+                    {
+                        x.AddDataTypesOn = eDataTypeOn.OnColumn;
+                        x.Culture = new CultureInfo("sv-SE");
+                        x.DataIsTransposed = true;
+                    });
+                    jsonAsync = Encoding.UTF8.GetString(ms.ToArray());
+                }
+                Assert.AreEqual(json, jsonAsync);
             }
         }
     }
