@@ -336,7 +336,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (cellValue.IsNumeric() && color != Color.Empty)
             {
-
                 if (cellValueCache.Count == 0)
                 {
                     UpdateCellValueCache(false, true);
@@ -344,24 +343,27 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 var realValue = Convert.ToDouble(cellValue);
 
+                var maximum = HighValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
+                var minimum = LowValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address,cellValueCache);
+
                 string styleOverrideString;
                 if(AxisPosition != eExcelDatabarAxisPosition.None)
                 {
                     if (realValue > 0)
                     {
-                        percentage = realValue / highest;
+                        percentage = realValue / maximum;
                         styleOverrideString = (baseName + address.AddressSpaceSeparated + "-pos::after");
                     }
                     else
                     {
-                        percentage = realValue / lowest;
+                        percentage = realValue / minimum;
                         styleOverrideString = (baseName + address.AddressSpaceSeparated + "-neg::after");
                     }
                 }
                 else
                 {
-                    var newHighest = Math.Abs(lowest) + Math.Abs(highest);
-                    percentage = (realValue + Math.Abs(lowest)) / newHighest;
+                    var newHighest = Math.Abs(minimum) + Math.Abs(maximum);
+                    percentage = (realValue + Math.Abs(minimum)) / newHighest;
 
                     if (realValue > 0)
                     {

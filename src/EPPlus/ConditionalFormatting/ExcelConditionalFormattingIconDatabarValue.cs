@@ -11,10 +11,13 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style.Dxf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -250,6 +253,57 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
 
             return true;
+        }
+
+        internal double GetCalculatedValue(double maxValue, double minValue, ExcelWorkbook wb, ExcelAddressBase address, ExcelAddress rangeAddress, List<object> values)
+        {
+            double calculatedValue;
+
+            switch(Type)
+            {
+                case eExcelConditionalFormattingValueObjectType.Max:
+                case eExcelConditionalFormattingValueObjectType.AutoMax:
+                    calculatedValue = maxValue;
+                    break;
+                case eExcelConditionalFormattingValueObjectType.Min:
+                case eExcelConditionalFormattingValueObjectType.AutoMin:
+                    calculatedValue = minValue;
+                    break;
+                case eExcelConditionalFormattingValueObjectType.Num:
+                    calculatedValue = Value;
+                    break;
+                case eExcelConditionalFormattingValueObjectType.Percentile:
+                    var percentileResult = wb.FormulaParserManager.Parse(
+                        $"PERCENTILE.INC({rangeAddress.AddressSpaceSeparated}, {(Value * 0.01).ToString(System.Globalization.CultureInfo.InvariantCulture)})", address.FullAddress, false
+                        );
+                    if (percentileResult.IsNumeric())
+                    {
+                        _formulaCalculatedValue = Convert.ToDouble(percentileResult);
+                        calculatedValue = _formulaCalculatedValue;
+                    }
+                    else
+                    {
+                        throw new Exception($"The databar percentile input '{Value}' must be a numeric value. Error found in databar conditional formatting at cell {address.Address}");
+                    }
+                    //double numValuesLessThan = values.Where(n => Convert.ToDouble(n) < Value).Count();
+                    //calculatedValue = (numValuesLessThan / (values.Count() - 1d)) * 100d;
+                    break;
+                    case eExcelConditionalFormattingValueObjectType.Formula:
+                    var formulaResult = wb.FormulaParserManager.Parse(Formula, address.FullAddress, false);
+                    if (formulaResult.IsNumeric())
+                    {
+                        _formulaCalculatedValue = Convert.ToDouble(formulaResult);
+                        calculatedValue = _formulaCalculatedValue;
+                    }
+                    else
+                    {
+                        throw new Exception($"The databar formula '{Formula}' must return a numeric value. Error found in databar conditional formatting at cell {address.Address}");
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException($"The type {Type} has not been implemented. Error found in databar conditional formatting at cell {address.Address}");
+            }
+            return calculatedValue;
         }
     }
 }
