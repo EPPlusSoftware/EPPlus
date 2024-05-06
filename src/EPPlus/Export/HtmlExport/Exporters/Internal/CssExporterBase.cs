@@ -267,7 +267,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
             {
-                cssTranslator.AddAdvancedCF(iconSet, OrderDefaultDxf + rule.Priority, cfId);
+                cssTranslator.AddIconSetCF(iconSet, OrderDefaultDxf + rule.Priority, cfId);
                 _addedToCssDxf.Add(cfId);
             }
         }

@@ -209,7 +209,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 beforeRule.AddDeclaration("background-repeat", $"no-repeat");
 
                 //Ensure cells don't overflow
-                _ruleCollection.AddRule(".cf-ic-shared", "min-width", "2.24em");
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.ConditionalFormattingClassName}-ic-shared", "min-width", "2.24em");
 
                 _context.SharedIconSetRuleAdded = true;
             }
@@ -366,7 +366,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
         }
 
-        internal void AddAdvancedCF<T>(ExcelConditionalFormattingIconSetBase<T> set, int cssOrder, int id)
+        internal void AddIconSetCF<T>(ExcelConditionalFormattingIconSetBase<T> set, int cssOrder, int id)
             where T : struct, Enum
         {
             if (_context.SharedIconSetRuleAdded == false)
@@ -374,7 +374,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 AddSharedIconsetRule();
             }
 
-            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}cf{id}";
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{id}-{_settings.ConditionalFormattingClassName}-ic-";
             var contentRule = new CssRule(ruleName, cssOrder);
             if(!set.ShowValue)
             {

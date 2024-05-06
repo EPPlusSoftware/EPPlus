@@ -131,6 +131,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 string dxfKey;
 
                 var prefix = $" { styleClassPrefix }{ settings.DxfStyleClassName}";
+                var middle = $"{settings.ConditionalFormattingClassName}-ic";
 
                 List<string> extraClasses = new List<string>();
 
@@ -152,17 +153,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                             case eExcelConditionalFormattingRuleType.ThreeIconSet:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
                                 var iconIdThree = GetIconId((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value.As.ThreeIconSet, cell);
-                                cls += AddIconClasses(dxfId, iconIdThree, prefix);
+                                cls += AddIconClasses(dxfId, iconIdThree, prefix, middle);
                                 break;
                             case eExcelConditionalFormattingRuleType.FourIconSet:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
                                 var iconIdFour = GetIconId((ExcelConditionalFormattingFourIconSet)cfItems[i].Value.As.FourIconSet, cell);
-                                cls += AddIconClasses(dxfId, iconIdFour, prefix);
+                                cls += AddIconClasses(dxfId, iconIdFour, prefix, middle);
                                 break;
                             case eExcelConditionalFormattingRuleType.FiveIconSet:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
                                 var iconIdFive = GetIconId((ExcelConditionalFormattingFiveIconSet)cfItems[i].Value.As.FiveIconSet, cell);
-                                cls += AddIconClasses(dxfId, iconIdFive, prefix);
+                                cls += AddIconClasses(dxfId, iconIdFive, prefix, middle);
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
@@ -211,15 +212,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             return iconId;
         }
 
-        internal static string AddIconClasses(int dxfId, int iconId, string prefix)
+        internal static string AddIconClasses(int dxfId, int iconId, string prefix, string middle)
         {
-            string retString = "";
+        string retString = "";
             retString += " cf-ic-shared";
-            retString += $"{prefix}cf{dxfId}";
+            retString += $"{prefix}-{dxfId}-{middle}";
 
             if (iconId != -1)
             {
-                retString += $"{prefix}cf{dxfId}{iconId}";
+                retString += $"{prefix}-{dxfId}-{middle}-{iconId}";
             }
 
             return retString;
