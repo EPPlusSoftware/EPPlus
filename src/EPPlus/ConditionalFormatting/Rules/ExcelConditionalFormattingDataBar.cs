@@ -348,18 +348,15 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 string classNameString;
 
-                if(AxisPosition != eExcelDatabarAxisPosition.None)
+                if (AxisPosition != eExcelDatabarAxisPosition.None)
                 {
+                    double currentStep;
                     if (realValue > 0)
                     {
                         if(minimum < 0)
                         { minimum = 0; }
 
-                        var numSteps = maximum - minimum;
-                        var currentStep = realValue - minimum;
-
-                        percentage = currentStep / numSteps;
-                        //percentage = (realValue - minimum) / maximum;
+                        currentStep = realValue - minimum;
                         classNameString = (baseName + address.AddressSpaceSeparated + "-pos::after");
                     }
                     else
@@ -367,13 +364,12 @@ namespace OfficeOpenXml.ConditionalFormatting
                         if (maximum > 0)
                         { maximum = 0; }
 
-                        var numSteps = maximum - minimum;
-                        var currentStep = Math.Abs(realValue);
-
-                        percentage = currentStep / numSteps;
-                        //percentage = (realValue - maximum) / minimum;
+                        currentStep = maximum - realValue;
                         classNameString = (baseName + address.AddressSpaceSeparated + "-neg::after");
                     }
+
+                    var numSteps = maximum - minimum;
+                    percentage = currentStep / numSteps;
                 }
                 else
                 {

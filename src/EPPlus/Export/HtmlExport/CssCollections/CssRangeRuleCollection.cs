@@ -235,10 +235,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-db-shared::after", "content", "\"\"");
                 var sharedRuleAfter = _ruleCollection.Last();
                 sharedRuleAfter.AddDeclaration("position", "absolute");
-                sharedRuleAfter.AddDeclaration("width", "98%");
-                sharedRuleAfter.AddDeclaration("height", "90%");
+                sharedRuleAfter.AddDeclaration("width", "100%");
+                sharedRuleAfter.AddDeclaration("height", "calc(100% - 3px)");
                 sharedRuleAfter.AddDeclaration("z-index", "-1");
-                sharedRuleAfter.AddDeclaration("top", "5%");
+                sharedRuleAfter.AddDeclaration("top", "0%");
+                sharedRuleAfter.AddDeclaration("bottom", "0%");
                 sharedRuleAfter.AddDeclaration("background-repeat", "no-repeat");
                 sharedRuleAfter.AddDeclaration("background-size", "100% 100%");
 
@@ -298,7 +299,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 AxisPositionPercent = Math.Round(AxisPositionPercent, 3);
                 string xPositionInPercentString = (AxisPositionPercent).ToString(CultureInfo.InvariantCulture);
 
-                if(dataBar.lowest < 0 | dataBar.AxisPosition == eExcelDatabarAxisPosition.Middle)
+                if(dataBar.lowest < 0 && dataBar.highest > 0 | dataBar.AxisPosition == eExcelDatabarAxisPosition.Middle)
                 {
                     sharedContentRule.AddDeclaration("background-position", $"{xPositionInPercentString}% 0%");
                 }
