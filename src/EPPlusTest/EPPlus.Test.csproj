@@ -1,15 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
+    <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
+      $(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
   </PropertyGroup>
   <PropertyGroup>
-    <SSDTPath Condition="'$(SSDTPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130</SSDTPath>
+    <SSDTPath Condition="'$(SSDTPath)' == ''">
+      $(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130</SSDTPath>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>net481;net6.0</TargetFrameworks>
+    <TargetFrameworks>net481;net6.0;net7.0;net8.0</TargetFrameworks>
     <RootNamespace>EPPlusTest</RootNamespace>
     <AssemblyName>EPPlusTest</AssemblyName>
     <SignAssembly>True</SignAssembly>
@@ -18,47 +20,36 @@
     <FileVersion>5.0.0.0</FileVersion>
     <Version>5.0.0.0</Version>
     <Description>Package Description</Description>
-	<LangVersion>latest</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;Core;NETCOREAPP1_1</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETCOREAPP2_0;Core</DefineConstants>
+    <DefineConstants>$(DefineConstants);TRACE;RELEASE</DefineConstants>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-    <DefineConstants>Core;Standard21</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net481'">
-    <DefineConstants>NET45;NETFULL</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FakeItEasy" />
+    <PackageReference Include="Microsoft.CSharp" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="FormulaParsing\ExpressionGraph\EnumerableExpressionTests.cs" />
     <Compile Remove="FormulaParsing\ExpressionGraph\ExpressionCompilerTests.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="6.0.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <!--<PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />-->
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
-    <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
-    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
-  </ItemGroup>
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
@@ -194,5 +185,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
-  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets"
+    Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
 </Project>

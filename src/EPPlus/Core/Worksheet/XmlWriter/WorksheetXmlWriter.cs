@@ -1327,8 +1327,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
 
                             cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
+                            cache.Append($"<{prefix}iconSet ");
 
-                            cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\"");
+                            if (isCustom == false)
+                            {
+                                cache.Append($"iconSet=\"{iconSetString}\"");
+                            }
 
                             if (showValue == false)
                             {
@@ -1362,7 +1366,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 }
 
                                 cache.Append(">");
-                                cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                                if (icon.Formula != null)
+                                {
+                                    cache.Append($"<xm:f>{icon.Formula.EncodeXMLAttribute()}</xm:f>");
+                                }
+                                else if (icon.Value != double.NaN)
+                                {
+                                    cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                                }
                                 cache.Append($"</{prefix}cfvo>");
                             }
 

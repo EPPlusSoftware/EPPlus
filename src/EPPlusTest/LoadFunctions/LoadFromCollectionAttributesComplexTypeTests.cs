@@ -9,16 +9,18 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeOpenXml.Table;
 
 namespace EPPlusTest.LoadFunctions
 {
     [TestClass]
-    public class LoadFromCollectionAttributesComplexTypeTests
+    public class LoadFromCollectionAttributesComplexTypeTests : TestBase
     {
         private List<Outer> _collection = new List<Outer>();
         private List<OuterWithHeaders> _collectionHeaders = new List<OuterWithHeaders>();
         private List<OuterReversedSortOrder> _collectionReversed = new List<OuterReversedSortOrder>();
         private List<OuterSubclass> _collectionInheritence = new List<OuterSubclass>();
+        private List<ColumnsWithoutAttributes> _collectionNoAttributes = new List<ColumnsWithoutAttributes>();
 
         [TestInitialize]
         public void Initialize()
@@ -67,6 +69,14 @@ namespace EPPlusTest.LoadFunctions
                 },
                 Acknowledged = true
             });
+            _collectionNoAttributes.Add(new ColumnsWithoutAttributes
+            {
+                NullableInt = 5,
+                NonNull = 15,
+                NullableDateTime = new DateTime(2021, 7, 1),
+                NestedNullableNullable = new NestedNullable { NullableValue = -2 },
+                ExplicitlyNullableString = "I'm nullable"
+            }) ;
         }
 
         [TestCleanup]
@@ -243,6 +253,42 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("Hidden 1", sheet.Cells[1, 3].Value);
                 Assert.IsFalse(sheet.Column(4).Hidden);
                 Assert.AreEqual("Name 1", sheet.Cells[1, 4].Value);
+            }
+        }
+
+        //Testing i1416 I1416 Issue1416
+        [TestMethod]
+        public void NullablePropertiesShouldLoad()
+        {
+            using (var package = OpenPackage("LoadFromCollectionNullables.xlsx",true))
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+
+                var allMembers = typeof(ColumnsWithoutAttributes).GetMembers().Where(m => m.MemberType == MemberTypes.Property).ToArray();
+
+                ws.Cells[1, 1].LoadFromCollection(_collectionNoAttributes, PrintHeaders: true, TableStyle: TableStyles.Light1,
+                    memberFlags: BindingFlags.Public | BindingFlags.Instance,
+                    Members: allMembers);
+
+                var child0 = _collectionNoAttributes[0];
+
+                Assert.AreEqual("NullableInt", ws.Cells["A1"].Value);
+                Assert.AreEqual("NonNull", ws.Cells["B1"].Value);
+                Assert.AreEqual("NullableDateTime", ws.Cells["C1"].Value);
+                //Nested nullable table column with property gets the property name
+                Assert.AreEqual("NullableValue", ws.Cells["D1"].Value);
+                Assert.AreEqual("ExplicitlyNullableString", ws.Cells["E1"].Value);
+                Assert.IsNull(ws.Cells["F1"].Value);
+
+                Assert.AreEqual(child0.NullableInt.Value, ws.Cells["A2"].Value);
+                Assert.AreEqual(child0.NonNull, ws.Cells["B2"].Value);
+                Assert.AreEqual(child0.NullableDateTime.Value, ws.Cells["C2"].Value);
+                //Nested nullable table column with property
+                Assert.AreEqual(child0.NestedNullableNullable.NullableValue.Value, ws.Cells["D2"].Value);
+                Assert.AreEqual(child0.ExplicitlyNullableString, ws.Cells["E2"].Value);
+                Assert.IsNull(ws.Cells["F2"].Value);
+
+                SaveAndCleanup(package);
             }
         }
     }
