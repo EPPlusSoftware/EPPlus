@@ -344,20 +344,35 @@ namespace OfficeOpenXml.ConditionalFormatting
                 var realValue = Convert.ToDouble(cellValue);
 
                 var maximum = HighValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
-                var minimum = LowValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address,cellValueCache);
+                var minimum = LowValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
 
-                string styleOverrideString;
+                string classNameString;
+
                 if(AxisPosition != eExcelDatabarAxisPosition.None)
                 {
                     if (realValue > 0)
                     {
-                        percentage = realValue / maximum;
-                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-pos::after");
+                        if(minimum < 0)
+                        { minimum = 0; }
+
+                        var numSteps = maximum - minimum;
+                        var currentStep = realValue - minimum;
+
+                        percentage = currentStep / numSteps;
+                        //percentage = (realValue - minimum) / maximum;
+                        classNameString = (baseName + address.AddressSpaceSeparated + "-pos::after");
                     }
                     else
                     {
-                        percentage = realValue / minimum;
-                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-neg::after");
+                        if (maximum > 0)
+                        { maximum = 0; }
+
+                        var numSteps = maximum - minimum;
+                        var currentStep = Math.Abs(realValue);
+
+                        percentage = currentStep / numSteps;
+                        //percentage = (realValue - maximum) / minimum;
+                        classNameString = (baseName + address.AddressSpaceSeparated + "-neg::after");
                     }
                 }
                 else
@@ -367,17 +382,26 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                     if (realValue > 0)
                     {
-                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-pos::after");
+                        classNameString = (baseName + address.AddressSpaceSeparated + "-pos::after");
                     }
                     else
                     {
-                        styleOverrideString = (baseName + address.AddressSpaceSeparated + "-neg::after");
+                        classNameString = (baseName + address.AddressSpaceSeparated + "-neg::after");
                     }
                 }
 
                 percentage = percentage * 100;
 
-                return styleOverrideString;
+                if(percentage > 100)
+                {
+                    percentage = 100;
+                }
+                else if (percentage < 0)
+                {
+                    percentage = 0;
+                }
+
+                return classNameString;
             }
             percentage = 0.0;
             return "";

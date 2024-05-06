@@ -305,7 +305,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
                 if (dataBar.AxisColor != null)
                 {
-                    var axisColorSvg = DatabarSvg.GetConvertedAxisStripesWithColor(dataBar.AxisColor.GetColorAsColor());
+                    var axisColorSvg = DatabarSvg.GetConvertedAxisStripesWithColor(dataBar.AxisColor.GetColorAsColor(true));
                     sharedContentRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{axisColorSvg})");
                 }
 
