@@ -629,9 +629,9 @@ namespace OfficeOpenXml.Drawing
             {
                 return ControlFactory.GetControl(drawings, drawNode, control, parent);
             }
-            else if ( IsEquationShape(drawings, drawNode))
+            else if ( IsEquationShape(drawings, drawNode, out XmlElement equationNode))
             {
-                return new ExcelEquation(drawings, node, parent);
+                return new ExcerilEquation(drawings, node, equationNode, parent);
             }
             else
             {
@@ -639,9 +639,10 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        private static bool IsEquationShape(ExcelDrawings drawings, XmlElement drawNode)
+        private static bool IsEquationShape(ExcelDrawings drawings, XmlElement drawNode, out XmlElement equationNode)
         {
-            if(drawNode.SelectSingleNode("xdr:txBody/a:p/a14:m/m:oMathPara", drawings.NameSpaceManager) != null)
+            equationNode = (XmlElement)drawNode.SelectSingleNode("xdr:txBody/a:p/a14:m/m:oMathPara", drawings.NameSpaceManager);
+            if (equationNode != null)
             {
                 return true;
             }

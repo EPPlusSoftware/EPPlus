@@ -10,14 +10,19 @@
  *************************************************************************************************
   //2024         EPPlus Software AB       Initial release EPPlus 
  *************************************************************************************************/
+using EPPlusTest.Drawing.Equation;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.Drawing
+namespace OfficeOpenXml.Drawing.Equation
 {
+
+
+
     internal class ExcelEquation : ExcelShapeBase
     {
 
@@ -25,7 +30,6 @@ namespace OfficeOpenXml.Drawing
          * 
          * Equations verkar börja på <mc:alternatecontent>
          * Har sedan en <mc:choice> som innehåller equation i <m>
-         * På samma nivå finns en <mc:fallback> som innehåller ekvationen i <a>
          * 
          * I <mc:choice>
          *      <xdr:sp>
@@ -43,9 +47,14 @@ namespace OfficeOpenXml.Drawing
          *                                  <m:Pr>
          *                                  <m:t>
          */
-        internal ExcelEquation(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
+
+        public ExcelMathParagraph MathParagraph { get; };
+        //internal List<oMath> Maths { get; set; };
+
+        internal ExcelEquation(ExcelDrawings drawings, XmlNode node, XmlNode equationNode, ExcelGroupShape shape = null) :
             base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", shape)
         {
+            MathParagraph = new ExcelMathParagraph(drawings.NameSpaceManager, equationNode);
         }
     }
 }
