@@ -20,5 +20,10 @@ namespace OfficeOpenXml.LoadFunctions.Params
         /// null means that no table is created.
         /// </summary>
         public TableStyles? TableStyle { get; set; }
+
+        /// <summary>
+        /// Transpose the loaded data
+        /// </summary>
+        public bool Transpose { get; set; } = false;
     }
 }

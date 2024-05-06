@@ -57,6 +57,8 @@ namespace OfficeOpenXml
                 return new ToCollectionRangeOptions();
             }
         }
+
+        public bool DataIsTransposed { get; set; } = false;
     }
     /// <summary>
     /// Base class for settings to the ToCollection method.

@@ -242,6 +242,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.FiveIconSet:
                             AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingFiveIconSet)cf.Value.As.FiveIconSet, cf.Value, cssTranslator);
                             break;
+                        case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cf.Value, cssTranslator);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FourIconSet:
+                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingFourIconSet)cf.Value.As.FourIconSet, cf.Value, cssTranslator);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FiveIconSet:
+                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingFiveIconSet)cf.Value.As.FiveIconSet, cf.Value, cssTranslator);
+                            break;
                         default:
                             if (cf.Value.Style.HasValue)
                             {

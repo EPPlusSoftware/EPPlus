@@ -87,9 +87,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal void SetCustomIconStringAndId(string set, int id)
         {
-            //int myKey = _iconStringSetDictionary.FirstOrDefault(x => x.Value == set).Key << 4;
-            //myKey += id;
-            //CustomIcon = (eExcelconditionalFormattingCustomIcon)myKey;
             CustomIcon = IconDict.GetIconAtIndex(set, id);
         }
 
@@ -254,6 +251,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             return true;
         }
+<<<<<<< HEAD
 
         internal double GetCalculatedValue(double maxValue, double minValue, ExcelWorkbook wb, ExcelAddressBase address, ExcelAddress rangeAddress, List<object> values)
         {
@@ -306,5 +304,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             return calculatedValue;
         }
+=======
+>>>>>>> develop7_2
     }
 }

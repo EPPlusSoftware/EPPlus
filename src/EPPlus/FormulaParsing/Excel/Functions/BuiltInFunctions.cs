@@ -65,6 +65,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["unichar"] = new Unichar();
             Functions["numbervalue"] = new NumberValue();
             Functions["dollar"] = new Dollar();
+            Functions["textsplit"] = new TextSplit();
+            Functions["textbefore"] = new TextBefore();
+            Functions["textafter"] = new TextAfter();
             // Numbers
             Functions["int"] = new IntFunction();
             // Math
@@ -190,6 +193,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["odd"] = new Odd();
             Functions["even"] = new Even();
             Functions["sequence"] = new Sequence();
+            Functions["mmult"] = new MMult();
+            Functions["minverse"] = new MInverse();
+            Functions["mdeterm"] = new MDeterm();
+            Functions["munit"] = new MUnit();
+
             // Statistical
             Functions["confidence.norm"] = new ConfidenceNorm();
             Functions["confidence"] = new Confidence();
