@@ -251,7 +251,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             return true;
         }
-<<<<<<< HEAD
 
         internal double GetCalculatedValue(double maxValue, double minValue, ExcelWorkbook wb, ExcelAddressBase address, ExcelAddress rangeAddress, List<object> values)
         {
@@ -304,7 +303,5 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             return calculatedValue;
         }
-=======
->>>>>>> develop7_2
     }
 }
