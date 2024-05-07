@@ -90,7 +90,7 @@ namespace OfficeOpenXml.LoadFunctions
                     col = 0;
                     bool lineread = false;
 
-                    if (line.Length < _format.LineLength && _format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.ThrowError)
+                    if ( line.Length < _format.LineLength && _format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.ThrowError )
                     {
                         throw new FormatException("Line was " + line.Length + ", Expected length of " + _format.LineLength + " at Line " + lineNo );
                     }
@@ -102,7 +102,7 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             continue;
                         }
-                        if (readLength + _format.Columns[i].Length >= line.Length)
+                        if (_format.Columns[i].Length <= 0 || readLength + _format.Columns[i].Length >= line.Length)
                         {
                             content = line.Substring(readLength);
                             lineread = true;
