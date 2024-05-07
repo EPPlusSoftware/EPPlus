@@ -105,7 +105,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Set the column length properties of fixed width text.
+        /// Set the column length properties of fixed width text. For reading to end of line, set last index to 0 or a negative number.
         /// </summary>
         /// <param name="lengths"></param>
         public void SetColumnLengths(params int[] lengths)
@@ -117,11 +117,12 @@ namespace OfficeOpenXml
             }
             for (int i = 0; i < lengths.Length; i++)
             {
-                Columns[i].Length = lengths[i];
-                if (ReadType == FixedWidthReadType.Length)
+                if (lengths[i] <= 0 && i != lengths.Length - 1)
                 {
-                    _lineLength += lengths[i];
+                    throw new ArgumentException("Only last column can be 0 or negative.");
                 }
+                Columns[i].Length = lengths[i];
+                _lineLength += lengths[i];
             }
         }
 
