@@ -51,6 +51,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Textfiles\filelist.txt" />
+    <None Remove="Resources\Textfiles\FixedWidth1.txt" />
+    <None Remove="Resources\Textfiles\FixedWidth2.txt" />
+    <None Remove="Resources\Textfiles\FixedWidth_FileList.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Textfiles\FixedWidth1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textfiles\FixedWidth2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textfiles\FixedWidth_FileList.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +204,5 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
-  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets"
-    Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
 </Project>

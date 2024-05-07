@@ -345,7 +345,7 @@ namespace OfficeOpenXml
                         }
                         else if (padding < 0)
                         {
-                            if (Format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Overwrite)
+                            if (Format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Truncate)
                             {
                                 if (Format.ReadType == FixedWidthReadType.Length)
                                 {
@@ -368,7 +368,7 @@ namespace OfficeOpenXml
                                 throw new FormatException("String was " + text.Length + ", Expected length of " + Format.Columns[ix].Length);
                             }
                         }
-                        if (Format.ReadType == FixedWidthReadType.Positions && Format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Overwrite)
+                        if (Format.ReadType == FixedWidthReadType.Positions && Format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Truncate) //truncate
                         {
                             fc = fc.Substring(0, Format.Columns[ix].Position);
                         }

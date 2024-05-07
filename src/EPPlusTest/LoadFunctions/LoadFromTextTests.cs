@@ -356,11 +356,31 @@ namespace EPPlusTest.LoadFunctions
                 format.SetColumnPositions(52, 0, 16, 26, 42, 50);
                 //format.SetColumnPaddingAlignmentType(PaddingAlignmentType.Left, PaddingAlignmentType.Auto, PaddingAlignmentType.Right, PaddingAlignmentType.Right, PaddingAlignmentType.Auto);
                 //format.SetColumnDataTypes(eDataTypes.String, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.Percent, eDataTypes.String);
-                format.Culture = CultureInfo.CurrentCulture;
+                format.Culture = new CultureInfo("sv-en");
                 var range = ws.Cells["A1"].LoadFromText(myFile, format);
                 Assert.AreEqual(-130000d, ws.Cells["C2"].Value);
                 Assert.AreEqual(-40.00d, ws.Cells["C5"].Value);
             }
         }
+        [TestMethod]
+        public void ReadFixedTextFileList()
+        {
+            var fileContent = Properties.Resources.GetTextFileContent("FixedWidth_FileList.txt", Encoding.ASCII);
+            //Do fixed width text stuff
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
+                format.SetColumnLengths(12, 9, 5, 10, -1);
+                format.SkipLinesBeginning = 5;
+                format.SkipLinesEnd= 2;
+
+                format.Culture = CultureInfo.InvariantCulture;
+                var range = ws.Cells["A1"].LoadFromText(fileContent, format);
+                SaveWorkbook("FileList.xlsx",p);
+            }
+        }
+
     }
 }

@@ -256,7 +256,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.SetColumnLengths(3, 4);
-            format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Overwrite;
+            format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  1   2" + format.EOL + "thi   5" + format.EOL, text);
         }
@@ -270,7 +270,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.SetColumnPositions(0, 0, 3);
-            format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Overwrite;
+            format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
             format.ReadType = FixedWidthReadType.Positions;
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("  12" + format.EOL + "thi5" + format.EOL, text);
@@ -299,7 +299,7 @@ namespace EPPlusTest.SaveFunctions
                 ExcelOutputTextFormatFixedWidth fw = new ExcelOutputTextFormatFixedWidth();
                 fw.SetColumnPaddingAlignmentType(PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Auto, PaddingAlignmentType.Left, PaddingAlignmentType.Auto);
                 fw.SetColumnPositions(80, 0, 16, 32, 43, 55, 62);
-                fw.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Overwrite;
+                fw.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
                 var text = ws.Cells["A1:F2073"].ToText(fw);
                 using (StreamWriter outputFile = new StreamWriter("C:\\epplusTest\\Testoutput\\NewFW2.txt"))
                 {

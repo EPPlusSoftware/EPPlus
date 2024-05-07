@@ -32,7 +32,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// If data is larger than format specification, write anyway. Might lead to data loss.
         /// </summary>
-        Overwrite,
+        Truncate,
         /// <summary>
         /// If data is larger than format specification, throw error
         /// </summary>
@@ -135,7 +135,7 @@ namespace OfficeOpenXml
         {
             if(positions.Length <= 0)
             {
-                throw new ArgumentException("Requires atleast 1 element in positions.");
+                throw new ArgumentException("Requires at least 1 element in positions.");
             }
             ReadType = FixedWidthReadType.Positions;
             if (Columns.Count <= 0)

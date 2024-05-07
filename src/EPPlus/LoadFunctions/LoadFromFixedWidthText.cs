@@ -74,24 +74,27 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 if (lineNo > _format.SkipLinesBeginning && lineNo <= lines.Length - _format.SkipLinesEnd)
                 {
-
                     if (string.IsNullOrEmpty(line))
                     {
                         continue;
                     }
+
                     if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
                     {
                         continue;
                     }
+
                     var items = new List<object>();
                     var isText = false;
                     int readLength = 0;
                     col = 0;
                     bool lineread = false;
+
                     if (line.Length < _format.LineLength && _format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.ThrowError)
                     {
                         throw new FormatException("Line was " + line.Length + ", Expected length of " + _format.LineLength + " at Line " + lineNo );
                     }
+
                     for (int i = 0; i < _format.Columns.Count; i++)
                     {
                         string content;
@@ -123,6 +126,7 @@ namespace OfficeOpenXml.LoadFunctions
                     else
                     {
                         _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+
                     }
                     if (col > maxCol) maxCol = col;
                     row++;
@@ -202,7 +206,7 @@ namespace OfficeOpenXml.LoadFunctions
                         else
                         {
                             var readLength = _format.Columns[i + 1].Position - _format.Columns[i].Position;
-                            if ((readLength > _format.Columns[i].Position && _format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Overwrite))
+                            if ((readLength > _format.Columns[i].Position && _format.FormatErrorStrategy == FixedWidthFormatErrorStrategy.Truncate))
                             {
                                 content = line.Substring(_format.Columns[i].Position);
                             }
