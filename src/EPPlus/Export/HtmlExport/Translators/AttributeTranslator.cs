@@ -171,23 +171,23 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
-                                cls += $"{prefix}-{settings.ConditionalFormattingClassName}-db-shared";
+                                cls += $" {styleClassPrefix}{settings.DatabarPrefix}-shared";
                                 //var dbar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
 
-                                var ruleName = $"{prefix}-{settings.ConditionalFormattingClassName}-{dxfId}-";
+                                var ruleName = $"{prefix}{dxfId}-";
                                 var realValue = Convert.ToDouble(cell.Value);
 
                                 //Color borderColor;
                                 if (realValue > 0)
                                 {
                                     cls += ruleName + "pos";
-                                    cls += ruleName + cell.Address + "-pos";
                                 }
                                 else
                                 {
                                     cls += ruleName + "neg";
-                                    cls += ruleName + cell.Address + "-neg";
                                 }
+
+                                cls += $" {styleClassPrefix}{cell.Address}-{settings.DatabarPrefix}";
 
                                 break;
                             default:

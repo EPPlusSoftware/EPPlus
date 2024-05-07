@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         {
             if(_context.SharedDatabarRulesAdded == false)
             {
-                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-db-shared", "position", "relative");
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DatabarPrefix}-shared", "position", "relative");
                 var sharedRule = _ruleCollection.Last();
                 sharedRule.AddDeclaration("position", "relative");
                 sharedRule.AddDeclaration("overflow", "hidden");
@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 sharedRule.AddDeclaration("background-repeat", "repeat-y");
                 sharedRule.AddDeclaration("background-position", "-30px 0%");
 
-                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-db-shared::after", "content", "\"\"");
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DatabarPrefix}-shared::after", "content", "\"\"");
                 var sharedRuleAfter = _ruleCollection.Last();
                 sharedRuleAfter.AddDeclaration("position", "absolute");
                 sharedRuleAfter.AddDeclaration("width", "100%");
@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
 
             //TODO: Should cache and only create one of them if identical
-            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{_settings.ConditionalFormattingClassName}-{id}-";
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}{id}-";
             var positiveDatabarRule = new CssRule(ruleName + "pos::after", cssOrder);
             var negativeDatabarRule = new CssRule(ruleName + "neg::after", cssOrder);
 
@@ -360,7 +360,8 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             foreach (var cell in cells)
             {
-                var className = dataBar.GetDataBarCssClasses(cell, ruleName, out double percentage);
+                var className = $".{_settings.StyleClassPrefix}{cell.Address}-{_settings.DatabarPrefix}::after";
+                dataBar.GetDataBarCssClasses(cell, out double percentage);
                 var databarRule = new CssRule(className, cssOrder);
                 databarRule.AddDeclaration("background-size", $"{Math.Round(percentage, 3).ToString(CultureInfo.InvariantCulture)}% 100%");
                 _ruleCollection.CssRules.Add(databarRule);

@@ -328,7 +328,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
-        internal string GetDataBarCssClasses(ExcelAddressBase address, string baseName, out double percentage)
+        internal double GetDataBarCssClasses(ExcelAddressBase address, out double percentage)
         {
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
@@ -346,8 +346,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 var maximum = HighValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
                 var minimum = LowValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
 
-                string classNameString;
-
                 if (AxisPosition != eExcelDatabarAxisPosition.None)
                 {
                     double currentStep;
@@ -357,7 +355,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                         { minimum = 0; }
 
                         currentStep = realValue - minimum;
-                        classNameString = (baseName + address.AddressSpaceSeparated + "-pos::after");
                     }
                     else
                     {
@@ -365,7 +362,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                         { maximum = 0; }
 
                         currentStep = maximum - realValue;
-                        classNameString = (baseName + address.AddressSpaceSeparated + "-neg::after");
                     }
 
                     var numSteps = maximum - minimum;
@@ -375,15 +371,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {
                     var newHighest = Math.Abs(minimum) + Math.Abs(maximum);
                     percentage = (realValue + Math.Abs(minimum)) / newHighest;
-
-                    if (realValue > 0)
-                    {
-                        classNameString = (baseName + address.AddressSpaceSeparated + "-pos::after");
-                    }
-                    else
-                    {
-                        classNameString = (baseName + address.AddressSpaceSeparated + "-neg::after");
-                    }
                 }
 
                 percentage = percentage * 100;
@@ -397,10 +384,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                     percentage = 0;
                 }
 
-                return classNameString;
+                return percentage;
             }
             percentage = 0.0;
-            return "";
+            return percentage;
         }
 
 
