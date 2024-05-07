@@ -387,5 +387,31 @@ namespace EPPlusTest.ConditionalFormatting
                 //*Assert.AreEqual(Color.FromArgb(255, Color.DarkBlue), bar.NegativeFillColor.Color);*/
             }
         }
+
+        [TestMethod]
+        public void CF_DatabarPercentage()
+        {
+            using (var pck = OpenPackage("DataBarPercentage.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("percentageDatabars");
+
+                ws.Cells["A1:A30"].Formula = "ROW()-10";
+
+                var db = ws.Cells["A1:A30"].ConditionalFormatting.AddDatabar(Color.CornflowerBlue);
+
+                ws.Calculate();
+
+                var dbCast = (ExcelConditionalFormattingDataBar)db;
+
+                Assert.AreEqual(0d, dbCast.GetPercentageAtCell(ws.Cells["A10"]));
+                Assert.AreEqual(50d, dbCast.GetPercentageAtCell(ws.Cells["A20"]));
+                Assert.AreEqual(100d, dbCast.GetPercentageAtCell(ws.Cells["A30"]));
+
+                //Negative range should be 100% at -9 and -1 should be 100/9
+                Assert.AreEqual(100d, dbCast.GetPercentageAtCell(ws.Cells["A1"]));
+                Assert.AreEqual(100d/9, dbCast.GetPercentageAtCell(ws.Cells["A9"]));
+                Assert.AreEqual((100d / 9) * 2, dbCast.GetPercentageAtCell(ws.Cells["A8"]));
+            }
+        }
     }
 }

@@ -328,13 +328,13 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
-        internal double GetDataBarCssClasses(ExcelAddressBase address, out double percentage)
+        internal double GetPercentageAtCell(ExcelAddressBase address)
         {
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
-            var color = FillColor.GetColorAsColor();
+            double percentage;
 
-            if (cellValue.IsNumeric() && color != Color.Empty)
+            if (cellValue.IsNumeric() && FillColor.GetColorAsColor() != Color.Empty)
             {
                 if (cellValueCache.Count == 0)
                 {

@@ -361,7 +361,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             foreach (var cell in cells)
             {
                 var className = $".{_settings.StyleClassPrefix}{cell.Address}-{_settings.DatabarPrefix}::after";
-                dataBar.GetDataBarCssClasses(cell, out double percentage);
+                double percentage = dataBar.GetPercentageAtCell(cell);
                 var databarRule = new CssRule(className, cssOrder);
                 databarRule.AddDeclaration("background-size", $"{Math.Round(percentage, 3).ToString(CultureInfo.InvariantCulture)}% 100%");
                 _ruleCollection.CssRules.Add(databarRule);
