@@ -116,6 +116,13 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// The name will be prefixed with the <see cref="DxfStyleClassName"/> and suffixed with the conditional formatting style index.
         /// </summary>
         public string ConditionalFormattingClassName { get; set; } = "cf";
+
+        /// <summary>
+        /// The name of the classes used to store icon images. 
+        /// The name will be prefixed with the <see cref="StyleClassPrefix"/> and suffixed with the icon name.
+        /// </summary>
+        public string IconPrefix { get; set; } = "ic";
+
         /// <summary>
         /// If picture drawings will be included. Default is true.
         /// </summary>

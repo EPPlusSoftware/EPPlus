@@ -29,6 +29,7 @@ using System.Linq;
 using System.Runtime;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Data.SqlTypes;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
@@ -199,7 +200,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
         {
             if(_context.SharedIconSetRuleAdded == false)
             {
-                _ruleCollection.AddRule(".cf-ic-shared::before", "content", "\"\"");
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.IconPrefix}-shared::before", "content", "\"\"");
 
                 var beforeRule = _ruleCollection.Last();
                 //Set to 1.22 em because our standard-height for columns is 20px
@@ -209,7 +210,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 beforeRule.AddDeclaration("background-repeat", $"no-repeat");
 
                 //Ensure cells don't overflow
-                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.ConditionalFormattingClassName}-ic-shared", "min-width", "2.24em");
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.IconPrefix}-shared", "min-width", "2.24em");
 
                 _context.SharedIconSetRuleAdded = true;
             }
@@ -374,7 +375,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 AddSharedIconsetRule();
             }
 
-            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}-{id}-{_settings.ConditionalFormattingClassName}-ic-";
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}{id}";
             var contentRule = new CssRule(ruleName, cssOrder);
             if(!set.ShowValue)
             {
@@ -385,24 +386,20 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 contentRule.AddDeclaration("visibility", "visible");
             }
 
-            string[] svgs;
+            var icons = IconDict.GetIconsAsCustomIcons(set.GetIconSetString(), set.GetIconArray());
 
-            if (set.Custom)
+            for(int i = 0; i < icons.Length; i++)
             {
-                svgs = CF_Icons.GetIconSetSvgsWithCustoms(set.GetIconSetString(), set.GetIconArray());
-            }
-            else
-            {
-                svgs = CF_Icons.GetIconSetSvgs(set.GetIconSetString());
-            }
+                if (_context.AddedIcons.Contains(icons[i]) == false)
+                {
+                    _context.AddedIcons.Add(icons[i]);
+                    var svg = CF_Icons.GetIconSvg(icons[i]);
 
-            for (int i = 0; i < svgs.Length; i++)
-            {
-                var iconRule = new CssRule(ruleName + $"{i}::before", cssOrder);
-                iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{svgs[i]})");
-                _ruleCollection.CssRules.Add(iconRule);
+                    var iconRule = new CssRule($".{_settings.StyleClassPrefix}{_settings.IconPrefix}-{Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icons[i])}::before", cssOrder);
+                    iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{svg})");
+                    _ruleCollection.CssRules.Add(iconRule);
+                }
             }
-
             _ruleCollection.CssRules.Add(contentRule);
         }
 

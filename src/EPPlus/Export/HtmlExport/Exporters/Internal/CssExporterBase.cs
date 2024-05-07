@@ -234,13 +234,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             }
                             break;
                         case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cf.Value, cssTranslator);
+                            AddIconSetToCollection((ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cf.Value, cssTranslator);
                             break;
                         case eExcelConditionalFormattingRuleType.FourIconSet:
-                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingFourIconSet)cf.Value.As.FourIconSet, cf.Value, cssTranslator);
+                            AddIconSetToCollection((ExcelConditionalFormattingFourIconSet)cf.Value.As.FourIconSet, cf.Value, cssTranslator);
                             break;
                         case eExcelConditionalFormattingRuleType.FiveIconSet:
-                            AddAdvancedConditionalFormattingsToCollection((ExcelConditionalFormattingFiveIconSet)cf.Value.As.FiveIconSet, cf.Value, cssTranslator);
+                            AddIconSetToCollection((ExcelConditionalFormattingFiveIconSet)cf.Value.As.FiveIconSet, cf.Value, cssTranslator);
                             break;
                         default:
                             if (cf.Value.Style.HasValue)
@@ -259,7 +259,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
         }
 
-        internal void AddAdvancedConditionalFormattingsToCollection<T>(ExcelConditionalFormattingIconSetBase<T> iconSet, ExcelConditionalFormattingRule rule, CssRangeRuleCollection cssTranslator) 
+        internal void AddIconSetToCollection<T>(ExcelConditionalFormattingIconSetBase<T> iconSet, ExcelConditionalFormattingRule rule, CssRangeRuleCollection cssTranslator) 
             where T : struct, Enum
         {
             var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{rule.Uid}", out int cfId);

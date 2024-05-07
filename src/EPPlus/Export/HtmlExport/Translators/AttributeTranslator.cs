@@ -132,6 +132,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
 
                 var prefix = $" { styleClassPrefix }{ settings.DxfStyleClassName}";
                 var middle = $"{settings.ConditionalFormattingClassName}-ic";
+                var iconPrefix = $" {styleClassPrefix}{settings.IconPrefix}";
 
                 List<string> extraClasses = new List<string>();
 
@@ -152,18 +153,21 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 break;
                             case eExcelConditionalFormattingRuleType.ThreeIconSet:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
-                                var iconIdThree = GetIconId((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value.As.ThreeIconSet, cell);
-                                cls += AddIconClasses(dxfId, iconIdThree, prefix, middle);
+                                var iconNameThree = GetIconName((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value.As.ThreeIconSet, cell);
+                                cls += $"{prefix}{dxfId}";
+                                cls += AddIconClasses(iconNameThree, iconPrefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.FourIconSet:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
-                                var iconIdFour = GetIconId((ExcelConditionalFormattingFourIconSet)cfItems[i].Value.As.FourIconSet, cell);
-                                cls += AddIconClasses(dxfId, iconIdFour, prefix, middle);
+                                cls += $"{prefix}{dxfId}";
+                                var iconNameFour = GetIconName((ExcelConditionalFormattingFourIconSet)cfItems[i].Value.As.FourIconSet, cell);
+                                cls += AddIconClasses(iconNameFour, iconPrefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.FiveIconSet:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
-                                var iconIdFive = GetIconId((ExcelConditionalFormattingFiveIconSet)cfItems[i].Value.As.FiveIconSet, cell);
-                                cls += AddIconClasses(dxfId, iconIdFive, prefix, middle);
+                                cls += $"{prefix}{dxfId}";
+                                var iconNameFive = GetIconName((ExcelConditionalFormattingFiveIconSet)cfItems[i].Value.As.FiveIconSet, cell);
+                                cls += AddIconClasses(iconNameFive, iconPrefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
                                 dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
@@ -205,22 +209,21 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             return new List<string> { inlineStyles };
         }
 
-        internal static int GetIconId<T>(ExcelConditionalFormattingIconSetBase<T> set, ExcelRangeBase cell)
+        internal static string GetIconName<T>(ExcelConditionalFormattingIconSetBase<T> set, ExcelRangeBase cell)
             where T : struct, Enum
         {
-            var iconId = set.GetIconNum(cell);
-            return iconId;
+            var iconName = set.GetIconName(cell);
+            return iconName;
         }
 
-        internal static string AddIconClasses(int dxfId, int iconId, string prefix, string middle)
+        internal static string AddIconClasses(string iconName, string prefix)
         {
         string retString = "";
-            retString += " cf-ic-shared";
-            retString += $"{prefix}-{dxfId}-{middle}";
+            retString += $"{prefix}-shared";
 
-            if (iconId != -1)
+            if(iconName != "")
             {
-                retString += $"{prefix}-{dxfId}-{middle}-{iconId}";
+                retString += $"{prefix}-{iconName}";
             }
 
             return retString;

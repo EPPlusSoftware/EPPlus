@@ -288,6 +288,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             return CalculateCorrectIcon(address, GetIconArray(true));
         }
 
+        internal string GetIconName(ExcelAddress address)
+        {
+            int id = CalculateCorrectIcon(address, GetIconArray(true));
+            var icons = IconDict.GetIconsAsCustomIcons(GetIconSetString(), GetIconArray());
+
+            if(id == -1)
+            {
+                return "";
+            }
+
+            return Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icons[id]);
+        }
+
         internal virtual ExcelConditionalFormattingIconDataBarValue[] GetIconArray(bool reversed = false)
         {
             return reversed ? [Icon3, Icon2, Icon1] : [Icon1, Icon2, Icon3];
