@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using FakeItEasy;
+using System.Globalization;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
@@ -401,6 +402,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             df.Function = DataFieldFunctions.Sum;
             df.ShowDataAs.SetRunningTotal(pt.Fields["Country"]);
             pt.Calculate(true);
+
+            var current = CultureInfo.CurrentCulture;
 
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\",\"State\",\"Västerås\")";
