@@ -311,7 +311,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get;
             private set;
-s        }
+        }
         /// <summary>
         /// A boolean that indicates whether manual filter is in inclusive mode
         /// </summary>

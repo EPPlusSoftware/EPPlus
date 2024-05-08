@@ -499,6 +499,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 		public void GetPivotData_Sum_ShowValueAs_RankDescending()
 		{
 			var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_RankDescending");
+
 			var pt = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable23");
 			pt.ColumnFields.Add(pt.Fields["Continent"]);
 			pt.RowFields.Add(pt.Fields["Country"]);

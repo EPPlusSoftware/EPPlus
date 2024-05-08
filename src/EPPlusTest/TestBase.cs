@@ -1,4 +1,4 @@
-/*******************************************************************************
+ï»¿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -294,7 +294,7 @@ namespace EPPlusTest
             {
                 new SalesData{ Continent="Europe", Country="Sweden", State = "Stockholm", Sales = 154 },
                 new SalesData{ Continent="Asia", Country="Vietnam", State = "Ho Chi Minh", Sales= 88 },
-                new SalesData{ Continent="Europe", Country="Sweden", State = "Västerås", Sales = 33 },
+                new SalesData{ Continent="Europe", Country="Sweden", State = "VÃ¤sterÃ¥s", Sales = 33 },
                 new SalesData{ Continent="Asia", Country="Japan", State = "Tokyo", Sales= 534 },
                 new SalesData{ Continent="Europe", Country="Germany", State = "Frankfurt", Sales = 109 },
                 new SalesData{ Continent="Asia", Country="Vietnam", State = "Hanoi", Sales= 322 },
@@ -318,15 +318,15 @@ namespace EPPlusTest
             var l = new List<GeoData>
             {
                 new GeoData{ Country="Sweden", State = "Stockholm", Sales = 154 },
-                new GeoData{ Country="Sweden", State = "Jämtland", Sales = 55 },
-                new GeoData{ Country="Sweden", State = "Västerbotten", Sales = 44},
+                new GeoData{ Country="Sweden", State = "JÃ¤mtland", Sales = 55 },
+                new GeoData{ Country="Sweden", State = "VÃ¤sterbotten", Sales = 44},
                 new GeoData{ Country="Sweden", State = "Dalarna", Sales = 33 },
                 new GeoData{ Country="Sweden", State = "Uppsala", Sales = 22 },
-                new GeoData{ Country="Sweden", State = "Skåne", Sales = 47 },
+                new GeoData{ Country="Sweden", State = "SkÃ¥ne", Sales = 47 },
                 new GeoData{ Country="Sweden", State = "Halland", Sales = 88 },
                 new GeoData{ Country="Sweden", State = "Norrbotten", Sales = 99 },
-                new GeoData{ Country="Sweden", State = "Västra Götaland", Sales = 120 },
-                new GeoData{ Country="Sweden", State = "Södermanland", Sales = 57 },
+                new GeoData{ Country="Sweden", State = "VÃ¤stra GÃ¶taland", Sales = 120 },
+                new GeoData{ Country="Sweden", State = "SÃ¶dermanland", Sales = 57 },
             };
 
             ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);
