@@ -13,14 +13,18 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Xml;
+using System.Xml.Linq;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Style.XmlAccess;
@@ -1323,6 +1327,132 @@ namespace OfficeOpenXml.Drawing
             TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0).AppendChild(clientDataNode);
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
+        }
+
+
+        public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = 0, int colOffset = 0)
+        {
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+            drawNode.InnerXml = TopNode.InnerXml;
+            //create relation
+            if(worksheet._drawings!=_drawings)
+            {
+                switch (DrawingType)
+                {
+                    case eDrawingType.Shape:
+                        //Check blip and stuff
+                        break;
+                    case eDrawingType.Picture:
+                        CopyRelations(worksheet, drawNode);
+                        break;
+                    case eDrawingType.Chart:
+                        CopyChart(worksheet, drawNode, row, col, rowOffset, colOffset);
+                        return;
+                }
+            }
+            var copy = GetDrawing(worksheet._drawings, drawNode);
+            worksheet.Drawings.AddDrawingInternal(copy);
+            var width = GetPixelWidth();
+            var height = GetPixelHeight();
+            copy.SetPosition(row, rowOffset, col, colOffset);
+            copy.SetPixelWidth(width);
+            copy.SetPixelHeight(height);
+            copy.GetPositionSize();
+            switch (DrawingType)
+            {
+                case eDrawingType.Shape:
+                    copy._id = worksheet.Workbook._nextDrawingId++;
+                    break;
+                case eDrawingType.Picture:
+                    var pic = copy as ExcelPicture;                    
+                    pic.SetNewId(worksheet.Workbook._nextDrawingId++);
+                    break;
+                case eDrawingType.Chart:
+                    
+                    break;
+            }
+        }
+
+        private void CopyChart(ExcelWorksheet worksheet, XmlElement drawNode, int row, int col, int rowOffset, int colOffset)
+        {
+            var relNode = drawNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", NameSpaceManager);
+            var origialChart = this as ExcelChart;
+
+            if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
+            {
+                
+                var rel = _drawings.Part.GetRelationship(relNode.Value);
+                var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                //if (worksheet.Workbook != _drawings.Worksheet.Workbook)
+                //{
+                var chartPart = _drawings.Worksheet.Workbook._package.ZipPackage.GetPart(uri);
+                //CopyChartRelations(ExcelDrawing copyDraw, ExcelPackage pck, ExcelWorksheet added, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet copy, Uri uriDraw, ExcelChart chart
+                WorksheetCopyHelper.CopyChartRelations(this, worksheet._package, _drawings.Worksheet, chartPart, drawNode.OwnerDocument, worksheet, uri, origialChart);
+                //var chartStream = (MemoryStream)chartPart.GetStream(FileMode.Open, FileAccess.Read);
+
+                //var chartBytes = new byte[chartStream.Length];
+                //chartStream.Seek(0, SeekOrigin.Begin);
+                //chartStream.Read(chartBytes, 0, (int)chartStream.Length);
+                //var copyPart = worksheet.Workbook._package.ZipPackage.CreatePart(uri, chartPart.ContentType);
+                //var copyStream = (MemoryStream)copyPart.GetStream(FileMode.Create, FileAccess.Write);
+                //copyStream.Write(chartBytes, 0, chartBytes.Length);
+                //var newRel = worksheet._drawings.Part.CreateRelationshipFromCopy(rel);
+                //relNode.Value = newRel.Id;
+                ////}
+                var uri2 = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                var part = _drawings.Worksheet.Workbook._package.ZipPackage.GetPart(uri2);
+                var chart = ExcelChart.CreateChartFromXml(worksheet.Drawings, drawNode, uri, worksheet._package.ZipPackage.GetPart(uri), drawNode.OwnerDocument);
+                chart.Name = "THIS IS HCART";
+                chart.SetPosition(row, rowOffset, col, colOffset);
+                worksheet.Drawings._drawingsList.Add(chart);
+                worksheet.Drawings._drawingNames.Add(chart.Name, worksheet.Drawings._drawingsList.Count - 1);
+            }
+        }
+
+        private void CopyRelations(ExcelWorksheet worksheet, XmlElement drawNode)
+        {
+            var relNode = drawNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager);
+            if(relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
+            {
+                var rel = _drawings.Part.GetRelationship(relNode.Value);
+
+                if (worksheet.Workbook != _drawings.Worksheet.Workbook)
+                {
+                    var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                    var imagePart = _drawings.Worksheet.Workbook._package.ZipPackage.GetPart(uri);
+                    var imageStream = (MemoryStream)imagePart.GetStream(FileMode.Open, FileAccess.Read);
+                    var image = new byte[imageStream.Length];
+                    imageStream.Seek(0, SeekOrigin.Begin);
+                    imageStream.Read(image, 0, (int)imageStream.Length);
+                    var imageInfo = worksheet.Workbook._package.PictureStore.GetImageInfo(image);
+                    if (imageInfo == null)
+                    {
+                        var copyPart = worksheet.Workbook._package.ZipPackage.CreatePart(uri, imagePart.ContentType);
+                        var copyStream = (MemoryStream)copyPart.GetStream(FileMode.Create, FileAccess.Write);
+                        copyStream.Write(image, 0, image.Length);
+                    }
+                    else
+                    {
+                        rel.TargetUri = imageInfo.Uri;
+                    }
+                }
+
+                var exisistingRel = worksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x=> x.Target == rel.Target).FirstOrDefault();
+                if(exisistingRel == null)
+                {
+                    var newRel = worksheet._drawings.Part.CreateRelationshipFromCopy(rel);
+                    relNode.Value = newRel.Id;
+                }
+                else
+                {
+                    relNode.Value = exisistingRel.Id;
+                }
+            }
+        }
+
+        public void Copy(ExcelRangeBase range, int rowOffset = 0, int colOffset = 0)
+        {
+            
         }
     }
 }

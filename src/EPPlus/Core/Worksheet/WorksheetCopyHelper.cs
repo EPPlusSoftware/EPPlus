@@ -373,61 +373,11 @@ namespace OfficeOpenXml.Core.Worksheet
             var uriDraw = partDraw.Uri;
             if (copyDraw is ExcelChart chart)
             {
-                var xml = chart.ChartXml.InnerXml;
-                Uri uriChart;
-                ZipPackagePart chartPart;
-                if (chart._isChartEx)
-                {
-                    uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chartEx{0}.xml");
-                    chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChartEx, pck.Compression);
-                }
-                else
-                {
-                    uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chart{0}.xml");
-                    chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChart, pck.Compression);
-                }
-                StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
-                streamChart.Write(xml);
-                streamChart.Flush();
-                //Now create the new relationship to the copied chart xml
-                XmlNode relNode;
-                if (chart._isChartEx)
-                {
-                    relNode = copyDraw.TopNode.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1' or @Requires='cx2']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart/@r:id", copy.Drawings.NameSpaceManager);
-                    string prevRelID = relNode?.Value;
-                    var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaChartExRelationships);
-                    XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//cx:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
-                    relAtt.Value = rel.Id;
-                }
-                else
-                {
-                    relNode = copyDraw.TopNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", copy.Drawings.NameSpaceManager);
-                    string prevRelID = relNode?.Value;
-                    var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
-                    XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
-                    relAtt.Value = rel.Id;
-                }
-
-                CopyChartRelations(copy, added, chart, chartPart);
+                CopyChartRelations(copyDraw, pck, added, partDraw, drawXml, copy, uriDraw, chart);
             }
             else if (copyDraw is ExcelPicture pic)
             {
-                IPictureContainer container = pic;
-                var uri = container.UriPic;
-                var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
-
-                var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
-                //Fixes problem with invalid image when the same image is used more than once.
-                XmlNode relAtt =
-                    drawXml.SelectSingleNode(
-                        string.Format(
-                            "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
-                            pic.Name), copy.Drawings.NameSpaceManager);
-
-                if (relAtt != null)
-                {
-                    relAtt.Value = rel.Id;
-                }                
+                CopyPicture(added, partDraw, drawXml, copy, pic);
             }
             else if (copyDraw is ExcelControl ctrl)
             {
@@ -478,7 +428,66 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void CopyChartRelations(ExcelWorksheet copy, ExcelWorksheet added, ExcelChart chart, ZipPackagePart chartPart)
+        internal static void CopyChartRelations(ExcelDrawing copyDraw, ExcelPackage pck, ExcelWorksheet added, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet copy, Uri uriDraw, ExcelChart chart)
+        {
+            var xml = chart.ChartXml.InnerXml;
+            Uri uriChart;
+            ZipPackagePart chartPart;
+            if (chart._isChartEx)
+            {
+                uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chartEx{0}.xml");
+                chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChartEx, pck.Compression);
+            }
+            else
+            {
+                uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chart{0}.xml");
+                chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChart, pck.Compression);
+            }
+            StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
+            streamChart.Write(xml);
+            streamChart.Flush();
+            //Now create the new relationship to the copied chart xml
+            XmlNode relNode;
+            if (chart._isChartEx)
+            {
+                relNode = copyDraw.TopNode.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1' or @Requires='cx2']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart/@r:id", copy.Drawings.NameSpaceManager);
+                string prevRelID = relNode?.Value;
+                var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaChartExRelationships);
+                XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//cx:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
+                relAtt.Value = rel.Id;
+            }
+            else
+            {
+                relNode = copyDraw.TopNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", copy.Drawings.NameSpaceManager);
+                string prevRelID = relNode?.Value;
+                var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
+                XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), copy.Drawings.NameSpaceManager) as XmlAttribute;
+                relAtt.Value = rel.Id;
+            }
+            CopyChartRelations(copy, added, chart, chartPart);
+        }
+
+        internal static void CopyPicture(ExcelWorksheet added, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet copy, ExcelPicture pic)
+        {
+            IPictureContainer container = pic;
+            var uri = container.UriPic;
+            var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
+
+            var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            //Fixes problem with invalid image when the same image is used more than once.
+            XmlNode relAtt =
+                drawXml.SelectSingleNode(
+                    string.Format(
+                        "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
+                        pic.Name), copy.Drawings.NameSpaceManager);
+
+            if (relAtt != null)
+            {
+                relAtt.Value = rel.Id;
+            }
+        }
+
+        internal static void CopyChartRelations(ExcelWorksheet copy, ExcelWorksheet added, ExcelChart chart, ZipPackagePart chartPart)
         {
             foreach (var relCopy in chart.Part.GetRelationships())
             {
