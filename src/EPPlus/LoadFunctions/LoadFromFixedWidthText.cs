@@ -203,6 +203,11 @@ namespace OfficeOpenXml.LoadFunctions
                                 content = line.Substring(_format.Columns[i].Position);
                             }
                         }
+                        else if( i == 0 )
+                        {
+                            var readLength = _format.Columns[i + 1].Position - _format.Columns[i].Position;
+                            content = line.Substring(_format.Columns[i].Position, readLength);
+                        }
                         else
                         {
                             var readLength = _format.Columns[i + 1].Position - _format.Columns[i].Position;

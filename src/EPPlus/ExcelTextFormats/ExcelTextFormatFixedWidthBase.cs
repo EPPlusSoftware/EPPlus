@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/30/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The collection of column formats.
         /// </summary>
-        public List<ExcelTextFormatColumn> Columns { get; set; } = new List<ExcelTextFormatColumn>();
+        public EPPlusReadOnlyList<ExcelTextFormatColumn> Columns { get; set; } = new EPPlusReadOnlyList<ExcelTextFormatColumn>();
 
         /// <summary>
         /// The strategy to use when writing fixed width text files.
@@ -121,7 +122,7 @@ namespace OfficeOpenXml
                 {
                     throw new ArgumentException("Only last column can be 0 or negative.");
                 }
-                Columns[i].Length = lengths[i];
+                Columns[i]._length = lengths[i];
                 _lineLength += lengths[i];
             }
         }
@@ -147,16 +148,16 @@ namespace OfficeOpenXml
             if (Columns.Count <= 0)
             {
                 CreateColumnFormatList(positions.Length);
-                for (int i = 0; i < positions.Length; i++)
-                {
-                    Columns[i].Position= positions[i];
-                }
+            }
+            for (int i = 0; i < positions.Length; i++)
+            {
+                Columns[i]._position = positions[i];
             }
             ReadType = FixedWidthReadType.Positions;
             if (lineLength > 0 && lineLength > Columns[Columns.Count - 1].Position)
             {
                 var lastPosLen = lineLength - Columns[Columns.Count - 1].Position;
-                Columns[Columns.Count - 1].Length = lastPosLen;
+                Columns[Columns.Count - 1]._length = lastPosLen;
                 _lineLength = lineLength;
                 return;
             }

@@ -24,6 +24,8 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelTextFormatColumn
     {
+        internal int _position = -1;
+        internal int _length = 0;
         /// <summary>
         /// The name of the column
         /// </summary>
@@ -31,11 +33,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// The start position of the column, is equal to -1 if not set
         /// </summary>
-        public int Position { get; set; } = -1;
+        public int Position { get { return _position; } }
         /// <summary>
         /// The length of the column.
         /// </summary>
-        public int Length { get; set; } = 0;
+        public int Length { get { return _length; } }
         /// <summary>
         /// The data type of the column. Is set to Unknown by default
         /// </summary>

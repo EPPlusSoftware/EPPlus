@@ -422,7 +422,7 @@ namespace EPPlusTest.LoadFunctions
                 SaveWorkbook("FixedWidth1.xlsx", p);
             }
         }
-        // TODO: Change Columns property to EPPlusReadOnlyList
+
         [TestMethod]
         public void ReadFixedTextFile3()
         {
@@ -434,7 +434,8 @@ namespace EPPlusTest.LoadFunctions
                 ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
 
                 format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
-                format.Columns.Add(new ExcelTextFormatColumn() { Position=40, Length=15, Name=""});
+                format.SetColumnLengths(15);
+                format.SetColumnPositions(-1, 40);
                 format.Culture = CultureInfo.InvariantCulture;
                 format.TableStyle = TableStyles.Medium2;
                 format.FirstRowIsHeader = true;

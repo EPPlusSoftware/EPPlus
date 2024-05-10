@@ -42,5 +42,20 @@ namespace EPPlusTest.SaveFunctions
             format.Formats = new string[] { "yyyyMMdd", "","","0.00" };
             _sheet.Cells["A1:D100"].SaveToText(GetOutputFile("TextFiles", "Save1.txt"), format);
         }
+
+        [TestMethod]
+        public async Task ToTextFixedWidthAsync()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = "Value";
+            ws.Cells["B1"].Value = 2;
+            ws.Cells["C1"].Value = "51%";
+            ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
+            format.SetColumnLengths(5, 3, 5);
+            var text = await ws.Cells["A1:C1"].ToTextAsync(format);
+            Assert.AreEqual("Value  2  51%" + format.EOL, text);
+        }
+
     }
 }
