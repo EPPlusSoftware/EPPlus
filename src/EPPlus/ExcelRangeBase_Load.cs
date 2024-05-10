@@ -659,12 +659,8 @@ namespace OfficeOpenXml
                 r.Value = "";
                 return r;
             }
-            var parameters = new LoadFromTextParams
-            {
-                Format = Format
-            };
-            var func = new LoadFromText(this, Text, parameters);
-            return func.Load();
+
+            return LoadFromTextPrivate(Text, Format, Format.TableStyle, Format.FirstRowIsHeader);
         }
 
         /// <summary>
@@ -677,7 +673,17 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelRangeBase LoadFromText(string Text, ExcelTextFormat Format, TableStyles? TableStyle, bool FirstRowIsHeader)
         {
-            var r = LoadFromText(Text, Format);
+            return LoadFromTextPrivate(Text, Format, TableStyle, FirstRowIsHeader);
+        }
+
+        private ExcelRangeBase LoadFromTextPrivate(string Text, ExcelTextFormat Format, TableStyles? TableStyle, bool FirstRowIsHeader)
+        {
+            var parameters = new LoadFromTextParams
+            {
+                Format = Format
+            };
+            var func = new LoadFromText(this, Text, parameters);
+            var r = func.Load();
 
             if (r != null && TableStyle.HasValue)
             {
@@ -687,6 +693,7 @@ namespace OfficeOpenXml
             }
             return r;
         }
+
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell using ASCII Encoding.
         /// </summary>
@@ -709,7 +716,7 @@ namespace OfficeOpenXml
                 throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
             }
 
-            return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format);
+            return LoadFromTextPrivate(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, Format.TableStyle,  Format.FirstRowIsHeader);
         }
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell.
@@ -729,7 +736,6 @@ namespace OfficeOpenXml
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, TableStyle, FirstRowIsHeader);
         }
 
-
         /// <summary>
         /// Loads a fixed width text file into range starting from the top left cell.
         /// </summary>
@@ -745,28 +751,14 @@ namespace OfficeOpenXml
                 return r;
             }
             var func = new LoadFromFixedWidthText(this, Text, Format);
-            return func.Load();
-        }
-
-        /// <summary>
-        /// Loads a fixed width text file into range starting from the top left cell.
-        /// </summary>
-        /// <param name="Text">The Text file</param>
-        /// <param name="Format">Information how to load the text</param>
-        /// <param name="TableStyle">Create table with this style</param>
-        /// <param name="FirstRowIsHeader">Use first row as header</param>
-        /// <exception cref="NotImplementedException"></exception>
-        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader)
-        {
-            var r = LoadFromText(Text, Format);
-
-            if (r != null && TableStyle.HasValue)
+            var range =  func.Load();
+            if (range != null && Format.TableStyle.HasValue)
             {
-                var tbl = _worksheet.Tables.Add(r, "");
-                tbl.ShowHeader = FirstRowIsHeader;
-                tbl.TableStyle = TableStyle.Value;
+                var tbl = _worksheet.Tables.Add(range, "");
+                tbl.ShowHeader = Format.FirstRowIsHeader;
+                tbl.TableStyle = Format.TableStyle.Value;
             }
-            return r;
+            return range;
         }
 
         /// <summary>
@@ -783,23 +775,6 @@ namespace OfficeOpenXml
             }
 
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format);
-        }
-        /// <summary>
-        /// Loads a fixed width text file into range starting from the top left cell.
-        /// </summary>
-        /// <param name="TextFile">The Textfile</param>
-        /// <param name="Format">Information how to load the text</param>
-        /// <param name="TableStyle">Create a table with this style</param>
-        /// <param name="FirstRowIsHeader">Use the first row as header</param>
-        /// <returns></returns>
-        public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormatFixedWidth Format, TableStyles? TableStyle, bool FirstRowIsHeader)
-        {
-            if (TextFile.Exists == false)
-            {
-                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
-            }
-
-            return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, TableStyle, FirstRowIsHeader);
         }
 
         #region LoadFromText async

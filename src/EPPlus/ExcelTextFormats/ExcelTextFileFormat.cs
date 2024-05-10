@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-
+using OfficeOpenXml.Table;
 namespace OfficeOpenXml
 {
     /// <summary>
@@ -60,5 +60,13 @@ namespace OfficeOpenXml
         /// Set if data should be transposed
         /// </summary>
         public bool Transpose { get; set; } = false;
+        /// <summary>
+        /// If not null, create a table from the import with this style.
+        /// </summary>
+        public TableStyles? TableStyle { get; set; } = null;
+        /// <summary>
+        /// The first row used contains the headers. Will be used if the import has a <see cref="TableStyle">TableStyle</see> set.
+        /// </summary>
+        public bool FirstRowIsHeader { get; set; } = false;
     }
 }

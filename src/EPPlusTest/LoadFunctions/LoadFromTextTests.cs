@@ -211,7 +211,9 @@ namespace EPPlusTest.LoadFunctions
             _formatFixed.Columns[9].DataType = eDataTypes.Number;
             _formatFixed.Columns[10].DataType = eDataTypes.Number;
             _formatFixed.Columns[11].DataType = eDataTypes.String;
-            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true);
+            _formatFixed.TableStyle = TableStyles.None;
+            _formatFixed.FirstRowIsHeader = true;
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
             Assert.AreEqual(3930621977d, _worksheet.Cells["D2"].Value);
@@ -227,7 +229,9 @@ namespace EPPlusTest.LoadFunctions
             AddLine("191675  01   01/14/2013 2368183100   OUNHQEX XUFQONY                 S1    No              Yes                                43,537.00  Yes   ");
             AddLine("191667  01   01/14/2013 3714468136   GHAKASC QHJXDFM                 S1    Yes             Yes             3,172.53                      Yes   ");
             _formatFixed.SetColumnLengths(8, 5, 11, 13, 32, 6, 6, 10, 4, 20, 20, 8);
-            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed, TableStyles.None, true);
+            _formatFixed.TableStyle = TableStyles.None;
+            _formatFixed.FirstRowIsHeader = true;
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _formatFixed);
 
             Assert.AreEqual("Entry", _worksheet.Cells["A1"].Value);
             Assert.AreEqual(16524d, _worksheet.Cells["A2"].Value);
@@ -365,20 +369,82 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ReadFixedTextFileList()
         {
-            var fileContent = Properties.Resources.GetTextFileContent("FixedWidth_FileList.txt", Encoding.ASCII);
+            var fileContent = Properties.Resources.GetTextFileContent("FixedWidth_FileList.txt", Encoding.GetEncoding(437));
             //Do fixed width text stuff
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+
                 format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
                 format.SetColumnLengths(12, 9, 5, 10, -1);
                 format.SkipLinesBeginning = 5;
                 format.SkipLinesEnd= 2;
+                format.Culture = CultureInfo.GetCultureInfo("sv-en");
+                format.TableStyle = TableStyles.Medium12;
+                format.SetColumnsNames("Date", "Time", "Type","Size", "Name");
 
-                format.Culture = CultureInfo.InvariantCulture;
                 var range = ws.Cells["A1"].LoadFromText(fileContent, format);
+                range.TakeSingleColumn(0).Style.Numberformat.Format = "yyyy-MM-dd";
+                range.TakeSingleColumn(1).Style.Numberformat.Format = "hh:mm";
+                range.TakeSingleColumn(2).Style.Numberformat.Format = "#,##0";
+                ws.Cells.AutoFitColumns();
+
+                Assert.AreEqual(new DateTime(2022, 11, 22), ws.Cells["A14"].Value);
+                Assert.AreEqual(30, ((DateTime)ws.Cells["B14"].Value).Minute);
+                Assert.AreEqual(6136D, ws.Cells["D14"].Value);
+                Assert.AreEqual("Enums.cs", ws.Cells["E14"].Value);
+
                 SaveWorkbook("FileList.xlsx",p);
+            }
+        }
+        [TestMethod]
+        public void ReadFixedTextFile2()
+        {
+            var file = Properties.Resources.GetTextFileInfo("FixedWidth1.txt");
+            //Do fixed width text stuff
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+
+                format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
+                format.SetColumnPositions(-1, 0, 30, 60, 80);
+                format.Culture = CultureInfo.InvariantCulture;
+                format.TableStyle = TableStyles.Medium2;
+                format.FirstRowIsHeader = true;
+                format.Encoding = Encoding.GetEncoding(437);
+
+                var range = ws.Cells["A1"].LoadFromText(file, format);
+                ws.Cells.AutoFitColumns();
+
+
+                SaveWorkbook("FixedWidth1.xlsx", p);
+            }
+        }
+        // TODO: Change Columns property to EPPlusReadOnlyList
+        [TestMethod]
+        public void ReadFixedTextFile3()
+        {
+            var file = Properties.Resources.GetTextFileInfo("FixedWidth2.txt");
+            //Do fixed width text stuff
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+
+                format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
+                format.Columns.Add(new ExcelTextFormatColumn() { Position=40, Length=15, Name=""});
+                format.Culture = CultureInfo.InvariantCulture;
+                format.TableStyle = TableStyles.Medium2;
+                format.FirstRowIsHeader = true;
+                format.Encoding = Encoding.GetEncoding(437);
+
+                var range = ws.Cells["A1"].LoadFromText(file, format);
+                ws.Cells.AutoFitColumns();
+
+
+                SaveWorkbook("FixedWidth2.xlsx", p);
             }
         }
 

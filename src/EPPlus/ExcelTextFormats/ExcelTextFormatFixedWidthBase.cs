@@ -137,20 +137,23 @@ namespace OfficeOpenXml
             {
                 throw new ArgumentException("Requires at least 1 element in positions.");
             }
-            ReadType = FixedWidthReadType.Positions;
+            for (int i = 0; i < positions.Length-1; i++)
+            {
+                if (positions[i] >= positions[i+1])
+                {
+                    throw new ArgumentException("Positions value at " + i + " was lower that previous value " + positions[i]);
+                }
+            }
             if (Columns.Count <= 0)
             {
                 CreateColumnFormatList(positions.Length);
-            }
-            for (int i = 0; i < positions.Length; i++)
-            {
-                if (positions[i] < Columns[i].Position)
+                for (int i = 0; i < positions.Length; i++)
                 {
-                    throw new ArgumentException("Positions value at " + i + " was lower that previous value " + Columns[i].Position);
+                    Columns[i].Position= positions[i];
                 }
-                Columns[i].Position = positions[i];
             }
-            if(lineLength > 0 && lineLength > Columns[Columns.Count - 1].Position)
+            ReadType = FixedWidthReadType.Positions;
+            if (lineLength > 0 && lineLength > Columns[Columns.Count - 1].Position)
             {
                 var lastPosLen = lineLength - Columns[Columns.Count - 1].Position;
                 Columns[Columns.Count - 1].Length = lastPosLen;
@@ -273,6 +276,7 @@ namespace OfficeOpenXml
                 Columns[i].Name = name;
                 i++;
             }
+            FirstRowIsHeader = true;
         }
     }
 }

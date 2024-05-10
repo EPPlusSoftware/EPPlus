@@ -25,6 +25,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Export.ToCollection.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -278,13 +279,15 @@ namespace OfficeOpenXml
                     if (Format.Columns[ix].UseColumn)
                     {
                         string text;
+                        eDataTypes dataType;
                         if ( string.IsNullOrEmpty( Format.Columns[ix].Name))
                         {
-                            text = GetTextFixedWidth(Format, maxFormats, ci, row, col, out bool isText);
+                            text = GetTextFixedWidth(Format, maxFormats, ci, row, col, out dataType);
                         }
                         else
                         {
                             text = Format.Columns[ix].Name;
+                            dataType = eDataTypes.String;
                         }
                         var padding = 0;
                         if (Format.ReadType == FixedWidthReadType.Length)
@@ -305,7 +308,7 @@ namespace OfficeOpenXml
                         if (padding > 0)
                         {
                             PaddingAlignmentType pat = Format.Columns[ix].PaddingType;
-                            bool numericPadding = double.TryParse(text, NumberStyles.Any, Format.Culture, out double result);
+                            bool numericPadding = (dataType==eDataTypes.Number || dataType == eDataTypes.Percent) && double.TryParse(text, NumberStyles.Any, Format.Culture, out double result);
                             if (Format.Columns[ix].PaddingType == PaddingAlignmentType.Auto)
                             {
                                 if ( numericPadding || text.EndsWith("%"))
@@ -484,9 +487,9 @@ namespace OfficeOpenXml
 
                 for (int col = fromCol; col <= toCol; col++)
                 {
-                    string t = Format.DataIsTransposed ? GetText(Format, maxFormats, ci, col, row, out bool isText) : GetText(Format, maxFormats, ci, row, col, out isText);
+                    string t = Format.DataIsTransposed ? GetText(Format, maxFormats, ci, col, row, out eDataTypes dataType) : GetText(Format, maxFormats, ci, row, col, out dataType);
 
-                    if (hasTextQ && isText)
+                    if (hasTextQ && dataType==eDataTypes.String)
                     {
                         await sw.WriteAsync(Format.TextQualifier + t.Replace(Format.TextQualifier.ToString(), encodedTextQualifier) + Format.TextQualifier).ConfigureAwait(false);
                     }
@@ -627,16 +630,20 @@ namespace OfficeOpenXml
 
         private string GetTextCSV(ExcelOutputTextFormat Format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
         {
-            string t = GetText(Format, maxFormats, ci, row, col, out isText);
+            string t = GetText(Format, maxFormats, ci, row, col, out eDataTypes dataType);
             //If a formatted numeric/date value contains the delimitter or a text qualifier treat it as text.
-            if (isText == false && string.IsNullOrEmpty(t) == false && t.IndexOfAny(new[] { Format.Delimiter, Format.TextQualifier }) >= 0)
+            if (dataType != eDataTypes.String && string.IsNullOrEmpty(t) == false && t.IndexOfAny(new[] { Format.Delimiter, Format.TextQualifier }) >= 0)
             {
-                isText = true;
+                isText = true; 
+            }
+            else
+            {
+                isText = dataType == eDataTypes.String;
             }
             return t;
         }
 
-        private string GetTextFixedWidth(ExcelOutputTextFormatFixedWidth format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
+        private string GetTextFixedWidth(ExcelOutputTextFormatFixedWidth format, int maxFormats, CultureInfo ci, int row, int col, out eDataTypes dataType)
         {
             var f = new ExcelOutputTextFormat()
             {
@@ -649,8 +656,8 @@ namespace OfficeOpenXml
                 ThousandsSeparator = format.ThousandsSeparator,
                 EncodedTextQualifiers = format.EncodedTextQualifiers,
             };
-            string t = GetText(f, maxFormats, ci, row, col, out isText);
-            if (format.UseTrailingMinus && isText == false)
+            string t = GetText(f, maxFormats, ci, row, col, out dataType);
+            if (format.UseTrailingMinus && dataType == eDataTypes.Number)
             {
                 double d = Convert.ToDouble(t, format.Culture);
                 if (d < 0d)
@@ -662,12 +669,11 @@ namespace OfficeOpenXml
             return t;
         }
 
-        private string GetText(ExcelOutputTextFormat Format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
+        private string GetText(ExcelOutputTextFormat Format, int maxFormats, CultureInfo ci, int row, int col, out eDataTypes dataType)
         {
             var v = GetCellStoreValue(row, col);
 
             var ix = col - _fromCol;
-            isText = false;
             string fmt;
             if (ix < maxFormats)
             {
@@ -684,22 +690,38 @@ namespace OfficeOpenXml
                 if (Format.UseCellFormat)
                 {
                     t = ValueToTextHandler.GetFormattedText(v._value, _workbook, v._styleId, false, ci);
-                    if (!ConvertUtil.IsNumericOrDate(v._value)) isText = true;
+                    if (ConvertUtil.IsNumericOrDate(v._value))
+                    {
+                        if(ConvertUtil.IsNumeric(v._value))
+                        {
+                            dataType = eDataTypes.Number;
+                        }
+                        else
+                        {
+                            dataType = eDataTypes.DateTime;
+                        }
+                    }
+                    else
+                    {
+                        dataType = eDataTypes.String;
+                    }
                 }
                 else
                 {
                     if (ConvertUtil.IsNumeric(v._value))
                     {
                         t = ConvertUtil.GetValueDouble(v._value).ToString("r", ci);
+                        dataType = eDataTypes.Number;
                     }
                     else if (v._value is DateTime date)
                     {
                         t = date.ToString("G", ci);
+                        dataType = eDataTypes.DateTime;
                     }
                     else
                     {
                         t = v._value.ToString();
-                        isText = true;
+                        dataType = eDataTypes.String;
                     }
                 }
             }
@@ -715,15 +737,17 @@ namespace OfficeOpenXml
                     {
                         t = v._value.ToString();
                     }
-                    isText = true;
+                    dataType = eDataTypes.String;
                 }
                 else if (ConvertUtil.IsNumeric(v._value))
                 {
                     t = ConvertUtil.GetValueDouble(v._value).ToString(fmt, ci);
+                    dataType = eDataTypes.Number;
                 }
                 else if (v._value is DateTime date)
                 {
                     t = date.ToString(fmt, ci);
+                    dataType = eDataTypes.DateTime;
                 }
                 else if (v._value is TimeSpan ts)
                 {
@@ -732,11 +756,12 @@ namespace OfficeOpenXml
 #else
                     t = ts.ToString(fmt, ci);
 #endif
+                    dataType = eDataTypes.DateTime;
                 }
                 else
                 {
                     t = v._value.ToString();
-                    isText = true;
+                    dataType = eDataTypes.String;
                 }
             }
             return t;
