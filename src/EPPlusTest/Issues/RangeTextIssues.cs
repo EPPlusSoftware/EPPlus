@@ -22,17 +22,17 @@ namespace EPPlusTest.Issues
 
                  */
                 SwitchToCulture();
-                Assert.AreEqual("123-456", worksheet.Cells["A2"].Text);
-                Assert.AreEqual("456-789", worksheet.Cells["A3"].Text);
-                Assert.AreEqual("234-567", worksheet.Cells["A4"].Text);
+                Assert.AreEqual("123+456", worksheet.Cells["A2"].Text);
+                Assert.AreEqual("456+789", worksheet.Cells["A3"].Text);
+                Assert.AreEqual("234+567", worksheet.Cells["A4"].Text);
 
-                Assert.AreEqual("10-10-10", worksheet.Cells["B2"].Text);
-                Assert.AreEqual("11-11-11", worksheet.Cells["B3"].Text);
-                Assert.AreEqual("9-9-09", worksheet.Cells["B4"].Text);
+                Assert.AreEqual("10/10/10", worksheet.Cells["B2"].Text);
+                Assert.AreEqual("11/11/11", worksheet.Cells["B3"].Text);
+                Assert.AreEqual("9/9/09", worksheet.Cells["B4"].Text);
 
-                Assert.AreEqual("50.00 ", worksheet.Cells["C2"].Text);
-                Assert.AreEqual("25.00 ", worksheet.Cells["C3"].Text);
-                Assert.AreEqual("10.00 ", worksheet.Cells["C4"].Text);
+                Assert.AreEqual("50.00", worksheet.Cells["C2"].Text);
+                Assert.AreEqual("25.00", worksheet.Cells["C3"].Text);
+                Assert.AreEqual("10.00", worksheet.Cells["C4"].Text);
 
                 SwitchBackToCurrentCulture();
 
