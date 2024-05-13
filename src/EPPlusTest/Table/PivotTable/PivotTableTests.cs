@@ -873,6 +873,11 @@ namespace EPPlusTest.Table.PivotTable
                         case 1:
                             dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
                             break;
+                        case 2:
+                            dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
+                            break;
+                        case 3:
+
                     }
                     
 

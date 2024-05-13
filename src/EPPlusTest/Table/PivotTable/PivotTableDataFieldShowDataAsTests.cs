@@ -68,6 +68,9 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.PercentOfTotal, df.ShowDataAs.Value);
+
+            tbl.Calculate();
+
         }
         [TestMethod]
         public void ShowAsPercentOfRow()
@@ -84,6 +87,9 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.PercentOfRow, df.ShowDataAs.Value);
+
+            tbl.Calculate();
+
         }
         [TestMethod]
         public void ShowAsPercentOfCol()
@@ -100,6 +106,9 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.PercentOfColumn, df.ShowDataAs.Value);
+
+            tbl.Calculate();
+
         }
         [TestMethod]
         public void ShowAsPercent()
@@ -119,6 +128,9 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(eShowDataAs.Percent, df.ShowDataAs.Value);
             Assert.AreEqual(rf.Index, df.BaseField);
             Assert.AreEqual(50, df.BaseItem);
+
+            tbl.Calculate();
+
         }
         [TestMethod]
         public void ShowAsIndex()
@@ -136,6 +148,9 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.Index, df.ShowDataAs.Value);
+
+            tbl.Calculate();
+
         }
         [TestMethod]
         public void ShowAsDifference()
@@ -155,6 +170,8 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(eShowDataAs.Difference, df.ShowDataAs.Value);
             Assert.AreEqual(rf.Index, df.BaseField);
             Assert.AreEqual((int)ePrevNextPivotItem.Previous, df.BaseItem);
+
+            tbl.Calculate();
         }
         [TestMethod]
         public void ShowAsPercentageDifference()
@@ -174,6 +191,8 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(eShowDataAs.PercentDifference, df.ShowDataAs.Value);
             Assert.AreEqual(rf.Index, df.BaseField);
             Assert.AreEqual((int)ePrevNextPivotItem.Previous, df.BaseItem);
+
+            tbl.Calculate();
         }
 
         [TestMethod]
@@ -192,7 +211,10 @@ namespace EPPlusTest.Table.PivotTable
 
             Assert.AreEqual(eShowDataAs.RunningTotal, df.ShowDataAs.Value);
             Assert.AreEqual(rf.Index, df.BaseField);
+
+            tbl.Calculate();
         }
+
         [TestMethod]
         public void ShowAsPercentOfParent()
         {
@@ -208,6 +230,8 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.PercentOfParent, df.ShowDataAs.Value);
+
+            tbl.Calculate();
         }
         [TestMethod]
         public void ShowAsPercentOfParentRow()
@@ -224,6 +248,8 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.PercentOfParentRow, df.ShowDataAs.Value);
+
+            tbl.Calculate();
         }
         [TestMethod]
         public void ShowAsPercentOfParentCol()
@@ -240,6 +266,8 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.PercentOfParentColumn, df.ShowDataAs.Value);
+
+            tbl.Calculate();
         }
         [TestMethod]
         public void ShowAsPercentOfRunningTotal()
@@ -255,6 +283,8 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.PercentOfRunningTotal, df.ShowDataAs.Value);
+
+            tbl.Calculate();
         }
         [TestMethod]
         public void ShowAsRankAscending()
@@ -270,6 +300,8 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.RankAscending, df.ShowDataAs.Value);
+
+            tbl.Calculate();
         }
         [TestMethod]
         public void ShowAsRankDescending()
@@ -285,6 +317,8 @@ namespace EPPlusTest.Table.PivotTable
             tbl.GridDropZones = false;
 
             Assert.AreEqual(eShowDataAs.RankDescending, df.ShowDataAs.Value);
+
+            tbl.Calculate();
         }
     }
 }
