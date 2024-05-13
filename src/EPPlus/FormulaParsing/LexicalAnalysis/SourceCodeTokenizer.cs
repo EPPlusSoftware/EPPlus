@@ -468,6 +468,20 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
         }
 
+        private bool IsParameterVariable(string token)
+        {
+            return token.StartsWith("_xlpm.");
+        }
+
+        private Token HandleNameValueToken(string token)
+        {
+            if (token.StartsWith("_xlpm."))
+            {
+                return new Token(token, TokenType.ParameterVariable);
+            }
+            return new Token(token, TokenType.NameValue);
+        }
+
         private void HandleToken(List<Token> l, char c, ref StringBuilder current, ref statFlags flags)
         {
             if ((flags & statFlags.isNegator) == statFlags.isNegator)
@@ -566,7 +580,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else
                     {
-                        l.Add(new Token(currentString, TokenType.NameValue));
+                        l.Add(HandleNameValueToken(currentString));
                     }
                 }
                 else
@@ -574,6 +588,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     if (IsName(currentString))
                     {
                         l.Add(new Token(currentString, TokenType.NameValue));
+                    }
+                    else if(IsParameterVariable(currentString))
+                    {
+                        l.Add(new Token(currentString, TokenType.ParameterVariable));
                     }
                     else
                     {
@@ -634,7 +652,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         }
                         else
                         {
-                            l.Add(new Token(currentString, TokenType.NameValue));
+                            l.Add(HandleNameValueToken(currentString));
                         }
                     }
                 }
