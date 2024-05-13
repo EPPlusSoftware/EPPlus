@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Style
                 if(rElement.LocalName == "r")
                 {
                     var t = rElement.SelectSingleNode("d:t", ns);
-                    var rt = new ExcelRichText(t.InnerText, this);
+                    var rt = new ExcelRichText(ConvertUtil.ExcelDecodeString(t.InnerText), this);
 
                     rt.Bold = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:b", ns));
                     rt.Italic = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:i", ns));
