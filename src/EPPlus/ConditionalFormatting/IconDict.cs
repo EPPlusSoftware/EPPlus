@@ -116,6 +116,29 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {"NoIcons",  NoIcon }
             };
 
+        readonly static Dictionary<string, int> IconSetIndexedNames = new Dictionary<string, int>
+            {
+             { "3Arrows",  0 },
+             { "3ArrowsGray" , 1 },
+             { "3Flags" , 2 },
+             { "3TrafficLights1" , 3 } ,
+             { "3TrafficLights2" , 4 },
+             { "3Signs" , 5 },
+             { "3Symbols" , 6 },
+             { "3Symbols2" , 7 },
+             { "3Stars" , 8 },
+             { "3Triangles" , 9 },
+             { "4Arrows" , 10 },
+             { "4ArrowsGray" , 11 },
+             { "4RedToBlack" , 12 },
+             { "4Rating" , 13 },
+             { "4TrafficLights" , 14 },
+             { "5Rating" , 15 },
+             { "5Quarters" , 16 },
+             { "5Boxes" , 17 },
+             { "NoIcons" , 18},
+            };
+
         internal static eExcelconditionalFormattingCustomIcon[] GetIconSet(string set)
         {
             var list = IconSets[set];
@@ -130,6 +153,25 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
 
             return IconSets[set][index];
+        }
+
+        internal static eExcelconditionalFormattingCustomIcon[] GetIconsAsCustomIcons(string iconsetStr, ExcelConditionalFormattingIconDataBarValue[] icons)
+        {
+            eExcelconditionalFormattingCustomIcon[] returnIcons = new eExcelconditionalFormattingCustomIcon[icons.Length];
+
+            for (int i = 0; i < icons.Length; i++)
+            {
+                if (icons[i].CustomIcon == null)
+                {
+                    returnIcons[i] = GetIconAtIndex(iconsetStr, i);
+                }
+                else
+                {
+                    returnIcons[i] = icons[i].CustomIcon.Value;
+                }
+            }
+
+            return returnIcons;
         }
     }
 }

@@ -96,38 +96,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             return string.Format(SvgInitial, width, height) + svg + "</svg>";
         }
 
-        internal static string[] GetIconSetSvgsWithCustoms(string set, ExcelConditionalFormattingIconDataBarValue[] icons)
-        {
-            var retArr = new string[icons.Length];
-
-            for (int i = 0; i < icons.Length; i++)
-            {
-                if (icons[i].CustomIcon == null)
-                {
-                    retArr[i] = GetIconSvg(IconDict.GetIconAtIndex(set, i));
-                }
-                else
-                {
-                    retArr[i] = GetIconSvg(icons[i].CustomIcon.Value);
-                }
-            }
-            return retArr;
-        }
-
-
-        internal static string[] GetIconSetSvgs(string setString)
-        {
-            var set = IconDict.GetIconSet(setString);
-
-            var retArr = new string[set.Length];
-
-            for (int i = 0; i < set.Length; i++) 
-            {
-                retArr[i] = GetIconSvg(set[i]);
-            }
-            return retArr;
-        }
-
         internal static string SetActiveIcons(int numActive, string SvgType)
         {
             var fill = "fill='{0}' stroke='{1}'";
