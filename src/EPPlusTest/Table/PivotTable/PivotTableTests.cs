@@ -808,104 +808,104 @@ namespace EPPlusTest.Table.PivotTable
             }
         }
 
-        [TestMethod]
-        public void TestAll()
-        {
-            using (var p = OpenPackage("SwimmersPivotData.xlsx", true))
-            {
-                var sheet = p.Workbook.Worksheets.Add("DataSheet");
+        //[TestMethod]
+        //public void TestAll()
+        //{
+        //    using (var p = OpenPackage("SwimmersPivotData.xlsx", true))
+        //    {
+        //        var sheet = p.Workbook.Worksheets.Add("DataSheet");
 
-                var table = sheet.Tables.Add(new ExcelAddress("A1:D5"), "TestTable");
-                table.ShowHeader = true;
-                sheet.Cells["A1"].Value = "Names";
-                sheet.Cells["A2"].Value = "Michael Phelps";
-                sheet.Cells["A3"].Value = "Kristin Otto";
-                sheet.Cells["A4"].Value = "Aleksandr Popov";
-                sheet.Cells["A5"].Value = "Mark Spitz";
+        //        var table = sheet.Tables.Add(new ExcelAddress("A1:D5"), "TestTable");
+        //        table.ShowHeader = true;
+        //        sheet.Cells["A1"].Value = "Names";
+        //        sheet.Cells["A2"].Value = "Michael Phelps";
+        //        sheet.Cells["A3"].Value = "Kristin Otto";
+        //        sheet.Cells["A4"].Value = "Aleksandr Popov";
+        //        sheet.Cells["A5"].Value = "Mark Spitz";
 
-                sheet.Cells["B1"].Value = "Swim Length(m)";
-                sheet.Cells["B2"].Value = 200;
-                sheet.Cells["B3"].Value = 300;
-                sheet.Cells["B4"].Value = 100;
-                sheet.Cells["B5"].Value = 500;
+        //        sheet.Cells["B1"].Value = "Swim Length(m)";
+        //        sheet.Cells["B2"].Value = 200;
+        //        sheet.Cells["B3"].Value = 300;
+        //        sheet.Cells["B4"].Value = 100;
+        //        sheet.Cells["B5"].Value = 500;
 
-                sheet.Cells["C1"].Value = "Time(s)";
-                sheet.Cells["C2"].Value = 120;
-                sheet.Cells["C3"].Value = 150;
-                sheet.Cells["C4"].Value = 90;
-                sheet.Cells["C5"].Value = 3500;
+        //        sheet.Cells["C1"].Value = "Time(s)";
+        //        sheet.Cells["C2"].Value = 120;
+        //        sheet.Cells["C3"].Value = 150;
+        //        sheet.Cells["C4"].Value = 90;
+        //        sheet.Cells["C5"].Value = 3500;
 
-                sheet.Cells["D1"].Value = "Age(yrs)";
-                sheet.Cells["D2"].Formula = "2024-1985";
-                sheet.Cells["D3"].Formula = "2024-1966";
-                sheet.Cells["D4"].Formula = "2024-1971";
-                sheet.Cells["D5"].Formula = "2024-1950";
+        //        sheet.Cells["D1"].Value = "Age(yrs)";
+        //        sheet.Cells["D2"].Formula = "2024-1985";
+        //        sheet.Cells["D3"].Formula = "2024-1966";
+        //        sheet.Cells["D4"].Formula = "2024-1971";
+        //        sheet.Cells["D5"].Formula = "2024-1950";
 
-                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+        //        var ptWs = p.Workbook.Worksheets.Add("PTSheet");
 
-                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "SwimmerPivotTable");
+        //        var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "SwimmerPivotTable");
 
-                pt.RowFields.Add(pt.Fields["Names"]);
-                var age = pt.RowFields.Add(pt.Fields["Age(yrs)"]);
+        //        pt.RowFields.Add(pt.Fields["Names"]);
+        //        var age = pt.RowFields.Add(pt.Fields["Age(yrs)"]);
 
-                var length = pt.DataFields.Add(pt.Fields["Swim Length(m)"]);
-                var dt = pt.DataFields.Add(pt.Fields["Time(s)"]);
+        //        var length = pt.DataFields.Add(pt.Fields["Swim Length(m)"]);
+        //        var dt = pt.DataFields.Add(pt.Fields["Time(s)"]);
 
-                pt.DataOnRows = false;
+        //        pt.DataOnRows = false;
 
-                var functionValues = Enum.GetValues(typeof(DataFieldFunctions));
-                var showAsValues = Enum.GetValues(typeof(eShowDataAs));
+        //        var functionValues = Enum.GetValues(typeof(DataFieldFunctions));
+        //        var showAsValues = Enum.GetValues(typeof(eShowDataAs));
 
-                //ptWs.Cells["A3"].Value = "something's fishy";
+        //        //ptWs.Cells["A3"].Value = "something's fishy";
 
-                //pt.Calculate(true);
-                //ptWs.Calculate();
+        //        //pt.Calculate(true);
+        //        //ptWs.Calculate();
 
-                for(int h = 0; h < showAsValues.Length; h++)
-                {
-                    //dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
-                    //var currentShow = dt.ShowDataAs;
-                    switch (h)
-                    {
-                        case 0:
-                            dt.ShowDataAs.SetDifference(age, ePrevNextPivotItem.Previous);
-                            break;
-                        case 1:
-                            dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
-                            break;
-                        case 2:
-                            dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
-                            break;
-                        case 3:
+        //        for(int h = 0; h < showAsValues.Length; h++)
+        //        {
+        //            //dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
+        //            //var currentShow = dt.ShowDataAs;
+        //            switch (h)
+        //            {
+        //                case 0:
+        //                    dt.ShowDataAs.SetDifference(age, ePrevNextPivotItem.Previous);
+        //                    break;
+        //                case 1:
+        //                    dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
+        //                    break;
+        //                case 2:
+        //                    dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
+        //                    break;
+        //                case 3:
 
-                    }
+        //            }
                     
 
-                    for (int i = 0; i < functionValues.Length; i++)
-                    {
-                        dt.Function = (DataFieldFunctions)functionValues.GetValue(i);
-                        pt.Calculate(true);
-                        ptWs.Calculate();
+        //            for (int i = 0; i < functionValues.Length; i++)
+        //            {
+        //                dt.Function = (DataFieldFunctions)functionValues.GetValue(i);
+        //                pt.Calculate(true);
+        //                ptWs.Calculate();
 
-                        var addresses = pt.CalculatedItems[1].Index;
-                        var values = pt.CalculatedItems[1].Values;
+        //                var addresses = pt.CalculatedItems[1].Index;
+        //                var values = pt.CalculatedItems[1].Values;
 
-                        var range = pt.Address;
+        //                var range = pt.Address;
 
-                        var num = 5 + 1 * (i + 1);
-                        //var destinationRange = ptWs.Cells[1, 5 + 4 * i, 11, 8 + 4 * i];
-                        for (int j = 0; j < values.Count; j++)
-                        {
-                            ptWs.Cells[(j + 1) + 10 * h, num].Value = values[j];
-                        }
-                        //range.Copy(destinationRange);
+        //                var num = 5 + 1 * (i + 1);
+        //                //var destinationRange = ptWs.Cells[1, 5 + 4 * i, 11, 8 + 4 * i];
+        //                for (int j = 0; j < values.Count; j++)
+        //                {
+        //                    ptWs.Cells[(j + 1) + 10 * h, num].Value = values[j];
+        //                }
+        //                //range.Copy(destinationRange);
 
-                        //var val = ptWs.Cells["E3"].Value;
-                    }
-                }
+        //                //var val = ptWs.Cells["E3"].Value;
+        //            }
+        //        }
 
-                SaveAndCleanup(p);
-            }
-        }
+        //        SaveAndCleanup(p);
+        //    }
+        //}
     }
 }

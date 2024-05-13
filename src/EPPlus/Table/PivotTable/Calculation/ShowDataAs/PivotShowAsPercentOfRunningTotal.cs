@@ -50,7 +50,10 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 						var parentValue = calculatedItems[parentKey];
 						if (parentValue is double pv)
 						{
-							calculatedItems[key.Key] = (double)calculatedItems[key.Key] / pv;
+							if (calculatedItems[key.Key] is double v)
+							{
+								calculatedItems[key.Key] = (double)v / pv;
+							}
 						}
 						else if (calculatedItems[key.Key] is not ExcelErrorValue)
 						{

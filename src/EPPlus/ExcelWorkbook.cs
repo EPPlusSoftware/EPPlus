@@ -1334,7 +1334,7 @@ namespace OfficeOpenXml
 		{
 			foreach (var info in _pivotTableCaches.Values)
 			{
-				foreach (var cache in info.PivotCaches)
+				 foreach (var cache in info.PivotCaches)
 				{
 					if (cache._pivotTables.Count == 0)
 					{
