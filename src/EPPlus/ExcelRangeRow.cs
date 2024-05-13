@@ -1,9 +1,11 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
 
@@ -176,6 +178,7 @@ namespace OfficeOpenXml
                 SetValue(new Action<RowInternal, bool>((x, v) => { x.Hidden = v; }), value);
             }
         }
+
         /// <summary>
         /// Row height in points. Setting this property will also set <see cref="CustomHeight"/> to true.
         /// </summary>

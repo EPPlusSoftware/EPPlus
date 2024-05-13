@@ -75,6 +75,15 @@ namespace OfficeOpenXml.Core.CellStore
                 offset++;
             }
         }
+        internal void SetValueRow_ValueTranspose(int row, int col, IEnumerable collection)
+        {
+            int offset = 0;
+            foreach (var v in collection)
+            {
+                SetValue_Value(row + offset, col, v);
+                offset++;
+            }
+        }
         internal void SetValue_Value(int Row, int Column, object value)
         {
             var c = GetColumnIndex(Column);

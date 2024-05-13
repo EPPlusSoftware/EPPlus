@@ -534,7 +534,6 @@ namespace EPPlusTest
             _pck.Workbook.Properties.SharedDoc = false;
             _pck.Workbook.Properties.ScaleCrop = false;
 
-
             _pck.Workbook.Properties.SetCustomPropertyValue("DateTest", new DateTime(2008, 12, 31));
             Console.WriteLine(_pck.Workbook.Properties.GetCustomPropertyValue("DateTest").ToString());
             _pck.Workbook.Properties.SetCustomPropertyValue("Author", "Jan Källman");
@@ -1268,7 +1267,7 @@ namespace EPPlusTest
             {
                 using (var reader = dt.CreateDataReader())
                 {
-                    range = ws.Cells["A1"].LoadFromDataReader(reader, true, "My_Table", true, TableStyles.Medium5);
+                    range = ws.Cells["A1"].LoadFromDataReader(reader, true, "My_Table_Transp", true, TableStyles.Medium5);
                 }
                 Assert.AreEqual(1, range.Start.Column);
                 Assert.AreEqual(3, range.End.Column);
@@ -1277,7 +1276,7 @@ namespace EPPlusTest
 
                 using (var reader = dt.CreateDataReader())
                 {
-                    range = ws.Cells["A5"].LoadFromDataReader(reader, false, "My_Table2", true, TableStyles.Medium5);
+                    range = ws.Cells["A5"].LoadFromDataReader(reader, false, "My_Table_Transp2", true, TableStyles.Medium5);
                 }
             }
             Assert.AreEqual("A5:B8", range.Address);
@@ -1323,7 +1322,7 @@ namespace EPPlusTest
             {
                 using (var reader = dt.CreateDataReader())
                 {
-                    range = await ws.Cells["A1"].LoadFromDataReaderAsync(reader, true, "My_Table_Async", true, TableStyles.Medium5).ConfigureAwait(false);
+                    range = await ws.Cells["A1"].LoadFromDataReaderAsync(reader, true, "My_Table_Transp_Async", true, TableStyles.Medium5).ConfigureAwait(false);
                 }
                 Assert.AreEqual(1, range.Start.Column);
                 Assert.AreEqual(3, range.End.Column);
@@ -1332,7 +1331,7 @@ namespace EPPlusTest
 
                 using (var reader = dt.CreateDataReader())
                 {
-                    range = await ws.Cells["A5"].LoadFromDataReaderAsync(reader, false, "My_Table_Async2", true, TableStyles.Medium5).ConfigureAwait(false);
+                    range = await ws.Cells["A5"].LoadFromDataReaderAsync(reader, false, "My_Table_Transp_Async2", true, TableStyles.Medium5).ConfigureAwait(false);
                 }
             }
             Assert.AreEqual("A5:B8", range.Address);
@@ -1533,7 +1532,6 @@ namespace EPPlusTest
             Assert.AreEqual(3, ws.Cells["A1"].Value);
             Assert.AreEqual("Test1", ws.Cells["B1"].Value);
             Assert.AreEqual("6", ws.Cells["B4"].Value);
-            SaveAndCleanup(_pck);
         }
 
         [TestMethod]

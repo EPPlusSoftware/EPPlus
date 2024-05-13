@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -12,113 +12,11 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Globalization;
 
 namespace OfficeOpenXml
 {
-    /// <summary>
-    /// Discribes a column when reading a text using the ExcelRangeBase.LoadFromText method
-    /// </summary>
-    public enum eDataTypes
-    {
-        /// <summary>
-        /// Let the the import decide.
-        /// </summary>
-        Unknown,
-        /// <summary>
-        /// Always a string.
-        /// </summary>
-        String,
-        /// <summary>
-        /// Try to convert it to a number. If it fails then add it as a string.
-        /// </summary>
-        Number,
-        /// <summary>
-        /// Try to convert it to a date. If it fails then add it as a string.
-        /// </summary>
-        DateTime,
-        /// <summary>
-        /// Try to convert it to a number and divide with 100. 
-        /// Removes any tailing percent sign (%). If it fails then add it as a string.
-        /// </summary>
-        Percent
-    }
-    /// <summary>
-    /// Describes how to split a CSV text. Used by the ExcelRange.LoadFromText method.
-    /// Base class for ExcelTextFormat and ExcelOutputTextFormat
-    /// <seealso cref="ExcelTextFormat"/>
-    /// <seealso cref="ExcelOutputTextFormat"/>
-    /// </summary>
-    public class ExcelTextFormatBase
-    {
-        /// <summary>
-        /// Creates a new instance if ExcelTextFormatBase
-        /// </summary>
-        public ExcelTextFormatBase()
-        {
-        }
-        /// <summary>
-        /// Delimiter character
-        /// </summary>
-        public char Delimiter { get; set; } = ',';
-        /// <summary>
-        /// Text qualifier character. Default no TextQualifier (\0)
-        /// </summary>
-        public char TextQualifier { get; set; } = '\0';
-        /// <summary>
-        /// End of line characters. Default is CRLF
-        /// </summary>
-        public string EOL { get; set; } = "\r\n";
-        /// <summary>
-        /// Culture used when parsing. Default CultureInfo.InvariantCulture
-        /// </summary>
-        public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
-        /// <summary>
-        /// Number of lines skipped in the begining of the file. Default 0.
-        /// </summary>
-        public int SkipLinesBeginning { get; set; } = 0;
-        /// <summary>
-        /// Number of lines skipped at the end of the file. Default 0.
-        /// </summary>
-        public int SkipLinesEnd { get; set; } = 0;
-        /// <summary>
-        /// Only used when reading/writing files from disk using a FileInfo object. Default AscII
-        /// </summary>
-        public Encoding Encoding { get; set; } = Encoding.ASCII;
-    }
-
-    /// <summary>
-    /// Describes how to split a CSV text. Used by the ExcelRange.LoadFromText method
-    /// </summary>
-    public class ExcelTextFormat : ExcelTextFormatBase
-    {
-        /// <summary>
-        /// Describes how to split a CSV text
-        /// 
-        /// Default values
-        /// <list>
-        /// <listheader><term>Property</term><description>Value</description></listheader>
-        /// <item><term>Delimiter</term><description>,</description></item>
-        /// <item><term>TextQualifier</term><description>None (\0)</description></item>
-        /// <item><term>EOL</term><description>CRLF</description></item>
-        /// <item><term>Culture</term><description>CultureInfo.InvariantCulture</description></item>
-        /// <item><term>SkipLinesBeginning</term><description>0</description></item>
-        /// <item><term>SkipLinesEnd</term><description>0</description></item>
-        /// <item><term>DataTypes</term><description>Column datatypes</description></item>
-        /// <item><term>Encoding</term><description>Encoding.ASCII</description></item>
-        /// </list>
-        /// </summary>
-        public ExcelTextFormat() : base()
-        {
-            DataTypes=null;
-        }
-        /// <summary>
-        /// Datatypes list for each column (if column is not present Unknown is assumed)
-        /// </summary>
-        public eDataTypes[] DataTypes { get; set; }
-    }
-
     /// <summary>
     /// Describes how to split a CSV text. Used by the ExcelRange.SaveFromText method
     /// </summary>
@@ -148,7 +46,7 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelOutputTextFormat() : base()
         {
-            
+
         }
         /// <summary>
         /// A text written at the start of the file.
@@ -175,7 +73,7 @@ namespace OfficeOpenXml
         /// Format is applied with the used culture.
         /// For a text column use $ as format
         /// </summary>        
-        public string[] Formats { get; set; }=null;
+        public string[] Formats { get; set; } = null;
         /// <summary>
         /// Decimal separator, if other than the used culture.
         /// </summary>

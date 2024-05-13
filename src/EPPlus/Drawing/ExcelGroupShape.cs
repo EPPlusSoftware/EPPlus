@@ -236,7 +236,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_drawingNames.ContainsKey(Name))
                 {
-                    return _groupDrawings[_parent._drawings._drawingNames[Name]];
+                    return _groupDrawings[_drawingNames[Name]];
                 }
                 else
                 {
