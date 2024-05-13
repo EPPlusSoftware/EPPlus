@@ -824,7 +824,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         var subChart = GetChart(n, null, null, null, null, null, topChart, parent);
                         if (subChart != null)
                         {
-                            topChart.PlotArea.ChartTypes.Add(subChart);                            
+                            topChart.PlotArea.ChartTypes.Add(subChart);
                         }
                     }
                 }
