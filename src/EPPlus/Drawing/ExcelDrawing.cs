@@ -1340,7 +1340,6 @@ namespace OfficeOpenXml.Drawing
                 switch (DrawingType)
                 {
                     case eDrawingType.Shape:
-                        //Check blip and stuff
                         break;
                     case eDrawingType.Picture:
                         CopyRelations(worksheet, drawNode);
@@ -1348,6 +1347,14 @@ namespace OfficeOpenXml.Drawing
                     case eDrawingType.Chart:
                         CopyChart(worksheet, drawNode, row, col, rowOffset, colOffset);
                         return;
+                    case eDrawingType.Slicer:
+                        break;
+                    case eDrawingType.Control:
+                        //Måste skapa xml på nått sätt som nuvarande drawnode inte gör...
+                        CopyControl(worksheet);
+                        break;
+                    case eDrawingType.GroupShape:
+                        break;
                 }
             }
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1361,16 +1368,24 @@ namespace OfficeOpenXml.Drawing
             switch (DrawingType)
             {
                 case eDrawingType.Shape:
+                    var sourceShape = this as ExcelShape;
+                    var targetShape = copy as ExcelShape;
+                    WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, targetShape, sourceShape.Fill, worksheet._drawings.Part.Uri);
                     copy._id = worksheet.Workbook._nextDrawingId++;
                     break;
                 case eDrawingType.Picture:
-                    var pic = copy as ExcelPicture;                    
+                    var pic = copy as ExcelPicture;
                     pic.SetNewId(worksheet.Workbook._nextDrawingId++);
                     break;
                 case eDrawingType.Chart:
-                    
                     break;
             }
+        }
+
+        private void CopyControl(ExcelWorksheet worksheet)
+        {
+            var control = this as ExcelControl;
+            WorksheetCopyHelper.CopyControl(worksheet._package, worksheet, control);
         }
 
         private void CopyChart(ExcelWorksheet worksheet, XmlNode drawNode, int row, int col, int rowOffset, int colOffset)

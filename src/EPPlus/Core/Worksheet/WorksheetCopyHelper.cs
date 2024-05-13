@@ -383,16 +383,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             else if (sourceDraw is ExcelControl ctrl)
             {
-                var UriCtrl = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/ctrlProps/ctrlProp{0}.xml");
-                var ctrlPart = pck.ZipPackage.CreatePart(UriCtrl, ContentTypes.contentTypeControlProperties, pck.Compression);
-                StreamWriter streamChart = new StreamWriter(ctrlPart.GetStream(FileMode.Create, FileAccess.Write));
-                streamChart.Write(ctrl.ControlPropertiesXml.OuterXml);
-                streamChart.Flush();
-
-                var prevRelID = ctrl._control.RelationshipId;
-                var rel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
-                XmlAttribute relAtt = target.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager) as XmlAttribute;
-                relAtt.Value = rel.Id;
+                CopyControl(pck, target, ctrl);
             }
             else if (sourceDraw is ExcelShape shp)
             {
@@ -428,6 +419,20 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 
             }
+        }
+
+        internal static void CopyControl(ExcelPackage pck, ExcelWorksheet target, ExcelControl ctrl)
+        {
+            var UriCtrl = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/ctrlProps/ctrlProp{0}.xml");
+            var ctrlPart = pck.ZipPackage.CreatePart(UriCtrl, ContentTypes.contentTypeControlProperties, pck.Compression);
+            StreamWriter streamChart = new StreamWriter(ctrlPart.GetStream(FileMode.Create, FileAccess.Write));
+            streamChart.Write(ctrl.ControlPropertiesXml.OuterXml);
+            streamChart.Flush();
+
+            var prevRelID = ctrl._control.RelationshipId;
+            var rel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
+            XmlAttribute relAtt = target.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager) as XmlAttribute;
+            relAtt.Value = rel.Id;
         }
 
         internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)
@@ -524,21 +529,21 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void CopyBlipFillDrawing(ExcelWorksheet added, ZipPackagePart part, XmlDocument drawXml, ExcelDrawing draw, ExcelDrawingFill fill, Uri uriDraw)
+        internal static void CopyBlipFillDrawing(ExcelWorksheet target, ZipPackagePart targetPart, XmlDocument drawXml, ExcelDrawing draw, ExcelDrawingFill fill, Uri uriDraw)
         {
             if (fill.Style == eFillStyle.BlipFill)
             {
                 IPictureContainer container = fill.BlipFill;
                 var uri = container.UriPic;
                 var img = fill.BlipFill.Image.ImageBytes;
-                var ii = added.Workbook._package.PictureStore.AddImage(img, uri, null);
+                var ii = target.Workbook._package.PictureStore.AddImage(img, uri, null);
 
-                var rel = part.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                var rel = targetPart.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                 //Fixes problem with invalid image when the same image is used more than once.
                 XmlNode relAtt =
                     drawXml.SelectSingleNode(
                         string.Format(
-                            "//xdr:cNvPr/@name[.='{0}']/../../../xdr:spPr/xdr:blipFill/a:blip/@r:embed",
+                            "//xdr:cNvPr/@name[.='{0}']/../../../xdr:spPr/a:blipFill/a:blip/@r:embed",
                             draw.Name), draw.NameSpaceManager);
 
                 if (relAtt != null)

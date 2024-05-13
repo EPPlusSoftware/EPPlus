@@ -20,6 +20,16 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        public void CopyShapeBlipFillTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws0 = p.Workbook.Worksheets[0];
+            var ws1 = p.Workbook.Worksheets[1];
+            ws0.Drawings[1].Copy(ws1, 10, 20);
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
         public void CopyPictureTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
@@ -39,6 +49,16 @@ namespace EPPlusTest.Drawing
             ws0.Drawings[0].Copy(ws1, 20, 1);
             ws0.Drawings[0].Copy(ws1, 20, 10);
             SaveAndCleanup(p2);
+        }
+
+        [TestMethod]
+        public void CopyControlTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws2 = p.Workbook.Worksheets[2];
+            var ws1 = p.Workbook.Worksheets[1];
+            ws1.Drawings[1].Copy(ws2, 20, 1);
+            SaveAndCleanup(p);
         }
 
         [TestMethod]
