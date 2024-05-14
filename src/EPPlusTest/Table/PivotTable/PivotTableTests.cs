@@ -1046,17 +1046,17 @@ namespace EPPlusTest.Table.PivotTable
                 var functionValues = Enum.GetValues(typeof(DataFieldFunctions));
                 var showAsValues = Enum.GetValues(typeof(eShowDataAs));
 
-                for(int h = 0; h < showAsValues.Length; h++)
+                for (int h = 0; h < showAsValues.Length; h++)
                 {
                     var dataOption = (eShowDataAs)showAsValues.GetValue(h);
 
-                    if(Enum.IsDefined(typeof(eShowDataAs), h) == false)
+                    if (Enum.IsDefined(typeof(eShowDataAs), h) == false)
                     {
                         throw new InvalidCastException($"eShowDataAs has no value that matches {h}");
                     }
 
                     SetShowDataAs(dataOption, dt, age, ePrevNextPivotItem.Previous);
-                    
+
                     for (int i = 0; i < functionValues.Length; i++)
                     {
                         var tmpFunction = (DataFieldFunctions)functionValues.GetValue(i);

@@ -12,50 +12,61 @@
 *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
-    internal class PivotShowAsPercentOfParentRowTotal : PivotShowAsBase
+    internal class PivotShowAsPercentOfParentTotal : PivotShowAsBase
     {
         internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
         {   
             var showAsCalculatedItems = PivotTableCalculation.GetNewCalculatedItems();
             var colStartIx = df.Field.PivotTable.RowFields.Count;
-            var totalKey = GetKey(fieldIndex.Count);            
-            var t = calculatedItems[totalKey];
-            foreach(var key in calculatedItems.Index)
+            var bf = fieldIndex.IndexOf(df.BaseField);
+            foreach (var key in calculatedItems.Index)
             {
                 if (calculatedItems[key.Key] is double d)
                 {
-                    var rowTotal = GetParentTotal(key.Key, colStartIx, calculatedItems, out ExcelErrorValue error);
-                    if (double.IsNaN(rowTotal))
+                    var parentTotal = GetParentTotal(key.Key, bf, colStartIx, calculatedItems, out ExcelErrorValue error);                    
+                    if (double.IsNaN(parentTotal))
                     {
                         showAsCalculatedItems.Add(key.Key, error);
                     }
+                    else if(parentTotal==0)
+                    {
+                        showAsCalculatedItems.Add(key.Key, 0D);
+                    }
                     else
                     {
-                        showAsCalculatedItems.Add(key.Key, d / rowTotal);
+                        showAsCalculatedItems.Add(key.Key, d / parentTotal);
                     }                    
                 }
             }
-
             calculatedItems = showAsCalculatedItems;
         }
-        private static double GetParentTotal(int[] key, int colStartIx, PivotCalculationStore calculatedItems, out ExcelErrorValue error)
+        private static double GetParentTotal(int[] key, int bf, int colStartIx, PivotCalculationStore calculatedItems, out ExcelErrorValue error)
         {
-            var rowKey = (int[])key.Clone();
-            for(int i=colStartIx-1;i>=0;i--)
+            if (bf < 0 || bf >= key.Length)
             {
-                if(rowKey[i]!=PivotCalculationStore.SumLevelValue)
-                {
-                    rowKey[i] = PivotCalculationStore.SumLevelValue;
-                    break;
-                }
+                error = ErrorValues.NAError;
+                return double.NaN;
             }
-            var v = calculatedItems[rowKey];
+            if(key[bf] == PivotCalculationStore.SumLevelValue)
+            {
+                error = null;
+                return 0D;
+            }
+            var start = bf+1;
+            var end = start < colStartIx ? colStartIx-1 : key.Length-1;
+            var parentKey = (int[])key.Clone();
+            for(int i=start;i<=end;i++)
+            {
+                parentKey[i] = PivotCalculationStore.SumLevelValue;
+            }
+            var v = calculatedItems[parentKey];
             if (v is ExcelErrorValue er)
             {
                 error = er;

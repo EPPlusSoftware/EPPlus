@@ -215,7 +215,17 @@ namespace EPPlusTest
 			}
 			return null;
 		}
-
+        protected static FileInfo GetOutputFile(string subPath, string fileName)
+        {
+            var path = _worksheetPath + subPath;
+            if(Directory.Exists(path)==false)
+            {
+                Directory.CreateDirectory(path);
+            }
+            if (path.EndsWith("\\")==false) path+="\\";
+            
+            return new FileInfo(path + fileName);
+        }
 		internal void IsNullRange(ExcelRange address)
         {
             for(int row=address._fromRow;row<=address._toRow;row++)

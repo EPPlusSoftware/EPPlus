@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.LoadFunctions;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
@@ -658,12 +659,8 @@ namespace OfficeOpenXml
                 r.Value = "";
                 return r;
             }
-            var parameters = new LoadFromTextParams
-            {
-                Format = Format
-            };
-            var func = new LoadFromText(this, Text, parameters);
-            return func.Load();
+
+            return LoadFromTextPrivate(Text, Format, Format.TableStyle, Format.FirstRowIsHeader);
         }
 
         /// <summary>
@@ -676,7 +673,17 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelRangeBase LoadFromText(string Text, ExcelTextFormat Format, TableStyles? TableStyle, bool FirstRowIsHeader)
         {
-            var r = LoadFromText(Text, Format);
+            return LoadFromTextPrivate(Text, Format, TableStyle, FirstRowIsHeader);
+        }
+
+        private ExcelRangeBase LoadFromTextPrivate(string Text, ExcelTextFormat Format, TableStyles? TableStyle, bool FirstRowIsHeader)
+        {
+            var parameters = new LoadFromTextParams
+            {
+                Format = Format
+            };
+            var func = new LoadFromText(this, Text, parameters);
+            var r = func.Load();
 
             if (r != null && TableStyle.HasValue)
             {
@@ -686,6 +693,7 @@ namespace OfficeOpenXml
             }
             return r;
         }
+
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell using ASCII Encoding.
         /// </summary>
@@ -708,7 +716,7 @@ namespace OfficeOpenXml
                 throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
             }
 
-            return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format);
+            return LoadFromTextPrivate(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, Format.TableStyle,  Format.FirstRowIsHeader);
         }
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell.
@@ -727,7 +735,49 @@ namespace OfficeOpenXml
 
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, TableStyle, FirstRowIsHeader);
         }
-#region LoadFromText async
+
+        /// <summary>
+        /// Loads a fixed width text file into range starting from the top left cell.
+        /// </summary>
+        /// <param name="Text">The Text file</param>
+        /// <param name="Format">Information how to load the text</param>
+        /// <returns></returns>
+        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format)
+        {
+            if (string.IsNullOrEmpty(Text))
+            {
+                var r = _worksheet.Cells[_fromRow, _fromCol];
+                r.Value = "";
+                return r;
+            }
+            var func = new LoadFromFixedWidthText(this, Text, Format);
+            var range =  func.Load();
+            if (range != null && Format.TableStyle.HasValue)
+            {
+                var tbl = _worksheet.Tables.Add(range, "");
+                tbl.ShowHeader = Format.FirstRowIsHeader;
+                tbl.TableStyle = Format.TableStyle.Value;
+            }
+            return range;
+        }
+
+        /// <summary>
+        /// Loads a fixed width text file into range starting from the top left cell.
+        /// </summary>
+        /// <param name="TextFile">The Textfile</param>
+        /// <param name="Format">Information how to load the text</param>
+        /// <returns></returns>
+        public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormatFixedWidth Format)
+        {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
+            return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format);
+        }
+
+        #region LoadFromText async
 #if !NET35 && !NET40
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell.

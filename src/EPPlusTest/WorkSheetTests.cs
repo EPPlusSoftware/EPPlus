@@ -534,7 +534,6 @@ namespace EPPlusTest
             _pck.Workbook.Properties.SharedDoc = false;
             _pck.Workbook.Properties.ScaleCrop = false;
 
-
             _pck.Workbook.Properties.SetCustomPropertyValue("DateTest", new DateTime(2008, 12, 31));
             Console.WriteLine(_pck.Workbook.Properties.GetCustomPropertyValue("DateTest").ToString());
             _pck.Workbook.Properties.SetCustomPropertyValue("Author", "Jan Källman");

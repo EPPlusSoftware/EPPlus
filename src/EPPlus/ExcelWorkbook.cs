@@ -33,19 +33,11 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using System.Runtime.InteropServices;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml
 {
@@ -1334,7 +1326,7 @@ namespace OfficeOpenXml
 		{
 			foreach (var info in _pivotTableCaches.Values)
 			{
-				foreach (var cache in info.PivotCaches)
+				 foreach (var cache in info.PivotCaches)
 				{
 					if (cache._pivotTables.Count == 0)
 					{

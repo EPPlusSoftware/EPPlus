@@ -1,43 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>6.1.1.0</AssemblyVersion>
-    <FileVersion>6.1.1.0</FileVersion>
-    <Version>6.1.1</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageLicenseFile>license.md</PackageLicenseFile>
-	<RepositoryType>git</RepositoryType>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>EPPlus.Interfaces.snk</AssemblyOriginatorKeyFile>
-    <RootNamespace>OfficeOpenXml.Interfaces</RootNamespace>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageIcon>EPPlusLogo.png</PackageIcon>
-	<LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-    <DefineConstants>Core;Standard20</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1'">
-    <DefineConstants>Core;Standard21</DefineConstants>
-  </PropertyGroup>
-
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-		<DefineConstants>Core;NET60</DefineConstants>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<AssemblyVersion>6.1.1.0</AssemblyVersion>
+		<FileVersion>6.1.1.0</FileVersion>
+		<Version>6.1.1</Version>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseFile>license.md</PackageLicenseFile>
+		<RepositoryType>git</RepositoryType>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>EPPlus.Interfaces.snk</AssemblyOriginatorKeyFile>
+		<RootNamespace>OfficeOpenXml.Interfaces</RootNamespace>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageIcon>EPPlusLogo.png</PackageIcon>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0'">
-		<DefineConstants>Core;NET70</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
-    <DefineConstants>NET45;NETFULL</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net35'">
-    <DefineConstants>NET35;NETFULL</DefineConstants>
-  </PropertyGroup>
 
 	<ItemGroup>
 		<None Include="EPPlusLogo.png">

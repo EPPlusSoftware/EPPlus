@@ -1,16 +1,6 @@
-﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Runtime.CompilerServices;
-using System.Net;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Security.Cryptography;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace OfficeOpenXml.Core.CellStore
 {
@@ -256,9 +246,118 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
-        internal void DeleteRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns, bool shiftRow = true)
+
+        /// <summary>
+        /// Returns empty array if no result because fromRow, toRow covers entire spane
+        /// Returns rangeItem with rowspan -1 if the item does not exist within fromRow ToRow
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="fromRow"></param>
+        /// <param name="toRow"></param>
+        /// <returns></returns>
+        internal RangeItem[] SplitRangeItem(RangeItem item, int fromRow, int toRow)
+        {
+            if(ExistsInSpan(fromRow, toRow, item.RowSpan))
+            {
+                var fromRowRangeItem = (int)(item.RowSpan >> 20) + 1;
+                var toRowRangeItem = (int)(item.RowSpan & 0xFFFFF) + 1;
+
+                var topItem = new RangeItem();
+                var botItem = new RangeItem();
+
+                long clearedSpan = ((fromRow - 1) << 20) | (toRow - 1);
+                var testItem = new RangeItem(clearedSpan);
+
+                var comparedInt = item.CompareTo(testItem);
+
+                List<RangeItem> result = new List<RangeItem>();
+
+                if (fromRow > fromRowRangeItem)
+                {
+                    int rangeItemOffset = 1;
+                    if (fromRow == toRowRangeItem)
+                    {
+                        rangeItemOffset += 1;
+                    }
+
+                    long topSpan = ((fromRowRangeItem - rangeItemOffset) << 20) | (fromRow - 2);
+                    topItem.RowSpan = topSpan;
+                    topItem.Value = item.Value;
+                    result.Add(topItem);
+                }
+
+                if (toRow < toRowRangeItem)
+                {
+                    if (toRow == toRowRangeItem)
+                    {
+                        toRow += 1;
+                    }
+
+                    long endSpan;
+                    endSpan = ((toRow) << 20) | (toRowRangeItem - 1);
+                    botItem.RowSpan = endSpan;
+                    botItem.Value = item.Value;
+                    result.Add(botItem);
+                }
+
+                return result.ToArray();
+            }
+            return [new RangeItem(-1L)];
+        }
+
+        internal void ClearRows(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
+        {
+            var toRow = fromRow + noRows - 1;
+            //A sheet has a maximum of 65,534 dataValidations. Shifting by 20 more than enough.
+            long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
+
+            foreach (var c in _addresses.Keys)
+            {
+                if (c >= fromCol && c <= toCol)
+                {
+                    var rows = _addresses[c];
+
+                    var ri = new RangeItem(rowSpan);
+
+                    var rowStartIndex = rows.BinarySearch(ri);
+                    if (rowStartIndex < 0)
+                    {
+                        rowStartIndex = ~rowStartIndex;
+                        if (rowStartIndex > 0) rowStartIndex--;
+                    }
+
+                    for (int i= rowStartIndex; i < rows.Count; i++)
+                    {
+                        var newItems = SplitRangeItem(rows[i], fromRow, toRow);
+
+                        if(newItems.Length == 0)
+                        {
+                            rows.Remove(rows[i]);
+                            i--;
+                            continue;
+                        }
+
+                        if (newItems[0].RowSpan == -1)
+                        {
+                            continue;
+                        }
+
+                        rows[i] = newItems[0];
+                        if(newItems.Length > 1)
+                        {
+                            i++;
+                            rows.Insert(i, newItems[1]);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        internal void DeleteRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
         {
             long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
+            var toRow = fromRow + noRows - 1;
             foreach (var c in _addresses.Keys)
             {
                 if (c >= fromCol && c <= toCol)
@@ -273,42 +372,39 @@ namespace OfficeOpenXml.Core.CellStore
                     }
 
                     var delete = (noRows << 20) | (noRows);
+                    long rowSpanTest = ((fromRow - 1) << 20) | (toRow - 1);
+                    var riTest = new RangeItem(rowSpanTest);
+                    var deleteTest = new RangeItem(delete);
+
                     for (int i = rowStartIndex; i < rows.Count; i++)
                     {
                         ri = rows[i];
                         var fromRowRangeItem = (int)(ri.RowSpan >> 20) + 1;
                         var toRowRangeItem = (int)(ri.RowSpan & 0xFFFFF) + 1;
 
-                        if (fromRowRangeItem >= fromRow)
+                        bool startAboveOrOnRangeItem = fromRowRangeItem >= fromRow;
+                        bool fromRowAboveOrOnEndOfRangeItem = toRowRangeItem >= fromRow;
+
+                        if (startAboveOrOnRangeItem)
                         {
-                            if (fromRowRangeItem >= fromRow && toRowRangeItem <= fromRow + noRows)
+                            if (fromRowRangeItem >= fromRow && toRowRangeItem <= toRow)
                             {
                                 rows.RemoveAt(i--);
                                 continue;
                             }
-                            else if (fromRowRangeItem >= fromRow + noRows)
+                            else if (fromRowRangeItem >= toRow)
                             {
-                                if (shiftRow)
-                                {
-                                    toRowRangeItem -= noRows;
-                                    fromRowRangeItem -= noRows;
-                                }
+
+                                fromRowRangeItem = Math.Max(fromRow, fromRowRangeItem - noRows);
+                                toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                             }
                             else
                             {
-                                if (shiftRow)
-                                {
-                                    fromRowRangeItem = Math.Max(fromRow, fromRowRangeItem - noRows);
-                                    toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
-                                }
-                                else
-                                {
-                                    fromRowRangeItem = Math.Max(fromRowRangeItem, fromRow + noRows + 1);
-                                    toRowRangeItem = Math.Max(toRowRangeItem, fromRow + noRows + 1);
-                                }
+                                fromRowRangeItem = Math.Max(fromRow, fromRowRangeItem - noRows);
+                                toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                             }
                         }
-                        else if (toRowRangeItem >= fromRow)
+                        else if (fromRowAboveOrOnEndOfRangeItem)
                         {
                             toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                         }

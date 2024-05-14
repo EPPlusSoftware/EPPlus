@@ -172,6 +172,10 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual((int)ePrevNextPivotItem.Previous, df.BaseItem);
 
             tbl.Calculate();
+
+            Assert.AreEqual(0D, tbl.CalculatedData.SelectField("NumValue", 2).GetValue("NumFormattedValue"));
+            Assert.AreEqual(33D, tbl.CalculatedData.SelectField("NumValue", 3).GetValue("NumFormattedValue"));
+            Assert.AreEqual(33D, tbl.CalculatedData.SelectField("NumValue", 100).GetValue("NumFormattedValue"));
         }
         [TestMethod]
         public void ShowAsPercentageDifference()
@@ -193,6 +197,10 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual((int)ePrevNextPivotItem.Previous, df.BaseItem);
 
             tbl.Calculate();
+
+            Assert.AreEqual(0D, tbl.CalculatedData.SelectField("NumValue", 2).GetValue("NumFormattedValue"));
+            Assert.AreEqual(0.5, tbl.CalculatedData.SelectField("NumValue", 3).GetValue("NumFormattedValue"));
+            Assert.AreEqual(0.010101D, (double)tbl.CalculatedData.SelectField("NumValue", 100).GetValue("NumFormattedValue"), 0.00001);
         }
 
         [TestMethod]
