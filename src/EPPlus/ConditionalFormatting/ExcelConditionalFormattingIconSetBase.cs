@@ -15,6 +15,7 @@ using System;
 using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -158,7 +159,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             icon.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
             if (icon.Type != eExcelConditionalFormattingValueObjectType.Formula)
             {
-                icon.Value = double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
+                var iconValue = xr.GetAttribute("val");
+                if(iconValue.IsNumeric())
+                {
+                    icon.Value = double.Parse(iconValue, CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    icon.Formula = iconValue;
+                }
             }
             else
             {
