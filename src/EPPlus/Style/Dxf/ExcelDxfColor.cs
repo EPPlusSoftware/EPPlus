@@ -238,7 +238,7 @@ namespace OfficeOpenXml.Style.Dxf
             throw new NotImplementedException();
         }
 
-        internal Color GetColorAsColor()
+        internal Color GetColorAsColor(bool whiteAsDefault = false)
         {
             if (Index != null)
             {
@@ -257,6 +257,10 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
                 return Utils.ColorConverter.GetThemeColor(themeColor);
+            }
+            else if(whiteAsDefault)
+            {
+                return System.Drawing.Color.White;
             }
 
             return System.Drawing.Color.Empty;

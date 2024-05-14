@@ -647,47 +647,50 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private bool ExistsValueInTable(int[] key, List<int> keyFieldIndex, int dfIx)
 		{
-            var colFieldStart = RowFields.Count;
-            for (int ix = 0; ix < keyFieldIndex.Count; ix++)
-            {
-                var field = Fields[keyFieldIndex[ix]];
-                if(ix < colFieldStart)
-                {
-                    if (field.Grouping == null)
-                    {
-                        if (_rowItems[dfIx].Contains(key[ix]) == false)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        var groupKey = PivotKeyUtil.GetKeyPart(key, 0, colFieldStart-1);
-                        if(CalculatedItems[dfIx].ContainsKey(groupKey)==false)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                else
-                {
-                    if (field.Grouping == null)
-                    {
-                        if (_colItems[dfIx].Contains(key[ix]) == false)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        var groupKey = PivotKeyUtil.GetKeyPart(key, colFieldStart, ix);
-                        if (CalculatedItems[dfIx].ContainsKey(groupKey) == false)
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
+            var rowKey = PivotKeyUtil.GetRowTotalKey(key, RowFields.Count);
+            var colKey = PivotKeyUtil.GetColumnTotalKey(key, RowFields.Count);
+            return CalculatedItems[dfIx].ContainsKey(rowKey) &&  CalculatedItems[dfIx].ContainsKey(colKey);
+            //var colFieldStart = RowFields.Count;
+            //for (int ix = 0; ix < keyFieldIndex.Count; ix++)
+            //{
+            //    var field = Fields[keyFieldIndex[ix]];
+            //    if(ix < colFieldStart)
+            //    {
+            //        if (field.Grouping == null)
+            //        {
+            //            if (_rowItems[dfIx].Contains(key[ix]) == false)
+            //            {
+            //                return false;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            var groupKey = PivotKeyUtil.GetKeyPart(key, 0, colFieldStart-1);
+            //            if(CalculatedItems[dfIx].ContainsKey(groupKey)==false)
+            //            {
+            //                return false;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (field.Grouping == null)
+            //        {
+            //            if (_colItems[dfIx].Contains(key[ix]) == false)
+            //            {
+            //                return false;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            var groupKey = PivotKeyUtil.GetKeyPart(key, colFieldStart, ix);
+            //            if (CalculatedItems[dfIx].ContainsKey(groupKey) == false)
+            //            {
+            //                return false;
+            //            }
+            //        }
+            //    }
+            //}
             return true;
         }
 

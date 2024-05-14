@@ -13,7 +13,10 @@
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
+using System.Collections.Generic;
+using OfficeOpenXml.ConditionalFormatting;
 #if !NET35
 using System.Threading.Tasks;
 #endif
@@ -35,6 +38,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         private TranslatorBase strategy;
 
         internal bool SharedIconSetRuleAdded = false;
+        internal bool SharedDatabarRulesAdded = false;
+
+        internal HashSet<eExcelconditionalFormattingCustomIcon> AddedIcons = new HashSet<eExcelconditionalFormattingCustomIcon>();
+
 
         public TranslatorContext(HtmlRangeExportSettings settings) 
         {
