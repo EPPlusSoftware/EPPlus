@@ -1385,6 +1385,7 @@ namespace OfficeOpenXml.Drawing
         private void CopyControl(ExcelWorksheet worksheet)
         {
             var control = this as ExcelControl;
+            WorksheetCopyHelper.CopyVmlDrawing(_drawings.Worksheet, worksheet);
             WorksheetCopyHelper.CopyControl(worksheet._package, worksheet, control);
         }
 

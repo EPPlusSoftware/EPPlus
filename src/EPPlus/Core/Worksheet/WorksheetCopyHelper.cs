@@ -553,7 +553,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void CopyVmlDrawing(ExcelWorksheet origSheet, ExcelWorksheet newSheet)
+        internal static void CopyVmlDrawing(ExcelWorksheet origSheet, ExcelWorksheet newSheet)
         {
             var xml = origSheet.VmlDrawings.VmlDrawingXml.OuterXml;
             var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetId), UriKind.Relative);
