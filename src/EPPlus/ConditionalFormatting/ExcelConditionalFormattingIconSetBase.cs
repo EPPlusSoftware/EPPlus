@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -160,9 +161,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             if (icon.Type != eExcelConditionalFormattingValueObjectType.Formula)
             {
                 var iconValue = xr.GetAttribute("val");
-                if(iconValue.IsNumeric())
+
+                if(ConvertUtil.TryParseNumericString(iconValue, out double numValue))
                 {
-                    icon.Value = double.Parse(iconValue, CultureInfo.InvariantCulture);
+                    icon.Value = numValue;
                 }
                 else
                 {
