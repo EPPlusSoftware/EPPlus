@@ -20,6 +20,10 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 		internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
 		{
 			CalculateRunningTotal(df, fieldIndex, ref calculatedItems, true);
+            if (_bf < 0)
+            {
+                return;
+            }
             foreach (var key in calculatedItems.Index.OrderBy(x => x.Key, ArrayComparer.Instance))
             {
                 if (IsSumBefore(key.Key, _bf, fieldIndex, _colFieldsStart))
