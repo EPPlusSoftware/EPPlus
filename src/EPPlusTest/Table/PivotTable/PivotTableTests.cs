@@ -808,104 +808,254 @@ namespace EPPlusTest.Table.PivotTable
             }
         }
 
-        //[TestMethod]
-        //public void TestAll()
-        //{
-        //    using (var p = OpenPackage("SwimmersPivotData.xlsx", true))
-        //    {
-        //        var sheet = p.Workbook.Worksheets.Add("DataSheet");
+        void SetShowDataAs(eShowDataAs showAs, ExcelPivotTableDataField dt, ExcelPivotTableField compareField, ePrevNextPivotItem item)
+        {
+            switch (showAs)
+            {
+                case eShowDataAs.Difference:
+                    dt.ShowDataAs.SetDifference(compareField, ePrevNextPivotItem.Previous);
+                    break;
+                case eShowDataAs.Index:
+                    dt.ShowDataAs.SetIndex();
+                    break;
+                case eShowDataAs.Normal:
+                    dt.ShowDataAs.SetNormal();
+                    break;
+                case eShowDataAs.Percent:
+                    dt.ShowDataAs.SetPercent(compareField, ePrevNextPivotItem.Next);
+                    break;
+                case eShowDataAs.PercentDifference:
+                    dt.ShowDataAs.SetPercentageDifference(compareField, ePrevNextPivotItem.Next);
+                    break;
+                case eShowDataAs.PercentOfColumn:
+                    dt.ShowDataAs.SetPercentOfColumn();
+                    break;
+                case eShowDataAs.PercentOfRow:
+                    dt.ShowDataAs.SetPercentOfRow();
+                    break;
+                case eShowDataAs.PercentOfTotal:
+                    dt.ShowDataAs.SetPercentOfTotal();
+                    break;
+                case eShowDataAs.RunningTotal:
+                    dt.ShowDataAs.SetPercentOfRunningTotal(compareField);
+                    break;
+                case eShowDataAs.PercentOfParentRow:
+                    dt.ShowDataAs.SetPercentParentRow();
+                    break;
+                case eShowDataAs.PercentOfParentColumn:
+                    dt.ShowDataAs.SetPercentParentColumn();
+                    break;
+                case eShowDataAs.PercentOfParent:
+                    dt.ShowDataAs.SetPercentParent(compareField);
+                    break;
+                case eShowDataAs.RankAscending:
+                    dt.ShowDataAs.SetRankAscending(compareField);
+                    break;
+                case eShowDataAs.RankDescending:
+                    dt.ShowDataAs.SetRankDescending(compareField);
+                    break;
+                case eShowDataAs.PercentOfRunningTotal:
+                    dt.ShowDataAs.SetPercentOfRunningTotal(compareField);
+                    break;
+            }
+        }
 
-        //        var table = sheet.Tables.Add(new ExcelAddress("A1:D5"), "TestTable");
-        //        table.ShowHeader = true;
-        //        sheet.Cells["A1"].Value = "Names";
-        //        sheet.Cells["A2"].Value = "Michael Phelps";
-        //        sheet.Cells["A3"].Value = "Kristin Otto";
-        //        sheet.Cells["A4"].Value = "Aleksandr Popov";
-        //        sheet.Cells["A5"].Value = "Mark Spitz";
+        [TestMethod]
+        public void LackingColumnRowFieldsShouldThrowBetterException()
+        {
+            using (var p = OpenPackage("DivZeroShowValuesAs.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
 
-        //        sheet.Cells["B1"].Value = "Swim Length(m)";
-        //        sheet.Cells["B2"].Value = 200;
-        //        sheet.Cells["B3"].Value = 300;
-        //        sheet.Cells["B4"].Value = 100;
-        //        sheet.Cells["B5"].Value = 500;
+                var table = sheet.Tables.Add(new ExcelAddress("A1:B5"), "TestTable");
+                table.ShowHeader = true;
 
-        //        sheet.Cells["C1"].Value = "Time(s)";
-        //        sheet.Cells["C2"].Value = 120;
-        //        sheet.Cells["C3"].Value = 150;
-        //        sheet.Cells["C4"].Value = 90;
-        //        sheet.Cells["C5"].Value = 3500;
+                sheet.Cells["A1"].Value = "Space";
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 10;
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["A5"].Value = 27;
 
-        //        sheet.Cells["D1"].Value = "Age(yrs)";
-        //        sheet.Cells["D2"].Formula = "2024-1985";
-        //        sheet.Cells["D3"].Formula = "2024-1966";
-        //        sheet.Cells["D4"].Formula = "2024-1971";
-        //        sheet.Cells["D5"].Formula = "2024-1950";
+                sheet.Cells["B1"].Value = "Time";
+                sheet.Cells["B2"].Value = 120;
+                sheet.Cells["B3"].Value = 150;
+                sheet.Cells["B4"].Value = 90;
+                sheet.Cells["B5"].Value = 3500;
 
-        //        var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
 
-        //        var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "SwimmerPivotTable");
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "Pivot1");
 
-        //        pt.RowFields.Add(pt.Fields["Names"]);
-        //        var age = pt.RowFields.Add(pt.Fields["Age(yrs)"]);
+                var dt = pt.DataFields.Add(pt.Fields["Time"]);
+                var field2 = pt.Fields["Space"];
 
-        //        var length = pt.DataFields.Add(pt.Fields["Swim Length(m)"]);
-        //        var dt = pt.DataFields.Add(pt.Fields["Time(s)"]);
+                //Technically adding this also adds a row field of values in excel.
+                //pt.DataFields.Add(field2);
 
-        //        pt.DataOnRows = false;
+                dt.ShowDataAs.SetRunningTotal(field2);
+                dt.Function = DataFieldFunctions.StdDev;
 
-        //        var functionValues = Enum.GetValues(typeof(DataFieldFunctions));
-        //        var showAsValues = Enum.GetValues(typeof(eShowDataAs));
+                //Comment out to see result in excel
+                pt.Calculate(true);
 
-        //        //ptWs.Cells["A3"].Value = "something's fishy";
+                SaveAndCleanup(p);
+            }
+        }
 
-        //        //pt.Calculate(true);
-        //        //ptWs.Calculate();
+        [TestMethod]
+        public void RunningTotalDivisonByZeroStdDev()
+        {
+            using (var p = OpenPackage("DivZeroShowValuesAsOther.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
 
-        //        for(int h = 0; h < showAsValues.Length; h++)
-        //        {
-        //            //dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
-        //            //var currentShow = dt.ShowDataAs;
-        //            switch (h)
-        //            {
-        //                case 0:
-        //                    dt.ShowDataAs.SetDifference(age, ePrevNextPivotItem.Previous);
-        //                    break;
-        //                case 1:
-        //                    dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
-        //                    break;
-        //                case 2:
-        //                    dt.ShowDataAsInternal = (eShowDataAs)showAsValues.GetValue(h);
-        //                    break;
-        //                case 3:
+                var table = sheet.Tables.Add(new ExcelAddress("A1:D5"), "TestTable");
+                table.ShowHeader = true;
+                sheet.Cells["A1"].Value = "Names";
+                sheet.Cells["A2"].Value = "Michael Phelps";
+                sheet.Cells["A3"].Value = "Kristin Otto";
+                sheet.Cells["A4"].Value = "Aleksandr Popov";
+                sheet.Cells["A5"].Value = "Mark Spitz";
 
-        //            }
-                    
+                sheet.Cells["B1"].Value = "Swim Length(m)";
+                sheet.Cells["B2"].Value = 200;
+                sheet.Cells["B3"].Value = 300;
+                sheet.Cells["B4"].Value = 100;
+                sheet.Cells["B5"].Value = 500;
 
-        //            for (int i = 0; i < functionValues.Length; i++)
-        //            {
-        //                dt.Function = (DataFieldFunctions)functionValues.GetValue(i);
-        //                pt.Calculate(true);
-        //                ptWs.Calculate();
+                sheet.Cells["C1"].Value = "Time(s)";
+                sheet.Cells["C2"].Value = 120;
+                sheet.Cells["C3"].Value = 150;
+                sheet.Cells["C4"].Value = 90;
+                sheet.Cells["C5"].Value = 3500;
 
-        //                var addresses = pt.CalculatedItems[1].Index;
-        //                var values = pt.CalculatedItems[1].Values;
+                sheet.Cells["D1"].Value = "Age(yrs)";
+                sheet.Cells["D2"].Formula = "2024-1985";
+                sheet.Cells["D3"].Formula = "2024-1966";
+                sheet.Cells["D4"].Formula = "2024-1971";
+                sheet.Cells["D5"].Formula = "2024-1950";
 
-        //                var range = pt.Address;
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
 
-        //                var num = 5 + 1 * (i + 1);
-        //                //var destinationRange = ptWs.Cells[1, 5 + 4 * i, 11, 8 + 4 * i];
-        //                for (int j = 0; j < values.Count; j++)
-        //                {
-        //                    ptWs.Cells[(j + 1) + 10 * h, num].Value = values[j];
-        //                }
-        //                //range.Copy(destinationRange);
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "SwimmerPivotTable");
 
-        //                //var val = ptWs.Cells["E3"].Value;
-        //            }
-        //        }
+                pt.RowFields.Add(pt.Fields["Names"]);
+                var age = pt.RowFields.Add(pt.Fields["Age(yrs)"]);
 
-        //        SaveAndCleanup(p);
-        //    }
-        //}
+                var length = pt.DataFields.Add(pt.Fields["Swim Length(m)"]);
+                var dt = pt.DataFields.Add(pt.Fields["Time(s)"]);
+
+                pt.DataOnRows = false;
+
+                sheet.Calculate();
+                ptWs.Calculate();
+
+                //Setting running total and then setting normal causes the issue
+                //As basefield becomes 0
+                dt.ShowDataAs.SetPercentOfRunningTotal(age);
+                dt.ShowDataAs.SetNormal();
+
+                dt.Function = DataFieldFunctions.StdDev;
+
+                pt.Calculate(true);
+                ptWs.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void TestAllDatafieldsWithAllShowDataOptions()
+        {
+            using (var p = OpenPackage("SwimmersPivotData.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:D5"), "TestTable");
+                table.ShowHeader = true;
+                sheet.Cells["A1"].Value = "Names";
+                sheet.Cells["A2"].Value = "Michael Phelps";
+                sheet.Cells["A3"].Value = "Kristin Otto";
+                sheet.Cells["A4"].Value = "Aleksandr Popov";
+                sheet.Cells["A5"].Value = "Mark Spitz";
+
+                sheet.Cells["B1"].Value = "Swim Length(m)";
+                sheet.Cells["B2"].Value = 200;
+                sheet.Cells["B3"].Value = 300;
+                sheet.Cells["B4"].Value = 100;
+                sheet.Cells["B5"].Value = 500;
+
+                sheet.Cells["C1"].Value = "Time(s)";
+                sheet.Cells["C2"].Value = 120;
+                sheet.Cells["C3"].Value = 150;
+                sheet.Cells["C4"].Value = 90;
+                sheet.Cells["C5"].Value = 3500;
+
+                sheet.Cells["D1"].Value = "Age(yrs)";
+                sheet.Cells["D2"].Formula = "2024-1985";
+                sheet.Cells["D3"].Formula = "2024-1966";
+                sheet.Cells["D4"].Formula = "2024-1971";
+                sheet.Cells["D5"].Formula = "2024-1950";
+
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "SwimmerPivotTable");
+
+                pt.RowFields.Add(pt.Fields["Names"]);
+                var age = pt.RowFields.Add(pt.Fields["Age(yrs)"]);
+
+                var length = pt.DataFields.Add(pt.Fields["Swim Length(m)"]);
+                var dt = pt.DataFields.Add(pt.Fields["Time(s)"]);
+
+                pt.DataOnRows = false;
+
+                var functionValues = Enum.GetValues(typeof(DataFieldFunctions));
+                var showAsValues = Enum.GetValues(typeof(eShowDataAs));
+
+                for (int h = 0; h < showAsValues.Length; h++)
+                {
+                    var dataOption = (eShowDataAs)showAsValues.GetValue(h);
+
+                    if (Enum.IsDefined(typeof(eShowDataAs), h) == false)
+                    {
+                        throw new InvalidCastException($"eShowDataAs has no value that matches {h}");
+                    }
+
+                    SetShowDataAs(dataOption, dt, age, ePrevNextPivotItem.Previous);
+
+                    for (int i = 0; i < functionValues.Length; i++)
+                    {
+                        var tmpFunction = (DataFieldFunctions)functionValues.GetValue(i);
+
+                        if (Enum.IsDefined(typeof(DataFieldFunctions), i) == false)
+                        {
+                            throw new InvalidCastException($"DataFieldFunctions has no value that matches {i}");
+                        }
+
+                        dt.Function = tmpFunction;
+
+                        pt.Calculate(true);
+                        ptWs.Calculate();
+
+                        var addresses = pt.CalculatedItems[1].Index;
+                        var values = pt.CalculatedItems[1].Values;
+
+                        var range = pt.Address;
+
+                        var num = 5 + 1 * (i + 1);
+                        //var destinationRange = ptWs.Cells[1, 5 + 4 * i, 11, 8 + 4 * i];
+                        for (int j = 0; j < values.Count; j++)
+                        {
+                            ptWs.Cells[(j + 1) + 10 * h, num].Value = values[j];
+                        }
+                        //range.Copy(destinationRange);
+
+                        //var val = ptWs.Cells["E3"].Value;
+                    }
+                }
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
