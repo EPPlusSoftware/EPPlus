@@ -624,7 +624,7 @@ namespace OfficeOpenXml.Core.Worksheet
             CopyVmlRelations(Copy, added);
         }
 
-        private static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
+        internal static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             if (Copy._vmlDrawings.Part == null) return;
             foreach (var r in Copy._vmlDrawings.Part.GetRelationships())

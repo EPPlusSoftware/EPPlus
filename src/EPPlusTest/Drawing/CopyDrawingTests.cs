@@ -58,6 +58,8 @@ namespace EPPlusTest.Drawing
             var ws2 = p.Workbook.Worksheets[2];
             var ws1 = p.Workbook.Worksheets[1];
             ws1.Drawings[1].Copy(ws2, 20, 1);
+            //ws1.Drawings[2].Copy(ws2, 40, 1);
+            //ws1.Drawings[1].Copy(ws2, 50, 1);
             SaveAndCleanup(p);
         }
 

@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Style.XmlAccess;
@@ -1332,7 +1333,8 @@ namespace OfficeOpenXml.Drawing
 
         public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = 0, int colOffset = 0)
         {
-            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+            var isAltContent = this is ExcelControl ? true : false;
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, isAltContent);
             drawNode.InnerXml = TopNode.InnerXml;
             //create relation
             if (worksheet._drawings!=_drawings)
@@ -1350,9 +1352,8 @@ namespace OfficeOpenXml.Drawing
                     case eDrawingType.Slicer:
                         break;
                     case eDrawingType.Control:
-                        //Måste skapa xml på nått sätt som nuvarande drawnode inte gör...
-                        CopyControl(worksheet);
-                        break;
+                        CopyControl(worksheet, drawNode, row, col, rowOffset, colOffset);
+                        return;
                     case eDrawingType.GroupShape:
                         break;
                 }
@@ -1382,11 +1383,39 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        private void CopyControl(ExcelWorksheet worksheet)
+        private void CopyControl(ExcelWorksheet worksheet, XmlNode drawNode, int row, int col, int rowOffset, int colOffset)
         {
-            var control = this as ExcelControl;
-            WorksheetCopyHelper.CopyVmlDrawing(_drawings.Worksheet, worksheet);
+            var control = this as ExcelControl; //<- allt finns här typ i _control
+            var controlId = worksheet._nextControlId++.ToString();
+
+            //Update DrawNode Id
+            var drawIdNode = drawNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", worksheet.NameSpaceManager);
+            drawIdNode.Attributes["id"].Value = controlId;
+            var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", worksheet.NameSpaceManager);
+            drawSpIdNode.Attributes["spid"].Value = "_x0000_s" + controlId;
+
+            //Create worksheet node
+            XmlNode ctrlNode = worksheet.CreateControlContainerNode();
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);   //Make sure the namespace exists
+            ctrlNode.InnerXml = control._control.TopNode.ParentNode.InnerXml; //control.GetControlStartWorksheetXml(control._control.RelationshipId);
+            ctrlNode.FirstChild.Attributes["shapeId"].Value = controlId;
             WorksheetCopyHelper.CopyControl(worksheet._package, worksheet, control);
+            //Create vml
+            //Create spid
+            worksheet.VmlDrawings.AddControl(control, control.LegacySpId);
+            var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
+            vmlId.Attributes["spid"].Value = "_x0000_s" + controlId;
+
+            var copy = GetDrawing(worksheet._drawings, drawNode);
+            worksheet._drawings.AddDrawingInternal(copy);
+            copy.EditAs = ExcelControl.GetControlEditAs(control.ControlType);
+            var width = GetPixelWidth();
+            var height = GetPixelHeight();
+            copy.SetPixelWidth(width);
+            copy.SetPixelHeight(height);
+            copy.SetPosition(row, rowOffset, col, colOffset);
         }
 
         private void CopyChart(ExcelWorksheet worksheet, XmlNode drawNode, int row, int col, int rowOffset, int colOffset)
