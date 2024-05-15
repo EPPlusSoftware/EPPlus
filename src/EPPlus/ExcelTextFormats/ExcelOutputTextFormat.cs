@@ -57,11 +57,6 @@ namespace OfficeOpenXml
         /// </summary>
         public string Footer { get; set; }
         /// <summary>
-        /// First row of the range contains the headers.
-        /// All header cells will be treated as strings.
-        /// </summary>
-        public bool FirstRowIsHeader { get; set; } = true;
-        /// <summary>
         /// Use the cells Text property with the applied culture.
         /// This only applies to columns with no format set in the Formats collection.
         /// If SkipLinesBeginning is larger than zero, headers will still be read from the first row in the range.

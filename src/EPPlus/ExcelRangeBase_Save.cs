@@ -21,9 +21,6 @@ using System.Collections.Generic;
 using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.Export.ToCollection;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Export.ToCollection.Exceptions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 
 #if !NET35 && !NET40
