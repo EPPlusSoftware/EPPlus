@@ -28,7 +28,6 @@ namespace OfficeOpenXml.ConditionalFormatting
     public class ExcelConditionalFormattingIconDataBarValue
     {
         private eExcelConditionalFormattingRuleType _ruleType;
-        ExcelConditionalFormattingRule _rule;
 
         internal bool HasValueOrFormula
         {

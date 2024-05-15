@@ -315,10 +315,10 @@ namespace OfficeOpenXml.Core.Worksheet
         internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress, ExcelAddressBase effectedAddressTable, bool insert)
         {
             //Validate autofilter
-            if (range.Worksheet.AutoFilterAddress!=null && 
-                effectedAddress.Collide(range.Worksheet.AutoFilterAddress) == ExcelAddressBase.eAddressCollition.Partly 
+            if (range.Worksheet.AutoFilter.Address!=null && 
+                effectedAddress.Collide(range.Worksheet.AutoFilter.Address) == ExcelAddressBase.eAddressCollition.Partly 
                     &&
-                    range.Worksheet.AutoFilterAddress.CollideFullRowOrColumn(range) == false)
+                    range.Worksheet.AutoFilter.Address.CollideFullRowOrColumn(range) == false)
             {
                 throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with the worksheets autofilter.");
             }
