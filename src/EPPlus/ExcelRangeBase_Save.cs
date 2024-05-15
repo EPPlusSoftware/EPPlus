@@ -516,7 +516,7 @@ namespace OfficeOpenXml
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                SaveToText(ms, Format);
+                await SaveToTextAsync(ms, Format);
                 ms.Position = 0;
                 var sr = new StreamReader(ms);
                 return sr.ReadToEnd();
@@ -549,7 +549,7 @@ namespace OfficeOpenXml
             if (Format == null) Format = new ExcelOutputTextFormatFixedWidth();
             if (Format.Columns == null) throw new ArgumentNullException("Format.ColumnFormat: Set ColumnFormat.Length or ColumnFormat.Position");
             var sw = new StreamWriter(stream, Format.Encoding);
-            if (!string.IsNullOrEmpty(Format.Header)) sw.Write(Format.Header + Format.EOL);
+            if (!string.IsNullOrEmpty(Format.Header)) await sw.WriteAsync(Format.Header + Format.EOL);
             int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
 
             var skipLinesBegining = Format.SkipLinesBeginning + (Format.ExcludeHeader ? 1 : 0);

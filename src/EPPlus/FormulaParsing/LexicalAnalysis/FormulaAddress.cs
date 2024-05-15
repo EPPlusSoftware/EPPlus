@@ -771,7 +771,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             return new ExcelAddressBase(WorksheetName, FromRow, FromCol, ToRow, ToCol);
         }
-
+        /// <summary>
+        /// Compare to
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public int CompareTo(FormulaRangeAddress other)
         {
             if(FromRow < other.FromRow)
@@ -795,6 +799,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return 0;
             }
         }
+        /// <summary>
+        /// Clone
+        /// </summary>
+        /// <returns></returns>
         public virtual FormulaRangeAddress Clone()
         {
             return new FormulaRangeAddress(_context)
@@ -898,15 +906,29 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return ri;
             }
         }
-
+        /// <summary>
+        /// Address
+        /// </summary>
         public FormulaRangeAddress Address => this;
     }
+    /// <summary>
+    /// Formula table address
+    /// </summary>
     public class FormulaTableAddress : FormulaRangeAddress
     {
+        /// <summary>
+        /// Formula table address constructor
+        /// </summary>
+        /// <param name="ctx"></param>
         public FormulaTableAddress(ParsingContext ctx) : base(ctx)
         {
             
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="tableAddress"></param>
         public FormulaTableAddress(ParsingContext ctx, string tableAddress) : base(ctx)
         {
             foreach (var t in SourceCodeTokenizer.Default.Tokenize(tableAddress))
@@ -941,6 +963,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             SetTableAddress(ctx.Package);
         }
+        /// <summary>
+        /// Names
+        /// </summary>
         public string TableName = "", ColumnName1 = "", ColumnName2 = "", TablePart1 = "", TablePart2="";
         internal void SetTableAddress(ExcelPackage package)
         {
