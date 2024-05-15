@@ -63,7 +63,12 @@ namespace OfficeOpenXml.FormulaParsing
         {
             
         }
-
+        /// <summary>
+        /// Get named value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="worksheet"></param>
+        /// <returns></returns>
         public object GetNamedValue(string key, string worksheet)
         {
             return null;

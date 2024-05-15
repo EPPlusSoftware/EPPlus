@@ -32,21 +32,30 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _ws = ws;
             _values = values;
         }
+        /// <summary>
+        /// Address
+        /// </summary>
         public string Address
         {
             get { return _values.CellAddress; }
         }
-
+        /// <summary>
+        /// Row
+        /// </summary>
         public int Row
         {
             get { return _values.Row; }
         }
-
+        /// <summary>
+        /// Column
+        /// </summary>
         public int Column
         {
             get { return _values.Column; }
         }
-
+        /// <summary>
+        /// Formula
+        /// </summary>
         public string Formula
         {
             get
@@ -54,7 +63,9 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return _ws.GetFormula(_values.Row, _values.Column);
             }
         }
-
+        /// <summary>
+        /// Value
+        /// </summary>
         public object Value
         {
             get
@@ -69,15 +80,23 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 }
             }
         }
-
+        /// <summary>
+        /// Value double
+        /// </summary>
         public double ValueDouble
         {
             get { return ConvertUtil.GetValueDouble(_values.Value._value, true); }
         }
+        /// <summary>
+        /// Value double logical
+        /// </summary>
         public double ValueDoubleLogical
         {
             get { return ConvertUtil.GetValueDouble(_values.Value._value, false); }
         }
+        /// <summary>
+        /// Is hidden row
+        /// </summary>
         public bool IsHiddenRow
         {
             get

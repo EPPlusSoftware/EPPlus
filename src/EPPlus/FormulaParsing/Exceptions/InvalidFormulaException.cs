@@ -18,13 +18,25 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.Exceptions
 {
+    /// <summary>
+    /// Invalid formula exception
+    /// </summary>
     public class InvalidFormulaException : Exception
     {
+        /// <summary>
+        /// Invalid formula exception
+        /// </summary>
+        /// <param name="msg"></param>
         public InvalidFormulaException(string msg)
             : base( msg)
         {
 
         }
+        /// <summary>
+        /// Invalid formula exception inner exception
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="innerException"></param>
         public InvalidFormulaException(string msg, Exception innerException) 
             : base(msg, innerException)
         {

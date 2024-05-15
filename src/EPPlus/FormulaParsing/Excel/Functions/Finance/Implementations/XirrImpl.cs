@@ -7,19 +7,24 @@
  *************************************************************************************************
   05/20/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
-
-using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
+    /// <summary>
+    /// Xirr implementation
+    /// </summary>
     public static class XirrImpl
     {
-
+        /// <summary>
+        /// Get Xirr
+        /// </summary>
+        /// <param name="aValues"></param>
+        /// <param name="aDates"></param>
+        /// <param name="rGuessRate"></param>
+        /// <returns></returns>
         public static FinanceCalcResult<double> GetXirr(IEnumerable<double> aValues, IEnumerable<DateTime> aDates, double rGuessRate = 0.1)
         {
             if (aValues.Count() != aDates.Count()) return new FinanceCalcResult<double>(eErrorType.Value);

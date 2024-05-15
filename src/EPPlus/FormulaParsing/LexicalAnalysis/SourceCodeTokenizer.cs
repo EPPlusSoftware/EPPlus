@@ -10,6 +10,9 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
+    /// <summary>
+    /// Source code tokenizer
+    /// </summary>
     public class SourceCodeTokenizer : ISourceCodeTokenizer
     {
         private static readonly Dictionary<char, Token> _charAddressTokens = new Dictionary<char, Token>

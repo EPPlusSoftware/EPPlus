@@ -443,8 +443,17 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         ToColFixed = 0x8,
         All = 0xF,
     }
+    /// <summary>
+    /// Formula Cell address
+    /// </summary>
     public struct FormulaCellAddress
     {
+        /// <summary>
+        /// Constructor cell address
+        /// </summary>
+        /// <param name="wsIx"></param>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
         public FormulaCellAddress(int wsIx, int row, int column)
         {
             WorksheetIx = wsIx;
@@ -492,6 +501,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             } 
         }
     }
+    /// <summary>
+    /// Formula address base
+    /// </summary>
     public class FormulaAddressBase
     {
         /// <summary>
@@ -584,6 +596,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             FixedFlag |= fixedToRow ? FixedFlag.ToRowFixed : 0;
             FixedFlag |= fixedToCol ? FixedFlag.ToColFixed : 0;
         }
+        /// <summary>
+        /// Formula range address
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="address"></param>
         public FormulaRangeAddress(ParsingContext ctx, ExcelAddressBase address) : this(ctx)
         {
             FromRow = address._fromRow;
@@ -600,6 +617,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 WorksheetIx = ctx.GetWorksheetIndex(address.WorkSheetName);
             }
         }
+        /// <summary>
+        /// Formula range address
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="wsIx"></param>
+        /// <param name="fromRow"></param>
+        /// <param name="fromCol"></param>
+        /// <param name="toRow"></param>
+        /// <param name="toCol"></param>
         public FormulaRangeAddress(ParsingContext context,int wsIx, int fromRow, int fromCol, int toRow, int toCol) : this(context)
         {
             WorksheetIx= wsIx;
@@ -608,10 +634,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             ToRow = toRow;
             ToCol = toCol;
         }
-
+        /// <summary>
+        /// From row and column. To row and to column
+        /// </summary>
         public int FromRow, FromCol, ToRow, ToCol;
         internal FixedFlag FixedFlag;
-
+        /// <summary>
+        /// Is single cell
+        /// </summary>
         public bool IsSingleCell
         {
             get
@@ -619,6 +649,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return FromRow == ToRow && FromCol == ToCol;
             }
         }
+        /// <summary>
+        /// Empty
+        /// </summary>
         public static FormulaRangeAddress Empty
         {
             get { return new FormulaRangeAddress(); }

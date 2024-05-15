@@ -191,7 +191,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents a N/A error
         /// </summary>
         NAError = (ulong)1 << 41,
+        /// <summary>
+        /// Sinle quote
+        /// </summary>
         SingleQuote = (ulong)1 << 42,
+        /// <summary>
+        /// HashMark
+        /// </summary>
         HashMark = (ulong)1 << 43,
     }
 }

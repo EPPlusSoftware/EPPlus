@@ -89,7 +89,7 @@ namespace OfficeOpenXml
     }
     /// <summary>
     /// Settings for the ToCollection method.
-    /// <see cref="ExcelTable.ToCollection{T}()"/>
+    /// <see cref="OfficeOpenXml.Table.ExcelTable.ToCollection{T}()"/>
     /// </summary>
     public class ToCollectionTableOptions : ToCollectionOptions
     {

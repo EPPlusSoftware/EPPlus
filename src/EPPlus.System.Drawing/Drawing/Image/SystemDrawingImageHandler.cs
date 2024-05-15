@@ -50,7 +50,7 @@ namespace OfficeOpenXml.SystemDrawing.Image
         {
             try
             {
-                var bmp = new Bitmap(image);
+                Bitmap bmp = new Bitmap(image);
                 width = bmp.Width;
                 height = bmp.Height;
                 horizontalResolution = bmp.HorizontalResolution;

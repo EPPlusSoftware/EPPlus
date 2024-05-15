@@ -26,6 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         private Dictionary<int, string> _fieldIndexes = new Dictionary<int, string>();
         private readonly Dictionary<string, object> _items = new Dictionary<string, object>();
         private int _colIndex = 1;
+        /// <summary>
+        /// Get object at field
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
         public object this[string field]
         {
             get { return _items[field]; }

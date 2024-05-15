@@ -550,6 +550,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var obj = arguments[index].Value ?? string.Empty;
             return (bool)_argumentParsers.GetParser(DataType.Boolean).Parse(obj);
         }
+        /// <summary>
+        /// If the argument is a boolean value its value will be returned.
+        /// If the argument is an integer value, true will be returned if its
+        /// value is not 0, otherwise false.
+        /// fallback to ValueIfEmpty if datatype is empty
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="index"></param>
+        /// <param name="valueIfEmpty"></param>
+        /// <returns></returns>
         protected bool ArgToBool(IList<FunctionArgument> arguments, int index, bool valueIfEmpty)
         {
             if (arguments[index].DataType == DataType.Empty) return valueIfEmpty;
@@ -613,7 +623,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 throw new ExcelErrorValueException("An excel function error occurred", ExcelErrorValue.Create(errorType));
             }
         }
-
+        /// <summary>
+        /// Is numeric
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
 #if (!NET35)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -622,12 +636,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             if (val == null) return false;
             return (TypeCompat.IsPrimitive(val) || val is double || val is decimal || val is DateTime || val is TimeSpan);
         }
-
+        /// <summary>
+        /// Is bool
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         protected bool IsBool(object val)
         {
             return val is bool;
         }
-
+        /// <summary>
+        /// Is string
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="allowNullOrEmpty"></param>
+        /// <returns></returns>
         protected bool IsString(object val, bool allowNullOrEmpty = true)
         {
             if (!allowNullOrEmpty)
@@ -745,6 +768,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             validator.Validate(result);
             return new CompileResult(result, dataType);
         }
+        /// <summary>
+        /// Use this method to create a result to return from Excel functions.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="address"></param>
+        /// <returns></returns>
         protected CompileResult CreateResult(object result, DataType dataType, FormulaRangeAddress address)
         {
             var validator = _compileResultValidators.GetValidator(dataType);
@@ -763,6 +793,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             validator.Validate(result);
             return new DynamicArrayCompileResult(result, dataType);
         }
+        /// <summary>
+        /// Use this method to create a result to return from Excel functions.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="address"></param>
+        /// <returns></returns>
         protected CompileResult CreateDynamicArrayResult(object result, DataType dataType, FormulaRangeAddress address)
         {
             var validator = _compileResultValidators.GetValidator(dataType);
@@ -781,6 +818,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             validator.Validate(result);
             return new AddressCompileResult(result, dataType, result.IsInMemoryRange ? null : result.Address);
         }
+        /// <summary>
+        /// Use this method to create a result to return from Excel functions. 
+        /// </summary>
+        /// <param name="errorType"></param>
+        /// <returns></returns>
         protected CompileResult CreateResult(eErrorType errorType)
         {
             return CompileResult.GetErrorResult(errorType);
@@ -815,7 +857,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 err = ExcelErrorValue.Parse(cell.Value.ToString());
             }
         }
-
+        /// <summary>
+        /// Get result by object
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
         protected CompileResult GetResultByObject(object result)
         {
             if (IsNumeric(result))
