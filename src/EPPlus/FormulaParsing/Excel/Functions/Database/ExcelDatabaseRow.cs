@@ -18,6 +18,9 @@ using OfficeOpenXml.FormulaParsing.Excel.Operators;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
+    /// <summary>
+    /// Database row
+    /// </summary>
     public class ExcelDatabaseRow
     {
         private Dictionary<int, string> _fieldIndexes = new Dictionary<int, string>();
@@ -33,7 +36,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
                 _fieldIndexes[_colIndex++] = field;
             }
         }
-
+        /// <summary>
+        /// Fetch field from indexes then return that field from within the row
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public object this[int index]
         {
             get

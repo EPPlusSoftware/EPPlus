@@ -13,11 +13,21 @@
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Validates Excel function compile results
+    /// </summary>
     public abstract class CompileResultValidator
     {
+        /// <summary>
+        /// Validate object
+        /// </summary>
+        /// <param name="obj"></param>
         public abstract void Validate(object obj);
 
         private static CompileResultValidator _empty;
+        /// <summary>
+        /// Supply or create empty compile result validator
+        /// </summary>
         public static CompileResultValidator Empty
         {
             get { return _empty ?? (_empty = new EmptyCompileResultValidator()); }

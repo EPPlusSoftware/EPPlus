@@ -18,6 +18,9 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Parser factory for 
+    /// </summary>
     public class ArgumentParserFactory
     {
         public virtual ArgumentParser CreateArgumentParser(DataType dataType)

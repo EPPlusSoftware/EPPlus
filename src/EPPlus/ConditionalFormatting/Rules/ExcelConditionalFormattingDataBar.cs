@@ -426,9 +426,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        double _highest = double.NaN;
-        double _lowest = double.NaN;
-
         protected override void UpdateCellValueCache(bool asStrings = false, bool cacheOnlyNumeric = false)
         {
             base.UpdateCellValueCache();

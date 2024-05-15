@@ -18,8 +18,14 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
+    /// <summary>
+    /// Adress over a range
+    /// </summary>
     public class RangeAddress
     {
+        /// <summary>
+        /// Constructor for empty address
+        /// </summary>
         public RangeAddress()
         {
             Address = string.Empty;

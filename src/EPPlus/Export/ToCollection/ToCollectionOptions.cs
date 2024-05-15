@@ -57,7 +57,9 @@ namespace OfficeOpenXml
                 return new ToCollectionRangeOptions();
             }
         }
-
+        /// <summary>
+        /// If the data is transposed or not
+        /// </summary>
         public bool DataIsTransposed { get; set; } = false;
     }
     /// <summary>
