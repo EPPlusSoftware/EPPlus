@@ -206,8 +206,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         ExtractArray(tokens, i , out IRangeInfo rangInfo, parsingContext);
                         expressions.Add(i, new EnumerableExpression(rangInfo, parsingContext));
                         break;
+                    case TokenType.ParameterVariable:
+                        var variableFunction = stack.Peek() as VariableFunctionExpression;
+                        expressions.Add(i, new VariableExpression(t.Value, variableFunction));
+                        break;
                     case TokenType.StartFunctionArguments:
-                        var func = new FunctionExpression(t.Value, parsingContext, i);
+                        var isLet = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LET", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LET", StringComparison.OrdinalIgnoreCase) == 0);
+                        var func = isLet ? 
+                            new LetFunctionExpression(t.Value, parsingContext, i) :
+                            new FunctionExpression(t.Value, parsingContext, i);
                         expressions.Add(i, func);
                         if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
                         {

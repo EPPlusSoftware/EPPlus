@@ -43,6 +43,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             //    return _specialCompilers[funcType];
             //}
             //else 
+            //if (function.HandlesVariables)
+            //{
+            //    return new VariableFunctionCompiler(function);
+            //}
             if (
                 function.ArrayBehaviour == ExcelFunctionArrayBehaviour.Custom
                 ||

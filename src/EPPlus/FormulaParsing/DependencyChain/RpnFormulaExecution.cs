@@ -784,6 +784,19 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Decimal:
                     case TokenType.StringContent:
                     case TokenType.Array:
+                    case TokenType.ParameterVariable:
+                        s.Push(f._expressions[f._tokenIndex]);
+                        break;
+                        //var vFunc = f._funcStack.Peek() as VariableFunctionExpression;
+                        //if(vFunc != null)
+                        //{
+                        //    if (vFunc.NumberOfVariables > 1)
+                        //    {
+                        //        var val = s.Peek();
+                        //        var res = val.Compile();
+                        //        vFunc.AddVariableValue(res);
+                        //    }
+                        //}
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
                     case TokenType.Negator:                        

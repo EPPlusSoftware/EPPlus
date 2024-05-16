@@ -66,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return this;
         }
-        IList<CompileResult> _args=null;
+        protected IList<CompileResult> _args=null;
         internal Queue<FormulaRangeAddress> _dependencyAddresses = null;
         internal bool SetArguments(IList<CompileResult> argsResults)
         {

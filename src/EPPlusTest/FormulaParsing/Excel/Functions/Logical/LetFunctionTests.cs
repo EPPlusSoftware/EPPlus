@@ -21,6 +21,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["B6"].Value = 3;
             sheet.Cells["B7"].Value = 2;
             sheet.Calculate();
+            int i = 0;
         }
     }
 }
