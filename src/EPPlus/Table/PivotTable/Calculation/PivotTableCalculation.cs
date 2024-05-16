@@ -72,10 +72,11 @@ namespace OfficeOpenXml.Table.PivotTable
 				if (string.IsNullOrEmpty(df.Field.Cache.Formula))
 				{
 					CalculateField(pivotTable, calculatedItems[calculatedItems.Count - 1], keys, df.Field.Cache, df.Function);
+                    SetRowColumnsItemsToHashSets(pivotTable);
 
-					if (df.ShowDataAs.Value != eShowDataAs.Normal)
+                    if (df.ShowDataAs.Value != eShowDataAs.Normal)
 					{
-						_calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, ref dataFieldItems);
+						_calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, keys[dfIx], ref dataFieldItems);
 						calculatedItems[dfIx] = dataFieldItems;
 					}
 				}
@@ -85,7 +86,6 @@ namespace OfficeOpenXml.Table.PivotTable
 				}
 				dfIx++;
 			}
-            SetRowColumnsItemsToHashSets(pivotTable);
 
 			CalculateRowColumnSubtotals(pivotTable, keys);
 
@@ -157,25 +157,32 @@ namespace OfficeOpenXml.Table.PivotTable
             }		
         private static void SetRowColumnsItemsToHashSets(ExcelPivotTable pivotTable)
         {
-            var rowItems = new List<HashSet<int>>();
-            var colItems = new List<HashSet<int>>();
-			foreach (var dfCalcStore in pivotTable.CalculatedItems)
+			if (pivotTable._colItems != null) return;
+			var rowItems = new HashSet<int[]>(ArrayComparer.Instance);
+            var colItems = new HashSet<int[]>(ArrayComparer.Instance);
+			var rowLength = pivotTable.RowFields.Count;
+			var colLength = pivotTable.ColumnFields.Count;
+            foreach (var keyItem in pivotTable.CalculatedItems[0].Index)
 			{
-				for (int i = 0; i < pivotTable.RowColumnFieldIndicies.Count; i++)
+				if(rowLength>0)
 				{
-					var hs = new HashSet<int>();
-					hs.UnionWith(dfCalcStore.Index.Select(x => x.Key[i]));
-
-					if (i < pivotTable.RowFields.Count)
+					var rowKey = new int[rowLength];
+					Array.Copy(keyItem.Key,rowKey, rowLength);
+					if(!rowItems.Contains(rowKey))
 					{
-						rowItems.Add(hs);
+						rowItems.Add(rowKey);
 					}
-					else
+                }
+				if(colLength>0)
+				{
+                    var colKey = new int[colLength];
+					Array.Copy(keyItem.Key, rowLength, colKey, 0, colLength);
+					if (!colItems.Contains(colKey))
 					{
-						colItems.Add(hs);
+						colItems.Add(colKey);
 					}
-				}
-			}
+                }
+            }
             pivotTable._colItems = colItems;
             pivotTable._rowItems = rowItems;
         }

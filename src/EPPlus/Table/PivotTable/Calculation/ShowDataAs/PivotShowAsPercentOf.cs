@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal class PivotShowAsPercentOf : PivotShowAsBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems)
         {   
             var showAsCalculatedItems = PivotTableCalculation.GetNewCalculatedItems();
             var pt = df.Field.PivotTable;

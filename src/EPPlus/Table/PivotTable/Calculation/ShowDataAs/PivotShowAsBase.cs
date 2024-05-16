@@ -18,6 +18,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal abstract class PivotShowAsBase : PivotKeyUtil
     {
-        internal abstract void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems);
+        internal abstract void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems);
 	}
 }

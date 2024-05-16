@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal class PivotShowAsPercentOfGrandTotal : PivotShowAsBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems)
         {
             var totalKey = GetKey(fieldIndex.Count);            
             var t = calculatedItems[totalKey];

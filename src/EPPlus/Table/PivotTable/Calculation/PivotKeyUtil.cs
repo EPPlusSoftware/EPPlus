@@ -10,6 +10,7 @@
 *************************************************************************************************
  01/18/2024         EPPlus Software AB       EPPlus 7.2
 *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
 
@@ -139,6 +140,43 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 }
 			}
 			return newKey;
+        }
+
+        protected static int[] GetNextKeyFromKeys(HashSet<int[]> keysParent, int keyCol, int index)
+        {
+            int[] ret = null;
+			foreach(var k in keysParent)
+			{
+				if (k[keyCol] > index)
+				{
+					if (ret == null || ret[keyCol] > k[keyCol])
+					{
+						ret = k;
+					}
+				}
+			}
+			return ret;
+        }
+        protected static int[] GetPreviousKeyFromKeys(HashSet<int[]> keysParent, int keyCol, int index)
+        {
+            int[] ret = null;
+            foreach (var k in keysParent)
+            {
+                if (k[keyCol] < index)
+                {
+                    if (ret == null || ret[keyCol] < k[keyCol])
+                    {
+                        ret = k;
+                    }
+                }
+            }
+            return ret;
+        }
+        internal static bool ExistsValueInTable(int[] key, int colFieldStart, PivotCalculationStore calculatedItems)
+        {
+            var rowKey = PivotKeyUtil.GetRowTotalKey(key, colFieldStart);
+            var colKey = PivotKeyUtil.GetColumnTotalKey(key, colFieldStart);
+            return calculatedItems.ContainsKey(rowKey) && calculatedItems.ContainsKey(colKey);
         }
     }
 }

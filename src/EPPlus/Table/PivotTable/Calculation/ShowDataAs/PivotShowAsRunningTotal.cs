@@ -20,14 +20,19 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal class PivotShowAsRunningTotal : PivotShowAsBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems)
 		{
-			CalculateRunningTotal(df, fieldIndex, ref calculatedItems, false);
+			CalculateRunningTotal(df, fieldIndex, keys, ref calculatedItems, false);
 		}
 
-		internal static void CalculateRunningTotal(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems, bool leaveParentSum)
+		internal static void CalculateRunningTotal(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems, bool leaveParentSum)
 		{
 			var bf = fieldIndex.IndexOf(df.BaseField);
+			if(bf<0)
+			{
+				calculatedItems.SetAllValues(ErrorValues.NAError);
+				return;
+			}
 			var colFieldsStart = df.Field.PivotTable.RowFields.Count;
 			var keyCol = fieldIndex.IndexOf(df.BaseField);
 			var record = df.Field.PivotTable.CacheDefinition._cacheReference.Records;
@@ -79,5 +84,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 				}
 			}
 		}
-	}
+
+    }
 }

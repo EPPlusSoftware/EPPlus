@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
     internal abstract class PivotShowAsDifferenceBase : PivotShowAsBase
     {
-        protected void CalculateDifferenceShared(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems, Func<double, double, double> calcFunc)
+        protected void CalculateDifferenceShared(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems, Func<double, double, double> calcFunc)
         {
             var showAsCalculatedItems = PivotTableCalculation.GetNewCalculatedItems();
             var pt = df.Field.PivotTable;
@@ -32,11 +32,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 
             var isLowestGroupLevel = (keyCol == colStartIx - 1 || keyCol == fieldIndex.Count - 1); //If not lowest group key set value to 1 or 0 only.;
 
-            var currentKey = GetKey(fieldIndex.Count);
+            //var currentKey = GetKey(fieldIndex.Count);
             var lastIx = fieldIndex.Count - 1;
             var lastItemIx = pt.Fields[fieldIndex[lastIx]].Items.Count - 1;
-            while (currentKey[lastIx] < lastItemIx || currentKey[lastIx] == PivotCalculationStore.SumLevelValue)
+           
+            foreach(var currentKey in pt.GetTableKeys())
             {
+                var value = calculatedItems[currentKey];
                 if (currentKey[keyCol] == PivotCalculationStore.SumLevelValue)
                 {
                     showAsCalculatedItems.Add(currentKey, 0D);
@@ -52,64 +54,71 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                     }
                     else if (isLowestGroupLevel)
                     {
-                        if (biType < 0)
+                        tv[keyCol]=PivotCalculationStore.SumLevelValue;
+                        if (keys.TryGetValue(tv, out HashSet<int[]> keysParent))
                         {
-                            tv[keyCol] = tv[keyCol] == 0 ? 0 : tv[keyCol] - 1;
-                        }
-                        else if (biType > 0)
-                        {
-                            tv[keyCol] = tv[keyCol] == maxCol ? maxCol : tv[keyCol] + 1;
-                        }
-                    }
+                            if (biType < 0)
+                            {
+                                tv = PivotKeyUtil.GetPreviousKeyFromKeys(keysParent, keyCol, currentKey[keyCol]);
 
-                    if (calculatedItems.TryGetValue(currentKey, out object o))
-                    {
-                        if (o is double d)
-                        {
-                            if (calculatedItems.TryGetValue(tv, out object to))
-                            {
-                                if (to is double td)
-                                {
-                                    showAsCalculatedItems.Add(currentKey, calcFunc(d, td));
-                                }
-                                else
-                                {
-                                    showAsCalculatedItems.Add(currentKey, 0D);
-                                }
                             }
-                            else
+                            else if (biType > 0)
                             {
-                                if (isLowestGroupLevel)
-                                {
-                                    showAsCalculatedItems.Add(currentKey, 0D);
-                                }
-                                else
-                                {
-                                    showAsCalculatedItems.Add(currentKey, 1D);
-                                }
+                                tv = PivotKeyUtil.GetNextKeyFromKeys(keysParent, keyCol, currentKey[keyCol]);
+                            }
+                            if (tv == null)
+                            {
+                                showAsCalculatedItems.Add(currentKey, 0D);
+                                continue;
                             }
                         }
                         else
                         {
-                            if (biType == 0)
+                            showAsCalculatedItems.Add(currentKey, 0D);
+                            continue;
+                        }
+                    }
+                    if (value is double d)
+                    {
+                        if (calculatedItems.TryGetValue(tv, out object to))
+                        {
+                            if (to is double td)
                             {
-                                showAsCalculatedItems.Add(currentKey, o);
+                                showAsCalculatedItems.Add(currentKey, calcFunc(d, td));
                             }
                             else
                             {
-                                showAsCalculatedItems.Add(currentKey, o);
+                                showAsCalculatedItems.Add(currentKey, 0D);
+                            }
+                        }
+                        else
+                        {
+                            if (ExistsValueInTable(tv, colStartIx, calculatedItems))
+                            {
+                                showAsCalculatedItems.Add(currentKey, calcFunc(d, 0));
+                            }
+                            else
+                            {
+                                showAsCalculatedItems.Add(currentKey, 0D);
                             }
                         }
                     }
                     else
                     {
-                        if (ArrayComparer.IsEqual(currentKey, tv))
+                        if (calculatedItems.TryGetValue(tv, out object to))
                         {
-                            showAsCalculatedItems.Add(currentKey, 0D);
+                            if (to is double td)
+                            {
+                                showAsCalculatedItems.Add(currentKey, calcFunc(0, td));
+                            }
+                            else
+                            {
+                                showAsCalculatedItems.Add(currentKey, 0D);
+                            }
                         }
                         else
                         {
-                            showAsCalculatedItems.Add(currentKey, ErrorValues.NullError);
+                            showAsCalculatedItems.Add(currentKey, 0D);
                         }
                     }
                 }
@@ -124,26 +133,11 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                         showAsCalculatedItems.Add(currentKey, 0);
                     }
                 }
-                if (NextKey(ref currentKey, pt, fieldIndex) == false) break;
             }
 
             calculatedItems = showAsCalculatedItems;
         }
 
-        private bool NextKey(ref int[] currentKey, ExcelPivotTable pt, List<int> fieldIndex)
-        {
-            currentKey = (int[])currentKey.Clone();
-            int i = 0;
-            currentKey[i] = (currentKey[i] == PivotCalculationStore.SumLevelValue ? 0 : currentKey[i] + 1);
-            while (currentKey[i] == pt.Fields[fieldIndex[i]].Items.Count - 1)
-            {
-                currentKey[i] = PivotCalculationStore.SumLevelValue;
-                i++;
-                if (i == currentKey.Length) return false;
-                currentKey[i] = (currentKey[i] == PivotCalculationStore.SumLevelValue ? 0 : currentKey[i] + 1);
-            }
-            return true;
-        }
 
         private bool IsSameLevelAs(int[] key, bool isRowField, int baseLevel, int keyCol, ExcelPivotTableDataField df)
         {
@@ -174,20 +168,20 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
     }
     internal class PivotShowAsDifference : PivotShowAsDifferenceBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems)
         {
-            CalculateDifferenceShared(df, fieldIndex, ref calculatedItems, CalcDifference);
+            CalculateDifferenceShared(df, fieldIndex, keys, ref calculatedItems, CalcDifference);
         }
         private double CalcDifference(double value, double prevValue)
         {
-            return value- prevValue;
+            return value - prevValue;
         }
     }
     internal class PivotShowAsDifferencePercent : PivotShowAsDifferenceBase
     {
-        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
+        internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems)
         {
-            CalculateDifferenceShared(df, fieldIndex, ref calculatedItems, CalcDifferencePercent);
+            CalculateDifferenceShared(df, fieldIndex,keys, ref calculatedItems, CalcDifferencePercent);
         }
         private double CalcDifferencePercent(double value, double prevValue)
         {

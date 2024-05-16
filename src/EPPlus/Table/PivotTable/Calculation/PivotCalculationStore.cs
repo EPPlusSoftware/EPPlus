@@ -230,5 +230,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 		{
             return Index.GetEnumerator();
 		}
-	}
+
+        internal void SetAllValues(ExcelErrorValue nAError)
+        {
+            for (int i = 0; i < Values.Count; i++)
+            {
+                Values[i] = ErrorValues.NAError;
+            }
+        }
+    }
 }

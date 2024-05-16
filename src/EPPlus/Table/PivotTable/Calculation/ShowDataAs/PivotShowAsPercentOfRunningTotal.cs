@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 {
 	internal class PivotShowAsPercentOfRunningTotal : PivotShowAsRunningTotal
 	{
-		internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, ref PivotCalculationStore calculatedItems)
+		internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems)
 		{
 			var bf = fieldIndex.IndexOf(df.BaseField);
 			var colFieldsStart = df.Field.PivotTable.RowFields.Count;
@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 			var record = df.Field.PivotTable.CacheDefinition._cacheReference.Records;
 			var maxBfKey = 0;
 
-			CalculateRunningTotal(df, fieldIndex, ref calculatedItems, true);
+			CalculateRunningTotal(df, fieldIndex, keys, ref calculatedItems, true);
 
 			if (record.CacheItems[df.BaseField].Count(x => x is int) > 0)
 			{
