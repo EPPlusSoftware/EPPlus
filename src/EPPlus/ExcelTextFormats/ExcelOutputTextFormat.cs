@@ -46,7 +46,7 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelOutputTextFormat() : base()
         {
-
+            FirstRowIsHeader = true;
         }
         /// <summary>
         /// A text written at the start of the file.

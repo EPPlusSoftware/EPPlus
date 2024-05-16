@@ -243,6 +243,7 @@ namespace EPPlusTest.Core.Range
                 SkipLinesBeginning =1,
                 SkipLinesEnd=1
             };
+
             var text = _ws.Cells["A1:D5"].ToText(fmt);
             var lines = text.Split(new string[] { fmt.EOL }, StringSplitOptions.None);
             var colsHeaders = lines[0].Split(fmt.Delimiter);
