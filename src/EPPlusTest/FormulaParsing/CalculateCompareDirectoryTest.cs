@@ -24,7 +24,7 @@ namespace EPPlusTest.FormulaParsing
     public class CalculateCompareDirecory : TestBase
     {
         //private ParsingContext _context;
-        private ExcelPackage _package;
+        //private ExcelPackage _package;
         //private ExcelWorksheet _sheet;
         //private ExcelDataProvider _excelDataProvider;
         //private ExpressionGraphBuilder _graphBuilder;

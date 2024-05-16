@@ -130,3 +130,4 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 
 ### Breaking Change From EPPlus 7.2
 * Changed class ExcelTextFormatBase to abstract
+* OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType RelativeRowAbsolutColumn corrected to RelativeRowAbsoluteColumn

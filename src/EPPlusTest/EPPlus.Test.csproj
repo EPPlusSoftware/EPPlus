@@ -1,4 +1,4 @@
-﻿﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
 			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB
@@ -13,7 +13,7 @@
 		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
 	</PropertyGroup>
 	<PropertyGroup>
-		<TargetFrameworks>net481;net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net481;net8.0</TargetFrameworks>
 		<RootNamespace>EPPlusTest</RootNamespace>
 		<AssemblyName>EPPlusTest</AssemblyName>
 		<SignAssembly>True</SignAssembly>
@@ -121,6 +121,15 @@
 		<None Update="Resources\TestTheme.thmx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Resources\Textfiles\FixedWidth1.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Textfiles\FixedWidth2.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Textfiles\FixedWidth_FileList.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Resources\tree-solid.svg">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -187,6 +196,5 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 	</PropertyGroup>
-	<Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets"
-	  Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+	<Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
 </Project>

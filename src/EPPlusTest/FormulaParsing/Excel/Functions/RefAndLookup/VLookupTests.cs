@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
-    public class t
+    public class VLookupTests
     {
         [TestMethod, Ignore]
         public void VlookupShouldHandleWholeColumn()

@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -24,7 +23,7 @@ namespace OfficeOpenXml.Metadata
         public int Index { get; set; }
         public string Name { get; set; }
         public List<ExcelFutureMetadataType> Types { get; }=new List<ExcelFutureMetadataType>();
-        string _extLstXml;
+        //string _extLstXml;
     }
     internal abstract class ExcelFutureMetadataType
     {        

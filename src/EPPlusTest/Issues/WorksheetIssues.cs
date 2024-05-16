@@ -63,9 +63,9 @@ namespace EPPlusTest
 
 
 
-				string longText = ""; // Our long string
-				int maxLineLength = 140; // Maximum length of each line, adjust as needed
-										 //var lines = SplitStringIntoLines(longText, maxLineLength);
+				//string longText = ""; // Our long string
+				//int maxLineLength = 140; // Maximum length of each line, adjust as needed
+				//						 //var lines = SplitStringIntoLines(longText, maxLineLength);
 
 
 				// Now 'lines' contains our text split into lines.
