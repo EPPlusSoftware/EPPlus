@@ -861,7 +861,7 @@ namespace EPPlusTest.Table.PivotTable
         }
 
         [TestMethod]
-        public void LackingColumnRowFieldsShouldThrowBetterException()
+        public void RunningTotalMissingColumnRowFieldsShouldNotThrow()
         {
             using (var p = OpenPackage("DivZeroShowValuesAs.xlsx", true))
             {
@@ -878,8 +878,8 @@ namespace EPPlusTest.Table.PivotTable
 
                 sheet.Cells["B1"].Value = "Time";
                 sheet.Cells["B2"].Value = 120;
-                sheet.Cells["B3"].Value = 150;
                 sheet.Cells["B4"].Value = 90;
+                sheet.Cells["B3"].Value = 150;
                 sheet.Cells["B5"].Value = 3500;
 
                 var ptWs = p.Workbook.Worksheets.Add("PTSheet");
@@ -889,13 +889,47 @@ namespace EPPlusTest.Table.PivotTable
                 var dt = pt.DataFields.Add(pt.Fields["Time"]);
                 var field2 = pt.Fields["Space"];
 
-                //Technically adding this also adds a row field of values in excel.
-                //pt.DataFields.Add(field2);
-
                 dt.ShowDataAs.SetRunningTotal(field2);
                 dt.Function = DataFieldFunctions.StdDev;
 
-                //Comment out to see result in excel
+                pt.Calculate(true);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void RunningTotalPercentMissingColumnRowFieldsShouldNotThrow()
+        {
+            using (var p = OpenPackage("DivZeroShowValuesAs.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:B5"), "TestTable");
+                table.ShowHeader = true;
+
+                sheet.Cells["A1"].Value = "Space";
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 10;
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["A5"].Value = 27;
+
+                sheet.Cells["B1"].Value = "Time";
+                sheet.Cells["B2"].Value = 120;
+                sheet.Cells["B4"].Value = 90;
+                sheet.Cells["B3"].Value = 150;
+                sheet.Cells["B5"].Value = 3500;
+
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "Pivot1");
+
+                var dt = pt.DataFields.Add(pt.Fields["Time"]);
+                var field2 = pt.Fields["Space"];
+
+                dt.ShowDataAs.SetPercentOfRunningTotal(field2);
+                dt.Function = DataFieldFunctions.StdDev;
+
                 pt.Calculate(true);
 
                 SaveAndCleanup(p);
@@ -1043,17 +1077,12 @@ namespace EPPlusTest.Table.PivotTable
                         var range = pt.Address;
 
                         var num = 5 + 1 * (i + 1);
-                        //var destinationRange = ptWs.Cells[1, 5 + 4 * i, 11, 8 + 4 * i];
                         for (int j = 0; j < values.Count; j++)
                         {
                             ptWs.Cells[(j + 1) + 10 * h, num].Value = values[j];
                         }
-                        //range.Copy(destinationRange);
-
-                        //var val = ptWs.Cells["E3"].Value;
                     }
                 }
-
                 SaveAndCleanup(p);
             }
         }

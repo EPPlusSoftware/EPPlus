@@ -488,7 +488,65 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			Assert.AreEqual(0D, (double)ws.Cells["G11"].Value, 0.0000001);
 			Assert.AreEqual(0D, (double)ws.Cells["G12"].Value, 0.0000001);
 		}
-		[TestMethod]
+        [TestMethod]
+        public void GetPivotData_Sum_ShowValueAs_PercentOfRunningTotal_Scattered()
+        {
+            using(var p = OpenPackage("PercentOfRunningTotal_Scattered.xlsx", true))
+            {
+                var dataSheet = p.Workbook.Worksheets.Add("datasheet");
+                var ptSheet = p.Workbook.Worksheets.Add("pivotData");
+
+                var dataTable = dataSheet.Tables.Add(dataSheet.Cells["A1:C6"], "dataTable");
+
+                dataSheet.Cells["A1"].Value = "Continent";
+                dataSheet.Cells["A2"].Value = "Europe";
+                dataSheet.Cells["A3"].Value = "Europe";
+                dataSheet.Cells["A4"].Value = "South America";
+                dataSheet.Cells["A5"].Value = "Asia";
+                dataSheet.Cells["A6"].Value = "Africa";
+
+                dataSheet.Cells["B1"].Value = "Country";
+                dataSheet.Cells["B2"].Value = "Sweden";
+                dataSheet.Cells["B3"].Value = "Spain";
+                dataSheet.Cells["B4"].Value = "Brazil";
+                dataSheet.Cells["B5"].Value = "Japan";
+                dataSheet.Cells["B6"].Value = "Uganda";
+
+                dataSheet.Cells["C1"].Value = "Sales";
+                dataSheet.Cells["C2"].Value = 120;
+                dataSheet.Cells["C3"].Value = 300;
+                dataSheet.Cells["C4"].Value = 90;
+                dataSheet.Cells["C5"].Value = 600;
+                dataSheet.Cells["C6"].Value = 3500;
+
+                var pt = ptSheet.PivotTables.Add(ptSheet.Cells["A1"], dataTable, "PercentOfRunningTotal");
+
+                pt.RowFields.Add(pt.Fields["Continent"]);
+                pt.RowFields.Add(pt.Fields["Country"]);
+
+                var dt = pt.DataFields.Add(pt.Fields["Sales"]);
+
+                pt.DataOnRows = false;
+
+                dt.ShowDataAs.SetPercentOfRunningTotal(pt.Fields["Continent"]);
+
+                ptSheet.Cells["A14"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
+                ptSheet.Cells["A15"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"South America\")";
+                ptSheet.Cells["A16"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Asia\")";
+                ptSheet.Cells["A17"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Africa\")";
+
+                pt.Calculate();
+                ptSheet.Calculate();
+
+                Assert.AreEqual(0.0911062D, (double)ptSheet.Cells["A14"].Value, 0.0000001);
+                Assert.AreEqual(0.1106290D, (double)ptSheet.Cells["A15"].Value, 0.0000001);
+                Assert.AreEqual(0.2407809D, (double)ptSheet.Cells["A16"].Value, 0.0000001);
+                Assert.AreEqual(1D, (double)ptSheet.Cells["A17"].Value, 0.0000001);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
 		public void GetPivotData_Sum_ShowValueAs_RankAscending()
 		{
 			var ws = _package.Workbook.Worksheets.Add("Sum_ShowDataAs_RankAscending");
