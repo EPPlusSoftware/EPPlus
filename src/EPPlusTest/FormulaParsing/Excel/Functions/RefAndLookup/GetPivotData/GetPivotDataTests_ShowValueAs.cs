@@ -777,16 +777,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ws.Cells["G10"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G11"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Asia\")";
             ws.Cells["G12"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\")";
+            ws.Cells["G13"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\",\"State\",\"Västerås\")";
             ws.Calculate();
+            
             Assert.AreEqual(0D, (double)ws.Cells["G5"].Value, 0.0000001);
-
-            //Assert.AreEqual(-121D, (double)ws.Cells["G6"].Value, 0.0000001);
-            //Assert.AreEqual(81D, (double)ws.Cells["G7"].Value, 0.0000001);
-            //Assert.AreEqual(0D, ws.Cells["G8"].Value);
-            //Assert.AreEqual(101D, (double)ws.Cells["G9"].Value, 0.0000001);
-            //Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
-            //Assert.AreEqual(0D, (double)ws.Cells["G11"].Value, 0.0000001);
-            //Assert.AreEqual(0D, (double)ws.Cells["G12"].Value, 0.0000001);
+            Assert.AreEqual(-0.785714286, (double)ws.Cells["G6"].Value, 0.0000001);
+            Assert.AreEqual(0.245454545, (double)ws.Cells["G7"].Value, 0.0000001);
+            Assert.AreEqual(0D, ws.Cells["G8"].Value);
+            Assert.AreEqual(0.926605505, (double)ws.Cells["G9"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G11"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G12"].Value, 0.0000001);
+            Assert.AreEqual(ErrorValues.NullError, ws.Cells["G13"].Value);
         }
         [TestMethod]
         public void GetPivotData_Sum_ShowValueAs_DifferencePercent_Next()
@@ -798,7 +800,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["State"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Sum;
-            df.ShowDataAs.SetDifference(pt.RowFields[1], ePrevNextPivotItem.Next);
+            df.ShowDataAs.SetPercentageDifference(pt.RowFields[1], ePrevNextPivotItem.Next);
             pt.Calculate(true);
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\",\"State\",\"Stockholm\")";
@@ -808,16 +810,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ws.Cells["G10"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\")";
             ws.Cells["G11"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Asia\")";
             ws.Cells["G12"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\")";
+            ws.Cells["G13"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"Sweden\",\"State\",\"Stockholm\")";
             ws.Calculate();
             Assert.AreEqual(0D, (double)ws.Cells["G5"].Value, 0.0000001);
 
-            //Assert.AreEqual(121D, (double)ws.Cells["G6"].Value, 0.0000001);
-            //Assert.AreEqual(-81D, (double)ws.Cells["G7"].Value, 0.0000001);
-            //Assert.AreEqual(0D, ws.Cells["G8"].Value);
-            //Assert.AreEqual(-101D, (double)ws.Cells["G9"].Value, 0.0000001);
-            //Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
-            //Assert.AreEqual(0D, (double)ws.Cells["G11"].Value, 0.0000001);
-            //Assert.AreEqual(0D, (double)ws.Cells["G12"].Value, 0.0000001);
+            Assert.AreEqual(3.666666667D, (double)ws.Cells["G6"].Value, 0.0000001);
+            Assert.AreEqual(-0.197080292, (double)ws.Cells["G7"].Value, 0.0000001);
+            Assert.AreEqual(0D, ws.Cells["G8"].Value);
+            Assert.AreEqual(-0.480952381, (double)ws.Cells["G9"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G11"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G12"].Value, 0.0000001);
+            Assert.AreEqual(ErrorValues.NullError, ws.Cells["G13"].Value);
         }
         [TestMethod]
         public void GetPivotData_Sum_ShowValueAs_DifferencePercent_Continent_Europe()
@@ -829,7 +833,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             pt.RowFields.Add(pt.Fields["State"]);
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Sum;
-            df.ShowDataAs.SetDifference(pt.ColumnFields[0], 0);
+            df.ShowDataAs.SetPercentageDifference(pt.ColumnFields[0], 0);
             pt.Calculate(true);
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\",\"State\",\"Stockholm\")";
@@ -840,15 +844,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ws.Cells["G11"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Asia\")";
             ws.Cells["G12"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\")";
             ws.Calculate();
-            Assert.AreEqual(896D, (double)ws.Cells["G5"].Value, 0.0000001);
 
-            //Assert.AreEqual(0D, (double)ws.Cells["G6"].Value, 0.0000001);
-            //Assert.AreEqual(330D, (double)ws.Cells["G7"].Value, 0.0000001);
-            //Assert.AreEqual(-187D, ws.Cells["G8"].Value);
-            //Assert.AreEqual(0, (double)ws.Cells["G9"].Value, 0.0000001);
-            //Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
-            //Assert.AreEqual(419D, (double)ws.Cells["G11"].Value, 0.0000001);
-            //Assert.AreEqual(315D, (double)ws.Cells["G12"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G5"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G6"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G7"].Value, 0.0000001);
+            Assert.AreEqual(ErrorValues.NullError, ws.Cells["G8"].Value);
+            Assert.AreEqual(0, (double)ws.Cells["G9"].Value, 0.0000001);
+            Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
+            Assert.AreEqual(0.512224939D, (double)ws.Cells["G11"].Value, 0.0000001);
+            Assert.AreEqual(0.385085575, (double)ws.Cells["G12"].Value, 0.0000001);
         }
     }
 }

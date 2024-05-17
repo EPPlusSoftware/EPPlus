@@ -338,5 +338,67 @@ namespace OfficeOpenXml.Table.PivotTable
 			}
 			return false;
 		}
-	}
+        internal static List<List<int[]>> GetAsCalculatedTable(ExcelPivotTable pivotTable)
+        {
+            var rowItems = pivotTable.GetTableRowKeys();
+            var colItems = pivotTable.GetTableColumnKeys();
+            var keyLength = pivotTable.RowFields.Count + pivotTable.ColumnFields.Count;
+            var colStartIx = pivotTable.RowFields.Count;
+            var table = new List<List<int[]>>();
+
+            if (rowItems.Count == 0)
+            {
+                //var l = new List<int[]>();
+                //for (int c = 0; c < colItems.Count; c++)
+                //{
+                //    //var currentKey = new int[keyLength];
+                //    //for (var i = 0; i < keyLength; i++)
+                //    //{
+                //    //    currentKey[i] = colItems[c][i];
+                //    //}
+                //    l.Add(currentKey);
+                //}
+                table.Add(colItems);
+            }
+            else if (colItems.Count == 0)
+            {
+				for (int r = 0; r < rowItems.Count; r++)
+				{
+     //               var currentKey = new int[keyLength];
+					//for (var i = 0; i < keyLength; i++)
+					//{
+					//	currentKey[i] = rowItems[r][i];
+					//}
+					table.Add(new List<int[]> { rowItems[r] });
+				}
+                //table.Add(rowItems);
+            }
+            else
+            {
+                for (int r = 0; r < rowItems.Count; r++)
+                {
+                    var l = new List<int[]>();
+                    for (int c = 0; c < colItems.Count; c++)
+                    {
+                        var currentKey = new int[keyLength];
+                        for (var i = 0; i < keyLength; i++)
+                        {
+                            if (i < colStartIx)
+                            {
+                                currentKey[i] = rowItems[r][i];
+                            }
+                            else
+                            {
+                                currentKey[i] = colItems[c][i - colStartIx];
+                            }
+                        }
+                        l.Add(currentKey);
+                    }
+                    table.Add(l);
+                }
+            }
+            return table;
+        }
+
+    }
 }

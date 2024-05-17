@@ -1742,8 +1742,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     field.Items.Sort(field.Sort);
                 }
             }
-        }
-
+        }        
         internal List<int[]> GetTableKeys()
         {
             var l = new List<int[]>();
