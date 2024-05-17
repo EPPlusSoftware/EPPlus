@@ -601,6 +601,50 @@ namespace EPPlusTest.LoadFunctions
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void TransposeHyperlinks()
+        {
+            var items = new List<UrlClass>()
+            {
+                new UrlClass{Id="1", Name="Person 1", EMailAddress="person1@somewhe.re"},
+                new UrlClass{Id="2", Name="Person 2", EMailAddress="person2@somewhe.re"},
+                new UrlClass{Id="3", Name="Person with Url", EMailAddress="person2@somewhe.re", Url=new Uri("https://epplussoftware.com")},
+            };
+
+            using (var package = OpenPackage("LoadFromURIsTranspose.xlsx", true))
+            {
+                
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
+
+                SaveAndCleanup(package);
+
+                //var sheet = package.Workbook.Worksheets.Add("test");
+                //var ns = package.Workbook.Styles.CreateNamedStyle("Hyperlink");
+                //ns.BuildInId = 8;
+                //ns.Style.Font.UnderLine = true;
+                //ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+
+                //var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
+                //sheet.Cells["E2:E5"].StyleName = "Hyperlink";
+
+                //Assert.AreEqual("MyId", sheet.Cells["A1"].Value);
+                //Assert.AreEqual("MyName", sheet.Cells["B1"].Value);
+                //Assert.AreEqual("Number", sheet.Cells["C1"].Value);
+                //Assert.AreEqual("Url", sheet.Cells["D1"].Value);
+                //Assert.AreEqual("My Mail To", sheet.Cells["E1"].Value);
+
+                //Assert.AreEqual("1", sheet.Cells["A2"].Value);
+                //Assert.AreEqual("Person 2", sheet.Cells["B3"].Value);
+                //Assert.IsInstanceOfType(sheet.Cells["E3"].Hyperlink, typeof(ExcelHyperLink));
+                //Assert.AreEqual("Person 2", sheet.Cells["E3"].Value);
+
+                //SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         public void LoadListOfEnumWithDescription()
         {

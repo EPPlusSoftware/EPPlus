@@ -232,6 +232,11 @@ namespace OfficeOpenXml.Table
             }
         }
 
+        internal bool ContainsColName(string name)
+        {
+            return _colNames.ContainsKey(name);
+        }
+
         internal void UpdateColName(string oldName, string newName)
         {
             if(_colNames.ContainsKey(oldName))

@@ -667,7 +667,10 @@ namespace OfficeOpenXml.Table
                         }
                         else if (v != _cols[i].Name)
                         {
-                            _cols[i].Name = v;
+                            if(_cols.ContainsColName(v) == false)
+                            {
+                                _cols[i].Name = v;
+                            }
                         }
                     }
                     HeaderRowStyle.SetStyle();
