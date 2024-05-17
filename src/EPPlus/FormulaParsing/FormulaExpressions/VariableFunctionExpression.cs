@@ -13,11 +13,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         private readonly Dictionary<string, CompileResult> _variables = new Dictionary<string, CompileResult>();
 
-        private string _variableName;
 
         internal void AddVariableName(string name)
         {
-            _variableName = name;
+            if (!_variables.ContainsKey(name))
+            {
+                _variables.Add(name, null);
+            }
         }
 
         internal bool VariableIsSet(string name)
@@ -25,11 +27,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             return _variables.ContainsKey(name);
         }
 
-        internal int NumberOfVariables => _variables.Count + (string.IsNullOrEmpty(_variableName) ? 0 : 1);
+        internal int NumberOfVariables => _variables.Count;
 
-        internal void AddVariableValue(CompileResult value)
+        internal void AddVariableValue(string name, CompileResult value)
         {
-            _variables[this._variableName] = value;
+            _variables[name] = value;
         }
 
         internal CompileResult GetVariableValue(string variableName)

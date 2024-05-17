@@ -33,7 +33,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            throw new NotImplementedException();
+            // this function is precalculated in the calc engine and we just need to pick up the result of the last arg.
+            var result = CompileResultFactory.Create(arguments.Last().Value);
+            return result;
         }
     }
 }

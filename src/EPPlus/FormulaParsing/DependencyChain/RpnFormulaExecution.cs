@@ -774,6 +774,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static FormulaRangeAddress ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f, bool returnAddresses)
         {
             var s = f._expressionStack;
+            Expression prevExp = null;
             while (f._tokenIndex < f._tokens.Count)
             {
                 var t = f._tokens[f._tokenIndex];
@@ -784,7 +785,6 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Decimal:
                     case TokenType.StringContent:
                     case TokenType.Array:
-                    case TokenType.ParameterVariable:
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
                         //var vFunc = f._funcStack.Peek() as VariableFunctionExpression;
@@ -798,6 +798,10 @@ namespace OfficeOpenXml.FormulaParsing
                         //    }
                         //}
                         s.Push(f._expressions[f._tokenIndex]);
+                        break;
+                    case TokenType.ParameterVariable:
+                        s.Push(f._expressions[f._tokenIndex]);
+                        f._hasUnsetVariable = true;
                         break;
                     case TokenType.Negator:                        
                         s.Push(s.Pop().Negate());
@@ -834,6 +838,20 @@ namespace OfficeOpenXml.FormulaParsing
                         if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
+                            if(s.Peek() is VariableExpression ve)
+                            {
+                                f._nextVariableName = ve.Name;
+                                f._hasUnsetVariable = true;
+                                break;
+                            }
+                            else if(f._hasUnsetVariable && fexp is VariableFunctionExpression vfe)
+                            {
+                                f._hasUnsetVariable = false;
+                                var variableValue = s.Peek(); ;
+                                var variableResult = variableValue.Compile();
+                                vfe.AddVariableValue(f._nextVariableName, variableResult);
+                                break;
+                            }
                             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
                             {
                                 //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
@@ -842,7 +860,7 @@ namespace OfficeOpenXml.FormulaParsing
                             var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);
                             if (EnumUtil.HasFlag(pi, FunctionParameterInformation.Condition))
                             {
-                                var v = s.Pop().Compile();
+                                var v = s.Peek().Compile();
                                 PushResult(depChain._parsingContext, f, v);
                                 fexp._latestConditionValue = GetCondition(v);
                                 f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
@@ -863,6 +881,11 @@ namespace OfficeOpenXml.FormulaParsing
                                 f._expressionStack.Push(Expression.Empty);
                                 f._tokenIndex = fexp._endPos-1;
                             }
+                            else if(prevExp != null && prevExp is VariableExpression vexp)
+                            {
+
+                            }
+                            prevExp = s.Peek();
                         }
                         break;
                     case TokenType.Function:
@@ -1158,7 +1181,7 @@ namespace OfficeOpenXml.FormulaParsing
                 f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
-            for(int i=0;i<func._arguments.Count;i++)
+            for(int i=0;i<func._arguments.Count && s.Count > 0;i++)
             {
                 var si = s.Pop();
                 if(si.ExpressionType!=ExpressionType.Empty)
