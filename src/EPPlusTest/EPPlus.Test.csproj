@@ -1,4 +1,4 @@
-﻿﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
 			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB
