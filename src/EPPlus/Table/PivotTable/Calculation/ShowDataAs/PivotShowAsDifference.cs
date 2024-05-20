@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                     {
                         showAsCalculatedItems.Add(currentKey, 0D);
                     }
-                    else if (biType != 0 ||
+                    else    if (biType != 0 ||
                              IsSameLevelAs(currentKey, isRowField, baseLevel, keyCol, df) ||
                              currentKey[keyCol] == df.BaseItem)
                     {
@@ -261,13 +261,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
         }
         private object CalcDifferencePercent(double value, double prevValue)
         {
-            if (double.IsNaN(value) && double.IsNaN(prevValue))
+            if (double.IsNaN(value))
             {
                 return ErrorValues.NullError;
             }
             else
             {
-                if(value==prevValue || double.IsNaN(value) || double.IsNaN(prevValue))
+                if(value==prevValue || double.IsNaN(prevValue))
                 {
                     return 0D;
                 }

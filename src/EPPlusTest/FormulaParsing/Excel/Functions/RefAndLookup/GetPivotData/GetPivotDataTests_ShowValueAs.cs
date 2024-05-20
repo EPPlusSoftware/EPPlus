@@ -834,6 +834,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             var df = pt.DataFields.Add(pt.Fields["Sales"]);
             df.Function = DataFieldFunctions.Sum;
             df.ShowDataAs.SetPercentageDifference(pt.ColumnFields[0], 0);
+            //df.ShowDataAs.SetPercentageDifference(pt.RowFields[1], ePrevNextPivotItem.Previous);
             pt.Calculate(true);
             ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"North America\",\"Country\",\"USA\")";
             ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Continent\",\"Europe\",\"State\",\"Stockholm\")";
@@ -853,6 +854,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
             Assert.AreEqual(0.512224939D, (double)ws.Cells["G11"].Value, 0.0000001);
             Assert.AreEqual(0.385085575, (double)ws.Cells["G12"].Value, 0.0000001);
-        }
+        }   
     }
 }
