@@ -21,9 +21,11 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
@@ -1350,6 +1352,7 @@ namespace OfficeOpenXml.Drawing
                         CopyChart(worksheet, drawNode, row, col, rowOffset, colOffset);
                         return;
                     case eDrawingType.Slicer:
+                        CopySlicer(worksheet, drawNode, row, col, rowOffset, colOffset);
                         break;
                     case eDrawingType.Control:
                         CopyControl(worksheet, drawNode, row, col, rowOffset, colOffset);
@@ -1383,39 +1386,109 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        private void CopySlicer(ExcelWorksheet worksheet, XmlElement drawNode, int row, int col, int rowOffset, int colOffset)
+        {
+            var slicer = this as ExcelTableSlicer;
+            //Copy Worksheet Node
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
+            var slicerNode = worksheet.CreateNode("d:extLst");
+            var ogWSNode = _drawings.Worksheet.TopNode.SelectSingleNode("d:extLst", _drawings.Worksheet.NameSpaceManager);
+            slicerNode.InnerXml = ogWSNode.InnerXml;
+
+            ////Set Name in drawingXML <xdr:cNvPr id="4" name="Name 1">  <sle:slicer name = "Name 1" />
+            var drawNameNode = drawNode.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
+            var drawNameNodeVal = drawNameNode.Attributes["name"].Value + " " + worksheet.Workbook._nextDrawingId++;
+            drawNameNode.Attributes["name"].Value = drawNameNodeVal;
+            var drawNameNode2 = drawNode.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/sle:slicer", worksheet._drawings.NameSpaceManager);
+            drawNameNode2.Attributes["name"].Value = drawNameNodeVal;
+
+            //Copy Slicer
+            var sl = _drawings.Worksheet.SlicerXmlSources._list.Find(x => x == slicer._xmlSource);
+            var id = worksheet.SheetId;
+            var uri = XmlHelper.GetNewUri(worksheet.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
+            var part = worksheet.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", worksheet.Part.Package.Compression);
+            var rel = worksheet.Part.CreateRelationship(uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicer);
+            var xml = new XmlDocument();
+            xml.LoadXml(sl.XmlDocument.OuterXml);
+            //Set name in SlicerXML <slicer name="Name 1"
+            var slicerNodes = xml.LastChild.ChildNodes;
+            XmlNode keeper = null;
+            foreach (XmlNode node in slicerNodes)
+            {
+                if (node.Attributes["name"].Value == slicer.Name)
+                {
+                    node.Attributes["name"].Value = drawNameNodeVal;
+                    keeper = node;
+                }
+            }
+            xml.LastChild.RemoveAll();
+            xml.LastChild.AppendChild(keeper);
+            var stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
+            xml.Save(stream);
+
+            //Now create the new relationship between the worksheet and the slicer.
+            var relNode = (XmlElement)(worksheet.WorksheetXml.DocumentElement.SelectSingleNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{sl.Rel.Id}']", worksheet.NameSpaceManager));
+            relNode.Attributes["r:id"].Value = rel.Id;
+        }
+
         private void CopyControl(ExcelWorksheet worksheet, XmlNode drawNode, int row, int col, int rowOffset, int colOffset)
         {
-            var control = this as ExcelControl; //<- allt finns här typ i _control
+            var control = this as ExcelControl;
             var controlId = worksheet._nextControlId++.ToString();
 
             //Update DrawNode Id
             var drawIdNode = drawNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", worksheet.NameSpaceManager);
             drawIdNode.Attributes["id"].Value = controlId;
-            var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", worksheet.NameSpaceManager);
-            drawSpIdNode.Attributes["spid"].Value = "_x0000_s" + controlId;
+            var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", _drawings.NameSpaceManager);
+            var spid = drawSpIdNode.Attributes["spid"].Value = "_x0000_s" + controlId;
 
             //Create worksheet node
             XmlNode ctrlNode = worksheet.CreateControlContainerNode();
             ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
             ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
             ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);   //Make sure the namespace exists
-            ctrlNode.InnerXml = control._control.TopNode.ParentNode.InnerXml; //control.GetControlStartWorksheetXml(control._control.RelationshipId);
+            ctrlNode.InnerXml = control._control.TopNode.ParentNode.InnerXml;
             ctrlNode.FirstChild.Attributes["shapeId"].Value = controlId;
             WorksheetCopyHelper.CopyControl(worksheet._package, worksheet, control);
-            //Create vml
-            //Create spid
-            worksheet.VmlDrawings.AddControl(control, control.LegacySpId);
-            var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
-            vmlId.Attributes["spid"].Value = "_x0000_s" + controlId;
 
+            //Create vml
+            worksheet.VmlDrawings.AddControl(control, spid);
+            var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
+            vmlId.Attributes["spid"].Value = spid;
+
+            //Create the copy
             var copy = GetDrawing(worksheet._drawings, drawNode);
-            worksheet._drawings.AddDrawingInternal(copy);
             copy.EditAs = ExcelControl.GetControlEditAs(control.ControlType);
             var width = GetPixelWidth();
             var height = GetPixelHeight();
             copy.SetPixelWidth(width);
             copy.SetPixelHeight(height);
             copy.SetPosition(row, rowOffset, col, colOffset);
+            worksheet._drawings.AddDrawingInternal(copy);
+
+            //Update position in worksheet xml
+            var fromCol = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:col", worksheet.NameSpaceManager);
+            var fromColOff = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:colOff", worksheet.NameSpaceManager);
+            var fromRow = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:row", worksheet.NameSpaceManager);
+            var fromRowOff = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:rowOff", worksheet.NameSpaceManager);
+            fromCol.InnerText = col.ToString();
+            fromColOff.InnerText = colOffset.ToString();
+            fromRow.InnerText = row.ToString();
+            fromRowOff.InnerText = rowOffset.ToString();
+            var toCol = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:to/xdr:col", worksheet.NameSpaceManager);
+            var toColOff = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:to/xdr:colOff", worksheet.NameSpaceManager);
+            var toRow = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:to/xdr:row", worksheet.NameSpaceManager);
+            var toRowOff = ctrlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:to/xdr:rowOff", worksheet.NameSpaceManager);
+            toCol.InnerText = copy.To.Column.ToString();
+            toColOff.InnerText = copy.To.ColumnOff.ToString();
+            toRow.InnerText = copy.To.Row.ToString();
+            toRowOff.InnerText = copy.To.RowOff.ToString();
+
+            //Update position in drawing vml
+            var vmlPosition = vmlId.SelectSingleNode("x:ClientData/x:Anchor", worksheet._vmlDrawings.NameSpaceManager);
+            vmlPosition.InnerXml = copy.From.Column + ", " + copy.From.ColumnOff + ", " + copy.From.Row + ", " + copy.From.RowOff + ", " +
+                                   copy.To.Column   + ", " + copy.To.ColumnOff   + ", " + copy.To.Row + ", "   + copy.To.RowOff;
+
         }
 
         private void CopyChart(ExcelWorksheet worksheet, XmlNode drawNode, int row, int col, int rowOffset, int colOffset)
@@ -1460,9 +1533,8 @@ namespace OfficeOpenXml.Drawing
                         rel.TargetUri = imageInfo.Uri;
                     }
                 }
-
-                var exisistingRel = worksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x=> x.Target == rel.Target).FirstOrDefault();
-                if(exisistingRel == null)
+                var exisistingRel = worksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x => x.Target == rel.Target).FirstOrDefault();
+                if (exisistingRel == null || worksheet != _drawings.Worksheet)
                 {
                     var newRel = worksheet._drawings.Part.CreateRelationshipFromCopy(rel);
                     relNode.Value = newRel.Id;

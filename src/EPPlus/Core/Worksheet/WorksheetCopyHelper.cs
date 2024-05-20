@@ -431,7 +431,8 @@ namespace OfficeOpenXml.Core.Worksheet
 
             var prevRelID = ctrl._control.RelationshipId;
             var rel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
-            XmlAttribute relAtt = target.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager) as XmlAttribute;
+            var relAtts = target.WorksheetXml.SelectNodes(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager);
+            XmlAttribute relAtt = relAtts.Item(relAtts.Count-1) as XmlAttribute; //target.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager) as XmlAttribute;
             relAtt.Value = rel.Id;
         }
 
@@ -1150,21 +1151,21 @@ namespace OfficeOpenXml.Core.Worksheet
             to.RightAlignedText = from.RightAlignedText;
         }
 
-        private static void CopySlicers(ExcelWorksheet copy, ExcelWorksheet added)
+        private static void CopySlicers(ExcelWorksheet source, ExcelWorksheet target)
         {
-            foreach (var source in copy.SlicerXmlSources._list)
+            foreach (var slicer in source.SlicerXmlSources._list)
             {
-                var id = added.SheetId;
-                var uri = XmlHelper.GetNewUri(added.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
-                var part = added.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", added.Part.Package.Compression);
-                var rel = added.Part.CreateRelationship(uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicer);
+                var id = target.SheetId;
+                var uri = XmlHelper.GetNewUri(target.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
+                var part = target.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", target.Part.Package.Compression);
+                var rel = target.Part.CreateRelationship(uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicer);
                 var xml = new XmlDocument();
-                xml.LoadXml(source.XmlDocument.OuterXml);
+                xml.LoadXml(slicer.XmlDocument.OuterXml);
                 var stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 xml.Save(stream);
 
                 //Now create the new relationship between the worksheet and the slicer.
-                var relNode = (XmlElement)(added.WorksheetXml.DocumentElement.SelectSingleNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{source.Rel.Id}']", added.NameSpaceManager));
+                var relNode = (XmlElement)(target.WorksheetXml.DocumentElement.SelectSingleNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{slicer.Rel.Id}']", target.NameSpaceManager));
                 relNode.Attributes["r:id"].Value = rel.Id;
             }
         }

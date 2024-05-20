@@ -9,8 +9,17 @@ namespace EPPlusTest.Drawing
     [TestClass]
     public class CopyDrawingTests : TestBase
     {
+        //Copy Shape Tests
         [TestMethod]
-        public void CopyShapeTest()
+        public void CopyShapeSameWorksheetTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws0 = p.Workbook.Worksheets[0];
+            ws0.Drawings[0].Copy(ws0, 25, 1);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CopyShapeOtherWorksheetTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws0 = p.Workbook.Worksheets[0];
@@ -18,7 +27,16 @@ namespace EPPlusTest.Drawing
             ws0.Drawings[0].Copy(ws1, 10, 10);
             SaveAndCleanup(p);
         }
-
+        [TestMethod]
+        public void CopyShapeOtherWorkbookTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws0 = p.Workbook.Worksheets[0];
+            using var p2 = OpenPackage("Target.xlsx", true);
+            var ws1 = p2.Workbook.Worksheets.Add("Sheet1");
+            ws0.Drawings[0].Copy(ws1, 10, 10);
+            SaveAndCleanup(p2);
+        }
         [TestMethod]
         public void CopyShapeBlipFillTest()
         {
@@ -29,8 +47,17 @@ namespace EPPlusTest.Drawing
             SaveAndCleanup(p);
         }
 
+        //Copy Picture Tests
         [TestMethod]
-        public void CopyPictureTest()
+        public void CopyPictureSameWorksheetTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws1 = p.Workbook.Worksheets[1];
+            ws1.Drawings[0].Copy(ws1, 0, 15);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CopyPictureOtherWorksheetTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws0 = p.Workbook.Worksheets[0];
@@ -38,33 +65,99 @@ namespace EPPlusTest.Drawing
             ws1.Drawings[0].Copy(ws0, 20, 1);
             SaveAndCleanup(p);
         }
-
         [TestMethod]
-        public void CopyPictureTestExternal()
+        public void CopyPictureOtherWorkbookTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws0 = p.Workbook.Worksheets[1];
             using var p2 = OpenPackage("Target.xlsx", true);
             var ws1 = p2.Workbook.Worksheets.Add("Sheet1");
-            ws0.Drawings[0].Copy(ws1, 20, 1);
-            ws0.Drawings[0].Copy(ws1, 20, 10);
+            ws0.Drawings[0].Copy(ws1, 1, 1);
             SaveAndCleanup(p2);
         }
 
+        //Copy Control Tests
         [TestMethod]
-        public void CopyControlTest()
+        public void CopyControlSameWorksheetTest() //Fungerar ej. Flyttar orginalet
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws1 = p.Workbook.Worksheets[1];
+            ws1.Drawings[1].Copy(ws1, 25, 20);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CopyControlOtherWorksheetTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws2 = p.Workbook.Worksheets[2];
             var ws1 = p.Workbook.Worksheets[1];
             ws1.Drawings[1].Copy(ws2, 20, 1);
-            //ws1.Drawings[2].Copy(ws2, 40, 1);
-            //ws1.Drawings[1].Copy(ws2, 50, 1);
+            ws1.Drawings[2].Copy(ws2, 40, 1);
+            ws1.Drawings[1].Copy(ws2, 50, 1);
             SaveAndCleanup(p);
         }
-
         [TestMethod]
-        public void CopyChartTestExternal()
+        public void CopyControlOtherWorkbookTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws1 = p.Workbook.Worksheets[1];
+            using var p2 = OpenPackage("Target.xlsx", true);
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet1");
+            ws1.Drawings[1].Copy(ws2, 20, 1);
+            ws1.Drawings[2].Copy(ws2, 40, 1);
+            ws1.Drawings[1].Copy(ws2, 50, 1);
+            SaveAndCleanup(p2);
+        }
+
+        //Copy Slicer Tests
+        [TestMethod]
+        public void CopySlicerSameWorksheetTest() //Fungerar ej
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws1 = p.Workbook.Worksheets[0];
+            ws1.Drawings[2].Copy(ws1, 1, 25, 0, 0);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CopySlicerOtherWorksheetTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws1 = p.Workbook.Worksheets[0];
+            var ws3 = p.Workbook.Worksheets[2];
+            ws1.Drawings[2].Copy(ws3, 1, 15, 0, 0);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CopySlicerOtherWorkbookTest() //Fungerar ej
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws1 = p.Workbook.Worksheets[0];
+            using var p2 = OpenPackage("Target.xlsx", true);
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet1");
+            ws1.Drawings[2].Copy(ws2, 1, 15, 0, 0);
+            SaveAndCleanup(p2);
+        }
+
+        //Copy Chart Tests
+        [TestMethod]
+        public void CopyChartSameWorksheetTest() //Fungerar ej
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var sourceWs = p.Workbook.Worksheets[2];
+            sourceWs.Drawings[0].Copy(sourceWs, 20, 1);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CopyChartOtherWorksheetTest()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var sourceWs = p.Workbook.Worksheets[2];
+            var ws1 = p.Workbook.Worksheets[1];
+            sourceWs.Drawings[0].Copy(ws1, 20, 20);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CopyChartOtherWorkbookTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var sourceWs = p.Workbook.Worksheets[2];
@@ -73,5 +166,7 @@ namespace EPPlusTest.Drawing
             sourceWs.Drawings[0].Copy(targetWs, 20, 1);
             SaveAndCleanup(p2);
         }
+
+        //Copy Group Shape Tests
     }
 }
