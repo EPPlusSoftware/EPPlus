@@ -1113,13 +1113,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     if (cf.IsExtLst)
                     {
-                        if(addressDict.ContainsKey(cf.Address.Address))
+                        var key = cf.Address?.Address ?? "";
+                        if (addressDict.ContainsKey(key))
                         {
-                            addressDict[cf.Address.Address].Add(cf);
+                            addressDict[key].Add(cf);
                         }
                         else
                         {
-                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                            addressDict.Add(key, new List<ExcelConditionalFormattingRule>() { cf });
                         }
                     }
                 }
@@ -1504,7 +1505,15 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                         if (i == ruleList.Value.Count - 1)
                         {
-                            cache.Append($"<xm:sqref>{format.Address.AddressSpaceSeparated}</xm:sqref>");
+                            if (format.Address == null)
+                            {
+                                cache.Append($"<xm:sqref></xm:sqref>");
+
+                            }
+                            else
+                            {
+                                cache.Append($"<xm:sqref>{format.Address.AddressSpaceSeparated}</xm:sqref>");
+                            }
                             cache.Append($"</{prefix}conditionalFormatting>");
                         }
                     }
