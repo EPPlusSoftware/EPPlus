@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -153,6 +154,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             var current = new StringBuilder();
             var pc = '\0';
             var isR1C1 = false;
+            List<int> variableFuncPositions = default;
             while (ix < length)
             {
                 var c = input[ix];
@@ -191,7 +193,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 {
                     if (bracketCount == 0 && isInString == 0 && IsWhiteSpace(c))
                     {
-                        HandleToken(l, c, ref current, ref flags);
+                        HandleToken(l, c, ref current, ref flags, ref variableFuncPositions);
                         short wsCnt = 1;
                         int wsIx = ix + 1;
                         while (wsIx < input.Length && IsWhiteSpace(input[wsIx++]))
@@ -266,7 +268,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         }
                         else
                         {
-                            HandleToken(l, c, ref current, ref flags);
+                            HandleToken(l, c, ref current, ref flags, ref variableFuncPositions);
 
                             if (c == '-')
                             {
@@ -403,7 +405,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             if (current.Length > 0 || (flags & statFlags.isString) == statFlags.isString)
             {
-                HandleToken(l, pc, ref current, ref flags);
+                HandleToken(l, pc, ref current, ref flags, ref variableFuncPositions);
             }
             if (isInString != 0)
             {
@@ -418,6 +420,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 throw new InvalidFormulaException("Number of opened and closed brackets does not match");
             }
 
+            if(variableFuncPositions.Count > 0)
+            {
+                foreach(var variableFuncPos in variableFuncPositions)
+                {
+                    var name = l[variableFuncPos].Value;
+                    VariableParameterHelper.ProcessVariableArguments(l, variableFuncPos, name);
+                }
+            }
             return l;
         }
 #if (!NET35)
@@ -482,7 +492,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             return new Token(token, TokenType.NameValue);
         }
 
-        private void HandleToken(List<Token> l, char c, ref StringBuilder current, ref statFlags flags)
+        private void HandleToken(List<Token> l, char c, ref StringBuilder current, ref statFlags flags, ref List<int> variableFuncPositions)
         {
             if ((flags & statFlags.isNegator) == statFlags.isNegator)
             {
@@ -561,6 +571,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             else if (c == '(')
             {
+                if (VariableParameterHelper.IsVariableParameterFunction(currentString))
+                {
+                    if(variableFuncPositions == default)
+                    {
+                        variableFuncPositions = new List<int>();
+                    }
+                    variableFuncPositions.Add(l.Count);
+                }
                 if ((flags & statFlags.isColon) == statFlags.isColon)
                 {
                     l.Add(new Token(currentString, TokenType.Function | TokenType.RangeOffset));

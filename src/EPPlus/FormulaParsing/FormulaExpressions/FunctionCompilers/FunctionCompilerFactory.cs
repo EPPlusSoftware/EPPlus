@@ -38,15 +38,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         private FunctionCompiler GetCompilerByType(ExcelFunction function, ParsingContext context)
         {
             var funcType = function.GetType();
-            //if (_specialCompilers.ContainsKey(funcType))
-            //{
-            //    return _specialCompilers[funcType];
-            //}
-            //else 
-            //if (function.HandlesVariables)
-            //{
-            //    return new VariableFunctionCompiler(function);
-            //}
             if (
                 function.ArrayBehaviour == ExcelFunctionArrayBehaviour.Custom
                 ||

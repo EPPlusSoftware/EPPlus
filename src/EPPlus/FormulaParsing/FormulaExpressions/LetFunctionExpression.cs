@@ -13,6 +13,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         }
 
+        internal override void AddArgument(int arg)
+        {
+            base.AddArgument(arg);
+        }
+
+        internal override bool HandlesVariables => true;
+
+        internal override bool IsVariableArg(int arg, bool isLastArgument)
+        {
+            return arg % 2 == 0 && !isLastArgument;
+        }
+
 
         public override CompileResult Compile()
         {

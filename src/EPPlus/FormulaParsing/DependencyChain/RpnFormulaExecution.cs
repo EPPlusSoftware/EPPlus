@@ -787,18 +787,6 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Array:
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
-                        //var vFunc = f._funcStack.Peek() as VariableFunctionExpression;
-                        //if(vFunc != null)
-                        //{
-                        //    if (vFunc.NumberOfVariables > 1)
-                        //    {
-                        //        var val = s.Peek();
-                        //        var res = val.Compile();
-                        //        vFunc.AddVariableValue(res);
-                        //    }
-                        //}
-                        s.Push(f._expressions[f._tokenIndex]);
-                        break;
                     case TokenType.ParameterVariable:
                         s.Push(f._expressions[f._tokenIndex]);
                         f._hasUnsetVariable = true;
@@ -956,6 +944,9 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.NAError:
                         s.Push(ErrorExpression.NaError);
                         break;
+                    case TokenType.NameError:
+                        s.Push(ErrorExpression.NameError);
+                        break;
                 }
                 f._tokenIndex++;
             }
@@ -1033,10 +1024,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static int GetNextTokenPosFromCondition(RpnFormula f, FunctionExpression fexp)
         {
-            if(fexp._argPos < fexp._arguments.Count)
+            if(fexp._argPos < fexp.NumberOfArguments)
             {
                 var fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
-                while(fexp._argPos < fexp._arguments.Count && (
+                while(fexp._argPos < fexp.NumberOfArguments && (
                     (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && (fexp._latestConditionValue == ExpressionCondition.False || fexp._latestConditionValue == ExpressionCondition.Error)) ||
                     (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && (fexp._latestConditionValue == ExpressionCondition.True || fexp._latestConditionValue == ExpressionCondition.Error))
                     ))
@@ -1051,9 +1042,9 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                 }
-                if(fexp._argPos < fexp._arguments.Count)
+                if(fexp._argPos < fexp.NumberOfArguments)
                 {
-                    return fexp._arguments[fexp._argPos];
+                    return fexp.GetArgument(fexp._argPos);
                 }
                 else
                 {
@@ -1102,7 +1093,7 @@ namespace OfficeOpenXml.FormulaParsing
                 else
                 {
                     //Remove all function arguments from the stack
-                    for (int i = 0; i < funcExp._arguments.Count; i++)
+                    for (int i = 0; i < funcExp.NumberOfArguments; i++)
                     {
                         var si = f._expressionStack.Pop();
                     }
@@ -1181,7 +1172,7 @@ namespace OfficeOpenXml.FormulaParsing
                 f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
-            for(int i=0;i<func._arguments.Count && s.Count > 0;i++)
+            for(int i=0;i<func.NumberOfArguments && s.Count > 0;i++)
             {
                 var si = s.Pop();
                 if(si.ExpressionType!=ExpressionType.Empty)

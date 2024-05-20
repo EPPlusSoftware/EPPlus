@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -218,14 +219,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         expressions.Add(i, func);
                         if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
-                            func._arguments.Add(i);
+                            func.AddArgument(i);
                         }
                         stack.Push(func);
                         break;
                     case TokenType.Comma:
                         if (stack.Count > 0)
                         {
-                            stack.Peek()._arguments.Add(i);
+                            stack.Peek().AddArgument(i);
                         }
                         break;
                     case TokenType.Function:

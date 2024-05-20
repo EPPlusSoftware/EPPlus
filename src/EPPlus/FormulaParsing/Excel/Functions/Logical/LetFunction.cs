@@ -37,5 +37,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var result = CompileResultFactory.Create(arguments.Last().Value);
             return result;
         }
+
+        public override string NamespacePrefix
+        {
+            get
+            {
+                return "_xlfn.";
+            }
+        }
     }
 }

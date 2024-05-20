@@ -202,6 +202,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <summary>
         /// Represents a parameter variable in functions such as LET or LAMBDA
         /// </summary>
-        ParameterVariable = (ulong)1 << 44
+        ParameterVariable = (ulong)1 << 44,
+        /// <summary>
+        /// Represents a name error
+        /// </summary>
+        NameError = (ulong)1 << 45
     }
 }
