@@ -232,6 +232,11 @@ namespace OfficeOpenXml.Table
             }
         }
 
+        internal List<string> GetColNamesList()
+        {
+            return _colNames.Keys.ToList();
+        }
+
         internal bool ContainsColName(string name)
         {
             return _colNames.ContainsKey(name);
@@ -239,9 +244,16 @@ namespace OfficeOpenXml.Table
 
         internal void UpdateColName(string oldName, string newName)
         {
+            if(oldName.Equals(newName, StringComparison.InvariantCulture)) return;
+
             if(_colNames.ContainsKey(oldName))
             {
                 var columnIndex = _colNames[oldName];
+                if (_colNames.ContainsKey(newName))
+                {
+                    throw new ArgumentException($"Table '{Table.Name}' cannot add column name '{newName}' at column{columnIndex}. " +
+                        $"Name already exists at column{_colNames[newName]}. Column names must be unique.");
+                }
                 _colNames.Remove(oldName);
                 _colNames.Add(newName, columnIndex);
             }

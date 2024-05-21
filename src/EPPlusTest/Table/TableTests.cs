@@ -860,5 +860,88 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(0.39997558519241921m, wks.Cells["B3"].Style.Font.Color.Tint);
             }
         }
+        [TestMethod]
+        public void CreatingAndSavingTableSameColumnName()
+        {
+            using (var package = OpenPackage("TableSameColName.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:B5");
+                ws.SetValue("A1", "AColumn");
+                ws.SetValue("B1", "AColumn");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                table.ShowHeader = true;
+                Assert.AreEqual("AColumn", ws.Cells["A1"].Value);
+                Assert.AreEqual("Column2", ws.Cells["B1"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void CreatingAndSavingEmptyColNames()
+        {
+            using (var package = OpenPackage("TableSameColName.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:B5");
+                ws.SetValue("A2", "something");
+                ws.SetValue("B2", "somethingElse");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                //table.ShowHeader = true;
+                Assert.AreEqual("Column1", ws.Cells["A1"].Value);
+                Assert.AreEqual("Column2", ws.Cells["B1"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void AddingColumnWhenBaseColumnNameExists()
+        {
+            using (var package = OpenPackage("TableSameColNameAdding.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:C5");
+                ws.SetValue("A1", "AColumn");
+                ws.SetValue("B1", "AnotherColumn");
+                ws.SetValue("C1", "ThirdColumn");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                table.ShowHeader = true;
+
+                table.Columns.Add(1);
+
+                Assert.AreEqual("Column4", ws.Cells["D1"].Value);
+                Assert.AreEqual("ThirdColumn", table.Columns[2].Name);
+
+                table.Columns[2].Name = "Column5";
+
+                table.Columns.Add(1);
+                Assert.AreEqual("Column52",table.Columns[4].Name);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ThrowsWhenAttemptingToAddSameName()
+        {
+            using (var package = OpenPackage("TableSameColNameAdding.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:C5");
+                ws.SetValue("A1", "AColumn");
+                ws.SetValue("B1", "AnotherColumn");
+                ws.SetValue("C1", "ThirdColumn");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                table.Columns[1].Name = "AColumn";
+            }
+        }
     }
 }

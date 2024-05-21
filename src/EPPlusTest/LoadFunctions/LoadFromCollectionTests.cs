@@ -603,28 +603,6 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
-        public void tableTest()
-        {
-
-            using (var package = OpenPackage("TeszxtTable423.xlsx", true))
-            {
-                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
-                var range = new ExcelAddress("A1:B5");
-                ws.SetValue("A1", "AColumn");
-                ws.SetValue("B1", "AColumn");
-
-                var table = ws.Tables.Add(range, "newTable");
-
-                table.ShowHeader = true;
-
-                Assert.AreEqual("AColumn", ws.Cells["A1"].Value);
-                Assert.AreEqual("Column2", ws.Cells["B1"].Value);
-
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
         public void TransposeHyperlinks()
         {
             var items = new List<UrlClass>()

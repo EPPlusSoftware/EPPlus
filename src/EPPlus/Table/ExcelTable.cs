@@ -75,6 +75,11 @@ namespace OfficeOpenXml.Table
             {
                 SetAutoFilter();
             }
+
+            if(ShowHeader)
+            {
+                ShowHeader = true;
+            }
         }
 
         private void Init()
@@ -91,19 +96,19 @@ namespace OfficeOpenXml.Table
 			_tableSorter = new TableSorter(this);
         }
 
-        private void UpdateColName(int index, string newName)
+        internal string UpdateAndReturnValidName(int index, string newName, string oldName, ICollection<string> names)
         {
-            if (newName == null || Columns.ContainsColName(newName))
+            if (newName == null || names.Contains(newName))
             {
-                //Get an unique name
+                //Get a unique name
                 int a = index + 1;
                 do
                 {
                     newName = string.Format("Column{0}", a++);
                 }
-                while (Columns.ContainsColName(newName) && _cols[index].Name != newName);
+                while (names.Contains(newName) && oldName != newName);
             }
-            _cols[index].Name = newName;
+            return newName;
         }
 
         private string GetStartXml(string name, int tblId)
@@ -124,18 +129,10 @@ namespace OfficeOpenXml.Table
             {
                 var cell = WorkSheet.Cells[Address._fromRow, Address._fromCol+i-1];
                 string colName= SecurityElement.Escape(cell.Value?.ToString());
-                if (cell.Value == null || names.Contains(colName))
-                {
-                    //Get an unique name
-                    int a=i;
-                    do
-                    {
-                        colName = string.Format("Column{0}", a++);
-                    }
-                    while (names.Contains(colName));
-                }
+                var retName = UpdateAndReturnValidName(i-1, colName, "", names);
+                colName = retName;
                 names.Add(colName);
-                xml += string.Format("<tableColumn id=\"{0}\" name=\"{1}\" />", i,colName);
+                xml += string.Format("<tableColumn id=\"{0}\" name=\"{1}\" />", i, colName);
             }
             xml += "</tableColumns>";
             xml += "<tableStyleInfo name=\"TableStyleMedium9\" showFirstColumn=\"0\" showLastColumn=\"0\" showRowStripes=\"1\" showColumnStripes=\"0\" /> ";
@@ -684,7 +681,7 @@ namespace OfficeOpenXml.Table
                         }
                         else if (v != _cols[i].Name)
                         {
-                            UpdateColName(i, v);
+                            _cols[i].Name = UpdateAndReturnValidName(i, v, _cols[i].Name, _cols.GetColNamesList());
                         }
                     }
                     HeaderRowStyle.SetStyle();
