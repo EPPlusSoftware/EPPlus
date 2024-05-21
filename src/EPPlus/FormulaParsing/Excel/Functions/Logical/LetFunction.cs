@@ -21,6 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     internal class LetFunction : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
+        public override bool ReturnsReference => true;
 
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {

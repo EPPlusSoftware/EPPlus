@@ -422,11 +422,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
             if(variableFuncPositions.Count > 0)
             {
-                foreach(var variableFuncPos in variableFuncPositions)
-                {
-                    var name = l[variableFuncPos].Value;
-                    VariableParameterHelper.ProcessVariableArguments(l, variableFuncPos, name);
-                }
+                var variableHelper = new VariableParameterHelper(l, variableFuncPositions);
+                variableHelper.Process();
+                //foreach(var variableFuncPos in variableFuncPositions)
+                //{
+                //    var name = l[variableFuncPos].Value;
+                //    VariableParameterHelper.ProcessVariableArguments(l, variableFuncPos, name);
+                //}
             }
             return l;
         }

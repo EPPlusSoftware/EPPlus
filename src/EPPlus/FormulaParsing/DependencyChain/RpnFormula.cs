@@ -29,8 +29,6 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _arrayIndex = -1;
         internal bool _isDynamic = false;
         internal FunctionExpression _currentFunction = null;
-        internal bool _hasUnsetVariable;
-        internal string _nextVariableName;
 
         public bool CanBeDynamicArray
         {

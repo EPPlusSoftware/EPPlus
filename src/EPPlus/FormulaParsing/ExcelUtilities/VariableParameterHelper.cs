@@ -20,8 +20,62 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
-    internal static class VariableParameterHelper
+    internal class VariableParameterHelper
     {
+        public VariableParameterHelper(IList<Token> tokens, List<int> funcPositions)
+        {
+            _tokens = tokens;
+            _funcPositions = funcPositions;
+            _functions = new List<VariableFunction>();
+            foreach(var pos in  funcPositions)
+            {
+                var f = new VariableFunction(_functions)
+                {
+                    Name = tokens[pos].Value,
+                    Start = pos
+                };
+                _functions.Add(f);
+            }
+        }
+
+        private readonly IList<Token> _tokens;
+        private readonly List<int> _funcPositions;
+        private readonly List<VariableFunction> _functions;
+
+        private class VariableFunction
+        {
+            public VariableFunction(List<VariableFunction> functions)
+            {
+                _functions = functions;
+            }
+
+            private readonly List<VariableFunction> _functions;
+
+            public string Name { get; set; }
+
+            public int Start { get; set; }
+
+            public int? End { get; set; }
+
+            public Dictionary<string, int> Variables { get; set; } = new Dictionary<string, int>();
+
+            public bool IsGlobalVariable(string name)
+            {
+                if (Variables.ContainsKey(name)) return true;
+                var parentFunctions = _functions.Where(f => f.Start < Start && (f.End > Start || f.End == null));
+                foreach(var parentFunc in parentFunctions)
+                {
+                    if(parentFunc.Variables.ContainsKey(name)) return true;
+                }
+                return false;
+            }
+
+            public bool IsLocalVariable(string name)
+            {
+                return Variables.ContainsKey(name);
+            }
+        }
+
 #if (!NET35)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -51,14 +105,23 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             
         }
-        internal static void ProcessVariableArguments(IList<Token> tokens, int startIndex, string funcName)
+
+        internal void Process()
+        {
+            foreach(var func in _functions)
+            {
+                ProcessVariableArguments(func);
+            }
+        }
+
+        private void ProcessVariableArguments(VariableFunction func)
         {
             var commaIndexes = new List<int>();
             var openParenthesis = 0;
             // 1. loop through the tokens and collect indexes of the commas until the end of the function args.
-            for (var cIx = startIndex + 1; !(tokens[cIx].TokenType == TokenType.ClosingParenthesis && openParenthesis == 1); cIx++)
+            for (var cIx = func.Start + 1; !(_tokens[cIx].TokenType == TokenType.ClosingParenthesis && openParenthesis == 1); cIx++)
             {
-                var t = tokens[cIx];
+                var t = _tokens[cIx];
                 if(t.TokenType == TokenType.OpeningParenthesis)
                 {
                     openParenthesis++;
@@ -67,42 +130,41 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 {
                     openParenthesis--;
                 }
-                if (tokens[cIx].TokenType == TokenType.Comma && openParenthesis == 1)
+                if (_tokens[cIx].TokenType == TokenType.Comma && openParenthesis == 1)
                 {
                     commaIndexes.Add(cIx);
                 }
             }
-            var variableNames = new Dictionary<string, int>();
             // 2. Process the arguments and look for variables excluding the last arg
             //    which is not declarations of variables but the calculation.
             for (var argIndex = 0; argIndex < commaIndexes.Count; argIndex++)
             {
-                if (IsVariableArg(funcName, argIndex, commaIndexes.Count))
+                if (IsVariableArg(func.Name, argIndex, commaIndexes.Count))
                 {
                     var ix = commaIndexes[argIndex];
-                    var variableName = ProcessVariableToken(tokens[ix - 1].Value);
-                    if (!variableNames.ContainsKey(variableName))
+                    var variableName = ProcessVariableToken(_tokens[ix - 1].Value);
+                    if (!func.IsLocalVariable(variableName))
                     {
-                        variableNames.Add(variableName, argIndex);
+                        func.Variables.Add(variableName, argIndex);
                     }
-                    tokens[ix - 1] = new Token(variableName, TokenType.ParameterVariable);
+                    _tokens[ix - 1] = new Token(variableName, TokenType.ParameterVariableDeclaration);
                 }
                 else
                 {
                     var ix = commaIndexes[argIndex - 1] + 1;
-                    while (tokens[ix].TokenType != TokenType.Comma || tokens[ix].TokenType == TokenType.Function)
+                    while (_tokens[ix].TokenType != TokenType.Comma || _tokens[ix].TokenType == TokenType.Function)
                     {
-                        var variableName = ProcessVariableToken(tokens[ix].Value);
-                        if (variableNames.ContainsKey(variableName))
+                        var variableName = ProcessVariableToken(_tokens[ix].Value);
+                        if (func.IsGlobalVariable(variableName))
                         {
                             // if the declaration of the variable is using the variable a #NAME error should be returned.
-                            if (variableNames[variableName] == argIndex - 1)
+                            if (func.IsLocalVariable(variableName))
                             {
-                                tokens[ix] = new Token(ExcelErrorValue.Create(eErrorType.Name).ToString(), TokenType.NameError);
+                                _tokens[ix] = new Token(ExcelErrorValue.Create(eErrorType.Name).ToString(), TokenType.NameError);
                             }
                             else
                             {
-                                tokens[ix] = new Token(variableName, TokenType.ParameterVariable);
+                                _tokens[ix] = new Token(variableName, TokenType.ParameterVariable);
                             }
                         }
                         ix++;
@@ -111,9 +173,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             // 3. Process variable names in the last argument (the calculation)
             openParenthesis = 1;
-            for (var lastArgIx = commaIndexes.Last(); tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
+            int lastArgIx;
+            for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
             {
-                var candidate = tokens[lastArgIx];
+                var candidate = _tokens[lastArgIx];
                 if (candidate.TokenType == TokenType.OpeningParenthesis)
                 {
                     openParenthesis++;
@@ -126,12 +189,13 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 if (candidate.TokenType == TokenType.NameValue)
                 {
                     var candidateVariableName = ProcessVariableToken(candidate.Value);
-                    if (variableNames.ContainsKey(candidateVariableName))
+                    if (func.IsGlobalVariable(candidateVariableName))
                     {
-                        tokens[lastArgIx] = new Token(candidateVariableName, TokenType.ParameterVariable);
+                        _tokens[lastArgIx] = new Token(candidateVariableName, TokenType.ParameterVariable);
                     }
                 }
             }
+            func.End = lastArgIx;
         }
 
         private static string ProcessVariableToken(string variableToken)

@@ -200,12 +200,16 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         HashMark = (ulong)1 << 43,
         /// <summary>
-        /// Represents a parameter variable in functions such as LET or LAMBDA
+        /// Represents a parameter variable declaration in functions such as LET or LAMBDA
         /// </summary>
-        ParameterVariable = (ulong)1 << 44,
+        ParameterVariableDeclaration = (ulong)1 << 44,
         /// <summary>
         /// Represents a name error
         /// </summary>
-        NameError = (ulong)1 << 45
+        NameError = (ulong)1 << 45,
+        /// <summary>
+        /// Represents a parameter variable in functions such as LET or LAMBDA
+        /// </summary>
+        ParameterVariable = (ulong)1 << 46
     }
 }

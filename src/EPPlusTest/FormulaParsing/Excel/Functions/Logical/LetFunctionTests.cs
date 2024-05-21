@@ -11,6 +11,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
     public class LetFunctionTests
     {
         [TestMethod]
+        public void LetFunction_SimpleTest()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A2"].Formula = "LET(x,1 + 2,x + 1)";
+            sheet.Calculate();
+            Assert.AreEqual(4d, sheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
         public void LetFunction_WithVariablePrefixes()
         {
             using var package = new ExcelPackage();
@@ -84,6 +94,41 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["A2"].Formula = "LET(x,LET(y,1,y+1),x+1)";
             sheet.Calculate();
             Assert.AreEqual(3d, sheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void LetFunction_ShouldReturnAddress1()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["F5"].Formula = "LET(x,B3:B4,x):C4";
+            sheet.Cells["B3"].Value = 5;
+            sheet.Cells["B4"].Value = 6;
+            sheet.Cells["C4"].Value = 2;
+            sheet.Calculate();
+            Assert.AreEqual(5, sheet.Cells["F5"].Value);
+            Assert.AreEqual(6, sheet.Cells["F6"].Value);
+            Assert.AreEqual(2, sheet.Cells["G6"].Value);
+        }
+
+        [TestMethod]
+        public void LetFunction_NegateVariable()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x,3,-x)";
+            sheet.Calculate();
+            Assert.AreEqual(-3d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LetFunction_UseVariableFromParentLetFunction()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x,2,y,LET(a,x,a+1),x + y)";
+            sheet.Calculate();
+            Assert.AreEqual(5d, sheet.Cells["A1"].Value);
         }
     }
 }

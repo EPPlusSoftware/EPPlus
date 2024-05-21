@@ -11,48 +11,68 @@
   05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal class VariableFunctionExpression : FunctionExpression
     {
-        internal VariableFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(tokenValue, ctx, pos)
+
+
+        internal VariableFunctionExpression(string tokenValue, Stack<FunctionExpression> funcStack, ParsingContext ctx, int pos) : base(tokenValue, ctx, pos)
         {
+
         }
 
         private readonly Dictionary<string, CompileResult> _variables = new Dictionary<string, CompileResult>();
+        private string _lastDeclaredVariable;
 
         internal override bool IsVariable(string name)
         {
             return VariableIsSet(name);
         }
 
-        internal void AddVariableName(string name)
+        internal void DeclareVariable(string name)
         {
             if (!_variables.ContainsKey(name))
             {
                 _variables.Add(name, null);
             }
+            _lastDeclaredVariable = name;
+        }
+
+        internal bool VariableIsDeclared(string name)
+        {
+            if (_variables.ContainsKey(name))
+            {
+                return true;
+            }
+            return false;
         }
 
         internal bool VariableIsSet(string name)
         {
-            return _variables.ContainsKey(name);
+            if(_variables.ContainsKey(name) && _variables[name] !=null)
+            {
+                return true;
+            }
+            return false;
         }
 
         internal int NumberOfVariables => _variables.Count;
 
-        internal void AddVariableValue(string name, CompileResult value)
+        internal void AddVariableValue(CompileResult value)
         {
-            _variables[name] = value;
+            _variables[_lastDeclaredVariable] = value;
         }
 
         internal CompileResult GetVariableValue(string variableName)
         {
-            if (_variables.ContainsKey(variableName))
+            if (_variables.ContainsKey(variableName) && _variables[variableName] != null)
             {
                 return _variables[variableName];
             }

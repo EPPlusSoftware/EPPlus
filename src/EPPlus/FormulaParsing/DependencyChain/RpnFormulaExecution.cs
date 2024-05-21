@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
@@ -787,9 +788,9 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Array:
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
+                    case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
                         s.Push(f._expressions[f._tokenIndex]);
-                        f._hasUnsetVariable = true;
                         break;
                     case TokenType.Negator:                        
                         s.Push(s.Pop().Negate());
@@ -826,20 +827,18 @@ namespace OfficeOpenXml.FormulaParsing
                         if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
-                            if(s.Peek() is VariableExpression ve)
+                            if(fexp.HandlesVariables && f._expressionStack.Count > 1)
                             {
-                                f._nextVariableName = ve.Name;
-                                f._hasUnsetVariable = true;
-                                break;
+                                var exp1 = f._expressionStack.Pop();
+                                var exp2 = f._expressionStack.Pop();
+                                f._expressionStack.Push(exp2);
+                                f._expressionStack.Push(exp1);
+                                if(exp2 is VariableExpression vfe && vfe.IsDeclaration)
+                                {
+                                    ((VariableFunctionExpression)fexp).AddVariableValue(exp1.Compile());
+                                }
                             }
-                            else if(f._hasUnsetVariable && fexp is VariableFunctionExpression vfe)
-                            {
-                                f._hasUnsetVariable = false;
-                                var variableValue = s.Peek(); ;
-                                var variableResult = variableValue.Compile();
-                                vfe.AddVariableValue(f._nextVariableName, variableResult);
-                                break;
-                            }
+                            
                             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
                             {
                                 //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);

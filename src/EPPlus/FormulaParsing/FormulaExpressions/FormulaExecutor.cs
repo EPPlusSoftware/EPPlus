@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -207,19 +206,35 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         ExtractArray(tokens, i , out IRangeInfo rangInfo, parsingContext);
                         expressions.Add(i, new EnumerableExpression(rangInfo, parsingContext));
                         break;
-                    case TokenType.ParameterVariable:
+                    case TokenType.ParameterVariableDeclaration:
                         var variableFunction = stack.Peek() as VariableFunctionExpression;
-                        expressions.Add(i, new VariableExpression(t.Value, variableFunction));
+                        expressions.Add(i, new VariableExpression(t.Value, variableFunction, true));
+                        break;
+                    case TokenType.ParameterVariable:
+                        foreach(var exp in stack)
+                        {
+                            if(exp is VariableFunctionExpression vfeExp)
+                            {
+                                if(vfeExp.VariableIsDeclared(t.Value))
+                                {
+                                    expressions.Add(i, new VariableExpression(t.Value, vfeExp, false));
+                                }
+                            }
+                        }
                         break;
                     case TokenType.StartFunctionArguments:
                         var isLet = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LET", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LET", StringComparison.OrdinalIgnoreCase) == 0);
                         var func = isLet ? 
-                            new LetFunctionExpression(t.Value, parsingContext, i) :
+                            new LetFunctionExpression(t.Value, stack, parsingContext, i) :
                             new FunctionExpression(t.Value, parsingContext, i);
                         expressions.Add(i, func);
                         if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
                             func.AddArgument(i);
+                            if(func.HandlesVariables)
+                            {
+                                //VariableParameterHelper.ProcessVariableArguments(tokens, i, func);
+                            }
                         }
                         stack.Push(func);
                         break;

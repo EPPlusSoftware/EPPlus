@@ -19,16 +19,24 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal class VariableExpression : Expression
     {
-        public VariableExpression(string variableName, VariableFunctionExpression expression)
+        public VariableExpression(string variableName, VariableFunctionExpression expression, bool isDeclaration)
         {
             Name = variableName;
-            expression.AddVariableName(variableName);
+            expression.DeclareVariable(variableName);
             _variableFunctionExpression = expression;
+            IsDeclaration = isDeclaration;
         }
 
         private readonly VariableFunctionExpression _variableFunctionExpression;
+        private bool _negate = false;
+
 
         internal override ExpressionType ExpressionType => ExpressionType.Variable;
+
+        public bool IsDeclaration
+        {
+            get; private set;
+        }
 
         internal override ExpressionStatus Status
         {
@@ -42,18 +50,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 return _variableFunctionExpression.GetVariableValue(Name);
             }
+
         }
+
 
         internal string Name { get; private set; }
 
         public override CompileResult Compile()
         {
-            return Value;
+            return _negate ? Value.Negate() : Value;
         }
 
         public override Expression Negate()
         {
-            throw new NotImplementedException();
+            _negate = !_negate;
+            return this;
         }
     }
 }
