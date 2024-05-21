@@ -603,13 +603,35 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void tableTest()
+        {
+
+            using (var package = OpenPackage("TeszxtTable423.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:B5");
+                ws.SetValue("A1", "AColumn");
+                ws.SetValue("B1", "AColumn");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                table.ShowHeader = true;
+
+                Assert.AreEqual("AColumn", ws.Cells["A1"].Value);
+                Assert.AreEqual("Column2", ws.Cells["B1"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
         public void TransposeHyperlinks()
         {
             var items = new List<UrlClass>()
             {
                 new UrlClass{Id="1", Name="Person 1", EMailAddress="person1@somewhe.re"},
                 new UrlClass{Id="2", Name="Person 2", EMailAddress="person2@somewhe.re"},
-                new UrlClass{Id="3", Name="Person with Url", EMailAddress="person2@somewhe.re", Url=new Uri("https://epplussoftware.com")},
+                new UrlClass{Id="2", Name="Person with Url", EMailAddress="person2@somewhe.re", Url=new Uri("https://epplussoftware.com")},
             };
 
             using (var package = OpenPackage("LoadFromURIsTranspose.xlsx", true))

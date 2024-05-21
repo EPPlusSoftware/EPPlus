@@ -27,6 +27,8 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using System.Linq;
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -87,6 +89,21 @@ namespace OfficeOpenXml.Table
 			HeaderRowBorderStyle = styles.GetDxfBorder(HeaderRowBorderDxfId, SetHeaderStyle);
 
 			_tableSorter = new TableSorter(this);
+        }
+
+        private void UpdateColName(int index, string newName)
+        {
+            if (newName == null || Columns.ContainsColName(newName))
+            {
+                //Get an unique name
+                int a = index;
+                do
+                {
+                    newName = string.Format("Column{0}", a++);
+                }
+                while (Columns.ContainsColName(newName));
+            }
+            _cols[index].Name = newName;
         }
 
         private string GetStartXml(string name, int tblId)
@@ -667,10 +684,20 @@ namespace OfficeOpenXml.Table
                         }
                         else if (v != _cols[i].Name)
                         {
-                            if(_cols.ContainsColName(v) == false)
-                            {
-                                _cols[i].Name = v;
-                            }
+                            UpdateColName(i, v);
+                            //_cols[i].Name = v;
+                            //if(_cols.ContainsColName(v) == false)
+                            //{
+                            //    _cols[i].Name = v;
+                            //}
+                            ////if (_cols.ContainsColName(v) == false)
+                            ////{
+                            ////    _cols[i].Name = v + i.ToString();
+                            ////}
+                            ////else
+                            ////{
+                            ////    _cols[i].Name = v;
+                            ////}
                         }
                     }
                     HeaderRowStyle.SetStyle();
