@@ -8,6 +8,7 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Runtime.InteropServices.ComTypes;
+using OfficeOpenXml.FormulaParsing;
 using System.Globalization;
 using System.Threading;
 namespace EPPlusTest.Issues
@@ -357,5 +358,49 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(package);
 			}
 		}
-	}
+        [TestMethod]
+        public void s668()
+        {
+			SwitchToCulture("zh");
+			try
+			{
+				using (var package = OpenTemplatePackage("s668.xlsx"))
+				{
+					ExcelWorksheet worksheet = package.Workbook.Worksheets["test"];
+					try
+					{
+						ExcelCalculationOption excelCalculationOption = new ExcelCalculationOption();
+						excelCalculationOption.AllowCircularReferences = true;
+						worksheet.Calculate(excelCalculationOption);
+					}
+					catch (Exception ex)
+					{
+
+
+					}
+					SaveAndCleanup(package);
+				}
+				using (var package = OpenPackage("s668.xlsx"))
+				{
+					ExcelWorksheet worksheet = package.Workbook.Worksheets["test"];
+					try
+					{
+						ExcelCalculationOption excelCalculationOption = new ExcelCalculationOption();
+						excelCalculationOption.AllowCircularReferences = true;
+						worksheet.Calculate(excelCalculationOption);
+					}
+					catch (Exception ex)
+					{
+
+
+					}
+					SaveWorkbook("s668-Saved.xlsx", package);
+				}
+			}
+			finally
+			{
+                SwitchBackToCurrentCulture();
+            }
+        }
+    }
 }

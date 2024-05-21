@@ -461,6 +461,9 @@ namespace OfficeOpenXml
                 return this;
             }
         }
+        /// <summary>
+        /// Method for actions that must be taken before address is changed
+        /// </summary>
         internal protected virtual void BeforeChangeAddress()
         {
         }
@@ -688,6 +691,9 @@ namespace OfficeOpenXml
                 return _address;
             }
         }
+        /// <summary>
+        /// The $absolute$ address
+        /// </summary>
         public string AddressAbsolute
         {
             get

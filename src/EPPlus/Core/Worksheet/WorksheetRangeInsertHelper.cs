@@ -307,15 +307,15 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void InsertFilterAddress(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
         {
             var ws = range.Worksheet;
-            if (ws.AutoFilterAddress != null && effectedAddress.Collide(ws.AutoFilterAddress) != ExcelAddressBase.eAddressCollition.No)
+            if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollition.No)
             {
                 if(shift==eShiftTypeInsert.Down)
                 {
-                    ws.AutoFilterAddress = ws.AutoFilterAddress.AddRow(range._fromRow, range.Rows);
+                    ws.AutoFilter.Address = ws.AutoFilter.Address.AddRow(range._fromRow, range.Rows);
                 }
                 else
                 {
-                    ws.AutoFilterAddress = ws.AutoFilterAddress.AddColumn(range._fromCol, range.Columns);
+                    ws.AutoFilter.Address = ws.AutoFilter.Address.AddColumn(range._fromCol, range.Columns);
                 }
             }
         }

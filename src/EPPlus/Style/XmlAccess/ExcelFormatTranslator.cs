@@ -298,9 +298,10 @@ namespace OfficeOpenXml.Style.XmlAccess
                             {
                                 prevUnderScore = true;
                             }
-                            else if (c == '?')
+                            else 
+                            if (c == '?')
                             {
-                                sb.Append(' ');
+                                sb.Append('#');
                             }
                             else if (c == '/')
                             {

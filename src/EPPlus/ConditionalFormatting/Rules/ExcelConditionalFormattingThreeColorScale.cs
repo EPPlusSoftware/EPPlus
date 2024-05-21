@@ -155,7 +155,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             if (cellValue.IsNumeric())
             {
                 var cellValues = new List<double>();
-                double midPoint = 0;
                 double average = 0;
                 int count = 0;
                 foreach (var cell in Address.GetAllAddresses())

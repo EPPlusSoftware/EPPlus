@@ -1210,6 +1210,9 @@ namespace OfficeOpenXml.Drawing.Chart
             Series.AddPivotSerie(pivotTableSource);
         }
         ExcelChartAxisStandard[] _axisStandard = null;
+        /// <summary>
+        /// Axis array
+        /// </summary>
         public new ExcelChartAxisStandard[] Axis
         {
             get

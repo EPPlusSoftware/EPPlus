@@ -18,6 +18,9 @@ using System.Drawing;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ExcelConditionalFormattingColorScaleValue
     {
         int _priority;

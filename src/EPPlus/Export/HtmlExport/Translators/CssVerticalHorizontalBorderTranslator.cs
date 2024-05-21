@@ -1,18 +1,10 @@
 ﻿using OfficeOpenXml.Export.HtmlExport.CssCollections;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OfficeOpenXml.Style.Dxf;
-using System.Runtime;
 using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Export.HtmlExport.CssCollections;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
