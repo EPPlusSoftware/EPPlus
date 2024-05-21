@@ -96,12 +96,12 @@ namespace OfficeOpenXml.Table
             if (newName == null || Columns.ContainsColName(newName))
             {
                 //Get an unique name
-                int a = index;
+                int a = index + 1;
                 do
                 {
                     newName = string.Format("Column{0}", a++);
                 }
-                while (Columns.ContainsColName(newName));
+                while (Columns.ContainsColName(newName) && _cols[index].Name != newName);
             }
             _cols[index].Name = newName;
         }
@@ -685,19 +685,6 @@ namespace OfficeOpenXml.Table
                         else if (v != _cols[i].Name)
                         {
                             UpdateColName(i, v);
-                            //_cols[i].Name = v;
-                            //if(_cols.ContainsColName(v) == false)
-                            //{
-                            //    _cols[i].Name = v;
-                            //}
-                            ////if (_cols.ContainsColName(v) == false)
-                            ////{
-                            ////    _cols[i].Name = v + i.ToString();
-                            ////}
-                            ////else
-                            ////{
-                            ////    _cols[i].Name = v;
-                            ////}
                         }
                     }
                     HeaderRowStyle.SetStyle();
