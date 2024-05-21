@@ -80,10 +80,24 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// If this property is true, no rules with lower priority should be applied over this rule.
         /// </summary>
         public bool StopIfTrue { get; set; }
+
+        bool _pivotTable = false;
+
         /// <summary>
         /// Indicates that the conditional formatting is associated with a PivotTable
         /// </summary>
-        public bool PivotTable { get; set; }
+        public bool PivotTable
+        {
+            get { return _pivotTable; }
+            set
+            {
+                if (Address == null)
+                {
+                    _isExtLst = false;
+                }
+                _pivotTable = value;
+            }
+        }
 
         internal ExcelDxfStyleConditionalFormatting _style = null;
 
