@@ -861,6 +861,62 @@ namespace EPPlusTest.Table
             }
         }
         [TestMethod]
+        public void RemovingAndAddingHeaders()
+        {
+            using (var package = OpenPackage("RemovingAddingHeaders.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:C5");
+                ws.SetValue("A2", "Column3");
+                ws.SetValue("B2", "Column4");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                table.ShowHeader = false;
+
+                Assert.AreEqual(null, ws.Cells["A1"].Value);
+                Assert.AreEqual(null, ws.Cells["B1"].Value);
+
+                table.ShowHeader = true;
+
+                Assert.AreEqual(null, ws.Cells["A1"].Value);
+                Assert.AreEqual(null, ws.Cells["B1"].Value);
+
+                table.OverWriteCellsWithColumnNames();
+
+                Assert.AreEqual("Column1", ws.Cells["A1"].Value);
+                Assert.AreEqual("Column2", ws.Cells["B1"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void CreatingTableWithColumnNamesAlready()
+        {
+            using (var package = OpenPackage("DuplicateColumnNames.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:C5");
+                ws.SetValue("A1", "Column3");
+                ws.SetValue("B1", "Column4");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                table.ShowHeader = true;
+
+                Assert.AreEqual("Column3", ws.Cells["A1"].Value);
+                Assert.AreEqual("Column4", ws.Cells["B1"].Value);
+                Assert.AreEqual(null, ws.Cells["C1"].Value);
+                Assert.AreEqual("Column32", table.Columns[2].Name);
+                table.Columns.Add(1);
+                Assert.AreEqual("Column42", table.Columns[3].Name);
+                Assert.AreEqual("Column42", ws.Cells["D1"].Value);
+
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
         public void CreatingAndSavingTableSameColumnName()
         {
             using (var package = OpenPackage("TableSameColName.xlsx", true))
@@ -873,8 +929,12 @@ namespace EPPlusTest.Table
                 var table = ws.Tables.Add(range, "newTable");
 
                 table.ShowHeader = true;
+
+                Assert.AreEqual("AColumn", table.Columns[0].Name);
+                Assert.AreEqual("Column2", table.Columns[1].Name);
+
                 Assert.AreEqual("AColumn", ws.Cells["A1"].Value);
-                Assert.AreEqual("Column2", ws.Cells["B1"].Value);
+                Assert.AreEqual("AColumn", ws.Cells["B1"].Value);
 
                 SaveAndCleanup(package);
             }
@@ -882,7 +942,7 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void CreatingAndSavingEmptyColNames()
         {
-            using (var package = OpenPackage("TableSameColName.xlsx", true))
+            using (var package = OpenPackage("TableEmptyColNames.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("TESTTABLE");
                 var range = new ExcelAddress("A1:B5");
@@ -891,9 +951,11 @@ namespace EPPlusTest.Table
 
                 var table = ws.Tables.Add(range, "newTable");
 
-                //table.ShowHeader = true;
-                Assert.AreEqual("Column1", ws.Cells["A1"].Value);
-                Assert.AreEqual("Column2", ws.Cells["B1"].Value);
+                Assert.AreEqual("Column1", table.Columns[0].Name);
+                Assert.AreEqual("Column2", table.Columns[1].Name);
+
+                Assert.AreEqual(null, ws.Cells["A1"].Value);
+                Assert.AreEqual(null, ws.Cells["B1"].Value);
 
                 SaveAndCleanup(package);
             }
@@ -930,7 +992,7 @@ namespace EPPlusTest.Table
         [ExpectedException(typeof(ArgumentException))]
         public void ThrowsWhenAttemptingToAddSameName()
         {
-            using (var package = OpenPackage("TableSameColNameAdding.xlsx", true))
+            using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("TESTTABLE");
                 var range = new ExcelAddress("A1:C5");

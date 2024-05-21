@@ -27,8 +27,6 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
-using System.Linq;
-
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -75,11 +73,6 @@ namespace OfficeOpenXml.Table
             {
                 SetAutoFilter();
             }
-
-            if(ShowHeader)
-            {
-                ShowHeader = true;
-            }
         }
 
         private void Init()
@@ -98,15 +91,22 @@ namespace OfficeOpenXml.Table
 
         internal string UpdateAndReturnValidName(int index, string newName, string oldName, ICollection<string> names)
         {
-            if (newName == null || names.Contains(newName))
+            if (names.Contains(newName) || newName == null)
             {
-                //Get a unique name
                 int a = index + 1;
-                do
+                newName = string.Format("Column{0}", a++);
+
+                if (names.Contains(newName) && oldName != newName)
                 {
-                    newName = string.Format("Column{0}", a++);
+                    var name = newName;
+                    var i = 2;
+                    do
+                    {
+                        name = newName + (i++).ToString(CultureInfo.InvariantCulture);
+                    }
+                    while (names.Contains(name) && oldName != name);
+                    return name;
                 }
-                while (names.Contains(newName) && oldName != newName);
             }
             return newName;
         }
@@ -651,6 +651,38 @@ namespace OfficeOpenXml.Table
         const string HEADERROWCOUNT_PATH = "@headerRowCount";
         const string AUTOFILTER_PATH = "d:autoFilter";
         const string AUTOFILTER_ADDRESS_PATH = AUTOFILTER_PATH + "/@ref";
+
+        /// <summary>
+        /// Ensures the top cell in each column of the table contains only the column name
+        /// </summary>
+        public void OverWriteCellsWithColumnNames()
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
+            }
+        }
+
+        /// <summary>
+        /// Ensures the column name of each column matches the current cellValue
+        /// If cell value is null and column name exists sets sell value to column name
+        /// </summary>
+        public void OverwriteColumnNamesWithCellValues()
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                var v = WorkSheet.GetValue<string>(Address._fromRow, Address._fromCol + i);
+                if (string.IsNullOrEmpty(v))
+                {
+                    WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
+                }
+                else if (v != _cols[i].Name)
+                {
+                    _cols[i].Name = UpdateAndReturnValidName(i, v, _cols[i].Name, _cols.GetColNamesList());
+                }
+            }
+        }
+
         /// <summary>
         /// If the header row is visible or not
         /// </summary>
@@ -668,22 +700,10 @@ namespace OfficeOpenXml.Table
                     throw (new Exception("Cant set ShowHeader-property. Table has too few rows"));
                 }
 
-                if(value)
+                if (value)
                 {
                     DeleteNode(HEADERROWCOUNT_PATH);
                     WriteAutoFilter(ShowTotal);
-                    for (int i = 0; i < Columns.Count; i++)
-                    {
-                        var v = WorkSheet.GetValue<string>(Address._fromRow, Address._fromCol + i);
-                        if(string.IsNullOrEmpty(v))
-                        {
-                            WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
-                        }
-                        else if (v != _cols[i].Name)
-                        {
-                            _cols[i].Name = UpdateAndReturnValidName(i, v, _cols[i].Name, _cols.GetColNamesList());
-                        }
-                    }
                     HeaderRowStyle.SetStyle();
                     foreach (var c in Columns)
                     {

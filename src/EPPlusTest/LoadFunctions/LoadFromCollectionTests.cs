@@ -619,6 +619,7 @@ namespace EPPlusTest.LoadFunctions
 
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
 
+                sheet.Tables[0].OverWriteCellsWithColumnNames();
                 Assert.AreEqual("Column4", sheet.Cells["D1"].Value);
 
                 SaveAndCleanup(package);

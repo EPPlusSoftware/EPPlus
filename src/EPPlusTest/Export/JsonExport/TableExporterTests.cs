@@ -89,7 +89,7 @@ namespace EPPlusTest.Export.JsonExport
                     , s);
 
                 s = range.ToJson(x => x.FirstRowIsHeader = false);
-                Assert.AreEqual("{\"range\":{\"rows\":[{\"cells\":[{\"v\":\"Column1\",\"t\":\"Column1\",\"dt\":\"string\"},{\"v\":\"Column2\",\"t\":\"Column2\",\"dt\":\"string\"},{\"v\":\"Column3\",\"t\":\"Column3\",\"dt\":\"string\"},{\"v\":\"Column4\",\"t\":\"Column4\",\"dt\":\"string\"},{\"v\":\"Column5\",\"t\":\"Column5\",\"dt\":\"string\"},{\"v\":\"Column6\",\"t\":\"Column6\",\"dt\":\"string\"},{\"v\":\"Column7\",\"t\":\"Column7\",\"dt\":\"string\"}]},{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\",\"dt\":\"string\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\",\"dt\":\"string\"},{\"v\":\"\\f\",\"t\":\"\\f\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\b\",\"t\":\"\\b\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\",\"dt\":\"string\"}]}]}}"
+                Assert.AreEqual("{\"range\":{\"rows\":[{\"cells\":[{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"}]},{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\",\"dt\":\"string\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\",\"dt\":\"string\"},{\"v\":\"\\f\",\"t\":\"\\f\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\b\",\"t\":\"\\b\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\",\"dt\":\"string\"}]}]}}"
                     , s);
             }
         }
