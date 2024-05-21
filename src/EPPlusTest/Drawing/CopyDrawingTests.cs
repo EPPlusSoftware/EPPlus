@@ -78,7 +78,7 @@ namespace EPPlusTest.Drawing
 
         //Copy Control Tests
         [TestMethod]
-        public void CopyControlSameWorksheetTest() //Fungerar ej. Flyttar orginalet
+        public void CopyControlSameWorksheetTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws1 = p.Workbook.Worksheets[1];
@@ -111,7 +111,7 @@ namespace EPPlusTest.Drawing
 
         //Copy Slicer Tests
         [TestMethod]
-        public void CopySlicerSameWorksheetTest() //Fungerar ej
+        public void CopySlicerSameWorksheetTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws1 = p.Workbook.Worksheets[0];
@@ -128,7 +128,7 @@ namespace EPPlusTest.Drawing
             SaveAndCleanup(p);
         }
         [TestMethod]
-        public void CopySlicerOtherWorkbookTest() //Fungerar ej
+        public void CopySlicerOtherWorkbookTest() //Fungerar! Ska slänga ett exception.
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws1 = p.Workbook.Worksheets[0];
@@ -140,7 +140,7 @@ namespace EPPlusTest.Drawing
 
         //Copy Chart Tests
         [TestMethod]
-        public void CopyChartSameWorksheetTest() //Fungerar ej
+        public void CopyChartSameWorksheetTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var sourceWs = p.Workbook.Worksheets[2];
@@ -168,5 +168,20 @@ namespace EPPlusTest.Drawing
         }
 
         //Copy Group Shape Tests
+        [TestMethod]
+        public void CopyGroupShapeSameWorksheetTest()
+        {
+
+        }
+        [TestMethod]
+        public void CopyGroupShapeOtherWorksheetTest()
+        {
+
+        }
+        [TestMethod]
+        public void CopyGroupShapeOtherWorkbookTest()
+        {
+
+        }
     }
 }
