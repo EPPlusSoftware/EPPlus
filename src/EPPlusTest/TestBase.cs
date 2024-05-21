@@ -317,7 +317,7 @@ namespace EPPlusTest
                 new SalesData{ Continent="Europe", Country="France", State = "Paris", Sales = 127 },
                 new SalesData{ Continent="North America", Country="USA", State = "New York", Sales= 330 },
                 new SalesData{ Continent="Europe", Country="Germany", State = "Berlin", Sales = 210 },
-                new SalesData{ Continent="North America", Country="USA", State = "San Fransico", Sales= 411 },
+                new SalesData{ Continent="North America", Country="USA", State = "San Fransisco", Sales= 411 },
             };
 
             return ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);

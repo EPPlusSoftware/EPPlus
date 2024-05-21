@@ -33,57 +33,69 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 				calculatedItems.SetAllValues(ErrorValues.NAError);
 				return;
 			}
-			var colFieldsStart = df.Field.PivotTable.RowFields.Count;
+			var pt = df.Field.PivotTable;
+
+            var colFieldsStart = pt.RowFields.Count;
 			var keyCol = fieldIndex.IndexOf(df.BaseField);
-			var record = df.Field.PivotTable.CacheDefinition._cacheReference.Records;
+			var record = pt.CacheDefinition._cacheReference.Records;
 			var maxBfKey = 0;
-			if (record.CacheItems[df.BaseField].Count(x => x is int) > 0)
+			var isRowField = keyCol < pt.RowFields.Count;
+
+            if (record.CacheItems[df.BaseField].Count(x => x is int) > 0)
 			{
 				maxBfKey = (int)record.CacheItems[df.BaseField].Where(x => x is int).Max();
 			}
-
-			foreach (var key in calculatedItems.Index.OrderBy(x => x.Key, ArrayComparer.Instance))
-			{
-				if (IsSumBefore(key.Key, bf, fieldIndex, colFieldsStart))
+			var rtCalcItems = PivotTableCalculation.GetNewCalculatedItems();
+			var calcTable = PivotTableCalculation.GetAsCalculatedTable(pt);
+			Dictionary<int[], object> runningTotalSums = new Dictionary<int[], object>(ArrayComparer.Instance);
+            for (int r = 0; r < calcTable.Count; r++)
+            {
+				for (int c = 0; c < calcTable[r].Count; c++)
 				{
-					if(!(leaveParentSum == true && key.Key[keyCol] == PivotCalculationStore.SumLevelValue))
+					var key = calcTable[r][c];
+					if (key[keyCol]== PivotCalculationStore.SumLevelValue)
 					{
-						calculatedItems[key.Key] = null;
+						rtCalcItems[key] = 0D;
+						continue;
 					}
-				}
-				else if (IsSumAfter(key.Key, bf, fieldIndex, colFieldsStart) == true)
-				{
-					if (key.Key[keyCol] > 0)
+					var value = 0D;
+					if (calculatedItems.TryGetValue(key, out object v))
 					{
-						var prevKey = GetPrevKey(key.Key, keyCol);
-						if (calculatedItems.ContainsKey(prevKey))
+						if (v is double d)
 						{
-							if (calculatedItems[key.Key] is double current)
-							{
-								if (calculatedItems[prevKey] is double prev)
-								{
-									calculatedItems[key.Key] = current + prev;
-								}
-								else
-								{
-									calculatedItems[key.Key] = calculatedItems[prevKey]; //The prev key is an error, set the value to that error.
-								}
-							}
+							value = d;
 						}
+						else
+						{
+                            rtCalcItems[key] = v;
+                        }
 					}
+                    var totalKey = (int[])key.Clone();
+                    totalKey[keyCol] = PivotCalculationStore.SumLevelValue;
+                    object calcValue;
 
-					if (key.Key[keyCol] < maxBfKey)
+                    if (runningTotalSums.TryGetValue(totalKey, out object tv))
 					{
-						var nextKey = GetNextKey(key.Key, keyCol);
-						while (nextKey[keyCol] < maxBfKey && calculatedItems.ContainsKey(nextKey) == false)
+						if(tv is double total)
 						{
-							calculatedItems[nextKey] = calculatedItems[key.Key];
-							nextKey = GetNextKey(nextKey, keyCol);
+                            calcValue = total + value;
+                        }
+						else
+						{
+                            calcValue = tv;
 						}
-					}
-				}
-			}
+                        runningTotalSums[totalKey] =  calcValue;
+                    }
+                    else
+					{
+                        calcValue = value;
+                        runningTotalSums.Add(totalKey, calcValue);
+                    }
+
+                    rtCalcItems[key] = calcValue;
+                }
+            }
+			calculatedItems = rtCalcItems;
 		}
-
     }
 }

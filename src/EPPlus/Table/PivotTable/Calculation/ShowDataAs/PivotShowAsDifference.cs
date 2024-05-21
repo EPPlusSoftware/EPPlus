@@ -34,8 +34,9 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 
             var lastIx = fieldIndex.Count - 1;
             var lastItemIx = pt.Fields[fieldIndex[lastIx]].Items.Count - 1;
+
             var calcTable = PivotTableCalculation.GetAsCalculatedTable(pt);
-            //foreach(var currentKey in pt.GetTableKeys())
+
             for (int r = 0; r < calcTable.Count; r++)
             {
                 for (int c = 0; c < calcTable[r].Count; c++)
@@ -121,125 +122,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                 }
             }
             calculatedItems = showAsCalculatedItems;
-        }
-
-        private int[] GetPrevKeyFromCalculatedTable(List<List<int[]>> calcTable, int r, int c,int keyCol, bool isRowField)
-        {
-            if(isRowField)
-            {
-                if(r==0)
-                {
-                    return null;
-                }
-                else
-                {
-                    if (HasSameParent(calcTable[r][c], calcTable[r - 1][c], keyCol))
-                    {
-                        return calcTable[r - 1][c];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            else
-            {
-                if (c == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    if (HasSameParent(calcTable[r][c], calcTable[r][c - 1], keyCol))
-                    {
-                        return calcTable[r][c];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-
-            }
-        }
-        private int[] GetNextKeyFromCalculatedTable(List<List<int[]>> calcTable, int r, int c, int keyCol, bool isRowField)
-        {
-            if(isRowField)
-            {
-                if (r == calcTable.Count-1)
-                {
-                    return null;
-                }
-                else
-                {
-                    if (HasSameParent(calcTable[r][c],calcTable[r + 1][c], keyCol))
-                    {
-                        return calcTable[r + 1][c];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            else
-            {
-                if (c == calcTable[r].Count-1)
-                {
-                    return null;
-                }
-                else
-                {
-                    if (HasSameParent(calcTable[r][c], calcTable[r][c + 1], keyCol))
-                    {
-                        return calcTable[r][c + 1];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-        }
-
-        private bool HasSameParent(int[] key1, int[] key2, int keyCol)
-        {
-            for(int i=0;i<key1.Length; i++)
-            {
-                if(i!=keyCol && key1[i] != key2[i])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private bool IsSameLevelAs(int[] key, bool isRowField, int baseLevel, int keyCol, ExcelPivotTableDataField df)
-        {
-            if (isRowField)
-            {
-                for (int i = baseLevel + 1; i < df.Field.PivotTable.RowFields.Count; i++)
-                {
-                    if (key[i] != PivotCalculationStore.SumLevelValue)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                for (int i = baseLevel + 1; i < df.Field.PivotTable.ColumnFields.Count; i++)
-                {
-                    if (key[i] != PivotCalculationStore.SumLevelValue)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
         }
     }
     internal class PivotShowAsDifference : PivotShowAsDifferenceBase

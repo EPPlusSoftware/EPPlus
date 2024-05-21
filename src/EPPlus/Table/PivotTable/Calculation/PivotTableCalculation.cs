@@ -348,30 +348,14 @@ namespace OfficeOpenXml.Table.PivotTable
 
             if (rowItems.Count == 0)
             {
-                //var l = new List<int[]>();
-                //for (int c = 0; c < colItems.Count; c++)
-                //{
-                //    //var currentKey = new int[keyLength];
-                //    //for (var i = 0; i < keyLength; i++)
-                //    //{
-                //    //    currentKey[i] = colItems[c][i];
-                //    //}
-                //    l.Add(currentKey);
-                //}
                 table.Add(colItems);
             }
             else if (colItems.Count == 0)
             {
 				for (int r = 0; r < rowItems.Count; r++)
 				{
-     //               var currentKey = new int[keyLength];
-					//for (var i = 0; i < keyLength; i++)
-					//{
-					//	currentKey[i] = rowItems[r][i];
-					//}
 					table.Add(new List<int[]> { rowItems[r] });
 				}
-                //table.Add(rowItems);
             }
             else
             {

@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable.Calculation
 {
-	internal class PivotKeyUtil
+	internal abstract class PivotKeyUtil
 	{
 		internal static int[] GetKey(int size, int iv = PivotCalculationStore.SumLevelValue)
 		{
@@ -177,6 +177,124 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
             var rowKey = PivotKeyUtil.GetRowTotalKey(key, colFieldStart);
             var colKey = PivotKeyUtil.GetColumnTotalKey(key, colFieldStart);
             return calculatedItems.ContainsKey(rowKey) && calculatedItems.ContainsKey(colKey);
+        }
+        protected static int[] GetPrevKeyFromCalculatedTable(List<List<int[]>> calcTable, int r, int c, int keyCol, bool isRowField)
+        {
+            if (isRowField)
+            {
+                if (r == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    if (HasSameParent(calcTable[r][c], calcTable[r - 1][c], keyCol))
+                    {
+                        return calcTable[r - 1][c];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            else
+            {
+                if (c == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    if (HasSameParent(calcTable[r][c], calcTable[r][c - 1], keyCol))
+                    {
+                        return calcTable[r][c];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+            }
+        }
+        protected static int[] GetNextKeyFromCalculatedTable(List<List<int[]>> calcTable, int r, int c, int keyCol, bool isRowField)
+        {
+            if (isRowField)
+            {
+                if (r == calcTable.Count - 1)
+                {
+                    return null;
+                }
+                else
+                {
+                    if (HasSameParent(calcTable[r][c], calcTable[r + 1][c], keyCol))
+                    {
+                        return calcTable[r + 1][c];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            else
+            {
+                if (c == calcTable[r].Count - 1)
+                {
+                    return null;
+                }
+                else
+                {
+                    if (HasSameParent(calcTable[r][c], calcTable[r][c + 1], keyCol))
+                    {
+                        return calcTable[r][c + 1];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        protected static bool HasSameParent(int[] key1, int[] key2, int keyCol)
+        {
+            for (int i = 0; i < key1.Length; i++)
+            {
+                if (i != keyCol && key1[i] != key2[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        protected static bool IsSameLevelAs(int[] key, bool isRowField, int baseLevel, int keyCol, ExcelPivotTableDataField df)
+        {
+            if (isRowField)
+            {
+                for (int i = baseLevel + 1; i < df.Field.PivotTable.RowFields.Count; i++)
+                {
+                    if (key[i] != PivotCalculationStore.SumLevelValue)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                for (int i = baseLevel + 1; i < df.Field.PivotTable.ColumnFields.Count; i++)
+                {
+                    if (key[i] != PivotCalculationStore.SumLevelValue)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
