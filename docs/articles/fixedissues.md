@@ -1,5 +1,9 @@
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.1.3
+### Fixed issues 
+* Dxf styles on tables got corrupt if a style contained an alignment and and border element.
+
 ## Version 7.1.2
 ### Fixed issues 
 * Defined Names with `"` symbols no longer get extraneous `"` added when saving in EPPlus.

@@ -97,8 +97,8 @@ namespace OfficeOpenXml.Style.Dxf
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
             if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
             if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
-            if (Border.HasValue) Border.CreateNodes(helper, "d:border");
             if (Alignment.HasValue) Alignment.CreateNodes(helper, "d:alignment");
+            if (Border.HasValue) Border.CreateNodes(helper, "d:border");
             if (Protection.HasValue) Protection.CreateNodes(helper, "d:protection");
         }
         internal override void SetStyle()
