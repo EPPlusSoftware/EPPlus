@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Style
         internal ExcelRichTextCollection(XmlReader xr, ExcelWorkbook wb)
         {
             _wb = wb;
-            while (xr.LocalName != "si" && xr.NodeType != XmlNodeType.EndElement) 
+            while (xr.LocalName != "si" && xr.NodeType != XmlNodeType.EndElement && xr.EOF==false) 
             {
                 if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
                 {
@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Style
                 if(rElement.LocalName == "r")
                 {
                     var t = rElement.SelectSingleNode("d:t", ns);
-                    var rt = new ExcelRichText(t.InnerText, this);
+                    var rt = new ExcelRichText(ConvertUtil.ExcelDecodeString(t.InnerText), this);
 
                     rt.Bold = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:b", ns));
                     rt.Italic = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:i", ns));

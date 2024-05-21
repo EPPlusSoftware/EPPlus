@@ -276,6 +276,22 @@ namespace EPPlusTest
             comment.AutoFit = true;
         }
         [TestMethod]
+        public void TestAddCommentsVerifyDecoding()
+        {
+            var commentText = "hallo\nLine 2";
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("CommentSheet");
+                ExcelComment comment = ws.Cells[2, 2].AddComment(commentText, "hallo");
+                p1.Save();
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    var ws2 = p2.Workbook.Worksheets["CommentSheet"];
+                    Assert.AreEqual(commentText, ws2.Cells["B2"].Comment.Text);
+                }
+            }
+        }
+        [TestMethod]
         public void TestCreateSaveAndReadComment()
         {
             using (var p = new ExcelPackage())
