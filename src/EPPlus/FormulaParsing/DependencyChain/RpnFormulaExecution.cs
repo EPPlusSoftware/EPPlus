@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
@@ -775,7 +774,6 @@ namespace OfficeOpenXml.FormulaParsing
         private static FormulaRangeAddress ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f, bool returnAddresses)
         {
             var s = f._expressionStack;
-            Expression prevExp = null;
             while (f._tokenIndex < f._tokens.Count)
             {
                 var t = f._tokens[f._tokenIndex];
@@ -866,11 +864,6 @@ namespace OfficeOpenXml.FormulaParsing
                                 f._expressionStack.Push(Expression.Empty);
                                 f._tokenIndex = fexp._endPos-1;
                             }
-                            else if(prevExp != null && prevExp is VariableExpression vexp)
-                            {
-
-                            }
-                            prevExp = s.Peek();
                         }
                         break;
                     case TokenType.Function:
