@@ -1336,27 +1336,28 @@ namespace OfficeOpenXml.Drawing
 
         public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = 0, int colOffset = 0)
         {
-            var isAltContent = this is ExcelControl ? true : false;
-            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, isAltContent);
-            drawNode.InnerXml = TopNode.InnerXml;
-            //create relation
+            //var isAltContent = this is ExcelControl ? true : false;
+            XmlElement drawNode = null;
             switch (DrawingType)
             {
+                case eDrawingType.Shape:
+                    drawNode = CopyShape(worksheet);
+                    break;
                 case eDrawingType.Picture:
-                    CopyPicture(worksheet, drawNode);
+                    drawNode = CopyPicture(worksheet);
                     break;
                 case eDrawingType.Chart:
-                    CopyChart(worksheet, drawNode, row, col, rowOffset, colOffset);
-                    return;
+                    drawNode = CopyChart(worksheet);
+                    break;
                 case eDrawingType.Slicer:
-                    CopySlicer(worksheet, drawNode, row, col, rowOffset, colOffset);
+                    drawNode = CopySlicer(worksheet);
                     break;
                 case eDrawingType.Control:
-                    CopyControl(worksheet, drawNode, row, col, rowOffset, colOffset);
-                    return;
-                case eDrawingType.GroupShape:
-                    CopyGroupShape(worksheet, drawNode, row, col, rowOffset, colOffset);
+                    CopyControl(worksheet, row, col, rowOffset, colOffset);
                     break;
+                case eDrawingType.GroupShape:
+                    CopyGroupShape(this, worksheet);
+                    return;
             }
             var copy = GetDrawing(worksheet._drawings, drawNode);
             worksheet.Drawings.AddDrawingInternal(copy);
@@ -1366,41 +1367,68 @@ namespace OfficeOpenXml.Drawing
             copy.SetPixelWidth(width);
             copy.SetPixelHeight(height);
             copy.GetPositionSize();
-            switch (DrawingType)
+        }
+
+        private void CopyGroupShape(ExcelDrawing drawing, ExcelWorksheet worksheet)
+        {
+            var source = drawing._drawings.Worksheet;
+            //if (drawing is ExcelChart chart)
+            //{
+            //    string xml = source.Drawings.DrawingXml.OuterXml;
+            //    var uriDraw = new Uri(string.Format("/xl/drawings/drawing{0}.xml", worksheet.SheetId), UriKind.Relative);
+            //    var partDraw = worksheet._package.ZipPackage.CreatePart(uriDraw, "application/vnd.openxmlformats-officedocument.drawing+xml", worksheet._package.Compression);
+            //    XmlDocument drawXml = new XmlDocument();
+            //    drawXml.LoadXml(xml);
+            //    WorksheetCopyHelper.CopyChartRelations(chart, worksheet, partDraw, drawXml, source);
+            //}
+            //else if (drawing is ExcelPicture pic)
+            //{
+            //    string xml = source.Drawings.DrawingXml.OuterXml;
+            //    var uriDraw = new Uri(string.Format("/xl/drawings/drawing{0}.xml", worksheet.SheetId), UriKind.Relative);
+            //    var partDraw = worksheet._package.ZipPackage.CreatePart(uriDraw, "application/vnd.openxmlformats-officedocument.drawing+xml", worksheet._package.Compression);
+            //    XmlDocument drawXml = new XmlDocument();
+            //    drawXml.LoadXml(xml);
+            //    WorksheetCopyHelper.CopyPicture(worksheet, partDraw, drawXml, source, pic);
+            //}
+            //if (drawing is ExcelControl ctrl)
+            //{
+            //    var node = drawNode.SelectSingleNode("xdr:grpSp/mc:AlternateContent/mc:Choice", worksheet.NameSpaceManager);
+            //    ctrl.CopyControl(worksheet, node, 1,1,1,1);
+            //}
+            if (drawing is ExcelShape shp)
             {
-                case eDrawingType.Shape:
-                    var sourceShape = this as ExcelShape;
-                    var targetShape = copy as ExcelShape;
-                    WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, targetShape, sourceShape.Fill, worksheet._drawings.Part.Uri);
-                    copy._id = worksheet.Workbook._nextDrawingId++;
-                    break;
-                case eDrawingType.Picture:
-                    var pic = copy as ExcelPicture;
-                    pic.SetNewId(worksheet.Workbook._nextDrawingId++);
-                    break;
+                string xml = source.Drawings.DrawingXml.OuterXml;
+                var uriDraw = new Uri(string.Format("/xl/drawings/drawing{0}.xml", worksheet.SheetId), UriKind.Relative);
+                var partDraw = worksheet._package.ZipPackage.GetPart(uriDraw);
+                var uriDraw2 = partDraw.Uri;
+                XmlDocument drawXml = new XmlDocument();
+                drawXml.LoadXml(xml);
+                WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, partDraw, drawXml, drawing, shp.Fill, uriDraw2);
+            }
+            else if (drawing is ExcelGroupShape groupShape)
+            {
+                for (int j = 0; j < groupShape.Drawings.Count; j++)
+                {
+                    CopyGroupShape(groupShape.Drawings[j], worksheet);
+                }
             }
         }
 
-        private void CopyGroupShape(ExcelWorksheet worksheet, XmlElement drawNode, int row, int col, int rowOffset, int colOffset)
+        private XmlElement CopySlicer(ExcelWorksheet worksheet)
         {
-            var groupShape = this as ExcelGroupShape;
-            for (int j = 0; j < groupShape.Drawings.Count; j++)
-            {
-                groupShape.Drawings[j].Copy(worksheet, 0, 0, 0, 0);
-            }
-        }
-
-        private void CopySlicer(ExcelWorksheet worksheet, XmlElement drawNode, int row, int col, int rowOffset, int colOffset)
-        {
+            //can't copy to another workbook unless we also copy the table. (Need to check for table somehow...)
             if (worksheet.Workbook != _drawings.Worksheet.Workbook)
             {
                 throw new Exception("Table slicers can't be copied from one workbook to another.");
             }
 
-            var sourceSlicer = this as ExcelTableSlicer;
+            //Create node in drawing.xml
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+            drawNode.InnerXml = TopNode.InnerXml;
+
+            //Create copy of source worksheet node in target worksheet.xml
             if (worksheet != _drawings.Worksheet)
             {
-                //Copy Worksheet Node
                 ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
                 var slicerNode = worksheet.CreateNode("d:extLst");
                 slicerNode.InnerXml = _drawings.Worksheet.TopNode.SelectSingleNode("d:extLst", _drawings.Worksheet.NameSpaceManager).InnerXml;
@@ -1414,12 +1442,15 @@ namespace OfficeOpenXml.Drawing
             drawNodeSlicerName.Attributes["name"].Value = drawNodeNameValue;
 
             //Copy Slicer
+            var sourceSlicer = this as ExcelTableSlicer;
             var xmlSource = _drawings.Worksheet.SlicerXmlSources._list.Find(x => x == sourceSlicer._xmlSource);
             var id = worksheet.SheetId;
             var uri = XmlHelper.GetNewUri(worksheet.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
             var part = worksheet.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", worksheet.Part.Package.Compression);
             var rel = worksheet.Part.CreateRelationship(uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicer);
             var xmlTarget = new XmlDocument();
+
+            //If different drawings create a new xml. (Maybe check for exsisting xml in new drawings and append instead)
             if (_drawings != worksheet._drawings)
             {
                 XmlHelper.LoadXmlSafe(xmlTarget, "<slicers xmlns:xr10=\"http://schemas.microsoft.com/office/spreadsheetml/2016/revision10\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" mc:Ignorable=\"x xr10\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" />", Encoding.UTF8);
@@ -1428,6 +1459,7 @@ namespace OfficeOpenXml.Drawing
             {
                 xmlTarget.LoadXml(xmlSource.XmlDocument.OuterXml);
             }
+
             //Set name in SlicerXML
             var slicerNodes = xmlSource.XmlDocument.LastChild.ChildNodes;
             XmlNode importNode = null;
@@ -1453,12 +1485,17 @@ namespace OfficeOpenXml.Drawing
             {
                 xmlSource.XmlDocument.LastChild.AppendChild(importNode);
             }
+            return drawNode;
         }
 
-        private void CopyControl(ExcelWorksheet worksheet, XmlNode drawNode, int row, int col, int rowOffset, int colOffset)
+        private void CopyControl(ExcelWorksheet worksheet, int row, int col, int rowOffset, int colOffset)
         {
             var control = this as ExcelControl;
             var controlId = worksheet._nextControlId++.ToString();
+
+            //Create node in drawing.xml
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, true);
+            drawNode.InnerXml = TopNode.InnerXml;
 
             //Update DrawNode Id
             var drawIdNode = drawNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", worksheet.NameSpaceManager);
@@ -1511,34 +1548,45 @@ namespace OfficeOpenXml.Drawing
             //Update position in drawing vml
             var vmlPosition = vmlId.SelectSingleNode("x:ClientData/x:Anchor", worksheet._vmlDrawings.NameSpaceManager);
             vmlPosition.InnerXml = copy.From.Column + ", " + copy.From.ColumnOff + ", " + copy.From.Row + ", " + copy.From.RowOff + ", " +
-                                   copy.To.Column   + ", " + copy.To.ColumnOff   + ", " + copy.To.Row + ", "   + copy.To.RowOff;
-
+                                    copy.To.Column + ", " + copy.To.ColumnOff + ", " + copy.To.Row + ", " + copy.To.RowOff;
         }
 
-        private void CopyChart(ExcelWorksheet worksheet, XmlNode drawNode, int row, int col, int rowOffset, int colOffset)
+        private XmlElement CopyChart(ExcelWorksheet worksheet)
         {
+            //Create node in drawing.xml
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+            drawNode.InnerXml = TopNode.InnerXml;
+
+            //get relationship node in drawing.xml
             var relNode =  drawNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", NameSpaceManager);
-            var origialChart = this as ExcelChart;
             if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
             {
+                var origialChart = this as ExcelChart;
                 WorksheetCopyHelper.CopyChartRelations(origialChart, worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, _drawings.Worksheet);
+                //Update the copied charts id and name
                 var chartcopy = ExcelChart.GetChart(worksheet._drawings, drawNode);
-                chartcopy.SetPosition(row, rowOffset, col, colOffset);
                 chartcopy.Name = chartcopy.Name + " " + worksheet._drawings._drawingNames.Count;
                 chartcopy._id = origialChart._id + 1;
-                worksheet._drawings._drawingsList.Add(chartcopy);
-                worksheet._drawings._drawingNames.Add(chartcopy.Name, worksheet._drawings._drawingsList.Count - 1);
             }
+            return drawNode;
         }
 
-        private void CopyPicture(ExcelWorksheet worksheet, XmlElement drawNode)
+        private XmlElement CopyPicture(ExcelWorksheet worksheet)
         {
+            //Create node in drawing.xml
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+            drawNode.InnerXml = TopNode.InnerXml;
+
+            //If same drawings object, we are done.
             if (worksheet._drawings != _drawings)
             {
+                //Get the relation node
                 var relNode = drawNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager);
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
                 {
                     var rel = _drawings.Part.GetRelationship(relNode.Value);
+
+                    //Copy image file to new workbook if target worksheet is in a different workbook.
                     if (worksheet.Workbook != _drawings.Worksheet.Workbook)
                     {
                         var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
@@ -1559,7 +1607,10 @@ namespace OfficeOpenXml.Drawing
                             rel.TargetUri = imageInfo.Uri;
                         }
                     }
+
+                    //Check if relationship exists.
                     var exisistingRel = worksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x => x.Target == rel.Target).FirstOrDefault();
+                    //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the exsisting relationship Id
                     if (exisistingRel == null || worksheet != _drawings.Worksheet)
                     {
                         var newRel = worksheet._drawings.Part.CreateRelationshipFromCopy(rel);
@@ -1571,9 +1622,30 @@ namespace OfficeOpenXml.Drawing
                     }
                 }
             }
+            //Set New id on copied picture.
+            var pic = GetDrawing(worksheet._drawings, drawNode) as ExcelPicture;
+            pic.SetNewId(worksheet.Workbook._nextDrawingId++);
+            return drawNode;
         }
 
-        public void Copy(ExcelRangeBase range, int rowOffset = 0, int colOffset = 0)
+        private XmlElement CopyShape(ExcelWorksheet worksheet)
+        {
+            //Create node in drawing.xml
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+            drawNode.InnerXml = TopNode.InnerXml;
+
+            //Copy Blip Fill
+            var sourceShape = this as ExcelShape;
+            var targetShape = GetDrawing(worksheet._drawings, drawNode) as ExcelShape;
+            WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, targetShape, sourceShape.Fill, worksheet._drawings.Part.Uri);
+
+            //Asign new id
+            targetShape._id = worksheet.Workbook._nextDrawingId++;
+
+            return drawNode;
+        }
+
+            public void Copy(ExcelRangeBase range, int rowOffset = 0, int colOffset = 0)
         {
             
         }
