@@ -20,7 +20,6 @@ namespace OfficeOpenXml.Style.Dxf
     /// A color in a differential formatting record
     /// </summary>
     public class ExcelDxfColor : DxfStyleBase
-
     {
         eStyleClass _styleClass;
         internal ExcelDxfColor(ExcelStyles styles, eStyleClass styleClass, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
