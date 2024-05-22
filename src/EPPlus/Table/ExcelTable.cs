@@ -27,6 +27,8 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Table.enums;
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -653,9 +655,32 @@ namespace OfficeOpenXml.Table
         const string AUTOFILTER_ADDRESS_PATH = AUTOFILTER_PATH + "/@ref";
 
         /// <summary>
+        /// <para>Sync cells or column names with the data at the dataSource location.</para>
+        /// <para>Syncing from table overwrites the top row cell names with the column names.</para>
+        /// <para>Syncing from cells overwrites the column names with the top row cell values. 
+        /// If the cell is empty it instead overwrites the cell value with the column name unless syncEmptyCells is set to false.</para>
+        /// </summary>
+        /// <param name="dataSource">Data to apply to</param>
+        /// <param name="syncEmptyCells">Set to false to not fill empty cell with column name</param>
+        public void SyncTableColumnsAndCellValues(SyncFrom dataSource, bool syncEmptyCells = true)
+        {
+            switch(dataSource)
+            {
+                case SyncFrom.Cells:
+                    OverwriteColumnNamesWithCellValues(syncEmptyCells);
+                    break;
+                case SyncFrom.Table:
+                    OverWriteCellsWithColumnNames();
+                    break;
+                default:
+                    throw new NotImplementedException($"{dataSource} is an invalid option or has not been implemented yet");
+            }
+        }
+
+        /// <summary>
         /// Ensures the top cell in each column of the table contains only the column name
         /// </summary>
-        public void OverWriteCellsWithColumnNames()
+        private void OverWriteCellsWithColumnNames()
         {
             for (int i = 0; i < Columns.Count; i++)
             {
@@ -669,7 +694,7 @@ namespace OfficeOpenXml.Table
         /// Set input parameter false to not overwrite empty cells.
         ///</summary>
         /// <param name="setValueOnCellIfNull">Set to false to not fill cell with column name when its null or empty</param>
-        public void OverwriteColumnNamesWithCellValues(bool setValueOnCellIfNull = true)
+        private void OverwriteColumnNamesWithCellValues(bool setValueOnCellIfNull = true)
         {
             for (int i = 0; i < Columns.Count; i++)
             {

@@ -40,6 +40,7 @@ using OfficeOpenXml.Attributes;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.enums;
 
 namespace EPPlusTest.LoadFunctions
 {
@@ -619,7 +620,7 @@ namespace EPPlusTest.LoadFunctions
 
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
 
-                sheet.Tables[0].OverWriteCellsWithColumnNames();
+                sheet.Tables[0].SyncTableColumnsAndCellValues(SyncFrom.Table);
                 Assert.AreEqual("Column4", sheet.Cells["D1"].Value);
 
                 SaveAndCleanup(package);
