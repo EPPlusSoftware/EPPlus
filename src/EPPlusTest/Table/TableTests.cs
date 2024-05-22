@@ -861,6 +861,44 @@ namespace EPPlusTest.Table
             }
         }
         [TestMethod]
+        public void TestOverWriteColumnNamesWithCells()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("TESTTABLE");
+                var range = new ExcelAddress("A1:D5");
+                ws.SetValue("A2", "Column3");
+                ws.SetValue("B2", "Column4");
+
+                var table = ws.Tables.Add(range, "newTable");
+
+                ws.SetValue("A1", "Items");
+                ws.SetValue("B1", "Years");
+
+                Assert.AreEqual("Column1", table.Columns[0].Name);
+                Assert.AreEqual("Column2", table.Columns[1].Name);
+                Assert.AreEqual("Column3", table.Columns[2].Name);
+                Assert.AreEqual("Column4", table.Columns[3].Name);
+
+                table.OverwriteColumnNamesWithCellValues(false);
+
+                Assert.AreEqual("Items", table.Columns[0].Name);
+                Assert.AreEqual("Years", table.Columns[1].Name);
+                Assert.AreEqual("Column3", table.Columns[2].Name);
+                Assert.AreEqual("Column4", table.Columns[3].Name);
+
+                Assert.AreEqual("Items", ws.Cells["A1"].Value);
+                Assert.AreEqual("Years", ws.Cells["B1"].Value);
+                Assert.AreEqual(null, ws.Cells["C1"].Value);
+                Assert.AreEqual(null, ws.Cells["D1"].Value);
+
+                table.OverwriteColumnNamesWithCellValues();
+                Assert.AreEqual("Column3", ws.Cells["C1"].Value);
+                Assert.AreEqual("Column4", ws.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void RemovingAndAddingHeaders()
         {
             using (var package = OpenPackage("RemovingAddingHeaders.xlsx", true))

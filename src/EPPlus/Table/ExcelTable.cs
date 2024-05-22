@@ -664,19 +664,24 @@ namespace OfficeOpenXml.Table
         }
 
         /// <summary>
-        /// Ensures the column name of each column matches the current cellValue
-        /// If cell value is null and column name exists sets sell value to column name
-        /// </summary>
-        public void OverwriteColumnNamesWithCellValues()
+        /// <para>Ensures the column name of each column matches the current cellValue. Unless cell value is null.</para>
+        /// <para>If cell value is null and column name exists sets cell value to column name.</para>
+        /// Set input parameter false to not overwrite empty cells.
+        ///</summary>
+        /// <param name="setValueOnCellIfNull">Set to false to not fill cell with column name when its null or empty</param>
+        public void OverwriteColumnNamesWithCellValues(bool setValueOnCellIfNull = true)
         {
             for (int i = 0; i < Columns.Count; i++)
             {
                 var v = WorkSheet.GetValue<string>(Address._fromRow, Address._fromCol + i);
                 if (string.IsNullOrEmpty(v))
                 {
-                    WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
+                    if(setValueOnCellIfNull)
+                    {
+                        WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
+                    }
                 }
-                else if (v != _cols[i].Name)
+                else if (v != _cols[i].Name )
                 {
                     _cols[i].Name = UpdateAndReturnValidName(i, v, _cols[i].Name, _cols.GetColNamesList());
                 }
