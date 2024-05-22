@@ -579,4 +579,7 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
+	</ItemGroup>
 </Project>

@@ -171,6 +171,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         /// <summary>
+        /// Indicates whether the function handles variables (eg. LET, LAMBDA).
+        /// </summary>
+        public virtual bool HandlesVariables => false;
+
+        /// <summary>
         /// Used for some Lookupfunctions to indicate that function arguments should
         /// not be compiled before the function is called.
         /// </summary>
