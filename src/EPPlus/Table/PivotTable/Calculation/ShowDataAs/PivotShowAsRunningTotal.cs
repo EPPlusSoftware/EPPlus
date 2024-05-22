@@ -28,7 +28,8 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 		internal static void CalculateRunningTotal(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems, bool leaveParentSum)
 		{
 			var bf = fieldIndex.IndexOf(df.BaseField);
-			if(bf<0)
+
+            if (bf < 0 || fieldIndex.Count == 0)
 			{
 				calculatedItems.SetAllValues(ErrorValues.NAError);
 				return;
@@ -55,8 +56,18 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 					var key = calcTable[r][c];
 					if (key[keyCol]== PivotCalculationStore.SumLevelValue)
 					{
-						rtCalcItems[key] = 0D;
-						continue;
+						if(leaveParentSum)
+						{
+                            if(ExistsValueInTable(key, colFieldsStart, calculatedItems))
+							{
+								rtCalcItems[key] = calculatedItems[key];
+							}
+                        }
+						else
+						{
+                            rtCalcItems[key] = 0D;
+                        }
+                        continue;
 					}
 					var value = 0D;
 					if (calculatedItems.TryGetValue(key, out object v))

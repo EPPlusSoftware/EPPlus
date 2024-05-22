@@ -24,25 +24,25 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
     {
         internal override void Calculate(ExcelPivotTableDataField df, List<int> fieldIndex, Dictionary<int[], HashSet<int[]>> keys, ref PivotCalculationStore calculatedItems)
         {
+            var calcPercent = PivotTableCalculation.GetNewCalculatedItems();
+            if (fieldIndex.Count == 0)
+            {
+                calculatedItems.Values[0]=ErrorValues.NAError;
+                return;
+            }
             var colFieldsStart = df.Field.PivotTable.RowFields.Count;
             var keyCol = fieldIndex.IndexOf(df.BaseField);
             var record = df.Field.PivotTable.CacheDefinition._cacheReference.Records;
-            //var maxBfKey = 0;
 
             CalculateRunningTotal(df, fieldIndex, keys, ref calculatedItems, true);
 
-            //if (record.CacheItems[df.BaseField].Count(x => x is int) > 0)
-            //{
-            //    maxBfKey = (int)record.CacheItems[df.BaseField].Where(x => x is int).Max();
-            //}
-            var calcPercent = PivotTableCalculation.GetNewCalculatedItems();
             foreach (var key in calculatedItems.Index.OrderBy(x => x.Key, ArrayComparer.Instance))
             {
                 if (IsSumBefore(key.Key, keyCol, fieldIndex, colFieldsStart))
                 {
-                    calculatedItems[key.Key] = 0;
+                    calcPercent[key.Key] = 0D;
                 }
-                else if (IsSumAfter(key.Key, keyCol, fieldIndex, colFieldsStart))
+                else if(ShouldCalculateKey(key.Key, keyCol, fieldIndex, colFieldsStart))
                 {
                     var rtValue = calculatedItems[key.Key];
                     if (rtValue is double value)
@@ -52,7 +52,14 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                         var rtSum = calculatedItems[sumKey];
                         if(rtSum is double sumValue)
                         {
-                            calcPercent[key.Key] = value / sumValue;
+                            if(sumValue==0D && value != 0D)
+                            {
+                                calcPercent[key.Key] = ErrorValues.Div0Error;
+                            }
+                            else
+                            {
+                                calcPercent[key.Key] = value / sumValue;
+                            }
                         }
                         else
                         {
@@ -60,36 +67,53 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
                         }
                     }
                     else
-                    {
+                    {   
                         calcPercent[key.Key] = rtValue;
                     }
-                    //if (IsSumAfter(key.Key, bf, fieldIndex, colFieldsStart))
-                    //{
-                    //    var parentKey = GetParentKey(key.Key, keyCol);
-                    //    var parentValue = calculatedItems[parentKey];
-                    //    if (parentValue is double pv)
-                    //    {
-                    //        if (calculatedItems[key.Key] is double v)
-                    //        {
-                    //            calculatedItems[key.Key] = (double)v / pv;
-                    //        }
-                    //    }
-                    //    else if (calculatedItems[key.Key] is not ExcelErrorValue)
-                    //    {
-                    //        calculatedItems[key.Key] = parentValue;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    calculatedItems[key.Key] = 1D;
-                    //}
                 }
                 else
                 {
-                    calcPercent[key.Key] = 1D;
+                    var rtValue = calculatedItems[key.Key];
+                    if (rtValue == null)
+                    {
+                        calcPercent[key.Key] = 0D;
+                    }
+                    else if (rtValue is double d)
+                    {
+                        if (d == 0D)
+                        {
+                            calcPercent[key.Key] = 0D;
+                        }
+                        else
+                        {
+                            calcPercent[key.Key] = 1D;
+                        }
+                    }
+                    else
+                    {
+
+                        calcPercent[key.Key] = rtValue;
+                    }
                 }
             }
             calculatedItems = calcPercent;
+        }
+        internal static bool ShouldCalculateKey(int[] key, int bf, List<int> fieldIndex, int colFieldsStart, int addStart = 0)
+        {
+            if(key[bf] == PivotCalculationStore.SumLevelValue) return false;
+            if(bf == colFieldsStart - 1 || bf == fieldIndex.Count - 1) return true;
+            var start = bf + addStart;
+            var end = (bf >= colFieldsStart ? fieldIndex.Count : colFieldsStart);
+            if (start == end) return false;
+            for (int i = bf + addStart; i < end; i++)
+            {
+                if (key[i] == PivotCalculationStore.SumLevelValue)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

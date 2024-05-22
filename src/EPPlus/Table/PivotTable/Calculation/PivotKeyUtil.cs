@@ -90,7 +90,9 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 		}
 		internal static bool IsSumAfter(int[] key, int bf, List<int> fieldIndex, int colFieldsStart, int addStart = 0)
 		{
-			var end = (bf >= colFieldsStart ? fieldIndex.Count : colFieldsStart);
+            var start = bf + addStart;
+            var end = (bf >= colFieldsStart ? fieldIndex.Count : colFieldsStart);
+            if (start == end) return false;
 			for (int i = bf + addStart; i < end; i++)
 			{
 				if (key[i] == PivotCalculationStore.SumLevelValue)
@@ -101,7 +103,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 
 			return false;
 		}
-		internal static bool IsRowGrandTotal(int[] key, int colFieldStart)
+        internal static bool IsRowGrandTotal(int[] key, int colFieldStart)
 		{
 			for(int i = 0; i < colFieldStart; i++)
 			{
