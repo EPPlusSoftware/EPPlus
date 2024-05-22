@@ -23,15 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         public override int ArgumentMinLength => 3;
         public override bool ReturnsReference => true;
 
-        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
-        {
-            if (argumentIndex % 2 == 0)
-            {
-                return FunctionParameterInformation.IsParameterVariable;
-            }
-            return FunctionParameterInformation.Normal;
-        }));
-
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             // this function is precalculated in the calc engine and we just need to pick up the result of the last arg.

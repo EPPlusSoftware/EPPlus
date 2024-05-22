@@ -420,15 +420,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 throw new InvalidFormulaException("Number of opened and closed brackets does not match");
             }
 
-            if(variableFuncPositions.Count > 0)
+            if(variableFuncPositions != null && variableFuncPositions.Count > 0)
             {
                 var variableHelper = new VariableParameterHelper(l, variableFuncPositions);
                 variableHelper.Process();
-                //foreach(var variableFuncPos in variableFuncPositions)
-                //{
-                //    var name = l[variableFuncPos].Value;
-                //    VariableParameterHelper.ProcessVariableArguments(l, variableFuncPos, name);
-                //}
             }
             return l;
         }

@@ -786,8 +786,6 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Decimal:
                     case TokenType.StringContent:
                     case TokenType.Array:
-                        s.Push(f._expressions[f._tokenIndex]);
-                        break;
                     case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
                         s.Push(f._expressions[f._tokenIndex]);
@@ -835,7 +833,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 f._expressionStack.Push(exp1);
                                 if(exp2 is VariableExpression vfe && vfe.IsDeclaration)
                                 {
-                                    ((VariableFunctionExpression)fexp).AddVariableValue(exp1.Compile());
+                                    ((VariableFunctionExpression)fexp).AddVariableValue(vfe.Name, exp1.Compile());
                                 }
                             }
                             
@@ -847,7 +845,7 @@ namespace OfficeOpenXml.FormulaParsing
                             var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);
                             if (EnumUtil.HasFlag(pi, FunctionParameterInformation.Condition))
                             {
-                                var v = s.Peek().Compile();
+                                var v = s.Pop().Compile();
                                 PushResult(depChain._parsingContext, f, v);
                                 fexp._latestConditionValue = GetCondition(v);
                                 f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);

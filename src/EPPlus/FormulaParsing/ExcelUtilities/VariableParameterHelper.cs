@@ -137,12 +137,14 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             // 2. Process the arguments and look for variables excluding the last arg
             //    which is not declarations of variables but the calculation.
+            var lastDeclaredVariable = string.Empty;
             for (var argIndex = 0; argIndex < commaIndexes.Count; argIndex++)
             {
                 if (IsVariableArg(func.Name, argIndex, commaIndexes.Count))
                 {
                     var ix = commaIndexes[argIndex];
                     var variableName = ProcessVariableToken(_tokens[ix - 1].Value);
+                    lastDeclaredVariable = variableName;
                     if (!func.IsLocalVariable(variableName))
                     {
                         func.Variables.Add(variableName, argIndex);
@@ -154,21 +156,25 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     var ix = commaIndexes[argIndex - 1] + 1;
                     while (_tokens[ix].TokenType != TokenType.Comma || _tokens[ix].TokenType == TokenType.Function)
                     {
+                        // Variables will per default have token type NameValue. Don't process tokens that have other token types.
+                        var t = _tokens[ix];
                         var variableName = ProcessVariableToken(_tokens[ix].Value);
                         if (func.IsGlobalVariable(variableName))
                         {
-                            // if the declaration of the variable is using the variable a #NAME error should be returned.
-                            if (func.IsLocalVariable(variableName))
+                            if (variableName == lastDeclaredVariable)
                             {
-                                _tokens[ix] = new Token(ExcelErrorValue.Create(eErrorType.Name).ToString(), TokenType.NameError);
+                                _tokens[ix] = new Token(variableName, TokenType.NameError);
                             }
                             else
                             {
                                 _tokens[ix] = new Token(variableName, TokenType.ParameterVariable);
                             }
                         }
+
+
                         ix++;
                     }
+                    lastDeclaredVariable = string.Empty;
                 }
             }
             // 3. Process variable names in the last argument (the calculation)

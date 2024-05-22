@@ -70,6 +70,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             _variables[_lastDeclaredVariable] = value;
         }
 
+        internal void AddVariableValue(string name, CompileResult value)
+        {
+            _variables[name] = value;
+        }
+
         internal CompileResult GetVariableValue(string variableName)
         {
             if (_variables.ContainsKey(variableName) && _variables[variableName] != null)

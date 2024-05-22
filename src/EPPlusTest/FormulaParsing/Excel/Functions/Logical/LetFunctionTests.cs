@@ -130,5 +130,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Calculate();
             Assert.AreEqual(5d, sheet.Cells["A1"].Value);
         }
+
+        [TestMethod]
+        public void LetFunction_ShouldHandleArrayVariableValues()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x,F1:F2,x + 1)";
+            sheet.Cells["F1"].Value = 1;
+            sheet.Cells["F2"].Value = 2;
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["A1"].Value);
+            Assert.AreEqual(3d, sheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void ArrayTest()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "YEAR(x,F1:F2,x)";
+            sheet.Cells["F1"].Value = 2012;
+            sheet.Cells["F2"].Value = 2013;
+        }
     }
 }
