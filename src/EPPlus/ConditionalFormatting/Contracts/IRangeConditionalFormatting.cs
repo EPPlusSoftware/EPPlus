@@ -294,7 +294,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         IExcelConditionalFormattingDataBarGroup AddDatabar(Color color);
 
         /// <summary>
-        /// Get list of all CFs
+        /// Get a list of all conditional formatting rules that exist on cells in the range
         /// </summary>
         /// <returns></returns>
         List<ExcelConditionalFormattingRule> GetConditionalFormattings();
