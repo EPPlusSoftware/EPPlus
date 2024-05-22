@@ -4,15 +4,15 @@ namespace OfficeOpenXml.Table.enums
     /// <summary>
     /// Option for which data should overwrite the other in a sync.
     /// </summary>
-    public enum SyncFrom
+    public enum ApplyDataFrom
     {
         /// <summary>
-        /// Apply data from table columns
+        /// Overwrite cells with column name data
         /// </summary>
-        Table,
+        ColumnNamesToRow,
         /// <summary>
-        /// Apply data from cells
+        /// Overwrite columnNames with cell data
         /// </summary>
-        Cells
+        RowToColumnNames
     }
 }

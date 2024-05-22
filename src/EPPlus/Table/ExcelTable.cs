@@ -655,32 +655,32 @@ namespace OfficeOpenXml.Table
         const string AUTOFILTER_ADDRESS_PATH = AUTOFILTER_PATH + "/@ref";
 
         /// <summary>
-        /// <para>Sync cells or column names with the data at the dataSource location.</para>
-        /// <para>Syncing from table overwrites the top row cell names with the column names.</para>
-        /// <para>Syncing from cells overwrites the column names with the top row cell values. 
+        /// <para>Update column names with cell values or cell values with column names</para>
+        /// <para>ColumnNamesToRow overwrites the top row cell values with the column names.</para>
+        /// <para>RowToColumnNames overwrites the column names with the top row cell values. 
         /// If the cell is empty it instead overwrites the cell value with the column name unless syncEmptyCells is set to false.</para>
         /// </summary>
-        /// <param name="dataSource">Data to apply to</param>
+        /// <param name="dataOrigin">Target data to be overwritten</param>
         /// <param name="syncEmptyCells">Set to false to not fill empty cell with column name</param>
-        public void SyncTableColumnsAndCellValues(SyncFrom dataSource, bool syncEmptyCells = true)
+        public void SyncTopRowWithColumnNames(ApplyDataFrom dataOrigin, bool syncEmptyCells = true)
         {
-            switch(dataSource)
+            switch(dataOrigin)
             {
-                case SyncFrom.Cells:
-                    OverwriteColumnNamesWithCellValues(syncEmptyCells);
+                case ApplyDataFrom.ColumnNamesToRow:
+                    OverwriteRows();
                     break;
-                case SyncFrom.Table:
-                    OverWriteCellsWithColumnNames();
+                case ApplyDataFrom.RowToColumnNames:
+                    OverwriteColumnNames(syncEmptyCells);
                     break;
                 default:
-                    throw new NotImplementedException($"{dataSource} is an invalid option or has not been implemented yet");
+                    throw new NotImplementedException($"{dataOrigin} is an invalid option or has not been implemented yet");
             }
         }
 
         /// <summary>
         /// Ensures the top cell in each column of the table contains only the column name
         /// </summary>
-        private void OverWriteCellsWithColumnNames()
+        private void OverwriteRows()
         {
             for (int i = 0; i < Columns.Count; i++)
             {
@@ -694,7 +694,7 @@ namespace OfficeOpenXml.Table
         /// Set input parameter false to not overwrite empty cells.
         ///</summary>
         /// <param name="setValueOnCellIfNull">Set to false to not fill cell with column name when its null or empty</param>
-        private void OverwriteColumnNamesWithCellValues(bool setValueOnCellIfNull = true)
+        private void OverwriteColumnNames(bool setValueOnCellIfNull = true)
         {
             for (int i = 0; i < Columns.Count; i++)
             {

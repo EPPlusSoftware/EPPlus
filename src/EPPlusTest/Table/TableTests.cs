@@ -880,7 +880,7 @@ namespace EPPlusTest.Table
                 Assert.AreEqual("Column3", table.Columns[2].Name);
                 Assert.AreEqual("Column4", table.Columns[3].Name);
 
-                table.SyncTableColumnsAndCellValues(OfficeOpenXml.Table.enums.SyncFrom.Cells, false);
+                table.SyncTopRowWithColumnNames(OfficeOpenXml.Table.enums.ApplyDataFrom.RowToColumnNames, false);
 
                 Assert.AreEqual("Items", table.Columns[0].Name);
                 Assert.AreEqual("Years", table.Columns[1].Name);
@@ -892,7 +892,7 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(null, ws.Cells["C1"].Value);
                 Assert.AreEqual(null, ws.Cells["D1"].Value);
 
-                table.SyncTableColumnsAndCellValues(OfficeOpenXml.Table.enums.SyncFrom.Cells);
+                table.SyncTopRowWithColumnNames(OfficeOpenXml.Table.enums.ApplyDataFrom.RowToColumnNames);
 
                 Assert.AreEqual("Column3", ws.Cells["C1"].Value);
                 Assert.AreEqual("Column4", ws.Cells["D1"].Value);
@@ -921,7 +921,7 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(null, ws.Cells["A1"].Value);
                 Assert.AreEqual(null, ws.Cells["B1"].Value);
 
-                table.SyncTableColumnsAndCellValues(OfficeOpenXml.Table.enums.SyncFrom.Table);
+                table.SyncTopRowWithColumnNames(OfficeOpenXml.Table.enums.ApplyDataFrom.RowToColumnNames);
 
                 Assert.AreEqual("Column1", ws.Cells["A1"].Value);
                 Assert.AreEqual("Column2", ws.Cells["B1"].Value);

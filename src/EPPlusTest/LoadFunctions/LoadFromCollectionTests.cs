@@ -620,7 +620,7 @@ namespace EPPlusTest.LoadFunctions
 
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
 
-                sheet.Tables[0].SyncTableColumnsAndCellValues(SyncFrom.Table);
+                sheet.Tables[0].SyncTopRowWithColumnNames(ApplyDataFrom.ColumnNamesToRow);
                 Assert.AreEqual("Column4", sheet.Cells["D1"].Value);
 
                 SaveAndCleanup(package);
