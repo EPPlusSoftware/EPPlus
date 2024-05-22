@@ -145,13 +145,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         }
 
         [TestMethod]
-        public void ArrayTest()
+        public void LetFunction_ComplexFormula()
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].Formula = "YEAR(x,F1:F2,x)";
-            sheet.Cells["F1"].Value = 2012;
-            sheet.Cells["F2"].Value = 2013;
+            sheet.Cells["A1"].Formula = "LET(a,SUM(LET(x,A6,y,A5 + x,x-y),22,LET(x,3,x)),b,LET(x,a-1,x)),c,A3:B4,c * a + b)";
+            sheet.Cells["C1"].Value = 43d;
+            sheet.Cells["C2"].Value = 65d;
+            sheet.Cells["D1"].Value = 241d;
+            sheet.Cells["D2"].Value = 263d;
         }
     }
 }

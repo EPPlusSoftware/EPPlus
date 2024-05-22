@@ -825,7 +825,7 @@ namespace OfficeOpenXml.FormulaParsing
                         if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
-                            if(fexp.HandlesVariables && f._expressionStack.Count > 1)
+                            if(fexp.HandlesVariables && f._expressionStack.Count > 1 && !(f._expressionStack.Peek() is VariableExpression varExp && varExp.IsDeclaration))
                             {
                                 var exp1 = f._expressionStack.Pop();
                                 var exp2 = f._expressionStack.Pop();
