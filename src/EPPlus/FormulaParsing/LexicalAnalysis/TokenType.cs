@@ -191,7 +191,25 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents a N/A error
         /// </summary>
         NAError = (ulong)1 << 41,
+        /// <summary>
+        /// Represents a single quote
+        /// </summary>
         SingleQuote = (ulong)1 << 42,
+        /// <summary>
+        /// Represents a hash mark
+        /// </summary>
         HashMark = (ulong)1 << 43,
+        /// <summary>
+        /// Represents a parameter variable declaration in functions such as LET or LAMBDA
+        /// </summary>
+        ParameterVariableDeclaration = (ulong)1 << 44,
+        /// <summary>
+        /// Represents a name error
+        /// </summary>
+        NameError = (ulong)1 << 45,
+        /// <summary>
+        /// Represents a parameter variable in functions such as LET or LAMBDA
+        /// </summary>
+        ParameterVariable = (ulong)1 << 46
     }
 }

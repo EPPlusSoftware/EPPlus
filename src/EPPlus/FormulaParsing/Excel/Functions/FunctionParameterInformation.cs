@@ -49,6 +49,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// If the parameter is an address, call the <see cref="ExcelFunction.GetNewParameterAddress"/> to adjust the address before dependency check.
         /// </summary>
-        AdjustParameterAddress = 0x40
+        AdjustParameterAddress = 0x40,
+        /// <summary>
+        /// The parameter is a variable which value is calculated by the next parameter.
+        /// </summary>
+        IsParameterVariable = 0x80,
     }
 }
