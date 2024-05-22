@@ -261,7 +261,7 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueColor(helper, path + "/d:color", Color);
             SetValue(helper, path + "/d:name/@val", Name);
             SetValue(helper, path + "/d:family/@val", Family);
-            SetValue(helper, path + "/d:scheme/@val", Scheme.ToEnumString());
+            SetValue(helper, path + "/d:scheme/@val", Scheme.HasValue ? Scheme.ToEnumString() : null);
         }
         internal override void SetValuesFromXml(XmlHelper helper)
         {
