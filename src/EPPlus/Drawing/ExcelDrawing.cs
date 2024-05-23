@@ -1336,7 +1336,7 @@ namespace OfficeOpenXml.Drawing
 
         public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = 0, int colOffset = 0)
         {
-            XmlElement drawNode = null;
+            XmlNode drawNode = null;
             switch (DrawingType)
             {
                 case eDrawingType.Shape:
@@ -1355,8 +1355,8 @@ namespace OfficeOpenXml.Drawing
                     drawNode = CopyControl(worksheet, row, col, rowOffset, colOffset);
                     break;
                 case eDrawingType.GroupShape:
-                    CopyGroupShape(this, worksheet);
-                    return;
+                    drawNode = CopyGroupShape(worksheet);
+                    break; ;
             }
             //Set position of the drawing copy.
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1369,7 +1369,16 @@ namespace OfficeOpenXml.Drawing
             copy.GetPositionSize();
         }
 
-        private void CopyGroupShape(ExcelDrawing drawing, ExcelWorksheet worksheet)
+        private XmlNode CopyGroupShape(ExcelWorksheet worksheet)
+        {
+            //Create node in drawing.xml
+            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+            drawNode.InnerXml = TopNode.InnerXml;
+            CopyGroupShape(worksheet, this, drawNode);
+            return drawNode;
+        }
+
+        private void CopyGroupShape(ExcelWorksheet worksheet, ExcelDrawing drawing, XmlNode drawNode)
         {
             var source = drawing._drawings.Worksheet;
             //if (drawing is ExcelChart chart)
@@ -1381,35 +1390,24 @@ namespace OfficeOpenXml.Drawing
             //    drawXml.LoadXml(xml);
             //    WorksheetCopyHelper.CopyChartRelations(chart, worksheet, partDraw, drawXml, source);
             //}
-            //else if (drawing is ExcelPicture pic)
-            //{
-            //    string xml = source.Drawings.DrawingXml.OuterXml;
-            //    var uriDraw = new Uri(string.Format("/xl/drawings/drawing{0}.xml", worksheet.SheetId), UriKind.Relative);
-            //    var partDraw = worksheet._package.ZipPackage.CreatePart(uriDraw, "application/vnd.openxmlformats-officedocument.drawing+xml", worksheet._package.Compression);
-            //    XmlDocument drawXml = new XmlDocument();
-            //    drawXml.LoadXml(xml);
-            //    WorksheetCopyHelper.CopyPicture(worksheet, partDraw, drawXml, source, pic);
-            //}
+            if (drawing is ExcelPicture pic)
+            {
+                drawing.CopyPicture(worksheet, true, drawNode);
+            }
             //if (drawing is ExcelControl ctrl)
             //{
             //    var node = drawNode.SelectSingleNode("xdr:grpSp/mc:AlternateContent/mc:Choice", worksheet.NameSpaceManager);
             //    ctrl.CopyControl(worksheet, node, 1,1,1,1);
             //}
-            if (drawing is ExcelShape shp)
+            else if (drawing is ExcelShape shape)
             {
-                string xml = source.Drawings.DrawingXml.OuterXml;
-                var uriDraw = new Uri(string.Format("/xl/drawings/drawing{0}.xml", worksheet.SheetId), UriKind.Relative);
-                var partDraw = worksheet._package.ZipPackage.GetPart(uriDraw);
-                var uriDraw2 = partDraw.Uri;
-                XmlDocument drawXml = new XmlDocument();
-                drawXml.LoadXml(xml);
-                WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, partDraw, drawXml, drawing, shp.Fill, uriDraw2);
+                drawing.CopyShape(worksheet, true, drawNode);
             }
             else if (drawing is ExcelGroupShape groupShape)
             {
                 for (int j = 0; j < groupShape.Drawings.Count; j++)
                 {
-                    CopyGroupShape(groupShape.Drawings[j], worksheet);
+                    CopyGroupShape(worksheet, groupShape.Drawings[j], groupShape.Drawings[j].TopNode);
                 }
             }
         }
@@ -1495,7 +1493,7 @@ namespace OfficeOpenXml.Drawing
             drawNode.InnerXml = TopNode.InnerXml;
 
             //Update DrawNode Id
-            var controlId = worksheet._nextControlId++.ToString();
+            var controlId = (++worksheet._nextControlId).ToString();
             var drawIdNode = drawNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", worksheet.NameSpaceManager);
             drawIdNode.Attributes["id"].Value = controlId;
             var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", _drawings.NameSpaceManager);
@@ -1517,7 +1515,7 @@ namespace OfficeOpenXml.Drawing
             vmlId.Attributes["spid"].Value = spid;
 
             //Create the copy
-            var copy = GetDrawing(worksheet._drawings, drawNode);
+            var copy = GetDrawing(worksheet._drawings, drawNode); //Finds the wrong drawing...
             copy.EditAs = ExcelControl.GetControlEditAs(control.ControlType);
             var width = GetPixelWidth();
             var height = GetPixelHeight();
@@ -1566,17 +1564,28 @@ namespace OfficeOpenXml.Drawing
                 //Update the copied charts id and name
                 var chartcopy = ExcelChart.GetChart(worksheet._drawings, drawNode);
                 chartcopy.Name = chartcopy.Name + " " + worksheet._drawings._drawingNames.Count;
-                chartcopy._id = origialChart._id + 1;
+                chartcopy._id = ++origialChart._id;
             }
             return drawNode;
         }
 
-        private XmlElement CopyPicture(ExcelWorksheet worksheet)
+        private XmlNode CopyPicture(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
-            //Create node in drawing.xml
-            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
-            drawNode.InnerXml = TopNode.InnerXml;
-
+            XmlNode drawNode = null;
+            if (isGroupShape && groupDrawNode != null)
+            {
+                drawNode = groupDrawNode.ParentNode;
+                groupDrawNode.SelectSingleNode("xdr:nvPicPr/xdr:cNvPr", worksheet._drawings.NameSpaceManager).Attributes["id"].Value = (++worksheet.Workbook._nextDrawingId).ToString();
+            }
+            else
+            {
+                //Create node in drawing.xml
+                drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+                drawNode.InnerXml = TopNode.InnerXml;
+                            //Set New id on copied picture.
+            var pic = GetDrawing(worksheet._drawings, drawNode) as ExcelPicture;
+            pic.SetNewId(++worksheet.Workbook._nextDrawingId);
+            }
             //If same drawings object, we are done.
             if (worksheet._drawings != _drawings)
             {
@@ -1585,7 +1594,6 @@ namespace OfficeOpenXml.Drawing
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
                 {
                     var rel = _drawings.Part.GetRelationship(relNode.Value);
-
                     //Copy image file to new workbook if target worksheet is in a different workbook.
                     if (worksheet.Workbook != _drawings.Worksheet.Workbook)
                     {
@@ -1607,7 +1615,6 @@ namespace OfficeOpenXml.Drawing
                             rel.TargetUri = imageInfo.Uri;
                         }
                     }
-
                     //Check if relationship exists.
                     var exisistingRel = worksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x => x.Target == rel.Target).FirstOrDefault();
                     //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the exsisting relationship Id
@@ -1622,30 +1629,33 @@ namespace OfficeOpenXml.Drawing
                     }
                 }
             }
-            //Set New id on copied picture.
-            var pic = GetDrawing(worksheet._drawings, drawNode) as ExcelPicture;
-            pic.SetNewId(worksheet.Workbook._nextDrawingId++);
             return drawNode;
         }
 
-        private XmlElement CopyShape(ExcelWorksheet worksheet)
+        private XmlNode CopyShape(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
-            //Create node in drawing.xml
-            var drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
-            drawNode.InnerXml = TopNode.InnerXml;
-
-            //Copy Blip Fill
             var sourceShape = this as ExcelShape;
-            var targetShape = GetDrawing(worksheet._drawings, drawNode) as ExcelShape;
-            WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, targetShape, sourceShape.Fill, worksheet._drawings.Part.Uri);
-
-            //Asign new id
-            targetShape._id = worksheet.Workbook._nextDrawingId++;
-
+            XmlNode drawNode = null;
+            if (isGroupShape && groupDrawNode != null)
+            {
+                drawNode = groupDrawNode.ParentNode;
+                groupDrawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr", worksheet._drawings.NameSpaceManager).Attributes["id"].Value = (++worksheet.Workbook._nextDrawingId).ToString();
+            }
+            else
+            {
+                //Create node in drawing.xml
+                drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+                drawNode.InnerXml = TopNode.InnerXml;
+                //Asign new id
+                var targetShape = GetDrawing(worksheet._drawings, drawNode) as ExcelShape;
+                targetShape._id = ++worksheet.Workbook._nextDrawingId;
+            }
+            //Copy Blip Fill
+            WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, this, sourceShape.Fill, worksheet._drawings.Part.Uri);
             return drawNode;
         }
 
-            public void Copy(ExcelRangeBase range, int rowOffset = 0, int colOffset = 0)
+        public void Copy(ExcelRangeBase range, int rowOffset = 0, int colOffset = 0)
         {
             
         }

@@ -175,6 +175,7 @@ namespace EPPlusTest.Drawing
             var ws = p.Workbook.Worksheets[2];
             ws.Drawings[1].Copy(ws, 5, 20);
             ws.Drawings[2].Copy(ws, 5, 25);
+            ws.Drawings[4].Copy(ws, 5, 30);
             SaveAndCleanup(p);
         }
         [TestMethod]
@@ -185,17 +186,19 @@ namespace EPPlusTest.Drawing
             var ws1 = p.Workbook.Worksheets[1];
             ws.Drawings[1].Copy(ws1, 5, 20);
             ws.Drawings[2].Copy(ws1, 5, 25);
+            ws.Drawings[4].Copy(ws1, 5, 30);
             SaveAndCleanup(p);
         }
         [TestMethod]
         public void CopyGroupShapeOtherWorkbookTest()
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
-            var sourceWs = p.Workbook.Worksheets[2];
+            var ws = p.Workbook.Worksheets[2];
             using var p2 = OpenPackage("Target.xlsx", true);
             var targetWs = p2.Workbook.Worksheets.Add("Sheet1");
-            sourceWs.Drawings[1].Copy(targetWs, 1, 1);
-            sourceWs.Drawings[2].Copy(targetWs, 1, 5);
+            ws.Drawings[1].Copy(targetWs, 1, 1);
+            ws.Drawings[2].Copy(targetWs, 1, 5);
+            ws.Drawings[4].Copy(targetWs, 5, 30);
             SaveAndCleanup(p2);
         }
     }
