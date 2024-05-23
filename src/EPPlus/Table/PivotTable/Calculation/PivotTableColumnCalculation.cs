@@ -16,6 +16,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Utils;
 using System;
@@ -48,26 +49,27 @@ namespace OfficeOpenXml.Table.PivotTable
 				var f = _tbl.Fields[i];
 				var tokens = f.Cache.FormulaTokens;
 				var calcTokens = GetPivotFieldReferencesInFormula(f, tokens);
+				PivotCalculationStore store;
 				if(calcTokens.Any(x => x == null))
 				{
 					//Contains invalid field reference or functions not supported in PT.
-
-				}
-				else
-				{
-					var store = CalculateField(f, tokens, calcTokens, fieldIndex);
-                    if (f.IsDataField)
-                    {
-						var ix = _tbl.DataFields.IndexOf(f.DataField);
-						_tbl.CalculatedItems[ix] = store;
-                    }
-					else
-					{
-						_tbl.CalculatedFieldReferencedItems.Add(f.Name, store);
-					}
+					throw (new InvalidOperationException($"Pivot table {_tbl.Name} contains invalid column calculated formula : {f.Cache.Formula}. The formula contains an invalid field, an unsupported function or cell reference."));
                 }
-			}
-		}
+                else
+				{
+					store = CalculateField(f, tokens, calcTokens, fieldIndex);
+                }
+                if (f.IsDataField)
+                {
+                    var ix = _tbl.DataFields.IndexOf(f.DataField);
+                    _tbl.CalculatedItems[ix] = store;
+                }
+                else
+                {
+                    _tbl.CalculatedFieldReferencedItems.Add(f.Name, store);
+                }
+            }
+        }
 
 		private PivotCalculationStore CalculateField(ExcelPivotTableField f, IList<Token> tokens, List<int[]> calcTokens, List<int> fieldIndex)
 		{

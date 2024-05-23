@@ -205,7 +205,7 @@ namespace OfficeOpenXml.Style
             }
         }
         internal NumberFormatType _numberformatType= NumberFormatType.Unset;
-
+        //TODO: Implement convert to DateTime if dateformat.
 		internal bool IsDateFormat
         {
             get
@@ -217,7 +217,8 @@ namespace OfficeOpenXml.Style
                 return _numberformatType == NumberFormatType.Date;
             }
         }
-		internal bool IsNumberFormat
+        //TODO: Use to determin number of decimals in the number format.
+        internal bool IsNumberFormat
 		{
             get
             {

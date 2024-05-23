@@ -611,6 +611,8 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                         return date.Value.Date == DateTime.Today;
                     case ePivotTableFilterType.Tomorrow:
                         return date.Value.Date == DateTime.Today.AddDays(1);
+                    default:
+                        throw new InvalidOperationException($"Unknown date filter type {Type}");
                 }
             }
             return false;
@@ -641,6 +643,8 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                     case ePivotTableFilterType.ValueNotBetween:
                         value2 = ConvertUtil.GetValueDouble(Value2, false, true);
                         return double.IsNaN(value2) == false && !(num >= value1 && num <= value2);
+                    default:
+                        throw new InvalidOperationException($"Unknown date filter type {Type}");
                 }
             }
             return false;

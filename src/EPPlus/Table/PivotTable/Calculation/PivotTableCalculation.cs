@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
 				var dataFieldItems = new PivotCalculationStore();
 				calculatedItems.Add(dataFieldItems);
-				var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+				var keyDict = PivotTableCalculation.GetNewKeys();
 				keys.Add(keyDict);
 				if (string.IsNullOrEmpty(df.Field.Cache.Formula))
 				{
@@ -105,7 +105,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			pivotTable.CalculatedFieldRowColumnSubTotals = new Dictionary<string, PivotCalculationStore>();
             foreach (var field in pivotTable.RowFields.Union(pivotTable.ColumnFields).Where(x=>x.SubTotalFunctions!=eSubTotalFunctions.None && x.SubTotalFunctions!=eSubTotalFunctions.Default))
 			{
-                var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+                var keyDict = PivotTableCalculation.GetNewKeys(); 
                 keys.Add(keyDict);
 
 				for(var dfIx=0;dfIx < pivotTable.DataFields.Count;dfIx++)
@@ -199,7 +199,7 @@ namespace OfficeOpenXml.Table.PivotTable
 					{
 						if(!GetSumCalcItems(pivotTable, token.Value, out PivotCalculationStore store))
 						{
-							var keyDict = new Dictionary<int[], HashSet<int[]>>(new ArrayComparer());
+                            var keyDict = PivotTableCalculation.GetNewKeys();
 							keys.Add(keyDict);
 							store = new PivotCalculationStore();
 							CalculateField(pivotTable, store, keys, pivotTable.Fields[token.Value].Cache, DataFieldFunctions.Sum);

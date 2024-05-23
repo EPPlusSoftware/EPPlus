@@ -129,7 +129,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 
             calculatedItems = showAsCalculatedItems;
         }
-
         private bool NextKey(ref int[] currentKey, ExcelPivotTable pt, List<int> fieldIndex)
         {
             currentKey = (int[])currentKey.Clone();
@@ -143,59 +142,6 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
 				currentKey[i] = (currentKey[i] == PivotCalculationStore.SumLevelValue ? 0 : currentKey[i] + 1);
 			}
 			return true;
-        }
-
-        private bool IsSameLevelAs(int[] key, bool isRowField, int baseLevel, int keyCol, ExcelPivotTableDataField df)
-        {
-            if (isRowField)
-            {
-                for (int i = baseLevel + 1; i < df.Field.PivotTable.RowFields.Count; i++)
-                {
-                    if (key[i] != PivotCalculationStore.SumLevelValue)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                for (int i = baseLevel + 1; i < df.Field.PivotTable.ColumnFields.Count; i++)
-                {
-                    if (key[i] != PivotCalculationStore.SumLevelValue)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        private int GetIndexPos(ExcelPivotTableField field)
-        {
-            var pt = field.PivotTable;
-            if (field.IsColumnField)
-            {
-                for (var i = 0; i < pt.ColumnFields.Count; i++)
-                {
-                    if (pt.RowFields[i] == field)
-                    {
-                        return i;
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < pt.RowFields.Count; i++)
-                {
-                    if (pt.RowFields[i] == field)
-                    {
-                        return i;
-                    }
-                }
-            }
-            return -1;
         }
     }
 }
