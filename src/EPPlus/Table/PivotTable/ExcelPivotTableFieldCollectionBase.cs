@@ -225,14 +225,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			{
 				if(string.IsNullOrEmpty(item.Text))
                 {
-                    //if(_hasGrouping)
-                    //{
-                    //    return _field.Cache.GroupItems._list[item.X].ToString();
-                    //}
-                    //else
-                    //{
-						return ExcelPivotTableCacheField.GetSharedStringText(item.Value, out _);
-					//}
+					return ExcelPivotTableCacheField.GetSharedStringText(item.Value, out _);
                 }
                 else
                 {
