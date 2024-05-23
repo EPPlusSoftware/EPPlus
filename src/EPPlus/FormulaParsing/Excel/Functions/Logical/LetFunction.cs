@@ -11,6 +11,7 @@
   05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Logical,
+        EPPlusVersion = "7.2",
+        Description = "The LET function assigns names to calculation results, allowing storing intermediate calculations, values, or defining names inside a formula. These names only apply within the scope of the LET function",
+        IntroducedInExcelVersion = "2021")]
     internal class LetFunction : ExcelFunction
     {
         public override int ArgumentMinLength => 3;

@@ -86,6 +86,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 case "_xlfn.let":
                 case "let":
+                case "_xlfn.lambda":
+                case "lambda":
                     return true;
                 default:
                     return false;
@@ -100,6 +102,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 case "let":
                     return argIndex % 2 == 0 && argIndex < argCount - 1;
+                case "lambda":
+                    return argIndex < argCount;
                 default:
                     return false;
             }

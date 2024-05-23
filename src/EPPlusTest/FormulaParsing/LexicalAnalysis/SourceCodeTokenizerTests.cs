@@ -417,5 +417,25 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 var result = sct.Tokenize(input, sheetName);
             }
         }
+
+        [TestMethod]
+        public void ShouldSetPrefixOnLambdaParameters()
+        {
+            var input = "LAMBDA(r,c,r*c)";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(TokenType.Function, tokens[0].TokenType);
+            Assert.AreEqual(TokenType.OpeningParenthesis, tokens[1].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariableDeclaration, tokens[2].TokenType);
+            Assert.AreEqual("_xlpm.r", tokens[2].Value);
+            Assert.AreEqual(TokenType.Comma, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariableDeclaration, tokens[4].TokenType);
+            Assert.AreEqual("_xlpm.c", tokens[4].Value);
+            Assert.AreEqual(TokenType.Comma, tokens[5].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariable, tokens[6].TokenType);
+            Assert.AreEqual("_xlpm.r", tokens[6].Value);
+            Assert.AreEqual(TokenType.Operator, tokens[7].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariable, tokens[8].TokenType);
+            Assert.AreEqual("_xlpm.c", tokens[8].Value);
+        }
     }
 }

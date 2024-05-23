@@ -310,6 +310,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["switch"] = new Switch();
             Functions["xor"] = new Xor();
             Functions["let"] = new LetFunction();
+            Functions["lambda"] = new Lambda();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["hlookup"] = new HLookup();
