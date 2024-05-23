@@ -44,6 +44,21 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
+        /// The display name of the hierarchy.
+        /// </summary>
+        public int Caption
+        {
+            get
+            {
+                return GetXmlNodeInt("@cap");
+            }
+            set
+            {
+                SetXmlNodeString("@cap", value.ToString());
+            }
+        }
+
+        /// <summary>
         /// The Name of the field
         /// </summary>
         public string Name
@@ -57,17 +72,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("@name", value);
             }
         }
-        /***** Dont work. Need items to be populated. ****/
         /// <summary>
-        /// The selected item 
+        /// The selected item. 
+        /// See also <seealso cref="ExcelPivotTableFieldItemsCollection.SelectSingleItem(int)"/>
         /// </summary>
-        internal int SelectedItem
+        public int SelectedItem
         {
             get
             {
                 return GetXmlNodeInt("@item");
             }
-            set
+            internal set
             {
                 if (value < 0)
                 {
@@ -79,17 +94,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        internal int NumFmtId
-        {
-            get
-            {
-                return GetXmlNodeInt("@numFmtId");
-            }
-            set
-            {
-                SetXmlNodeString("@numFmtId", value.ToString());
-            }
-        }
+        /// <summary>
+        /// The index of the OLAP hierarchy to which this page field belongs
+        /// </summary>
         internal int Hier
         {
             get

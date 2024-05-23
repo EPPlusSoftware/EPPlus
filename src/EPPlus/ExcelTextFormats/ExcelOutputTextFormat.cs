@@ -83,7 +83,7 @@ namespace OfficeOpenXml
         /// </summary>
         public string ThousandsSeparator { get; set; } = null;
         /// <summary>
-        /// What to replace Text Qualifiers inside a text, when Text Qualifiers is set.
+        /// What to replace Text Qualifiers inside a text, when String Qualifiers is set.
         /// Default is two Text Qualifiers characters. For example " is replaced with "".
         /// </summary>
         public string EncodedTextQualifiers { get; set; } = null;

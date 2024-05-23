@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -72,7 +73,18 @@ namespace OfficeOpenXml.Table.PivotTable
                 dataField.Name = name;
             }
         }
-
+        /// <summary>
+        /// Returns the data field with the name supplied.
+        /// </summary>
+        /// <param name="name">The name of the field or the cache field</param>
+        /// <returns>THe data field</returns>
+        public ExcelPivotTableDataField this[string name]
+        {
+            get
+            {
+                return _list.FirstOrDefault(x => (string.IsNullOrEmpty(x.Name) ? x.Field.Name : x.Name) == name || x.Field.Name == name);
+            }
+        }
         internal bool ExistsDfName(string name, ExcelPivotTableDataField datafield)
         {
             foreach (var df in _list)

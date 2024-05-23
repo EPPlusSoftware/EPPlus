@@ -1276,7 +1276,7 @@ namespace EPPlusTest
 
                 using (var reader = dt.CreateDataReader())
                 {
-                    range = ws.Cells["A5"].LoadFromDataReader(reader, false, "My_Table_Transp2", true, TableStyles.Medium5);
+                    range = ws.Cells["A5"].LoadFromDataReader(reader, false, "My_Table2_Transp", true, TableStyles.Medium5);
                 }
             }
             Assert.AreEqual("A5:B8", range.Address);
@@ -1322,7 +1322,7 @@ namespace EPPlusTest
             {
                 using (var reader = dt.CreateDataReader())
                 {
-                    range = await ws.Cells["A1"].LoadFromDataReaderAsync(reader, true, "My_Table_Transp_Async", true, TableStyles.Medium5).ConfigureAwait(false);
+                    range = await ws.Cells["A1"].LoadFromDataReaderAsync(reader, true, "My_Table_Async_transp", true, TableStyles.Medium5).ConfigureAwait(false);
                 }
                 Assert.AreEqual(1, range.Start.Column);
                 Assert.AreEqual(3, range.End.Column);
@@ -1331,7 +1331,7 @@ namespace EPPlusTest
 
                 using (var reader = dt.CreateDataReader())
                 {
-                    range = await ws.Cells["A5"].LoadFromDataReaderAsync(reader, false, "My_Table_Transp_Async2", true, TableStyles.Medium5).ConfigureAwait(false);
+                    range = await ws.Cells["A5"].LoadFromDataReaderAsync(reader, false, "My_Table_Async2_transp", true, TableStyles.Medium5).ConfigureAwait(false);
                 }
             }
             Assert.AreEqual("A5:B8", range.Address);

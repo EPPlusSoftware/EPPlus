@@ -66,5 +66,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 return FunctionParameterInformation.UseIfConditionIsTrue | FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
         }));
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

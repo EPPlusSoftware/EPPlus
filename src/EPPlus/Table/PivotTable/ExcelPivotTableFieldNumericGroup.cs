@@ -23,8 +23,8 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTableFieldNumericGroup(XmlNamespaceManager ns, XmlNode topNode) :
             base(ns, topNode)
         {
-        }
-        const string startPath = "d:fieldGroup/d:rangePr/@startNum";
+		}
+        const string startPath = "d:rangePr/@startNum";
         /// <summary>
         /// Start value
         /// </summary>
@@ -32,14 +32,14 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return (double)GetXmlNodeDoubleNull(startPath);
+                return GetXmlNodeDoubleNull(startPath) ?? 0D;
             }
             private set
             {
                 SetXmlNodeString(startPath,value.ToString(CultureInfo.InvariantCulture));
             }
         }
-        const string endPath = "d:fieldGroup/d:rangePr/@endNum";
+        const string endPath = "d:rangePr/@endNum";
         /// <summary>
         /// End value
         /// </summary>
@@ -47,14 +47,15 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return (double)GetXmlNodeDoubleNull(endPath);
+                return GetXmlNodeDoubleNull(endPath)??0;
             }
             private set
             {
                 SetXmlNodeString(endPath, value.ToString(CultureInfo.InvariantCulture));
-            }
+                CalculateEndIsDivisibleWithInterval();
+			}
         }
-        const string groupIntervalPath = "d:fieldGroup/d:rangePr/@groupInterval";
+        const string groupIntervalPath = "d:rangePr/@groupInterval";
         /// <summary>
         /// Interval
         /// </summary>
@@ -62,12 +63,20 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return (double)GetXmlNodeDoubleNull(groupIntervalPath);
+                return GetXmlNodeDoubleNull(groupIntervalPath) ?? 0D;
             }
             private set
-            {
-                SetXmlNodeString(groupIntervalPath, value.ToString(CultureInfo.InvariantCulture));
-            }
-        }
-    }
+			{
+				SetXmlNodeString(groupIntervalPath, value.ToString(CultureInfo.InvariantCulture));
+				CalculateEndIsDivisibleWithInterval();
+			}
+		}
+
+		internal void CalculateEndIsDivisibleWithInterval()
+		{
+			EndIsDivisibleWithInterval = End % Interval == 0;
+		}
+
+		internal bool EndIsDivisibleWithInterval { get; private set; }
+	}
 }

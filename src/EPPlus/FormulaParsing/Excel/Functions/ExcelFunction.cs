@@ -511,7 +511,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="left">Numerator</param>
         /// <param name="right">Denominator</param>
         /// <returns></returns>
-        protected double Divide(double left, double right)
+        internal static protected double Divide(double left, double right)
         {
             if (Math.Abs(right) - 0d < double.Epsilon)
             {
@@ -862,9 +862,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
         /// <summary>
-        /// Provides information about the functions parameters.
+        /// If the function is allowed in a pivot table calculated field. Default is true, if not overridden.
         /// </summary>
-        public virtual ExcelFunctionParametersInfo ParametersInfo
+        public virtual bool IsAllowedInCalculatedPivotTableField
+        {
+			get
+			{
+				return true;
+			}
+		}
+		/// <summary>
+		/// Provides information about the functions parameters.
+		/// </summary>
+		public virtual ExcelFunctionParametersInfo ParametersInfo
         {
             get;
         } = ExcelFunctionParametersInfo.Default;

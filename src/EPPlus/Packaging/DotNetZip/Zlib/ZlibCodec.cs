@@ -404,7 +404,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///  
         ///  compressor.InitializeDeflate(CompressionLevel.Default);
         ///  
-        ///  compressor.InputBuffer = System.Text.ASCIIEncoding.ASCII.GetBytes(TextToCompress);
+        ///  compressor.InputBuffer = System.String.ASCIIEncoding.ASCII.GetBytes(TextToCompress);
         ///  compressor.NextIn = 0;
         ///  compressor.AvailableBytesIn = compressor.InputBuffer.Length;
         ///  

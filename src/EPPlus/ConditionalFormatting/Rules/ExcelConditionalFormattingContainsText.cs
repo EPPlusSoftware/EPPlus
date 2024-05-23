@@ -40,7 +40,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         ExcelConditionalFormattingContainsText(ExcelConditionalFormattingContainsText copy, ExcelWorksheet newWs = null) :base(copy, newWs)
         {
-            //Text = copy.Text;
         }
 
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)

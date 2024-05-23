@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,10 +23,40 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         ExcelPivotTableField _field;
+        internal Dictionary<int, int> _cacheDictionary = null;
 
+        List<int> _hiddenItemIndex=null;
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
             _field = field;
+        }
+        internal void InitNewCalculation()
+        {
+            _hiddenItemIndex = null;
+        }
+        internal List<int> HiddenItemIndex
+        {
+            get
+            {
+                if (_hiddenItemIndex == null)
+                {
+                    _hiddenItemIndex = GetHiddenList();
+                }
+                return _hiddenItemIndex;
+            }
+        }
+
+        private List<int> GetHiddenList()
+        {
+            List<int> hiddenItems = new List<int>();
+            for (int i = 0; i < _list.Count; i++)
+            {
+                if (_list[i].Hidden)
+                {
+                    hiddenItems.Add(_list[i].X);
+                }
+            }
+            return hiddenItems;
         }
         /// <summary>
         /// It the object exists in the cache
@@ -34,7 +65,8 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns></returns>
         public bool Contains(object value)
         {
-            return _field.Cache._cacheLookup.ContainsKey(value);
+			var cl = _field.Cache.GetCacheLookup();
+			return cl.ContainsKey(value);
         }
         /// <summary>
         /// Get the item with the value supplied. If the value does not exist, null is returned.
@@ -43,24 +75,49 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The pivot table field</returns>
         public ExcelPivotTableFieldItem GetByValue(object value)
         {
-            if(_field.Cache._cacheLookup.TryGetValue(value, out int ix))
+            var cl = _field.Cache.GetCacheLookup();
+            if (cl.TryGetValue(value, out int ix))
             {
-                return _list[ix];
+                if (_cacheDictionary.TryGetValue(ix, out int i))
+                {
+                    return _list[i];
+                }
             }
-            return null;
+			return null;
         }
         /// <summary>
-        /// Get the index of the item with the value supplied. If the value does not exist, null is returned.
+        /// Get the index of the item with the value supplied. If the value does not exist, -1 is returned.
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The index of the item</returns>
         public int GetIndexByValue(object value)
         {
-            if (_field.Cache._cacheLookup.TryGetValue(value, out int ix))
+			var cl = _field.Cache.GetCacheLookup();
+			if (cl.TryGetValue(value, out int ix))
             {
-                return ix;
+                if(_cacheDictionary.TryGetValue(ix, out int i))
+                {
+                    return i;
+                }
             }
             return -1;
+        }
+        internal void MatchValueToIndex()
+        {
+            var cacheLookup = _field.Cache.GetCacheLookup();
+            foreach (var item in _list)
+            {
+                var v = item.Value ?? ExcelPivotTable.PivotNullValue;
+                if (item.Type == eItemType.Data && cacheLookup.TryGetValue(v, out int x))
+                {
+                    item.X = cacheLookup[v];
+                }
+                else
+                {
+                    item.X = -1;
+                }
+            }
+            _cacheDictionary = _list.Where(x=>x.X>=0).ToDictionary(x => x.X, y => _list.IndexOf(y));
         }
         /// <summary>
         /// Set Hidden to false for all items in the collection
@@ -118,8 +175,65 @@ namespace OfficeOpenXml.Table.PivotTable
         public void Refresh()
         {
             _field.Cache.Refresh();
+            MatchValueToIndex();
+            _hiddenItemIndex = null;
         }
-    }
+
+		internal void Sort(eSortType sort)
+		{
+            var comparer = new PivotItemComparer(sort, _field);
+			_list.Sort(comparer);
+            _cacheDictionary = _list.Where(x=>x.X > -1).ToDictionary(x => x.X, y=>_list.IndexOf(y));
+		}
+
+        internal ExcelPivotTableFieldItem GetByCacheIndex(int index)
+        {
+            if(_cacheDictionary.TryGetValue(index, out int i))
+            {
+                return _list[i];
+            }
+            return null;
+        }
+
+        internal class PivotItemComparer : IComparer<ExcelPivotTableFieldItem>
+		{
+			private int _mult;
+			private ExcelPivotTableField _field;
+            private bool _hasGrouping;
+			public PivotItemComparer(eSortType sort, ExcelPivotTableField field)
+			{
+				this._mult = sort==eSortType.Ascending ? 1 : -1;
+				this._field = field;
+                _hasGrouping = _field.Grouping != null;
+			}
+
+			public int Compare(ExcelPivotTableFieldItem x, ExcelPivotTableFieldItem y)
+			{
+                if (x.Type == eItemType.Data)
+                {
+                    var xText = GetTextValue(x);
+                    var yText = GetTextValue(y);
+                    return xText.CompareTo(yText) * _mult;
+                }
+                else
+                {
+					return 1;
+				}
+			}
+
+			private string GetTextValue(ExcelPivotTableFieldItem item)
+			{
+				if(string.IsNullOrEmpty(item.Text))
+                {
+					return ExcelPivotTableCacheField.GetSharedStringText(item.Value, out _);
+                }
+                else
+                {
+                    return item.Text;
+                }
+			}
+		}
+	}
     /// <summary>
     /// Base collection class for pivottable fields
     /// </summary>

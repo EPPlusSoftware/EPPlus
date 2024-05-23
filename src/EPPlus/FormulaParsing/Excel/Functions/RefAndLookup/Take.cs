@@ -99,5 +99,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         public override string NamespacePrefix => "_xlfn.";
         public override bool ReturnsReference => true;
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

@@ -342,6 +342,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["chooserows"] = new ChooseRows();
             Functions["vstack"] = new Vstack();
             Functions["hstack"] = new Hstack();
+            Functions["getpivotdata"] = new GetPivotData();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();
