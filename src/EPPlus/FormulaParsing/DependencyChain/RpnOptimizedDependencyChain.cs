@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2024         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
@@ -17,7 +29,6 @@ namespace OfficeOpenXml.FormulaParsing
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
         internal List<CircularReference> _circularReferences = new List<CircularReference>();
         internal ISourceCodeTokenizer _tokenizer;
-        internal FormulaExecutor _formulaExecutor;
         internal ParsingContext _parsingContext;
         internal List<int> _startOfChain = new List<int>();
         internal bool HasDynamicArrayFormula=false;
@@ -26,7 +37,6 @@ namespace OfficeOpenXml.FormulaParsing
         {
             _tokenizer = SourceCodeTokenizer.Default;
             _parsingContext = wb.FormulaParser.ParsingContext;
-            _formulaExecutor = new FormulaExecutor(_parsingContext);
 
             var parser = wb.FormulaParser;
             var filterInfo = new FilterInfo(wb);

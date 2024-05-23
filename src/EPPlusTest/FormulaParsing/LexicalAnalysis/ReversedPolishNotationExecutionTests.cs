@@ -14,7 +14,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
     {
         ExcelPackage _package;
         ParsingContext _parsingContext;
-        FormulaExecutor _formulaExecutor;
         private ISourceCodeTokenizer _tokenizer;
        [TestInitialize]
         public void Setup()
@@ -26,8 +25,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             _parsingContext.ExcelDataProvider = dataProvider;
             _parsingContext.NameValueProvider = new EpplusNameValueProvider(dataProvider);
             _parsingContext.RangeAddressFactory = new RangeAddressFactory(dataProvider, _parsingContext);
-
-            _formulaExecutor = new FormulaExecutor(_parsingContext);
             _tokenizer = SourceCodeTokenizer.Default;
             
             

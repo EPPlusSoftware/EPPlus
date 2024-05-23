@@ -22,11 +22,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
         EPPlusVersion = "7.2",
-        Description = "Create custom, reusable functions and call them by a friendly name",
+        Description = "Returns a calculated array of a specified row and column size, by applying a LAMBDA",
         IntroducedInExcelVersion = "2021")]
-    internal class Lambda : ExcelFunction
+    internal class MakeArray : ExcelFunction
     {
-        public override int ArgumentMinLength => 2;
+        public override int ArgumentMinLength => 3;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

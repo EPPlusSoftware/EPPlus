@@ -8,10 +8,9 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
+  01/27/2024         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -25,112 +24,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class FormulaExecutor
+    internal static class ExpressionBuilder
     {
-        private ParsingContext _parsingContext;
 
-        internal FormulaExecutor(ParsingContext parsingContext)
-        {
-            _parsingContext = parsingContext;
-        }
-
-        internal static List<Token> CreateRPNTokens(IList<Token> tokens)
-        {
-            var bracketCount = 0;
-            var operators = OperatorsDict.Instance;
-            Stack<Token> operatorStack = new Stack<Token>();
-            var expressions = new List<Token>();
-            for (int i = 0; i < tokens.Count; i++)
-            {
-                Token token = tokens[i];
-                switch (token.TokenType)
-                {
-                    case TokenType.OpeningParenthesis:
-                        operatorStack.Push(token);
-                        break;
-                    case TokenType.ClosingParenthesis:
-                        if (operatorStack.Count > 0)
-                        {
-                            
-                            var o = operatorStack.Pop();
-                            while (o.TokenType != TokenType.OpeningParenthesis)
-                            {
-                                expressions.Add(o);
-                                if (operatorStack.Count == 0) throw new InvalidOperationException("No closing parenthesis");
-                                o = operatorStack.Pop();
-                            }
-                            if (operatorStack.Count > 0 && operatorStack.Peek().TokenType == TokenType.Function)
-                            {
-                                expressions.Add(operatorStack.Pop());
-                            }
-                        }
-                        break;
-                    case TokenType.Operator:
-                    case TokenType.Negator:
-                        if(token.TokenType == TokenType.Operator && i > 0 && i < tokens.Count-2 && token.Value==":" && tokens[i-1].Value=="]" && tokens[i+1].Value=="[")
-                        {
-                            expressions.Add(token);
-                            break;
-                        }
-                        if (operatorStack.Count > 0)
-
-                        {
-                            var o2 = operatorStack.Peek();
-                            while ((o2.TokenType == TokenType.Operator && token.TokenType!=TokenType.Negator &&
-                                operators[o2.Value].Precedence <= operators[token.Value].Precedence) 
-                                || 
-                                (o2.TokenType == TokenType.Negator && 
-                                token.TokenType != TokenType.Negator && 
-                                operators[token.Value].Precedence > Operator.PrecedenceColon))
-                            {
-                                expressions.Add(operatorStack.Pop());
-                                if (operatorStack.Count == 0) break;
-                                o2 = operatorStack.Peek();
-                            }
-                        }
-                        operatorStack.Push(token);
-                        break;
-
-                    case TokenType.Function:
-                        expressions.Add(new Token(token.Value,TokenType.StartFunctionArguments));
-                        operatorStack.Push(token);
-                        break;
-                    case TokenType.Comma:
-                        if(operatorStack.Count > 0 && bracketCount == 0) //If inside a table 
-                        {
-                            var op = operatorStack.Peek().TokenType;
-                            while (op == TokenType.Operator || op == TokenType.Negator)
-                            {
-                                expressions.Add(operatorStack.Pop());
-                                if(operatorStack.Count == 0) break;
-                                op = operatorStack.Peek().TokenType;
-                            }
-                        }
-                        expressions.Add(token);
-                        break;
-                    case TokenType.OpeningBracket:
-                        bracketCount++;
-                        expressions.Add(token);
-                        break;
-                    case TokenType.ClosingBracket:
-                        bracketCount--;
-                        expressions.Add(token);
-                        break;
-                    default:
-                        expressions.Add(token);
-                        break;
-                }
-
-            }
-
-            while (operatorStack.Count > 0)
-            {
-                expressions.Add(operatorStack.Pop());
-            }
-
-            return expressions;
-        }
-        public static Dictionary<int, Expression> CompileExpressions(ref IList<Token> tokens, ParsingContext parsingContext)
+        public static Dictionary<int, Expression> BuildExpressions(ref IList<Token> tokens, ParsingContext parsingContext)
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
@@ -380,40 +277,40 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             range = new InMemoryRange(matrix);
         }
 
-        private void PushResult(FormulaCell cell, CompileResult result)
-        {
-            switch (result.DataType)
-            {
-                case DataType.Boolean:
-                    cell._expressionStack.Push(new BooleanExpression(result, _parsingContext));
-                    break;
-                case DataType.Integer:
-                    cell._expressionStack.Push(new DecimalExpression(result, _parsingContext));
-                    break;
-                case DataType.Decimal:
-                    cell._expressionStack.Push(new DecimalExpression(result, _parsingContext));
-                    break;
-                case DataType.String:
-                    cell._expressionStack.Push(new StringExpression(result, _parsingContext));
-                    break;
-                case DataType.ExcelRange:
-                    cell._expressionStack.Push(new RangeExpression(result, _parsingContext));
-                    break;
-            }
-        }
+    //    private void PushResult(FormulaCell cell, CompileResult result)
+    //    {
+    //        switch (result.DataType)
+    //        {
+    //            case DataType.Boolean:
+    //                cell._expressionStack.Push(new BooleanExpression(result, _parsingContext));
+    //                break;
+    //            case DataType.Integer:
+    //                cell._expressionStack.Push(new DecimalExpression(result, _parsingContext));
+    //                break;
+    //            case DataType.Decimal:
+    //                cell._expressionStack.Push(new DecimalExpression(result, _parsingContext));
+    //                break;
+    //            case DataType.String:
+    //                cell._expressionStack.Push(new StringExpression(result, _parsingContext));
+    //                break;
+    //            case DataType.ExcelRange:
+    //                cell._expressionStack.Push(new RangeExpression(result, _parsingContext));
+    //                break;
+    //        }
+    //    }
 
-        private IList<Expression> GetFunctionArguments(FormulaCell cell)
-        {
-            var list = new List<Expression>();
-            var pos = cell._funcStackPosition.Pop();
-            var s = cell._expressionStack;
-            while (s.Count > pos._startPos)
-            {
-                var si = s.Pop();
-                si.Status |= ExpressionStatus.FunctionArgument;
-                list.Insert(0, si);
-            }
-            return list;
-        }
+    //    private IList<Expression> GetFunctionArguments(FormulaCell cell)
+    //    {
+    //        var list = new List<Expression>();
+    //        var pos = cell._funcStackPosition.Pop();
+    //        var s = cell._expressionStack;
+    //        while (s.Count > pos._startPos)
+    //        {
+    //            var si = s.Pop();
+    //            si.Status |= ExpressionStatus.FunctionArgument;
+    //            list.Insert(0, si);
+    //        }
+    //        return list;
+    //    }
     }
 }

@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2024         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
@@ -66,11 +78,11 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal void SetFormula(string formula, RpnOptimizedDependencyChain depChain)
         {
-            _tokens = FormulaExecutor.CreateRPNTokens(
+            _tokens = ReversePolishNotation.CreateRPNTokens(
                     depChain._tokenizer.Tokenize(formula));
 
             _formula = formula;
-            _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
+            _expressions = ExpressionBuilder.BuildExpressions(ref _tokens, depChain._parsingContext);
         }
         public override string ToString()
         {

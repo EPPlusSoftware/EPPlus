@@ -50,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         protected void SetFormula(ExcelWorksheet ws, string formula)
         {
             Tokens = _tokenizer.Tokenize(formula);
-            RpnTokens = FormulaExecutor.CreateRPNTokens(Tokens);
+            RpnTokens = ReversePolishNotation.CreateRPNTokens(Tokens);
         }
         internal FormulaType FormulaType { get; set; }
         public bool FirstCellDeleted { get; set; }  //del1
@@ -244,7 +244,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, row, col);
             if (_compiledExpressions == null)
             {
-                _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
+                _compiledExpressions = ExpressionBuilder.BuildExpressions(ref RpnTokens, depChain._parsingContext);
             }
             return new RpnFormula(_ws, row, col)
             {
@@ -260,7 +260,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, startRow, startCol);
             if (_compiledExpressions == null)
             {
-                _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
+                _compiledExpressions = ExpressionBuilder.BuildExpressions(ref RpnTokens, depChain._parsingContext);
             }
             return new RpnArrayFormula(_ws, startRow, startCol, endRow, endCol)
             {
