@@ -73,7 +73,7 @@ namespace EPPlusTest.FormulaParsing
             {
                 p.Workbook.FormulaParserManager.AttachLogger(formulaLogFile);
                 var values = new Dictionary<ulong, object>();
-                foreach(var ws in p.Workbook.Worksheets)
+                foreach (var ws in p.Workbook.Worksheets)
                 {                    
                     if (ws.IsChartSheet) continue;
                     var cse = new CellStoreEnumerator<object>(ws._formulas);

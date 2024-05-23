@@ -14,4 +14,4 @@ North America                 USA                           Boston              
 Europe                        France                        Paris                         127,00              
 North America                 USA                           New York                      330,00              
 Europe                        Germany                       Berlin                        210,00              
-North America                 USA                           San Fransico                  411,00              
+North America                 USA                           San Fransisco                  411,00              

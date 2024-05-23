@@ -78,5 +78,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// An unknown data type
         /// </summary>
         Unknown = 13,
+        /// <summary>
+        /// Variable data type
+        /// </summary>
+        Variable = 14
     }
 }

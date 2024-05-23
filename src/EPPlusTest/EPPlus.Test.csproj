@@ -13,7 +13,7 @@
 		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
 	</PropertyGroup>
 	<PropertyGroup>
-    <TargetFrameworks>net481;net8.0</TargetFrameworks>
+		<TargetFrameworks>net481;net8.0</TargetFrameworks>
 		<RootNamespace>EPPlusTest</RootNamespace>
 		<AssemblyName>EPPlusTest</AssemblyName>
 		<SignAssembly>True</SignAssembly>
@@ -37,7 +37,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<PackageReference Include="FakeItEasy" />
 		<PackageReference Include="Microsoft.CSharp" />
@@ -170,6 +169,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\MultiColorConditionalFormatting.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\PivotTableCalculation.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\SignedWorkbook1.xlsm">

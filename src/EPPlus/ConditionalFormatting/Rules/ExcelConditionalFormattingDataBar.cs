@@ -73,11 +73,12 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         private void InitalizeDxfColours()
         {
-            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, BaseColorCallback);
-            BorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
-            NegativeFillColor = new ExcelDxfColor(null, eStyleClass.Fill, ValueWasSet);
-            NegativeBorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
-            AxisColor = new ExcelDxfColor(null, eStyleClass.Border, null);
+            var styles = _ws.Workbook.Styles;
+            FillColor = new ExcelDxfColor(styles, eStyleClass.Fill, BaseColorCallback);
+            BorderColor = new ExcelDxfColor(styles, eStyleClass.Border, ValueWasSet);
+            NegativeFillColor = new ExcelDxfColor(styles, eStyleClass.Fill, ValueWasSet);
+            NegativeBorderColor = new ExcelDxfColor(styles, eStyleClass.Border, ValueWasSet);
+            AxisColor = new ExcelDxfColor(styles, eStyleClass.Border, null);
         }
 
         internal void BaseColorCallback(eStyleClass styleClass, eStyleProperty styleProperty, object value)

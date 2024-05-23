@@ -1326,7 +1326,7 @@ namespace OfficeOpenXml
 		{
 			foreach (var info in _pivotTableCaches.Values)
 			{
-				foreach (var cache in info.PivotCaches)
+				 foreach (var cache in info.PivotCaches)
 				{
 					if (cache._pivotTables.Count == 0)
 					{
@@ -1346,6 +1346,7 @@ namespace OfficeOpenXml
 						{
 							FixFieldNamesAndUpdateSharedItems(cache, t, fields);
 						}
+
 						cache.RefreshOnLoad = true;
 						cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
 						cache.ResetRecordXml(_package.ZipPackage);
@@ -1375,7 +1376,7 @@ namespace OfficeOpenXml
 				}
 				flds.Add(fldName);
 				node.SetAttribute("name", fldName);
-				if (cache.Fields[ix].Grouping == null)
+				if (cache.Fields[ix].IsRowColumnOrPage || cache.Fields[ix].HasSlicer)
 				{
 					cache.Fields[ix].WriteSharedItems(node, NameSpaceManager);
 				}

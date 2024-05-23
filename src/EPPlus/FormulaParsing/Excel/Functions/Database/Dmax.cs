@@ -32,5 +32,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
             if (!values.Any()) return CreateResult(0d, DataType.Integer);
             return CreateResult(values.Max(), DataType.Integer);
         }
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

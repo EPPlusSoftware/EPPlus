@@ -308,6 +308,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["false"] = new False();
             Functions["switch"] = new Switch();
             Functions["xor"] = new Xor();
+            Functions["let"] = new LetFunction();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["hlookup"] = new HLookup();
@@ -340,6 +341,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["chooserows"] = new ChooseRows();
             Functions["vstack"] = new Vstack();
             Functions["hstack"] = new Hstack();
+            Functions["getpivotdata"] = new GetPivotData();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

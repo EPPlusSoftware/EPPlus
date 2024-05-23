@@ -202,5 +202,5 @@ namespace OfficeOpenXml.FormulaParsing
                 _parsingContext.Configuration.Logger.Dispose();
             }
         }
-    }
+	}
 }

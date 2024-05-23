@@ -44,15 +44,17 @@ namespace OfficeOpenXml.ConditionalFormatting
             priority, 
             ws)
         {
+            var styles = _ws.Workbook.Styles;
+
             LowValue = new ExcelConditionalFormattingColorScaleValue(
                 eExcelConditionalFormattingValueObjectType.Min,
                 ExcelConditionalFormattingConstants.Colors.CfvoLowValue, 
-                priority);
+                priority, styles);
 
             HighValue = new ExcelConditionalFormattingColorScaleValue(
                 eExcelConditionalFormattingValueObjectType.Max,
                 ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
-                priority);
+                priority, styles);
         }
 
         internal ExcelConditionalFormattingTwoColorScale(
@@ -83,15 +85,17 @@ namespace OfficeOpenXml.ConditionalFormatting
             string middleVal = "",
             eExcelConditionalFormattingValueObjectType? middle = null)
         {
+            var styles = _ws.Workbook.Styles;
+
             LowValue = new ExcelConditionalFormattingColorScaleValue(
             low,
             ExcelConditionalFormattingConstants.Colors.CfvoLowValue,
-            Priority);
+            Priority, styles);
 
             HighValue = new ExcelConditionalFormattingColorScaleValue(
             high,
             ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
-            Priority);
+            Priority, styles);
 
             if (!string.IsNullOrEmpty(lowVal))
             {
@@ -245,7 +249,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     index++;
                 }
 
-                var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.Color, HighValue.Color);
+                var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
 
                 return "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2) + ";";
             }

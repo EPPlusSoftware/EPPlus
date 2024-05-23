@@ -3341,7 +3341,6 @@ namespace EPPlusTest
             {
                 SaveAndCleanup(p);
             }
-
         }
         [TestMethod]
         public void I676()
@@ -5677,7 +5676,7 @@ namespace EPPlusTest
                 pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
                 var definition = pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition;
 
-                Assert.AreEqual(definition.PivotTable.Fields[0].CacheField._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
+                Assert.AreEqual(definition.PivotTable.Fields[0].Cache._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
 
                 SaveAndCleanup(package);
             }
@@ -6001,6 +6000,25 @@ namespace EPPlusTest
                 var tbl = ws.Tables.Add(ws.Cells[ws.Dimension.Address], "Table1");
                 tbl.Columns.Add();
                 tbl.Columns[tbl.Columns.Count - 1].CalculatedColumnFormula = "X1-Z1";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s553()
+        {
+            using (var p = OpenTemplatePackage("ExportTest2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var json = ws.Cells["C2"].ToJson();
+            }
+        }
+        [TestMethod]
+        public void i1214()
+        {
+            using (var p = OpenTemplatePackage("i1214.xlsx"))
+            {
+                p.Workbook.Calculate();
+
                 SaveAndCleanup(p);
             }
         }

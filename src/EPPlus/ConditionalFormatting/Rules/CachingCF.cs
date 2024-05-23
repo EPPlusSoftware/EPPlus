@@ -59,7 +59,9 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
                 {
                     for (int j = 1; j <= cell.Columns; j++)
                     {
-                        var value = _ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value;
+                        var row = cell._fromRow + i - 1;
+                        var col = cell._fromCol + j - 1;
+                        var value = _ws.Cells[row, col].Value;
                         if (value != null)
                         {
                             if (asStrings)

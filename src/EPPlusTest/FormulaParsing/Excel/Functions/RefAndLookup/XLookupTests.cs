@@ -440,7 +440,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			_sheet.Cells[2, 3].Value = "23";
 			_sheet.Cells[3, 3].Value = "34";
 
-			//_sheet.Cells["A5:A7"].SetFormula($"XLOOKUP(A1,$A$1:$A$3,$B$1:$C$3)", false);
+			//_dateWs1.Cells["A5:A7"].SetFormula($"XLOOKUP(A1,$A$1:$A$3,$B$1:$C$3)", false);
 			_sheet.Cells["A5"].Formula = $"XLOOKUP(A1,$A$1:$A$3,$B$1:$C$3)";
 			_sheet.Cells["A6"].Formula = $"XLOOKUP(A2,$A$1:$A$3,$B$1:$C$3)";
 			_sheet.Cells["A7"].Formula = $"XLOOKUP(A3,$A$1:$A$3,$B$1:$C$3)";

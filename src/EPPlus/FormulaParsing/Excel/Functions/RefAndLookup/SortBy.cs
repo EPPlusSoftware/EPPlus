@@ -81,5 +81,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var sortedRange = sortByImpl.Sort();
             return CreateDynamicArrayResult(sortedRange, DataType.ExcelRange);
         }
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

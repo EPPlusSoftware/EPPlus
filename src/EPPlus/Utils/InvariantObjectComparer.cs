@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +18,8 @@ namespace OfficeOpenXml.Utils
 {
     internal class InvariantObjectComparer : IEqualityComparer<object>
     {
-        static Comparer<object> c = Comparer<object>.Default;
+		internal static InvariantObjectComparer Instance=new InvariantObjectComparer();
+
         static StringComparer sc = StringComparer.OrdinalIgnoreCase;
 
         public new bool Equals(object x, object y)

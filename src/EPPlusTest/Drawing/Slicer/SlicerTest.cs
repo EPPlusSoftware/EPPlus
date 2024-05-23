@@ -311,7 +311,7 @@ namespace EPPlusTest.Drawing.Slicer
             rf.Items.Refresh();
             rf.Items[0].Hidden = true;
             var df = tbl.DataFields.Add(tbl.Fields[3]);
-            df.Function = OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum;
+            df.Function = DataFieldFunctions.Sum;
 
             var slicer1 = ws.Drawings.AddPivotTableSlicer(tbl.Fields[2]);
             var slicer2 = ws.Drawings.AddPivotTableSlicer(tbl.Fields[2]);

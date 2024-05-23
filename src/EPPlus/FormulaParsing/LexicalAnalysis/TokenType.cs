@@ -192,12 +192,28 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         NAError = (ulong)1 << 41,
         /// <summary>
-        /// Sinle quote
-        /// </summary>
+        /// Represents a single quote.
+        /// </summary>  
         SingleQuote = (ulong)1 << 42,
         /// <summary>
-        /// HashMark
+        /// Represents a hash mark
         /// </summary>
         HashMark = (ulong)1 << 43,
-    }
+        /// <summary>
+        /// Represents a pivot field in a pivot field formula
+        /// </summary>
+        PivotField = (ulong)1 << 44,
+        /// <summary>
+        /// Represents a parameter variable declaration in functions such as LET or LAMBDA
+        /// </summary>
+        ParameterVariableDeclaration = (ulong)1 << 45,
+        /// <summary>
+        /// Represents a name error
+        /// </summary>
+        NameError = (ulong)1 << 46,
+        /// <summary>
+        /// Represents a parameter variable in functions such as LET or LAMBDA
+        /// </summary>
+        ParameterVariable = (ulong)1 << 47
+	}
 }
