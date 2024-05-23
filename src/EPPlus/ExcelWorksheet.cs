@@ -292,6 +292,14 @@ namespace OfficeOpenXml
                 _list = _list.Where(x => x != null).ToList();
             }
         }
+
+        struct ExternalReference
+        {
+            int worksheetId;
+            int row;
+            int column;
+        }
+
         internal CellStoreValue _values;
         internal CellStore<object> _formulas;
         internal FlagCellStore _flags;

@@ -1392,5 +1392,34 @@ namespace EPPlusTest.Core.Range.Insert
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void ValidationFormulasInsertDeleteWorksheetReferences()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("TokenizeWorksheetLoadReferences.xlsx"))
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets["sheet1"];
+
+                ExcelWorksheet wsTarget = p.Workbook.Worksheets["sheet2"];
+
+                var formula = ws.Cells["C15"].Formula;
+
+                Assert.AreEqual("_xlfn.CONCAT(Sheet2!A1,Sheet3!D4,Sheet4!D4)", formula);
+
+                ws.InsertRow(14, 1);
+
+                var formula2 = ws.Cells["C16"].Formula;
+
+                Assert.AreEqual("_xlfn.CONCAT(Sheet2!A1,Sheet3!D4,Sheet4!D4)", formula2);
+
+                wsTarget.InsertRow(1, 1);
+
+                var formula3 = ws.Cells["C16"].Formula;
+
+                Assert.AreEqual("_xlfn.CONCAT(Sheet2!A2,Sheet3!D4,Sheet4!D4)", formula3);
+
+                var test = wsTarget.Cells["A2"].Value;
+            }
+        }
     }
 }
