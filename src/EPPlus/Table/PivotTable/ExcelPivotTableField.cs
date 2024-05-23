@@ -525,10 +525,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        //public ExcelPivotGrouping DateGrouping
-        //{
-
-        //}
         internal ExcelPivotTablePageFieldSettings _pageFieldSettings = null;
         /// <summary>
         /// Page field settings
