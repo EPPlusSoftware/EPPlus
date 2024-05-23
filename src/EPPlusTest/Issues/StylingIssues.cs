@@ -58,5 +58,14 @@ namespace EPPlusTest
 				SaveAndCleanup(package);
 			}
 		}
+		[TestMethod]
+		public void i1454()
+		{
+            using var p1 = OpenTemplatePackage("i1454.xlsx");
+			var ws = p1.Workbook.Worksheets[0];
+			using var p2 = OpenPackage("i1454-copy.xlsx", true);
+            p2.Workbook.Worksheets.Add($"{ws.Name} [2]", ws);
+			SaveAndCleanup(p2);
+        }
 	}
 }
