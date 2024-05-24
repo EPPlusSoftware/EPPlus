@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// <summary>
     /// Operator enum
     /// </summary>
-    public enum Operators
+    internal enum Operators
     {
         /// <summary>
         /// Undefined

@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
     /// <summary>
     /// Field for database criteria
     /// </summary>
-    public class ExcelDatabaseCriteriaField
+    internal class ExcelDatabaseCriteriaField
     {
         /// <summary>
         /// Constructor with field name

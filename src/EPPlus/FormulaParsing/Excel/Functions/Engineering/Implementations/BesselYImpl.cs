@@ -17,7 +17,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementatio
     /// <summary>
     /// Bessel Y Implementation
     /// </summary>
-    public class BesselYImpl : BesselBase
+    internal class BesselYImpl : BesselBase
     {
         static FinanceCalcResult<double> Bessely0(double fX)
         {

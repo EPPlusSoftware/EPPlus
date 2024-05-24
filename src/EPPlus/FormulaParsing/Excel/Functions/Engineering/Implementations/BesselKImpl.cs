@@ -14,7 +14,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementatio
     /// <summary>
     /// Bessel K
     /// </summary>
-    public class BesselKImpl : BesselBase
+    internal class BesselKImpl : BesselBase
     {
         static FinanceCalcResult<double> Besselk0(double fNum)
         {

@@ -17,7 +17,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     /// <summary>
     /// Range or value
     /// </summary>
-    public class RangeOrValue
+    internal class RangeOrValue
     {
         /// <summary>
         /// Value

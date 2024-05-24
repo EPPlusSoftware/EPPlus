@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Int argument parser
     /// </summary>
-    public class IntArgumentParser : ArgumentParser
+    internal class IntArgumentParser : ArgumentParser
     {
         /// <summary>
         /// Parse object to int

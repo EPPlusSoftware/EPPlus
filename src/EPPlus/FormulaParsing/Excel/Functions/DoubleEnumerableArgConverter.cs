@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Enumerable to double
     /// </summary>
-    public class DoubleEnumerableArgConverter : CollectionFlattener<ExcelDoubleCellValue>
+    internal class DoubleEnumerableArgConverter : CollectionFlattener<ExcelDoubleCellValue>
     {
         /// <summary>
         /// Convert args to enumerable

@@ -17,7 +17,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
     /// <summary>
-    /// Day counting options
+    /// Day counting options unsed in the internal finance function implementations.
     /// </summary>
     public enum DayCountBasis
     {

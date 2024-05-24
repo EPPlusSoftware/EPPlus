@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
     /// <summary>
     /// Factory class for holidayWeekdays
     /// </summary>
-    public class HolidayWeekdaysFactory
+    internal class HolidayWeekdaysFactory
     {
         private readonly DayOfWeek[] _dayOfWeekArray = new DayOfWeek[]
         {

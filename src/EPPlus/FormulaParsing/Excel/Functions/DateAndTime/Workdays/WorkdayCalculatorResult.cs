@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
     /// <summary>
     /// Workday calculator result
     /// </summary>
-    public class WorkdayCalculatorResult
+    internal class WorkdayCalculatorResult
     {
         /// <summary>
         /// Constructor. Calculate workdays

@@ -11,7 +11,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     /// <summary>
     /// Ifs with multiple matches
     /// </summary>
-    public abstract class IfsWithMultipleMatchesBase : ExcelFunction
+    internal abstract class IfsWithMultipleMatchesBase : ExcelFunction
     {
         /// <summary>
         /// Get matches

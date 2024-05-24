@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Argument parsers
     /// </summary>
-    public class ArgumentParsers
+    internal class ArgumentParsers
     {
         private static object _syncRoot = new object();
         private readonly Dictionary<DataType, ArgumentParser> _parsers = new Dictionary<DataType, ArgumentParser>();

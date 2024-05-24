@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// Implementation of operators in formula calculation.
     /// </summary>
     [DebuggerDisplay("Operator: {GetOperator()}")]
-    public class Operator : IOperator
+    internal class Operator : IOperator
     {
         internal const int PrecedenceColon = 0;
         internal const int PrecedenceIntersect = 1;

@@ -16,7 +16,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Validates Excel function compile results
     /// </summary>
-    public abstract class CompileResultValidator
+    internal abstract class CompileResultValidator
     {
         /// <summary>
         /// Validate object

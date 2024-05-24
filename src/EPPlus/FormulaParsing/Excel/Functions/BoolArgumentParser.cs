@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Boolean argument parser
     /// </summary>
-    public class BoolArgumentParser : ArgumentParser
+    internal class BoolArgumentParser : ArgumentParser
     {
         /// <summary>
         /// Parse object to bool

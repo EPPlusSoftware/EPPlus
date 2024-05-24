@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// Double as cell value
     /// </summary>
     [DebuggerDisplay("{Value}")]
-    public struct ExcelDoubleCellValue : IComparable<ExcelDoubleCellValue>, IComparable
+    internal struct ExcelDoubleCellValue : IComparable<ExcelDoubleCellValue>, IComparable
     {
         /// <summary>
         /// Constructor value only
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             CellCol = default(int?);
         }
         /// <summary>
-        /// Constuctor value row and column
+        /// Constructor value row and column
         /// </summary>
         /// <param name="val"></param>
         /// <param name="cellRow"></param>

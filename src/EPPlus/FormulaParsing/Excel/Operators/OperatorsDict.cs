@@ -16,7 +16,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// <summary>
     /// Operators dictionary
     /// </summary>
-    public class OperatorsDict : Dictionary<string, IOperator>
+    internal class OperatorsDict : Dictionary<string, IOperator>
     {
         /// <summary>
         /// Constructor
@@ -59,7 +59,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// <summary>
     /// Operators enum dict
     /// </summary>
-    public class OperatorsEnumDict : Dictionary<Operators, IOperator>
+    internal class OperatorsEnumDict : Dictionary<Operators, IOperator>
     {
         /// <summary>
         /// Constructor

@@ -16,14 +16,14 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 namespace OfficeOpenXml.FormulaParsing.Exceptions
 {
     /// <summary>
-    /// Unrecognized exception
+    /// Unrecognized token exception
     /// </summary>
     public class UnrecognizedTokenException : Exception
     {
         /// <summary>
         /// Constructor. Token exception
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="token">Tje token that can not be recognized</param>
         public UnrecognizedTokenException(Token token)
             : base( "Unrecognized token: " + token.Value)
         {

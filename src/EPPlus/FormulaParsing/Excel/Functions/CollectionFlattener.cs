@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// Flattens arguments to enumerable
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class CollectionFlattener<T>
+    internal abstract class CollectionFlattener<T>
     {
         /// <summary>
         /// Args to enumerables of type <see cref="IEnumerable{T}"/>

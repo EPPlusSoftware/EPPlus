@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
     /// <summary>
     /// Database field
     /// </summary>
-    public class ExcelDatabaseField
+    internal class ExcelDatabaseField
     {
         /// <summary>
         /// Name of field

@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Parse double
     /// </summary>
-    public class DoubleArgumentParser : ArgumentParser
+    internal class DoubleArgumentParser : ArgumentParser
     {
         /// <summary>
         /// Attempts to parse object to double. Throws value error on exception

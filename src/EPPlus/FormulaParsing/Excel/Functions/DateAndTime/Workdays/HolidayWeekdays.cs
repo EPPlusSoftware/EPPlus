@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
     /// <summary>
     /// Holiday weekdays for datetime functions
     /// </summary>
-    public class HolidayWeekdays
+    internal class HolidayWeekdays
     {
         private readonly List<DayOfWeek> _holidayDays = new List<DayOfWeek>();
 

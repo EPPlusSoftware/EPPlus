@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Validation for decimal function results
     /// </summary>
-    public class DecimalCompileResultValidator : CompileResultValidator
+    internal class DecimalCompileResultValidator : CompileResultValidator
     {
         /// <summary>
         /// Validate that decimal is not NaN or infinity

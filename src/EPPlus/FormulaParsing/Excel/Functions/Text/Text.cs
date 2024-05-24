@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
         Description = "Converts a supplied value into text, using a user-specified format")]
-    public class Text : ExcelFunction
+    internal class Text : ExcelFunction
     {
         /// <summary>
         /// Minimum arguments

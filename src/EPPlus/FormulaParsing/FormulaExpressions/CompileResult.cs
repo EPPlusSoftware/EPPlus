@@ -207,7 +207,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
 
         /// <summary>
-        /// Compile result with errortype
+        /// Compile result with error type
         /// </summary>
         /// <param name="errorType"></param>
         public CompileResult(eErrorType errorType)

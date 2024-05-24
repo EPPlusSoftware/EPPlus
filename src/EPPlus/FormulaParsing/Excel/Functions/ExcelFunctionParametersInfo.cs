@@ -53,10 +53,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
         /// <summary>
-        /// GetParameterInfo
+        /// Get information about the parameter at the position at <paramref name="argumentIndex"/>
         /// </summary>
-        /// <param name="argumentIndex"></param>
-        /// <returns></returns>
+        /// <param name="argumentIndex">The position of the parameter</param>
+        /// <returns>The parameter informations</returns>
         public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {
             if(_getParameter== null)

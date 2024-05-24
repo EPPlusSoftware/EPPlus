@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Argument parser base abstract class
     /// </summary>
-    public abstract class ArgumentParser
+    internal abstract class ArgumentParser
     {
         /// <summary>
         /// Parse object argument

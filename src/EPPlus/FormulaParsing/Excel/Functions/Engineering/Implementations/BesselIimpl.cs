@@ -17,7 +17,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementatio
     /// <summary>
     /// Bessel I Implementation
     /// </summary>
-    public class BesselIimpl : BesselBase
+    internal class BesselIimpl : BesselBase
     {
         /// <summary>
         /// Bessel I

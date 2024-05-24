@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Simplifies function argument input by collecting and enumerating arguments of different types
     /// </summary>
-    public class ArgumentCollectionUtil
+    internal class ArgumentCollectionUtil
     {
         private readonly DoubleEnumerableArgConverter _doubleEnumerableArgConverter;
         private readonly ObjectEnumerableArgConverter _objectEnumerableArgConverter;

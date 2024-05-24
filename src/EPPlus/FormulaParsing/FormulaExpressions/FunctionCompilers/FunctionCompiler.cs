@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         /// <summary>
         /// Function compiler
         /// </summary>
-        /// <param name="function"></param>
+        /// <param name="function">The function</param>
         public FunctionCompiler(ExcelFunction function)
         {
             Require.That(function).Named("function").IsNotNull();

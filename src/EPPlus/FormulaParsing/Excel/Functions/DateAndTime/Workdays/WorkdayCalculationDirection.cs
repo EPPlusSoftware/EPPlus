@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
     /// <summary>
     /// Whether to look for weekday forwards or backwards
     /// </summary>
-    public enum WorkdayCalculationDirection
+    internal enum WorkdayCalculationDirection
     {
         /// <summary>
         /// Forward direction

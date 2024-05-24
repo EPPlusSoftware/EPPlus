@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Object Enumerable arg converter
     /// </summary>
-    public class ObjectEnumerableArgConverter : CollectionFlattener<object>
+    internal class ObjectEnumerableArgConverter : CollectionFlattener<object>
     {
         /// <summary>
         /// Convert args to enumerable

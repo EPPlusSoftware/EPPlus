@@ -17,7 +17,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// <summary>
     /// Operator interface
     /// </summary>
-    public interface IOperator
+    internal interface IOperator
     {
         /// <summary>
         /// Operator

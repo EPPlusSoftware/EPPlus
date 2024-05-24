@@ -13,7 +13,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementatio
     /// <summary>
     /// Bessel base
     /// </summary>
-    public abstract class BesselBase
+    internal abstract class BesselBase
     {
         /// <summary>
         /// f_PI

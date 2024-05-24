@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Validator collections
     /// </summary>
-    public class CompileResultValidators
+    internal class CompileResultValidators
     {
         private readonly Dictionary<DataType, CompileResultValidator> _validators = new Dictionary<DataType, CompileResultValidator>(); 
 

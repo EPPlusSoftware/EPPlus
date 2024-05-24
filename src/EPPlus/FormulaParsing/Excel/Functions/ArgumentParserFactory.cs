@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Parser factory for 
     /// </summary>
-    public class ArgumentParserFactory
+    internal class ArgumentParserFactory
     {
         /// <summary>
         /// Create argument parser for datatypes <see cref="DataType.Integer"></see>, <see cref="DataType.Boolean"></see> and <see cref="DataType.Decimal"></see>
