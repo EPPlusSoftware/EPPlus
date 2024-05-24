@@ -430,12 +430,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(TokenType.Comma, tokens[3].TokenType);
             Assert.AreEqual(TokenType.ParameterVariableDeclaration, tokens[4].TokenType);
             Assert.AreEqual("_xlpm.c", tokens[4].Value);
-            Assert.AreEqual(TokenType.Comma, tokens[5].TokenType);
+            Assert.AreEqual(TokenType.CommaLambda, tokens[5].TokenType);
             Assert.AreEqual(TokenType.ParameterVariable, tokens[6].TokenType);
             Assert.AreEqual("_xlpm.r", tokens[6].Value);
             Assert.AreEqual(TokenType.Operator, tokens[7].TokenType);
             Assert.AreEqual(TokenType.ParameterVariable, tokens[8].TokenType);
             Assert.AreEqual("_xlpm.c", tokens[8].Value);
+
+            input = "MAKEARRAY(1, 2, LAMBDA(r,c,r*c))";
+            tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(TokenType.CommaLambda, tokens[11].TokenType, "TokenType was not CommaLambda");
         }
     }
 }

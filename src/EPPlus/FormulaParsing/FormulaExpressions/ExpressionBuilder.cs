@@ -121,21 +121,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.StartFunctionArguments:
                         var isLet = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LET", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LET", StringComparison.OrdinalIgnoreCase) == 0);
+                        var isLambda = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LAMBDA", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LAMBDA", StringComparison.OrdinalIgnoreCase) == 0);
                         var func = isLet ? 
                             new LetFunctionExpression(t.Value, stack, parsingContext, i) :
-                            new FunctionExpression(t.Value, parsingContext, i);
+                                isLambda ?
+                                    new LambdaFunctionExpression(t.Value, stack, parsingContext, i) :
+                                    new FunctionExpression(t.Value, parsingContext, i);
                         expressions.Add(i, func);
                         if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
                             func.AddArgument(i);
-                            if(func.HandlesVariables)
-                            {
-                                //VariableParameterHelper.ProcessVariableArguments(tokens, i, func);
-                            }
                         }
                         stack.Push(func);
                         break;
                     case TokenType.Comma:
+                    case TokenType.CommaLambda:
                         if (stack.Count > 0)
                         {
                             stack.Peek().AddArgument(i);

@@ -184,6 +184,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             // 3. Process variable names in the last argument (the calculation)
             openParenthesis = 1;
             int lastArgIx;
+            if(string.Compare(func.Name, "lambda", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _tokens[commaIndexes.Last()] = new Token(",", TokenType.CommaLambda);
+            }
             for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
             {
                 var candidate = _tokens[lastArgIx];

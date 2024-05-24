@@ -41,6 +41,13 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _arrayIndex = -1;
         internal bool _isDynamic = false;
         internal FunctionExpression _currentFunction = null;
+        private bool _isLambdaArgs = false;
+
+        public bool IsLambdaArgs
+        {
+            get { return _isLambdaArgs; }
+            set { _isLambdaArgs = value; }
+        }
 
         public bool CanBeDynamicArray
         {

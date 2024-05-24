@@ -83,6 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         operatorStack.Push(token);
                         break;
                     case TokenType.Comma:
+                    case TokenType.CommaLambda:
                         if (operatorStack.Count > 0 && bracketCount == 0) //If inside a table 
                         {
                             var op = operatorStack.Peek().TokenType;

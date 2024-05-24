@@ -210,6 +210,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <summary>
         /// Represents a parameter variable in functions such as LET or LAMBDA
         /// </summary>
-        ParameterVariable = (ulong)1 << 46
+        ParameterVariable = (ulong)1 << 46,
+        /// <summary>
+        /// Represents a comma that comes before a LAMBDA declaration
+        /// </summary>
+        CommaLambda = (ulong)1 << 47,
     }
 }
