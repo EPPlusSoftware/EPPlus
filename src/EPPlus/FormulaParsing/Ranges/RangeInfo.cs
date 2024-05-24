@@ -205,6 +205,9 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             get { return _ws; }
         }
         FormulaRangeAddress _dimension = null;
+        /// <summary>
+        /// Dimension
+        /// </summary>
         public FormulaRangeAddress Dimension
         {
             get
@@ -345,7 +348,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             var sc = _address.FromCol;
             return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _address._context, _address.ExternalReferenceIx);
         }
-
+        /// <summary>
+        /// Is hidden
+        /// </summary>
+        /// <param name="rowOffset"></param>
+        /// <param name="colOffset"></param>
+        /// <returns></returns>
         public bool IsHidden(int rowOffset, int colOffset)
         {
             var row = _ws.GetValueInner(_address.FromRow + rowOffset, 0) as RowInternal;

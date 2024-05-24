@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// Implementation of operators in formula calculation.
     /// </summary>
     [DebuggerDisplay("Operator: {GetOperator()}")]
-    public class Operator : IOperator
+    internal class Operator : IOperator
     {
         internal const int PrecedenceColon = 0;
         internal const int PrecedenceIntersect = 1;
@@ -72,7 +72,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return _operator;
         }
 
-
+        /// <summary>
+        /// Apply
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
         public CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx)
         {
             if (left.Result is ExcelErrorValue)
@@ -93,6 +99,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _plus;
+        /// <summary>
+        /// Operator plus
+        /// </summary>
         public static IOperator Plus
         {
             get
@@ -124,6 +133,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _minus;
+        /// <summary>
+        /// Minus operator
+        /// </summary>
         public static IOperator Minus
         {
             get
@@ -151,6 +163,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _multiply;
+        /// <summary>
+        /// Multiply
+        /// </summary>
         public static IOperator Multiply
         {
             get
@@ -177,6 +192,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _divide;
+        /// <summary>
+        /// Divide
+        /// </summary>
         public static IOperator Divide
         {
             get
@@ -206,7 +224,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 }));
             }
         }
-
+        /// <summary>
+        /// Exp
+        /// </summary>
         public static IOperator Exp
         {
             get
@@ -243,7 +263,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
             return c.ResultValue.ToString();
         }
-
+        /// <summary>
+        /// Concat
+        /// </summary>
         public static IOperator Concat
         {
             get
@@ -264,6 +286,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         static IOperator _colon=null;
+        /// <summary>
+        /// Colon
+        /// </summary>
         public static IOperator Colon
         {
             get
@@ -416,6 +441,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _notEqualsTo;
+        /// <summary>
+        /// Not equals to
+        /// </summary>
         public static IOperator NotEqualsTo
         {
             get
@@ -435,6 +463,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _greaterThanOrEqual;
+        /// <summary>
+        /// Greater than or equal
+        /// </summary>
         public static IOperator GreaterThanOrEqual
         {
             get
@@ -453,6 +484,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _lessThan;
+        /// <summary>
+        /// Less than
+        /// </summary>
         public static IOperator LessThan
         {
             get
@@ -471,6 +505,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
         private static IOperator _lessThanOrEqual;
+        /// <summary>
+        /// Less than or equal
+        /// </summary>
         public static IOperator LessThanOrEqual
         {
             get

@@ -3045,7 +3045,9 @@ namespace EPPlusTest
         [TestMethod]
         public void CheckEnvironment()
         {
+#pragma warning disable CA1416 // Validate platform compatibility
             System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+#pragma warning restore CA1416 // Validate platform compatibility
         }
         [TestMethod]
         public void Issue592()
@@ -3930,7 +3932,7 @@ namespace EPPlusTest
                     foreach (var richText in cell.RichText)
                     {
                         Debug.Write($"RichText {richText.Text} Font: [{richText.FontName}], Size: [{richText.Size}]");
-                        if (richText.Bold != null) Console.Write(", Bold");
+                        if (richText.Bold) Console.Write(", Bold");
                         Debug.WriteLine("");
                     }
                 }
@@ -5580,8 +5582,6 @@ namespace EPPlusTest
         public void s539()
         {
             //Outputs
-            bool success = true;
-            string exc = "";
             var pc = Thread.CurrentThread.CurrentCulture;
 
             try
@@ -5604,8 +5604,8 @@ namespace EPPlusTest
             }
             catch (Exception e)
             {
+                string exc = "";
                 exc = "Failed. " + e.ToString();
-                success = false;
             }
             finally
             {

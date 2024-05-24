@@ -17,8 +17,18 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public abstract class CollectionFlattener<T>
+    /// <summary>
+    /// Flattens arguments to enumerable
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    internal abstract class CollectionFlattener<T>
     {
+        /// <summary>
+        /// Args to enumerables of type <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="convertFunc"></param>
+        /// <returns></returns>
         public virtual IEnumerable<T> FuncArgsToFlatEnumerable(IEnumerable<FunctionArgument> arguments, Action<FunctionArgument, IList<T>> convertFunc)
         {
             var argList = new List<T>();

@@ -18,7 +18,10 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class CompileResultValidators
+    /// <summary>
+    /// Validator collections
+    /// </summary>
+    internal class CompileResultValidators
     {
         private readonly Dictionary<DataType, CompileResultValidator> _validators = new Dictionary<DataType, CompileResultValidator>(); 
 
@@ -34,7 +37,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             return CompileResultValidator.Empty;
         }
-
+        /// <summary>
+        /// Get validator of type
+        /// </summary>
+        /// <param name="dataType"></param>
+        /// <returns></returns>
         public CompileResultValidator GetValidator(DataType dataType)
         {
             return CreateOrGet(dataType);

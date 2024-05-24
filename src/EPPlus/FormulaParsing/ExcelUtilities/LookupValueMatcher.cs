@@ -17,8 +17,17 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
+    /// <summary>
+    /// Compares values for lookup
+    /// </summary>
     public class LookupValueMatcher : ValueMatcher
     {
+        /// <summary>
+        /// Compares object to string. Incomplete.
+        /// </summary>
+        /// <param name="o1">object 1</param>
+        /// <param name="o2">object 2</param>
+        /// <returns></returns>
         protected override int CompareObjectToString(object o1, string o2)
         {
             return IncompatibleOperands;

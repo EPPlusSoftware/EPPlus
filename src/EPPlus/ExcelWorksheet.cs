@@ -2866,8 +2866,6 @@ namespace OfficeOpenXml
             }
             return "";
         }
-
-
         /// <summary>
         /// Dimension address for the worksheet. 
         /// Top left cell to Bottom right.

@@ -18,16 +18,28 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Double as cell value
+    /// </summary>
     [DebuggerDisplay("{Value}")]
-    public struct ExcelDoubleCellValue : IComparable<ExcelDoubleCellValue>, IComparable
+    internal struct ExcelDoubleCellValue : IComparable<ExcelDoubleCellValue>, IComparable
     {
+        /// <summary>
+        /// Constructor value only
+        /// </summary>
+        /// <param name="val"></param>
         public ExcelDoubleCellValue(double val)
         {
             Value = val;
             CellRow = default(int?);
             CellCol = default(int?);
         }
-
+        /// <summary>
+        /// Constructor value row and column
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="cellRow"></param>
+        /// <param name="cellCol"></param>
         public ExcelDoubleCellValue(double val, int cellRow, int cellCol)
         {
             Value = val;
@@ -35,27 +47,51 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             CellCol = cellCol;
         }
 
+        /// <summary>
+        /// Row
+        /// </summary>
         public int? CellRow;
 
+        /// <summary>
+        /// Col
+        /// </summary>
         public int? CellCol;
 
+        /// <summary>
+        /// Value
+        /// </summary>
         public double Value;
 
+        /// <summary>
+        /// return value
+        /// </summary>
+        /// <param name="d"></param>
         public static implicit operator double(ExcelDoubleCellValue d)
         {
             return d.Value;
         }
-        //  User-defined conversion from double to Digit
+        /// <summary>
+        /// User-defined conversion from double to Digit
+        /// </summary>
+        /// <param name="d"></param>
         public static implicit operator ExcelDoubleCellValue(double d)
         {
             return new ExcelDoubleCellValue(d);
         }
-
+        /// <summary>
+        /// Compare to other doubleCellValue
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public int CompareTo(ExcelDoubleCellValue other)
         {
             return Value.CompareTo(other.Value);
         }
-
+        /// <summary>
+        /// Compare to object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public int CompareTo(object obj)
         {
             if(obj is double)
@@ -64,30 +100,60 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             return Value.CompareTo(((ExcelDoubleCellValue)obj).Value);
         }
-
+        /// <summary>
+        /// Is this equivalent to object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             return CompareTo(obj) == 0;
         }
+        /// <summary>
+        /// Get hash code
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }        
+        }
+        /// <summary>
+        /// Equals operator ExcelDoubleCellValues
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==(ExcelDoubleCellValue a, ExcelDoubleCellValue b)
         {
             return a.Value.CompareTo(b.Value) == 0d;
         }
-
+        /// <summary>
+        /// Equals operator ExcelDoubleCellValue and double
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==(ExcelDoubleCellValue a, double b)
         {
             return a.Value.CompareTo(b) == 0d;
         }
-
+        /// <summary>
+        /// Unequal operator ExcelDoubleCellValues
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=(ExcelDoubleCellValue a, ExcelDoubleCellValue b)
         {
             return a.Value.CompareTo(b.Value) != 0d;
         }
 
+        /// <summary>
+        /// Unequal operator ExcelDoubleCellValue and double
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=(ExcelDoubleCellValue a, double b)
         {
             return a.Value.CompareTo(b) != 0d;

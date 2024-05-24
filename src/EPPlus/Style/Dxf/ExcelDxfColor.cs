@@ -268,7 +268,6 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// Return the RGB value as a string for the color object that uses the Indexed or Tint property
         /// </summary>
-        /// <param name="theColor">The color object</param>
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
         internal string LookupColor()
         {

@@ -64,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         }
 
         /// <summary>
-        /// 
+        /// Create
         /// </summary>
         /// <param name="wsIx">The worksheet index.</param>
         /// <param name="address">address of a range</param>

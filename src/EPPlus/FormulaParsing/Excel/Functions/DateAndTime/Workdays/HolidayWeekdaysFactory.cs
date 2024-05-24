@@ -17,7 +17,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
 {
-    public class HolidayWeekdaysFactory
+    /// <summary>
+    /// Factory class for holidayWeekdays
+    /// </summary>
+    internal class HolidayWeekdaysFactory
     {
         private readonly DayOfWeek[] _dayOfWeekArray = new DayOfWeek[]
         {
@@ -30,6 +33,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
             DayOfWeek.Sunday
         };
 
+        /// <summary>
+        /// Create from string
+        /// </summary>
+        /// <param name="weekdays"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public HolidayWeekdays Create(string weekdays)
         {
             if(string.IsNullOrEmpty(weekdays) || weekdays.Length != 7)
@@ -47,7 +56,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
             }
             return new HolidayWeekdays(retVal.ToArray());
         }
-
+        /// <summary>
+        /// Create from code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public HolidayWeekdays Create(int code)
         {
             switch (code)

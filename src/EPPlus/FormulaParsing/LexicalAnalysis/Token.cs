@@ -159,7 +159,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 					   ((TokenType & TokenType.Operator) == TokenType.Operator && Value == ":");
             }
         }
-
+        /// <summary>
+        /// Are equal to
+        /// </summary>
+        /// <param name="otherToken"></param>
+        /// <returns></returns>
         public bool AreEqualTo(Token otherToken)
         {
             return (GetTokenTypeFlags() == otherToken.GetTokenTypeFlags() && Value == otherToken.Value);

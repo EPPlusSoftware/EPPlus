@@ -46,7 +46,7 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelOutputTextFormat() : base()
         {
-
+            FirstRowIsHeader = true;
         }
         /// <summary>
         /// A text written at the start of the file.
@@ -56,11 +56,6 @@ namespace OfficeOpenXml
         /// A text written at the end of the file
         /// </summary>
         public string Footer { get; set; }
-        /// <summary>
-        /// First row of the range contains the headers.
-        /// All header cells will be treated as strings.
-        /// </summary>
-        public bool FirstRowIsHeader { get; set; } = true;
         /// <summary>
         /// Use the cells Text property with the applied culture.
         /// This only applies to columns with no format set in the Formats collection.

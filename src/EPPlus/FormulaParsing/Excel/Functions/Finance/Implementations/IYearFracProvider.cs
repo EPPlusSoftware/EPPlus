@@ -14,8 +14,18 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
+    /// <summary>
+    /// IYearFracProvider
+    /// </summary>
     public interface IYearFracProvider
     {
+        /// <summary>
+        /// GetYearFrac
+        /// </summary>
+        /// <param name="date1"></param>
+        /// <param name="date2"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         double GetYearFrac(DateTime date1, DateTime date2, DayCountBasis basis);
     }
 }

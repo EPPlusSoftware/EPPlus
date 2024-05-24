@@ -5,7 +5,7 @@ using System.Linq;
 namespace OfficeOpenXml.Core.CellStore
 {
     /// <summary>
-    /// This class stores ranges to keep track if they have been accessed before and adds a reference to <see cref="T"/>.
+    /// This class stores ranges to keep track if they have been accessed before and adds a reference to <see cref="RangeDictionary{T}"/>.
     /// <typeparamref name="T"/>
     /// </summary>
     internal class RangeDictionary<T>

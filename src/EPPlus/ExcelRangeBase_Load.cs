@@ -224,6 +224,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Reader">The datareader to load from</param>
         /// <param name="PrintHeaders">Print the caption property (if set) or the columnname property if not, on first row</param>
+        /// <param name="Transpose">If the data should be transposed on read or not</param>
         /// <returns>The filled range</returns>
         public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders, bool Transpose)
         {
@@ -550,7 +551,7 @@ namespace OfficeOpenXml
         /// <param name="Collection">The collection to load</param>
         /// <param name="PrintHeaders">Print the property names on the first row. Any underscore in the property name will be converted to a space. If the property is decorated with a <see cref="DisplayNameAttribute"/> or a <see cref="DescriptionAttribute"/> that attribute will be used instead of the reflected member name.</param>
         /// <param name="TableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
-        /// <param name="Transpose">Will insert data transposed/param>
+        /// <param name="Transpose">Will insert data transposed</param>
         /// <param name="memberFlags">Property flags to use</param>
         /// <param name="Members">The properties to output. Must be of type T</param>
         /// <returns>The filled range</returns>
