@@ -40,7 +40,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// The result is a dynamic array formula.
         /// </summary>
-        DynamicArray = 2
+        DynamicArray = 2,
+        /// <summary>
+        /// The result is a lambda parameter
+        /// </summary>
+        LambdaParameter = 3
     }
     public abstract class CompileResultBase
     {

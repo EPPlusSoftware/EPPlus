@@ -22,6 +22,8 @@ namespace OfficeOpenXml
         Constant,
         Enumerable,
         Variable,
+        LambdaVariableDeclaration,
+        LambdaCalculation,
         //ExcelRange,
         Group,
         ValueError,

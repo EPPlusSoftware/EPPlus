@@ -53,11 +53,20 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         }
 
+        internal void SetValue(string variableName, CompileResult value)
+        {
+            _variableFunctionExpression.AddVariableValue(variableName, value);
+        }
+
 
         internal string Name { get; private set; }
 
         public override CompileResult Compile()
         {
+            if((Status & ExpressionStatus.IsLambdaVariableDeclaration) == ExpressionStatus.IsLambdaVariableDeclaration)
+            {
+                return new CompileResult(Name, DataType.LambdaVariableDeclaration);
+            }
             return _negate ? Value.Negate() : Value;
         }
 

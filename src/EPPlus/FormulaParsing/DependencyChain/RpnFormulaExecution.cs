@@ -800,6 +800,9 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.ParameterVariable:
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
+                    case TokenType.CommaLambda:
+                        var exp  = f._expressions[f._tokenIndex];
+                        break;
                     case TokenType.Negator:                        
                         s.Push(s.Pop().Negate());
                         break;
@@ -835,7 +838,7 @@ namespace OfficeOpenXml.FormulaParsing
                         if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
-                            if(fexp.HandlesVariables && f._expressionStack.Count > 1 && !(f._expressionStack.Peek() is VariableExpression varExp && varExp.IsDeclaration))
+                            if(fexp.IsLet && f._expressionStack.Count > 1 && !(f._expressionStack.Peek() is VariableExpression varExp && varExp.IsDeclaration))
                             {
                                 var exp1 = f._expressionStack.Pop();
                                 var exp2 = f._expressionStack.Pop();
@@ -1067,14 +1070,26 @@ namespace OfficeOpenXml.FormulaParsing
             var v1 = f._expressionStack.Pop();
             var v2 = f._expressionStack.Pop();
 
-            
-            var c1 = v1.Compile();
-            var c2 = v2.Compile();
 
-            if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
+            var func = f._funcStack.Peek();
+            if ((func.IsLambda))
             {
-                var result = op.Apply(c2, c1, context);
-                PushResult(context, f, result);
+                var lambdaFunc = func as LambdaFunctionExpression;
+                if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator lop))
+                {
+                    lambdaFunc.AddExpression(v1, v2, lop);
+                }
+            }
+            else
+            {
+                var c1 = v1.Compile();
+                var c2 = v2.Compile();
+
+                if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
+                {
+                    var result = op.Apply(c2, c1, context);
+                    PushResult(context, f, result);
+                }
             }
         }
 #if (!NET35)
@@ -1158,6 +1173,9 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.Empty:
                     f._expressionStack.Push(Expression.Empty);
                     break;
+                case DataType.LambdaCalculation:
+                    //f._expressionStack.Push(new LambdaCalculationExpression(result, context));
+                    break;
                 default:
                     //throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");
                     f._expressionStack.Push(ErrorExpression.ValueError);
@@ -1174,15 +1192,28 @@ namespace OfficeOpenXml.FormulaParsing
                 f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
-            for(int i=0;i<func.NumberOfArguments && s.Count > 0;i++)
+            if(func.IsLambda)
             {
-                var si = s.Pop();
-                if(si.ExpressionType!=ExpressionType.Empty)
+                for (int i = 0; i < func.NumberOfArguments -1; i++)
                 {
-                    si.Status |= ExpressionStatus.FunctionArgument;
+                    var exp = s.Pop();
+                    exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;
+                    list.Insert(0, exp.Compile());
                 }
-                list.Insert(0, si.Compile());
             }
+            else
+            {
+                for (int i = 0; i < func.NumberOfArguments && s.Count > 0; i++)
+                {
+                    var si = s.Pop();
+                    if (si.ExpressionType != ExpressionType.Empty)
+                    {
+                        si.Status |= ExpressionStatus.FunctionArgument;
+                    }
+                    list.Insert(0, si.Compile());
+                }
+            }
+            
             return list;
         }
 

@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             base.AddArgument(arg);
         }
 
-        internal override bool HandlesVariables => true;
+        internal override bool IsLet => true;
 
         internal override bool IsVariableArg(int arg, bool isLastArgument)
         {

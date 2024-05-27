@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -33,9 +34,20 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             int wsIx = int.MinValue;
             var stack = new Stack<FunctionExpression>();
             var expressions = new Dictionary<int, Expression>();
-            for (int i = 0; i < tokens.Count; i++)
+            var isInLambdaCalculation = false;
+            List<Token> lambdaCalcTokens = default;
+            var ignoredTokens = 0;
+            for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
-                var t = tokens[i];
+                var t = tokens[tokenIx];
+                if(isInLambdaCalculation && t.TokenType != TokenType.Function)
+                {
+                    if(lambdaCalcTokens == null) lambdaCalcTokens = new List<Token>();
+                    lambdaCalcTokens.Add(t);
+                    ignoredTokens++;
+                    continue;
+                }
+                var i = tokenIx - ignoredTokens;
                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
@@ -135,15 +147,23 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         stack.Push(func);
                         break;
                     case TokenType.Comma:
-                    case TokenType.CommaLambda:
                         if (stack.Count > 0)
                         {
                             stack.Peek().AddArgument(i);
                         }
                         break;
+                    case TokenType.CommaLambda:
+                        isInLambdaCalculation = true;
+                        break;
                     case TokenType.Function:
                         var f = stack.Pop();
                         f._endPos= i;
+                        if(f.IsLambda && isInLambdaCalculation)
+                        {
+                            expressions.Add(i, new LambdaCalculationExpression(lambdaCalcTokens, parsingContext));
+                            lambdaCalcTokens = null;
+                            isInLambdaCalculation = false;
+                        }
                         break;
                     case TokenType.InvalidReference:
                         expressions.Add(i, ErrorExpression.RefError);

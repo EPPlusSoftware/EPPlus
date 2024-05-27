@@ -81,6 +81,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// Variable data type
         /// </summary>
-        Variable = 14
+        Variable = 14,
+        /// <summary>
+        /// Lambda variable declaration
+        /// </summary>
+        LambdaVariableDeclaration = 15,
+        /// <summary>
+        /// Lambda calculation expressions
+        /// </summary>
+        LambdaCalculation = 16
     }
 }
