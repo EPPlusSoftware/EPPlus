@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
         public RangeExpression(string address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
         {
-            _addressInfo = new FormulaRangeAddress(ctx) { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx < 0 ? ctx.CurrentCell.WorksheetIx : worksheetIx };
+            _addressInfo = new FormulaRangeAddress(ctx) { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx == short.MinValue ? ctx.CurrentCell.WorksheetIx : worksheetIx };
             ExcelCellBase.GetRowColFromAddress(address, out int fromRow, out int fromCol, out int toRow, out int toCol, out bool fixedFromRow, out bool fixedFromCol, out bool fixedToRow, out bool fixedToCol);
             _addressInfo.FromRow = fromRow==0 ? 1 : fromRow;
             _addressInfo.ToRow = toRow == 0 ? ExcelPackage.MaxRows : toRow;
@@ -39,11 +39,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 {
                     if (_addressInfo.IsSingleCell)
                     {
-
-                        var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
-                        var v = ws.GetValue(_addressInfo.FromRow, _addressInfo.FromCol); //Use GetValue to get richtext values.
-                        _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
-                        _cachedCompileResult.IsHiddenCell = ws.IsRowHidden(_addressInfo.FromRow);
+                        if (_addressInfo.WorksheetIx >= 0)
+                        {
+                            var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
+                            var v = ws.GetValue(_addressInfo.FromRow, _addressInfo.FromCol); //Use GetValue to get richtext values.
+                            _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
+                            _cachedCompileResult.IsHiddenCell = ws.IsRowHidden(_addressInfo.FromRow);
+                        }
+                        else
+                        {
+                            _cachedCompileResult = CompileResult.GetErrorResult(eErrorType.Ref);
+                        }
                     }
                     else
                     {
