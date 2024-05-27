@@ -26,7 +26,7 @@ jobs:
         run: dotnet restore src/EPPlus.sln 
       - name: Build EPPlus
         run: dotnet build src/EPPlus.sln 
-      - name: Build EPPlus Test
-        run: dotnet build src/EPPlusTest/EPPlus.Test.csproj 
+      - name: Run EPPlus solution
+        run: dotnet test src/EPPlus.sln 
       - name: Run EPPlus Test
         run: dotnet test src/EPPlusTest/EPPlus.Test.csproj 
