@@ -5,6 +5,10 @@
 * Added all icons and iconset features to html export. Including custom iconsets.
 * Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
 
+* Table Column Names
+	* ShowHeaders = True property on tables no longer causes crash in rare cases. It also no longer updates column names.
+	* Table.SyncColumnNames method added to ensures column names and cell-values in header are equal. Applying this method should cover any potential issues caused by above fix not updating column names.
+	* Adding a table column to a table no longer creates a column name that can conflict with existing names.
 ## Version 7.1.2
 ### Fixed issues 
 * Defined Names with `"` symbols no longer get extraneous `"` added when saving in EPPlus.
