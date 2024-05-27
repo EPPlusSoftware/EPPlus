@@ -656,20 +656,20 @@ namespace OfficeOpenXml.Table
 
         /// <summary>
         /// <para>Update column names with cell values or cell values with column names</para>
-        /// <para>ColumnNamesToRow overwrites the top row cell values with the column names.</para>
-        /// <para>RowToColumnNames overwrites the column names with the top row cell values. 
-        /// If the cell is empty it instead overwrites the cell value with the column name unless syncEmptyCells is set to false.</para>
+        /// <para><see cref="ApplyDataFrom.ColumnNamesToCells"></see> overwrites the top row cell values with the column names.</para>
+        /// <para><see cref="ApplyDataFrom.CellsToColumnNames"></see> overwrites the column names with the top row cell values. 
+        /// If the cell is empty it instead overwrites the cell value with the column name unless <paramref name="syncEmptyCells"/> is set to false.</para>
         /// </summary>
         /// <param name="dataOrigin">Target data to be overwritten</param>
         /// <param name="syncEmptyCells">Set to false to not fill empty cell with column name</param>
-        public void SyncTopRowWithColumnNames(ApplyDataFrom dataOrigin, bool syncEmptyCells = true)
+        public void SyncColumnNames(ApplyDataFrom dataOrigin, bool syncEmptyCells = true)
         {
             switch(dataOrigin)
             {
-                case ApplyDataFrom.ColumnNamesToRow:
+                case ApplyDataFrom.ColumnNamesToCells:
                     OverwriteRows();
                     break;
-                case ApplyDataFrom.RowToColumnNames:
+                case ApplyDataFrom.CellsToColumnNames:
                     OverwriteColumnNames(syncEmptyCells);
                     break;
                 default:

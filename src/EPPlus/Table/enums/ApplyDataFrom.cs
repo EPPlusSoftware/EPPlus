@@ -1,5 +1,5 @@
 ﻿
-namespace OfficeOpenXml.Table.enums
+namespace OfficeOpenXml.Table
 {
     /// <summary>
     /// Option for which data should overwrite the other in a sync.
@@ -9,10 +9,10 @@ namespace OfficeOpenXml.Table.enums
         /// <summary>
         /// Overwrite cells with column name data
         /// </summary>
-        ColumnNamesToRow,
+        ColumnNamesToCells,
         /// <summary>
         /// Overwrite columnNames with cell data
         /// </summary>
-        RowToColumnNames
+        CellsToColumnNames
     }
 }
