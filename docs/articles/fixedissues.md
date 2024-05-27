@@ -4,6 +4,7 @@
 ### Minor Features and fixed issues
 * Added all icons and iconset features to html export. Including custom iconsets.
 * Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
+* Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
 
 ## Version 7.1.2
 ### Fixed issues 
