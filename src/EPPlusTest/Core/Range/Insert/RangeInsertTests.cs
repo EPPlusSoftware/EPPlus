@@ -1394,12 +1394,28 @@ namespace EPPlusTest.Core.Range.Insert
         }
 
         [TestMethod]
+        public void ShouldSetExternalReferenceWhenFormulaIsSet()
+        {
+            using (ExcelPackage p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets.Add("sheet1");
+
+                ws.Cells["A1"].Formula = "Sheet2!A1";
+
+                //It should arguably be able to handle this? How do we deal with that?
+                //How do we store a reference to a different worksheet on a worksheet that does not exist.
+                ExcelWorksheet wsTarget = p.Workbook.Worksheets.Add("sheet2");
+                wsTarget.Cells["A1"].Value = 5;
+
+            }
+        }
+
+        [TestMethod]
         public void ValidationFormulasInsertDeleteWorksheetReferences()
         {
             using (ExcelPackage p = OpenTemplatePackage("TokenizeWorksheetLoadReferences.xlsx"))
             {
                 ExcelWorksheet ws = p.Workbook.Worksheets["sheet1"];
-
                 ExcelWorksheet wsTarget = p.Workbook.Worksheets["sheet2"];
 
                 var formula = ws.Cells["C15"].Formula;

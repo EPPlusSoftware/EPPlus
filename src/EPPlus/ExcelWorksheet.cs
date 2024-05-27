@@ -51,6 +51,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace OfficeOpenXml
 {
@@ -299,6 +300,8 @@ namespace OfficeOpenXml
             int row;
             int column;
         }
+
+        List<ExternalReference> _externalReferences = new List<ExternalReference>();
 
         internal CellStoreValue _values;
         internal CellStore<object> _formulas;
@@ -1482,6 +1485,20 @@ namespace OfficeOpenXml
             return hl;
         }
 
+
+        internal static SourceCodeTokenizer _sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+
+        internal List<Token> TokenizeFormula(string formula)
+        {
+            return (List<Token>)_sct.Tokenize(formula, Name);
+        }
+        //private static IList<Token> GetTokens(ExcelWorksheet ws, int row, int column, string formula)
+        //{
+        //    return string.IsNullOrEmpty(formula) ?
+        //        new List<Token>() :
+        //        (List<Token>)_sct.Tokenize(formula, ws.Name);
+        //}
+
         /// <summary>
         /// Load cells
         /// </summary>
@@ -1615,8 +1632,32 @@ namespace OfficeOpenXml
                         if (!string.IsNullOrEmpty(formula))
                         {
                             _formulas.SetValue(address._fromRow, address._fromCol, formula);
-                        }
+                        } 
                         SetValueInner(address._fromRow, address._fromCol, null);
+
+                        var tokens = (List<Token>)_sct.Tokenize(formula, Name);
+                        _formulaTokens.SetValue(address._fromRow, address._fromCol, tokens);
+
+                        var lst = tokens.Where(x => x.TokenType == TokenType.WorksheetNameContent).ToList();
+                        foreach(var token in lst)
+                        {
+                            if(token.Value != Name)
+                            {
+                                var wsId = Workbook.Worksheets.GetByName(token.Value);
+
+                                var refItem = new ExternalReference()
+                                {
+                                    
+                                };
+                                //_externalReferences.Add();
+                            }
+                        }
+                        //if(formula.)
+                        //if (address.ExternalReferenceIndex != 0)
+                        //{
+                        //    //Do Something
+                        //    var test = 1;
+                        //}
                     }
                     else if (t == "shared")
                     {

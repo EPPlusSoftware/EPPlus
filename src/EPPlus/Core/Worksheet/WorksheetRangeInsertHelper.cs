@@ -802,6 +802,8 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom=0, int columnTo=ExcelPackage.MaxColumns)
         {
+            
+
             var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
             //Adjust formulas
             foreach (var wsToUpdate in ws.Workbook.Worksheets)

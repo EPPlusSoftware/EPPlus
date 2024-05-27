@@ -45,6 +45,8 @@ using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Net;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml
 {
@@ -935,6 +937,26 @@ namespace OfficeOpenXml
                         }
                     }
                     ClearTableFormulas();
+
+                    var tokens = _worksheet.TokenizeFormula(value);
+
+                    _worksheet._formulaTokens.SetValue(_fromRow, _fromCol, tokens);
+
+                    var lst = tokens.Where(x => x.TokenType == TokenType.WorksheetNameContent).ToList();
+                    foreach (var token in lst)
+                    {
+                        if (token.Value != _worksheet.Name)
+                        {
+
+                            //var wsId = Workbook.Worksheets.GetByName(token.Value);
+
+                            //var refItem = new ExternalReference()
+                            //{
+
+                            //};
+                            //_externalReferences.Add();
+                        }
+                    }
                 }
             }
         }
