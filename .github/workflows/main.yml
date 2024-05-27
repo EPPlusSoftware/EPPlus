@@ -8,8 +8,9 @@ on:
 
 jobs:
   build:
-    runs-on: arc-scale-set
-    #windows-latest
+    runs-on: windows-latest
+    #arc-scale-set
+    
     env:
       DOTNET_INSTALL_DIR: "~/dotnet/"
 
@@ -25,3 +26,7 @@ jobs:
         run: dotnet restore src/EPPlus.sln 
       - name: Build EPPlus
         run: dotnet build src/EPPlus.sln 
+      - name: Build EPPlus Test
+        run: dotnet build src/EPPlusTest/EPPlus.Test.csproj 
+      - name: Run EPPlus Test
+        run: dotnet test src/EPPlusTest/EPPlus.Test.csproj 
