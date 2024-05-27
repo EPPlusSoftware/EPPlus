@@ -1,0 +1,27 @@
+name: EPPlus merge request
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+      - master
+
+jobs:
+  build-engine:
+    runs-on: windows-latest
+    #arc-scale-set
+    env:
+      DOTNET_INSTALL_DIR: "~/dotnet/"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            8.0.x
+
+      - name: Install nuget packages
+        run: dotnet restore src/EPPlus.sln 
+      - name: Build EPPlus
+        run: dotnet build src/EPPlus.sln 
