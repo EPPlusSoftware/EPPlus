@@ -1257,29 +1257,6 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return false;
         }
-        //internal bool PrevCellByColumn(ref int row, ref int col, int minRow, int maxRow, int minColPos)
-        //{
-        //    var c = GetColumnPosition(col-1);
-        //    minColPos = Math.Min(minColPos, 0);
-        //    while (c >= 0 && c >= minColPos)
-        //    {
-        //        var r = _columnIndex[c].GetPrevRow(row);
-        //        if (r < minRow)
-        //        {
-        //            r = maxRow;
-        //        }
-        //        if (r > 0)
-        //        {
-        //            row = r;
-        //            col = _columnIndex[c].Index;
-        //            return true;
-        //        }
-        //        row = maxRow;
-        //        r++;
-        //    }
-        //    return false;
-        //}
-
         internal bool GetNextCell(ref int row, ref int colPos, int startColPos, int endRow, int endColPos)
         {
             if (ColumnCount == 0)
