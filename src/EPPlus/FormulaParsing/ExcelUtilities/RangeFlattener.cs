@@ -27,9 +27,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="r1"></param>
         /// <param name="addNullifEmpty"></param>
         /// <returns></returns>
-        public static List<double?> FlattenRange(IRangeInfo r1, bool addNullifEmpty=true)
+        public static double[] FlattenRange(IRangeInfo r1, bool addNullifEmpty=true)
         {
-            var result = new List<double?>();
+            var result = new double[r1.Size.NumberOfRows * r1.Size.NumberOfCols];
+            var index = 0;
 
             for (var row = 0; row < r1.Size.NumberOfRows; row++)
             {
@@ -41,11 +42,13 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     {
                         var yNum = ConvertUtil.GetValueDouble(val);
 
-                        result.Add(yNum);
+                        //result.Add(yNum);
+                        result[index] = yNum;
                     }
                     else if(addNullifEmpty)
                     {
-                        result.Add(null);
+                        //result.Add(null);
+                        result[index] = null;
                     }
                 }
             }
