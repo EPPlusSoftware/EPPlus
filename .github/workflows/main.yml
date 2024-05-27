@@ -7,9 +7,9 @@ on:
       - master
 
 jobs:
-  build-engine:
-    runs-on: windows-latest
-    #arc-scale-set
+  build:
+    runs-on: arc-scale-set
+    #windows-latest
     env:
       DOTNET_INSTALL_DIR: "~/dotnet/"
 
