@@ -160,5 +160,6 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return 0;
         }
+
     }
 }
