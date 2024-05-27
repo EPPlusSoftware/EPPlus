@@ -40,7 +40,6 @@ using OfficeOpenXml.Attributes;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
-using OfficeOpenXml.Table.enums;
 
 namespace EPPlusTest.LoadFunctions
 {

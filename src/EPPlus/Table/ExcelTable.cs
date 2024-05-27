@@ -27,7 +27,6 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
-using OfficeOpenXml.Table.enums;
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
