@@ -2657,7 +2657,8 @@ namespace OfficeOpenXml
                             }
                             else if (col.Name != n)
                             {
-                                col.Name = n;
+                                col.Name = tbl.UpdateAndReturnValidName(tbl.Columns.GetIndexOfColName(col.Name), n, col.Name, tbl.Columns.GetColNamesList());
+                                n = col.Name.ToLowerInvariant();
                                 SetValueInner(tbl.Address._fromRow, colNum, ConvertUtil.ExcelDecodeString(col.Name));
                                 if (tbl.WorkSheet.IsRichText(tbl.Address._fromRow, colNum))
                                 {
