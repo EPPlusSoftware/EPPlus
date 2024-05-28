@@ -73,5 +73,20 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
             char quotechar = '\"';
             return $"{quotechar}{s}{quotechar}";
         }
+        [TestMethod]
+        public void ReferencingWorksheetThatDoesNotExistShouldReturnRef()
+        {
+            using (ExcelPackage p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets.Add("sheet1");
+
+                ws.Cells["A1"].Formula = "Sheet2!A1";
+
+                ws.Calculate();
+
+                var value = ws.Cells["A1"].Value;
+                Assert.AreEqual(ErrorValues.RefError, value);
+            }
+        }
     }
 }

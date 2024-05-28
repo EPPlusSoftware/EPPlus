@@ -1,10 +1,22 @@
-
 # Features / Fixed issues - EPPlus 7
 ## Version 7.2
 ### Minor Features and fixed issues
 * Added all icons and iconset features to html export. Including custom iconsets.
 * Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
 * Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
+
+## Version 7.1.3
+### Fixed issues 
+* Dxf styles on tables got corrupt if a style contained an alignment and border element.
+* When calculating formulas, you could get a CirculareReferenceException, if a formula referenced a non-existing worksheet.
+* Conditional formatting’s with the pivot flag set was incorrectly handled if they had no worksheet address set.
+* Clearing data validations on cells, could cause an exception when trying to add new data validations to these cells.
+* Conditional formatting icon sets now handles all operators and types appropriately ...
+* ExcelRange.Text returned an invalid formatting on formats with "?" in some cases.
+* Name indexer on group drawings did not work.
+* Data validation lists did not handle the `showDropDown` attribute.
+* Loading a workbook with rich text elements with no style element could hang.
+* The rich text `Text` property was not decode for restricted characters.
 
 ## Version 7.1.2
 ### Fixed issues 
