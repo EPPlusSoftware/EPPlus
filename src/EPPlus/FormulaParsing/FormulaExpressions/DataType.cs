@@ -89,6 +89,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// Lambda calculation expressions
         /// </summary>
-        LambdaCalculation = 16
+        LambdaCalculation = 16,
+        /// <summary>
+        /// Lambda tokens
+        /// </summary>
+        LambdaTokens = 17
     }
 }

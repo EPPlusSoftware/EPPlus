@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2021")]
     internal class Lambda : ExcelFunction
     {
-        public override int ArgumentMinLength => 2;
+        public override int ArgumentMinLength => 3;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            throw new NotImplementedException();
+            // just add the variables here
+            if(arguments.Last().DataType != DataType.LambdaTokens)
+            {
+                return CreateResult(eErrorType.Value);
+            }
+            var tokens = arguments.Last().Value as List<Token>;
+            var calculator = new LambdaCalculator(tokens);
+            var variables = new List<CompileResult>();
+            for(var i = 0; i < arguments.Count -1; i++)
+            {
+                var arg = arguments[i];
+                var cr = new CompileResult(arg.Value, arg.DataType);
+                variables.Add(cr);
+            }
+            calculator.SetVariables(variables);
+            return new CompileResult(calculator, DataType.LambdaCalculation);
         }
     }
 }

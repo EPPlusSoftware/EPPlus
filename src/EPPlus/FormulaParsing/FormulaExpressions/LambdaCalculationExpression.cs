@@ -1,21 +1,19 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal class LambdaCalculationExpression : Expression
     {
-        internal LambdaCalculationExpression(List<Token> tokens, ParsingContext ctx) : base(ctx)
+        public LambdaCalculationExpression(CompileResult cr, ParsingContext context) : base(context)
         {
-            _tokens = tokens;
+            _compileResult = cr;
         }
 
-        private readonly List<Token> _tokens;
-
-        public List<Token> Tokens => _tokens;
+        private readonly CompileResult _compileResult;
 
         internal override ExpressionType ExpressionType => ExpressionType.LambdaCalculation;
 
@@ -27,12 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public override CompileResult Compile()
         {
-            return new CompileResult(_tokens, DataType.LambdaCalculation);
+            if(_compileResult.DataType != DataType.LambdaCalculation)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            return _compileResult;
         }
 
         public override Expression Negate()
         {
-            return this;
+            throw new NotImplementedException();
         }
     }
 }

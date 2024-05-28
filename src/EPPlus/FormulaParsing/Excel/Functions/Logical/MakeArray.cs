@@ -53,8 +53,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 for(var col = 0; col  < cols; col++)
                 {
-                    lambdaCalculator.SetVariableValue(0, row + 1);
-                    lambdaCalculator.SetVariableValue(1, col + 1);
+                    lambdaCalculator.BeginCalculation();
+                    lambdaCalculator.SetVariableValue(0, row + 1, DataType.Integer);
+                    lambdaCalculator.SetVariableValue(1, col + 1, DataType.Integer);
                     var result = lambdaCalculator.Execute(context);
                     resultRange.SetValue(row, col, result.ResultValue);
                 }

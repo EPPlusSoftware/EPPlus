@@ -163,5 +163,10 @@ namespace OfficeOpenXml.FormulaParsing
                 return null;
             }
         }
+
+        /// <summary>
+        /// Calculation options/parameters set for the Calculate call.
+        /// </summary>
+        public ExcelCalculationOption CalcOption { get; set; }
     }
 }

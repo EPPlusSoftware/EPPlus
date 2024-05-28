@@ -16,6 +16,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -57,6 +58,17 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
+        public HashSet<int> LambdaTokens { get; private set; }
+
+        public void AddLambdaToken(int tokenIx)
+        {
+            LambdaTokens ??= [];
+            if (LambdaTokens.Contains(tokenIx)) return;
+            LambdaTokens.Add(tokenIx);
+        }
+
+
+
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
         {
             _ws = ws;
@@ -89,7 +101,19 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._tokenizer.Tokenize(formula));
 
             _formula = formula;
-            _expressions = ExpressionBuilder.BuildExpressions(ref _tokens, depChain._parsingContext);
+            _expressions = ExpressionBuilder.BuildExpressions(this, ref _tokens, depChain._parsingContext);
+        }
+
+        internal void SetTokens(List<Token> tokens, ParsingContext context)
+        {
+            _tokens = tokens;
+            var formula = new StringBuilder();
+            foreach(var token in tokens)
+            {
+                formula.Append(token.Value);
+            }
+            _formula = formula.ToString();
+            _expressions = ExpressionBuilder.BuildExpressions(this, ref _tokens, context);
         }
         public override string ToString()
         {

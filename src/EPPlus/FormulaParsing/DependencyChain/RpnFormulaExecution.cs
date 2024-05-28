@@ -335,6 +335,12 @@ namespace OfficeOpenXml.FormulaParsing
             }
             return f;
         }
+
+        internal static object ExecutePartialFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell)
+        {
+            return AddChainForFormula(depChain, f, options, writeToCell);
+        }
+
         private static object AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell)
         {
             FormulaRangeAddress address = null;
@@ -788,6 +794,11 @@ namespace OfficeOpenXml.FormulaParsing
             var s = f._expressionStack;
             while (f._tokenIndex < f._tokens.Count)
             {
+                if(f.LambdaTokens != null && f.LambdaTokens.Contains(f._tokenIndex))
+                {
+                    f._tokenIndex++;
+                    continue;
+                }
                 var t = f._tokens[f._tokenIndex];
                 switch (t.TokenType)
                 {
@@ -798,10 +809,8 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Array:
                     case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
-                        s.Push(f._expressions[f._tokenIndex]);
-                        break;
                     case TokenType.CommaLambda:
-                        var exp  = f._expressions[f._tokenIndex];
+                        s.Push(f._expressions[f._tokenIndex]);
                         break;
                     case TokenType.Negator:                        
                         s.Push(s.Pop().Negate());
@@ -1071,25 +1080,13 @@ namespace OfficeOpenXml.FormulaParsing
             var v2 = f._expressionStack.Pop();
 
 
-            var func = f._funcStack.Peek();
-            if ((func.IsLambda))
-            {
-                var lambdaFunc = func as LambdaFunctionExpression;
-                if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator lop))
-                {
-                    lambdaFunc.AddExpression(v1, v2, lop);
-                }
-            }
-            else
-            {
-                var c1 = v1.Compile();
-                var c2 = v2.Compile();
+            var c1 = v1.Compile();
+            var c2 = v2.Compile();
 
-                if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
-                {
-                    var result = op.Apply(c2, c1, context);
-                    PushResult(context, f, result);
-                }
+            if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
+            {
+                var result = op.Apply(c2, c1, context);
+                PushResult(context, f, result);
             }
         }
 #if (!NET35)
@@ -1174,7 +1171,7 @@ namespace OfficeOpenXml.FormulaParsing
                     f._expressionStack.Push(Expression.Empty);
                     break;
                 case DataType.LambdaCalculation:
-                    //f._expressionStack.Push(new LambdaCalculationExpression(result, context));
+                    f._expressionStack.Push(new LambdaCalculationExpression(result, context));
                     break;
                 default:
                     //throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");
@@ -1194,7 +1191,7 @@ namespace OfficeOpenXml.FormulaParsing
             var s = f._expressionStack;
             if(func.IsLambda)
             {
-                for (int i = 0; i < func.NumberOfArguments -1; i++)
+                for (int i = 0; i < func.NumberOfArguments; i++)
                 {
                     var exp = s.Pop();
                     exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;

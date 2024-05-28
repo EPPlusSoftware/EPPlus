@@ -37,6 +37,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             _tokenizer = SourceCodeTokenizer.Default;
             _parsingContext = wb.FormulaParser.ParsingContext;
+            _parsingContext.CalcOption = options;
 
             var parser = wb.FormulaParser;
             var filterInfo = new FilterInfo(wb);

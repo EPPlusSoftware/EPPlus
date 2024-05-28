@@ -27,27 +27,32 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal static class ExpressionBuilder
     {
-
         public static Dictionary<int, Expression> BuildExpressions(ref IList<Token> tokens, ParsingContext parsingContext)
+        {
+            return BuildExpressions(null, ref tokens, parsingContext);
+        }
+
+        public static Dictionary<int, Expression> BuildExpressions(RpnFormula rpnFormula, ref IList<Token> tokens, ParsingContext parsingContext)
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
             var stack = new Stack<FunctionExpression>();
             var expressions = new Dictionary<int, Expression>();
             var isInLambdaCalculation = false;
-            List<Token> lambdaCalcTokens = default;
-            var ignoredTokens = 0;
+            LambdaTokensExpression lambdaCalculationExpression = null;
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
                 var t = tokens[tokenIx];
                 if(isInLambdaCalculation && t.TokenType != TokenType.Function)
                 {
-                    if(lambdaCalcTokens == null) lambdaCalcTokens = new List<Token>();
-                    lambdaCalcTokens.Add(t);
-                    ignoredTokens++;
+                    if(rpnFormula != null)
+                    {
+                        rpnFormula.AddLambdaToken(tokenIx);
+                    }
+                    lambdaCalculationExpression.AddLambdaToken(t);
                     continue;
                 }
-                var i = tokenIx - ignoredTokens;
+                var i = tokenIx;
                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
@@ -154,14 +159,19 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.CommaLambda:
                         isInLambdaCalculation = true;
+                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext);
+                        expressions.Add(i, lambdaCalculationExpression);
+                        if (stack.Count > 0)
+                        {
+                            stack.Peek().AddArgument(i);
+                        }
                         break;
                     case TokenType.Function:
                         var f = stack.Pop();
                         f._endPos= i;
                         if(f.IsLambda && isInLambdaCalculation)
                         {
-                            expressions.Add(i, new LambdaCalculationExpression(lambdaCalcTokens, parsingContext));
-                            lambdaCalcTokens = null;
+                            lambdaCalculationExpression = null;
                             isInLambdaCalculation = false;
                         }
                         break;
