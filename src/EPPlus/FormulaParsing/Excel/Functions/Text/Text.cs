@@ -20,13 +20,13 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
     /// <summary>
-    /// Text
+    /// The Text
     /// </summary>
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
         Description = "Converts a supplied value into text, using a user-specified format")]
-    internal class Text : ExcelFunction
+    public class Text : ExcelFunction
     {
         /// <summary>
         /// Minimum arguments
