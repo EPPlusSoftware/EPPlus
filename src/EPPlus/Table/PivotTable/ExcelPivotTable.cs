@@ -377,7 +377,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     var field = Fields[fieldItemSelection[j].FieldName];
 
-                    if (field == null)
+                    if (field == null || (field.IsColumnField==false && field.IsRowField==false))
                     {
                         return ErrorValues.RefError;
                     }
@@ -393,7 +393,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
                     if (field.Index == keyFieldIndex[i])
                     {
-                        var cache = field.Cache.GetCacheLookup();
+                        var cache = field.GetLookup();
 
                         var isGrouping = field.Grouping != null;
 
