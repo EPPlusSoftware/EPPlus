@@ -1,8 +1,16 @@
-
 # Features / Fixed issues - EPPlus 7
 ## Version 7.1.3
 ### Fixed issues 
-* Dxf styles on tables got corrupt if a style contained an alignment and and border element.
+* Dxf styles on tables got corrupt if a style contained an alignment and border element.
+* When calculating formulas, you could get a CirculareReferenceException, if a formula referenced a non-existing worksheet.
+* Conditional formatting’s with the pivot flag set was incorrectly handled if they had no worksheet address set.
+* Clearing data validations on cells, could cause an exception when trying to add new data validations to these cells.
+* Conditional formatting icon sets now handles all operators and types appropriately ...
+* ExcelRange.Text returned an invalid formatting on formats with "?" in some cases.
+* Name indexer on group drawings did not work.
+* Data validation lists did not handle the `showDropDown` attribute.
+* Loading a workbook with rich text elements with no style element could hang.
+* The rich text `Text` property was not decode for restricted characters.
 
 ## Version 7.1.2
 ### Fixed issues 
