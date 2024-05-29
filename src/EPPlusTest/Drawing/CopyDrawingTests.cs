@@ -176,6 +176,8 @@ namespace EPPlusTest.Drawing
             ws.Drawings[1].Copy(ws, 5, 20);
             ws.Drawings[2].Copy(ws, 5, 25);
             ws.Drawings[4].Copy(ws, 5, 30);
+            ws.Drawings[5].Copy(ws, 5, 35);
+            ws.Drawings[6].Copy(ws, 5, 40);
             SaveAndCleanup(p);
         }
         [TestMethod]
@@ -187,6 +189,8 @@ namespace EPPlusTest.Drawing
             ws.Drawings[1].Copy(ws1, 5, 20);
             ws.Drawings[2].Copy(ws1, 5, 25);
             ws.Drawings[4].Copy(ws1, 5, 30);
+            ws.Drawings[5].Copy(ws1, 5, 35);
+            ws.Drawings[6].Copy(ws1, 5, 40);
             SaveAndCleanup(p);
         }
         [TestMethod]
@@ -198,7 +202,9 @@ namespace EPPlusTest.Drawing
             var targetWs = p2.Workbook.Worksheets.Add("Sheet1");
             ws.Drawings[1].Copy(targetWs, 1, 1);
             ws.Drawings[2].Copy(targetWs, 1, 5);
-            ws.Drawings[4].Copy(targetWs, 5, 30);
+            ws.Drawings[4].Copy(targetWs, 5, 10);
+            ws.Drawings[5].Copy(targetWs, 5, 15);
+            ws.Drawings[6].Copy(targetWs, 5, 20);
             SaveAndCleanup(p2);
         }
     }

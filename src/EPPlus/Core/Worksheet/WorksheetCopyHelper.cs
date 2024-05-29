@@ -259,7 +259,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             added._package.DoAdjustDrawings = doAdjust;
         }
-        private static void CopyDrawing(ExcelWorksheet source, ExcelWorksheet target)
+        internal static void CopyDrawing(ExcelWorksheet source, ExcelWorksheet target)
         {
             var pck = target._package;
             var nsm = target.NameSpaceManager;
@@ -468,6 +468,10 @@ namespace OfficeOpenXml.Core.Worksheet
             else
             {
                 relNode = chart.TopNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                if(relNode == null)//If null, we check the group shape path instead.
+                {
+                    relNode = chart.TopNode.SelectSingleNode("a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                }
                 string prevRelID = relNode?.Value;
                 var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(partDraw.Uri, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
                 XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), source.Drawings.NameSpaceManager) as XmlAttribute;
