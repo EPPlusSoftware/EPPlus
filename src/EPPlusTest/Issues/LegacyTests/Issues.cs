@@ -6207,5 +6207,31 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void i1468()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+
+            using (var p = OpenPackage("TestingFormulaError.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("FormErrorTest");
+
+                var doubleQuote = "\"\"";
+
+                for (int i = 1; i < 6; i++)
+                {
+                    sheet.Cells[i, 2].FormulaR1C1 = $"IFERROR(SUMPRODUCT(IF(rngCurrency=RC1,1,0),rngLedgerDebit,rngDebitRate)/RC6,{doubleQuote})";
+                }
+
+                var form = sheet.Cells["B1"].Formula;
+
+                sheet.Calculate();
+
+                var formAfter = sheet.Cells["B1"].Formula;
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
