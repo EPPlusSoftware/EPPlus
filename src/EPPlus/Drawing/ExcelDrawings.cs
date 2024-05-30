@@ -141,6 +141,25 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        internal string GetUniqueDrawingName(string name)
+        {
+            var newName = name;
+            var index = 1;
+            while (_drawingNames.ContainsKey(newName))
+            {
+                var split = newName.Split(' ');
+                if( int.TryParse(split[split.Length - 1], out int number))
+                {
+                    split[split.Length - 1] = (++number).ToString();
+                    newName = string.Join(" ", split);
+                }
+                else
+                {
+                    newName = name + index++;
+                }
+            }
+            return newName;
+        }
 
         #region NamespaceManager
         /// <summary>

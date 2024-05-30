@@ -1420,7 +1420,7 @@ namespace OfficeOpenXml.Drawing
             //can't copy to another workbook unless we also copy the table. (Need to check for table somehow...)
             if (worksheet.Workbook != _drawings.Worksheet.Workbook)
             {
-                throw new Exception("Table slicers can't be copied from one workbook to another.");
+                throw new InvalidOperationException("Table slicers can't be copied from one workbook to another.");
             }
 
             //Create node in drawing.xml
@@ -1453,7 +1453,7 @@ namespace OfficeOpenXml.Drawing
             {
                 drawNodeName = drawNode.SelectSingleNode("mc:Choice/xdr:graphicFrame/xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
             }
-            var drawNodeNameValue = drawNodeName.Attributes["name"].Value + " " + worksheet.Workbook._nextDrawingId++;
+            var drawNodeNameValue = worksheet._drawings.GetUniqueDrawingName(drawNodeName.Attributes["name"].Value);
             drawNodeName.Attributes["name"].Value = drawNodeNameValue;
             var drawNodeSlicerName = drawNode.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/sle:slicer", worksheet._drawings.NameSpaceManager);
             if (drawNodeSlicerName == null && isGroupShape)
@@ -1562,14 +1562,14 @@ namespace OfficeOpenXml.Drawing
             if (!isGroupShape)
             {
                 //Create the copy
-                var copy = GetDrawing(worksheet._drawings, drawNode); //Finds the wrong drawing...
+                var copy = GetDrawing(worksheet._drawings, drawNode);
                 copy.EditAs = ExcelControl.GetControlEditAs(control.ControlType);
-                var width = GetPixelWidth();
-                var height = GetPixelHeight();
-                copy.SetPixelWidth(width);
-                copy.SetPixelHeight(height);
-                copy.SetPosition(row, rowOffset, col, colOffset);
-                worksheet._drawings.AddDrawingInternal(copy);
+                //var width = GetPixelWidth();
+                //var height = GetPixelHeight();
+                //copy.SetPixelWidth(width);
+                //copy.SetPixelHeight(height);
+                //copy.SetPosition(row, rowOffset, col, colOffset);
+                //worksheet._drawings.AddDrawingInternal(copy);
 
                 //Update position in worksheet xml
                 var fromCol = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:col", worksheet.NameSpaceManager);
@@ -1624,13 +1624,13 @@ namespace OfficeOpenXml.Drawing
                 if(isGroupShape)
                 {
                     var chartAttr = groupDrawNode.SelectSingleNode("xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
-                    chartAttr.Attributes["name"].Value = origialChart.Name + " " + worksheet._drawings._drawingNames.Count;
+                    chartAttr.Attributes["name"].Value = worksheet._drawings.GetUniqueDrawingName(origialChart.Name);
                     chartAttr.Attributes["id"].Value = (++origialChart._id).ToString();
                 }
                 else
                 {
                     var chartcopy = ExcelChart.GetChart(worksheet._drawings, drawNode);
-                    chartcopy.Name = chartcopy.Name + " " + worksheet._drawings._drawingNames.Count;
+                    chartcopy.Name = worksheet._drawings.GetUniqueDrawingName(origialChart.Name);
                     chartcopy._id = ++origialChart._id;
                 }
 
@@ -1704,6 +1704,7 @@ namespace OfficeOpenXml.Drawing
                 //Set New id on copied picture.
                 var pic = GetDrawing(worksheet._drawings, drawNode) as ExcelPicture;
                 pic.SetNewId(++worksheet.Workbook._nextDrawingId);
+                pic.Name = worksheet._drawings.GetUniqueDrawingName(this.Name);
             }
             return drawNode;
         }
@@ -1716,6 +1717,7 @@ namespace OfficeOpenXml.Drawing
             {
                 drawNode = groupDrawNode;
                 groupDrawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr", worksheet._drawings.NameSpaceManager).Attributes["id"].Value = (++worksheet.Workbook._nextDrawingId).ToString();
+                groupDrawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr", worksheet._drawings.NameSpaceManager).Attributes["name"].Value = worksheet._drawings.GetUniqueDrawingName(sourceShape.Name);
             }
             else
             {
@@ -1725,6 +1727,7 @@ namespace OfficeOpenXml.Drawing
                 //Asign new id
                 var targetShape = GetDrawing(worksheet._drawings, drawNode) as ExcelShape;
                 targetShape._id = ++worksheet.Workbook._nextDrawingId;
+                targetShape.Name = worksheet._drawings.GetUniqueDrawingName(sourceShape.Name);
             }
             //Copy Blip Fill
             WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, this, sourceShape.Fill, worksheet._drawings.Part.Uri);
