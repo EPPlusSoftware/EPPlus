@@ -66,6 +66,11 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
             return new ExcelConditionalFormattingFourIconSet(this, newWs);
         }
 
+        internal override ExcelConditionalFormattingIconDataBarValue[] GetIconArray(bool reversed = false)
+        {
+            return reversed ? [Icon4, Icon3, Icon2, Icon1] : [Icon1, Icon2, Icon3, Icon4];
+        }
+
         /// <summary>
         /// Icon 4 value
         /// </summary>

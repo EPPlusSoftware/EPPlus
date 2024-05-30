@@ -39,5 +39,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             if (matches.Count() == 0) return CompileResult.ZeroDecimal;
             return CreateResult(matches.Max(), DataType.Decimal);
         }
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

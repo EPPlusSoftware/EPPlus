@@ -15,13 +15,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using static OfficeOpenXml.Style.ExcelNumberFormat;
 
 namespace OfficeOpenXml.Style
 {
-    /// <summary>
-    /// The numberformat of the cell
-    /// </summary>
-    public sealed class ExcelNumberFormat : StyleBase
+	/// <summary>
+	/// The numberformat of the cell
+	/// </summary>
+	public sealed partial class ExcelNumberFormat : StyleBase
     {
         internal ExcelNumberFormat(ExcelStyles styles, OfficeOpenXml.XmlHelper.ChangedEventHandler ChangedEvent, int PositionID, string Address, int index) :
             base(styles, ChangedEvent, PositionID, Address)
@@ -201,5 +204,93 @@ namespace OfficeOpenXml.Style
                     return int.MinValue;
             }
         }
-    }
+        internal NumberFormatType _numberformatType= NumberFormatType.Unset;
+        //TODO: Implement convert to DateTime if dateformat.
+		internal bool IsDateFormat
+        {
+            get
+            {
+                if(_numberformatType==NumberFormatType.Unset)
+                {
+                    _numberformatType = GetNumberFormatType(Format);
+				}
+                return _numberformatType == NumberFormatType.Date;
+            }
+        }
+        //TODO: Use to determin number of decimals in the number format.
+        internal bool IsNumberFormat
+		{
+            get
+            {
+				if (_numberformatType == NumberFormatType.Unset)
+				{
+					_numberformatType = GetNumberFormatType(Format);
+				}
+				return _numberformatType == NumberFormatType.Numeric;
+            }
+		}
+        internal static NumberFormatType GetNumberFormatType(string format)
+        {
+            if(string.IsNullOrEmpty(format)) return NumberFormatType.General;
+            bool isInString = false;
+            bool isInBracket = false;
+            bool IsEscaped = false;
+            bool isDate=false, isNumber=false, isText = false;
+            foreach(var c in format.ToLower())
+            {
+                if (IsEscaped)
+                {
+                    IsEscaped = false;
+                    continue;
+				}
+                else if((isInString && c!='\"') || isInBracket && c != ']')
+                {
+                    continue;
+                }
+                switch(c)
+                {
+                    case '\\':
+                        IsEscaped = true;
+                        break;
+                    case '\"':
+                        isInBracket=!isInString; 
+                        break;
+                    case '[':
+                        isInBracket = true;
+						break; ;
+                    case ']':
+						isInBracket = false;
+                        break;
+                    case 'y':
+					case 'm':
+					case 'd':
+					case 'h':
+					case 's':
+                        isDate=true;
+                        break;
+                    case '#':
+                    case '0':
+						isNumber = true;
+                        break;
+                    case '@':
+                        isText=true;
+                        break;
+				}
+			}
+            if(isNumber)
+            {
+                return NumberFormatType.Numeric;
+            }
+            else if (isDate)
+            {
+                return NumberFormatType.Date;
+            }
+            else if(isInString)
+            {
+                return NumberFormatType.String;
+            }
+            return NumberFormatType.General;
+        }
+
+	}
 }

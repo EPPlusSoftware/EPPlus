@@ -16,8 +16,20 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
+    /// <summary>
+    /// NPer Implementation
+    /// </summary>
     public static class NperImpl
     {
+        /// <summary>
+        /// NPer
+        /// </summary>
+        /// <param name="Rate"></param>
+        /// <param name="Pmt"></param>
+        /// <param name="PV"></param>
+        /// <param name="FV"></param>
+        /// <param name="Due"></param>
+        /// <returns></returns>
         public static FinanceCalcResult<double> NPer(double Rate, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
         {
             double dTemp3;

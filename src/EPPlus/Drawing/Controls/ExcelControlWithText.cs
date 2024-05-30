@@ -27,8 +27,18 @@ namespace OfficeOpenXml.Drawing.Controls
         private string _paragraphPath = "{0}xdr:txBody/a:p";
         private string _lockTextPath = "{0}@fLocksText";
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
-        internal ExcelControlWithText(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart part, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
+        internal ExcelControlWithText(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart part, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) : 
             base(drawings, drawingNode, control, part, ctrlPropXml, parent)
+        {
+            InitPaths();
+        }
+
+        internal ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent = null) :
+            base(drawings, drawNode, name, parent)
+        {
+            InitPaths(); 
+        }
+        private void InitPaths()
         {
             if (TopNode.LocalName == "sp")
             {
@@ -42,11 +52,6 @@ namespace OfficeOpenXml.Drawing.Controls
                 _lockTextPath = string.Format(_lockTextPath, "xdr:sp/");
                 _textBodyPath = string.Format(_textBodyPath, "xdr:sp/");
             }
-        }
-
-        internal ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent = null) :
-            base(drawings, drawNode, name, parent)
-        {
         }
         /// <summary>
         /// Text inside the shape

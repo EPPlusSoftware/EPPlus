@@ -221,7 +221,7 @@ namespace OfficeOpenXml.Drawing.Vml
             vml.Append("<v:textbox style=\"mso-direction-alt:auto\" o:singleclick=\"f\">");
             if (ctrl is ExcelControlWithText textControl)
             {
-                vml.Append($"<div style=\"text-align:center\"><font color=\"#000000\" size=\"{GetFontSize(ctrl)}\" face=\"{GetFontName(ctrl)}\">{textControl.Text}</font></div>");
+                vml.Append($"<div style=\"text-align:center\"><font color=\"#000000\" size=\"{GetFontSize(ctrl)}\" face=\"{GetFontName(ctrl)}\"></font></div>");
             }
             vml.Append("</v:textbox>");
             vml.Append($"<x:ClientData ObjectType=\"{ctrl.ControlTypeString}\">");

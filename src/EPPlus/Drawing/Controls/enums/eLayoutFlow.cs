@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing.Controls
 {
     /// <summary>
-    /// Text layout flow.
+    /// String layout flow.
     /// </summary>
     public enum eLayoutFlow
     {

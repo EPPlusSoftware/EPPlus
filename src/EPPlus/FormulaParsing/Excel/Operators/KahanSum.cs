@@ -22,6 +22,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// </summary>
     internal class KahanSum
     {
+        public KahanSum(double d)
+        {
+            Add(d);
+        }
         private double _sum;
         private double _c;
 
@@ -50,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return a.Add(b.Get());
         }
 
-        public static implicit operator KahanSum(double d) => new KahanSum().Add(d);
+        public static implicit operator KahanSum(double d) => new KahanSum(d);
 
         public static implicit operator double(KahanSum kh) => kh.Get();
 

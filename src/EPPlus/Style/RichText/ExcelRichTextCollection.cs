@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Style
         internal ExcelRichTextCollection(XmlReader xr, ExcelWorkbook wb)
         {
             _wb = wb;
-            while (xr.LocalName != "si" && xr.NodeType != XmlNodeType.EndElement) 
+            while (xr.LocalName != "si" && xr.NodeType != XmlNodeType.EndElement && xr.EOF==false) 
             {
                 if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
                 {
@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Style
                 if(rElement.LocalName == "r")
                 {
                     var t = rElement.SelectSingleNode("d:t", ns);
-                    var rt = new ExcelRichText(t.InnerText, this);
+                    var rt = new ExcelRichText(ConvertUtil.ExcelDecodeString(t.InnerText), this);
 
                     rt.Bold = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:b", ns));
                     rt.Italic = XmlHelper.GetRichTextPropertyBool(rElement.SelectSingleNode("d:rPr/d:i", ns));
@@ -132,7 +132,7 @@ namespace OfficeOpenXml.Style
         /// Add a rich text string
         /// </summary>
         /// <param name="Text">The text to add</param>
-        /// <param name="NewParagraph">Adds a new paragraph before text. This will add a new line break.</param>
+        /// <param name="NewParagraph">Adds a new paragraph after the <paramref name="Text"/>. This will add a new line break.</param>
         /// <returns></returns>
         public ExcelRichText Add(string Text, bool NewParagraph = false)
         {

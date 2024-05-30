@@ -12,21 +12,18 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using System.Drawing;
-using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using System.Globalization;
-using System;
-using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using System.Collections.Generic;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Utils.Extensions;
+using System;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.ConditionalFormatting.Rules;
+using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -49,7 +46,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         RightToLeft = 2
     }
 
-    internal class ExcelConditionalFormattingDataBar : CachingCF,
+    internal class ExcelConditionalFormattingDataBar : CachingCFAdvanced,
             IExcelConditionalFormattingDataBarGroup
     {
         internal ExcelConditionalFormattingDataBar(
@@ -76,11 +73,12 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         private void InitalizeDxfColours()
         {
-            FillColor = new ExcelDxfColor(null, eStyleClass.Fill, BaseColorCallback);
-            BorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
-            NegativeFillColor = new ExcelDxfColor(null, eStyleClass.Fill, ValueWasSet);
-            NegativeBorderColor = new ExcelDxfColor(null, eStyleClass.Border, ValueWasSet);
-            AxisColor = new ExcelDxfColor(null, eStyleClass.Border, null);
+            var styles = _ws.Workbook.Styles;
+            FillColor = new ExcelDxfColor(styles, eStyleClass.Fill, BaseColorCallback);
+            BorderColor = new ExcelDxfColor(styles, eStyleClass.Border, ValueWasSet);
+            NegativeFillColor = new ExcelDxfColor(styles, eStyleClass.Fill, ValueWasSet);
+            NegativeBorderColor = new ExcelDxfColor(styles, eStyleClass.Border, ValueWasSet);
+            AxisColor = new ExcelDxfColor(styles, eStyleClass.Border, null);
         }
 
         internal void BaseColorCallback(eStyleClass styleClass, eStyleProperty styleProperty, object value)
@@ -331,63 +329,66 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
-        internal virtual string ApplyStyleOverride(ExcelAddress address)
+        internal double GetPercentageAtCell(ExcelAddressBase address)
         {
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
-            var color = FillColor.GetColorAsColor();
+            double percentage;
 
-            if (cellValue.IsNumeric() && color != Color.Empty)
+            if (cellValue.IsNumeric() && FillColor.GetColorAsColor() != Color.Empty)
             {
-                //var cellValues = new List<object>();
-                //double average = 0;
-                //int count = 0;
-                //foreach (var cell in Address.GetAllAddresses())
-                //{
-                //    for (int i = 1; i <= cell.Rows; i++)
-                //    {
-                //        for (int j = 1; j <= cell.Columns; j++)
-                //        {
-                //            cellValues.Add(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                //            average += Convert.ToDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                //            count++;
-                //        }
-                //    }
-                //}
-
-                //average = average / count;
-
-                //var values = cellValues.OrderBy(n => n);
-
-                //var highest = Convert.ToDouble(values.Last());
-                //var lowest = Convert.ToDouble(values.First());
+                if (cellValueCache.Count == 0)
+                {
+                    UpdateCellValueCache(false, true);
+                }
 
                 var realValue = Convert.ToDouble(cellValue);
 
-                string ret = "";
-                string borderAdd = "";
-                var percentage = 0.0d;
-                Color borderColor = Color.Empty;
+                var maximum = HighValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
+                var minimum = LowValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
 
-                if (realValue > 0)
+                if (AxisPosition != eExcelDatabarAxisPosition.None)
                 {
-                    percentage = realValue / highest;
-                    borderColor = BorderColor.GetColorAsColor();
+                    double currentStep;
+                    if (realValue > 0)
+                    {
+                        if(minimum < 0)
+                        { minimum = 0; }
+
+                        currentStep = realValue - minimum;
+                    }
+                    else
+                    {
+                        if (maximum > 0)
+                        { maximum = 0; }
+
+                        currentStep = maximum - realValue;
+                    }
+
+                    var numSteps = maximum - minimum;
+                    percentage = currentStep / numSteps;
                 }
                 else
                 {
-                    percentage = realValue / lowest;
-                    borderColor = NegativeBorderColor.GetColorAsColor();
+                    var newHighest = Math.Abs(minimum) + Math.Abs(maximum);
+                    percentage = (realValue + Math.Abs(minimum)) / newHighest;
                 }
-                double added = percentage == 0.0d ? 0 : 1.5;
-                borderAdd = borderColor == Color.Empty ? "" : $", {((percentage * 98) + added).ToString(CultureInfo.InvariantCulture)}% 95%";
 
-                ret += $"background-size: {(percentage * 98).ToString(CultureInfo.InvariantCulture)}% 90%";
-                ret += borderAdd + ";";
+                percentage = percentage * 100;
 
-                return ret;
+                if(percentage > 100)
+                {
+                    percentage = 100;
+                }
+                else if (percentage < 0)
+                {
+                    percentage = 0;
+                }
+
+                return percentage;
             }
-            return "";
+            percentage = 0.0;
+            return percentage;
         }
 
 
@@ -426,10 +427,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        double _highest = double.NaN;
-        double _lowest = double.NaN;
-
-        protected override void UpdateCellValueCache(bool asStrings = false)
+        protected override void UpdateCellValueCache(bool asStrings = false, bool cacheOnlyNumeric = false)
         {
             base.UpdateCellValueCache();
             var values = cellValueCache.OrderBy(n => n);

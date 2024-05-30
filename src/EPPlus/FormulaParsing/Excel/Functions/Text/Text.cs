@@ -19,13 +19,25 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
+    /// <summary>
+    /// The Text
+    /// </summary>
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
         Description = "Converts a supplied value into text, using a user-specified format")]
     public class Text : ExcelFunction
     {
+        /// <summary>
+        /// Minimum arguments
+        /// </summary>
         public override int ArgumentMinLength => 1;
+        /// <summary>
+        /// Execute function
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var value = arguments[0].ValueFirst;

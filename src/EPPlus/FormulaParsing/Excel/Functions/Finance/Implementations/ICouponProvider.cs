@@ -14,18 +14,64 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
+    /// <summary>
+    /// ICouponProvider
+    /// </summary>
     public interface ICouponProvider
     {
+        /// <summary>
+        /// GetCoupdaybs
+        /// </summary>
+        /// <param name="settlement"></param>
+        /// <param name="maturity"></param>
+        /// <param name="frequency"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         double GetCoupdaybs(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
-
+        /// <summary>
+        /// CoupDays
+        /// </summary>
+        /// <param name="settlement"></param>
+        /// <param name="maturity"></param>
+        /// <param name="frequency"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         double GetCoupdays(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
-
+        /// <summary>
+        /// Coupdaysnc
+        /// </summary>
+        /// <param name="settlement"></param>
+        /// <param name="maturity"></param>
+        /// <param name="frequency"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         double GetCoupdaysnc(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
-
+        /// <summary>
+        /// GetCoupsncd
+        /// </summary>
+        /// <param name="settlement"></param>
+        /// <param name="maturity"></param>
+        /// <param name="frequency"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         DateTime GetCoupsncd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
-
+        /// <summary>
+        /// GetCoupnum
+        /// </summary>
+        /// <param name="settlement"></param>
+        /// <param name="maturity"></param>
+        /// <param name="frequency"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         double GetCoupnum(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
-
+        /// <summary>
+        /// GetCouppcd
+        /// </summary>
+        /// <param name="settlement"></param>
+        /// <param name="maturity"></param>
+        /// <param name="frequency"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         DateTime GetCouppcd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis);
     }
 }

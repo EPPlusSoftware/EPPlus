@@ -20,7 +20,7 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
-using System.Drawing;
+using System.Threading;
 using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml
@@ -1149,8 +1149,27 @@ namespace OfficeOpenXml
                 }
             }
         }
+		internal DateTime? GetXmlNodeDateTime(string path)
+		{
+			string s = GetXmlNodeString(path);
+			if (s == "")
+			{
+				return default;
+			}
+			else
+			{
+				if (DateTime.TryParse(s,CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dt))
+				{
+                    return dt;
+				}
+				else
+				{
+					return default;
+				}
+			}
+		}
 
-        internal string GetXmlNodeString(XmlNode node, string path)
+		internal string GetXmlNodeString(XmlNode node, string path)
         {
             if (node == null)
             {

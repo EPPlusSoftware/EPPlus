@@ -1,3 +1,5 @@
+
+
 /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
@@ -59,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     return CompileResult.GetErrorResult(eErrorType.Div0);
                 }
-                ret = MathObj.Sqrt((double)div);
+                ret = MathObj.Sqrt(div);
             }
             return CreateResult(ret, DataType.Decimal);
         } 

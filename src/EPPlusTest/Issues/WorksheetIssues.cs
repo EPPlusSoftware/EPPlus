@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OfficeOpenXml;
-using System.IO;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System.Runtime.InteropServices.ComTypes;
-namespace EPPlusTest
+using OfficeOpenXml.FormulaParsing;
+using System.Globalization;
+using System.Threading;
+namespace EPPlusTest.Issues
 {
 	[TestClass]
 	public class WorksheetIssues : TestBase
@@ -47,9 +45,6 @@ namespace EPPlusTest
 				worksheet.Cells.Style.Font.Name = "Arial";
 				worksheet.Cells.Style.Font.Size = 7;
 
-
-
-
 				// Set page size to A4
 				worksheet.PrinterSettings.PaperSize = ePaperSize.A4;
 
@@ -63,9 +58,9 @@ namespace EPPlusTest
 
 
 
-				string longText = ""; // Our long string
-				int maxLineLength = 140; // Maximum length of each line, adjust as needed
-										 //var lines = SplitStringIntoLines(longText, maxLineLength);
+				//string longText = ""; // Our long string
+				//int maxLineLength = 140; // Maximum length of each line, adjust as needed
+				//						 //var lines = SplitStringIntoLines(longText, maxLineLength);
 
 
 				// Now 'lines' contains our text split into lines.
@@ -157,7 +152,42 @@ namespace EPPlusTest
 				package.Save();
 			}
 		}
-		[TestMethod]
+        [TestMethod]
+        public void s656()
+        {
+            using var testPackage = new ExcelPackage();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-AU");
+            var testSheet = testPackage.Workbook.Worksheets.Add("Test");
+            testSheet.Cells["A1"].Value = 2.0;
+            testSheet.Cells["A2"].Value = 1.0;
+            testSheet.Cells["A3"].Formula = "A1-A2";
+
+            var comments = new List<string>
+			{
+				"Some comment",
+				"more comment",
+				"more more",
+			};
+
+            var firstComment = testSheet.Cells[1, 1]
+                .AddComment(string.Join("\n\r", comments), "Fathom");
+            firstComment.AutoFit = true;
+
+            var secondComment = testSheet.Cells[1, 2]
+                .AddComment(string.Join("\n\r", comments), "Fathom");
+            secondComment.AutoFit = true;
+
+            var namedStyle = testSheet.Workbook.Styles.CreateNamedStyle("new-name-style");
+            namedStyle.Style.Numberformat.Format = "$#,##0;($#,##0)";
+
+            testSheet.Cells["A1"].StyleName = "new-name-style";
+            testSheet.Cells["A2"].StyleName = "new-name-style";
+            testSheet.Cells["A3"].StyleName = "new-name-style";
+
+            testPackage.Workbook.Calculate();
+            testPackage.SaveAs(@"c:\temp\s656.xlsx");
+        }
+        [TestMethod]
 		public void s616()
 		{
 			using (var package = OpenTemplatePackage("s616.xlsx"))
@@ -323,5 +353,49 @@ namespace EPPlusTest
 				SaveAndCleanup(package);
 			}
 		}
-	}
+        [TestMethod]
+        public void s668()
+        {
+			SwitchToCulture("zh");
+			try
+			{
+				using (var package = OpenTemplatePackage("s668.xlsx"))
+				{
+					ExcelWorksheet worksheet = package.Workbook.Worksheets["test"];
+					try
+					{
+						ExcelCalculationOption excelCalculationOption = new ExcelCalculationOption();
+						excelCalculationOption.AllowCircularReferences = true;
+						worksheet.Calculate(excelCalculationOption);
+					}
+					catch (Exception ex)
+					{
+
+
+					}
+					SaveAndCleanup(package);
+				}
+				using (var package = OpenPackage("s668.xlsx"))
+				{
+					ExcelWorksheet worksheet = package.Workbook.Worksheets["test"];
+					try
+					{
+						ExcelCalculationOption excelCalculationOption = new ExcelCalculationOption();
+						excelCalculationOption.AllowCircularReferences = true;
+						worksheet.Calculate(excelCalculationOption);
+					}
+					catch (Exception ex)
+					{
+
+
+					}
+					SaveWorkbook("s668-Saved.xlsx", package);
+				}
+			}
+			finally
+			{
+                SwitchBackToCurrentCulture();
+            }
+        }
+    }
 }

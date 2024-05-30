@@ -53,7 +53,6 @@ namespace OfficeOpenXml.FormulaParsing
         /// Constructor
         /// </summary>
         /// <param name="excelDataProvider">An <see cref="ExcelDataProvider"></see></param>
-        /// <param name="package">Excel package to calculate</param>
         /// <param name="parsingContext">Parsing context</param>
         internal FormulaParser(ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
         {
@@ -203,5 +202,5 @@ namespace OfficeOpenXml.FormulaParsing
                 _parsingContext.Configuration.Logger.Dispose();
             }
         }
-    }
+	}
 }

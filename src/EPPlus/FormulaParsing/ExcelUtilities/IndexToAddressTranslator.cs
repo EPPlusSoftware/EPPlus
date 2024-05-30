@@ -59,7 +59,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         public string ToAddress(int col, int row)
         {
             var fixedCol = _excelReferenceType == ExcelReferenceType.AbsoluteRowAndColumn ||
-                           _excelReferenceType == ExcelReferenceType.RelativeRowAbsolutColumn;
+                           _excelReferenceType == ExcelReferenceType.RelativeRowAbsoluteColumn;
             var colString = GetColumnLetter(col, fixedCol);
             return colString + GetRowNumber(row);
         }

@@ -57,12 +57,24 @@ namespace OfficeOpenXml
                 return new ToCollectionRangeOptions();
             }
         }
+        /// <summary>
+        /// If the data is transposed or not
+        /// </summary>
+        public bool DataIsTransposed { get; set; } = false;
     }
+
+#if (!NET35)
     /// <summary>
     /// Base class for settings to the ToCollection method.
     /// <see cref="ExcelRangeBase.ToCollection{T}()"/>
     /// <see cref="ExcelTable.ToCollection{T}()"/>
     /// </summary>
+#else
+    /// <summary>
+    /// Base class for settings to the ToCollection method.
+    /// <see cref="ExcelRangeBase.ToCollection{T}()"/>
+    /// </summary>
+#endif
     public abstract class ToCollectionOptions
     {
         /// <summary>
@@ -83,10 +95,16 @@ namespace OfficeOpenXml
         /// </summary>
         public ToCollectionConversionFailureStrategy ConversionFailureStrategy { get; set; }
     }
+#if (!NET35)
     /// <summary>
     /// Settings for the ToCollection method.
     /// <see cref="ExcelTable.ToCollection{T}()"/>
     /// </summary>
+#else
+    /// <summary>
+    /// Settings for the ToCollection method.
+    /// </summary>
+#endif
     public class ToCollectionTableOptions : ToCollectionOptions
     {
         /// <summary>

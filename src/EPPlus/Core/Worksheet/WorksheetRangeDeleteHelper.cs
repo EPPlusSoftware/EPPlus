@@ -506,20 +506,20 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void DeleteFilterAddress(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
         {
             var ws = range.Worksheet;
-            if (ws.AutoFilterAddress != null && effectedAddress.Collide(ws.AutoFilterAddress) != ExcelAddressBase.eAddressCollition.No)
+            if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollition.No)
             {
-                var firstRow = new ExcelAddress(ws.AutoFilterAddress._fromRow, ws.AutoFilterAddress._fromCol, ws.AutoFilterAddress._fromRow, ws.AutoFilterAddress._toCol);
+                var firstRow = new ExcelAddress(ws.AutoFilter.Address._fromRow, ws.AutoFilter.Address._fromCol, ws.AutoFilter.Address._fromRow, ws.AutoFilter.Address._toCol);
                 if (range.Collide(firstRow, true) >= ExcelAddressBase.eAddressCollition.Inside)
                 {
-                    ws.AutoFilterAddress = null;
+                    ws.AutoFilter.Address = null;
                 }
                 else if (shift == eShiftTypeDelete.Up)
                 {
-                    ws.AutoFilterAddress = ws.AutoFilterAddress.DeleteRow(range._fromRow, range.Rows);
+                    ws.AutoFilter.Address = ws.AutoFilter.Address.DeleteRow(range._fromRow, range.Rows);
                 }
                 else
                 {
-                    ws.AutoFilterAddress = ws.AutoFilterAddress.DeleteColumn(range._fromCol, range.Columns);
+                    ws.AutoFilter.Address = ws.AutoFilter.Address.DeleteColumn(range._fromCol, range.Columns);
                 }
             }
         }

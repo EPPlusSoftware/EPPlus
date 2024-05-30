@@ -99,8 +99,10 @@ namespace EPPlusTest.LoadFunctions
 
             public decimal Salary { get; set; }
 
+#nullable enable
             [EpplusNestedTableColumn]
             public Employer? Employer { get; set; }
+#nullable disable
         }
 
         internal class Employer

@@ -10,15 +10,17 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
-    public class OperatorsDict : Dictionary<string, IOperator>
+    /// <summary>
+    /// Operators dictionary
+    /// </summary>
+    internal class OperatorsDict : Dictionary<string, IOperator>
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public OperatorsDict()
         {
             Add("+", Operator.Plus);
@@ -54,8 +56,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
         }
     }
-    public class OperatorsEnumDict : Dictionary<Operators, IOperator>
+    /// <summary>
+    /// Operators enum dict
+    /// </summary>
+    internal class OperatorsEnumDict : Dictionary<Operators, IOperator>
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public OperatorsEnumDict()
         {
             Add(Operators.Plus, Operator.Plus);

@@ -679,10 +679,10 @@ namespace OfficeOpenXml
         string _paneNodePath = "d:pane";
         string _selectionNodePath = "d:selection";
         /// <summary>
-        /// Freeze the columns/rows to left and above the cell
+        /// Freeze the columns and rows starting from <see cref="TopLeftCell"/>
         /// </summary>
-        /// <param name="Row"></param>
-        /// <param name="Column"></param>
+        /// <param name="Row">Rows from the <see cref="TopLeftCell"/>. Starts from 1</param>
+        /// <param name="Column">Columns from the <see cref="TopLeftCell"/>. Starts from 1</param>
         public void FreezePanes(int Row, int Column)
         {
             //TODO:fix this method to handle splits as well.

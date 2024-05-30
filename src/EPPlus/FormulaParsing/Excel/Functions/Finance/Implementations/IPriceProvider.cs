@@ -14,8 +14,22 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
+    /// <summary>
+    /// IPriceProvider
+    /// </summary>
     public interface IPriceProvider
     {
+        /// <summary>
+        /// GetPrice
+        /// </summary>
+        /// <param name="settlement"></param>
+        /// <param name="maturity"></param>
+        /// <param name="rate"></param>
+        /// <param name="yield"></param>
+        /// <param name="redemption"></param>
+        /// <param name="frequency"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         double GetPrice(DateTime settlement, DateTime maturity, double rate, double yield, double redemption, int frequency, DayCountBasis basis = DayCountBasis.US_30_360);
     }
 }

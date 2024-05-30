@@ -18,6 +18,9 @@ using System.Drawing;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ExcelConditionalFormattingColorScaleValue
     {
         int _priority;
@@ -26,10 +29,11 @@ namespace OfficeOpenXml.ConditionalFormatting
             Color color,
             double value,
             string formula,
-            int priority)
+            int priority,
+            ExcelStyles styles)
         {
             Type = (eExcelConditionalFormattingValueObjectType)type;
-            _colorSettings = new ExcelDxfColor(null, eStyleClass.Fill, SetColor);
+            _colorSettings = new ExcelDxfColor(styles, eStyleClass.Fill, SetColor);
             Color = color;
             Value = value;
             if(Type != eExcelConditionalFormattingValueObjectType.Percentile)
@@ -42,8 +46,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal ExcelConditionalFormattingColorScaleValue(
         eExcelConditionalFormattingValueObjectType? type,
         Color color,
-        int priority) 
-        : this(type, color, double.NaN, null, priority)
+        int priority, ExcelStyles styles) 
+        : this(type, color, double.NaN, null, priority, styles)
         {
         }
 

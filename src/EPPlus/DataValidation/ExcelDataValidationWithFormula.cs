@@ -27,6 +27,9 @@ namespace OfficeOpenXml.DataValidation
     public abstract class ExcelDataValidationWithFormula<T> : ExcelDataValidation
         where T : IExcelDataValidationFormula
     {
+        /// <summary>
+        /// Name of worksheet this datavalidation belongs to
+        /// </summary>
         internal protected string _workSheetName;
 
         /// <summary>

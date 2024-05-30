@@ -198,7 +198,7 @@ namespace EPPlusTest.Core.Range
                 ws.Cells["A1:A4"].Style.Numberformat.Format = fmt;
 
                 Assert.AreEqual("5,555.00 kr", ws.Cells["A1"].Text);
-                Assert.AreEqual("-   kr", ws.Cells["A2"].Text);
+                Assert.AreEqual("- kr", ws.Cells["A2"].Text);
                 Assert.AreEqual("-5,555.00 kr", ws.Cells["A3"].Text);
                 Assert.AreEqual("Text", ws.Cells["A4"].Text);
             }

@@ -64,9 +64,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         }
 
         /// <summary>
-        /// 
+        /// Create
         /// </summary>
-        /// <param name="worksheetName">will be used if no worksheet name is specified in <paramref name="address"/></param>
         /// <param name="wsIx">The worksheet index.</param>
         /// <param name="address">address of a range</param>
         /// <returns></returns>

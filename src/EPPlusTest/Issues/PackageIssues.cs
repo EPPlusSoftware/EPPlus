@@ -42,5 +42,14 @@ namespace EPPlusTest.Issues
 				}
 			}
 		}
-	}
+        [TestMethod]
+        public void i1440()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("i1440.xlsx"))
+            {
+				var ws = package.Workbook.Worksheets[0];
+            }
+        }
+
+    }
 }

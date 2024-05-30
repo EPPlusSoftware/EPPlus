@@ -534,7 +534,6 @@ namespace EPPlusTest
             _pck.Workbook.Properties.SharedDoc = false;
             _pck.Workbook.Properties.ScaleCrop = false;
 
-
             _pck.Workbook.Properties.SetCustomPropertyValue("DateTest", new DateTime(2008, 12, 31));
             Console.WriteLine(_pck.Workbook.Properties.GetCustomPropertyValue("DateTest").ToString());
             _pck.Workbook.Properties.SetCustomPropertyValue("Author", "Jan Källman");
@@ -1259,6 +1258,34 @@ namespace EPPlusTest
             Assert.AreEqual(6, range.End.Row);
         }
         [TestMethod]
+        public void LoadDataReaderTransposed()
+        {
+            if (_pck == null) _pck = new ExcelPackage();
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader Transposed");
+            ExcelRangeBase range;
+            using (var dt = GetDataTable())
+            {
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = ws.Cells["A1"].LoadFromDataReader(reader, true, "My_Table_Transp", true, TableStyles.Medium5);
+                }
+                Assert.AreEqual(1, range.Start.Column);
+                Assert.AreEqual(3, range.End.Column);
+                Assert.AreEqual(1, range.Start.Row);
+                Assert.AreEqual(4, range.End.Row);
+
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = ws.Cells["A5"].LoadFromDataReader(reader, false, "My_Table2_Transp", true, TableStyles.Medium5);
+                }
+            }
+            Assert.AreEqual("A5:B8", range.Address);
+            Assert.AreEqual(1, range.Start.Column);
+            Assert.AreEqual(2, range.End.Column);
+            Assert.AreEqual(5, range.Start.Row);
+            Assert.AreEqual(8, range.End.Row);
+        }
+        [TestMethod]
         public async Task LoadDataReaderAsync()
         {
             if (_pck == null) _pck = new ExcelPackage();
@@ -1284,6 +1311,34 @@ namespace EPPlusTest
             Assert.AreEqual(4, range.End.Column);
             Assert.AreEqual(5, range.Start.Row);
             Assert.AreEqual(6, range.End.Row);
+        }
+        [TestMethod]
+        public async Task LoadDataReaderAsyncTransposed()
+        {
+            if (_pck == null) _pck = new ExcelPackage();
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataReader Async Transposed");
+            ExcelRangeBase range;
+            using (var dt = GetDataTable())
+            {
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = await ws.Cells["A1"].LoadFromDataReaderAsync(reader, true, "My_Table_Async_transp", true, TableStyles.Medium5).ConfigureAwait(false);
+                }
+                Assert.AreEqual(1, range.Start.Column);
+                Assert.AreEqual(3, range.End.Column);
+                Assert.AreEqual(1, range.Start.Row);
+                Assert.AreEqual(4, range.End.Row);
+
+                using (var reader = dt.CreateDataReader())
+                {
+                    range = await ws.Cells["A5"].LoadFromDataReaderAsync(reader, false, "My_Table_Async2_transp", true, TableStyles.Medium5).ConfigureAwait(false);
+                }
+            }
+            Assert.AreEqual("A5:B8", range.Address);
+            Assert.AreEqual(1, range.Start.Column);
+            Assert.AreEqual(2, range.End.Column);
+            Assert.AreEqual(5, range.Start.Row);
+            Assert.AreEqual(8, range.End.Row);
         }
         private static DataTable GetDataTable()
         {
@@ -1467,6 +1522,18 @@ namespace EPPlusTest
             var range = ws.Cells["A1"].LoadFromArrays(testArray);
             Assert.AreEqual("A1:D2", range.Address);
         }
+        [TestMethod]
+        public void LoadArrayTransposed()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Loaded Array Transposed");
+            List<object[]> testArray = new List<object[]>() { new object[] { 3, 4, 5 }, new string[] { "Test1", "test", "5", "6" } };
+            var range = ws.Cells["A1"].LoadFromArraysTransposed(testArray);
+            Assert.AreEqual("A1:B4", range.Address);
+            Assert.AreEqual(3, ws.Cells["A1"].Value);
+            Assert.AreEqual("Test1", ws.Cells["B1"].Value);
+            Assert.AreEqual("6", ws.Cells["B4"].Value);
+        }
+
         [TestMethod]
         public void SetBackground()
         {

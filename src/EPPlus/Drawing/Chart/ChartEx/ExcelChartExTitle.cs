@@ -24,6 +24,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             
         }
+        /// <summary>
+        /// Richtext.Text shorthand
+        /// </summary>
         public override string Text
         {
             get
