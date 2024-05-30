@@ -1436,10 +1436,9 @@ namespace OfficeOpenXml.Drawing
             }
 
             //Create copy of source worksheet node in target worksheet.xml
-            XmlNode wsSlicerNode = null;
+            XmlNode wsSlicerNode = worksheet.TopNode.SelectSingleNode("d:extLst/d:ext/x14:slicerList/x14:slicer", worksheet.NameSpaceManager);
             if (worksheet != _drawings.Worksheet)
             {
-                wsSlicerNode = worksheet.TopNode.SelectSingleNode("d:extLst/d:ext/x14:slicerList/x14:slicer", worksheet.NameSpaceManager);
                 if (wsSlicerNode == null)
                 {
                     ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
@@ -1450,9 +1449,17 @@ namespace OfficeOpenXml.Drawing
 
             ////Set Name in drawingXML
             var drawNodeName = drawNode.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
+            if(drawNodeName == null && isGroupShape)
+            {
+                drawNodeName = drawNode.SelectSingleNode("mc:Choice/xdr:graphicFrame/xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
+            }
             var drawNodeNameValue = drawNodeName.Attributes["name"].Value + " " + worksheet.Workbook._nextDrawingId++;
             drawNodeName.Attributes["name"].Value = drawNodeNameValue;
             var drawNodeSlicerName = drawNode.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/sle:slicer", worksheet._drawings.NameSpaceManager);
+            if (drawNodeSlicerName == null && isGroupShape)
+            {
+                drawNodeSlicerName = drawNode.SelectSingleNode("mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/sle:slicer", worksheet._drawings.NameSpaceManager);
+            }
             drawNodeSlicerName.Attributes["name"].Value = drawNodeNameValue;
 
             //Copy Slicer xml node
@@ -1509,15 +1516,11 @@ namespace OfficeOpenXml.Drawing
             var stream = new StreamWriter(part.GetStream(FileMode.OpenOrCreate, FileAccess.Write));
             xmlTarget.Save(stream);
 
-            if (!isGroupShape && isNewPart)
+            if (isNewPart)
             {
                 //Now create the new relationship between the worksheet and the slicer.
                 var relNode = (XmlElement)(worksheet.WorksheetXml.DocumentElement.SelectSingleNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{xmlSource.Rel.Id}']", worksheet.NameSpaceManager));
                 relNode.Attributes["r:id"].Value = relationship.Id;
-            }
-            if (worksheet == _drawings.Worksheet)
-            {
-                xmlSource.XmlDocument.LastChild.AppendChild(importNode);
             }
             return drawNode;
         }
