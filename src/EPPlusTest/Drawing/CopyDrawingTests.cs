@@ -262,9 +262,9 @@ namespace EPPlusTest.Drawing
         {
             using var p = OpenTemplatePackage("CopyDrawings.xlsx");
             var ws3 = p.Workbook.Worksheets[3];
-            Assert.IsTrue(ws3.Drawings.Count < 3);
-            ws3.Drawings[1].Copy(ws3, 1, 25, 0, 0);
-            Assert.AreEqual(3, ws3.Drawings.Count);
+            Assert.IsTrue(ws3.Drawings.Count < 4);
+            ws3.Drawings[1].Copy(ws3, 1, 15, 0, 0);
+            Assert.AreEqual(4, ws3.Drawings.Count);
             SaveAndCleanup(p);
         }
     }

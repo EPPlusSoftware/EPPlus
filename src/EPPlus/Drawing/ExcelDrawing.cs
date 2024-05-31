@@ -1453,14 +1453,14 @@ namespace OfficeOpenXml.Drawing
             {
                 drawNodeName = drawNode.SelectSingleNode("mc:Choice/xdr:graphicFrame/xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
             }
-            var drawNodeNameValue = worksheet._drawings.GetUniqueDrawingName(drawNodeName.Attributes["name"].Value);
-            drawNodeName.Attributes["name"].Value = drawNodeNameValue;
+            var slicerName = worksheet.Workbook.GetSlicerName(drawNodeName.Attributes["name"].Value); //worksheet._drawings.GetUniqueDrawingName(drawNodeName.Attributes["name"].Value) + "fsgs";
+            drawNodeName.Attributes["name"].Value = slicerName;
             var drawNodeSlicerName = drawNode.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/sle:slicer", worksheet._drawings.NameSpaceManager);
             if (drawNodeSlicerName == null && isGroupShape)
             {
                 drawNodeSlicerName = drawNode.SelectSingleNode("mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/sle:slicer", worksheet._drawings.NameSpaceManager);
             }
-            drawNodeSlicerName.Attributes["name"].Value = drawNodeNameValue;
+            drawNodeSlicerName.Attributes["name"].Value = slicerName;
 
             //Copy Slicer xml node
             Uri uri;
@@ -1520,7 +1520,7 @@ namespace OfficeOpenXml.Drawing
                     break;
                 }
             }
-            importNode.Attributes["name"].Value = drawNodeNameValue;
+            importNode.Attributes["name"].Value = slicerName;
             var newNode = xmlTarget.ImportNode(importNode, true);
             xmlTarget.LastChild.AppendChild(newNode);
             var stream = new StreamWriter(part.GetStream(FileMode.OpenOrCreate, FileAccess.Write));
