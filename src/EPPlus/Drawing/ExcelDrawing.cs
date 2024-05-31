@@ -1478,10 +1478,20 @@ namespace OfficeOpenXml.Drawing
             {
                 part = worksheet.SlicerXmlSources._part;
             }
-            
+
             var xmlTarget = new XmlDocument();
-            var sourceSlicer = this as ExcelTableSlicer;
-            var xmlSource = _drawings.Worksheet.SlicerXmlSources._list.Find(x => x == sourceSlicer._xmlSource);
+            ExcelSlicerXmlSource xmlSource = null;
+            string name = string.Empty;
+            if (this is ExcelTableSlicer ets)
+            {
+                xmlSource = _drawings.Worksheet.SlicerXmlSources._list.Find(x => x == ets._xmlSource);
+                name = ets.Name;
+            }
+            else if(this is ExcelPivotTableSlicer epts)
+            {
+                xmlSource = _drawings.Worksheet.SlicerXmlSources._list.Find(x => x == epts._xmlSource);
+                name = epts.Name;
+            }
             //If different drawings create a new xml. (Maybe check for exsisting xml in new drawings and append instead)
             if (_drawings != worksheet._drawings)
             {
@@ -1504,7 +1514,7 @@ namespace OfficeOpenXml.Drawing
             XmlNode importNode = null;
             foreach (XmlNode node in slicerNodes)
             {
-                if (node.Attributes["name"].Value == sourceSlicer.Name)
+                if (node.Attributes["name"].Value == name)
                 {
                     importNode = node.CloneNode(true);
                     break;

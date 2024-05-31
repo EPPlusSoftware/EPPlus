@@ -255,5 +255,17 @@ namespace EPPlusTest.Drawing
             var ex = Assert.ThrowsException<InvalidOperationException>(() => ws2.Drawings[6].Copy(ws, 5, 40));
             Assert.AreEqual("Table slicers can't be copied from one workbook to another.", ex.Message);
         }
+
+        //Copy PivotTable Slicers
+        [TestMethod]
+        public void CopyPivotSlicerSameWorksheet()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws3 = p.Workbook.Worksheets[3];
+            Assert.IsTrue(ws3.Drawings.Count < 3);
+            ws3.Drawings[1].Copy(ws3, 1, 25, 0, 0);
+            Assert.AreEqual(3, ws3.Drawings.Count);
+            SaveAndCleanup(p);
+        }
     }
 }
