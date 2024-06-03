@@ -53,6 +53,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 var xRows = rangeX.Size.NumberOfRows;
                 var yRows = rangeY.Size.NumberOfRows;
 
+                if (arguments.Count() > 2 && arguments[2].DataType != DataType.Empty) constVar = ArgToBool(arguments, 2); //Need to change this
+                if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
+
                 if ((xRows != yRows && xColumns == yColumns)
                     || (xColumns != yColumns && xRows == yRows))
                 {
@@ -84,14 +87,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                     if (multipleXranges && xColumns != yColumns)
                     {
                         columnArray = true;
-                        c = xColumns;
+
                         r = xRows;
+                        c = xColumns;
                     }
                     else if (multipleXranges && xRows != yRows)
                     {
                         rowArray = true;
-                        r = xRows;
-                        c = xColumns;
+                        r = xColumns;
+                        c = xRows;
                     }
                 }
                 else
@@ -179,25 +183,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 //        }
                 //    }
                 //}
-                else if (multipleXranges && xRows != yRows)
-                {
-                    rowArray = true;
+                //else if (multipleXranges && xRows != yRows)
+                //{
+                //    rowArray = true;
 
-                    var rowCount = 0;
-                    var listCount = 0;
-                    while (rowCount < xRows)
+                //    var rowCount = 0;
+                //    var listCount = 0;
+                //    while (rowCount < xRows)
+                //    {
+                //        rowCount += 1;
+                //        while (listCount < (xColumns * rowCount))
+                //        {
+                //            xRanges[rowCount - 1][listCount] = knownXs[listCount];
+                //            listCount += 1;
+                //        }
+                //    }
+                //}
+                else if (rowArray)
+                {
+                    //This shifts data thats row-based to column-based.
+                    var counter = 0;
+                    var delimiter = (constVar) ? xRanges[0].Count() - 1 : xRanges[0].Count();
+                    for (var i = 0; i < delimiter; i++)
                     {
-                        rowCount += 1;
-                        while (listCount < (xColumns * rowCount))
+                        for (var j = 0; j < xRanges.Count(); j++)
                         {
-                            xRanges[rowCount - 1][listCount] = knownXs[listCount];
-                            listCount += 1;
+                            xRanges[j][i] = knownXs[counter];
+                            counter += 1;
                         }
                     }
                 }
-
-                if (arguments.Count() > 2 && arguments[2].DataType != DataType.Empty) constVar = ArgToBool(arguments, 2); //Need to change this
-                if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
 
                 //List<List<double>> xRangeList = new List<List<double>>();
                 //double[][] xRangeList = new double[r][];

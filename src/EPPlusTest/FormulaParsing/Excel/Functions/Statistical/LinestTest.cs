@@ -332,6 +332,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
         }
 
         [TestMethod]
+        // Test currently fails because of keeping the floating error, making the code for collinearity detection not work.
         public void LinestMultipleXRangesTwoByTwo() //This test returns failed because of collinearity
         {
             using (var package = new ExcelPackage())
@@ -387,7 +388,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result8 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
                 var result9 = sheet.Cells["C10"].Value;
                 var result10 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
-                var result11 = (int)sheet.Cells["B11"].Value;
+                var result11 = (double)sheet.Cells["B11"].Value;
                 var result12 = sheet.Cells["C11"].Value;
                 var result13 = System.Math.Round((double)sheet.Cells["A12"].Value, 8);
                 var result14 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
@@ -443,7 +444,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result8 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
                 var result9 = sheet.Cells["C10"].Value;
                 var result10 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
-                var result11 = (int)sheet.Cells["B11"].Value;
+                var result11 = (double)sheet.Cells["B11"].Value;
                 var result12 = sheet.Cells["C11"].Value;
                 var result13 = System.Math.Round((double)sheet.Cells["A12"].Value, 8);
                 var result14 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
@@ -483,7 +484,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["E2"].Value = 2534;
                 sheet.Cells["E3"].Value = 6769;
                 //sheet.Cells["E3"].Value = 5;
-                sheet.Cells["A8"].Formula = "LINEST(A2:A3,B2:E3,false,TRUE)";
+                sheet.Cells["A8"].Formula = "LINEST(A2:A3,B2:E3,TRUE,TRUE)";
                 sheet.Calculate();
                 var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
                 var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 0);
@@ -517,7 +518,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["A2"].Value = 10;
                 sheet.Cells["A3"].Value = 20;
                 sheet.Cells["A4"].Value = 30;
-                sheet.Cells["A5"].Value = 40;
+                sheet.Cells["A5"].Value =  40;
                 sheet.Cells["A6"].Value = 50;
                 sheet.Cells["B2"].Value = 1;
                 sheet.Cells["B3"].Value = 4;
@@ -531,12 +532,36 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["C6"].Value = 35;
                 sheet.Cells["A8"].Formula = "LINEST(A2:A6,B2:C6,TRUE,true)";
                 sheet.Calculate();
-                var result1 = sheet.Cells["A8"].Value;
-                var result2 = sheet.Cells["B8"].Value;
-                var result3 = sheet.Cells["C8"].Value;
-                Assert.AreEqual(0d, result1);
-                Assert.AreEqual(0.096774194d, result2);
-                Assert.AreEqual(5.709677419d, result3);
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 6);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 0);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 5);
+                var result4 = System.Math.Round((double)sheet.Cells["A9"].Value, 6);
+                var result5 = System.Math.Round((double)sheet.Cells["B9"].Value, 0);
+                var result6 = System.Math.Round((double)sheet.Cells["C9"].Value, 6);
+                var result7 = System.Math.Round((double)sheet.Cells["A10"].Value, 6);
+                var result8 = System.Math.Round((double)sheet.Cells["B10"].Value, 5);
+                var result9 = sheet.Cells["C10"].Value;
+                var result10 = System.Math.Round((double)sheet.Cells["A11"].Value, 5);
+                var result11 = System.Math.Round((double)sheet.Cells["B11"].Value, 0);
+                var result12 = sheet.Cells["C11"].Value;
+                var result13 = System.Math.Round((double)sheet.Cells["A12"].Value, 4);
+                var result14 = System.Math.Round((double)sheet.Cells["B12"].Value, 4);
+                var result15 = sheet.Cells["C12"].Value;
+                Assert.AreEqual(1.479751d, result1);
+                Assert.AreEqual(0d, result2);
+                Assert.AreEqual(-7.58567d, result3);
+                Assert.AreEqual(0.368054d, result4);
+                Assert.AreEqual(0d, result5);
+                Assert.AreEqual(9.891007d, result6);
+                Assert.AreEqual(0.843458, result7);
+                Assert.AreEqual(7.22362, result8);
+                Assert.AreEqual(16.16418d, result10);
+                Assert.AreEqual(3d, result11);
+                Assert.AreEqual(843.4579d, result13);
+                Assert.AreEqual(156.5421, result14);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result9);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result12);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result15);
             }
         }
 
@@ -600,7 +625,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["A2"].Value = 47;
                 sheet.Cells["A3"].Value = 3287389;
                 sheet.Cells["A4"].Value = 23.6789;
-                sheet.Cells["A5"].Value = 246.3673287;
+                sheet.Cells["A5"].Value = 246.3673;
                 sheet.Cells["B1"].Value = 1;
                 sheet.Cells["B2"].Value = 1;
                 sheet.Cells["B3"].Value = 1;
@@ -616,7 +641,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["D3"].Value = 132.2;
                 sheet.Cells["D4"].Value = 42;
                 sheet.Cells["D5"].Value = 16.1;
-                sheet.Cells["D6"].Formula = "Linest(A1:A5,B1:D5,true,TRUE)";
+                sheet.Cells["E7"].Formula = "Linest(A1:A5,B1:D5,FALSE,TRUE)";
                 sheet.Calculate();
 
 

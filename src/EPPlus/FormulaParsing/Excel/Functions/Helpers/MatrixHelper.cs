@@ -36,13 +36,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         internal static double[][] TransposeMatrix(double[][] matrix, int rows, int cols)
         {
             //This function takes a jagged matrix as input, and returns its transpose.
-            double[][] transposedMat = CreateMatrix(rows, cols);
+            double[][] transposedMat = CreateMatrix(cols, rows);
 
             for (var r = 0; r < rows; r++)
             {
                 for (var c = 0; c < cols; c++)
                 {
-                    transposedMat[r][c] = matrix[c][r];
+                    transposedMat[c][r] = matrix[r][c];
                 }
             }
             return transposedMat;
@@ -370,6 +370,113 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             return elements;
         }
+
+        internal static double[][] CollinearityTransformer(double[] dependentVariables, double[][] independentVariables, double[] coefficients)
+        {
+            //This function identifies multi-collinearity and returns a matrix where redundant columns are dropped
+            var correlationMat = GetCorrelationMatrix(independentVariables);
+            var threshold = 0.9; //Is this a suitable threshold?
+            List<int> colList = new List<int>();
+            List<int> rowList = new List<int>();
+            List<List<int>> pairs = new List<List<int>>();
+
+            for (var i = 0; i < correlationMat.Length; i++)
+            {
+                for (var j = 0; j < correlationMat[i].Length; j++)
+                {
+                    if (i != j)
+                    {
+                        if (correlationMat[i][j] >= threshold)
+                        {
+                            if (!colList.Contains(i) && !rowList.Contains(j))
+                            {
+                                colList.Add(i);
+                                rowList.Add(j);
+                                List<int> tmp = new List<int>();
+                                tmp.Add(j);
+                                tmp.Add(i);
+                                if (pairs.Contains(tmp) == false) pairs.Add(tmp);
+                            }
+                        }
+                    }
+                }
+            }
+
+            double[] redundantCols = new double[pairs.Count];
+            for (var i = 0; i < pairs.Count(); i++)
+            {
+                redundantCols[i] = (Math.Abs(pairs[i][0]) < Math.Abs(pairs[i][1])) ? pairs[i][0] : pairs[i][1];
+            }
+
+            double[][] correctedMatrix = new double[independentVariables.Count() - redundantCols.Count()][];
+
+            var counter = -1;
+            for (var i = 0; i < independentVariables.Count(); i++)
+            {
+                if (redundantCols.Contains(i) != false)
+                {
+                    counter += 1;
+                    correctedMatrix[i] = new double[1];
+                    correctedMatrix[i] = independentVariables[i];
+                }
+            }
+
+            return correctedMatrix;
+
+        }
+
+        internal static double[][] GetCorrelationMatrix(double[][] matrix)
+        {
+            int numRows = matrix.Length;
+            int numCols = matrix[0].Length;
+
+            double[][] correlationMatrix = new double[numCols][];
+
+            for (var i = 0; i < numCols; i++)
+            {
+                correlationMatrix[i] = new double[numCols];
+                for (var j = 0; j < numCols; j++)
+                {
+                    correlationMatrix[i][j] = GetCorrelation(matrix, i, j);
+                }
+            }
+
+            return correlationMatrix;
+        }
+
+        internal static double GetMean(double[][] mat, int col)
+        {
+            int numRows = mat.Length;
+            double sum = 0.0;
+
+            for (int i = 0; i < numRows; i++)
+            {
+                sum += mat[i][col];
+            }
+
+            return sum / numRows;
+        }
+
+        internal static double GetCorrelation(double[][] matrix, int var1, int var2)
+        {
+            int numRows = matrix.Length;
+            double mean1 = GetMean(matrix, var1);
+            double mean2 = GetMean(matrix, var2);
+            double covariance = 0d;
+            double variance1 = 0d;
+            double variance2 = 0d;
+
+            for (var i = 0; i < numRows; i++)
+            {
+                double diff1 = matrix[i][var1];
+                double diff2 = matrix[i][var2];
+                covariance += diff1 * diff2;
+                variance1 += diff1 * diff1;
+                variance2 += diff2 * diff2;
+            }
+            return covariance / Math.Sqrt(variance1 * variance2);
+        }
+
     }
 }
 

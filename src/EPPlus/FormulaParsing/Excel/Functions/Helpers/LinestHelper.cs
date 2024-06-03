@@ -49,19 +49,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
             }
 
-            var width = xRangeList.Count();
-            var height = xRangeList[0].Count();
+            var width = xRangeList[0].Count();
+            var height = xRangeList.Count();
 
-            //Add check if all values in a column is the same, that variable is "redundant in that case!
+            //Add check if all values in a column are the same, that variable is "redundant in that case!
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
-
+            double[][] nonCollinearX = new double[height][];
             if (matrixIsSingular)
             {
                 //var xRangeListCopy = new List<List<double>>(); //Create copy of independentVariables to use in calculations!
-                double[][] xRangeListCopy = new double[xRangeList.Count() - 1][];
+                double[][] xRangeListCopy = new double[xRangeList.Count()][];
                 //xRangeList.ForEach(x => xRangeListCopy.Add(x));
                 for (var r = 0; r < xRangeList.Count(); r++)
                 {
+                    xRangeListCopy[r] = new double[xRangeList[r].Count()];
                     for (var c = 0; c < xRangeList[0].Count(); c++)
                     {
                         xRangeListCopy[r][c] = xRangeList[r][c];
@@ -71,6 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var singleRegressionData = PerformCollinearityCheck(knownYs, xRangeListCopy, constVar);
                 var rSquaredValues = singleRegressionData.Item1;
                 var coefficients = singleRegressionData.Item2;
+                var new_mat = MatrixHelper.CollinearityTransformer(knownYs, xRangeList, coefficients);
                 //var threshold = 1.93294034300795E-06;
                 var threshold = 0.05;
 
@@ -97,40 +99,90 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var saveThisColumn = 0;
                 for (var i = 0; i < coefficients.Count(); i++)
                 {
-                    if (Math.Abs(coefficients[i]) == saveThisValue) saveThisColumn = i; //Not sure about this
+                    if (Math.Abs(coefficients[i]) == saveThisValue) saveThisColumn = i;
                 }
 
-                for (var i = 0; i < xRangeListCopy.Count(); i++)
+                for(var i = 0; i < xRangeListCopy.Count(); i++)
                 {
-                    if (collinearityColumns.Contains(i) && i != saveThisColumn)
-                    {
-                        xRangeListCopy[i] = null;
-                    }
+                    nonCollinearX[i] = new double[1];
+                    nonCollinearX[i][0] = xRangeListCopy[i][saveThisColumn];
                 }
-                //xRangeListCopy.RemoveAll(x => x == null);
-                xRangeListCopy = xRangeListCopy.Where(xArray => xArray != null).ToArray();
-                for (var i = 0; i < xRangeListCopy.Count(); i++)
-                {
-                    xRangeListCopy[i] = xRangeListCopy[i].Where(x => x != null).ToArray();
-                }
+
+                //for (var i = 0; i < xRangeListCopy.Count(); i++)
+                //{
+                //    if (collinearityColumns.Contains(i) && i != saveThisColumn)
+                //    {
+                //        xRangeListCopy[i] = null;
+                //    }
+                //}
+                ////xRangeListCopy.RemoveAll(x => x == null);
+                //xRangeListCopy = xRangeListCopy.Where(xArray => xArray != null).ToArray();
+                //for (var i = 0; i < xRangeListCopy.Count(); i++)
+                //{
+                //    xRangeListCopy[i] = xRangeListCopy[i].Where(x => x != null).ToArray();
+                //}
                 //removedColumns = collinearityColumns.Count - 1;
-                multipleRegressionSlopes = GetSlope(xRangeListCopy, knownYs, constVar, stats, out bool matIsSingular);
+                //multipleRegressionSlopes = GetSlope(xRangeListCopy, knownYs, constVar, stats, out bool matIsSingular);
+                //multipleRegressionSlopes = GetSlope(nonCollinearX, knownYs, constVar, stats, out bool matIsSingular);
+                
+                //Temporary, remove this solution. Nothing wrong with it but is bad
+                var nominator = 0d;
+                var denominator = 0d;
+                var averageX = 0d;
+                for (var i = 0; i < nonCollinearX.Count(); i++)
+                {
+                    averageX += nonCollinearX[i][0];
+                }
+                averageX /= nonCollinearX.Count();
+                var averageY = knownYs.Average();
+
+                for (var i = 0; i < knownYs.Count(); i++)
+                {
+                    var y = knownYs[i];
+                    var x = nonCollinearX[i][0];
+
+                    if (constVar)
+                    {
+                        nominator += (x - averageX) * (y - averageY);
+                        denominator += (x - averageX) * (x - averageX);
+                    }
+                    else
+                    {
+                        nominator += x * y;
+                        denominator += Math.Pow(x, 2);
+                    }
+
+                }
+
+                var m = (denominator != 0) ? nominator / denominator : 0d;
+                var b = (constVar) ? averageY - (m * averageX) : 0d;
 
                 //populate multipleRegressionSlopes with zeros where column was removed due to collinearity
-                double[] insertZero = new double[1];
-                insertZero[0] = 0d;
+                var size = (constVar) ? xRangeList[0].Count() - 1: xRangeList[0].Count();
+                double[][] tmpArray = new double[size + 1][];
                 for (var i = 0; i < collinearityColumns.Count(); i++)
                 {
+                    tmpArray[i] = new double[1];
                     //if (i != saveThisColumn) multipleRegressionSlopes.Insert((int)collinearityColumns[i], insertZero);
-                    if (i != saveThisColumn) multipleRegressionSlopes[i] = insertZero;
+                    if (i != saveThisColumn)
+                    {
+                        tmpArray[i][0] = 0d;
+                    }
+                    else
+                    {
+                        tmpArray[i][0] = m;
+                    }
                 }
+                tmpArray[tmpArray.Count() - 1] = new double[1];
+                tmpArray[tmpArray.Count() - 1][0] = b;
+                multipleRegressionSlopes = tmpArray;
             }
-            if (!constVar)
-            {
-                double[] zeroIntercept = new double[multipleRegressionSlopes.Count()]; //when const is false, GetSlopes doesnt return an intercept, so we have to add it manually.
-                zeroIntercept[0] = 0d;
-                multipleRegressionSlopes[multipleRegressionSlopes.Count()] = zeroIntercept;
-            }
+            //if (!constVar)
+            //{
+            //    double[] zeroIntercept = new double[multipleRegressionSlopes.Count()]; //when const is false, GetSlopes doesnt return an intercept, so we have to add it manually.
+            //    zeroIntercept[0] = 0d;
+            //    multipleRegressionSlopes[multipleRegressionSlopes.Count()] = zeroIntercept;
+            //}
 
             if (!stats)
             {
@@ -180,7 +232,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     var y = 0d;
                     for (var k = 0; k < width; k++) //check here... was mult.count before
                     {
-                        y += (k != multipleRegressionSlopes.Count()) ? multipleRegressionSlopes[k][0] * xRangeList[k][i] : multipleRegressionSlopes[k][0];
+                        y += (k != multipleRegressionSlopes.Count() - 1) ? multipleRegressionSlopes[k][0] * xRangeList[i][k] : multipleRegressionSlopes[k][0];
                     }
                     estimatedYs.Add(y);
                 }
@@ -208,11 +260,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
                 //Calculating standard errors of all coefficients below
                 var residualMS = (df != 0d) ? ssresid / (height - width) : 0d; //Mean squared of the sum of residual
-                var xT = MatrixHelper.TransposeMatrix(xRangeList, xRangeList.Count(), xRangeList[0].Count());
-                var xTdotX = MatrixHelper.Multiply(xRangeList, xT);
+                var xT = MatrixHelper.TransposeMatrix(xRangeList, height, width);
+                var xTdotX = MatrixHelper.Multiply(xT, xRangeList);
                 //var inverseMat = GetInverse(xTdotX, out bool mIs);
                 var inverseMat = MatrixHelper.Inverse(xTdotX);
-                var mIs = (MatrixHelper.GetDeterminant(xTdotX) == 0) ? true : false;
+                var mIs = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false; //Have not tested this threshold
 
                 if (mIs)
                 {
@@ -227,20 +279,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
                 var standardErrorMat = MatrixHelper.MatrixMultDouble(inverseMat, residualMS);
                 var diagonal = MatrixHelper.MatrixDiagonal(standardErrorMat);
-                var standardErrorList = diagonal.Select(x => Math.Sqrt(x)).ToList(); //Standard errors are derived from the inverse matrix of sum of squares and cross product (SSCP matrix) multiplied with residualMS
+                double[] standardErrorList = new double[diagonal.Count()];
+                for (var i = 0; i < standardErrorList.Count(); i++)
+                {
+                    standardErrorList[i] = Math.Sqrt(diagonal[i]);
+                }
+                //var standardErrorList = diagonal.Select(x => Math.Sqrt(x)).ToList(); //Standard errors are derived from the inverse matrix of sum of squares and cross product (SSCP matrix) multiplied with residualMS
                                                                                      //The standard errors are the squared root of the main diagonal of this matrix.
 
                 if (constVar)
                 {
-                    resultRangeStats.SetValue(1, xRangeList.Count() - 1, standardErrorList[standardErrorList.Count - 1]);
+                    resultRangeStats.SetValue(1, xRangeList[0].Count() - 1, standardErrorList[standardErrorList.Count() - 1]);
                 }
                 else
                 {
-                    resultRangeStats.SetValue(1, xRangeList.Count(), ExcelErrorValue.Create(eErrorType.NA));
+                    resultRangeStats.SetValue(1, xRangeList[0].Count(), ExcelErrorValue.Create(eErrorType.NA));
                 }
 
                 int pos3 = 0;
-                for (var i = (constVar) ? standardErrorList.Count - 2 : standardErrorList.Count - 1; i >= 0; i--)
+                for (var i = (constVar) ? standardErrorList.Count() - 2 : standardErrorList.Count() - 1; i >= 0; i--)
                 {
                     resultRangeStats.SetValue(1, pos3++, standardErrorList[i]);
                 }
@@ -278,22 +335,35 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
         private static double[][] GetSlope(double[][] xValues, double[] yValues, bool constVar, bool stats, out bool matrixIsSingular)
         {
-            var width = xValues.Count();
-            var height = xValues[0].Count();
+            var width = xValues[0].Count();
+            var height = xValues.Count();
             //var xTdotX = MatrixHelper.TransposedMult(xValues, width, height); //Multiply transpose of X with X, denoted X'X
-            var xT = MatrixHelper.TransposeMatrix(xValues, xValues[0].Count(), xValues.Count());
+            var xT = MatrixHelper.TransposeMatrix(xValues, height, width);
             var xTdotX = MatrixHelper.Multiply(xT, xValues);
             var myInverse = MatrixHelper.Inverse(xTdotX);
             //var myInverse = GetInverse(xTdotX, out bool mIs); //Inverse of transpose of X multiplied by X, denoted as (X'X)^-1
             //matrixIsSingular = mIs; matrixIsSingular is an out bool for this function.
             //var dotProduct = MatrixHelper.MatrixMult(myInverse, xValues, false);
-            var dotProduct = MatrixHelper.Multiply(myInverse, xValues);
+            var dotProduct = MatrixHelper.Multiply(myInverse, xT);
             //var b = MatrixHelper.MatrixMultArray(dotProduct, yValues); // b = (X'X)^-1 * X' * Y
             double[][] yValuesJagged = yValues.Select(yVal => new double[] { yVal }).ToArray();
             var b = MatrixHelper.Multiply(dotProduct, yValuesJagged);
 
             //new code
-            matrixIsSingular = (MatrixHelper.GetDeterminant(xTdotX) == 0) ? true : false;
+            matrixIsSingular = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false; //Have not tested this threshold
+
+            if (!constVar)
+            {
+                double[][] extendedB = new double[b.Count() + 1][];
+                for (var i = 0; i < b.Count(); i++)
+                {
+                    extendedB[i] = new double[1];
+                    extendedB[i][0] = b[i][0];
+                }
+                extendedB[extendedB.Count() - 1] = new double[1];
+                extendedB[extendedB.Count() - 1][0] = 0d;
+                return extendedB;
+            }
             return b;
         }
         private static double GetDeterminant(List<List<double>> matrix)
@@ -315,7 +385,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             matrixIsSingular = false;
             var determinant = GetDeterminant(mat);
             //if (Math.Abs(determinant) < 1e-6) matrixIsSingular = true; //check if this threshold holds.
-            if (determinant == 0d) matrixIsSingular = true;
+            if (determinant < 1E-8) matrixIsSingular = true; //Have not tested this threshold
             if (mat.Count == 2)
             {
                 List<List<double>> twoByTwoMat = new List<List<double>>(); //Same here, special case for a 2x2 matrix
@@ -361,31 +431,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             //List<double> rSquaredValues = new List<double>();
             //List<double> coefficients = new List<double>();
             //List<double> ones = new List<double>();
-            double[] rSquaredValues = new double[independentVariables.Count() - 1];
-            double[] coefficients = new double[independentVariables.Count() - 1];
             //for (var i = 0; i < independentVariables[0].Count(); i++)
             //{
             //    ones.Add(1d);
             //}
-
-            for (var i = 0; i < independentVariables.Count(); i++)
+            var size = (constVar) ? independentVariables[0].Count() - 1 : independentVariables[0].Count();
+            double[] rSquaredValues = new double[size];
+            double[] coefficients = new double[size];
+            for (var i = 0; i < size; i++)
             {
                 //bool OnesArray = independentVariables[i].TrueForAll(x => x == 1d);
                 //if (!OnesArray)
-                if (constVar == true && i == independentVariables.Count() - 1)
+                //if (constVar == true && i == independentVariables.Count() - 1)
+                //{
+                //    continue;
+                //}
+                double[] independentVariable = new double[independentVariables.Count()];
+                for (var j = 0; j < independentVariables.Count(); j++)
                 {
-                    continue;
+                    independentVariable[j] = independentVariables[j][i];
                 }
-                else
-                {
-                    var singleRegression = CalculateResult(dependentVariable, independentVariables[i], constVar, true);
-                    var rSquared = singleRegression.GetValue(2, 0);
-                    var coefficient = singleRegression.GetValue(0, 0);
-                    //rSquaredValues.Add((double)rSquared);
-                    //coefficients.Add((double)coefficient);
-                    rSquaredValues[i] = (double)rSquared;
-                    coefficients[i] = (double)coefficient;
-                }
+
+                var singleRegression = CalculateResult(dependentVariable, independentVariable, constVar, true);
+                var rSquared = singleRegression.GetValue(2, 0);
+                var coefficient = singleRegression.GetValue(0, 0);
+                //rSquaredValues.Add((double)rSquared);
+                //coefficients.Add((double)coefficient);
+                rSquaredValues[i] = (double)rSquared;
+                coefficients[i] = (double)coefficient;
             }
 
             return new TupleClass<double[], double[]>(rSquaredValues, coefficients);

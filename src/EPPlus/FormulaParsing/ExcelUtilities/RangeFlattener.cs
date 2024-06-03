@@ -27,10 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="r1"></param>
         /// <param name="addNullifEmpty"></param>
         /// <returns></returns>
-        public static double[] FlattenRange(IRangeInfo r1, bool addNullifEmpty=true)
+        public static List<double?> FlattenRange(IRangeInfo r1, bool addNullifEmpty = true)
         {
-            var result = new double[r1.Size.NumberOfRows * r1.Size.NumberOfCols];
-            var index = 0;
+            var result = new List<double?>();
 
             for (var row = 0; row < r1.Size.NumberOfRows; row++)
             {
@@ -42,18 +41,26 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     {
                         var yNum = ConvertUtil.GetValueDouble(val);
 
-                        //result.Add(yNum);
-                        result[index] = yNum;
+                        result.Add(yNum);
                     }
-                    else if(addNullifEmpty)
+                    else if (addNullifEmpty)
                     {
-                        //result.Add(null);
-                        result[index] = null;
+                        result.Add(null);
                     }
                 }
             }
             return result;
         }
+
+        /// <summary>
+        /// produces two lists based on the supplied ranges. The lists will contain all data from positions where both ranges has numeric values. 
+        /// </summary>
+        /// <param name="r1">range 1</param>
+        /// <param name="r2">range 2</param>
+        /// <param name="l1">a list containing all numeric values from <paramref name="r1"/> that has a corresponding value in <paramref name="r2"/></param>
+        /// <param name="l2">a list containing all numeric values from <paramref name="r2"/> that has a corresponding value in <paramref name="r1"/</param>
+        /// 
+
         public static List<object> FlattenRangeObject(IRangeInfo r1)
         {
             var result = new List<object>();
@@ -67,15 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             return result;
         }
-        /// <summary>
-        /// Produces two lists based on the supplied ranges. The lists will contain all data from positions where both ranges has numeric values. 
-        /// </summary>
-        /// <param name="r1">range 1</param>
-        /// <param name="r2">range 2</param>
-        /// <param name="dataPointsEqual"></param>
-        /// <param name="l1">a list containing all numeric values from <paramref name="r1"/> that has a corresponding value in <paramref name="r2"/></param>
-        /// <param name="l2">a list containing all numeric values from <paramref name="r2"/> that has a corresponding value in <paramref name="r1"/></param>
-        public static void GetNumericPairLists(IRangeInfo r1  , IRangeInfo r2, bool dataPointsEqual,  out List<double> l1, out List<double> l2)
+        public static void GetNumericPairLists(IRangeInfo r1, IRangeInfo r2, bool dataPointsEqual, out List<double> l1, out List<double> l2)
         {
             if (dataPointsEqual)
             {
@@ -90,7 +89,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 l2 = new List<double>();
                 for (var i = 0; i < rangeValues1.Count; i++)
                 {
-                    if ( rangeValues1[i].HasValue && rangeValues2[i].HasValue)
+                    if (rangeValues1[i].HasValue && rangeValues2[i].HasValue)
                     {
                         l1.Add(rangeValues1[i].Value);
                         l2.Add(rangeValues2[i].Value);
