@@ -33,7 +33,6 @@ namespace EPPlusTest
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-
 				//var namedStyle = package.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
 				//namedStyle.Style.Font.Name = "Arial";
 				//namedStyle.Style.Font.Size = 7;
