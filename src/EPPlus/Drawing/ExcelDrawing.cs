@@ -1334,9 +1334,17 @@ namespace OfficeOpenXml.Drawing
         }
 
 
-        public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = 0, int colOffset = 0)
+        public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
         {
             XmlNode drawNode = null;
+            if(rowOffset == int.MinValue)
+            {
+                rowOffset = From.RowOff / 9525;
+            }
+            if(colOffset == int.MinValue)
+            {
+                colOffset = From.ColumnOff / 9525;
+            }
             switch (DrawingType)
             {
                 case eDrawingType.Shape:
@@ -1356,7 +1364,7 @@ namespace OfficeOpenXml.Drawing
                     break;
                 case eDrawingType.GroupShape:
                     drawNode = CopyGroupShape(worksheet);
-                    break; ;
+                    break;
             }
             //Set position of the drawing copy.
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1574,22 +1582,22 @@ namespace OfficeOpenXml.Drawing
                 //Create the copy
                 var copy = GetDrawing(worksheet._drawings, drawNode);
                 copy.EditAs = ExcelControl.GetControlEditAs(control.ControlType);
-                //var width = GetPixelWidth();
-                //var height = GetPixelHeight();
-                //copy.SetPixelWidth(width);
-                //copy.SetPixelHeight(height);
-                //copy.SetPosition(row, rowOffset, col, colOffset);
-                //worksheet._drawings.AddDrawingInternal(copy);
+                var width = GetPixelWidth();
+                var height = GetPixelHeight();
+                copy.SetPosition(row, rowOffset, col, colOffset);
+                copy.SetPixelWidth(width);
+                copy.SetPixelHeight(height);
+                copy.GetPositionSize();
 
                 //Update position in worksheet xml
                 var fromCol = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:col", worksheet.NameSpaceManager);
                 var fromColOff = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:colOff", worksheet.NameSpaceManager);
                 var fromRow = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:row", worksheet.NameSpaceManager);
                 var fromRowOff = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:from/xdr:rowOff", worksheet.NameSpaceManager);
-                fromCol.InnerText = col.ToString();
-                fromColOff.InnerText = colOffset.ToString();
-                fromRow.InnerText = row.ToString();
-                fromRowOff.InnerText = rowOffset.ToString();
+                fromCol.InnerText = copy.From.Column.ToString();
+                fromColOff.InnerText = copy.From.ColumnOff.ToString();
+                fromRow.InnerText = copy.From.Row.ToString();
+                fromRowOff.InnerText = copy.From.RowOff.ToString();
                 var toCol = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:to/xdr:col", worksheet.NameSpaceManager);
                 var toColOff = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:to/xdr:colOff", worksheet.NameSpaceManager);
                 var toRow = controlNode.SelectSingleNode("d:control/d:controlPr/d:anchor/d:to/xdr:row", worksheet.NameSpaceManager);
@@ -1742,11 +1750,6 @@ namespace OfficeOpenXml.Drawing
             //Copy Blip Fill
             WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, this, sourceShape.Fill, worksheet._drawings.Part.Uri);
             return drawNode;
-        }
-
-        public void Copy(ExcelRangeBase range, int rowOffset = 0, int colOffset = 0)
-        {
-            
         }
     }
 }

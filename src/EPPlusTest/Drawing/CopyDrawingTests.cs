@@ -267,5 +267,15 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(4, ws3.Drawings.Count);
             SaveAndCleanup(p);
         }
+
+        //Copy Range
+        [TestMethod]
+        public void CopyDrawingsRange()
+        {
+            using var p = OpenTemplatePackage("CopyDrawings.xlsx");
+            var ws3 = p.Workbook.Worksheets[2];
+            ws3.Cells["A1:Z50"].Copy(ws3.Cells["AA1:AZ50"]);
+            SaveAndCleanup(p);
+        }
     }
 }
