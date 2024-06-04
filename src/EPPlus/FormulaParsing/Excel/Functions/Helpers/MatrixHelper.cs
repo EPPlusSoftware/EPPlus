@@ -1,9 +1,11 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Xsl;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
@@ -371,112 +373,170 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return elements;
         }
 
-        internal static double[][] CollinearityTransformer(double[] dependentVariables, double[][] independentVariables, double[] coefficients)
+        internal static int argMaxAbsolute(double[][] mat)
         {
-            //This function identifies multi-collinearity and returns a matrix where redundant columns are dropped
-            var correlationMat = GetCorrelationMatrix(independentVariables);
-            var threshold = 0.9; //Is this a suitable threshold?
-            List<int> colList = new List<int>();
-            List<int> rowList = new List<int>();
-            List<List<int>> pairs = new List<List<int>>();
+            double maxAbsValue = double.MinValue;
+            int maxIndex = -1;
+            int flatIndex = 0;
 
-            for (var i = 0; i < correlationMat.Length; i++)
+            for (int i = 0; i < mat.Count(); i++)
             {
-                for (var j = 0; j < correlationMat[i].Length; j++)
+                for (int j = 0; j < mat[0].Count(); j++)
                 {
-                    if (i != j)
+                    double absValue = Math.Abs(mat[i][j]);
+                    if (absValue > maxAbsValue)
                     {
-                        if (correlationMat[i][j] >= threshold)
+                        maxAbsValue = absValue;
+                        maxIndex = flatIndex;
+                    }
+                    flatIndex += 1;
+                }
+            }
+
+            return maxIndex;
+        }
+
+        internal static double GetM2Norm(double[][] rr)
+        {
+            var m = rr.Count();
+            var n = rr[0].Count();
+
+            var m1norm = 0d;
+            for (var i = 0; i < n; i++)
+            {
+                //sum the absolute values of all values in row i, that value dd
+                var dd = 0d;
+                for (var r = 0; r < rr.Count(); r++)
+                {
+                    dd += Math.Abs(rr[r][i]);
+                    m1norm = Math.Max(m1norm, dd);
+                }
+            }
+
+            var m8norm = 0d;
+            for (var i = 0; i < m; i++)
+            {
+                var dd = 0d;
+                for (var c = 0; c < rr[0].Count(); c++)
+                {
+                    dd += Math.Abs(rr[i][c]);
+                    m8norm = Math.Max(m8norm, dd);
+                }
+            }
+
+            return Math.Sqrt(m1norm * m8norm);
+        }
+
+        internal static List<double> GaussRank(double[][] xRange, bool constVal)
+        {
+            var xTdotX = MatrixHelper.Multiply(MatrixHelper.TransposeMatrix(xRange, xRange.Count(), xRange[0].Count()), xRange);
+            List<double> drop = new List<double>();
+            var m = xTdotX.Length;
+            var n = xTdotX[0].Length;
+            var m2norm = GetM2Norm(xRange);
+            var eps = 2.220446049250313E-16;
+            var xeps = 1000 * eps;
+            var ixr = 0;
+            var ixc = 0;
+
+            double[] colOrder = new double[n];
+            var count = 0;
+            for (var i = 0; i < n; i++)
+            {
+                colOrder[i] = count;
+                count += 1;
+            }
+
+            for (var ix0 = 0; ix0 < n; ix0++)
+            {
+                if (ix0 == 0 && constVal)
+                {
+                    ixr = 0;
+                    ixc = 0;
+                }
+                else
+                {
+                    //dd is not calculated correctly
+                    //need to revise how this is calculated
+                    double[][] subMatrix = new double[m - ix0][];
+                    var rowCount = 0;
+                    for (var i = ix0; i < m; i++)
+                    {
+                        subMatrix[rowCount] = new double[2];
+                        var colCount = 0;
+                        for (var j = ix0; j < n; j++)
                         {
-                            if (!colList.Contains(i) && !rowList.Contains(j))
-                            {
-                                colList.Add(i);
-                                rowList.Add(j);
-                                List<int> tmp = new List<int>();
-                                tmp.Add(j);
-                                tmp.Add(i);
-                                if (pairs.Contains(tmp) == false) pairs.Add(tmp);
-                            }
+                            subMatrix[rowCount][colCount] = xTdotX[i][j];
+                            colCount += 1;
                         }
+                        rowCount += 1;
+                    }
+                    int dd = argMaxAbsolute(subMatrix);
+
+                    ixr = dd / (n - ix0);
+                    ixc = dd % (n - ix0);
+                    ixr += ix0;
+                    ixc += ix0;
+
+                    List<double> ddArray = new List<double>();
+                    for (var i = 0; i < xTdotX[ixr].Count(); i++)
+                    {
+                        var tmp = Math.Abs(Math.Abs(xTdotX[ixr][i]) - Math.Abs(xTdotX[ixr][ixc]));
+                        if (tmp < 1000 * eps) ddArray.Add(i); //not sure about add(i), was add(tmp) before
+                    }
+                    ixc = (int)ddArray[0];
+                    if (ddArray.Count() > 1)
+                    {
+                        ixc = (int)ddArray[ddArray.Count() - 1];
                     }
                 }
-            }
 
-            double[] redundantCols = new double[pairs.Count];
-            for (var i = 0; i < pairs.Count(); i++)
-            {
-                redundantCols[i] = (Math.Abs(pairs[i][0]) < Math.Abs(pairs[i][1])) ? pairs[i][0] : pairs[i][1];
-            }
-
-            double[][] correctedMatrix = new double[independentVariables.Count() - redundantCols.Count()][];
-
-            var counter = -1;
-            for (var i = 0; i < independentVariables.Count(); i++)
-            {
-                if (redundantCols.Contains(i) != false)
+                if (xTdotX[ixr][ixc] > eps)
                 {
-                    counter += 1;
-                    correctedMatrix[i] = new double[1];
-                    correctedMatrix[i] = independentVariables[i];
+                    //row swap
+                    for (var i = 0; i < xTdotX[ixr].Count(); ++i)
+                    {
+                        var tmp = xTdotX[ix0][i];
+                        xTdotX[ix0][i] = xTdotX[ixr][i];
+                        xTdotX[ixr][i] = tmp;
+                    }
+                    //column swap
+                    for (var i = 0; i < xTdotX.Count(); i++)
+                    {
+                        var tmp = xTdotX[i][ix0];
+                        xTdotX[i][ix0] = xTdotX[i][ixc];
+                        xTdotX[i][ixc] = tmp;
+                    }
+
+                    var tmp1 = colOrder[ix0];
+                    colOrder[ix0] = colOrder[ixc];
+                    colOrder[ixc] = tmp1;
+
+                    for (var ix2 = ix0 + 1; ix2 < m; ix2++)
+                    {
+                        var dd = xTdotX[ix2][ix0] / xTdotX[ix0][ix0];
+
+                        for (var j = 0; j < xTdotX[ix2].Count(); j++)
+                        {
+                            xTdotX[ix2][j] -= xTdotX[ix0][j] * dd;
+                        }
+                    }
+                  
                 }
             }
-
-            return correctedMatrix;
-
-        }
-
-        internal static double[][] GetCorrelationMatrix(double[][] matrix)
-        {
-            int numRows = matrix.Length;
-            int numCols = matrix[0].Length;
-
-            double[][] correlationMatrix = new double[numCols][];
-
-            for (var i = 0; i < numCols; i++)
+            for (var i = 0; i < n; i++)
             {
-                correlationMatrix[i] = new double[numCols];
-                for (var j = 0; j < numCols; j++)
+                var v1 = xTdotX[i][i];
+                var v2 = m2norm;
+                var v3 = xeps;
+                var v4 = Math.Floor(Math.Abs(v1 / v2) / v3); //.Floor should be correct
+                if (v4 == 0)
                 {
-                    correlationMatrix[i][j] = GetCorrelation(matrix, i, j);
+                    drop.Add(colOrder[i]);
                 }
             }
-
-            return correlationMatrix;
+            return drop;
         }
-
-        internal static double GetMean(double[][] mat, int col)
-        {
-            int numRows = mat.Length;
-            double sum = 0.0;
-
-            for (int i = 0; i < numRows; i++)
-            {
-                sum += mat[i][col];
-            }
-
-            return sum / numRows;
-        }
-
-        internal static double GetCorrelation(double[][] matrix, int var1, int var2)
-        {
-            int numRows = matrix.Length;
-            double mean1 = GetMean(matrix, var1);
-            double mean2 = GetMean(matrix, var2);
-            double covariance = 0d;
-            double variance1 = 0d;
-            double variance2 = 0d;
-
-            for (var i = 0; i < numRows; i++)
-            {
-                double diff1 = matrix[i][var1];
-                double diff2 = matrix[i][var2];
-                covariance += diff1 * diff2;
-                variance1 += diff1 * diff1;
-                variance2 += diff2 * diff2;
-            }
-            return covariance / Math.Sqrt(variance1 * variance2);
-        }
-
     }
 }
 

@@ -643,10 +643,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["D5"].Value = 16.1;
                 sheet.Cells["E7"].Formula = "Linest(A1:A5,B1:D5,FALSE,TRUE)";
                 sheet.Calculate();
-
-
             }
         }
-
     }
 }

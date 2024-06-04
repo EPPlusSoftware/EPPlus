@@ -41,6 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             //    }
             //    xRangeList.Add(onesArray);
             //}
+            var dropCols = MatrixHelper.GaussRank(xRangeList, constVar);
             if (constVar)
             {
                 for (var i = 0; i < xRangeList.Count(); i++)
@@ -51,6 +52,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             var width = xRangeList[0].Count();
             var height = xRangeList.Count();
+            for (var i = 0; i < dropCols.Count(); i++)
+            {
+
+            }
 
             //Add check if all values in a column are the same, that variable is "redundant in that case!
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
@@ -72,7 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var singleRegressionData = PerformCollinearityCheck(knownYs, xRangeListCopy, constVar);
                 var rSquaredValues = singleRegressionData.Item1;
                 var coefficients = singleRegressionData.Item2;
-                var new_mat = MatrixHelper.CollinearityTransformer(knownYs, xRangeList, coefficients);
+                //var new_mat = MatrixHelper.CollinearityTransformer(knownYs, xRangeList, coefficients);
                 //var threshold = 1.93294034300795E-06;
                 var threshold = 0.05;
 
