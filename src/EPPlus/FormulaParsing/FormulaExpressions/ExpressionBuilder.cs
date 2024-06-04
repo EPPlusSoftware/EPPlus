@@ -78,6 +78,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             tokens.RemoveAt(i - 1);
                             tokens.RemoveAt(i);
                             i--;
+                            tokenIx--;
                             tokens[i] = new Token(e.GetAddress().WorksheetAddress, TokenType.ExcelAddress);
                         }
                         else
