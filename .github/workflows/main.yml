@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - develop
+      - develop7
       - master
 
 jobs:
