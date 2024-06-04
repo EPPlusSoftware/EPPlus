@@ -6208,6 +6208,34 @@ namespace EPPlusTest
             }
         }
 
+        //[TestMethod]
+        //public void i1468()
+        //{
+        //    ExcelPackage.LicenseContext = LicenseContext.Commercial;
+
+        //    using (var p = OpenPackage("TestingFormulaError.xlsx", true))
+        //    {
+        //        var sheet = p.Workbook.Worksheets.Add("FormErrorTest");
+
+        //        var doubleQuote = "\"\"";
+
+        //        sheet.Cells["B1"].FormulaR1C1 = $"IFERROR(SUMPRODUCT(IF($A1:$A1,1,0),rngLedgerDebit,rngDebitRate)/$F6:$F6,{doubleQuote})";
+
+        //        //for (int i = 1; i < 6; i++)
+        //        //{
+        //        //    sheet.Cells[i, 2].SetFormula($"IFERROR(SUMPRODUCT(IF(rngCurrency=RC1,1,0),rngLedgerDebit,rngDebitRate)/RC6,{doubleQuote})", true);
+        //        //}
+
+        //        var form = sheet.Cells["B1"].Formula;
+
+        //        sheet.Calculate();
+
+        //        var formAfter = sheet.Cells["B1"].Formula;
+
+        //        SaveAndCleanup(p);
+        //    }
+        //}
+
         [TestMethod]
         public void i1468()
         {
@@ -6222,6 +6250,7 @@ namespace EPPlusTest
                 for (int i = 1; i < 6; i++)
                 {
                     sheet.Cells[i, 2].FormulaR1C1 = $"IFERROR(SUMPRODUCT(IF(rngCurrency=RC1,1,0),rngLedgerDebit,rngDebitRate)/RC6,{doubleQuote})";
+                    //sheet.Cells[i, 2].UseImplicitItersection = true;
                 }
 
                 var form = sheet.Cells["B1"].Formula;
@@ -6229,6 +6258,7 @@ namespace EPPlusTest
                 sheet.Calculate();
 
                 var formAfter = sheet.Cells["B1"].Formula;
+                var aValue = sheet.Cells["B1"].Value;
 
                 SaveAndCleanup(p);
             }
