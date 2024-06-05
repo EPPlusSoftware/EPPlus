@@ -41,7 +41,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             //    }
             //    xRangeList.Add(onesArray);
             //}
-            var dropCols = MatrixHelper.GaussRank(xRangeList, constVar);
             if (constVar)
             {
                 for (var i = 0; i < xRangeList.Count(); i++)
@@ -52,136 +51,137 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             var width = xRangeList[0].Count();
             var height = xRangeList.Count();
-            for (var i = 0; i < dropCols.Count(); i++)
-            {
+            var dropCols = MatrixHelper.GaussRank(xRangeList, constVar);
+            //if (constVar && dropCols.Contains(width - 1)) dropCols.Remove(width - 1); 
+            if (dropCols.Count() > 0) xRangeList = MatrixHelper.RemoveColumns(xRangeList, dropCols);
 
-            }
 
             //Add check if all values in a column are the same, that variable is "redundant in that case!
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
-            double[][] nonCollinearX = new double[height][];
-            if (matrixIsSingular)
-            {
-                //var xRangeListCopy = new List<List<double>>(); //Create copy of independentVariables to use in calculations!
-                double[][] xRangeListCopy = new double[xRangeList.Count()][];
-                //xRangeList.ForEach(x => xRangeListCopy.Add(x));
-                for (var r = 0; r < xRangeList.Count(); r++)
-                {
-                    xRangeListCopy[r] = new double[xRangeList[r].Count()];
-                    for (var c = 0; c < xRangeList[0].Count(); c++)
-                    {
-                        xRangeListCopy[r][c] = xRangeList[r][c];
-                    }
-                }
+            //if (constVar && dropCols.Contains(width - 1)) dropCols.Remove(width - 1); 
+            //double[][] nonCollinearX = new double[height][];
+            //if (matrixIsSingular)
+            //{
+            //    //var xRangeListCopy = new List<List<double>>(); //Create copy of independentVariables to use in calculations!
+            //    double[][] xRangeListCopy = new double[xRangeList.Count()][];
+            //    //xRangeList.ForEach(x => xRangeListCopy.Add(x));
+            //    for (var r = 0; r < xRangeList.Count(); r++)
+            //    {
+            //        xRangeListCopy[r] = new double[xRangeList[r].Count()];
+            //        for (var c = 0; c < xRangeList[0].Count(); c++)
+            //        {
+            //            xRangeListCopy[r][c] = xRangeList[r][c];
+            //        }
+            //    }
 
-                var singleRegressionData = PerformCollinearityCheck(knownYs, xRangeListCopy, constVar);
-                var rSquaredValues = singleRegressionData.Item1;
-                var coefficients = singleRegressionData.Item2;
-                //var new_mat = MatrixHelper.CollinearityTransformer(knownYs, xRangeList, coefficients);
-                //var threshold = 1.93294034300795E-06;
-                var threshold = 0.05;
+            //    var singleRegressionData = PerformCollinearityCheck(knownYs, xRangeListCopy, constVar);
+            //    var rSquaredValues = singleRegressionData.Item1;
+            //    var coefficients = singleRegressionData.Item2;
+            //    //var new_mat = MatrixHelper.CollinearityTransformer(knownYs, xRangeList, coefficients);
+            //    //var threshold = 1.93294034300795E-06;
+            //    var threshold = 0.05;
 
-                List<double> collinearityColumns = new List<double>();
-                for (var i = 0; i < rSquaredValues.Count() - 1; i++) //This can be optimized!
-                {
-                    if (Math.Abs(rSquaredValues[i] - rSquaredValues[i + 1]) <= threshold) //Test this threshold thoroughly
-                    {
-                        if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
-                        if (!(collinearityColumns.Contains(i + 1))) collinearityColumns.Add(i + 1);
-                    }
-                    //for (var j = 0; j < rSquaredValues.Count(); j++)
-                    //{
-                    //    if (i == j) continue;
-                    //    if (Math.Abs(rSquaredValues[i] - rSquaredValues[j]) <= threshold) //Test this threshold thoroughly
-                    //    {
-                    //        if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
-                    //        if (!(collinearityColumns.Contains(j))) collinearityColumns.Add(j);
-                    //    }
-                    //}
-                }
+            //    List<double> collinearityColumns = new List<double>();
+            //    for (var i = 0; i < rSquaredValues.Count() - 1; i++) //This can be optimized!
+            //    {
+            //        if (Math.Abs(rSquaredValues[i] - rSquaredValues[i + 1]) <= threshold) //Test this threshold thoroughly
+            //        {
+            //            if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
+            //            if (!(collinearityColumns.Contains(i + 1))) collinearityColumns.Add(i + 1);
+            //        }
+            //        //for (var j = 0; j < rSquaredValues.Count(); j++)
+            //        //{
+            //        //    if (i == j) continue;
+            //        //    if (Math.Abs(rSquaredValues[i] - rSquaredValues[j]) <= threshold) //Test this threshold thoroughly
+            //        //    {
+            //        //        if (!(collinearityColumns.Contains(i))) collinearityColumns.Add(i);
+            //        //        if (!(collinearityColumns.Contains(j))) collinearityColumns.Add(j);
+            //        //    }
+            //        //}
+            //    }
 
-                var saveThisValue = coefficients.Min(x => Math.Abs(x));
-                var saveThisColumn = 0;
-                for (var i = 0; i < coefficients.Count(); i++)
-                {
-                    if (Math.Abs(coefficients[i]) == saveThisValue) saveThisColumn = i;
-                }
+            //    var saveThisValue = coefficients.Min(x => Math.Abs(x));
+            //    var saveThisColumn = 0;
+            //    for (var i = 0; i < coefficients.Count(); i++)
+            //    {
+            //        if (Math.Abs(coefficients[i]) == saveThisValue) saveThisColumn = i;
+            //    }
 
-                for(var i = 0; i < xRangeListCopy.Count(); i++)
-                {
-                    nonCollinearX[i] = new double[1];
-                    nonCollinearX[i][0] = xRangeListCopy[i][saveThisColumn];
-                }
+            //    for(var i = 0; i < xRangeListCopy.Count(); i++)
+            //    {
+            //        nonCollinearX[i] = new double[1];
+            //        nonCollinearX[i][0] = xRangeListCopy[i][saveThisColumn];
+            //    }
 
-                //for (var i = 0; i < xRangeListCopy.Count(); i++)
-                //{
-                //    if (collinearityColumns.Contains(i) && i != saveThisColumn)
-                //    {
-                //        xRangeListCopy[i] = null;
-                //    }
-                //}
-                ////xRangeListCopy.RemoveAll(x => x == null);
-                //xRangeListCopy = xRangeListCopy.Where(xArray => xArray != null).ToArray();
-                //for (var i = 0; i < xRangeListCopy.Count(); i++)
-                //{
-                //    xRangeListCopy[i] = xRangeListCopy[i].Where(x => x != null).ToArray();
-                //}
-                //removedColumns = collinearityColumns.Count - 1;
-                //multipleRegressionSlopes = GetSlope(xRangeListCopy, knownYs, constVar, stats, out bool matIsSingular);
-                //multipleRegressionSlopes = GetSlope(nonCollinearX, knownYs, constVar, stats, out bool matIsSingular);
-                
-                //Temporary, remove this solution. Nothing wrong with it but is bad
-                var nominator = 0d;
-                var denominator = 0d;
-                var averageX = 0d;
-                for (var i = 0; i < nonCollinearX.Count(); i++)
-                {
-                    averageX += nonCollinearX[i][0];
-                }
-                averageX /= nonCollinearX.Count();
-                var averageY = knownYs.Average();
+            //    //for (var i = 0; i < xRangeListCopy.Count(); i++)
+            //    //{
+            //    //    if (collinearityColumns.Contains(i) && i != saveThisColumn)
+            //    //    {
+            //    //        xRangeListCopy[i] = null;
+            //    //    }
+            //    //}
+            //    ////xRangeListCopy.RemoveAll(x => x == null);
+            //    //xRangeListCopy = xRangeListCopy.Where(xArray => xArray != null).ToArray();
+            //    //for (var i = 0; i < xRangeListCopy.Count(); i++)
+            //    //{
+            //    //    xRangeListCopy[i] = xRangeListCopy[i].Where(x => x != null).ToArray();
+            //    //}
+            //    //removedColumns = collinearityColumns.Count - 1;
+            //    //multipleRegressionSlopes = GetSlope(xRangeListCopy, knownYs, constVar, stats, out bool matIsSingular);
+            //    //multipleRegressionSlopes = GetSlope(nonCollinearX, knownYs, constVar, stats, out bool matIsSingular);
 
-                for (var i = 0; i < knownYs.Count(); i++)
-                {
-                    var y = knownYs[i];
-                    var x = nonCollinearX[i][0];
+            //    //Temporary, remove this solution. Nothing wrong with it but is bad
+            //    var nominator = 0d;
+            //    var denominator = 0d;
+            //    var averageX = 0d;
+            //    for (var i = 0; i < nonCollinearX.Count(); i++)
+            //    {
+            //        averageX += nonCollinearX[i][0];
+            //    }
+            //    averageX /= nonCollinearX.Count();
+            //    var averageY = knownYs.Average();
 
-                    if (constVar)
-                    {
-                        nominator += (x - averageX) * (y - averageY);
-                        denominator += (x - averageX) * (x - averageX);
-                    }
-                    else
-                    {
-                        nominator += x * y;
-                        denominator += Math.Pow(x, 2);
-                    }
+            //    for (var i = 0; i < knownYs.Count(); i++)
+            //    {
+            //        var y = knownYs[i];
+            //        var x = nonCollinearX[i][0];
 
-                }
+            //        if (constVar)
+            //        {
+            //            nominator += (x - averageX) * (y - averageY);
+            //            denominator += (x - averageX) * (x - averageX);
+            //        }
+            //        else
+            //        {
+            //            nominator += x * y;
+            //            denominator += Math.Pow(x, 2);
+            //        }
 
-                var m = (denominator != 0) ? nominator / denominator : 0d;
-                var b = (constVar) ? averageY - (m * averageX) : 0d;
+            //    }
 
-                //populate multipleRegressionSlopes with zeros where column was removed due to collinearity
-                var size = (constVar) ? xRangeList[0].Count() - 1: xRangeList[0].Count();
-                double[][] tmpArray = new double[size + 1][];
-                for (var i = 0; i < collinearityColumns.Count(); i++)
-                {
-                    tmpArray[i] = new double[1];
-                    //if (i != saveThisColumn) multipleRegressionSlopes.Insert((int)collinearityColumns[i], insertZero);
-                    if (i != saveThisColumn)
-                    {
-                        tmpArray[i][0] = 0d;
-                    }
-                    else
-                    {
-                        tmpArray[i][0] = m;
-                    }
-                }
-                tmpArray[tmpArray.Count() - 1] = new double[1];
-                tmpArray[tmpArray.Count() - 1][0] = b;
-                multipleRegressionSlopes = tmpArray;
-            }
+            //    var m = (denominator != 0) ? nominator / denominator : 0d;
+            //    var b = (constVar) ? averageY - (m * averageX) : 0d;
+
+            //    //populate multipleRegressionSlopes with zeros where column was removed due to collinearity
+            //    var size = (constVar) ? xRangeList[0].Count() - 1: xRangeList[0].Count();
+            //    double[][] tmpArray = new double[size + 1][];
+            //    for (var i = 0; i < collinearityColumns.Count(); i++)
+            //    {
+            //        tmpArray[i] = new double[1];
+            //        //if (i != saveThisColumn) multipleRegressionSlopes.Insert((int)collinearityColumns[i], insertZero);
+            //        if (i != saveThisColumn)
+            //        {
+            //            tmpArray[i][0] = 0d;
+            //        }
+            //        else
+            //        {
+            //            tmpArray[i][0] = m;
+            //        }
+            //    }
+            //    tmpArray[tmpArray.Count() - 1] = new double[1];
+            //    tmpArray[tmpArray.Count() - 1][0] = b;
+            //    multipleRegressionSlopes = tmpArray;
+            //}         if (constVar && dropCols.Contains(width - 1)) dropCols.Remove(width - 1); 
             //if (!constVar)
             //{
             //    double[] zeroIntercept = new double[multipleRegressionSlopes.Count()]; //when const is false, GetSlopes doesnt return an intercept, so we have to add it manually.
@@ -211,7 +211,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             else
             {
-                var resultRangeStats = new InMemoryRange(5, (short)(multipleRegressionSlopes.Count()));
+                var resultRangeStats = new InMemoryRange(5, (short)(multipleRegressionSlopes.Count() + dropCols.Count()));
                 if (constVar)
                 {
                     resultRangeStats.SetValue(0, multipleRegressionSlopes.Count() - 1, multipleRegressionSlopes[multipleRegressionSlopes.Count() - 1][0]);
@@ -222,10 +222,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
 
                 //Linest returns the coefficients in reversed order, so we iterate through the list from the end to get the correct order.
+                //int pos2 = 0;
+                //for (var i = multipleRegressionSlopes.Count() - 2; i >= 0; i--)
+                //{
+                //    resultRangeStats.SetValue(0, pos2++, multipleRegressionSlopes[i][0]);
+                //}
                 int pos2 = 0;
-                for (var i = multipleRegressionSlopes.Count() - 2; i >= 0; i--)
+                int posSlope = 0;
+                for (var i = multipleRegressionSlopes.Count() + dropCols.Count(); i > 0; i--)
                 {
-                    resultRangeStats.SetValue(0, pos2++, multipleRegressionSlopes[i][0]);
+                    if (dropCols.Contains(i - 1))
+                    {
+                        resultRangeStats.SetValue(0, pos2++, 0d);
+                    }
+                    else
+                    {
+                        resultRangeStats.SetValue(0, pos2++, multipleRegressionSlopes[multipleRegressionSlopes.Count() - 1 - posSlope][0]);
+                        posSlope += 1;
+                    }
                 }
 
                 List<double> standardErrorSlopes = new List<double>();

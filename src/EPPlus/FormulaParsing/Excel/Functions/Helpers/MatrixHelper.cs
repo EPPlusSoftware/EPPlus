@@ -462,7 +462,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     var rowCount = 0;
                     for (var i = ix0; i < m; i++)
                     {
-                        subMatrix[rowCount] = new double[2];
+                        subMatrix[rowCount] = new double[n - ix0]; //is n - ix0 correct?
                         var colCount = 0;
                         for (var j = ix0; j < n; j++)
                         {
@@ -536,6 +536,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
             }
             return drop;
+        }
+
+        internal static double[][] RemoveColumns(double[][] xRangeList, List<double> dropCols)
+        {
+            int height = xRangeList.Length;
+            if (height == 0) return xRangeList;
+
+            int width = xRangeList[0].Length;
+            HashSet<double> dropColsSet = new HashSet<double>(dropCols);
+
+            double[][] newXRangeList = new double[height][];
+            for (int i = 0; i < height; i++)
+            {
+                List<double> newRow = new List<double>();
+                for (int j = 0; j < width; j++)
+                {
+                    if (!dropColsSet.Contains(j))
+                    {
+                        newRow.Add(xRangeList[i][j]);
+                    }
+                }
+                newXRangeList[i] = newRow.ToArray();
+            }
+
+            return newXRangeList;
         }
     }
 }
