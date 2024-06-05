@@ -34,6 +34,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System.IO;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -338,6 +339,8 @@ namespace EPPlusTest
         {
             using (ExcelPackage package = new ExcelPackage())
             {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
                 var worksheet = package.Workbook.Worksheets.Add("Test");
                 var dateCell = worksheet.Cells[2, 2];
                 var date = new DateTime(2013, 1, 1);

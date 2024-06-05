@@ -2,16 +2,15 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.0" />
+    <PackageVersion Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageVersion Include="System.Drawing.Common" Version="8.0.4" />
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageVersion Include="FakeItEasy" Version="8.0.0" />
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />

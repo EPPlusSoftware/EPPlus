@@ -40,6 +40,7 @@
     <PackageReference Include="FakeItEasy" />
     <PackageReference Include="Microsoft.CSharp" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="Newtonsoft.Json" />
@@ -176,7 +177,63 @@
     <None Update="Workbooks\VBADecompressBug.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+	  <None Update="Workbooks\TestDoc_WithRomanNumber_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_WithRomanValues_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_CellsWithFormulas_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_WithExternalReferences_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_WithCharts_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_XMLTagsTable_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_VLookUpDateValue_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_CellWithHyperlink_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_CountBlankSingleCell_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_FileWithVLookUPFunction_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_Wenns_Formula_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Workbooks\TestDoc_WithRoundedValues_xlsx.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
   </ItemGroup>
+	<ItemGroup>
+		<None Remove="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
+		<EmbeddedResource Include="Workbooks\SN_T_1506944663_AufrissGewinnundVerlustrechnung.xlsx" />
+		<None Remove="Workbooks\Issue_WithRangeCalculation.xlsx" />
+		<EmbeddedResource Include="Workbooks\Issue_WithRangeCalculation.xlsx" />
+		<None Remove="Workbooks\ExternalReferences.xlsx" />
+		<EmbeddedResource Include="Workbooks\ExternalReferences.xlsx" />
+		<None Remove="Workbooks\Layout_Format_vorlage.xlsx" />
+		<EmbeddedResource Include="Workbooks\Layout_Format_vorlage.xlsx" />
+		<None Remove="Workbooks\Trim.xlsx" />
+		<EmbeddedResource Include="Workbooks\Trim.xlsx" />
+		<None Remove="Workbooks\DateFormatException.xlsx" />
+		<EmbeddedResource Include="Workbooks\DateFormatException.xlsx" />
+		<None Remove="Workbooks\TestDoc_SharedFormula.xlsx" />
+		<EmbeddedResource Include="Workbooks\TestDoc_SharedFormula.xlsx" />
+		<None Remove="Workbooks\FullPrecisionIF.xlsx" />
+		<EmbeddedResource Include="Workbooks\FullPrecisionIF.xlsx" />
+		<None Remove="Workbooks\TestDoc_SumPrecision.xlsx" />
+		<EmbeddedResource Include="Workbooks\TestDoc_SumPrecision.xlsx" />
+	</ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
   </PropertyGroup>
@@ -185,6 +242,5 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
-  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets"
-    Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
 </Project>

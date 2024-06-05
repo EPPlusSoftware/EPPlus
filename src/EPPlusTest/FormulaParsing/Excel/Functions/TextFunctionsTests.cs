@@ -326,6 +326,8 @@ namespace EPPlusTest.Excel.Functions.Text
         [TestMethod]
         public void NumberValueShouldCastDecinalValueWithCurrentCulture()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
             var input = $"1{CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator}000{CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}15";
             var func = new NumberValue();
             var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
