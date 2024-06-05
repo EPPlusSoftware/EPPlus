@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
         {
             foreach (var p in pivotTable.PageFields)
             {
-                if (p.MultipleItemSelectionAllowed == false)
+                if (p.MultipleItemSelectionAllowed == false && p.PageFieldSettings.SelectedItem > int.MinValue)
                 {
                     var ix = p.PageFieldSettings.SelectedItem;
                     if (ix < 0 || ix > p.Items.Count) return false;

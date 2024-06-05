@@ -190,9 +190,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 }
                 else
                 {
-                    if (HasSameParent(calcTable[r][c], calcTable[r - 1][c], keyCol))
+                    var pr = r;
+                    
+                    while (--pr >= 0 && HasSameParent(calcTable[r][c], calcTable[pr][c], keyCol) == false);
+                    
+                    if(pr>=0)
                     {
-                        return calcTable[r - 1][c];
+                        return calcTable[pr][c];
                     }
                     else
                     {
@@ -208,16 +212,18 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 }
                 else
                 {
-                    if (HasSameParent(calcTable[r][c], calcTable[r][c - 1], keyCol))
+                    var pc = c;
+
+                    while (--pc >= 0 && HasSameParent(calcTable[r][c], calcTable[r][pc], keyCol) == false) ;
+                    if (pc >= 0)
                     {
-                        return calcTable[r][c];
+                        return calcTable[r][pc];
                     }
                     else
                     {
                         return null;
                     }
                 }
-
             }
         }
         protected static int[] GetNextKeyFromCalculatedTable(List<List<int[]>> calcTable, int r, int c, int keyCol, bool isRowField)
@@ -230,9 +236,13 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 }
                 else
                 {
-                    if (HasSameParent(calcTable[r][c], calcTable[r + 1][c], keyCol))
+                    var pr = r;
+
+                    while (++pr < calcTable.Count && HasSameParent(calcTable[r][c], calcTable[pr][c], keyCol) == false) ;
+
+                    if (pr < calcTable.Count)
                     {
-                        return calcTable[r + 1][c];
+                        return calcTable[pr][c];
                     }
                     else
                     {
@@ -248,9 +258,12 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
                 }
                 else
                 {
-                    if (HasSameParent(calcTable[r][c], calcTable[r][c + 1], keyCol))
+                    var pc = c;
+
+                    while (++pc < calcTable.Count && HasSameParent(calcTable[r][c], calcTable[r][pc], keyCol) == false);
+                    if (pc >= 0)
                     {
-                        return calcTable[r][c + 1];
+                        return calcTable[r][pc];
                     }
                     else
                     {
