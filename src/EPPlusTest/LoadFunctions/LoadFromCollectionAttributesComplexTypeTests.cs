@@ -144,11 +144,12 @@ namespace EPPlusTest.LoadFunctions
             var obj = _collection.First();
             obj.Organization = null;
             _collection[0] = obj;
-            using (var package = new ExcelPackage())
+            using (var package = OpenPackage("testtablcollection.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("test");
                 ws.Cells["A1"].LoadFromCollection(_collection);
                 Assert.IsNull(ws.Cells["B1"].Value);
+                SaveAndCleanup(package);
             }
         }
 
