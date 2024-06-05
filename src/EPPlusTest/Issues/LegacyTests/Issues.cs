@@ -6140,7 +6140,7 @@ namespace EPPlusTest
         [TestMethod]
         public void s608()
         {
-            using(var package = OpenTemplatePackage("s608.xlsx"))
+            using (var package = OpenTemplatePackage("s608.xlsx"))
             {
                 Debug.Assert(package.Workbook.Worksheets.Count == 2);
                 package.Workbook.Worksheets.Delete("Sheet1");
@@ -6184,7 +6184,7 @@ namespace EPPlusTest
             {
                 var sheet = package.Workbook.Worksheets[0];
                 var groupDrawing = ((ExcelGroupShape)sheet.Drawings["img_d2_bt"]);
-                var childLine1 = groupDrawing.Drawings.FirstOrDefault(x=> x.Name=="D2_Line1_BT");
+                var childLine1 = groupDrawing.Drawings.FirstOrDefault(x => x.Name == "D2_Line1_BT");
                 var childLine2 = groupDrawing.Drawings["D2_Line2_BT"];
                 var childLine3 = groupDrawing.Drawings["D2_Line3_BT"];
 
@@ -6203,6 +6203,164 @@ namespace EPPlusTest
                 var cellValue = sheet.Cells["J15"];
 
                 Assert.AreEqual("    10.01", cellValue.Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s679ReadTryDiff()
+        {
+            using (var package = OpenTemplatePackage("StackedLabels.xlsx"))
+            {
+                var cSheet = package.Workbook.Worksheets.GetByName("Sheet2");
+
+                var chart2 = cSheet.Drawings[0];
+
+                var barChart = chart2.As.Chart.BarChart;
+
+                barChart.DataLabel.Position = eLabelPosition.Left;
+
+               var series = barChart.Series;
+
+                var seriesSpecific = series[2];
+
+                var label = series[2].DataLabel;
+
+                var internalLabels = label.DataLabels[0];
+
+                var pos = internalLabels.Position;
+
+                var test = series[0].DataLabel.DataLabels.Add(8);
+                test.ShowSeriesName = false;
+                test.ShowBubbleSize = false;
+                test.ShowCategory = false;
+                test.ShowLegendKey = false;
+                test.ShowPercent = false;
+                test.ShowValue = true;
+                test.Position = eLabelPosition.InBase;
+
+                
+
+                //var pos = series[2].DataLabels[0].Position;
+
+                //series[2].DataLabel.DataLabels[0].Position = eLabelPosition.InBase;
+
+                //var chart2 = cSheet.Drawings["PivotChartTestTwo"];
+
+                //var barChart = chart2.As.Chart.BarChart;
+
+                //var series = barChart.Series;
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s679Read()
+        {
+            using (var package = OpenTemplatePackage("movedBarLabel.xlsx"))
+            {
+                var cSheet = package.Workbook.Worksheets.GetByName("ChartSheet");
+
+                var chart2 = cSheet.Drawings["PivotChartTestTwo"];
+
+                var barChart = chart2.As.Chart.BarChart;
+
+                var series = barChart.Series;
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+        [TestMethod]
+        public void s679()
+        {
+            using (var package = OpenPackage("s679.xlsx", true))
+            {
+                var dSheet = package.Workbook.Worksheets.Add("DataSheet");
+                var cSheet = package.Workbook.Worksheets.Add("ChartSheet");
+
+                var range = new ExcelRange(dSheet, "A1:D10");
+                var table = dSheet.Tables.Add(range, "DataTable");
+                table.ShowHeader = true;
+                dSheet.Cells["A2:D10"].Formula = "ROW() + COLUMN()";
+                dSheet.Cells["D2:D10"].Formula = "8 - ROW()";
+
+                dSheet.Calculate();
+
+                //var pTable = new ExcelPivotTable(cSheet, cSheet.Cells["A1"], range, "PivotTableTest", table.Id);
+
+                var pTable = cSheet.PivotTables.Add(cSheet.Cells["A1"], range, "NewPivotTable");
+
+                pTable.DataFields.Add(pTable.Fields["Column1"]);
+                pTable.DataFields.Add(pTable.Fields["Column2"]);
+                pTable.DataFields.Add(pTable.Fields["Column3"]);
+                pTable.RowFields.Add(pTable.Fields["Column4"]);
+
+                pTable.ShowColumnHeaders = true;
+                pTable.DataOnRows = false;
+
+                //var pivotChart = cSheet.Drawings.AddChart("PivotChartTest", eChartType.ColumnStacked, pTable);
+
+                //pivotChart.Title.Text = "Output by machine & product family";
+
+                //pivotChart.SetPosition(0, 0, 0, 0);
+
+                //pivotChart.SetSize(700, 500);
+
+                //pivotChart.StyleManager.SetChartStyle(ePresetChartStyle.ColumnChartStyle1);
+
+                //pivotChart.As.Chart.BarChart.DataLabel.ShowLegendKey = true;
+                //pivotChart.As.Chart.BarChart.DataLabel.ShowLeaderLines = true;
+
+
+                var bChart = cSheet.Drawings.AddBarChart("PivotChartTestTwo", eBarChartType.ColumnStacked, pTable);
+
+                bChart.DataLabel.ShowValue = true;
+                bChart.DataLabel.ShowLeaderLines = true;
+
+
+
+                //var label = bChart.Series[0].DataLabel.DataLabels.Add(0);
+                //bChart.Series[0].DataLabel.DataLabels.appe
+
+                //var label2 = bChart.Series[0].DataLabel.DataLabels.Add(4);
+                //var label1 = bChart.Series[0].DataLabel.DataLabels.Add(1);
+
+
+                //label2.Position = eLabelPosition.Center;
+
+                //bChart.DataLabel.Position = eLabelPosition.BestFit;
+
+                //label.Position = eLabelPosition.Left;
+                // label2.Position = eLabelPosition.Right;
+
+                //bChart.DataLabel.TextBody.TextAutofit = eTextAutofit.NormalAutofit;
+
+                //bChart.DataLabel.TextBody.RightInsert = 200;
+                //bChart.DataLabel.TextBody.TextAutofit = eTextAutofit.NormalAutofit;
+
+                //var aLabel = bChart.Series[0].DataLabel;
+
+                //var addedLabel = aLabel.DataLabels.Add(0);
+
+                //addedLabel.ShowValue = true;
+
+                //addedLabel.Position = eLabelPosition.Left;
+
+                // aLabel.DataLabels[0].Position = eLabelPosition.Left;
+                //var numItems = bChart.Series[0].NumberOfItems;
+
+                //var point = bChart.Series[0].DataPoints[0];
+                //bChart.InitSeries
+
+                //bChart.DataLabel.ShowValue = true;
+                //bChart.Series[1].DataLabel.TextBody.Anchor = eTextAnchoringType.Top;
+                //bChart.Series[0].DataLabel.TextBody.TopInsert = 10;
+                //bChart.Series[0].DataLabel.TextBody.RightInsert = 2;
+                //bChart.Series[0].DataLabel.TextBody.BottomInsert = 10;
 
                 SaveAndCleanup(package);
             }

@@ -23,9 +23,12 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, "c")
         {
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "idx", "spPr", "txPr", "dLbl", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator", "showLeaderLines" }, new int[] { 0, schemaNodeOrder.Length });
-            AddSchemaNodeOrder(SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
-            if(nodeName=="dLbl")
+            var DlblShared = new string[] { "numFmt", "spPr", "txPr", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator" };
+            AddSchemaNodeOrder(["dLbl", "delete", "numFmt"], DlblShared);
+            AddSchemaNodeOrder(SchemaNodeOrder, ["showLeaderLines", "leaderLines", "ext"]);
+            AddSchemaNodeOrder(SchemaNodeOrder, DlblShared);
+
+            if (nodeName=="dLbl" || nodeName == "")
             {
                 TopNode = node;
             }
@@ -45,6 +48,7 @@ namespace OfficeOpenXml.Drawing.Chart
         const string positionPath = "c:dLblPos/@val";
         /// <summary>
         /// Position of the labels
+        /// Note: Only Center, InEnd and InBase are allowed for dataLabels on stacked columns 
         /// </summary>
         public override eLabelPosition Position
         {
