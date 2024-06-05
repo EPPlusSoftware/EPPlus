@@ -725,6 +725,52 @@ namespace EPPlusTest.Core.Range
             }
         }
 
+
+        [TestMethod]
+        public void TransposeCopyDataOntoExistingData()
+        {
+            using (var p = OpenPackage("CopyTransposeExisting.xlsx", true)) 
+            {
+                var ws = p.Workbook.Worksheets.Add("newWorksheet");
+                ws.Cells["A1:D10"].Formula = "ROW() + COLUMN()";
+
+                ws.Calculate();
+
+                var cell = ws.Cells["D2"];
+
+                ws.Cells["A1:D10"].ClearFormulas();
+
+                ws.Cells["B2:C5"].Copy(ws.Cells["C8"], ExcelRangeCopyOptionFlags.Transpose);
+                ws.Cells["A1:E3"].Copy(ws.Cells["L5:L6"], ExcelRangeCopyOptionFlags.Transpose);
+
+                ws.Cells["A1:E3"].Copy(ws.Cells["L5:L6 M5"], ExcelRangeCopyOptionFlags.Transpose);
+
+                for (int i = 2; i <= 5; i++)
+                {
+                    Assert.AreEqual(ws.Cells[i, 2].Value, ws.Cells[8, 1 + i].Value);
+                    Assert.AreEqual(ws.Cells[i, 3].Value, ws.Cells[9, 1 + i].Value);
+                }
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Assert.AreEqual(ws.Cells[1 + i, 1].Value, ws.Cells[5, 12 + i].Value);
+                    Assert.AreEqual(ws.Cells[1 + i, 2].Value, ws.Cells[6, 12 + i].Value);
+                    Assert.AreEqual(ws.Cells[1 + i, 3].Value, ws.Cells[7, 12 + i].Value);
+                    Assert.AreEqual(ws.Cells[1 + i, 4].Value, ws.Cells[8, 12 + i].Value);
+                }
+
+                ws.Cells["A20:C20"].Formula = "ROW()";
+
+                ws.Cells["A20:C20"].Copy(ws.Cells["N5"], ExcelRangeCopyOptionFlags.Transpose);
+
+                //Assert.AreEqual(4, ws.Cells["N5"].Value);
+                Assert.AreEqual("ROW()", ws.Cells["N5"].Formula);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+
         private static ExcelWorksheet SetupCopyRange(ExcelPackage p)
         {
             var ws = p.Workbook.Worksheets.Add("Sheet1");

@@ -27,6 +27,7 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -89,6 +90,28 @@ namespace OfficeOpenXml.Table
 			_tableSorter = new TableSorter(this);
         }
 
+        internal string UpdateAndReturnValidName(int index, string newName, string oldName, ICollection<string> names)
+        {
+            if (names.Contains(newName) || newName == null)
+            {
+                int a = index + 1;
+                newName = string.Format("Column{0}", a++);
+
+                if (names.Contains(newName) && oldName != newName)
+                {
+                    var name = newName;
+                    var i = 2;
+                    do
+                    {
+                        name = newName + (i++).ToString(CultureInfo.InvariantCulture);
+                    }
+                    while (names.Contains(name) && oldName != name);
+                    return name;
+                }
+            }
+            return newName;
+        }
+
         private string GetStartXml(string name, int tblId)
         {
             name = ConvertUtil.ExcelEscapeString(name);
@@ -107,18 +130,10 @@ namespace OfficeOpenXml.Table
             {
                 var cell = WorkSheet.Cells[Address._fromRow, Address._fromCol+i-1];
                 string colName= SecurityElement.Escape(cell.Value?.ToString());
-                if (cell.Value == null || names.Contains(colName))
-                {
-                    //Get an unique name
-                    int a=i;
-                    do
-                    {
-                        colName = string.Format("Column{0}", a++);
-                    }
-                    while (names.Contains(colName));
-                }
+                var retName = UpdateAndReturnValidName(i-1, colName, "", names);
+                colName = retName;
                 names.Add(colName);
-                xml += string.Format("<tableColumn id=\"{0}\" name=\"{1}\" />", i,colName);
+                xml += string.Format("<tableColumn id=\"{0}\" name=\"{1}\" />", i, colName);
             }
             xml += "</tableColumns>";
             xml += "<tableStyleInfo name=\"TableStyleMedium9\" showFirstColumn=\"0\" showLastColumn=\"0\" showRowStripes=\"1\" showColumnStripes=\"0\" /> ";
@@ -637,6 +652,66 @@ namespace OfficeOpenXml.Table
         const string HEADERROWCOUNT_PATH = "@headerRowCount";
         const string AUTOFILTER_PATH = "d:autoFilter";
         const string AUTOFILTER_ADDRESS_PATH = AUTOFILTER_PATH + "/@ref";
+
+        /// <summary>
+        /// <para>Update column names with cell values or cell values with column names</para>
+        /// <para><see cref="ApplyDataFrom.ColumnNamesToCells"></see> overwrites the top row cell values with the column names.</para>
+        /// <para><see cref="ApplyDataFrom.CellsToColumnNames"></see> overwrites the column names with the top row cell values. 
+        /// If the cell is empty it instead overwrites the cell value with the column name unless <paramref name="syncEmptyCells"/> is set to false.</para>
+        /// </summary>
+        /// <param name="dataOrigin">Target data to be overwritten</param>
+        /// <param name="syncEmptyCells">Set to false to not fill empty cell with column name</param>
+        public void SyncColumnNames(ApplyDataFrom dataOrigin, bool syncEmptyCells = true)
+        {
+            switch(dataOrigin)
+            {
+                case ApplyDataFrom.ColumnNamesToCells:
+                    OverwriteRows();
+                    break;
+                case ApplyDataFrom.CellsToColumnNames:
+                    OverwriteColumnNames(syncEmptyCells);
+                    break;
+                default:
+                    throw new NotImplementedException($"{dataOrigin} is an invalid option or has not been implemented yet");
+            }
+        }
+
+        /// <summary>
+        /// Ensures the top cell in each column of the table contains only the column name
+        /// </summary>
+        private void OverwriteRows()
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
+            }
+        }
+
+        /// <summary>
+        /// <para>Ensures the column name of each column matches the current cellValue. Unless cell value is null.</para>
+        /// <para>If cell value is null and column name exists sets cell value to column name.</para>
+        /// Set input parameter false to not overwrite empty cells.
+        ///</summary>
+        /// <param name="setValueOnCellIfNull">Set to false to not fill cell with column name when its null or empty</param>
+        private void OverwriteColumnNames(bool setValueOnCellIfNull = true)
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                var v = WorkSheet.GetValue<string>(Address._fromRow, Address._fromCol + i);
+                if (string.IsNullOrEmpty(v))
+                {
+                    if(setValueOnCellIfNull)
+                    {
+                        WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
+                    }
+                }
+                else if (v != _cols[i].Name )
+                {
+                    _cols[i].Name = UpdateAndReturnValidName(i, v, _cols[i].Name, _cols.GetColNamesList());
+                }
+            }
+        }
+
         /// <summary>
         /// If the header row is visible or not
         /// </summary>
@@ -654,22 +729,10 @@ namespace OfficeOpenXml.Table
                     throw (new Exception("Cant set ShowHeader-property. Table has too few rows"));
                 }
 
-                if(value)
+                if (value)
                 {
                     DeleteNode(HEADERROWCOUNT_PATH);
                     WriteAutoFilter(ShowTotal);
-                    for (int i = 0; i < Columns.Count; i++)
-                    {
-                        var v = WorkSheet.GetValue<string>(Address._fromRow, Address._fromCol + i);
-                        if(string.IsNullOrEmpty(v))
-                        {
-                            WorkSheet.SetValue(Address._fromRow, Address._fromCol + i, _cols[i].Name);
-                        }
-                        else if (v != _cols[i].Name)
-                        {
-                            _cols[i].Name = v;
-                        }
-                    }
                     HeaderRowStyle.SetStyle();
                     foreach (var c in Columns)
                     {
