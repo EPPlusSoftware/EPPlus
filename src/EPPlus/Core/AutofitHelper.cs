@@ -12,7 +12,9 @@
  *************************************************************************************************/
 
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -29,61 +31,54 @@ namespace OfficeOpenXml.Core
         Dictionary<int, MeasurementFont> _fontCache;
         public AutofitHelper(ExcelRangeBase range)
         {
-            _range = range;            
+            _range = range;
             if(FontSize.FontWidths.ContainsKey(FontSize.NonExistingFont))
             {
                 FontSize.LoadAllFontsFromResource();
-                _fontWidthDefault = FontSize.FontWidths[FontSize.NonExistingFont];            }
-
+                _fontWidthDefault = FontSize.FontWidths[FontSize.NonExistingFont];
+            }
         }
 
         internal void AutofitColumn(double MinimumWidth, double MaximumWidth)
         {
-            var ws = _range._worksheet;
-            if (ws.Dimension == null)
+            var worksheet = _range._worksheet;
+            var fromCol = _range._fromCol;
+            var toCol = _range._toCol;
+            var fromRow = _range._fromRow;
+            var toRow = _range._toRow;
+            if (MaximumWidth > 255d)
             {
-                return;
+                MaximumWidth = 255d;
             }
-            if (_range._fromCol < 1 || _range._fromRow < 1)
+            if(MinimumWidth >= MaximumWidth)
             {
-                _range.SetToSelectedRange();
+                MinimumWidth = MaximumWidth;
             }
-            _fontCache = new Dictionary<int, MeasurementFont>();
 
-            bool doAdjust = ws._package.DoAdjustDrawings;
-            ws._package.DoAdjustDrawings = false;
-            var drawWidths = ws.Drawings.GetDrawingWidths();
-
-            var fromCol = _range._fromCol > ws.Dimension._fromCol ? _range._fromCol : ws.Dimension._fromCol;
-            var toCol = _range._toCol < ws.Dimension._toCol ? _range._toCol : ws.Dimension._toCol;
-
-            if (fromCol > toCol) return; //Issue 15383
-
-            if (_range.Addresses == null)
-            {
-                SetMinWidth(ws, MinimumWidth, fromCol, toCol);
-            }
-            else
-            {
-                foreach (var addr in _range.Addresses)
-                {
-                    fromCol = addr._fromCol > ws.Dimension._fromCol ? addr._fromCol : ws.Dimension._fromCol;
-                    toCol = addr._toCol < ws.Dimension._toCol ? addr._toCol : ws.Dimension._toCol;
-                    SetMinWidth(ws, MinimumWidth, fromCol, toCol);
-                }
-            }
+            //Get the font, size and style of the default font
+            var styles = worksheet.Workbook.Styles;
+            var normalStyle = styles.GetNormalStyle();
+            var normalXfId = normalStyle?.StyleXfId ?? 0;
+            if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
+            var normalFont = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
+            var fontStyle = MeasurementFontStyles.Regular;
+            if (normalFont.Bold) fontStyle |= MeasurementFontStyles.Bold;
+            if (normalFont.UnderLine) fontStyle |= MeasurementFontStyles.Underline;
+            if (normalFont.Italic) fontStyle |= MeasurementFontStyles.Italic;
+            if (normalFont.Strike) fontStyle |= MeasurementFontStyles.Strikeout;
+            var normalSize1 = Convert.ToSingle(FontSize.GetWidthPixels(normalFont.Name, normalFont.Size));
 
             //Get any autofilter to widen these columns
             var afAddr = new List<ExcelAddressBase>();
-            if (ws.AutoFilterAddress != null)
+            if (worksheet.AutoFilter.Address != null)
             {
-                afAddr.Add(new ExcelAddressBase(    ws.AutoFilterAddress._fromRow,
-                                                    ws.AutoFilterAddress._fromCol,
-                                                    ws.AutoFilterAddress._fromRow,
-                                                    ws.AutoFilterAddress._toCol));
+                afAddr.Add(new ExcelAddressBase(worksheet.AutoFilter.Address._fromRow,
+                                                    worksheet.AutoFilter.Address._fromCol,
+                                                    worksheet.AutoFilter.Address._fromRow,
+                                                    worksheet.AutoFilter.Address._toCol));
                 afAddr[afAddr.Count - 1]._ws = _range.WorkSheetName;
             }
-            foreach (var tbl in ws.Tables)
+            foreach (var tbl in worksheet.Tables)
             {
                 if (tbl.AutoFilterAddress != null)
                 {
@@ -95,72 +90,202 @@ namespace OfficeOpenXml.Core
                 }
             }
 
-            var styles = ws.Workbook.Styles;
-            var ns = styles.GetNormalStyle();
-            var normalXfId = ns?.StyleXfId ?? 0;
-            if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
-            var nf = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
-            var fs = MeasurementFontStyles.Regular;
-            if (nf.Bold) fs |= MeasurementFontStyles.Bold;
-            if (nf.UnderLine) fs |= MeasurementFontStyles.Underline;
-            if (nf.Italic) fs |= MeasurementFontStyles.Italic;
-            if (nf.Strike) fs |= MeasurementFontStyles.Strikeout;
-            var nfont = new MeasurementFont
+            using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(1, 1))
             {
-                FontFamily = nf.Name,
-                Style = fs,
-                Size = nf.Size
-            };
+                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp))
+                {
+                    System.Drawing.FontStyle fontStyle1 = System.Drawing.FontStyle.Regular;
+                    for (int col = fromCol; col <= toCol; col++)
+                    {
+                        var currentMaxWidth = 0d;
+                        foreach (var af in afAddr)
+                        {
+                            if (af.Collide(_range._fromRow, col, _range._toRow, col) != eAddressCollition.No)
+                            {
+                                var cell = _range.Worksheet.Cells[af.Address];
+                                var fontID = styles.CellXfs[cell.StyleID].FontId;
+                                var font = styles.Fonts[fontID];
+                                fontStyle1 = System.Drawing.FontStyle.Regular;
+                                if (font.Bold) fontStyle1 |= System.Drawing.FontStyle.Bold;
+                                if (font.UnderLine) fontStyle1 |= System.Drawing.FontStyle.Underline;
+                                if (font.Italic) fontStyle1 |= System.Drawing.FontStyle.Italic;
+                                if (font.Strike) fontStyle1 |= System.Drawing.FontStyle.Strikeout;
+                                System.Drawing.Font font1 = new System.Drawing.Font(font.Name, font.Size, fontStyle1);
+                                var size = g.MeasureString(cell.Text, font1);
+                                var width = (size.Width) / normalSize1;
+                                if (currentMaxWidth < width)
+                                {
+                                    currentMaxWidth = width;
+                                }
+                                if (currentMaxWidth >= MaximumWidth)
+                                {
+                                    currentMaxWidth = MaximumWidth;
+                                    break;
+                                }
+                            }
+                        }
+                        foreach(var cell in _range.Worksheet.Cells[fromRow, col, toRow, col])
+                        {
+                            var fontID = styles.CellXfs[cell.StyleID].FontId;
+                            var font = styles.Fonts[fontID];
+                            fontStyle1 = System.Drawing.FontStyle.Regular;
+                            if (font.Bold) fontStyle1 |= System.Drawing.FontStyle.Bold;
+                            if (font.UnderLine) fontStyle1 |= System.Drawing.FontStyle.Underline;
+                            if (font.Italic) fontStyle1 |= System.Drawing.FontStyle.Italic;
+                            if (font.Strike) fontStyle1 |= System.Drawing.FontStyle.Strikeout;
+                            System.Drawing.Font font1 = new System.Drawing.Font(font.Name, font.Size, fontStyle1);
+                            var size = g.MeasureString(cell.Text, font1);
+                            var width = (size.Width) / normalSize1;
+                            if (currentMaxWidth < width)
+                            {
+                                currentMaxWidth = width;
+                            }
+                            if (currentMaxWidth >= MaximumWidth)
+                            {
+                                currentMaxWidth = MaximumWidth;
+                                break;
+                            }
+                        }
+                        if (currentMaxWidth < MinimumWidth)
+                        {
+                            currentMaxWidth = MinimumWidth;
+                        }
+                        worksheet.Column(_range._fromCol).Width = currentMaxWidth;
+                    }
+                }
+            }
+            return;
 
-            var normalSize = Convert.ToSingle(FontSize.GetWidthPixels(nf.Name, nf.Size));
+
+            if (worksheet.Dimension == null)
+            {
+                return;
+            }
+            if (_range._fromCol < 1 || _range._fromRow < 1)
+            {
+                _range.SetToSelectedRange();
+            }
+            _fontCache = new Dictionary<int, MeasurementFont>();
+
+            bool doAdjust = worksheet._package.DoAdjustDrawings;
+            worksheet._package.DoAdjustDrawings = false;
+            var drawWidths = worksheet.Drawings.GetDrawingWidths();
+
+            //set up fromCol & toCol
+            //var fromCol = _range._fromCol > worksheet.Dimension._fromCol ? _range._fromCol : worksheet.Dimension._fromCol;
+            //var toCol = _range._toCol < worksheet.Dimension._toCol ? _range._toCol : worksheet.Dimension._toCol;
+
+            if (fromCol > toCol) return; //Issue 15383
+
+            if (_range.Addresses == null)
+            {
+                SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
+            }
+            else
+            {
+                foreach (var addr in _range.Addresses)
+                {
+                    fromCol = addr._fromCol > worksheet.Dimension._fromCol ? addr._fromCol : worksheet.Dimension._fromCol;
+                    toCol = addr._toCol < worksheet.Dimension._toCol ? addr._toCol : worksheet.Dimension._toCol;
+                    SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
+                }
+            }
+
+            ////Get any autofilter to widen these columns
+            //var afAddr = new List<ExcelAddressBase>();
+            //if (worksheet.AutoFilter.Address != null)
+            //{
+            //    afAddr.Add(new ExcelAddressBase(    worksheet.AutoFilter.Address._fromRow,
+            //                                        worksheet.AutoFilter.Address._fromCol,
+            //                                        worksheet.AutoFilter.Address._fromRow,
+            //                                        worksheet.AutoFilter.Address._toCol));
+            //    afAddr[afAddr.Count - 1]._ws = _range.WorkSheetName;
+            //}
+            //foreach (var tbl in worksheet.Tables)
+            //{
+            //    if (tbl.AutoFilterAddress != null)
+            //    {
+            //        afAddr.Add(new ExcelAddressBase(tbl.AutoFilterAddress._fromRow,
+            //                                                                tbl.AutoFilterAddress._fromCol,
+            //                                                                tbl.AutoFilterAddress._fromRow,
+            //                                                                tbl.AutoFilterAddress._toCol));
+            //        afAddr[afAddr.Count - 1]._ws = _range.WorkSheetName;
+            //    }
+            //}
+
+            //Get the font, size and style of the default font
+            //var styles = worksheet.Workbook.Styles;
+            //var normalStyle = styles.GetNormalStyle();
+            //var normalXfId = normalStyle?.StyleXfId ?? 0;
+            //if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
+            //var normalFont = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
+            //var fontStyle = MeasurementFontStyles.Regular;
+            //if (normalFont.Bold) fontStyle |= MeasurementFontStyles.Bold;
+            //if (normalFont.UnderLine) fontStyle |= MeasurementFontStyles.Underline;
+            //if (normalFont.Italic) fontStyle |= MeasurementFontStyles.Italic;
+            //if (normalFont.Strike) fontStyle |= MeasurementFontStyles.Strikeout;
+            //var nfont = new MeasurementFont
+            //{
+            //    FontFamily = normalFont.Name,
+            //    Style = fontStyle,
+            //    Size = normalFont.Size
+            //};
+
+            var normalSize = Convert.ToSingle(FontSize.GetWidthPixels(normalFont.Name, normalFont.Size));
             var textSettings = _range._workbook._package.Settings.TextSettings;
-
+            var hasCheckedAtleastOneCell = false;
+            //Go through all cells
             foreach (var cell in _range)
             {
-                if (ws.Column(cell.Start.Column).Hidden)    //Issue 15338
+                if (worksheet.Column(cell.Start.Column).Hidden)    //Issue 15338
+                {
                     continue;
+                }
+                if (worksheet.Column(cell._fromCol).Width >= MaximumWidth && hasCheckedAtleastOneCell) //logiskt fel med storsannorlikhet
+                {
+                    continue;
+                }
 
                 if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
-                var fntID = styles.CellXfs[cell.StyleID].FontId;
-                MeasurementFont f;
-                if (_fontCache.ContainsKey(fntID))
+                var fontID = styles.CellXfs[cell.StyleID].FontId;
+                MeasurementFont measurementFont;
+                if (_fontCache.ContainsKey(fontID))
                 {
-                    f = _fontCache[fntID];
+                    measurementFont = _fontCache[fontID];
                 }
                 else
                 {
-                    var fnt = styles.Fonts[fntID];
-                    fs = MeasurementFontStyles.Regular;
-                    if (fnt.Bold) fs |= MeasurementFontStyles.Bold;
-                    if (fnt.UnderLine) fs |= MeasurementFontStyles.Underline;
-                    if (fnt.Italic) fs |= MeasurementFontStyles.Italic;
-                    if (fnt.Strike) fs |= MeasurementFontStyles.Strikeout;
-                    f = new MeasurementFont
+                    var font = styles.Fonts[fontID];
+                    fontStyle = MeasurementFontStyles.Regular;
+                    if (font.Bold) fontStyle |= MeasurementFontStyles.Bold;
+                    if (font.UnderLine) fontStyle |= MeasurementFontStyles.Underline;
+                    if (font.Italic) fontStyle |= MeasurementFontStyles.Italic;
+                    if (font.Strike) fontStyle |= MeasurementFontStyles.Strikeout;
+                    measurementFont = new MeasurementFont
                     {
-                        FontFamily = fnt.Name,
-                        Style = fs,
-                        Size = fnt.Size
+                        FontFamily = font.Name,
+                        Style = fontStyle,
+                        Size = font.Size
                     };
-
-                    _fontCache.Add(fntID, f);
+                    _fontCache.Add(fontID, measurementFont);
                 }
-                var ind = styles.CellXfs[cell.StyleID].Indent;
+                var indent = styles.CellXfs[cell.StyleID].Indent;
                 var textForWidth = cell.TextForWidth;
-                var t = textForWidth + (ind > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', ind) : "");
-                if (t.Length > 32000) t = t.Substring(0, 32000); //Issue
-                var size = MeasureString(t, fntID, textSettings);
+                var text = textForWidth + (indent > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', indent) : "");
+                if (text.Length > 32000) text = text.Substring(0, 32000); //Issue
+                var size = MeasureString(text, fontID, textSettings);
 
                 double width;
-                double r = styles.CellXfs[cell.StyleID].TextRotation;
-                if (r <= 0)
+                double rotation = styles.CellXfs[cell.StyleID].TextRotation;
+                if (rotation <= 0)
                 {
                     var padding = 0; // 5
                     width = (size.Width + padding) / normalSize;
                 }
                 else
                 {
-                    r = (r <= 90 ? r : r - 90);
-                    width = (((size.Width - size.Height) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height) + 5) / normalSize;
+                    rotation = (rotation <= 90 ? rotation : rotation - 90);
+                    width = (((size.Width - size.Height) * Math.Abs(System.Math.Cos(System.Math.PI * rotation / 180.0)) + size.Height) + 5) / normalSize;
                 }
 
                 foreach (var a in afAddr)
@@ -172,36 +297,37 @@ namespace OfficeOpenXml.Core
                     }
                 }
 
-                if (width > ws.Column(cell._fromCol).Width)
+                if (width > worksheet.Column(cell._fromCol).Width || !hasCheckedAtleastOneCell)
                 {
-                    ws.Column(cell._fromCol).Width = width > MaximumWidth ? MaximumWidth : width;
+                    worksheet.Column(cell._fromCol).Width = width > MaximumWidth ? MaximumWidth : width;
+                    hasCheckedAtleastOneCell = true;
                 }
             }
-            ws.Drawings.AdjustWidth(drawWidths);
-            ws._package.DoAdjustDrawings = doAdjust;
+            worksheet.Drawings.AdjustWidth(drawWidths);
+            worksheet._package.DoAdjustDrawings = doAdjust;
         }
-        private TextMeasurement MeasureString(string t, int fntID, ExcelTextSettings ts)
+        private TextMeasurement MeasureString(string text, int fontID, ExcelTextSettings textSettings)
         {
             var measureCache = new Dictionary<ulong, TextMeasurement>();
-            ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
+            ulong key = ((ulong)((uint)text.GetHashCode()) << 32) | (uint)fontID;
             if (!measureCache.TryGetValue(key, out var measurement))
             {
-                var measurer = ts.PrimaryTextMeasurer;
-                var font = _fontCache[fntID];
-                measurement = measurer.MeasureText(t, font);
-                if (measurement.IsEmpty && ts.FallbackTextMeasurer != null && ts.FallbackTextMeasurer != ts.PrimaryTextMeasurer)
+                var measurer = textSettings.PrimaryTextMeasurer;
+                var font = _fontCache[fontID];
+                measurement = measurer.MeasureText(text, font);
+                if (measurement.IsEmpty && textSettings.FallbackTextMeasurer != null && textSettings.FallbackTextMeasurer != textSettings.PrimaryTextMeasurer)
                 {
-                    measurer = ts.FallbackTextMeasurer;
-                    measurement = measurer.MeasureText(t, font);
+                    measurer = textSettings.FallbackTextMeasurer;
+                    measurement = measurer.MeasureText(text, font);
                 }
                 if (measurement.IsEmpty && _fontWidthDefault != null)
                 {
-                    measurement = MeasureGeneric(t, ts, font);
+                    measurement = MeasureGeneric(text, textSettings, font);
                 }
-                if (!measurement.IsEmpty && ts.AutofitScaleFactor != 1f)
+                if (!measurement.IsEmpty && textSettings.AutofitScaleFactor != 1f)
                 {
-                    measurement.Height = measurement.Height * ts.AutofitScaleFactor;
-                    measurement.Width = measurement.Width * ts.AutofitScaleFactor;
+                    measurement.Height = measurement.Height * textSettings.AutofitScaleFactor;
+                    measurement.Width = measurement.Width * textSettings.AutofitScaleFactor;
                 }
                 measureCache.Add(key, measurement);
             }
@@ -236,26 +362,26 @@ namespace OfficeOpenXml.Core
             return measurement;
         }
 
-        private void SetMinWidth(ExcelWorksheet ws, double minimumWidth, int fromCol, int toCol)
+        private void SetMinWidth(ExcelWorksheet worksheet, double minimumWidth, int fromCol, int toCol)
         {
-            var iterator = new CellStoreEnumerator<ExcelValue>(ws._values, 0, fromCol, 0, toCol);
+            var iterator = new CellStoreEnumerator<ExcelValue>(worksheet._values, 0, fromCol, 0, toCol);
             var prevCol = fromCol;
-            foreach (ExcelValue val in iterator)
+            foreach (ExcelValue excelValue in iterator)
             {
-                var col = (ExcelColumn)val._value;
+                var col = (ExcelColumn)excelValue._value;
                 if (col.Hidden) continue;
                 col.Width = minimumWidth;
-                if (ws.DefaultColWidth > minimumWidth && col.ColumnMin > prevCol)
+                if (worksheet.DefaultColWidth > minimumWidth && col.ColumnMin > prevCol)
                 {
-                    var newCol = ws.Column(prevCol);
+                    var newCol = worksheet.Column(prevCol);
                     newCol.ColumnMax = col.ColumnMin - 1;
                     newCol.Width = minimumWidth;
                 }
                 prevCol = col.ColumnMax + 1;
             }
-            if (ws.DefaultColWidth > minimumWidth && prevCol < toCol)
+            if (worksheet.DefaultColWidth > minimumWidth && prevCol < toCol)
             {
-                var newCol = ws.Column(prevCol);
+                var newCol = worksheet.Column(prevCol);
                 newCol.ColumnMax = toCol;
                 newCol.Width = minimumWidth;
             }

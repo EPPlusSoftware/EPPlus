@@ -1665,6 +1665,26 @@ namespace EPPlusTest
             ws.Column(40).AutoFit();
         }
         [TestMethod]
+        public void AutoFitColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Autofit2");
+            ws.Cells["A1:A10"].Value = "Auto fit column that is veeery long...";
+            ws.Cells["A1:A10"].Style.Font.Name = "Arial";
+            ws.Columns[1].AutoFit();
+        }
+        [TestMethod]
+        public void AutoFitColumn2()
+        {
+            var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBook.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var start = DateTime.Now;
+            ws.Columns[1].AutoFit();
+            var end = DateTime.Now;
+            TimeSpan span = end - start;
+            p.SaveAs("C:\\epplusTest\\Testoutput\\BigAutoFitBook.xlsx");
+        }
+        
+        [TestMethod]
         public void CopyOverwrite()
         {
             var ws = _pck.Workbook.Worksheets.Add("CopyOverwrite");

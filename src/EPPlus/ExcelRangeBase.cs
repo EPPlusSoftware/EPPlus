@@ -839,7 +839,7 @@ namespace OfficeOpenXml
         /// <param name="MinimumWidth">Minimum column width</param>
         public void AutoFitColumns(double MinimumWidth)
         {
-            AutoFitColumns(MinimumWidth, double.MaxValue);
+            AutoFitColumns(MinimumWidth, 255d);
         }
 
         /// <summary>
