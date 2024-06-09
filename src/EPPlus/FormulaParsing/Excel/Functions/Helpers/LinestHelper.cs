@@ -41,11 +41,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             //    }
             //    xRangeList.Add(onesArray);
             //}
+            //if (constVar)
+            //{
+            //    for (var i = 0; i < xRangeList.Count(); i++)
+            //    {
+            //        xRangeList[i][xRangeList[0].Count() - 1] = 1d; //Might have to change this, revise for row and column cases!
+            //    }
+            //}
             if (constVar)
             {
-                for (var i = 0; i < xRangeList.Count(); i++)
+                for (var r = 0; r < xRangeList.Count(); r++)
                 {
-                    xRangeList[i][xRangeList[0].Count() - 1] = 1d; //Might have to change this, revise for row and column cases!
+                    for (var c = xRangeList[r].Count() - 1; c > 0; c--)
+                    {
+                        xRangeList[r][c] = xRangeList[r][c - 1];
+                    }
+                }
+                for(var r = 0; r < xRangeList.Count(); r++)
+                {
+                    xRangeList[r][0] = 1d;
                 }
             }
 
@@ -53,12 +67,58 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var height = xRangeList.Count();
             var dropCols = MatrixHelper.GaussRank(xRangeList, constVar);
             //if (constVar && dropCols.Contains(width - 1)) dropCols.Remove(width - 1); 
+            var xRangeListCopy = xRangeList;
             if (dropCols.Count() > 0) xRangeList = MatrixHelper.RemoveColumns(xRangeList, dropCols);
 
 
             //Add check if all values in a column are the same, that variable is "redundant in that case!
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
-            //if (constVar && dropCols.Contains(width - 1)) dropCols.Remove(width - 1); 
+
+            double[] betaCoefficients = new double[multipleRegressionSlopes.Count() + dropCols.Count()];
+            betaCoefficients[betaCoefficients.Count() - 1] = multipleRegressionSlopes[0][0];
+
+            if (dropCols.Count() > 0)
+            {
+                for (var i = 0; i < dropCols.Count(); i++)
+                {
+                    betaCoefficients[betaCoefficients.Count() - 1 - (int)dropCols[i]] = 0d;
+                }
+
+                var count = multipleRegressionSlopes.Count() - 1;
+                for (var i = 0; i < betaCoefficients.Count() - 1; i++)
+                {
+                    if (!dropCols.Contains(betaCoefficients.Count() - 1 - i))
+                    {
+                        betaCoefficients[i] = multipleRegressionSlopes[count][0];
+                        count--;
+                    }
+                }
+            }
+            else
+            {
+                if (constVar)
+                {
+                    betaCoefficients[betaCoefficients.Count() - 1] = multipleRegressionSlopes[0][0];
+
+                    var count = 0;
+                    for (var i = multipleRegressionSlopes.Count() - 1; i > 0; i--)
+                    {
+                        betaCoefficients[count] = multipleRegressionSlopes[i][0];
+                        count++;
+                    }
+                }
+                else
+                {
+                    betaCoefficients[betaCoefficients.Count() - 1] = 0d;
+
+                    var count = 0;
+                    for (var i = betaCoefficients.Count() - 2; i >= 0; i--)
+                    {
+                        betaCoefficients[count] = multipleRegressionSlopes[i][0];
+                        count++;
+                    }
+                }
+            }
             //double[][] nonCollinearX = new double[height][];
             //if (matrixIsSingular)
             //{
@@ -191,34 +251,42 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             if (!stats)
             {
-                var resultRange = new InMemoryRange(1, (short)(multipleRegressionSlopes.Count()));
+                var resultRange = new InMemoryRange(1, (short)(betaCoefficients.Count()));
                 if (constVar)
                 {
-                    resultRange.SetValue(0, multipleRegressionSlopes.Count() - 1, multipleRegressionSlopes[multipleRegressionSlopes.Count() - 1][0]);
+                    resultRange.SetValue(0, betaCoefficients.Count() - 1, betaCoefficients[betaCoefficients.Count() - 1]);
                 }
                 else
                 {
-                    resultRange.SetValue(0, multipleRegressionSlopes.Count() - 1, 0d);
+                    resultRange.SetValue(0, betaCoefficients.Count() - 1, 0d);
                 }
 
                 //Linest returns the coefficients in reversed order, so we iterate through the list from the end to get the correct order.
-                int pos = 0;
-                for (var i = multipleRegressionSlopes.Count() - 2; i >= 0; i--)
+                //int pos = 0;
+                //for (var i = multipleRegressionSlopes.Count() - 2; i >= 0; i--)
+                //{
+                //    resultRange.SetValue(0, pos++, multipleRegressionSlopes[i][0]);
+                //}
+                //for(var i = 0; i < multipleRegressionSlopes.Count() - 1; i++)
+                //{
+                //    resultRange.SetValue(0, i, multipleRegressionSlopes[i][0]);
+                //}
+                for (var i = 0; i < betaCoefficients.Count() - 1; i++)
                 {
-                    resultRange.SetValue(0, pos++, multipleRegressionSlopes[i][0]);
+                    resultRange.SetValue(0, i, betaCoefficients[i]);
                 }
                 return resultRange;
             }
             else
             {
-                var resultRangeStats = new InMemoryRange(5, (short)(multipleRegressionSlopes.Count() + dropCols.Count()));
+                var resultRangeStats = new InMemoryRange(5, (short)betaCoefficients.Count());
                 if (constVar)
                 {
-                    resultRangeStats.SetValue(0, multipleRegressionSlopes.Count() - 1, multipleRegressionSlopes[multipleRegressionSlopes.Count() - 1][0]);
+                    resultRangeStats.SetValue(0, betaCoefficients.Count() - 1, betaCoefficients[betaCoefficients.Count() - 1]);
                 }
                 else
                 {
-                    resultRangeStats.SetValue(0, multipleRegressionSlopes.Count() - 1, 0d);
+                    resultRangeStats.SetValue(0, betaCoefficients.Count() - 1, 0d);
                 }
 
                 //Linest returns the coefficients in reversed order, so we iterate through the list from the end to get the correct order.
@@ -227,19 +295,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 //{
                 //    resultRangeStats.SetValue(0, pos2++, multipleRegressionSlopes[i][0]);
                 //}
-                int pos2 = 0;
-                int posSlope = 0;
-                for (var i = multipleRegressionSlopes.Count() + dropCols.Count(); i > 0; i--)
+
+                //Borde nog lägga in nollor i multipleRegressionSlopes istället för direkt in i range!
+                //int pos2 = 0;
+                //int posSlope = 0;
+                //for (var i = multipleRegressionSlopes.Count() + dropCols.Count(); i > 0; i--)
+                //{
+                //    if (dropCols.Contains(i - 1))
+                //    {
+                //        resultRangeStats.SetValue(0, pos2++, 0d);
+                //    }
+                //    else
+                //    {
+                //        resultRangeStats.SetValue(0, pos2++, multipleRegressionSlopes[multipleRegressionSlopes.Count() - 1 - posSlope][0]);
+                //        posSlope += 1;
+                //    }
+                //}
+                for(var i = 0; i < betaCoefficients.Count() - 1; i++)
                 {
-                    if (dropCols.Contains(i - 1))
-                    {
-                        resultRangeStats.SetValue(0, pos2++, 0d);
-                    }
-                    else
-                    {
-                        resultRangeStats.SetValue(0, pos2++, multipleRegressionSlopes[multipleRegressionSlopes.Count() - 1 - posSlope][0]);
-                        posSlope += 1;
-                    }
+                    resultRangeStats.SetValue(0, i, betaCoefficients[i]);
                 }
 
                 List<double> standardErrorSlopes = new List<double>();
@@ -251,7 +325,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     var y = 0d;
                     for (var k = 0; k < width; k++) //check here... was mult.count before
                     {
-                        y += (k != multipleRegressionSlopes.Count() - 1) ? multipleRegressionSlopes[k][0] * xRangeList[i][k] : multipleRegressionSlopes[k][0];
+                        y += (k != betaCoefficients.Count() - 1) ? betaCoefficients[k] * xRangeListCopy[i][width - 1 - k] : betaCoefficients[k];
                     }
                     estimatedYs.Add(y);
                 }
@@ -265,7 +339,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 var ssresid = (constVar) ? MatrixHelper.DevSq(estimatedErrors, false) : MatrixHelper.DevSq(estimatedErrors, true);
                 var ssreg = (constVar) ? MatrixHelper.DevSq(estimatedYs, false) : MatrixHelper.DevSq(estimatedYs, true);
                 var rSquared = ssreg / (ssreg + ssresid);
-                var df = Math.Max(height - width, 0d);
+                var df = Math.Max(height - width + dropCols.Count() , 0d);
                 var standardErrorEstimate = (df != 0d) ? Math.Sqrt(ssresid / df) : 0d;
                 object fStatistic = 0d;
                 if (df != 0)
@@ -279,8 +353,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
                 //Calculating standard errors of all coefficients below
                 var residualMS = (df != 0d) ? ssresid / (height - width) : 0d; //Mean squared of the sum of residual
-                var xT = MatrixHelper.TransposeMatrix(xRangeList, height, width);
-                var xTdotX = MatrixHelper.Multiply(xT, xRangeList);
+                var xT = MatrixHelper.TransposeMatrix(xRangeListCopy, height, width);
+                var xTdotX = MatrixHelper.Multiply(xT, xRangeListCopy);
                 //var inverseMat = GetInverse(xTdotX, out bool mIs);
                 var inverseMat = MatrixHelper.Inverse(xTdotX);
                 var mIs = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false; //Have not tested this threshold
@@ -296,6 +370,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     }
                 }
 
+                //Need to fix how to calculate the standard errors for data sets with collinearity
                 var standardErrorMat = MatrixHelper.MatrixMultDouble(inverseMat, residualMS);
                 var diagonal = MatrixHelper.MatrixDiagonal(standardErrorMat);
                 double[] standardErrorList = new double[diagonal.Count()];
@@ -316,7 +391,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
 
                 int pos3 = 0;
-                for (var i = (constVar) ? standardErrorList.Count() - 2 : standardErrorList.Count() - 1; i >= 0; i--)
+                for (var i = (constVar) ? standardErrorList.Count() - 1 : standardErrorList.Count() - 1; i >= 0; i--)
                 {
                     resultRangeStats.SetValue(1, pos3++, standardErrorList[i]);
                 }
