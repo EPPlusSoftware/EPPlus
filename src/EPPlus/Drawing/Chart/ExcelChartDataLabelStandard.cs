@@ -11,7 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Xml;
+using OfficeOpenXml.Drawing.Chart.DataLabling;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -19,17 +21,47 @@ namespace OfficeOpenXml.Drawing.Chart
     /// Settings for a charts data lables
     /// </summary>
     public class ExcelChartDataLabelStandard : ExcelChartDataLabel
-    {        
+    {
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, "c")
         {
-            var DlblShared = new string[] { "numFmt", "spPr", "txPr", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator" };
-            AddSchemaNodeOrder(["dLbl", "delete", "numFmt"], DlblShared);
-            AddSchemaNodeOrder(SchemaNodeOrder, ["showLeaderLines", "leaderLines", "ext"]);
-            AddSchemaNodeOrder(SchemaNodeOrder, DlblShared);
+            //var groupDLbls = 
 
-            if (nodeName=="dLbl" || nodeName == "")
+            //var CT_DLblsNodeOrder = new List<string>() { "dLbl", };
+
+            //var DLblShared = new string[] { "numFmt", "spPr", "txPr", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator" };
+
+            //var choiceNode = new string[] { "dLbl", "delete" };
+
+            //var groupDLbls = Array.Copy(choiceNode);
+
+            //AddSchemaNodeOrder([""], CTDataLabels.NodeOrder);
+
+            SchemaNodeOrder = LabelNodeHolder.DataLabels.NodeOrder;
+
+            var order = SchemaNodeOrder;
+
+            //AddSchemaNodeOrder(choiceNode, DLblShared);
+            //AddSchemaNodeOrder(SchemaNodeOrder, ["showLeaderLines", "leaderLines", "extLst"]);
+            //AddSchemaNodeOrder(SchemaNodeOrder, DLblShared);
+
+            if (nodeName == "dLbl" || nodeName == "")
             {
+                SchemaNodeOrder = LabelNodeHolder.DataLabel.NodeOrder;
+                //var dLblNodes = new string[] { "idx, delete" };
+                //var groupDLbl = new string[] { "layout, tx" };
+                //Array.Copy(DLblShared, groupDLbl, DLblShared.Length);
+
+                //SchemaNodeOrder = dLblNodes;
+                //AddSchemaNodeOrder(SchemaNodeOrder, groupDLbl);
+                //AddSchemaNodeOrder(SchemaNodeOrder, ["extLst"]);
+
+                //Adds
+                //SchemaNodeOrder = 
+                //groupDLbl = new string[] { dLblNodes[0], dLblNodes[1], groupDLbl[0], groupDLbl[1] };
+
+                //var ctDLbl = string.Concat(dLblNodes, )
+                //AddSchemaNodeOrder(dLblNodes,)
                 TopNode = node;
             }
             else
@@ -60,14 +92,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (ForbiddDataLabelPosition(_chart))
                 {
-                    throw (new InvalidOperationException("Can't set data label position on a 3D-chart"));
+                    throw new InvalidOperationException("Can't set data label position on a 3D-chart");
                 }
                 SetXmlNodeString(positionPath, GetPosText(value));
             }
         }
         internal static bool ForbiddDataLabelPosition(ExcelChart _chart)
         {
-            return (_chart.IsType3D() && !_chart.IsTypePie() && _chart.ChartType != eChartType.Line3D)
+            return _chart.IsType3D() && !_chart.IsTypePie() && _chart.ChartType != eChartType.Line3D
                                || _chart.IsTypeDoughnut();
         }
         const string showValPath = "c:showVal/@val";
