@@ -1675,23 +1675,29 @@ namespace EPPlusTest
         [TestMethod]
         public void AutoFitColumn2()
         {
+            var outerStart = DateTime.Now;
             var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBook.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var start = DateTime.Now;
+            var innerStart = DateTime.Now;
             ws.Cells["A1:CW20000"].AutoFitColumns(0);
-            var end = DateTime.Now;
-            TimeSpan span = end - start;
+            var innerEnd = DateTime.Now;
+            TimeSpan innerSpan = innerEnd - innerStart;
+            var outerEnd = DateTime.Now;
+            TimeSpan outerSpan = outerEnd - outerStart;
             p.SaveAs("C:\\epplusTest\\Testoutput\\BigAutoFitBook.xlsx");
         }
         [TestMethod]
         public void AutoFitColumn200k()
         {
+            var outerStart = DateTime.Now;
             var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBook200k.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var start = DateTime.Now;
+            var innerStart = DateTime.Now;
             ws.Columns[1].AutoFit();
-            var end = DateTime.Now;
-            TimeSpan span = end - start;
+            var innerEnd = DateTime.Now;
+            TimeSpan innerSpan = innerEnd - innerStart;
+            var outerEnd = DateTime.Now;
+            TimeSpan outerSpan = outerEnd - outerStart;
             p.SaveAs("C:\\epplusTest\\Testoutput\\BigAutoFitBook200k.xlsx");
         }
 
