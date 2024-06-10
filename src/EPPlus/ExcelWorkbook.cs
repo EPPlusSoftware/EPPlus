@@ -584,6 +584,12 @@ namespace OfficeOpenXml
 			}
 			return int.MinValue;
 		}
+
+        /// <summary>
+        /// Provides information about the workbooks culture.
+        /// </summary>
+        public static CultureInfo Culture;
+
 		#region Worksheets
 		/// <summary>
 		/// Provides access to all the worksheets in the workbook.

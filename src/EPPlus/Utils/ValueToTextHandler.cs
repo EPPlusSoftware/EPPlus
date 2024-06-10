@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.Utils
 {
@@ -190,18 +191,20 @@ namespace OfficeOpenXml.Utils
 
         private static string CheckAndRemoveNegativeSign(string format, string s, string ns)
         {
-            if((s.StartsWith($"{ns}{ns}") || s.StartsWith($"{ns}-")) && (format.StartsWith(ns) || format.StartsWith("-")))
+            if ((Regex.IsMatch(s, @$"^{ns}{ns}\d") || Regex.IsMatch(s, @$"^{ns}-\d")) 
+                && (format.StartsWith(ns) || format.StartsWith("-")))
             {
                 return s.Remove(1,1);
             }
-            else if((s.StartsWith($"{ns}(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0))
+            if (Regex.IsMatch(s, @$"^{ns}\(\d", RegexOptions.IgnoreCase) 
+                && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) 
+                && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0)
             {
                 return s.Substring(1);
             }
-            else
-            { 
-                return s; 
-            }
+
+            return s;
+
         }
 
         private static string FormatNumberExcel(double d, string format, CultureInfo cultureInfo)

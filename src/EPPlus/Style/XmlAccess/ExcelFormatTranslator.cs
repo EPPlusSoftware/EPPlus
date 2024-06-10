@@ -77,11 +77,22 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             get
             {
-                return _ci ?? CultureInfo.CurrentCulture;
+                if (_ci == null)
+                {                       
+                    if (ExcelWorkbook.Culture == null)
+                    {
+                        return CultureInfo.CurrentCulture;
+                    }
+
+                    _ci = ExcelWorkbook.Culture;
+                }
+
+                return _ci;
             }
             set
             {
                 _ci = value;
+                ExcelWorkbook.Culture ??= _ci;
             }
         }
         internal bool HasCulture

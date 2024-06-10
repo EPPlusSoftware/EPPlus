@@ -30,12 +30,35 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         {
             var value = arguments[0].ValueFirst;
             var format = ArgToString(arguments, 1);
-            format = format.Replace(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".");
-            format = format.Replace(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator.Replace((char)160,' '), ","); //Special handling for No-Break Space
-            
+            format = ChangeFormatToEnglishFormat(format);
             var result = context.ExcelDataProvider.GetFormat(value, format);
 
             return CreateResult(result, DataType.String);
+        }
+
+        private static string ChangeFormatToEnglishFormat(string format)
+        {
+            var decSep = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            var groupSep = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator;
+            if (ExcelWorkbook.Culture != null)
+            {
+                decSep = ExcelWorkbook.Culture.NumberFormat.NumberDecimalSeparator;
+                groupSep = ExcelWorkbook.Culture.NumberFormat.NumberGroupSeparator;
+            }
+
+            //DecimalSeparator and GroupSeperator can switch e.g. Culture is German. Using only replace would result in deleting one of the separators e.g
+            //"###.###,###".Replace(".",",") => "###,###,###".Replace(",",".") => "###.###.###"
+            //the correct replacement in this example would be "###,###.###"
+
+            var groupSepSplit = format.Split(groupSep[0]);
+            var englishFormat = "";
+            groupSepSplit.ToList().ForEach(g => englishFormat += ("," + g.Replace(decSep, ".")));
+            if (!format.StartsWith(groupSep))
+            {
+                englishFormat = englishFormat.Substring(1);
+            }
+
+            return englishFormat;
         }
     }
 }
