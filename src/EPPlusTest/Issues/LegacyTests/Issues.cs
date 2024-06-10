@@ -6273,7 +6273,6 @@ namespace EPPlusTest
             }
         }
 
-
         [TestMethod]
         public void s679()
         {
@@ -6282,11 +6281,13 @@ namespace EPPlusTest
                 var dSheet = package.Workbook.Worksheets.Add("DataSheet");
                 var cSheet = package.Workbook.Worksheets.Add("ChartSheet");
 
-                var range = new ExcelRange(dSheet, "A1:D10");
+                var range = new ExcelRange(dSheet, "A1:G10");
                 var table = dSheet.Tables.Add(range, "DataTable");
                 table.ShowHeader = true;
-                dSheet.Cells["A2:D10"].Formula = "ROW() + COLUMN()";
-                dSheet.Cells["D2:D10"].Formula = "8 - ROW()";
+                dSheet.Cells["A2:G10"].Formula = "ROW() + COLUMN()";
+                dSheet.Cells["D2:D10"].Value = 0.1;
+                dSheet.Cells["E2:E10"].Value = 1;
+                dSheet.Cells["F2:F10"].Value = 0.5;
 
                 dSheet.Calculate();
 
@@ -6297,7 +6298,11 @@ namespace EPPlusTest
                 pTable.DataFields.Add(pTable.Fields["Column1"]);
                 pTable.DataFields.Add(pTable.Fields["Column2"]);
                 pTable.DataFields.Add(pTable.Fields["Column3"]);
-                pTable.RowFields.Add(pTable.Fields["Column4"]);
+                pTable.DataFields.Add(pTable.Fields["Column4"]);
+                pTable.DataFields.Add(pTable.Fields["Column5"]);
+                pTable.DataFields.Add(pTable.Fields["Column6"]);
+                pTable.DataFields.Add(pTable.Fields["Column7"]);
+                //pTable.RowFields.Add(pTable.Fields["Column7"]);
 
                 pTable.ShowColumnHeaders = true;
                 pTable.DataOnRows = false;
@@ -6315,27 +6320,140 @@ namespace EPPlusTest
                 //pivotChart.As.Chart.BarChart.DataLabel.ShowLegendKey = true;
                 //pivotChart.As.Chart.BarChart.DataLabel.ShowLeaderLines = true;
 
-
                 var bChart = cSheet.Drawings.AddBarChart("PivotChartTestTwo", eBarChartType.ColumnStacked, pTable);
 
                 bChart.DataLabel.ShowValue = true;
                 bChart.DataLabel.ShowLeaderLines = true;
 
+                //bChart.Series.AddPivotSerie(pTable);
+                //bChart.Series.AddPivotSerie(pTable);
+                //bChart.Series.AddPivotSerie(pTable);
+                //bChart.Series.AddPivotSerie(pTable);
+                //bChart.Series.AddPivotSerie(pTable);
+
+                var series = bChart.Series;
+
+                for(int i = 0; i <  series.Count; i++)
+                {
+                    var label = bChart.Series[i].DataLabel.DataLabels.Add(0);
+                    AdjustDataLabelItem(ref label);
+                    if (i == 3)
+                    {
+                        label.TextBody.TopInsert = 0;
+                    }
+                    else if (i == 4)
+                    {
+                        label.TextBody.TopInsert = 12;
+
+                    }
+                    else if (i == 5)
+                    {
+                        label.TextBody.TopInsert = 24;
+                    }
+                }
+
+                //var label = bChart.Series[0].DataLabel.DataLabels.Add(0);
+                //var label1 = bChart.Series[1].DataLabel.DataLabels.Add(0);
+                //var label2 = bChart.Series[2].DataLabel.DataLabels.Add(0);
+                //var label3 = bChart.Series[3].DataLabel.DataLabels.Add(0);
+                //var label4 = bChart.Series[4].DataLabel.DataLabels.Add(0);
+                //var label5 = bChart.Series[5].DataLabel.DataLabels.Add(0);
+
+                //AdjustDataLabelItem(ref label);
+                //AdjustDataLabelItem(ref label1);
+                //AdjustDataLabelItem(ref label2);
+                //AdjustDataLabelItem(ref label3);
+                //label3.TextBody.TopInsert = 0;
+                //AdjustDataLabelItem(ref label4);
+                //label4.TextBody.TopInsert = 12;
+                //AdjustDataLabelItem(ref label5);
+                //label5.TextBody.TopInsert = 24;
+
+
+                // var label = bChart.DataLabel;
+
+                //label.ShowSeriesName = false;
+                //label.ShowCategory = false;
+                //label.ShowLegendKey = false;
+                //label.ShowLeaderLines = true;
+                //label.ShowValue = true;
+
+                //label.Position = eLabelPosition.InBase;
+                //label.TextBody.TextAutofit = eTextAutofit.ShapeAutofit;
+                //label.TextBody.WrapText = eTextWrappingType.None;
+                //label.TextBody.TopInsert = 10;
+                //label.TextBody.RightInsert = 100;
+                //bChart.Series.
+                //var label = bChart.Series[0].DataLabel.DataLabels.Add(1);
+                //var label2 = bChart.Series[0].DataLabel.DataLabels.Add(2);
+
+
+                //var label2 = bChart.Series[0].DataLabel.DataLabels.Add(0);
+
+                //AdjustDataLabelItem(ref label);
+                //AdjustDataLabelItem(ref label2);
+
+
+                //label.ShowSeriesName = false;
+                //label.ShowCategory = false;
+                //label.ShowLegendKey = false;
+                //label.ShowLeaderLines = true;
+                //label.ShowValue = true;
+
+                ////label.TextBody.TextAutofit = eTextAutofit.NormalAutofit;
+                ////label.TextBody.AutofitNormalFontScale = 100;
+
+                ////label.TextBody.RightInsert = 50;
+                ////label.TextBody.TopInsert = 25;
+                ////label.TextBody.AnchorCenter = false;
+                //label.Position = eLabelPosition.InBase;
+                //label.TextBody.TextAutofit = eTextAutofit.ShapeAutofit;
+                //label.TextBody.WrapText = eTextWrappingType.None;
+                //label.TextBody.TopInsert = 20;
+                //label.TextBody.RightInsert = 50;
+
+                //var dataLabel2 = bChart.Series[0].DataLabel.DataLabels.Add(1);
+
+                //label.TextBody.Anchor = eTextAnchoringType.Top;
+
+                //label.TextBody.HorizontalTextOverflow = eTextHorizontalOverflow.Overflow;
+                //label.TextBody.WrapText = eTextWrappingType.None;
+                //label.TextBody.AutofitNormalFontScale
+                //label.TextBody.RightInsert = 260;
+                //label.TextBody.TopInsert = 20;
+
+
+                //bChart.DataLabel.Font.Size = 50;
+                //bChart.DataLabel.TextBody.HorizontalTextOverflow = eTextHorizontalOverflow.Overflow;
+                ////1cm * 5
+                //bChart.DataLabel.TextBody.RightInsert = 3600000 * 5;
+
+
+                //bChart.DataLabel.TextBody.Anchor = eTextAnchoringType.Justify;
+
+                //bChart.XAxis.LabelPosition = 
 
 
                 //var label = bChart.Series[0].DataLabel.DataLabels.Add(0);
-                //bChart.Series[0].DataLabel.DataLabels.appe
-
-                //var label2 = bChart.Series[0].DataLabel.DataLabels.Add(4);
-                //var label1 = bChart.Series[0].DataLabel.DataLabels.Add(1);
+                ////var label1 = bChart.Series[0].DataLabel.DataLabels.Add(2);
+                ////var label2 = bChart.Series[0].DataLabel.DataLabels.Add(3);
 
 
-                //label2.Position = eLabelPosition.Center;
+                //label.TextBody.Anchor = eTextAnchoringType.Justify;
+                //label1.TextBody.Anchor = eTextAnchoringType.Justify;
+                //label2.TextBody.Anchor = eTextAnchoringType.Justify;
 
-                //bChart.DataLabel.Position = eLabelPosition.BestFit;
 
-                //label.Position = eLabelPosition.Left;
-                // label2.Position = eLabelPosition.Right;
+                //label.Position = eLabelPosition.InBase;
+
+                ////var label = bChart.Series[0].DataLabel.DataLabels.Add(0);
+                //var label2 = bChart.Series[0].DataLabel.DataLabels.Add(1);
+
+
+                ////label.Position = eLabelPosition.Left;
+                //label2.Position = eLabelPosition.Right;
+
+                //---------------------------------------------------------
 
                 //bChart.DataLabel.TextBody.TextAutofit = eTextAutofit.NormalAutofit;
 
@@ -6364,6 +6482,112 @@ namespace EPPlusTest
 
                 SaveAndCleanup(package);
             }
+
+            void AdjustDataLabelItem(ref ExcelChartDataLabelItem label)
+            {
+                label.ShowSeriesName = false;
+                label.ShowCategory = false;
+                label.ShowLegendKey = false;
+                label.ShowLeaderLines = true;
+                label.ShowValue = true;
+
+                label.Position = eLabelPosition.InBase;
+                label.TextBody.TextAutofit = eTextAutofit.ShapeAutofit;
+                label.TextBody.WrapText = eTextWrappingType.None;
+                label.TextBody.TopInsert = 5;
+                label.TextBody.RightInsert = 160;
+            }
+
+            //[TestMethod]
+            //public void s679()
+            //{
+            //    using (var package = OpenPackage("s679.xlsx", true))
+            //    {
+            //        var dSheet = package.Workbook.Worksheets.Add("DataSheet");
+            //        var cSheet = package.Workbook.Worksheets.Add("ChartSheet");
+
+            //        var range = new ExcelRange(dSheet, "A1:D10");
+            //        var table = dSheet.Tables.Add(range, "DataTable");
+            //        table.ShowHeader = true;
+            //        dSheet.Cells["A2:D10"].Formula = "ROW() + COLUMN()";
+            //        dSheet.Cells["D2:D10"].Formula = "8 - ROW()";
+
+            //        dSheet.Calculate();
+
+            //        //var pTable = new ExcelPivotTable(cSheet, cSheet.Cells["A1"], range, "PivotTableTest", table.Id);
+
+            //        var pTable = cSheet.PivotTables.Add(cSheet.Cells["A1"], range, "NewPivotTable");
+
+            //        pTable.DataFields.Add(pTable.Fields["Column1"]);
+            //        pTable.DataFields.Add(pTable.Fields["Column2"]);
+            //        pTable.DataFields.Add(pTable.Fields["Column3"]);
+            //        pTable.RowFields.Add(pTable.Fields["Column4"]);
+
+            //        pTable.ShowColumnHeaders = true;
+            //        pTable.DataOnRows = false;
+
+            //        //var pivotChart = cSheet.Drawings.AddChart("PivotChartTest", eChartType.ColumnStacked, pTable);
+
+            //        //pivotChart.Title.Text = "Output by machine & product family";
+
+            //        //pivotChart.SetPosition(0, 0, 0, 0);
+
+            //        //pivotChart.SetSize(700, 500);
+
+            //        //pivotChart.StyleManager.SetChartStyle(ePresetChartStyle.ColumnChartStyle1);
+
+            //        //pivotChart.As.Chart.BarChart.DataLabel.ShowLegendKey = true;
+            //        //pivotChart.As.Chart.BarChart.DataLabel.ShowLeaderLines = true;
+
+
+            //        var bChart = cSheet.Drawings.AddBarChart("PivotChartTestTwo", eBarChartType.ColumnStacked, pTable);
+
+            //        bChart.DataLabel.ShowValue = true;
+            //        bChart.DataLabel.ShowLeaderLines = true;
+
+
+
+            //        //var label = bChart.Series[0].DataLabel.DataLabels.Add(0);
+            //        //bChart.Series[0].DataLabel.DataLabels.appe
+
+            //        //var label2 = bChart.Series[0].DataLabel.DataLabels.Add(4);
+            //        //var label1 = bChart.Series[0].DataLabel.DataLabels.Add(1);
+
+
+            //        //label2.Position = eLabelPosition.Center;
+
+            //        //bChart.DataLabel.Position = eLabelPosition.BestFit;
+
+            //        //label.Position = eLabelPosition.Left;
+            //        // label2.Position = eLabelPosition.Right;
+
+            //        //bChart.DataLabel.TextBody.TextAutofit = eTextAutofit.NormalAutofit;
+
+            //        //bChart.DataLabel.TextBody.RightInsert = 200;
+            //        //bChart.DataLabel.TextBody.TextAutofit = eTextAutofit.NormalAutofit;
+
+            //        //var aLabel = bChart.Series[0].DataLabel;
+
+            //        //var addedLabel = aLabel.DataLabels.Add(0);
+
+            //        //addedLabel.ShowValue = true;
+
+            //        //addedLabel.Position = eLabelPosition.Left;
+
+            //        // aLabel.DataLabels[0].Position = eLabelPosition.Left;
+            //        //var numItems = bChart.Series[0].NumberOfItems;
+
+            //        //var point = bChart.Series[0].DataPoints[0];
+            //        //bChart.InitSeries
+
+            //        //bChart.DataLabel.ShowValue = true;
+            //        //bChart.Series[1].DataLabel.TextBody.Anchor = eTextAnchoringType.Top;
+            //        //bChart.Series[0].DataLabel.TextBody.TopInsert = 10;
+            //        //bChart.Series[0].DataLabel.TextBody.RightInsert = 2;
+            //        //bChart.Series[0].DataLabel.TextBody.BottomInsert = 10;
+
+            //        SaveAndCleanup(package);
+            //    }
         }
     }
 }
