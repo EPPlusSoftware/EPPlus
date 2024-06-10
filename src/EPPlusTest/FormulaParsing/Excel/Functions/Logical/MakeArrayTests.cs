@@ -44,7 +44,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             var d4 = sheet.Cells["D4"].Value;
             var d5 = sheet.Cells["D5"].Value;
             Assert.IsTrue(IsValidCellValue(d4));
-            Assert.IsTrue(!IsValidCellValue(d5));
+            Assert.IsTrue(IsValidCellValue(d5));
         }
     }
 }

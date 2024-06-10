@@ -43,14 +43,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
                 var t = tokens[tokenIx];
-                if(isInLambdaCalculation && t.TokenType != TokenType.Function)
+                if(isInLambdaCalculation)
                 {
-                    if(rpnFormula != null)
+                    if(!(t.TokenType == TokenType.Function && t.Value.ToString().ToLower().Contains("lambda")))
                     {
-                        rpnFormula.AddLambdaToken(tokenIx);
+                        if (rpnFormula != null)
+                        {
+                            rpnFormula.AddLambdaToken(tokenIx);
+                        }
+                        lambdaCalculationExpression.AddLambdaToken(t);
+                        continue;
                     }
-                    lambdaCalculationExpression.AddLambdaToken(t);
-                    continue;
                 }
                 var i = tokenIx;
                 switch (t.TokenType)
