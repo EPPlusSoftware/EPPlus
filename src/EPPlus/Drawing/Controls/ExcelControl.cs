@@ -77,7 +77,8 @@ namespace OfficeOpenXml.Drawing.Controls
             _control = new ControlInternal(NameSpaceManager, ctrlNode.FirstChild);
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ControlPropertiesXml.DocumentElement);
         }
-        private string GetControlStartWorksheetXml(string relId)
+
+        internal string GetControlStartWorksheetXml(string relId)
         {
             var sb = new StringBuilder();
 

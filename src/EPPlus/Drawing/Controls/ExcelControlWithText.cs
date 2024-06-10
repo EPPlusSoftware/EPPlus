@@ -2,14 +2,14 @@
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
+https://polyformproject.org/licenses/noncommercial/1.0.0/
+ 
   A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
+*************************************************************************************************
   Date               Author                       Change
- *************************************************************************************************
+*************************************************************************************************
     11/24/2020         EPPlus Software AB           Controls 
- *************************************************************************************************/
+*************************************************************************************************/
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using System;
@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing.Controls
             InitPaths();
         }
 
-        internal ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : 
+        internal ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent = null) :
             base(drawings, drawNode, name, parent)
         {
             InitPaths(); 
@@ -53,7 +53,6 @@ namespace OfficeOpenXml.Drawing.Controls
                 _textBodyPath = string.Format(_textBodyPath, "xdr:sp/");
             }
         }
-
         /// <summary>
         /// Text inside the shape
         /// </summary>
@@ -65,7 +64,7 @@ namespace OfficeOpenXml.Drawing.Controls
             }
             set
             {
-                if(RichText.Count==1)
+                if (RichText.Count == 1)
                 {
                     RichText[0].Text = value;
                 }
