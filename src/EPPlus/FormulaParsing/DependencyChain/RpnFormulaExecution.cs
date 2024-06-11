@@ -293,6 +293,7 @@ namespace OfficeOpenXml.FormulaParsing
                 SetCurrentCell(depChain, f);
                 f.SetFormula(s, depChain);
             }
+            f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
             var id = ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, f._row, f._column);
             depChain.processedCells.Add(id);
 

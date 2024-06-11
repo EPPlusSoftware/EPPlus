@@ -212,5 +212,22 @@ namespace EPPlusTest.Issues
 				Assert.AreEqual(42354.210446, (double)summary.Cells["M22"].Value, 0.000001);
 			}
         }
+        [TestMethod]
+        public void s681()
+		{
+			using (var p1 = OpenTemplatePackage("s681-bad.xlsx"))
+			{
+				ExcelWorkbook workbook = p1.Workbook;
+				SaveAndCleanup(p1);
+				//SaveWorkbook("s681Good.xlsx",p1);
+            }
+
+    //        using (var p2 = OpenPackage("s681Good.xlsx"))
+    //        {
+    //            ExcelWorkbook workbook = p2.Workbook;
+				//SaveWorkbook("s681Bad.xlsx", p2);
+
+    //        }
+        }
 	}
 }
