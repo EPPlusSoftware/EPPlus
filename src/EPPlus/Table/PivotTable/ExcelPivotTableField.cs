@@ -1142,6 +1142,28 @@ namespace OfficeOpenXml.Table.PivotTable
 			}
 		}
 
+        internal Dictionary<object, int> GetLookup()
+        {
+            var c = Cache.GetCacheLookup();
+            var ret = new Dictionary<object, int>(new CacheComparer());
+            var ix = 0;
+            foreach (var item in Items)
+            {
+                if (item.Type != eItemType.Data) continue;
+                if(string.IsNullOrEmpty(item.Text)==false && c.TryGetValue(item.Value, out var index))
+                {
+                    var i = c[item.Value];
+                    ret.Add(item.Text, i);
+                }
+                else
+                {
+                    ret.Add(item.Value, item.X);
+                }
+                ix++;
+            }
+            return ret;
+        }
+
         internal bool ShouldHaveItems
         {
             get 

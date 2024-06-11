@@ -532,9 +532,11 @@
 		<Reference Include="System.Security" />
 		<Reference Include="System.Xml" />
 		<Reference Include="System.Threading.Tasks" />
+		<PackageReference Include="System.ComponentModel.Annotations" />
+		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' != 'net35'">
+	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462'" >
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="System.Security.Cryptography.Pkcs" />

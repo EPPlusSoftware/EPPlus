@@ -339,6 +339,20 @@ namespace OfficeOpenXml.Table.PivotTable
             IsCalculated = true;
         }
         /// <summary>
+        /// Returns the calculated grand total for the pivot table. This function works similar to the GetPivotData function used in formulas.
+        /// If the pivot table is created in EPPlus without refreshing the cache, the cache will be created.
+        /// Please note the any source data containing formulas must be calculated before the pivot table is calculated.
+        /// <seealso cref="Calculate(bool)"/>
+        /// <seealso cref="IsCalculated"/>
+        /// <seealso cref="ExcelPivotCacheDefinition.Refresh"/>
+        /// </summary>
+        /// <param name="dataFieldName">The name of the data field. If a data field with the name does exist in the table, a #REF! error is returned-</param>
+        /// <returns>The calculated value</returns>
+        public object GetPivotData(string dataFieldName)
+        {
+            return GetPivotData(dataFieldName, new List<PivotDataFieldItemSelection>());
+        }
+        /// <summary>
         /// Returns a calculated value for a row or column field. This function works similar to the GetPivotData function.
         /// If a row or column field is omitted, the subtotal for that field is retrieved.
         /// If the pivot table is not calculated a calculation will be performed without refreshing the pivot cache.
@@ -377,7 +391,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     var field = Fields[fieldItemSelection[j].FieldName];
 
-                    if (field == null)
+                    if (field == null || (field.IsColumnField==false && field.IsRowField==false))
                     {
                         return ErrorValues.RefError;
                     }
@@ -393,7 +407,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
                     if (field.Index == keyFieldIndex[i])
                     {
-                        var cache = field.Cache.GetCacheLookup();
+                        var cache = field.GetLookup();
 
                         var isGrouping = field.Grouping != null;
 

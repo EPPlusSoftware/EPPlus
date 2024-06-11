@@ -82,5 +82,23 @@ namespace OfficeOpenXml.Table.PivotTable
         { 
             return _pivotTable.GetPivotData(dataFieldName, _criterias);
         }
-    } 
+        /// <summary>
+        /// Get the value for the current field selection.
+        /// <see cref="SelectField(string, object)"/>
+        /// <see cref="SelectField(string, object, eSubTotalFunctions)"/>
+        /// </summary>
+        /// 
+        /// <param name="dataFieldIndex">The index for the date field in the <see cref="ExcelPivotTable.DataFields"/> collection</param>
+        /// <returns>The value from the pivot table. If data field does not exist of the selected fields does not match any part of the pivot table a #REF! error is retuned.</returns>
+        public object GetValue(int dataFieldIndex=0)
+        {
+            if(dataFieldIndex<0 || dataFieldIndex>=_pivotTable.DataFields.Count)
+            {
+                return ErrorValues.RefError;
+            }
+            var name = _pivotTable.DataFields[dataFieldIndex].Name ?? _pivotTable.DataFields[dataFieldIndex].Field.Name;
+            return _pivotTable.GetPivotData(name, _criterias);
+        }
+
+    }
 }
