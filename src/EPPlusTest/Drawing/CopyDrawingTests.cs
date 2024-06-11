@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.Style;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlusTest.Drawing
 {
@@ -276,6 +277,46 @@ namespace EPPlusTest.Drawing
             var ws3 = p.Workbook.Worksheets[2];
             ws3.Cells["A1:Z50"].Copy(ws3.Cells["AA1:AZ50"]);
             SaveAndCleanup(p);
+        }
+
+
+        private class Item
+        {
+            public string? Name { get; set; }
+
+            public int Value { get; set; }
+        }
+
+        [TestMethod]
+        public void issue1475()
+        {
+            using var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+
+
+            IEnumerable<Item> _items = new List<Item>() {
+                new Item { Name = "Bob", Value = 3 },
+                new Item { Name = "Lisa", Value = 8 },
+                new Item { Name = "Steve", Value = 5 },
+                new Item { Name = "Phil", Value = 2 },
+            };
+
+            var range = ws.Cells["A1"].LoadFromCollection(_items, true, TableStyles.Dark1);
+            var chart = ws.Drawings.AddLineChart("LineChartWithDroplines", eLineChartType.Line);
+            var serie = chart.Series.Add(range.TakeSingleColumn(1), range.TakeSingleColumn(0));
+            serie.Header = "Order Value";
+            chart.SetPosition(0, 0, 6, 0);
+            chart.SetSize(1200, 400);
+            chart.Title.Text = "Line Chart With Droplines";
+            chart.AddDropLines();
+            chart.DropLine.Border.Width = 2;
+            //Set style 12
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.LineChartStyle12);
+
+
+            var cpyWs = package.Workbook.Worksheets.Add("Copy", ws);
+            cpyWs.View.TabSelected = false;
+            package.SaveAs("C:\\epplusTest\\Testoutput\\i1475.xlsx");
         }
     }
 }

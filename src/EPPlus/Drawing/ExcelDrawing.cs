@@ -1134,6 +1134,7 @@ namespace OfficeOpenXml.Drawing
             SetPixelWidth(_width);
             SetPixelHeight(_height);
             _doNotAdjust = false;
+            UpdatePositionAndSizeXml();
         }
         /// <summary>
         /// Set size in Percent.
@@ -1154,6 +1155,7 @@ namespace OfficeOpenXml.Drawing
             SetPixelWidth(_width);
             SetPixelHeight(_height);
             _doNotAdjust = false;
+            UpdatePositionAndSizeXml();
         }
         /// <summary>
         /// Set size in pixels
@@ -1169,6 +1171,7 @@ namespace OfficeOpenXml.Drawing
             SetPixelWidth(PixelWidth);
             SetPixelHeight(PixelHeight);
             _doNotAdjust = false;
+            UpdatePositionAndSizeXml();
         }
         #endregion
         /// <summary>
