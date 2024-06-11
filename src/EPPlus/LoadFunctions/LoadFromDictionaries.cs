@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/16/2020         EPPlus Software AB       EPPlus 5.2.1
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 using System;
@@ -111,19 +112,41 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 foreach (var key in _keys)
                 {
-                    values[row, col++] = ParseHeader(key);
+                    if (transpose)
+                    {
+                        values[row++, col] = ParseHeader(key);
+                    }
+                    else
+                    {
+                        values[row, col++] = ParseHeader(key);
+                    }
                 }
-                row++;
+                if (transpose) 
+                { 
+                    col++;
+                }
+                else 
+                {
+                    row++;
+                }
             }
             foreach (var item in _items)
             {
-                col = 0;
+                if(transpose)
+                {
+                    row = 0;
+                }
+                else
+                {
+                    col = 0;
+                }
                 foreach (var key in _keys)
                 {
                     if (item.ContainsKey(key))
                     {
                         var v = item[key];
-                        if(col < _dataTypes.Length && v != null)
+                        var dtCheck = transpose ? row < _dataTypes.Length : col < _dataTypes.Length;
+                        if (dtCheck && v != null)
                         {
                             var dataType = _dataTypes[col];
                             switch(dataType)
@@ -158,14 +181,35 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             values[row, col] = item[key];
                         }
-                        col++;
+                        if(transpose)
+                        {
+                            row++;
+                        }
+                        else
+                        {
+                            col++;
+                        }
                     }
                     else
                     {
-                        col++;
+                        if (transpose)
+                        {
+                            row++;
+                        }
+                        else
+                        {
+                            col++;
+                        }
                     }
                 }
-                row++;
+                if (transpose)
+                {
+                    col++;
+                }
+                else
+                {
+                    row++;
+                }
             }
         }
 

@@ -284,8 +284,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheetName)) ||
                     (!string.IsNullOrEmpty(tokenAddress.WorkSheetName) && tokenAddress.WorkSheetName.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);
-                    if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);
+                    if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);     //Extend the token address for all rows in the formula and check for collitions with the deleted range.
+                    if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);  //Extend the token address for all columns in the formula and check for collition with the deleted range.
 
                     if (tokenAddress.Collide(delRange, true) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
                     {
@@ -302,23 +302,33 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         private static void ConvertSharedFormulaToCellFormula(ExcelWorksheet ws, SharedFormula sf, ExcelAddressBase sfAddress)
         {
+            var sr = sfAddress._fromRow;
+            var sc = sfAddress._fromCol;
             for (var r = 0; r < sfAddress.Rows; r++)
             {
                 for (var c = 0; c < sfAddress.Columns; c++)
                 {
-                    var row = sf.StartRow + r;
-                    var col = sf.StartCol + c;
-                    ws._formulas.SetValue(row, col, ws.GetFormula(row, col));
+                    var row = sr + r;
+                    var col = sc + c;
+                    var f = ws.GetFormula(row, col);
+                    if(string.IsNullOrEmpty(f))
+                    {
+                        ws._formulas.SetValue(row, col, null);
+                    }
+                    else
+                    {
+                        ws._formulas.SetValue(row, col, f);
+                    }
                 }
             }
         }
         internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress, ExcelAddressBase effectedAddressTable, bool insert)
         {
             //Validate autofilter
-            if (range.Worksheet.AutoFilterAddress!=null && 
-                effectedAddress.Collide(range.Worksheet.AutoFilterAddress) == ExcelAddressBase.eAddressCollition.Partly 
+            if (range.Worksheet.AutoFilter.Address!=null && 
+                effectedAddress.Collide(range.Worksheet.AutoFilter.Address) == ExcelAddressBase.eAddressCollition.Partly 
                     &&
-                    range.Worksheet.AutoFilterAddress.CollideFullRowOrColumn(range) == false)
+                    range.Worksheet.AutoFilter.Address.CollideFullRowOrColumn(range) == false)
             {
                 throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with the worksheets autofilter.");
             }

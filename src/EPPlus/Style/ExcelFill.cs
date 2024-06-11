@@ -27,7 +27,6 @@ namespace OfficeOpenXml.Style
     {
         internal ExcelFill(ExcelStyles styles, OfficeOpenXml.XmlHelper.ChangedEventHandler ChangedEvent, int PositionID, string address, int index) :
             base(styles, ChangedEvent, PositionID, address)
-
         {
             Index = index;
         }

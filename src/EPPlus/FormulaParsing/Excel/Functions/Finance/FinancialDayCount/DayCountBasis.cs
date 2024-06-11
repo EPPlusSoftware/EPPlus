@@ -16,12 +16,30 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
+    /// <summary>
+    /// Day counting options unsed in the internal finance function implementations.
+    /// </summary>
     public enum DayCountBasis
     {
+        /// <summary>
+        /// US basis
+        /// </summary>
         US_30_360 = 0,
+        /// <summary>
+        /// Actual actual
+        /// </summary>
         Actual_Actual = 1,
+        /// <summary>
+        /// Actual 360
+        /// </summary>
         Actual_360 = 2,
+        /// <summary>
+        /// Actual 365
+        /// </summary>
         Actual_365 = 3,
+        /// <summary>
+        /// Europe
+        /// </summary>
         European_30_360 = 4
     }
 }

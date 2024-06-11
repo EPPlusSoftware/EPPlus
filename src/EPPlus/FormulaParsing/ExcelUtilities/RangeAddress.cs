@@ -18,31 +18,53 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
+    /// <summary>
+    /// Adress over a range
+    /// </summary>
     public class RangeAddress
     {
+        /// <summary>
+        /// Constructor for empty address
+        /// </summary>
         public RangeAddress()
         {
             Address = string.Empty;
         }
 
         internal string Address { get; set; }
-
+        /// <summary>
+        /// Worksheet
+        /// </summary>
         public string Worksheet { get; internal set; }
-
+        /// <summary>
+        /// From Column
+        /// </summary>
         public int FromCol { get; internal set; }
-
+        /// <summary>
+        /// To Column
+        /// </summary>
         public int ToCol { get; internal set; }
-
+        /// <summary>
+        /// From row
+        /// </summary>
         public int FromRow { get; internal set; }
-
+        /// <summary>
+        /// To row
+        /// </summary>
         public int ToRow { get; internal set; }
-
+        /// <summary>
+        /// To string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Address;
         }
 
         private static RangeAddress _empty = new RangeAddress();
+        /// <summary>
+        /// Empty
+        /// </summary>
         public static RangeAddress Empty
         {
             get { return _empty; }

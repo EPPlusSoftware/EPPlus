@@ -29,7 +29,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
 
         }
-
+        /// <summary>
+        /// Create repository
+        /// </summary>
+        /// <returns></returns>
         public static FunctionRepository Create()
         {
             var repo = new FunctionRepository();
@@ -55,7 +58,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             //}
             _namespaceFunctions = null;
         }
-
+        /// <summary>
+        /// Get function
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public virtual ExcelFunction GetFunction(string name)
         {
             if(!_functions.ContainsKey(name.ToLower(CultureInfo.InvariantCulture)))

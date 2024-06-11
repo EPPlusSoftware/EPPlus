@@ -149,10 +149,10 @@ namespace OfficeOpenXml.Metadata
                     switch(item.Name)
                     {
                         case FUTURE_METADATA_DYNAMIC_ARRAY_NAME:
-                            DynamicArrayTypeIndex = MetadataTypes.Count;
+                            DynamicArrayTypeIndex = MetadataTypes.Count + 1;
                             break;
                         case FUTURE_METADATA_RICHDATA_NAME:
-                            RichDataTypeIndex = MetadataTypes.Count;
+                            RichDataTypeIndex = MetadataTypes.Count + 1;
                             break;
 
 

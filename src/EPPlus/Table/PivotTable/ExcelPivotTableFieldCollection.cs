@@ -39,7 +39,14 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 foreach (var field in _list)
                 {
-                    if (field.Name.Equals(name,StringComparison.OrdinalIgnoreCase))
+                    if (field.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return field;
+                    }
+                }
+                foreach (var field in _list)
+                {
+                    if (field.Cache.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     {
                         return field;
                     }
@@ -138,7 +145,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 fieldNode.SetAttribute("dragToCol", "0");
                 fieldNode.SetAttribute("dragToRow", "0");
                 var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, pt, cacheField.Index, 0);
-                field.CacheField = cacheField;
+                field.Cache  = cacheField;
                 pt.Fields.AddInternal(field);
             }
             return _table.Fields[cacheField.Index];

@@ -127,15 +127,39 @@ namespace OfficeOpenXml.Drawing
                 }
                 if (dr != null)
                 {
-                    _drawingsList.Add(dr);
-                    if (!_drawingNames.ContainsKey(dr.Name))
-                    {
-                        _drawingNames.Add(dr.Name, _drawingsList.Count - 1);
-                    }
+                    AddDrawingInternal(dr);
                 }
             }
         }
 
+        internal void AddDrawingInternal(ExcelDrawing dr)
+        {
+            _drawingsList.Add(dr);
+            if (!_drawingNames.ContainsKey(dr.Name))
+            {
+                _drawingNames.Add(dr.Name, _drawingsList.Count - 1);
+            }
+        }
+
+        internal string GetUniqueDrawingName(string name)
+        {
+            var newName = name;
+            var index = 1;
+            while (_drawingNames.ContainsKey(newName))
+            {
+                var split = newName.Split(' ');
+                if( int.TryParse(split[split.Length - 1], out int number))
+                {
+                    split[split.Length - 1] = (++number).ToString();
+                    newName = string.Join(" ", split);
+                }
+                else
+                {
+                    newName = name + index++;
+                }
+            }
+            return newName;
+        }
 
         #region NamespaceManager
         /// <summary>
@@ -264,7 +288,7 @@ namespace OfficeOpenXml.Drawing
         #region Add functions
         /// <summary>
         /// Adds a new chart to the worksheet.
-        /// Stock charts cannot be added by this method. See <see cref="ExcelDrawings.AddStockChart(string, eStockChartType, ExcelRangeBase)"/>
+        /// Stock charts cannot be added by this method. See <see cref="AddStockChart(string, eStockChartType, ExcelRangeBase, bool)"/>
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">Type of chart</param>
@@ -1469,49 +1493,8 @@ namespace OfficeOpenXml.Drawing
         #endregion
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent = false)
         {
-            if (DrawingXml.DocumentElement == null)
-            {
-                DrawingXml.LoadXml(string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><xdr:wsDr xmlns:xdr=\"{0}\" xmlns:a=\"{1}\" />", ExcelPackage.schemaSheetDrawings, ExcelPackage.schemaDrawings));
-                Packaging.ZipPackage package = Worksheet._package.ZipPackage;
+            XmlElement drawNode= CreateDocumentAndTopNode(topNodeType, asAlterniveContent);
 
-                //Check for existing part, issue #100
-                var id = Worksheet.SheetId;
-                do
-                {
-                    _uriDrawing = new Uri(string.Format("/xl/drawings/drawing{0}.xml", id++), UriKind.Relative);
-                }
-                while (package.PartExists(_uriDrawing));
-
-                _part = package.CreatePart(_uriDrawing, "application/vnd.openxmlformats-officedocument.drawing+xml", _package.Compression);
-
-                StreamWriter streamChart = new StreamWriter(_part.GetStream(FileMode.Create, FileAccess.Write));
-                DrawingXml.Save(streamChart);
-                streamChart.Close();
-                package.Flush();
-
-                _drawingRelation = Worksheet.Part.CreateRelationship(UriHelper.GetRelativeUri(Worksheet.WorksheetUri, _uriDrawing), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/drawing");
-                XmlElement e = (XmlElement)Worksheet.CreateNode("d:drawing");
-                e.SetAttribute("id", ExcelPackage.schemaRelationships, _drawingRelation.Id);
-
-                package.Flush();
-            }
-            XmlNode colNode = _drawingsXml.SelectSingleNode("//xdr:wsDr", NameSpaceManager);
-            XmlElement drawNode;
-
-            var topElementname = $"{topNodeType.ToEnumString()}Anchor";
-            drawNode = _drawingsXml.CreateElement("xdr", topElementname, ExcelPackage.schemaSheetDrawings);
-            if (asAlterniveContent)
-            {
-                var acNode = (XmlElement)_drawingsXml.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
-                acNode.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
-                acNode.InnerXml = "<mc:Choice Requires=\"a14\" xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\"></mc:Choice><mc:Fallback/>";
-                acNode.FirstChild.AppendChild(drawNode);
-                colNode.AppendChild(acNode);
-            }
-            else
-            {
-                colNode.AppendChild(drawNode);
-            }
             if (topNodeType == eEditAs.OneCell || topNodeType == eEditAs.TwoCell)
             {
                 //Add from position Element;
@@ -1544,6 +1527,53 @@ namespace OfficeOpenXml.Drawing
                 drawNode.AppendChild(posNode);
             }
 
+            return drawNode;
+        }
+
+        internal XmlElement CreateDocumentAndTopNode(eEditAs topNodeType, bool asAlterniveContent)
+        {
+            if (DrawingXml.DocumentElement == null)
+            {
+                DrawingXml.LoadXml(string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><xdr:wsDr xmlns:xdr=\"{0}\" xmlns:a=\"{1}\" />", ExcelPackage.schemaSheetDrawings, ExcelPackage.schemaDrawings));
+                Packaging.ZipPackage package = Worksheet._package.ZipPackage;
+
+                //Check for existing part, issue #100
+                var id = Worksheet.SheetId;
+                do
+                {
+                    _uriDrawing = new Uri(string.Format("/xl/drawings/drawing{0}.xml", id++), UriKind.Relative);
+                }
+                while (package.PartExists(_uriDrawing));
+
+                _part = package.CreatePart(_uriDrawing, "application/vnd.openxmlformats-officedocument.drawing+xml", _package.Compression);
+
+                StreamWriter streamChart = new StreamWriter(_part.GetStream(FileMode.Create, FileAccess.Write));
+                DrawingXml.Save(streamChart);
+                streamChart.Close();
+                package.Flush();
+
+                _drawingRelation = Worksheet.Part.CreateRelationship(UriHelper.GetRelativeUri(Worksheet.WorksheetUri, _uriDrawing), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/drawing");
+                XmlElement e = (XmlElement)Worksheet.CreateNode("d:drawing");
+                e.SetAttribute("id", ExcelPackage.schemaRelationships, _drawingRelation.Id);
+
+                package.Flush();
+            }
+            var topElementname = $"{topNodeType.ToEnumString()}Anchor";
+            var drawNode = _drawingsXml.CreateElement("xdr", topElementname, ExcelPackage.schemaSheetDrawings);
+            var colNode = _drawingsXml.SelectSingleNode("//xdr:wsDr", NameSpaceManager);
+
+            if (asAlterniveContent)
+            {
+                var acNode = (XmlElement)_drawingsXml.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
+                acNode.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+                acNode.InnerXml = "<mc:Choice Requires=\"a14\" xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\"></mc:Choice><mc:Fallback/>";
+                acNode.FirstChild.AppendChild(drawNode);
+                colNode.AppendChild(acNode);
+            }
+            else
+            {
+                colNode.AppendChild(drawNode);
+            }
             return drawNode;
         }
         #endregion

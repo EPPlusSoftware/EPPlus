@@ -18,23 +18,33 @@ namespace OfficeOpenXml
         }
         internal protected void WriteCellData(StreamWriter sw, ExcelRangeBase dr, int headerRows)
         {
+            var fromCol = dr._fromCol;
+            var toCOl = dr._toCol;
+            var fromRow = dr._fromRow;
+            var toRow = dr._toRow;
+            if (_settings.DataIsTransposed)
+            {
+                fromRow = dr._fromCol;
+                toRow = dr._toCol;
+                fromCol = dr._fromRow;
+                toCOl = dr._toRow;
+            }
             bool dtOnCell = _settings.AddDataTypesOn == eDataTypeOn.OnCell;
             ExcelWorksheet ws = dr.Worksheet;
             Uri uri = null;
             int commentIx = 0;
             WriteItem(sw, $"\"{_settings.RowsElementName}\":[", true);
-            var fromRow = dr._fromRow + headerRows;
-            for (int r = fromRow; r <= dr._toRow; r++)
+            for (int r = fromRow + headerRows; r <= toRow; r++)
             {
                 WriteStart(sw);
                 WriteItem(sw, $"\"{_settings.CellsElementName}\":[", true);
-                for (int c = dr._fromCol; c <= dr._toCol; c++)
+                for (int c = fromCol; c <= toCOl; c++)
                 {
-                    var cv = ws.GetCoreValueInner(r, c);
+                    var cv = _settings.DataIsTransposed ? ws.GetCoreValueInner(c, r) : ws.GetCoreValueInner(r, c);
                     var t = JsonEscape(ValueToTextHandler.GetFormattedText(cv._value, ws.Workbook, cv._styleId, false, _settings.Culture));
                     WriteStart(sw);
-                    var hasHyperlink = _settings.WriteHyperlinks && ws._hyperLinks.Exists(r, c, ref uri);
-                    var hasComment = _settings.WriteComments && ws._commentsStore.Exists(r, c, ref commentIx);
+                    var hasHyperlink = _settings.WriteHyperlinks && (_settings.DataIsTransposed ? ws._hyperLinks.Exists(c, r, ref uri) : ws._hyperLinks.Exists(r, c, ref uri));
+                    var hasComment = _settings.WriteComments && (_settings.DataIsTransposed ? ws._commentsStore.Exists(c, r, ref commentIx) : ws._commentsStore.Exists(r, c, ref commentIx));
                     if (cv._value == null)
                     {
                         WriteItem(sw, $"\"t\":\"{t}\"");
@@ -62,7 +72,7 @@ namespace OfficeOpenXml
                         WriteItem(sw, $"\"comment\":\"{JsonEscape(comment.Text)}\"");
                     }
 
-                    if(c == dr._toCol)
+                    if(c == toCOl)
                     {
                         WriteEnd(sw, "}");
                     }
@@ -72,7 +82,7 @@ namespace OfficeOpenXml
                     }
                 }
                 WriteEnd(sw,"]");
-                if (r == dr._toRow)
+                if (r == toRow)
                 {
                     WriteEnd(sw);
                 }

@@ -21,14 +21,27 @@ using OfficeOpenXml;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class IntArgumentParser : ArgumentParser
+    /// <summary>
+    /// Int argument parser
+    /// </summary>
+    internal class IntArgumentParser : ArgumentParser
     {
+        /// <summary>
+        /// Parse object to int
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override object Parse(object obj)
         {
             Require.That(obj).Named("argument").IsNotNull();
             return Parse(obj, RoundingMethod.Convert);
         }
-
+        /// <summary>
+        /// Parse object to int roundingMethod
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="roundingMethod"></param>
+        /// <returns></returns>
         public override object Parse(object obj, RoundingMethod roundingMethod)
         {
             return Utils.ConvertUtil.ParseInt(obj, roundingMethod);

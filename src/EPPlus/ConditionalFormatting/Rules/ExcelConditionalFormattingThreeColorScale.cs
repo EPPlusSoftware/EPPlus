@@ -30,10 +30,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal ExcelConditionalFormattingThreeColorScale(ExcelAddress address, int priority, ExcelWorksheet ws)
             : base(address, priority, ws)
         {
+            var styles = _ws.Workbook.Styles;
+
             MiddleValue = new ExcelConditionalFormattingColorScaleValue(
             eExcelConditionalFormattingValueObjectType.Percentile,
             ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
-            priority);
+            priority, styles);
 
             Type = eExcelConditionalFormattingRuleType.ThreeColorScale;
 
@@ -62,12 +64,14 @@ namespace OfficeOpenXml.ConditionalFormatting
             highVal, 
             xr)
         {
-            if(MiddleValue == null)
+            var styles = _ws.Workbook.Styles;
+
+            if (MiddleValue == null)
             {
                 MiddleValue = new ExcelConditionalFormattingColorScaleValue(
                 middle,
                 ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
-                Priority);
+                Priority, styles);
             }
 
             if (!string.IsNullOrEmpty(middleVal))
@@ -120,12 +124,14 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             ReadColorAndColorSettings(xr, ref _lowValue);
 
+            var styles = _ws.Workbook.Styles;
+
             xr.Read();
 
             MiddleValue = new ExcelConditionalFormattingColorScaleValue(
                eExcelConditionalFormattingValueObjectType.Percentile,
                ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
-               Priority);
+               Priority, styles);
 
             ReadColorAndColorSettings(xr, ref _middleValue);
 
@@ -155,7 +161,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             if (cellValue.IsNumeric())
             {
                 var cellValues = new List<double>();
-                double midPoint = 0;
                 double average = 0;
                 int count = 0;
                 foreach (var cell in Address.GetAllAddresses())
@@ -186,11 +191,11 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 if (realValue < average)
                 {
-                    newColor = CalculateNumberedGradient(realValue - lowest, average - lowest, LowValue.Color, MiddleValue.Color);
+                    newColor = CalculateNumberedGradient(realValue - lowest, average - lowest, LowValue.ColorSettings.GetColorAsColor(), MiddleValue.ColorSettings.GetColorAsColor());
                 }
                 else
                 {
-                    newColor = CalculateNumberedGradient(realValue - average, highest - average, MiddleValue.Color, HighValue.Color);
+                    newColor = CalculateNumberedGradient(realValue - average, highest - average, MiddleValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
                 }
 
                 return  "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2)+";";

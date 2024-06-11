@@ -1,4 +1,22 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.2
+### Features
+* Added support for calculating pivot tables:
+	* Supports calculation of data fields on column and row fields. 
+		* Page field filtering
+		* Filters
+                * Slicers
+	        * Show data as on data fields 
+                * Calculated fields.
+	* Access calculated pivot table data via the ExcelPivotTable.CalculatedData property of the ExcelPivotTable.GetPivotData function
+	* GetPivotData function.
+ 
+
+### Minor Features and fixed issues
+* Added all icons and iconset features to html export. Including custom iconsets.
+* Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
+* Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
+
 ## Version 7.1.3
 ### Fixed issues 
 * Dxf styles on tables got corrupt if a style contained an alignment and border element.
@@ -12,6 +30,10 @@
 * Loading a workbook with rich text elements with no style element could hang.
 * The rich text `Text` property was not decode for restricted characters.
 
+* Table Column Names
+	* ShowHeaders = True property on tables no longer causes crash in rare cases. It also no longer updates column names.
+	* Table.SyncColumnNames method added to ensures column names and cell-values in header are equal. Applying this method should cover any potential issues caused by above fix not updating column names.
+	* Adding a table column to a table no longer creates a column name that can conflict with existing names.
 ## Version 7.1.2
 ### Fixed issues 
 * Defined Names with `"` symbols no longer get extraneous `"` added when saving in EPPlus.

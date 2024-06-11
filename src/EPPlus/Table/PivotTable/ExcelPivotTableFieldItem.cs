@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         public object Value { get; internal set; }
         /// <summary>
-        /// A flag indicating if the items are hidden
+        /// A flag indicating if the item is hidden
         /// </summary>
         public bool Hidden 
         { 
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         /// <summary>
-        /// A flag indicating if the items expanded or collapsed.
+        /// A flag indicating if the items is expanded or collapsed.
         /// </summary>
         public bool ShowDetails
         {

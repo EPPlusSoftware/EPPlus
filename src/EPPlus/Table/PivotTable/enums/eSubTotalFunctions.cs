@@ -25,11 +25,11 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         None = 1,
         /// <summary>
-        /// Count
+        /// Count cells that are numbers.
         /// </summary>
         Count = 2,
         /// <summary>
-        /// Count, numbers
+        /// Count cells that are not empty.
         /// </summary>
         CountA = 4,
         /// <summary>

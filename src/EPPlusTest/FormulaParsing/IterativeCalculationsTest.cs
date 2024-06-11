@@ -32,15 +32,15 @@ namespace EPPlusTest.FormulaParsing
         //[TestMethod]
         //public void A1andB1CircularRegShouldWork()
         //{
-        //    _sheet.Cells["B1"].Value = 1;
-        //    _sheet.Cells["A1"].Formula = "A2 + B1";
-        //    _sheet.Cells["A2"].Formula = "A1 + B1";
+        //    _dateWs1.Cells["B1"].Value = 1;
+        //    _dateWs1.Cells["A1"].Formula = "A2 + B1";
+        //    _dateWs1.Cells["A2"].Formula = "A1 + B1";
 
         //    var options = new ExcelCalculationOption { AllowCircularReferences = true };
-        //    _sheet.Calculate(options);
+        //    _dateWs1.Calculate(options);
 
-        //    Assert.AreEqual(1d, _sheet.Cells["A1"].Value);
-        //    Assert.AreEqual(2d, _sheet.Cells["B1"].Value);
+        //    Assert.AreEqual(1d, _dateWs1.Cells["A1"].Value);
+        //    Assert.AreEqual(2d, _dateWs1.Cells["B1"].Value);
         //}
 
     }

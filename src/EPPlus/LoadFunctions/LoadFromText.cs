@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/16/2020         EPPlus Software AB       EPPlus 5.2.1
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.LoadFunctions.Params;
 using System;
 using System.Collections.Generic;
@@ -19,29 +20,14 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    internal class LoadFromText
+    internal class LoadFromText : LoadFromTextBase<ExcelTextFormat>
     {
         public LoadFromText(ExcelRangeBase range, string text, LoadFromTextParams parameters)
+            : base(range, text, parameters.Format)
         {
-            _range = range;
-            _worksheet = range.Worksheet;
-            _text = text;
-            if(parameters.Format == null)
-            {
-                _format = new ExcelTextFormat();
-            }
-            else
-            {
-                _format = parameters.Format;
-            }
         }
 
-        private readonly ExcelWorksheet _worksheet;
-        private readonly ExcelRangeBase _range;
-        private readonly ExcelTextFormat _format;
-        private readonly string _text;
-
-        public ExcelRangeBase Load()
+        public override ExcelRangeBase Load()
         {
             if (string.IsNullOrEmpty(_text))
             {
@@ -67,6 +53,11 @@ namespace OfficeOpenXml.LoadFunctions
             //var values = new List<object>[lines.Length];
             foreach (string line in lines)
             {
+                if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
+                {
+                    continue;
+                }
+
                 var items = new List<object>();
                 //values[row] = items;
 
@@ -116,7 +107,7 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 if (c == _format.Delimiter)
                                 {
-                                    items.Add(ConvertData(_format, v, col, isText));
+                                    items.Add(ConvertData(_format, _format.DataTypes, v, col, isText));
                                     v = "";
                                     isText = false;
                                     col++;
@@ -143,9 +134,16 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     if (lineQCount % 2 == 1)
                         throw (new Exception(string.Format("Text delimiter is not closed in line : {0}", line)));
-                    items.Add(ConvertData(_format, v, col, isText));
 
-                    _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    items.Add(ConvertData(_format, _format.DataTypes, v, col, isText));
+                    if (_format.Transpose)
+                    {
+                        _worksheet._values.SetValueRow_ValueTranspose(_range._fromRow, _range._fromCol + row, items);
+                    }
+                    else
+                    {
+                        _worksheet._values.SetValueRow_Value(_range._fromRow + row, _range._fromCol, items);
+                    }
 
                     if (col > maxCol) maxCol = col;
                     row++;
@@ -157,21 +155,14 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 return null;
             }
+            if(_format.Transpose)
+            {
+                return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow +maxCol, _range._fromCol + row - 1];
+            }
             return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol];
         }
 
-        private string[] SplitLines(string text, string EOL)
-        {
-            var lines = Regex.Split(text, EOL);
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (EOL == "\n" && lines[i].EndsWith("\r", StringComparison.OrdinalIgnoreCase)) lines[i] = lines[i].Substring(0, lines[i].Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
-                if (EOL == "\r" && lines[i].StartsWith("\n", StringComparison.OrdinalIgnoreCase)) lines[i] = lines[i].Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
-            }
-            return lines;
-        }
-
-        private string[] GetLines(string text, ExcelTextFormat Format)
+        protected string[] GetLines(string text, ExcelTextFormat Format)
         {
             if (Format.EOL == null || Format.EOL.Length == 0) return new string[] { text };
             var eol = Format.EOL;
@@ -210,88 +201,9 @@ namespace OfficeOpenXml.LoadFunctions
             //}
             //else
             //{
-                list.Add(text.Substring(prevLineStart));
+            list.Add(text.Substring(prevLineStart));
             //}
             return list.ToArray();
-        }
-        private bool IsEOL(string text, int ix, string eol)
-        {
-            for (int i = 0; i < eol.Length; i++)
-            {
-                if (text[ix + i] != eol[i])
-                    return false;
-            }
-            return ix + eol.Length <= text.Length;
-        }
-
-        private object ConvertData(ExcelTextFormat Format, string v, int col, bool isText)
-        {
-            if (isText && (Format.DataTypes == null || Format.DataTypes.Length < col)) return string.IsNullOrEmpty(v) ? null : v;
-
-            double d;
-            DateTime dt;
-            if (Format.DataTypes == null || Format.DataTypes.Length <= col || Format.DataTypes[col] == eDataTypes.Unknown)
-            {
-                string v2 = v.EndsWith("%") ? v.Substring(0, v.Length - 1) : v;
-                if (double.TryParse(v2, NumberStyles.Any, Format.Culture, out d))
-                {
-                    if (v2 == v)
-                    {
-                        return d;
-                    }
-                    else
-                    {
-                        return d / 100;
-                    }
-                }
-                if (DateTime.TryParse(v, Format.Culture, DateTimeStyles.None, out dt))
-                {
-                    return dt;
-                }
-                else
-                {
-                    return string.IsNullOrEmpty(v) ? null : v;
-                }
-            }
-            else
-            {
-                switch (Format.DataTypes[col])
-                {
-                    case eDataTypes.Number:
-                        if (double.TryParse(v, NumberStyles.Any, Format.Culture, out d))
-                        {
-                            return d;
-                        }
-                        else
-                        {
-                            return v;
-                        }
-                    case eDataTypes.DateTime:
-                        if (DateTime.TryParse(v, Format.Culture, DateTimeStyles.None, out dt))
-                        {
-                            return dt;
-                        }
-                        else
-                        {
-                            return v;
-                        }
-                    case eDataTypes.Percent:
-                        string v2 = v.EndsWith("%") ? v.Substring(0, v.Length - 1) : v;
-                        if (double.TryParse(v2, NumberStyles.Any, Format.Culture, out d))
-                        {
-                            return d / 100;
-                        }
-                        else
-                        {
-                            return v;
-                        }
-                    case eDataTypes.String:
-                        return v;
-                    default:
-                        return string.IsNullOrEmpty(v) ? null : v;
-
-                }
-            }
         }
     }
 }

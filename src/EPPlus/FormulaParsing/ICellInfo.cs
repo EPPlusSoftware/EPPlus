@@ -23,19 +23,53 @@ namespace OfficeOpenXml.FormulaParsing
     /// </summary>
     public interface ICellInfo
     {
+        /// <summary>
+        /// Address
+        /// </summary>
         string Address { get; }
-
+        /// <summary>
+        /// WorksheetName
+        /// </summary>
         string WorksheetName { get; }
+        /// <summary>
+        /// Row
+        /// </summary>
         int Row { get; }
+        /// <summary>
+        /// Column
+        /// </summary>
         int Column { get; }
-
+        /// <summary>
+        /// Id
+        /// </summary>
         ulong Id { get; }
+        /// <summary>
+        /// Formula
+        /// </summary>
         string Formula { get; }
+        /// <summary>
+        /// Value
+        /// </summary>
         object Value { get; }
+        /// <summary>
+        /// Value double
+        /// </summary>
         double ValueDouble { get; }
+        /// <summary>
+        /// Value double logical
+        /// </summary>
         double ValueDoubleLogical { get; }
+        /// <summary>
+        /// Is hidden row
+        /// </summary>
         bool IsHiddenRow { get; }
+        /// <summary>
+        /// Is excel error
+        /// </summary>
         bool IsExcelError { get; }
+        /// <summary>
+        /// Tokens
+        /// </summary>
         IList<Token> Tokens { get; }
     }
 }

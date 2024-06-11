@@ -19,18 +19,31 @@ using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
 {
-    public class HolidayWeekdays
+    /// <summary>
+    /// Holiday weekdays for datetime functions
+    /// </summary>
+    internal class HolidayWeekdays
     {
         private readonly List<DayOfWeek> _holidayDays = new List<DayOfWeek>();
 
+        /// <summary>
+        /// Empty constuctor. Sets saturday and sunday to holiday days automatically.
+        /// </summary>
         public HolidayWeekdays()
             :this(DayOfWeek.Saturday, DayOfWeek.Sunday)
         {
             
         }
 
+        /// <summary>
+        /// Defined as 7 - number of holidayDays
+        /// </summary>
         public int NumberOfWorkdaysPerWeek => 7 - _holidayDays.Count;
 
+        /// <summary>
+        /// Define holiday weekdays by input array
+        /// </summary>
+        /// <param name="holidayDays"></param>
         public HolidayWeekdays(params DayOfWeek[] holidayDays)
         {
             foreach (var dayOfWeek in holidayDays)
@@ -38,12 +51,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
                 _holidayDays.Add(dayOfWeek);
             }
         }
-
+        /// <summary>
+        /// Check wether given datetime is a holidayWeekday or not
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
         public bool IsHolidayWeekday(DateTime dateTime)
         {
             return _holidayDays.Contains(dateTime.DayOfWeek);
         }
-
+        /// <summary>
+        /// Adjust result with holidays.
+        /// </summary>
+        /// <param name="resultDate"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
         public DateTime AdjustResultWithHolidays(DateTime resultDate,
                                                          IEnumerable<FunctionArgument> arguments)
         {
@@ -85,7 +107,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
             }
             return resultDate;
         }
-
+        /// <summary>
+        /// Gets the next datetime workday
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public DateTime GetNextWorkday(DateTime date, WorkdayCalculationDirection direction = WorkdayCalculationDirection.Forward)
         {
             var changeParam = (int)direction;

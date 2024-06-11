@@ -304,6 +304,9 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 return ExistsNode(_defaultTextBodyPath);
             }
         }
+        /// <summary>
+        /// True if the entry has richtext
+        /// </summary>
         public bool HasRichText
         {
             get

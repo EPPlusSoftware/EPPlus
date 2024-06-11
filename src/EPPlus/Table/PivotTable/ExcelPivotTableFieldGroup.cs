@@ -31,7 +31,11 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeIntNull("d:fieldGroup/@base");
+                return GetXmlNodeIntNull("@base");
+            }
+            internal set
+            {
+                SetXmlNodeInt("@base", value);
             }
         }
         /// <summary>
@@ -41,7 +45,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeIntNull("d:fieldGroup/@par");
+                return GetXmlNodeIntNull("@par");
             }
         }
     }

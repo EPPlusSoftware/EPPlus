@@ -618,6 +618,159 @@ namespace EPPlusTest.Core.Range
             }
         }
 
+        [TestMethod]
+        public void CopyTranspose()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = p.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["C1"].Value = 2;
+                sheet.Cells["D1"].Value = 3;
+                sheet.Cells["E1"].Value = 4;
+                sheet.Cells["F1"].Value = 5;
+                sheet.Cells["G1"].Value = 6;
+                sheet.Cells["A2"].Value = "Name";
+                sheet.Cells["B2"].Value = "Scott";
+                sheet.Cells["C2"].Value = "Mats";
+                sheet.Cells["D2"].Value = "Jimmy";
+                sheet.Cells["E2"].Value = "Cameron";
+                sheet.Cells["F2"].Value = "Luther";
+                sheet.Cells["G2"].Value = "Josh";
+
+                sheet.Cells["A1:G2"].Copy(sheet.Cells["K1"], ExcelRangeCopyOptionFlags.Transpose);
+
+                Assert.AreEqual(sheet.Cells["A1"].Value, sheet.Cells["K1"].Value);
+                Assert.AreEqual(sheet.Cells["G2"].Value, sheet.Cells["L7"].Value);
+
+                sheet.Cells["K1:L7"].Copy(sheet.Cells["C10"], ExcelRangeCopyOptionFlags.Transpose);
+
+                Assert.AreEqual(sheet.Cells["A1"].Value, sheet.Cells["C10"].Value);
+                Assert.AreEqual(sheet.Cells["G1"].Value, sheet.Cells["I10"].Value);
+                SaveWorkbook("transposeCopy.xlsx", p);
+            }
+        }
+
+        [TestMethod]
+        public void CopyConditionalFormattingTransposedNewPackage()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                ExcelWorksheet ws1 = SetupCopyRange(p1);
+                var cf1 = ws1.Cells["B2:D5"].ConditionalFormatting.AddBetween();
+                cf1.Formula = "1";
+                cf1.Formula2 = "3";
+                cf1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cf1.Style.Fill.BackgroundColor.SetColor(Color.Red);
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws2 = p2.Workbook.Worksheets.Add("Sheet2");
+                    ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"], ExcelRangeCopyOptionFlags.Transpose);
+
+                    Assert.AreEqual(1, ws2.ConditionalFormatting.Count);
+                    var cf2 = ws2.ConditionalFormatting[0].As.Between;
+                    Assert.AreEqual("F6:H7", cf2.Address.Address);
+                    Assert.AreEqual("1", cf2.Formula);
+                    Assert.AreEqual("3", cf2.Formula2);
+                    Assert.AreEqual(ExcelFillStyle.Solid, cf2.Style.Fill.PatternType);
+                    Assert.AreEqual(Color.Red.ToArgb(), cf2.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                    SaveWorkbook("cfcopy.xlsx", p2);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CopyMergedCellsTransposed()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                ws.Cells["A1"].AddComment("Comment");
+                ws.Cells["A1:A2"].Merge = true;
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles, ExcelRangeCopyOptionFlags.Transpose);
+
+                Assert.IsTrue(ws.Cells["B5:C5"].Merge);
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["C5"].Formula));
+                Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["C5"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["C5"].Style.Font.Italic);
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["B6"], ExcelRangeCopyOptionFlags.ExcludeMergedCells, ExcelRangeCopyOptionFlags.Transpose);
+
+                Assert.IsFalse(ws.Cells["B6:C6"].Merge);
+                Assert.IsFalse(string.IsNullOrEmpty(ws.Cells["C6"].Formula));
+                Assert.IsTrue(ws.Cells["B6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
+
+            }
+        }
+
+        [TestMethod]
+        public void CopyDataValidationsSameWorksheetTranspose()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                var dv = ws.Cells["B2:D5"].DataValidation.AddIntegerDataValidation();
+                dv.Formula.Value = 1;
+                dv.Formula2.Value = 3;
+                dv.ShowErrorMessage = true;
+                dv.ErrorStyle = OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop;
+                ws.Cells["A1:C4"].Copy(ws.Cells["E5"], ExcelRangeCopyOptionFlags.Transpose);
+
+                Assert.AreEqual("B2:D5,F6:H7", dv.Address.Address);
+            }
+        }
+
+
+        [TestMethod]
+        public void TransposeCopyDataOntoExistingData()
+        {
+            using (var p = OpenPackage("CopyTransposeExisting.xlsx", true)) 
+            {
+                var ws = p.Workbook.Worksheets.Add("newWorksheet");
+                ws.Cells["A1:D10"].Formula = "ROW() + COLUMN()";
+
+                ws.Calculate();
+
+                var cell = ws.Cells["D2"];
+
+                ws.Cells["A1:D10"].ClearFormulas();
+
+                ws.Cells["B2:C5"].Copy(ws.Cells["C8"], ExcelRangeCopyOptionFlags.Transpose);
+                ws.Cells["A1:E3"].Copy(ws.Cells["L5:L6"], ExcelRangeCopyOptionFlags.Transpose);
+
+                ws.Cells["A1:E3"].Copy(ws.Cells["L5:L6 M5"], ExcelRangeCopyOptionFlags.Transpose);
+
+                for (int i = 2; i <= 5; i++)
+                {
+                    Assert.AreEqual(ws.Cells[i, 2].Value, ws.Cells[8, 1 + i].Value);
+                    Assert.AreEqual(ws.Cells[i, 3].Value, ws.Cells[9, 1 + i].Value);
+                }
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Assert.AreEqual(ws.Cells[1 + i, 1].Value, ws.Cells[5, 12 + i].Value);
+                    Assert.AreEqual(ws.Cells[1 + i, 2].Value, ws.Cells[6, 12 + i].Value);
+                    Assert.AreEqual(ws.Cells[1 + i, 3].Value, ws.Cells[7, 12 + i].Value);
+                    Assert.AreEqual(ws.Cells[1 + i, 4].Value, ws.Cells[8, 12 + i].Value);
+                }
+
+                ws.Cells["A20:C20"].Formula = "ROW()";
+
+                ws.Cells["A20:C20"].Copy(ws.Cells["N5"], ExcelRangeCopyOptionFlags.Transpose);
+
+                //Assert.AreEqual(4, ws.Cells["N5"].Value);
+                Assert.AreEqual("ROW()", ws.Cells["N5"].Formula);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+
         private static ExcelWorksheet SetupCopyRange(ExcelPackage p)
         {
             var ws = p.Workbook.Worksheets.Add("Sheet1");

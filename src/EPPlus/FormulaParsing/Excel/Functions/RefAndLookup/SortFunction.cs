@@ -73,5 +73,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 _sorter.SortByCol(sourceRange, sortIndex, sortOrder) :
                 _sorter.SortByRow(sourceRange, sortIndex, sortOrder);
         }
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

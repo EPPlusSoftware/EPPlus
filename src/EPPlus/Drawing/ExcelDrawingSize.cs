@@ -33,6 +33,9 @@ namespace OfficeOpenXml.Drawing
             _height = GetXmlNodeLong(colOffPath);
             _width = GetXmlNodeLong(rowOffPath);
         }
+        /// <summary>
+        /// Update height and width via colOffPath and rowOffPath
+        /// </summary>
         public void UpdateXml()
         {
             SetXmlNodeString(colOffPath, _height.ToString());

@@ -147,6 +147,64 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
+        internal int GetPrevRow(int row)
+        {
+            var p = GetPagePosition(row);
+            if (p < 0)
+            {
+                p = (~p)-1;
+                if (p < 0)
+                {
+                    return -1;
+                }
+                else
+                {
+
+                    if (_pages[p].IndexOffset + _pages[p].Rows[0].Index < row)
+                    {
+                        if (p + 1 >= PageCount)
+                        {
+                            return -1;
+                        }
+                        else
+                        {
+                            return _pages[p + 1].IndexOffset + _pages[p].Rows[0].Index;
+                        }
+                    }
+                    else
+                    {
+                        return _pages[p].IndexOffset + _pages[p].Rows[0].Index;
+                    }
+                }
+            }
+            else
+            {
+                if (p < PageCount)
+                {
+                    var r = _pages[p].GetNextRow(row);
+                    if (r >= 0)
+                    {
+                        return _pages[p].IndexOffset + _pages[p].Rows[r].Index;
+                    }
+                    else
+                    {
+                        if (++p < PageCount)
+                        {
+                            return _pages[p].IndexOffset + _pages[p].Rows[0].Index;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
         internal int GetPointer(int Row)
         {
             var pos = GetPagePosition(Row);
@@ -181,16 +239,6 @@ namespace OfficeOpenXml.Core.CellStore
                 return -1;
             }
         }
-
-        //internal int FindNext(int Page)
-        //{
-        //    var p = GetPagePosition(Page);
-        //    if (p < 0)
-        //    {
-        //        return ~p;
-        //    }
-        //    return p;
-        //}
         internal PageIndex[] _pages;
         internal int PageCount;
         public void Dispose()
