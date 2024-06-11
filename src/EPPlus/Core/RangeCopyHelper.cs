@@ -24,6 +24,7 @@ using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using static OfficeOpenXml.ExcelAddressBase;
@@ -94,8 +95,29 @@ namespace OfficeOpenXml.Core
                 CopyMergedCells(copiedMergedCells);
             }
 
+            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDrawings))
+            {
+                CopyDrawings();
+            }
+
             CopyFullColumn();
             CopyFullRow();
+        }
+
+        private void CopyDrawings()
+        {
+            foreach(var drawing in _sourceRange._worksheet.Drawings.ToList())
+            {
+                var drawingRange = new ExcelAddress(drawing.From.Row+1, drawing.From.Column+1, drawing.To.Row+1, drawing.To.Column + 1);
+                if (_sourceRange.Intersect(drawingRange) != null )
+                {
+                    var row = drawingRange._fromRow - _sourceRange._fromRow;
+                    row = _destination._fromRow + row - 1;
+                    var col = drawingRange._fromCol - _sourceRange._fromCol;
+                    col = _destination._fromCol + col - 1;
+                    drawing.Copy(_destination.Worksheet, row, col);
+                }
+            }
         }
 
         private void CopyDataValidations()
