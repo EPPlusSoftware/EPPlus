@@ -6274,6 +6274,69 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void s679_ManualMove()
+        {
+            using (var package = OpenTemplatePackage("StackedLabelsMoveFree.xlsx"))
+            {
+                var cSheet = package.Workbook.Worksheets.GetByName("Sheet2");
+
+                var chart2 = cSheet.Drawings["Chart 1"];
+
+                var barChart = chart2.As.Chart.BarChart;
+
+                var series = barChart.Series;
+
+                var dataLabel = series[2].DataLabel.DataLabels.Add(9);
+
+                dataLabel.Position = eLabelPosition.Center;
+
+                dataLabel.ShowLegendKey = false;
+                dataLabel.ShowValue = true;
+                dataLabel.ShowCategory = false;
+                dataLabel.ShowSeriesName = false;
+                dataLabel.ShowPercent = false;
+                dataLabel.ShowBubbleSize = false;
+
+                dataLabel.Layout.x = -40.13d;
+                dataLabel.Layout.y = -40.12d;
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void simpleChartTest()
+        {
+            using (var package = OpenTemplatePackage("SimpleChart.xlsx"))
+            {
+                var cSheet = package.Workbook.Worksheets.GetByName("Sheet1");
+
+                var chart2 = cSheet.Drawings["Chart 3"];
+
+                var barChart = chart2.As.Chart.BarChart;
+
+                var series = barChart.Series;
+
+                var dataLabel = series[1].DataLabel.DataLabels.Add(0);
+
+                dataLabel.Position = eLabelPosition.Center;
+
+                dataLabel.ShowLegendKey = false;
+                dataLabel.ShowValue = true;
+                dataLabel.ShowCategory = false;
+                dataLabel.ShowSeriesName = false;
+                dataLabel.ShowPercent = false;
+                dataLabel.ShowBubbleSize = false;
+
+                dataLabel.Layout.x = -30d;
+                dataLabel.Layout.y = -10d;
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+            [TestMethod]
         public void s679()
         {
             using (var package = OpenPackage("s679.xlsx", true))

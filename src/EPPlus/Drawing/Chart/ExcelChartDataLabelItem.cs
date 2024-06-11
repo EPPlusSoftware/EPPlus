@@ -31,7 +31,14 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartDataLabelItem(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, schemaNodeOrder)
         {
+            Layout = new ExcelManualLayout(ns, TopNode, $"c:layout/c:manualLayout", SchemaNodeOrder);
         }
+
+        /// <summary>
+        /// Define position for manual elements
+        /// </summary>
+        public ExcelManualLayout Layout { get; private set; }
+
         /// <summary>
         /// The index of an individual datalabel
         /// </summary>
