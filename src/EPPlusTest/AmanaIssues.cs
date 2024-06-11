@@ -597,9 +597,11 @@ namespace EPPlusTest
             var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
             using var exlPackage = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "Textformat.xlsx")));
-            
+
+            var previousCi = ExcelWorkbook.Culture;
             ExcelWorkbook.Culture = new CultureInfo("de-DE");
             exlPackage.Workbook.Calculate();
+            ExcelWorkbook.Culture = previousCi;
 
             Assert.AreEqual("292.336,30 €", exlPackage.Workbook.Worksheets[0].Cells["A1"].Text);
             Assert.AreEqual("292336,300000 €", exlPackage.Workbook.Worksheets[0].Cells["A2"].Value);
