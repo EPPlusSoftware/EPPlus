@@ -1,6 +1,6 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
@@ -391,7 +391,6 @@ namespace OfficeOpenXml
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns();
         }
-
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
@@ -405,7 +404,6 @@ namespace OfficeOpenXml
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth);
         }
-
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
@@ -419,6 +417,48 @@ namespace OfficeOpenXml
         public void AutoFit(double MinimumWidth, double MaximumWidth)
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
+        }
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
+        /// </summary>
+        /// <remarks>
+        /// Cells containing formulas must be calculated before autofit is called.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
+        /// <param name="autofitParams"></param>
+        public void AutoFit(AutofitParams autofitParams)
+        {
+            _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(autofitParams);
+        }
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// </summary>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
+        /// <param name="MinimumWidth">Minimum column width</param>
+        /// <param name="autofitParams"></param>
+        public void AutoFit(double MinimumWidth, AutofitParams autofitParams)
+        {
+            _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, autofitParams);
+        }
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// </summary>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>        
+        /// <param name="MinimumWidth">Minimum column width</param>
+        /// <param name="MaximumWidth">Maximum column width</param>
+        /// <param name="autofitParams"></param>
+        public void AutoFit(double MinimumWidth, double MaximumWidth, AutofitParams autofitParams)
+        {
+            _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth, autofitParams);
         }
         private ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
         {

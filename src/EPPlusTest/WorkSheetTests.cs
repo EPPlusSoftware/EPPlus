@@ -38,13 +38,11 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Style;
 using System.Data;
-using OfficeOpenXml.Table.PivotTable;
 using System.Reflection;
 using OfficeOpenXml.Table;
-using System.Threading;
 using System.Globalization;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
+using OfficeOpenXml.Core;
 
 namespace EPPlusTest
 {
@@ -1676,7 +1674,8 @@ namespace EPPlusTest
         public void AutoFitColumn2()
         {
             var outerStart = DateTime.Now;
-            var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBook.xlsx");
+            var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBookFun20100.xlsx");
+            //p.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
             var ws = p.Workbook.Worksheets[0];
             var innerStart = DateTime.Now;
             ws.Cells["A1:CW20000"].AutoFitColumns(0);
@@ -1692,8 +1691,12 @@ namespace EPPlusTest
             var outerStart = DateTime.Now;
             var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBook200k.xlsx");
             var ws = p.Workbook.Worksheets[0];
+            AutofitParams autofitParams = new AutofitParams()
+            {
+                Rows = 200,
+            };
             var innerStart = DateTime.Now;
-            ws.Columns[1].AutoFit();
+            ws.Columns[1].AutoFit(autofitParams);
             var innerEnd = DateTime.Now;
             TimeSpan innerSpan = innerEnd - innerStart;
             var outerEnd = DateTime.Now;

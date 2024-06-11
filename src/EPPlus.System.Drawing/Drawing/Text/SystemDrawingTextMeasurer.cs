@@ -1,7 +1,6 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace OfficeOpenXml.SystemDrawing.Text

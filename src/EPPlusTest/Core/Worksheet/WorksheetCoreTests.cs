@@ -76,8 +76,8 @@ namespace EPPlusTest.Core.Worksheet
                 LoadTestdata(ws);
 
                 ws.Cells["A:B"].AutoFitColumns(500);
-                Assert.AreEqual(500, ws.Column(1).Width);
-                Assert.AreEqual(500, ws.Column(2).Width);
+                Assert.AreEqual(255, ws.Column(1).Width);
+                Assert.AreEqual(255, ws.Column(2).Width);
                 p.Save();
             }
         }

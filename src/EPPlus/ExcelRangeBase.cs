@@ -12,39 +12,22 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Data;
-using System.Threading;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Style;
-using System.Xml;
-using System.Drawing;
 using System.Globalization;
 using System.Collections;
 using OfficeOpenXml.Table;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.DataValidation.Contracts;
-using System.Reflection;
-using OfficeOpenXml.Style.XmlAccess;
-using System.Security;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Sorting;
-using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -830,6 +813,19 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
+        /// </summary>
+        /// <remarks>
+        /// Cells containing formulas must be calculated before autofit is called.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
+        /// <param name="autofitParams"></param>
+        public void AutoFitColumns(AutofitParams autofitParams)
+        {
+            AutoFitColumns(_worksheet.DefaultColWidth, autofitParams);
+        }
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
         /// <remarks>
         /// This method will not work if you run in an environment that does not support GDI.
@@ -840,6 +836,20 @@ namespace OfficeOpenXml
         public void AutoFitColumns(double MinimumWidth)
         {
             AutoFitColumns(MinimumWidth, 255d);
+        }
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// </summary>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
+        /// <param name="MinimumWidth">Minimum column width</param>
+        /// <param name="autofitParams"></param>
+        public void AutoFitColumns(double MinimumWidth, AutofitParams autofitParams)
+        {
+            AutoFitColumns(MinimumWidth, 255d, autofitParams);
         }
 
         /// <summary>
@@ -854,13 +864,37 @@ namespace OfficeOpenXml
         /// <param name="MaximumWidth">Maximum column width</param>
         public void AutoFitColumns(double MinimumWidth, double MaximumWidth)
         {
+            AutofitParams autofitParams = new();
 #if (Core)
             //var af = new AutofitHelperSkia(this);
             //af.AutofitColumn(MinimumWidth, MaximumWidth);
-            var af = new AutofitHelper(this);
+            var af = new AutofitHelper(this, autofitParams);
             af.AutofitColumn(MinimumWidth, MaximumWidth);
 #else
-            var af = new AutofitHelper(this);
+            var af = new AutofitHelper(this, autofitParams);
+            af.AutofitColumn(MinimumWidth, MaximumWidth);
+#endif
+        }
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// </summary>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>        
+        /// <param name="MinimumWidth">Minimum column width</param>
+        /// <param name="MaximumWidth">Maximum column width</param>
+        /// <param name="autofitParams"></param>
+        public void AutoFitColumns(double MinimumWidth, double MaximumWidth, AutofitParams autofitParams)
+        {
+#if (Core)
+            //var af = new AutofitHelperSkia(this);
+            //af.AutofitColumn(MinimumWidth, MaximumWidth);
+            var af = new AutofitHelper(this, autofitParams);
+            af.AutofitColumn(MinimumWidth, MaximumWidth);
+#else
+            var af = new AutofitHelper(this, autofitParams);
             af.AutofitColumn(MinimumWidth, MaximumWidth);
 #endif
         }
