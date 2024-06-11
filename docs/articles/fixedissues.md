@@ -1,5 +1,17 @@
 # Features / Fixed issues - EPPlus 7
 ## Version 7.2
+### Features
+* Added support for calculating pivot tables:
+	* Supports calculation of data fields on column and row fields. 
+		* Page field filtering
+		* Filters
+                * Slicers
+	        * Show data as on data fields 
+                * Calculated fields.
+	* Access calculated pivot table data via the ExcelPivotTable.CalculatedData property of the ExcelPivotTable.GetPivotData function
+	* GetPivotData function.
+ 
+
 ### Minor Features and fixed issues
 * Added all icons and iconset features to html export. Including custom iconsets.
 * Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
