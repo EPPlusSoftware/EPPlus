@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     {
         internal ExcelWorksheet _ws;
         internal int StartRow, StartCol;
-        internal int StartRowOffset, StartColOffset;
+        internal int StartRowOffset, StartColOffset; //If the shared formula does not begin on the top-left cell, this contains the offset to the row/column to the top left cell.
         internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
         internal static ISourceCodeTokenizer _tokenizerNWS = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
         internal IList<Token> Tokens;

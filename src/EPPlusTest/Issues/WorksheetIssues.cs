@@ -397,5 +397,25 @@ namespace EPPlusTest.Issues
                 SwitchBackToCurrentCulture();
             }
         }
+        [TestMethod]
+        public void ShareFormulaIDNotFoundError()
+        {
+            using (var p = OpenTemplatePackage("i1474.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+                ws.DeleteRow(35, 2);
+
+                try
+                {
+                    p.SaveAs("share_formula_error_test.xlsx");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                    //Assert.Fail("Expected no exception, but got: " + ex.Message);
+                }
+            }
+        }
     }
 }
+

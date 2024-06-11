@@ -93,10 +93,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     break;
                 }
-                var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(r, 0), false, true);
+                var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(r, 0)??false, false, true);
                 if (double.IsNaN(boolValue))
                 {
-                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
+                     return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 if (boolValue != 0)
                 {
