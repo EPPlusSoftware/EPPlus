@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 {                       
                     if (ExcelWorkbook.Culture == null)
                     {
-                        return CultureInfo.CurrentCulture;
+                        return Thread.CurrentThread.CurrentCulture;
                     }
 
                     _ci = ExcelWorkbook.Culture;
