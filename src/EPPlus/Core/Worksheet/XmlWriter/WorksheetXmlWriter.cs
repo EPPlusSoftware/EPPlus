@@ -607,7 +607,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             var richData = _package.Workbook.RichData;
             var metadata = _package.Workbook.Metadata;
             var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
-            if(md.vm >= 0 && IsMvSameError(metadata, md, error))
+            if(md.vm >= 0 && IsMvSameError(metadata, md, error, cse.Row, cse.Column))
             {
                 return;
             }
@@ -641,7 +641,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             _ws._metadataStore.SetValue(cse.Row, cse.Column, md);
         }
 
-        private bool IsMvSameError(ExcelMetadata metadata, MetaDataReference md, ExcelErrorValue error)
+        private bool IsMvSameError(ExcelMetadata metadata, MetaDataReference md, ExcelErrorValue error, int row, int column)
         {
             if (md.vm==0 || md.vm>=metadata.ValueMetadata.Count) return false;
             var vm = metadata.ValueMetadata[md.vm-1];
@@ -661,12 +661,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     return true;
                                 }
                                 break;
-                            //case eErrorType.Spill:
-                            //    if (rd.Values[0] == "8")
-                            //    {
-                            //        return true;
-                            //    }
-                            //    break;
+                            case eErrorType.Spill:
+                                var rdError = (ExcelRichDataErrorValue)error; 
+                                if (rd.HasValue(["errorType", "colOffset", "rwOffset"], ["8", rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture), rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture)]))
+                                {
+                                    return true;
+                                }
+                                break;
                         }
                     }
                 }
