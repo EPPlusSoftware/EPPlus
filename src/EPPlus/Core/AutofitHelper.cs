@@ -55,19 +55,19 @@ namespace OfficeOpenXml.Core
             var fromRow = _range._fromRow;
             var toRow = _range._toRow;
             if (fromCol > toCol) return; //Issue 15383
-            if (_range.Addresses == null)
-            {
-                SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
-            }
-            else
-            {
-                foreach (var addr in _range.Addresses)
-                {
-                    fromCol = addr._fromCol > worksheet.Dimension._fromCol ? addr._fromCol : worksheet.Dimension._fromCol;
-                    toCol = addr._toCol < worksheet.Dimension._toCol ? addr._toCol : worksheet.Dimension._toCol;
-                    SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
-                }
-            }
+            //if (_range.Addresses == null)
+            //{
+            //    SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
+            //}
+            //else
+            //{
+            //    foreach (var addr in _range.Addresses)
+            //    {
+            //        fromCol = addr._fromCol > worksheet.Dimension._fromCol ? addr._fromCol : worksheet.Dimension._fromCol;
+            //        toCol = addr._toCol < worksheet.Dimension._toCol ? addr._toCol : worksheet.Dimension._toCol;
+            //        SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
+            //    }
+            //}
             if (MaximumWidth > 255d)
             {
                 MaximumWidth = 255d;
@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Core
                 }
             }
             var textSettings = _range._workbook._package.Settings.TextSettings;
-
+            var measureCache = new Dictionary<ulong, TextMeasurement>();
             for (int col = fromCol; col <= toCol; col++)
             {
                 if (worksheet.Column(col).Hidden)    //Issue 15338
@@ -134,13 +134,15 @@ namespace OfficeOpenXml.Core
                     if (af.Collide(_range._fromRow, col, _range._toRow, col) != eAddressCollition.No)
                     {
                         var cell = _range.Worksheet.Cells[af.Address];
-                        currentMaxWidth = GetTextLength(cell, textSettings, styles, normalSize, MaximumWidth, currentMaxWidth);
+                        var cellStyleId = styles.CellXfs[cell.StyleID];
+                        currentMaxWidth = GetTextLength(cell, textSettings, measureCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
                     }
                 }
                 foreach (var cell in _range.Worksheet.Cells[fromRow, col, toRow, col])
                 {
-                    if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
-                    currentMaxWidth = GetTextLength(cell, textSettings, styles, normalSize, MaximumWidth, currentMaxWidth);
+                    var cellStyleId = styles.CellXfs[cell.StyleID];
+                    if (cell.Merge == true || cellStyleId.WrapText) continue;
+                    currentMaxWidth = GetTextLength(cell, textSettings, measureCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
                 }
                 if (currentMaxWidth < MinimumWidth)
                 {
@@ -299,9 +301,9 @@ namespace OfficeOpenXml.Core
             //worksheet._package.DoAdjustDrawings = doAdjust;
         }
 
-        private double GetTextLength(ExcelRangeBase cell, ExcelTextSettings textSettings, ExcelStyles styles, float normalSize, double MaximumWidth, double currentMaxWidth)
+        private double GetTextLength(ExcelRangeBase cell, ExcelTextSettings textSettings, Dictionary<ulong, TextMeasurement> measureCache, ExcelStyles styles, Style.XmlAccess.ExcelXfs cellStyleId, float normalSize, double MaximumWidth, double currentMaxWidth)
         {
-            var fontID = styles.CellXfs[cell.StyleID].FontId;
+            var fontID = cellStyleId.FontId;
             MeasurementFont measurementFont;
             if (_fontCache.ContainsKey(fontID))
             {
@@ -323,14 +325,14 @@ namespace OfficeOpenXml.Core
                 };
                 _fontCache.Add(fontID, measurementFont);
             }
-            var indent = styles.CellXfs[cell.StyleID].Indent;
+            var indent = cellStyleId.Indent;
             var textForWidth = cell.TextForWidth;
             var text = textForWidth + (indent > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', indent) : "");
             if (text.Length > 32000) { text = text.Substring(0, 32000); } //Issue
-            var size = MeasureString(text, fontID, textSettings);
+            var size = MeasureString(text, fontID, textSettings, measureCache);
 
             double width;
-            double rotation = styles.CellXfs[cell.StyleID].TextRotation;
+            double rotation = cellStyleId.TextRotation;
             if (rotation <= 0)
             {
                 var padding = 0; // 5
@@ -352,9 +354,8 @@ namespace OfficeOpenXml.Core
             return currentMaxWidth;
         }
 
-        private TextMeasurement MeasureString(string text, int fontID, ExcelTextSettings textSettings)
+        private TextMeasurement MeasureString(string text, int fontID, ExcelTextSettings textSettings, Dictionary<ulong, TextMeasurement> measureCache)
         {
-            var measureCache = new Dictionary<ulong, TextMeasurement>();
             ulong key = ((ulong)((uint)text.GetHashCode()) << 32) | (uint)fontID;
             if (!measureCache.TryGetValue(key, out var measurement))
             {
