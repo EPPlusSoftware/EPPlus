@@ -10,6 +10,7 @@
  *************************************************************************************************
   06/10/2024         EPPlus Software AB       Initial release EPPlus 7.2
  *************************************************************************************************/
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,26 +22,71 @@ namespace OfficeOpenXml.Drawing.Chart
 {
 
     /// <summary>
-    /// Manual layout for specifing positions of label elements manually
+    /// Manual layout for specifing positions of label elements manually.
     /// </summary>
     public class ExcelManualLayout : XmlHelper
     {
         eLayoutTarget layoutTarget;
 
-        eLayoutMode xMode;
-        eLayoutMode yMode;
-        eLayoutMode wMode;
-        eLayoutMode hMode;
-
-        /// <summary>
-        /// x position as a percentual value based on the parent object and the layout mode.
-        /// Keep in mind that if your label is centered -50 will be the maximum left value and + 50 the maximum right
-        /// </summary>
-        public double x
+        public eLayoutMode LeftMode
+          {
+            get
+            {
+                var strValue = GetXmlNodeString($"{_path}/c:xMode/@val");
+                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+            }
+            set
+            {
+                SetXmlNodeString($"{_path}/c:xMode/@val", value.ToEnumString());
+            }
+        }
+        public eLayoutMode TopMode
+          {
+            get
+            {
+                var strValue = GetXmlNodeString($"{_path}/c:yMode/@val");
+                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+            }
+            set
+            {
+                SetXmlNodeString($"{_path}/c:yMode/@val", value.ToEnumString());
+            }
+        }
+        public eLayoutMode WidthMode
+          {
+            get
+            {
+                var strValue = GetXmlNodeString($"{_path}/c:wMode/@val");
+                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+            }
+            set
+            {
+                SetXmlNodeString($"{_path}/c:wMode/@val", value.ToEnumString());
+            }
+        }
+        public eLayoutMode HeightMode
         {
             get
             {
-                return GetXmlNodeInt($"{_path}/c:x/@val");
+                var strValue = GetXmlNodeString($"{_path}/c:hMode/@val");
+                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+            }
+            set
+            {
+                var aStr = value.ToEnumString();
+                SetXmlNodeString($"{_path}/c:hMode/@val", aStr);
+            }
+        }
+
+        /// <summary>
+        /// Left offset between 100 to -100%. In Excel exceeding these values counts as setting the property to 0.
+        /// 
+        /// </summary>
+        public double Left
+        {
+            get
+            {
+                return GetXmlNodeDouble($"{_path}/c:x/@val") * 100;
             }
             set
             {
@@ -49,13 +95,14 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         /// <summary>
-        /// y position as a percentual value based on the parent object and the layout mode.
+        /// -100 to 100% offset from top of the chart or relative to the default position if hMode is Factor
+        /// Going above chart limits counts as setting the value to 0 visually.
         /// </summary>
-        public double y
+        public double Top
         {
             get
             {
-                return GetXmlNodeInt($"{_path}/c:y/@val");
+                return GetXmlNodeDouble($"{_path}/c:y/@val") * 100;
             }
             set
             {
@@ -63,32 +110,44 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }        
         /// <summary>
+        /// Width of the textbox around the label. As a positive percentual value of the chart.
+        /// 100 = 100% of the chart width.
         /// width as a percentual value based on the parent object and the layout mode.
         /// specifies right if wMode is Edge
         /// </summary>
-        public double w
+        public double Width
         {
             get
             {
-                return GetXmlNodeInt($"{_path}/c:w/@val");
+                return GetXmlNodeDouble($"{_path}/c:w/@val") * 100;
             }
             set
             {
+                if(WidthMode == eLayoutMode.Edge && value < Left)
+                {
+                    throw new InvalidOperationException($"Width (Right edge): {value} is less than Left edge {Left}. Cannot invert data label. Right edge cannot pass left edge");
+                }
                 SetXmlNodeString($"{_path}/c:w/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
             }
-        }        
+        }
         /// <summary>
+        /// Height of the textbox around the label. As a positive percentual value of the chart.
+        /// 100 = 100% of the chart Height.
         /// height as a percentual value based on the parent object and the layout mode.
         /// specifies bottom if hMode is edge 
         /// </summary>
-        public double h
+        public double Height
         {
             get
             {
-                return GetXmlNodeInt($"{_path}/c:h/@val");
+                return GetXmlNodeDouble($"{_path}/c:h/@val") * 100;
             }
             set
             {
+                if (HeightMode == eLayoutMode.Edge && value < Top)
+                {
+                    throw new InvalidOperationException($"Bottom edge (Height) is {value} which is less than Top edge {Top}. Cannot invert data label. Bottom edge cannot pass Top edge");
+                }
                 SetXmlNodeString($"{_path}/c:h/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
             }
         }
@@ -98,7 +157,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Manual layout elements
         /// </summary>
-        public ExcelManualLayout(XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder = null) : base(ns, topNode) 
+        internal ExcelManualLayout(XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder = null) : base(ns, topNode) 
         {
             _path = path;
             AddSchemaNodeOrder(schemaNodeOrder, ["layoutTarget", "xMode", "yMode", "wMode", "hMode", "x", "y", "w", "h", "extLst"]);
