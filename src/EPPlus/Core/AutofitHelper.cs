@@ -27,11 +27,12 @@ namespace OfficeOpenXml.Core
         MeasurementFont _nonExistingFont = new MeasurementFont() { FontFamily = FontSize.NonExistingFont };
         Dictionary<float, short> _fontWidthDefault=null;
         Dictionary<int, MeasurementFont> _fontCache;
-        AutofitParams autofitParams;
-        public AutofitHelper(ExcelRangeBase range, AutofitParams autofitParams)
+        ExcelTextSettings _textSettings;
+        Dictionary<ulong, TextMeasurement> measureCache = new Dictionary<ulong, TextMeasurement>();
+        public AutofitHelper(ExcelRangeBase range)
         {
             _range = range;
-            this.autofitParams = autofitParams;
+            _textSettings = _range._workbook._package.Settings.TextSettings;
             if (FontSize.FontWidths.ContainsKey(FontSize.NonExistingFont))
             {
                 FontSize.LoadAllFontsFromResource();
@@ -53,21 +54,12 @@ namespace OfficeOpenXml.Core
             var fromCol = _range._fromCol;
             var toCol = _range._toCol;
             var fromRow = _range._fromRow;
-            var toRow = autofitParams.Rows > 0 && autofitParams.Rows < _range._toRow ? autofitParams.Rows : _range._toRow;
+            var toRow = _textSettings.AutofitRows > 0 && _textSettings.AutofitRows < _range._toRow ? _textSettings.AutofitRows : _range._toRow;
             if (fromCol > toCol) return; //Issue 15383
-            //if (_range.Addresses == null)
-            //{
-            //    SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
-            //}
-            //else
-            //{
-            //    foreach (var addr in _range.Addresses)
-            //    {
-            //        fromCol = addr._fromCol > worksheet.Dimension._fromCol ? addr._fromCol : worksheet.Dimension._fromCol;
-            //        toCol = addr._toCol < worksheet.Dimension._toCol ? addr._toCol : worksheet.Dimension._toCol;
-            //        SetMinWidth(worksheet, MinimumWidth, fromCol, toCol);
-            //    }
-            //}
+            if (MinimumWidth < 0d)
+            {
+                MinimumWidth = 0d;
+            }
             if (MaximumWidth > 255d)
             {
                 MaximumWidth = 255d;
@@ -116,8 +108,6 @@ namespace OfficeOpenXml.Core
                     afAddr[afAddr.Count - 1]._ws = _range.WorkSheetName;
                 }
             }
-            var textSettings = _range._workbook._package.Settings.TextSettings;
-            var measureCache = new Dictionary<ulong, TextMeasurement>();
             for (int col = fromCol; col <= toCol; col++)
             {
                 if (worksheet.Column(col).Hidden)    //Issue 15338
@@ -132,18 +122,18 @@ namespace OfficeOpenXml.Core
                 Dictionary<MeasurementFont, int> textLengthCache = new Dictionary<MeasurementFont, int>();
                 foreach (var af in afAddr)
                 {
-                    if (af.Collide(_range._fromRow, col, _range._toRow, col) != eAddressCollition.No)
+                    if (af.Collide(fromRow, col, toRow, col) != eAddressCollition.No)
                     {
-                        var cell = _range.Worksheet.Cells[af.Address];
+                        var cell = worksheet.Cells[af.Address];
                         var cellStyleId = styles.CellXfs[cell.StyleID];
-                        currentMaxWidth = GetTextLength(cell, textSettings, measureCache, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
+                        currentMaxWidth = GetTextLength(cell, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
                     }
                 }
-                foreach (var cell in _range.Worksheet.Cells[fromRow, col, toRow, col])
+                foreach (var cell in worksheet.Cells[fromRow, col, toRow, col])
                 {
                     var cellStyleId = styles.CellXfs[cell.StyleID];
                     if (cell.Merge == true || cellStyleId.WrapText) continue;
-                    currentMaxWidth = GetTextLength(cell, textSettings, measureCache, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
+                    currentMaxWidth = GetTextLength(cell, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
                     if(currentMaxWidth >= MaximumWidth)
                     {
                         break;
@@ -159,7 +149,7 @@ namespace OfficeOpenXml.Core
             worksheet._package.DoAdjustDrawings = doAdjust;
         }
 
-        private double GetTextLength(ExcelRangeBase cell, ExcelTextSettings textSettings, Dictionary<ulong, TextMeasurement> measureCache, Dictionary<MeasurementFont, int> textLengthCache, ExcelStyles styles, Style.XmlAccess.ExcelXfs cellStyleId, float normalSize, double MaximumWidth, double currentMaxWidth)
+        private double GetTextLength(ExcelRangeBase cell, Dictionary<MeasurementFont, int> textLengthCache, ExcelStyles styles, Style.XmlAccess.ExcelXfs cellStyleId, float normalSize, double MaximumWidth, double currentMaxWidth)
         {
             var fontID = cellStyleId.FontId;
             MeasurementFont measurementFont;
@@ -188,12 +178,12 @@ namespace OfficeOpenXml.Core
             var text = textForWidth + (indent > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', indent) : "");
             if (text.Length > 32000) { text = text.Substring(0, 32000); } //Issue
 
-            if(textLengthCache.ContainsKey(measurementFont) && text.Length < textLengthCache[measurementFont] * autofitParams.textLengthThreshold)
+            if(textLengthCache.ContainsKey(measurementFont) && text.Length < textLengthCache[measurementFont] * _textSettings.textLengthThreshold)
             {
                 return currentMaxWidth;
             }
 
-            var size = MeasureString(text, fontID, textSettings, measureCache);
+            var size = MeasureString(text, fontID, measureCache);
 
             double width;
             double rotation = cellStyleId.TextRotation;
@@ -226,27 +216,27 @@ namespace OfficeOpenXml.Core
             return currentMaxWidth;
         }
 
-        private TextMeasurement MeasureString(string text, int fontID, ExcelTextSettings textSettings, Dictionary<ulong, TextMeasurement> measureCache)
+        private TextMeasurement MeasureString(string text, int fontID, Dictionary<ulong, TextMeasurement> measureCache)
         {
             ulong key = ((ulong)((uint)text.GetHashCode()) << 32) | (uint)fontID;
             if (!measureCache.TryGetValue(key, out var measurement))
             {
-                var measurer = textSettings.PrimaryTextMeasurer;
+                var measurer = _textSettings.PrimaryTextMeasurer;
                 var font = _fontCache[fontID];
                 measurement = measurer.MeasureText(text, font);
-                if (measurement.IsEmpty && textSettings.FallbackTextMeasurer != null && textSettings.FallbackTextMeasurer != textSettings.PrimaryTextMeasurer)
+                if (measurement.IsEmpty && _textSettings.FallbackTextMeasurer != null && _textSettings.FallbackTextMeasurer != _textSettings.PrimaryTextMeasurer)
                 {
-                    measurer = textSettings.FallbackTextMeasurer;
+                    measurer = _textSettings.FallbackTextMeasurer;
                     measurement = measurer.MeasureText(text, font);
                 }
                 if (measurement.IsEmpty && _fontWidthDefault != null)
                 {
-                    measurement = MeasureGeneric(text, textSettings, font);
+                    measurement = MeasureGeneric(text, _textSettings, font);
                 }
-                if (!measurement.IsEmpty && textSettings.AutofitScaleFactor != 1f)
+                if (!measurement.IsEmpty && _textSettings.AutofitScaleFactor != 1f)
                 {
-                    measurement.Height = measurement.Height * textSettings.AutofitScaleFactor;
-                    measurement.Width = measurement.Width * textSettings.AutofitScaleFactor;
+                    measurement.Height = measurement.Height * _textSettings.AutofitScaleFactor;
+                    measurement.Width = measurement.Width * _textSettings.AutofitScaleFactor;
                 }
                 measureCache.Add(key, measurement);
             }
@@ -279,31 +269,6 @@ namespace OfficeOpenXml.Core
             }
 
             return measurement;
-        }
-
-        private void SetMinWidth(ExcelWorksheet worksheet, double minimumWidth, int fromCol, int toCol)
-        {
-            var iterator = new CellStoreEnumerator<ExcelValue>(worksheet._values, 0, fromCol, 0, toCol);
-            var prevCol = fromCol;
-            foreach (ExcelValue excelValue in iterator)
-            {
-                var col = (ExcelColumn)excelValue._value;
-                if (col.Hidden) continue;
-                col.Width = minimumWidth;
-                if (worksheet.DefaultColWidth > minimumWidth && col.ColumnMin > prevCol)
-                {
-                    var newCol = worksheet.Column(prevCol);
-                    newCol.ColumnMax = col.ColumnMin - 1;
-                    newCol.Width = minimumWidth;
-                }
-                prevCol = col.ColumnMax + 1;
-            }
-            if (worksheet.DefaultColWidth > minimumWidth && prevCol < toCol)
-            {
-                var newCol = worksheet.Column(prevCol);
-                newCol.ColumnMax = toCol;
-                newCol.Width = minimumWidth;
-            }
         }
     }
 }

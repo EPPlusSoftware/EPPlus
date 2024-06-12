@@ -76,6 +76,16 @@ namespace OfficeOpenXml
         /// </summary>
         public float AutofitScaleFactor { get; set; }
         /// <summary>
+        /// A percentage of the widest text. Since charaters in different fonts have different widths we use this threshold remove characters from the longer string for comparing to the current text.
+        /// This is so we can skip obvious shorter strings and save time on calculating it's actual width.
+        /// </summary>
+        public double textLengthThreshold = 0.5d;
+        /// <summary>
+        /// The ammount of rows to check for when autofitting, starts from top. A value set to 0 or lower means checking all rows in the column.
+        /// </summary>
+        public int AutofitRows = 0;
+
+        /// <summary>
         /// Returns an instance of the internal generic text measurer
         /// </summary>
         public ITextMeasurer GenericTextMeasurer

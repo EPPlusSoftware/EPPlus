@@ -1758,12 +1758,8 @@ namespace EPPlusTest
             var outerStart = DateTime.Now;
             var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBook200k.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            AutofitParams autofitParams = new AutofitParams()
-            {
-                Rows = 200,
-            };
             var innerStart = DateTime.Now;
-            ws.Columns[1].AutoFit(autofitParams);
+            ws.Columns[1].AutoFit();
             var innerEnd = DateTime.Now;
             TimeSpan innerSpan = innerEnd - innerStart;
             var outerEnd = DateTime.Now;
