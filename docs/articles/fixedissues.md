@@ -10,7 +10,29 @@
                 * Calculated fields.
 	* Access calculated pivot table data via the ExcelPivotTable.CalculatedData property of the ExcelPivotTable.GetPivotData function
 	* GetPivotData function.
- 
+* Added support for copying drawings.
+ 	* Many types of drawings:
+	   	* Shapes
+	   	* Charts
+	   	* Pictures
+	   	* Controls
+	   	* Slicers
+	   	* Group Shapes
+    	* Copy individual drawings.
+	* Copying a range will include drawings.
+  		* Set flag to ignore drawings.
+* Added support for importing and exporting Fixed Width text files.
+* Transpose
+  	* Transpose ranges in import and export functions.
+* New functions supported in formula calculations.
+	* MMULT
+  	* MINVERSE
+  	* MDETERM
+  	* MUNIT
+  	* TEXTSPLIT
+	* TEXTAFTER
+  	* TEXTBEFORE
+	* LET  
 
 ### Minor Features and fixed issues
 * Added all icons and iconset features to html export. Including custom iconsets.
