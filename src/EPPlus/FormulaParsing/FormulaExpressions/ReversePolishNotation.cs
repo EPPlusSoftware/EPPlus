@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var bracketCount = 0;
             var operators = OperatorsDict.Instance;
             Stack<Token> operatorStack = new Stack<Token>();
-            var expressions = new List<Token>();
+            var rpnTokens = new List<Token>();
             for (int i = 0; i < tokens.Count; i++)
             {
                 Token token = tokens[i];
@@ -42,13 +42,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             var o = operatorStack.Pop();
                             while (o.TokenType != TokenType.OpeningParenthesis)
                             {
-                                expressions.Add(o);
+                                rpnTokens.Add(o);
                                 if (operatorStack.Count == 0) throw new InvalidOperationException("No closing parenthesis");
                                 o = operatorStack.Pop();
                             }
                             if (operatorStack.Count > 0 && operatorStack.Peek().TokenType == TokenType.Function)
                             {
-                                expressions.Add(operatorStack.Pop());
+                                rpnTokens.Add(operatorStack.Pop());
                             }
                         }
                         break;
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.Negator:
                         if (token.TokenType == TokenType.Operator && i > 0 && i < tokens.Count - 2 && token.Value == ":" && tokens[i - 1].Value == "]" && tokens[i + 1].Value == "[")
                         {
-                            expressions.Add(token);
+                            rpnTokens.Add(token);
                             break;
                         }
                         if (operatorStack.Count > 0)
@@ -70,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 token.TokenType != TokenType.Negator &&
                                 operators[token.Value].Precedence > Operator.PrecedenceColon))
                             {
-                                expressions.Add(operatorStack.Pop());
+                                rpnTokens.Add(operatorStack.Pop());
                                 if (operatorStack.Count == 0) break;
                                 o2 = operatorStack.Peek();
                             }
@@ -79,7 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
 
                     case TokenType.Function:
-                        expressions.Add(new Token(token.Value, TokenType.StartFunctionArguments));
+                        rpnTokens.Add(new Token(token.Value, TokenType.StartFunctionArguments));
                         operatorStack.Push(token);
                         break;
                     case TokenType.Comma:
@@ -89,23 +89,23 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             var op = operatorStack.Peek().TokenType;
                             while (op == TokenType.Operator || op == TokenType.Negator)
                             {
-                                expressions.Add(operatorStack.Pop());
+                                rpnTokens.Add(operatorStack.Pop());
                                 if (operatorStack.Count == 0) break;
                                 op = operatorStack.Peek().TokenType;
                             }
                         }
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                     case TokenType.OpeningBracket:
                         bracketCount++;
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                     case TokenType.ClosingBracket:
                         bracketCount--;
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                     default:
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                 }
 
@@ -113,10 +113,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
             while (operatorStack.Count > 0)
             {
-                expressions.Add(operatorStack.Pop());
+                rpnTokens.Add(operatorStack.Pop());
             }
 
-            return expressions;
+            return rpnTokens;
         }
     }
 }

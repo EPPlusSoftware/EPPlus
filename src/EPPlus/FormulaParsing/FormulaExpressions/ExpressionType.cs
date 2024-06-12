@@ -34,6 +34,7 @@ namespace OfficeOpenXml
         //RangeAddress,
         TableAddress,
         //RangeDefinition,
-        Empty
+        Empty,
+        LambdaInvoke
     }
 }

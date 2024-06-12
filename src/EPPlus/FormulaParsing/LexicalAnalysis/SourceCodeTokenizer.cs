@@ -150,7 +150,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
             statFlags flags = 0;
             short isInString = 0;
-            short bracketCount = 0, paranthesesCount = 0;
+            bool isInLambdaInvoke = false;
+            short bracketCount = 0, paranthesesCount = 0, lambdaInvokeParenthesisCount = 0;
             var current = new StringBuilder();
             var pc = '\0';
             var isR1C1 = false;
@@ -158,6 +159,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             while (ix < length)
             {
                 var c = input[ix];
+                if (ix > 0 && isInString == 0 && c == '(' && input[ix-1] == ')')
+                {
+                    l.Add(new Token("(", TokenType.LambdaInvokeArgsStart));
+                    lambdaInvokeParenthesisCount++;
+                    ix++;
+                    if (c != ' ') pc = c;
+                    isInLambdaInvoke = true;
+                    continue;
+                }
                 if (c == '\"' && isInString != 2 && bracketCount==0)
                 {
                     current.Append(c);
@@ -325,7 +335,20 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             }
                             else if (c == ')')
                             {
-                                paranthesesCount--;
+                                if (isInLambdaInvoke)
+                                {
+                                    lambdaInvokeParenthesisCount--;
+                                    if (lambdaInvokeParenthesisCount == 0)
+                                    {
+                                        isInLambdaInvoke = false;
+                                        l[l.Count - 1] = new Token(")", TokenType.LambdaInvokeArgsEnd);
+                                    }
+                                }
+                                else
+                                {
+                                    paranthesesCount--;
+                                }
+                                    
                             }
                             else if (c == '[' && (pc != '\'' || (flags & statFlags.isLastCharQuote) == 0))
                             {

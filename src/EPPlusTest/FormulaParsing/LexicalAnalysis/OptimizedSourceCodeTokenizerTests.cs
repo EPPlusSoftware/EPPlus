@@ -527,16 +527,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(TokenType.WhiteSpace, tokens[8].TokenType);
             Assert.AreEqual("   ", tokens[8].Value);
 
-            input = "=( A1:B3 )( B2:C3  )  ";
+            input = "=( A1:B3 ) ( B2:C3  )  ";
             tokens = tokenizer.Tokenize( input);
-            Assert.AreEqual(16, tokens.Count);
+            Assert.AreEqual(18, tokens.Count);
             Assert.AreEqual(TokenType.WhiteSpace, tokens[2].TokenType);
             Assert.AreEqual(TokenType.WhiteSpace, tokens[6].TokenType);
-            Assert.AreEqual(TokenType.WhiteSpace, tokens[9].TokenType);
-            Assert.AreEqual(TokenType.WhiteSpace, tokens[13].TokenType);
-            Assert.AreEqual("  ", tokens[13].Value);
+            Assert.AreEqual(TokenType.Operator, tokens[9].TokenType);
             Assert.AreEqual(TokenType.WhiteSpace, tokens[15].TokenType);
             Assert.AreEqual("  ", tokens[15].Value);
+            Assert.AreEqual(TokenType.WhiteSpace, tokens[17].TokenType);
+            Assert.AreEqual("  ", tokens[17].Value);
         }
         [TestMethod]
         public void TokenizeWhiteSpace()
@@ -555,11 +555,11 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(TokenType.Operator, tokens[6].TokenType);
             Assert.AreEqual(TokenType.OpeningParenthesis, tokens[7].TokenType);
 
-            input = "=( A1:B3 )( B2:C3  )  ";
+            input = "=( A1:B3 ) * ( B2:C3  )  ";
             tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual(11, tokens.Count);
+            Assert.AreEqual(12, tokens.Count);
             Assert.AreEqual(TokenType.ClosingParenthesis, tokens[5].TokenType);
-            Assert.AreEqual(TokenType.OpeningParenthesis, tokens[6].TokenType);
+            Assert.AreEqual(TokenType.OpeningParenthesis, tokens[7].TokenType);
         }
         [TestMethod]
         public void TokenizeExternalAddressWithApostrophs()
@@ -574,6 +574,26 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(TokenType.WorksheetNameContent, tokens[4].TokenType);
             Assert.AreEqual(TokenType.WorksheetName, tokens[6].TokenType);
         }
+        [TestMethod]
+        public void TokenizerShouldIdentifyLambdaInvokeArgs()
+        {
+            var input = "LAMBDA(r,c,r+c)(D6,D7)";
+            var tokens = _tokenizer.Tokenize(input);
+
+            Assert.AreEqual(TokenType.Function, tokens[0].TokenType);
+            Assert.AreEqual(TokenType.OpeningParenthesis, tokens[1].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariableDeclaration, tokens[2].TokenType);
+            Assert.AreEqual(TokenType.Comma, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariableDeclaration, tokens[4].TokenType);
+            Assert.AreEqual(TokenType.CommaLambda, tokens[5].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariable, tokens[6].TokenType);
+            Assert.AreEqual(TokenType.Operator, tokens[7].TokenType);
+            Assert.AreEqual(TokenType.ParameterVariable, tokens[8].TokenType);
+            Assert.AreEqual(TokenType.ClosingParenthesis, tokens[9].TokenType);
+            Assert.AreEqual(TokenType.LambdaInvokeArgsStart, tokens[10].TokenType);
+            Assert.AreEqual(TokenType.LambdaInvokeArgsEnd, tokens[14].TokenType);
+        }
+
         [TestMethod]
         public void TokenizeMultipleAddressesOnFirstLevel()
         {

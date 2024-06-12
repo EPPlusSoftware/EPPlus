@@ -215,5 +215,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents a comma that comes before a LAMBDA declaration
         /// </summary>
         CommaLambda = (ulong)1 << 47,
+        /// <summary>
+        /// Represents a start parenthesis that indicates arguments to a LAMBDA call
+        /// </summary>
+        LambdaInvokeArgsStart = (ulong)1 << 48,
+        /// <summary>
+        /// Represents an end parenthesis that indicates arguments to a LAMBDA call
+        /// </summary>
+        LambdaInvokeArgsEnd = (ulong)1 << 49,
     }
 }

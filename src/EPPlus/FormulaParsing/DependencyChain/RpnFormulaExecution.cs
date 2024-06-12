@@ -915,9 +915,8 @@ namespace OfficeOpenXml.FormulaParsing
                                 }
                                 f._currentFunction = null;
                             }
-
                             var r = ExecFunc(depChain, f, funcExp);
-                            if (r.Address!=null && returnAddresses)
+                            if (r.Address != null && returnAddresses)
                             {
                                 if ((f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && r.Address != null)
                                 {
@@ -939,6 +938,11 @@ namespace OfficeOpenXml.FormulaParsing
                             break;
                         }
                         f._funcStack.Push(fe);
+                        break;
+                    case TokenType.LambdaInvokeArgsEnd:
+                        CompileResult result = InvokeLambdaFunction(depChain, f);
+                        if (result != null)
+                            PushResult(depChain._parsingContext, f, result);
                         break;
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
@@ -965,6 +969,42 @@ namespace OfficeOpenXml.FormulaParsing
                 f._tokenIndex++;
             }
             return null;
+        }
+
+        // This method compiles the arguments for a Lambda function,
+        // invokes it and returns the result.
+        private static CompileResult InvokeLambdaFunction(RpnOptimizedDependencyChain depChain, RpnFormula f)
+        {
+            var lambdaArgs = new List<CompileResult>();
+            CompileResult result = default;
+            while (f._expressionStack.Count > 0)
+            {
+                var exp = f._expressionStack.Pop();
+
+                if (f._expressionStack.Count > 0)
+                {
+                    var arg = exp.Compile();
+                    lambdaArgs.Insert(0, arg);
+                }
+                else
+                {
+                    // The last expression on the stack should be a LambdaCalculationExpression
+                    if (exp is LambdaCalculationExpression lce)
+                    {
+                        var lie = new LambdaInvokeExpression(lce, depChain._parsingContext, f._tokenIndex);
+                        foreach (var arg in lambdaArgs)
+                        {
+                            lie.AddArgument(arg);
+                        }
+                        result = lie.Compile();
+                    }
+                    else
+                    {
+                        f._expressionStack.Push(new ErrorExpression(new CompileResult(eErrorType.Value), depChain._parsingContext));
+                    }
+                }
+            }
+            return result;
         }
 
         private static ExpressionCondition GetCondition(CompileResult v)
