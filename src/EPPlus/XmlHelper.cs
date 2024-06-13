@@ -888,7 +888,7 @@ namespace OfficeOpenXml
                 DeleteNode(path);
             }
         }
-        internal void SetXmlNodeAngel(string path, double? value, string parameter = null, int minValue = 0, int maxValue = 360)
+        internal void SetXmlNodeAngle(string path, double? value, string parameter = null, int minValue = 0, int maxValue = 360)
         {
             if (value.HasValue)
             {

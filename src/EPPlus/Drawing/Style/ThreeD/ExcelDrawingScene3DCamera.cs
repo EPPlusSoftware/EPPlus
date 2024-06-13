@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Drawing.Style.ThreeD
             set
             {
                 _initParent(false);
-                SetXmlNodeAngel(_fieldOfViewAnglePath, value, "FieldOfViewAngle", 0, 180);
+                SetXmlNodeAngle(_fieldOfViewAnglePath, value, "FieldOfViewAngle", 0, 180);
             }
         }
         /// <summary>

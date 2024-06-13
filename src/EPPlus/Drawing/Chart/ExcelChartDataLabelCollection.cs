@@ -28,9 +28,9 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             SchemaNodeOrder = schemaNodeOrder;
             _list = new List<ExcelChartDataLabelItem>();
-            foreach (XmlNode pointNode in TopNode.SelectNodes(ExcelChartDataPoint.topNodePath, ns))
+            foreach (XmlNode dataLabelNode in TopNode.SelectNodes("c:dLbl", ns))
             {
-                _list.Add(new ExcelChartDataLabelItem(chart, ns, pointNode, "idx", schemaNodeOrder));
+                _list.Add(new ExcelChartDataLabelItem(chart, ns, dataLabelNode, "", schemaNodeOrder));
             }
             _chart = chart;
         }
