@@ -46,5 +46,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.IsTrue(IsValidCellValue(d4));
             Assert.IsTrue(IsValidCellValue(d5));
         }
+
+        [TestMethod]
+        public void MakeArray_Test3()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "MAKEARRAY(LAMBDA(a,b,a+b)(1,2),3,LAMBDA(r,c,r+c))";
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["A1"].Value);
+            Assert.AreEqual(3d, sheet.Cells["A2"].Value);
+            Assert.AreEqual(4d, sheet.Cells["A3"].Value);
+            Assert.AreEqual(3d, sheet.Cells["B1"].Value);
+            Assert.AreEqual(4d, sheet.Cells["B2"].Value);
+            Assert.AreEqual(5d, sheet.Cells["B3"].Value);
+            Assert.AreEqual(4d, sheet.Cells["C1"].Value);
+            Assert.AreEqual(5d, sheet.Cells["C2"].Value);
+            Assert.AreEqual(6d, sheet.Cells["C3"].Value);
+        }
     }
 }

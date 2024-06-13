@@ -67,7 +67,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public CompileResult Execute(ParsingContext ctx)
         {
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column);
-            formula.SetTokens(_currentTokens, ctx);
+            var rpnTokens = new RpnTokens { Tokens = _currentTokens };
+            formula.SetTokens(rpnTokens, ctx);
             var chain = new RpnOptimizedDependencyChain(ctx.CurrentWorksheet.Workbook, ctx.CalcOption);
             var result = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
             return CompileResultFactory.Create(result);

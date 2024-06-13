@@ -15,6 +15,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -27,12 +28,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal static class ExpressionBuilder
     {
-        public static Dictionary<int, Expression> BuildExpressions(ref IList<Token> tokens, ParsingContext parsingContext)
+        public static Dictionary<int, Expression> BuildExpressions(ref RpnTokens rpnTokens, ParsingContext parsingContext)
         {
-            return BuildExpressions(null, ref tokens, parsingContext);
+            return BuildExpressions(null, ref rpnTokens, parsingContext);
         }
 
-        public static Dictionary<int, Expression> BuildExpressions(RpnFormula rpnFormula, ref IList<Token> tokens, ParsingContext parsingContext)
+        public static Dictionary<int, Expression> BuildExpressions(RpnFormula rpnFormula, ref RpnTokens rpnTokens, ParsingContext parsingContext)
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
@@ -40,6 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var expressions = new Dictionary<int, Expression>();
             var isInLambdaCalculation = false;
             LambdaTokensExpression lambdaCalculationExpression = null;
+            var tokens = rpnTokens.Tokens;
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
                 var t = tokens[tokenIx];
@@ -141,11 +143,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         break;
                     case TokenType.StartFunctionArguments:
-                        var isLet = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LET", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LET", StringComparison.OrdinalIgnoreCase) == 0);
-                        var isLambda = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LAMBDA", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LAMBDA", StringComparison.OrdinalIgnoreCase) == 0);
-                        var func = isLet ? 
+                        var func = t.IsLetFunction() ? 
                             new LetFunctionExpression(t.Value, stack, parsingContext, i) :
-                                isLambda ?
+                                t.IsLambdaFunction() ?
                                     new LambdaFunctionExpression(t.Value, stack, parsingContext, i) :
                                     new FunctionExpression(t.Value, parsingContext, i);
                         expressions.Add(i, func);

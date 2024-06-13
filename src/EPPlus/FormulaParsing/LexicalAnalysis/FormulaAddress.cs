@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
         internal static ISourceCodeTokenizer _tokenizerNWS = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
         internal IList<Token> Tokens;
-        internal IList<Token> RpnTokens;
+        internal RpnTokens RpnTokens;
         internal int AddressExpressionIndex;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal ulong _id=ulong.MinValue;

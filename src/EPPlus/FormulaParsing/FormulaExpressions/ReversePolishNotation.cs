@@ -16,17 +16,20 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal static class ReversePolishNotation
     {
-        internal static List<Token> CreateRPNTokens(IList<Token> tokens)
+        internal static RpnTokens CreateRPNTokens(IList<Token> tokens)
         {
             var bracketCount = 0;
             var operators = OperatorsDict.Instance;
             Stack<Token> operatorStack = new Stack<Token>();
+            Stack<int> lambdas = new Stack<int>();
             var rpnTokens = new List<Token>();
+            var hasLambda = false;
             for (int i = 0; i < tokens.Count; i++)
             {
                 Token token = tokens[i];
@@ -38,7 +41,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.ClosingParenthesis:
                         if (operatorStack.Count > 0)
                         {
-
                             var o = operatorStack.Pop();
                             while (o.TokenType != TokenType.OpeningParenthesis)
                             {
@@ -94,6 +96,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 op = operatorStack.Peek().TokenType;
                             }
                         }
+                        if(token.TokenType == TokenType.CommaLambda)
+                        {
+                            hasLambda = true;
+                        }
                         rpnTokens.Add(token);
                         break;
                     case TokenType.OpeningBracket:
@@ -115,8 +121,43 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 rpnTokens.Add(operatorStack.Pop());
             }
+            var result = new RpnTokens
+            {
+                Tokens = rpnTokens
+            };
+            if (hasLambda)
+            {
+                ProcessLambda(result);
+            }
+            return result;
+        }
 
-            return rpnTokens;
+        private class LambdaRef
+        {
+            public int LambdaStartIx { get; set; }
+
+            public int LambdaArgIx { get; set; }
+        }
+
+        private static void ProcessLambda(RpnTokens rpnTokens)
+        {
+            var lambdaRefs = new Stack<LambdaRef>();
+            Stack<int> lStack = new Stack<int>();
+            for(var i = 0; i < rpnTokens.Count; i++)
+            {
+                var token = rpnTokens[i];
+                if(token.IsLambdaFunction())
+                {
+                    if(token.TokenType == TokenType.StartFunctionArguments)
+                    {
+                        lStack.Push(i);
+                    }
+                    else
+                    {
+                        lambdaRefs.Push(new LambdaRef { LambdaStartIx = lStack.Pop(), LambdaArgIx = i + 1 });
+                    }
+                }
+            }
         }
     }
 }

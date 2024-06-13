@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _row;
         internal int _column;
         internal string _formula;
-        internal IList<Token> _tokens;
+        internal RpnTokens _tokens;
         internal Dictionary<int, Expression> _expressions;
         internal int _enumeratorWorksheetIx;
         internal CellStoreEnumerator<object> _formulaEnumerator;
@@ -104,11 +104,11 @@ namespace OfficeOpenXml.FormulaParsing
             _expressions = ExpressionBuilder.BuildExpressions(this, ref _tokens, depChain._parsingContext);
         }
 
-        internal void SetTokens(List<Token> tokens, ParsingContext context)
+        internal void SetTokens(RpnTokens tokens, ParsingContext context)
         {
             _tokens = tokens;
             var formula = new StringBuilder();
-            foreach(var token in tokens)
+            foreach(var token in tokens.Tokens)
             {
                 formula.Append(token.Value);
             }

@@ -34,5 +34,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Calculate();
             Assert.AreEqual(5d, sheet.Cells["A1"].Value);
         }
+
+        [TestMethod]
+        public void LambdaRecursive1()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(a,a + LAMBDA(b,b + a)(2))(2)";
+            sheet.Calculate();
+            Assert.AreEqual(6d, sheet.Cells["A1"].Value);
+        }
     }
 }
