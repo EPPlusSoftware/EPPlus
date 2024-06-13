@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 
                 var extPath = "c:extLst/c:ext";
 
-                NameSpaceManager.AddNamespace("xmlns:c15", ExcelPackage.schemaChart2012);
+                NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
                 NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
 
                 XmlElement el = (XmlElement)CreateNode($"{extPath}");
@@ -48,7 +48,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 XmlElement element = (XmlElement)CreateNode($"{extPath}", false, true);
                 element.SetAttribute("xmlns:c16", ExcelPackage.schemaChart2014);
                 SetXmlNodeString($"{extPath}[2]/@uri", "{C3380CC4-5D6E-409C-BE32-E72D297353CC}");
-                //SetXmlNodeString($"{extPath}[2]", "{C3380CC4-5D6E-409C-BE32-E72D297353CC}");
 
                 _guidId = Guid.NewGuid();
 
