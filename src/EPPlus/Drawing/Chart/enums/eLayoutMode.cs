@@ -19,14 +19,12 @@ namespace OfficeOpenXml.Drawing.Chart
     public enum eLayoutMode
     {
         /// <summary>
-        /// Specifies that the Width or Height shall be interpreted
-        /// as the Right or Bottom of the chart element.
+        /// Store as an offset from labels default position.
         /// </summary>
-        Edge,
+        Factor,
         /// <summary>
-        /// Specifies that the Width or Height shall be interpreted
-        /// as the Width or Height of the chart element.
+        /// Store as an offset from the relevant Edge of the element
         /// </summary>
-        Factor
+        Edge
     }
 }

@@ -6328,8 +6328,8 @@ namespace EPPlusTest
                 dataLabel.ShowPercent = false;
                 dataLabel.ShowBubbleSize = false;
 
-                dataLabel.Layout.ManualLayout.WidthMode = eLayoutMode.Edge;
-                dataLabel.Layout.ManualLayout.HeightMode = eLayoutMode.Edge;
+                dataLabel.Layout.ManualLayout.RightMode = eLayoutMode.Edge;
+                dataLabel.Layout.ManualLayout.BottomMode = eLayoutMode.Edge;
                 dataLabel.Layout.ManualLayout.TopMode = eLayoutMode.Edge;
                 dataLabel.Layout.ManualLayout.LeftMode = eLayoutMode.Edge;
 

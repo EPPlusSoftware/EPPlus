@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartDataLabelItem(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, schemaNodeOrder)
         {
-            Layout = new ExcelLayout(ns, TopNode, $"c:layout", SchemaNodeOrder);
+            Layout = new ExcelLayout(NameSpaceManager, TopNode, $"c:layout","c:extLst/c:ext[1]/c15:layout",  SchemaNodeOrder);
         }
 
         /// <summary>

@@ -56,6 +56,32 @@ namespace OfficeOpenXml.Drawing.Chart
           {
             get
             {
+                var strValue = GetXmlNodeString($"{_extLstPath}/c:wMode/@val");
+                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+            }
+            set
+            {
+                SetXmlNodeString($"{_extLstPath}/c:wMode/@val", value.ToEnumString());
+            }
+        }
+        public eLayoutMode HeightMode
+        {
+            get
+            {
+                var strValue = GetXmlNodeString($"{_extLstPath}/c:hMode/@val");
+                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+            }
+            set
+            {
+                var aStr = value.ToEnumString();
+                SetXmlNodeString($"{_extLstPath}/c:hMode/@val", aStr);
+            }
+        }
+
+        public eLayoutMode RightMode
+        {
+            get
+            {
                 var strValue = GetXmlNodeString($"{_path}/c:wMode/@val");
                 return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
             }
@@ -64,7 +90,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString($"{_path}/c:wMode/@val", value.ToEnumString());
             }
         }
-        public eLayoutMode HeightMode
+        public eLayoutMode BottomMode
         {
             get
             {
@@ -79,8 +105,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         /// <summary>
-        /// Left offset between 100 to -100%. In Excel exceeding these values counts as setting the property to 0.
-        /// 
+        /// Left offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
         /// </summary>
         public double Left
         {
@@ -95,8 +120,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         /// <summary>
-        /// -100 to 100% offset from top of the chart or relative to the default position if hMode is Factor
-        /// Going above chart limits counts as setting the value to 0 visually.
+        /// Top offset between 100 to -100% of the chart height. In Excel exceeding these values counts as setting the property to 0.
         /// </summary>
         public double Top
         {
@@ -108,14 +132,39 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 SetXmlNodeString($"{_path}/c:y/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
             }
-        }        
+        }
         /// <summary>
-        /// Width of the textbox around the label. As a positive percentual value of the chart.
-        /// 100 = 100% of the chart width.
-        /// width as a percentual value based on the parent object and the layout mode.
-        /// specifies right if wMode is Edge
+        /// Width offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
         /// </summary>
         public double Width
+        {
+            get
+            {
+                return GetXmlNodeDouble($"{_extLstPath}/c:w/@val") * 100;
+            }
+            set
+            {
+                SetXmlNodeString($"{_extLstPath}/c:w/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+            }
+        }
+        /// <summary>
+        /// Height offset between 100 to -100% of the chart height. In Excel exceeding these values counts as setting the property to 0.
+        /// </summary>
+        public double Height
+        {
+            get
+            {
+                return GetXmlNodeDouble($"{_extLstPath}/c:h/@val") * 100;
+            }
+            set
+            {
+                SetXmlNodeString($"{_extLstPath}/c:h/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+            }
+        }
+        /// <summary>
+        /// Right offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
+        /// </summary>
+        public double Right
         {
             get
             {
@@ -123,7 +172,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
-                if(WidthMode == eLayoutMode.Edge && value < Left)
+                if (RightMode == eLayoutMode.Edge && value < Left)
                 {
                     throw new InvalidOperationException($"Width (Right edge): {value} is less than Left edge {Left}. Cannot invert data label. Right edge cannot pass left edge");
                 }
@@ -131,12 +180,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
-        /// Height of the textbox around the label. As a positive percentual value of the chart.
-        /// 100 = 100% of the chart Height.
-        /// height as a percentual value based on the parent object and the layout mode.
-        /// specifies bottom if hMode is edge 
+        /// Bottom offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
         /// </summary>
-        public double Height
+        public double Bottom
         {
             get
             {
@@ -144,7 +190,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
-                if (HeightMode == eLayoutMode.Edge && value < Top)
+                if (RightMode == eLayoutMode.Edge && value < Left)
                 {
                     throw new InvalidOperationException($"Bottom edge (Height) is {value} which is less than Top edge {Top}. Cannot invert data label. Bottom edge cannot pass Top edge");
                 }
@@ -153,13 +199,23 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         private readonly string _path;
+        private readonly string _extLstPath;
 
         /// <summary>
         /// Manual layout elements
         /// </summary>
-        internal ExcelManualLayout(XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder = null) : base(ns, topNode) 
+        internal ExcelManualLayout(XmlNamespaceManager ns, XmlNode topNode, string path, string extLstPath, string[] schemaNodeOrder = null) : base(ns, topNode) 
         {
             _path = path;
+            _extLstPath = extLstPath;
+            NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
+            NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
+
+
+            //var extPath = "c:extLst/c:ext";
+            //var extNode2 = GetNode($"{extPath}[1]");
+            //var c15LayoutNode = (XmlElement)CreateNode(extNode2, "c15:layout");
+
             AddSchemaNodeOrder(schemaNodeOrder, ["layoutTarget", "xMode", "yMode", "wMode", "hMode", "x", "y", "w", "h", "extLst"]);
         }
 

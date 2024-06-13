@@ -27,52 +27,19 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, "c")
         {
-            //var groupDLbls = 
-
-            //var CT_DLblsNodeOrder = new List<string>() { "dLbl", };
-
-            //var DLblShared = new string[] { "numFmt", "spPr", "txPr", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator" };
-
-            //var choiceNode = new string[] { "dLbl", "delete" };
-
-            //var groupDLbls = Array.Copy(choiceNode);
-
-            //AddSchemaNodeOrder([""], CTDataLabels.NodeOrder);
             AddSchemaNodeOrder([""], LabelNodeHolder.DataLabels.NodeOrder);
-
-            //SchemaNodeOrder = LabelNodeHolder.DataLabels.NodeOrder;
-
             var order = SchemaNodeOrder;
-
-            //AddSchemaNodeOrder(choiceNode, DLblShared);
-            //AddSchemaNodeOrder(SchemaNodeOrder, ["showLeaderLines", "leaderLines", "extLst"]);
-            //AddSchemaNodeOrder(SchemaNodeOrder, DLblShared);
 
             if (nodeName == "dLbl" || nodeName == "")
             {
-                //SchemaNodeOrder = LabelNodeHolder.DataLabel.NodeOrder;
                 AddSchemaNodeOrder([""], LabelNodeHolder.DataLabel.NodeOrder);
-
-                //var dLblNodes = new string[] { "idx, delete" };
-                //var groupDLbl = new string[] { "layout, tx" };
-                //Array.Copy(DLblShared, groupDLbl, DLblShared.Length);
-
-                //SchemaNodeOrder = dLblNodes;
-                //AddSchemaNodeOrder(SchemaNodeOrder, groupDLbl);
-                //AddSchemaNodeOrder(SchemaNodeOrder, ["extLst"]);
-
-                //Adds
-                //SchemaNodeOrder = 
-                //groupDLbl = new string[] { dLblNodes[0], dLblNodes[1], groupDLbl[0], groupDLbl[1] };
-
-                //var ctDLbl = string.Concat(dLblNodes, )
-                //AddSchemaNodeOrder(dLblNodes,)
-                //NameSpaceManager.AddNamespace("xmlns:c15", "http://schemas.microsoft.com/office/drawing/2012/chart");
+                
                 TopNode = node;
                 
                 var extPath = "c:extLst/c:ext";
-                //SetXmlNodeString($"{extPath}", "");
-                //SetXmlNodeString($"{extPath}/@xmlns:c15", "http://schemas.microsoft.com/office/drawing/2012/chart");
+
+                NameSpaceManager.AddNamespace("xmlns:c15", ExcelPackage.schemaChart2012);
+                NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
 
                 XmlElement el = (XmlElement)CreateNode($"{extPath}");
                 el.SetAttribute("xmlns:c15", ExcelPackage.schemaChart2012);
@@ -82,8 +49,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 element.SetAttribute("xmlns:c16", ExcelPackage.schemaChart2014);
                 SetXmlNodeString($"{extPath}[2]/@uri", "{C3380CC4-5D6E-409C-BE32-E72D297353CC}");
                 //SetXmlNodeString($"{extPath}[2]", "{C3380CC4-5D6E-409C-BE32-E72D297353CC}");
-
-                NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
 
                 _guidId = Guid.NewGuid();
 
