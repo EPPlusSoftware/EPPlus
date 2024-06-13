@@ -233,6 +233,8 @@
 		<EmbeddedResource Include="Workbooks\FullPrecisionIF.xlsx" />
 		<None Remove="Workbooks\TestDoc_SumPrecision.xlsx" />
 		<EmbeddedResource Include="Workbooks\TestDoc_SumPrecision.xlsx" />
+		<None Remove="Workbooks\GermanBuildInNumberFormat.xlsx" />
+		<EmbeddedResource Include="Workbooks\GermanBuildInNumberFormat.xlsx" />
 	</ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
