@@ -55,37 +55,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 var extNode2 = GetNode($"{extPath}[2]");
                 var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueID");
                 uniqueIdNode.SetAttribute("val", $"{{{_guidId}}}");
-                //XmlElement idElement = (XmlElement)CreateNode($"{extPath}[2]", false, true);
-                //SetXmlNodeString($"{extPath}[2][1]/c16:uniqueId/@val", $"{{{_guidId}}}");
-
-
-                // //SetXmlNodeString($"{extPath}/@uri", "{CE6537A1-D6FC-4f65-9D91-7224C49458BB}");
-
-                //var aNode = GetNode($"{extPath}");
-
-                //var item = aNode.Attributes.Item(0);
-                // var attr = aNode.OwnerDocument.CreateAttribute("c15", "xmlns", "http://schemas.microsoft.com/office/drawing/2012/chart");
-                // //attr.Value = "http://schemas.microsoft.com/office/drawing/2012/chart";
-                // //aNode.Attributes.Prepend(attr);
-
-                // var element = aNode.OwnerDocument.CreateElement("c","ext", "http://schemas.microsoft.com/office/drawing/2014/chart");
-                // //var attr2 = aNode.OwnerDocument.CreateAttribute("c16", "xmlns", "http://schemas.microsoft.com/office/drawing/2014/chart");
-                //// attr2.Value = "http://schemas.microsoft.com/office/drawing/2014/chart";
-                // //element.Attributes.Append(attr2);
-                // var uri2 = aNode.OwnerDocument.CreateAttribute("uri");
-                // uri2.Value = "{C3380CC4-5D6E-409C-BE32-E72D297353CC}";
-                // element.Attributes.Append(uri2);
-
-                // aNode.ParentNode.AppendChild(element);
-
-                // var idElement = aNode.OwnerDocument.CreateElement("c16", "uniqueId", null);
-                // var idAttr = aNode.OwnerDocument.CreateAttribute("val");
-                // idAttr.Value = $"{{{Guid.NewGuid()}}}";
-                // idElement.Attributes.Append(idAttr);
-                // element.AppendChild(idElement);
-
-                // var checkNode = aNode;
-                //SetXmlNodeString($"{extPath}/@xmlns:c15", "http://schemas.microsoft.com/office/drawing/2012/chart");
             }
             else
             {
