@@ -87,7 +87,7 @@ namespace EPPlusTest.Drawing.Chart
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ShouldThrowWhenTopPastBottom()
         {
-            var sheet3 = _pck.Workbook.Worksheets.Add("LayoutModesTopBottom");
+            var sheet3 = _pck.Workbook.Worksheets.Add("ExceptionLayoutModesTopBottom");
 
             sheet3.Tables.Add(sheet3.Cells["A1:B1"], "TopBottom");
 
@@ -109,23 +109,23 @@ namespace EPPlusTest.Drawing.Chart
             dataLabel.ShowPercent = false;
             dataLabel.ShowBubbleSize = false;
 
-            dataLabel.Layout.ManualLayout.RightMode = eLayoutMode.Edge;
-            dataLabel.Layout.ManualLayout.BottomMode = eLayoutMode.Edge;
+            dataLabel.Layout.ManualLayout.LegacyWidthMode = eLayoutMode.Edge;
+            dataLabel.Layout.ManualLayout.LegacyHeightMode = eLayoutMode.Edge;
             dataLabel.Layout.ManualLayout.TopMode = eLayoutMode.Edge;
             dataLabel.Layout.ManualLayout.LeftMode = eLayoutMode.Edge;
 
             dataLabel.Layout.ManualLayout.Left = 30;
             dataLabel.Layout.ManualLayout.Top = 25;
 
-            dataLabel.Layout.ManualLayout.Right = 40;
-            dataLabel.Layout.ManualLayout.Bottom = 20;
+            dataLabel.Layout.ManualLayout.LegacyWidth = 40;
+            dataLabel.Layout.ManualLayout.LegacyHeight = 20;
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ShouldThrowWhenRightMoreLeftThanLeft()
         {
-            var sheet3 = _pck.Workbook.Worksheets.Add("LayoutModesLeftRight");
+            var sheet3 = _pck.Workbook.Worksheets.Add("ExceptionLayoutModesLeftRight");
 
             sheet3.Tables.Add(sheet3.Cells["A1:B1"], "LeftRight");
 
@@ -147,16 +147,59 @@ namespace EPPlusTest.Drawing.Chart
             dataLabel.ShowPercent = false;
             dataLabel.ShowBubbleSize = false;
 
-            dataLabel.Layout.ManualLayout.RightMode = eLayoutMode.Edge;
-            dataLabel.Layout.ManualLayout.BottomMode = eLayoutMode.Edge;
+            dataLabel.Layout.ManualLayout.LegacyWidthMode = eLayoutMode.Edge;
+            dataLabel.Layout.ManualLayout.LegacyHeightMode = eLayoutMode.Edge;
             dataLabel.Layout.ManualLayout.TopMode = eLayoutMode.Edge;
             dataLabel.Layout.ManualLayout.LeftMode = eLayoutMode.Edge;
 
             dataLabel.Layout.ManualLayout.Left = 30;
             dataLabel.Layout.ManualLayout.Top = 25;
 
-            dataLabel.Layout.ManualLayout.Right = 20;
-            dataLabel.Layout.ManualLayout.Bottom = 30;
+            dataLabel.Layout.ManualLayout.LegacyWidth = 20;
+            dataLabel.Layout.ManualLayout.LegacyHeight = 30;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ShouldThrowOnNonLegacyTopBottom()
+        {
+            var sheet3 = _pck.Workbook.Worksheets.Add("ExceptionNewLayoutModesTopBottom");
+
+            sheet3.Tables.Add(sheet3.Cells["A1:B1"], "ExceptionLayoutModeTopBottom");
+
+            sheet3.Cells["A1"].Value = 5;
+            sheet3.Cells["B1"].Value = 10;
+
+            var sChart = sheet3.Drawings.AddBarChart("simpleChart", eBarChartType.ColumnStacked);
+
+            sChart.Series.Add(sheet3.Cells["A1"]);
+            sChart.Series.Add(sheet3.Cells["B1"]);
+
+            var series = sChart.Series;
+
+            var dataLabel = series[1].DataLabel.DataLabels.Add(0);
+
+            dataLabel.Position = eLabelPosition.Center;
+
+            dataLabel.ShowLegendKey = false;
+            dataLabel.ShowValue = true;
+            dataLabel.ShowCategory = false;
+            dataLabel.ShowSeriesName = false;
+            dataLabel.ShowPercent = false;
+            dataLabel.ShowBubbleSize = false;
+
+            var manualLayout = dataLabel.Layout.ManualLayout;
+
+            manualLayout.LeftMode = eLayoutMode.Edge;
+            manualLayout.TopMode = eLayoutMode.Edge;
+            manualLayout.WidthMode = eLayoutMode.Edge;
+            manualLayout.HeightMode = eLayoutMode.Edge;
+
+            manualLayout.Top = 20;
+            manualLayout.Left = 20;
+
+            manualLayout.Width = 10;
+            manualLayout.Height = 10;
         }
 
         [TestMethod]
@@ -187,11 +230,6 @@ namespace EPPlusTest.Drawing.Chart
             dataLabel.ShowPercent = false;
             dataLabel.ShowBubbleSize = false;
 
-            //dataLabel.Layout.ManualLayout.WidthMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.HeightMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.TopMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.LeftMode = eLayoutMode.Edge;
-
             var manualLayout = dataLabel.Layout.ManualLayout;
 
             manualLayout.LeftMode = eLayoutMode.Edge;
@@ -202,22 +240,12 @@ namespace EPPlusTest.Drawing.Chart
             manualLayout.Top = 20;
             manualLayout.Left = 20;
 
-            manualLayout.Width = 15;
-            manualLayout.Height = 15;
-
-            ////manualLayout.Left = 45;
-            //manualLayout.Width = 10;
-
-            ////manualLayout.Top = 45;
-            //manualLayout.Height = 10;
-            //dataLabel.Layout.ManualLayout.Top = 25;
-
-            //dataLabel.Layout.ManualLayout.Width = 20;
-            //dataLabel.Layout.ManualLayout.Height = 30;
+            manualLayout.Width = 25;
+            manualLayout.Height = 25;
         }
 
         [TestMethod]
-        public void EdgeTest2()
+        public void FactorTest()
         {
             var sheet3 = _pck.Workbook.Worksheets.Add("LayoutModeFactor");
 
@@ -244,29 +272,9 @@ namespace EPPlusTest.Drawing.Chart
             dataLabel.ShowPercent = false;
             dataLabel.ShowBubbleSize = false;
 
-            //dataLabel.Layout.ManualLayout.WidthMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.HeightMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.TopMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.LeftMode = eLayoutMode.Edge;
-
-            //dataLabel.Layout.ManualLayout.LeftMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.WidthMode = eLayoutMode.Edge;
-
-
-            //dataLabel.Layout.ManualLayout.TopMode = eLayoutMode.Edge;
-            //dataLabel.Layout.ManualLayout.HeightMode = eLayoutMode.Edge;
-
             dataLabel.Layout.ManualLayout.Left = 20;
             dataLabel.Layout.ManualLayout.Width = 10;
             dataLabel.Layout.ManualLayout.Height = 20;
-
-
-            //dataLabel.Layout.ManualLayout.Top = 45;
-            //dataLabel.Layout.ManualLayout.Height = 55;
-            //dataLabel.Layout.ManualLayout.Top = 25;
-
-            //dataLabel.Layout.ManualLayout.Width = 20;
-            //dataLabel.Layout.ManualLayout.Height = 30;
         }
 
 

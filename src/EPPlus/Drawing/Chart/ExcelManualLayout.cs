@@ -10,6 +10,7 @@
  *************************************************************************************************
   06/10/2024         EPPlus Software AB       Initial release EPPlus 7.2
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
@@ -22,180 +23,251 @@ namespace OfficeOpenXml.Drawing.Chart
 {
 
     /// <summary>
-    /// Manual layout for specifing positions of label elements manually.
+    /// Manual layout for specifing positions of elements manually.
+    /// For easiest use it is recommended to not change the modes of width or height.
+    /// Left and Top are used to determine x and y position
+    /// Width and Height to define the width and height of the element.
+    /// By default all elements originate from their default
+    /// Use eLayoutMode.Edge to set origin to the edge of the chart for the relevant element.
     /// </summary>
     public class ExcelManualLayout : XmlHelper
     {
         eLayoutTarget layoutTarget;
 
+        /// <summary>
+        /// Define mode for Left (x) attribute
+        /// Edge for origin point left chart edge, Factor for origin point DataLabel position
+        /// </summary>
         public eLayoutMode LeftMode
           {
             get
             {
-                var strValue = GetXmlNodeString($"{_path}/c:xMode/@val");
-                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+                return GetXmlMode(_path, "x");
             }
             set
             {
-                SetXmlNodeString($"{_path}/c:xMode/@val", value.ToEnumString());
+                SetXmlMode(_path, "x", value);
             }
         }
+        /// <summary>
+        /// Define mode for Top (y) attribute
+        /// Edge for origin point top chart edge, Factor for origin point DataLabel position
+        /// </summary>
         public eLayoutMode TopMode
           {
             get
             {
-                var strValue = GetXmlNodeString($"{_path}/c:yMode/@val");
-                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+                return GetXmlMode(_path, "y");
             }
             set
             {
-                SetXmlNodeString($"{_path}/c:yMode/@val", value.ToEnumString());
+                SetXmlMode(_path, "y", value);
             }
         }
+        /// <summary>
+        /// Define mode for Width (Right) attribute
+        /// Using edge is not recommended.
+        /// Edge for Width to be considered the Right of the chart element.
+        /// Note: In this case Width will be used for determining Both the element width and its right.
+        /// </summary>
         public eLayoutMode WidthMode
           {
             get
             {
-                var strValue = GetXmlNodeString($"{_extLstPath}/c:wMode/@val");
-                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+                return GetXmlMode(_extLstPath, "w");
             }
             set
             {
-                SetXmlNodeString($"{_extLstPath}/c:wMode/@val", value.ToEnumString());
+                SetXmlMode(_extLstPath, "w", value);
             }
         }
+        /// <summary>
+        /// Define mode for Height (Bottom) attribute
+        /// Using edge is not recommended.
+        /// Edge for Height to be considered the bottom of the chart element.
+        /// Note: In this case Height will be used for determining Both the element width and its bottom.
+        /// </summary>
         public eLayoutMode HeightMode
         {
             get
             {
-                var strValue = GetXmlNodeString($"{_extLstPath}/c:hMode/@val");
-                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+                return GetXmlMode(_extLstPath, "h");
             }
             set
             {
-                var aStr = value.ToEnumString();
-                SetXmlNodeString($"{_extLstPath}/c:hMode/@val", aStr);
+                SetXmlMode(_extLstPath, "h", value);
             }
         }
-
-        public eLayoutMode RightMode
+        /// <summary>
+        /// Define mode for Width (Right) attribute
+        /// Using edge is not recommended.
+        /// Edge for Width to be considered the Right of the chart element.
+        /// Note: In this case Width will be used for determining Both the element width and its right.<para></para>
+        /// Legacy variable. if WidthMode property is set this will be overridden.
+        /// </summary>
+        public eLayoutMode LegacyWidthMode
         {
             get
             {
-                var strValue = GetXmlNodeString($"{_path}/c:wMode/@val");
-                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+                return GetXmlMode(_path, "w");
             }
             set
             {
-                SetXmlNodeString($"{_path}/c:wMode/@val", value.ToEnumString());
+                SetXmlMode(_path, "w", value);
             }
         }
-        public eLayoutMode BottomMode
+        /// <summary>
+        /// Define mode for Height (Bottom) attribute
+        /// Using edge is not recommended.
+        /// Edge for Height to be considered the bottom of the chart element.<para></para>
+        /// Legacy variable. if HeightMode property is set this will be overridden.
+        /// </summary>
+        public eLayoutMode LegacyHeightMode
         {
             get
             {
-                var strValue = GetXmlNodeString($"{_path}/c:hMode/@val");
-                return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+                return GetXmlMode(_path, "h");
             }
             set
             {
-                var aStr = value.ToEnumString();
-                SetXmlNodeString($"{_path}/c:hMode/@val", aStr);
+                SetXmlMode(_path, "h", value);
             }
         }
 
         /// <summary>
         /// Left offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
+        /// In Edge mode negative values are not allowed.
         /// </summary>
-        public double Left
+        public double? Left
         {
             get
             {
-                return GetXmlNodeDouble($"{_path}/c:x/@val") * 100;
+                return GetXmlValue(_path, "x");
             }
             set
             {
-                SetXmlNodeString($"{_path}/c:x/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+                SetXmlValue(_path, "x", value);
             }
         }
 
         /// <summary>
         /// Top offset between 100 to -100% of the chart height. In Excel exceeding these values counts as setting the property to 0.
+        /// In Edge mode negative values are not allowed.
         /// </summary>
-        public double Top
+        public double? Top
         {
             get
             {
-                return GetXmlNodeDouble($"{_path}/c:y/@val") * 100;
+                return GetXmlValue(_path, "y");
             }
             set
             {
-                SetXmlNodeString($"{_path}/c:y/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+                SetXmlValue(_path, "y", value);
             }
         }
         /// <summary>
         /// Width offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
         /// </summary>
-        public double Width
+        public double? Width
         {
             get
             {
-                return GetXmlNodeDouble($"{_extLstPath}/c:w/@val") * 100;
+                return GetXmlValue(_extLstPath, "w");
             }
             set
             {
-                SetXmlNodeString($"{_extLstPath}/c:w/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+                if (value != null && WidthMode == eLayoutMode.Edge && value < Left)
+                {
+                    throw new InvalidOperationException($"Width (Right edge): {value} is less than Left edge {Left}. Cannot invert data label. Right edge cannot pass left edge");
+                }
+                SetXmlValue(_extLstPath, "w", value);
             }
         }
         /// <summary>
         /// Height offset between 100 to -100% of the chart height. In Excel exceeding these values counts as setting the property to 0.
         /// </summary>
-        public double Height
+        public double? Height
         {
             get
             {
-                return GetXmlNodeDouble($"{_extLstPath}/c:h/@val") * 100;
+                return GetXmlValue(_extLstPath, "h");
             }
             set
             {
-                SetXmlNodeString($"{_extLstPath}/c:h/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+                if (value != null && HeightMode == eLayoutMode.Edge && value < Top)
+                {
+                    throw new InvalidOperationException($"Bottom edge (Height) is {value} which is less than Top edge {Top}. Cannot invert element. Right edge cannot pass Left edge");
+                }
+                SetXmlValue(_extLstPath, "h" ,value);
             }
         }
         /// <summary>
         /// Right offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
+        /// Legacy variable. if Height property is set this will be overridden.
         /// </summary>
-        public double Right
+        public double? LegacyWidth
         {
             get
             {
-                return GetXmlNodeDouble($"{_path}/c:w/@val") * 100;
+                return GetXmlValue(_path, "w");
             }
             set
             {
-                if (RightMode == eLayoutMode.Edge && value < Left)
+                if (value != null && LegacyWidthMode == eLayoutMode.Edge && value < Left)
                 {
-                    throw new InvalidOperationException($"Width (Right edge): {value} is less than Left edge {Left}. Cannot invert data label. Right edge cannot pass left edge");
+                    throw new InvalidOperationException($"LegacyWidth (Right edge): {value} is less than Left edge {Left}. Cannot invert data label. Right edge cannot pass left edge");
                 }
-                SetXmlNodeString($"{_path}/c:w/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+                SetXmlValue(_path, "w", value);
             }
         }
         /// <summary>
         /// Bottom offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
+        /// Legacy variable. if Height property is set this will be overridden.
         /// </summary>
-        public double Bottom
+        public double? LegacyHeight
         {
             get
             {
-                return GetXmlNodeDouble($"{_path}/c:h/@val") * 100;
+                return GetXmlValue(_path,"h");
             }
             set
             {
-                if (RightMode == eLayoutMode.Edge && value < Left)
+                if (value != null && LegacyWidthMode == eLayoutMode.Edge && value < Left)
                 {
-                    throw new InvalidOperationException($"Bottom edge (Height) is {value} which is less than Top edge {Top}. Cannot invert data label. Bottom edge cannot pass Top edge");
+                    throw new InvalidOperationException($"Bottom edge (LegacyHeight) is {value} which is less than Top edge {Top}. Cannot invert data label. Bottom edge cannot pass Top edge");
                 }
-                SetXmlNodeString($"{_path}/c:h/@val", (value * 0.01d).ToString(CultureInfo.InvariantCulture));
+                SetXmlValue(_path, "h", value);
             }
+        }
+
+        private double? GetXmlValue(string path, string name)
+        {
+            var xmlValue = GetXmlNodeDouble($"{path}/c:{name}/@val");
+            return xmlValue == double.NaN ? null : xmlValue * 100;
+        }
+
+        private void SetXmlValue(string path, string name, double? value)
+        {
+            var tempPath = $"{path}/c:{name}/@val";
+
+            if (value == null)
+            {
+                DeleteNode(tempPath);
+            }
+
+            SetXmlNodeString(tempPath, (value.Value * 0.01d).ToString(CultureInfo.InvariantCulture));
+        }
+
+        private eLayoutMode GetXmlMode(string path, string name)
+        {
+            var strValue = GetXmlNodeString($"{path}/c:{name}Mode/@val");
+            return strValue == "edge" ? eLayoutMode.Edge : eLayoutMode.Factor;
+        }
+
+        private void SetXmlMode(string path, string name, eLayoutMode value)
+        {
+            var aStr = value.ToEnumString();
+            SetXmlNodeString($"{path}/c:{name}Mode/@val", aStr);
         }
 
         private readonly string _path;
