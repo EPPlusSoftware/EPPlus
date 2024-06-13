@@ -42,7 +42,6 @@ using System.Reflection;
 using OfficeOpenXml.Table;
 using System.Globalization;
 using System.Threading.Tasks;
-using OfficeOpenXml.Core;
 
 namespace EPPlusTest
 {

@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Security;
 using System.Text;
 using System.Xml;
 using System.Linq;
@@ -31,12 +30,10 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using System.Text.RegularExpressions;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
@@ -46,12 +43,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 
 namespace OfficeOpenXml
 {

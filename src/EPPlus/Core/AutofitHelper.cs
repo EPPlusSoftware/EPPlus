@@ -11,7 +11,6 @@
   01/01/2022         EPPlus Software AB       EPPlus 6
  *************************************************************************************************/
 
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
@@ -19,7 +18,7 @@ using System.Collections.Generic;
 using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core
-{    
+{
     internal class AutofitHelper
     {
         private ExcelRangeBase _range;
@@ -51,10 +50,11 @@ namespace OfficeOpenXml.Core
             {
                 _range.SetToSelectedRange();
             }
-            var fromCol = _range._fromCol;
-            var toCol = _range._toCol;
-            var fromRow = _range._fromRow;
+            var fromCol = _range._fromCol > worksheet.Dimension._fromCol ? _range._fromCol : worksheet.Dimension._fromCol;
+            var toCol = _range._toCol < worksheet.Dimension._toCol ? _range._toCol : worksheet.Dimension._toCol;
+            var fromRow = _range._fromRow > worksheet.Dimension._fromRow ? _range._fromRow : worksheet.Dimension._fromRow;
             var toRow = _textSettings.AutofitRows > 0 && _textSettings.AutofitRows < _range._toRow ? _textSettings.AutofitRows : _range._toRow;
+            toRow = toRow < worksheet.Dimension._toRow ? toRow : worksheet.Dimension._toRow;
             if (fromCol > toCol) return; //Issue 15383
             if (MinimumWidth < 0d)
             {

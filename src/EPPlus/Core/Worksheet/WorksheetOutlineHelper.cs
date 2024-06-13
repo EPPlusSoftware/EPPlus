@@ -1,11 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.Core.Worksheet
+﻿namespace OfficeOpenXml.Core.Worksheet
 {
     internal class WorksheetOutlineHelper
     {
