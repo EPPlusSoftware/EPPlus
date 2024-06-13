@@ -33,11 +33,16 @@
 	* TEXTAFTER
   	* TEXTBEFORE
 	* LET  
+* Added Full-fledged support for Iconsets and Databar conditionalformattings in HTML-exporter, New features include:
+	* Exporting full visuals of Positive and negative databars with borders and axis colors, position and bar direction
+	* Custom-made embeded .svgs similar to each icon excel supports.
+	* Custom iconsets displaying appropriately and in order.
+	* Icons moving with text when aligned top, middle or bottom as in excel.
 
 ### Minor Features and fixed issues
-* Added all icons and iconset features to html export. Including custom iconsets.
 * Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
 * Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
+* Added ManualLayout property for data labels on charts. Labels can now be positioned and their textbox resized directly. Accessed via e.g `Chart.Series[0].DataLabel.DataLabels[0].Layout.ManualLayout`
 
 ## Version 7.1.3
 ### Fixed issues 
