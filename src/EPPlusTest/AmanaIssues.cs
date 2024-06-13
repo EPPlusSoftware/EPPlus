@@ -584,5 +584,25 @@ namespace EPPlusTest
             Assert.AreEqual(1.95583D, table.Cells["J10"].Value);
             Assert.AreEqual(7.84515D, table.Cells["J11"].Value);
         }
+
+
+        /*Ticket 146581*/
+        [TestMethod, Description(" If Excel has rounding errors(due to the fact that calculation is always" +
+                                 "done with floating points) some formulas like \"If\" are wrong due to aftereffects." +
+                                 "One can do work around that issue by ticking the checkbox \"precision as displayed" +
+                                 "in the advanced excel options.This function was not yet implemented in EPPlus")]
+        public void WhenFullPrecisionIsOff_ThenValueShouldBeCalculated()
+        {
+            // Arrange
+            var excelStream = GetTestStream("FullPrecisionIF.xlsx");
+            var excelPackage = new ExcelPackage(excelStream);
+
+            // Act
+            excelPackage.Workbook.Calculate();
+
+            // Assert
+            Assert.IsFalse(excelPackage.Workbook.FullPrecision);
+            Assert.AreEqual("OK", excelPackage.Workbook.Worksheets[0].Cells["A3"].Value);
+        }
     }
 }
