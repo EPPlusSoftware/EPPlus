@@ -398,6 +398,11 @@ namespace EPPlusTest.LoadFunctions
                 format.SetColumnsNames("Date", "Time", "Type","Size", "Name");
 
                 var range = ws.Cells["A1"].LoadFromText(fileContent, format);
+                if(range.Rows<101)
+                {
+                    Assert.Fail($"Load failed. LoadRange is {range.Address}, {range.Offset(0,0, 1, 1).Value}, {range.Offset(0, 1 ,1, 1).Value}, {range.Offset(0, 2, 1, 1).Value}, {range.Offset(0, 3, 1, 1).Value}, {range.Offset(0, 4).Value}");
+                }
+
                 range.TakeSingleColumn(0).Style.Numberformat.Format = "yyyy-MM-dd";
                 range.TakeSingleColumn(1).Style.Numberformat.Format = "hh:mm";
                 range.TakeSingleColumn(2).Style.Numberformat.Format = "#,##0";
