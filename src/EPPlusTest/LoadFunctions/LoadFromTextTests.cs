@@ -370,6 +370,19 @@ namespace EPPlusTest.LoadFunctions
         public void ReadFixedTextFileList()
         {
             var fileContent = Properties.Resources.GetTextFileContent("FixedWidth_FileList.txt", Encoding.GetEncoding(437));
+            if (string.IsNullOrEmpty(fileContent))
+            {
+                var fi = Properties.Resources.GetTextFileInfo("FixedWidth_FileList.txt");
+                if(fi.Exists==false)
+                {
+                    Assert.Fail("File does not exist : " + fi.FullName);
+                }
+                else
+                {
+                    Assert.Fail("File Content is empty for file " + fi.FullName);
+                }
+            }
+
             //Do fixed width text stuff
             using (var p = new ExcelPackage())
             {
