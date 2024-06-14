@@ -375,7 +375,7 @@ namespace EPPlusTest.Properties {
                 return File.ReadAllText(fileName, encoding);
             }
             return string.Empty;
-        }
+            }
         internal static FileInfo GetTextFileInfo(string fileName)
         {
             string path = AppContext.BaseDirectory;
