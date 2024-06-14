@@ -2915,15 +2915,15 @@ namespace OfficeOpenXml
                     else
                     {
                         int r=fromRow, c=fc;
-                        while(_values.NextCellByColumn(ref r, ref c, fromRow, r, _values.ColumnCount-1))
+                        while(_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount-1))
                         {
                             if(_values.GetValue(r, c)._value != null)
                             {
                                 break;
                             }
-                            //r++;
+                            r++;
                         }
-                        fromRow = r;
+                        //fromRow = r;
                         fromCol = c;
                     }
 
@@ -2934,14 +2934,15 @@ namespace OfficeOpenXml
                     else
                     {
                         int r = toRow, c = tc;
-                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, 0, _values.ColumnCount - 1))
+                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
                         {
                             if (_values.GetValue(r, c)._value != null)
                             {
                                 break;
                             }
+                            r--;
                         }
-                        toRow = r;
+                        //toRow = r;
                         toCol = c;
                     }
 

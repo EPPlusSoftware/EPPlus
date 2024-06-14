@@ -229,5 +229,23 @@ namespace EPPlusTest.Issues
 
     //        }
         }
-	}
+		[TestMethod]
+		public void s684()
+		{
+            using (var p1 = OpenTemplatePackage("s684.xlsx"))
+            {
+				p1.Compatibility.IsWorksheets1Based = true;
+                ExcelWorkbook workbook = p1.Workbook;
+                workbook.Calculate();
+				Assert.AreEqual(7d, workbook.Worksheets["Sheet1"].Cells[1, 1].Value);
+                
+				workbook.Worksheets.First().Cells[2, 1].Value = 4;
+                workbook.Calculate();
+                
+				Assert.AreEqual(10d, workbook.Worksheets["Sheet1"].Cells[1,1].Value);
+
+                SaveAndCleanup(p1);
+            }
+        }
+    }
 }

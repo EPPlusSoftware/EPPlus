@@ -1,7 +1,7 @@
 # Features / Fixed issues - EPPlus 7
 ## Version 7.2
 ### Features
-* Added support for calculating pivot tables:
+* Added support for calculating pivot tables - See https://github.com/EPPlusSoftware/EPPlus/wiki/Calculating-Pivot-tables
 	* Supports calculation of data fields on column and row fields. 
 		* Page field filtering
 		* Filters
@@ -24,7 +24,9 @@
 * Added support for importing and exporting Fixed Width text files.
 * Transpose
   	* Transpose ranges in import and export functions.
+        * Transpose i range Copy.
 * New functions supported in formula calculations.
+	* GETPIVOTDATA
 	* MMULT
   	* MINVERSE
   	* MDETERM
@@ -32,7 +34,7 @@
   	* TEXTSPLIT
 	* TEXTAFTER
   	* TEXTBEFORE
-	* LET  
+	* LET       
 * Added Full-fledged support for Iconsets and Databar conditionalformattings in HTML-exporter, New features include:
 	* Exporting full visuals of Positive and negative databars with borders and axis colors, position and bar direction
 	* Custom-made embeded .svgs similar to each icon excel supports.

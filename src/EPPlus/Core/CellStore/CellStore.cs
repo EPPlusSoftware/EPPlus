@@ -1212,7 +1212,7 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal bool NextCellByColumn(ref int row, ref int col, int minRow, int maxRow, int maxColPos)
         {
-            var c = GetColumnPosition(col + 1);
+            var c = GetColumnPosition(col);
             maxColPos = Math.Min(maxColPos, ColumnCount-1);            
             while(c>=0 && c < maxColPos)
             {
@@ -1222,38 +1222,38 @@ namespace OfficeOpenXml.Core.CellStore
                     col = _columnIndex[c].Index;
                     return true;
                 }
-                c++;
-
-                if(c>maxColPos)
+                else if(r > -1 && r <=maxRow)
                 {
-                    c = 0;
-                    if (row == 1) return false;
-                    row--;
+                    row = r;
+                    col = _columnIndex[c].Index;
+                    return true;
                 }
+                c++;
+                row = minRow;
             }
             return false;
         }
-        internal bool PrevCellByColumn(ref int row, ref int col, int maxRow,int minColPos, int maxColPos)
+        internal bool PrevCellByColumn(ref int row, ref int col, int minRow, int maxRow, int maxColPos)
         {
-            var c = GetColumnPosition(col - 1);
+            var c = GetColumnPosition(col);
             maxColPos = Math.Min(maxColPos, ColumnCount-1);
-            while (c >= 0 && c < maxColPos)
+            while (c >= 0)
             {
-                var r = _columnIndex[c].GetNextRow(row);
+                var r = _columnIndex[c].GetPrevRow(row);
                 if (r == row)
                 {
                     col = _columnIndex[c].Index;
                     return true;
                 }
+                else if (r >- 1 && r >= minRow)
+                {
+                    row = r;
+                    col = _columnIndex[c].Index;
+                    return true;
+                }
 
                 c--;
-
-                if (c == minColPos)
-                {
-                    c = maxColPos;
-                    if (row == maxRow) return false;
-                    row--;
-                }
+                row = maxRow;
             }
             return false;
         }
