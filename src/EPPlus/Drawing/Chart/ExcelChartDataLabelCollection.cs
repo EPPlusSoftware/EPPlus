@@ -52,13 +52,12 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     throw (new ArgumentException($"Data label with index {index} already exists"));
                 }
-                return CreateDataLabel(ix);
+                return CreateDataLabel(index);
             }
         }
 
         private ExcelChartDataLabelItem CreateDataLabel(int idx)
         {
-            var pos = GetItemAfter(idx);
             XmlElement element = CreateElement(idx);
             var dl = new ExcelChartDataLabelItem(_chart, NameSpaceManager, element, "dLbl", SchemaNodeOrder) { Index=idx };
 
@@ -80,11 +79,11 @@ namespace OfficeOpenXml.Drawing.Chart
             if (idx < _list.Count)
             {
                 pointNode = TopNode.OwnerDocument.CreateElement("c", "dLbl", ExcelPackage.schemaMain);
-                _list[idx].TopNode.InsertBefore(pointNode, _list[idx].TopNode);
+                TopNode.InsertBefore(pointNode, _list[idx].TopNode);
             }
             else
             {
-                pointNode = (XmlElement)CreateNode("c:dLbl");
+                pointNode = (XmlElement)CreateNode("c:dLbl", false, true);
             }
             return pointNode;
         }
