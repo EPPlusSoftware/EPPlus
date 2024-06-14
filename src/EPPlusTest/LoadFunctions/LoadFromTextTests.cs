@@ -396,7 +396,7 @@ namespace EPPlusTest.LoadFunctions
                 format.Culture = CultureInfo.GetCultureInfo("sv-en");
                 format.TableStyle = TableStyles.Medium12;
                 format.SetColumnsNames("Date", "Time", "Type","Size", "Name");
-
+                format.EOL = "\n";
                 var range = ws.Cells["A1"].LoadFromText(fileContent, format);
                 if(range.Rows<101)
                 {
