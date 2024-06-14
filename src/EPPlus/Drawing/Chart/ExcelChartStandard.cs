@@ -1207,7 +1207,10 @@ namespace OfficeOpenXml.Drawing.Chart
             chart.PrependChild(fmts);
             fmts.InnerXml = "<c:pivotFmt><c:idx val=\"0\"/><c:marker><c:symbol val=\"none\"/></c:marker></c:pivotFmt>";
 
-            Series.AddPivotSerie(pivotTableSource);
+            for(int i = 0; i < pivotTableSource.DataFields.Count; i++)
+            {
+                Series.AddPivotSerie(pivotTableSource);
+            }
         }
         ExcelChartAxisStandard[] _axisStandard = null;
         /// <summary>

@@ -169,6 +169,8 @@ namespace OfficeOpenXml
         internal const string schemaMicrosoftExcel = "urn:schemas-microsoft-com:office:excel";
 
         internal const string schemaChart = @"http://schemas.openxmlformats.org/drawingml/2006/chart";
+        internal const string schemaChart2012 = @"http://schemas.microsoft.com/office/drawing/2012/chart";
+        internal const string schemaChart2014 = @"http://schemas.microsoft.com/office/drawing/2014/chart";
         internal const string schemaHyperlink = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
         internal const string schemaComment = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
         internal const string schemaImage = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
@@ -754,6 +756,8 @@ namespace OfficeOpenXml
             ns.AddNamespace("d", schemaMain);
             ns.AddNamespace("r", schemaRelationships);
             ns.AddNamespace("c", schemaChart);
+            ns.AddNamespace("c15", schemaChart2012);
+            ns.AddNamespace("c16", schemaChart2014);
             ns.AddNamespace("vt", schemaVt);
             // extended properties (app.xml)
             ns.AddNamespace("xp", schemaExtended);

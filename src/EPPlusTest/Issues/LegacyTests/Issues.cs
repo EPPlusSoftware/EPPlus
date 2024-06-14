@@ -6158,7 +6158,7 @@ namespace EPPlusTest
         [TestMethod]
         public void s608()
         {
-            using(var package = OpenTemplatePackage("s608.xlsx"))
+            using (var package = OpenTemplatePackage("s608.xlsx"))
             {
                 Debug.Assert(package.Workbook.Worksheets.Count == 2);
                 package.Workbook.Worksheets.Delete("Sheet1");
@@ -6202,7 +6202,7 @@ namespace EPPlusTest
             {
                 var sheet = package.Workbook.Worksheets[0];
                 var groupDrawing = ((ExcelGroupShape)sheet.Drawings["img_d2_bt"]);
-                var childLine1 = groupDrawing.Drawings.FirstOrDefault(x=> x.Name=="D2_Line1_BT");
+                var childLine1 = groupDrawing.Drawings.FirstOrDefault(x => x.Name == "D2_Line1_BT");
                 var childLine2 = groupDrawing.Drawings["D2_Line2_BT"];
                 var childLine3 = groupDrawing.Drawings["D2_Line3_BT"];
 
