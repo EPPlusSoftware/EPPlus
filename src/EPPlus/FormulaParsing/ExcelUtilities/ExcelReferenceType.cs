@@ -17,11 +17,26 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
+    /// <summary>
+    /// Reference types for if an adress/cell is absolute or relative and in what way
+    /// </summary>
     public enum ExcelReferenceType
     {
+        /// <summary>
+        /// Both Row and column are absolute
+        /// </summary>
         AbsoluteRowAndColumn = 1,
+        /// <summary>
+        /// Absolute row and relative column
+        /// </summary>
         AbsoluteRowRelativeColumn = 2,
-        RelativeRowAbsolutColumn = 3,
+        /// <summary>
+        /// Realtive row absolute column
+        /// </summary>
+        RelativeRowAbsoluteColumn = 3,
+        /// <summary>
+        /// Relative row and relative column
+        /// </summary>
         RelativeRowAndColumn = 4
     }
 }

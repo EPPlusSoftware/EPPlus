@@ -24,6 +24,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     public class NameInfo : INameInfo
     {
         ExcelNamedRange _nameItem;
+        /// <summary>
+        /// Nameinfo
+        /// </summary>
+        /// <param name="nameItem"></param>
         public NameInfo(ExcelNamedRange nameItem)
         {
             _nameItem=nameItem;
@@ -132,41 +136,76 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         }
         
     }
+    /// <summary>
+    /// Name info with value
+    /// </summary>
     public class NameInfoWithValue : INameInfo
     {
         string _name;
+        /// <summary>
+        /// Name info with value
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public NameInfoWithValue(string name, object value)
         {
             _name = name;
             Value = value;
         }
-
+        /// <summary>
+        /// Id
+        /// </summary>
         public ulong Id => long.MaxValue;
-
+        /// <summary>
+        /// wsIx
+        /// </summary>
         public int wsIx => -1;
-
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name => _name;
-
+        /// <summary>
+        /// Formula
+        /// </summary>
         public string Formula => "";
-
+        /// <summary>
+        /// Value
+        /// </summary>
         public object Value 
         {
             get;
             private set;
         }
-
+        /// <summary>
+        /// IsRelative
+        /// </summary>
         public bool IsRelative => false;
 
+        /// <summary>
+        /// GetValue
+        /// </summary>
+        /// <param name="currentCell"></param>
+        /// <returns></returns>
         public object GetValue(FormulaCellAddress currentCell)
         {
             return Value;
         }
-
+        /// <summary>
+        /// Get relative formula
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         public string GetRelativeFormula(int row, int col)
         {
             return null;
         }
-
+        /// <summary>
+        /// Get relative range
+        /// </summary>
+        /// <param name="ri"></param>
+        /// <param name="currentCell"></param>
+        /// <returns></returns>
         public IRangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
         {
             return null;

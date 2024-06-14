@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Filter
         {
             FilterValue = GetXmlNodeDouble("d:top10/@filterVal");
             Percent = GetXmlNodeBool("d:top10/@percent");
-            Top = GetXmlNodeBool("d:top10/@top");
+            Top = GetXmlNodeBool("d:top10/@top", true);
             Value = GetXmlNodeDouble("d:top10/@val");
         }
         /// <summary>
@@ -120,11 +120,11 @@ namespace OfficeOpenXml.Filter
             {
                 if (Percent)
                 {
-                    index = (int)((address._toRow-address._fromRow) * (valueInt/100D)) - 1;
+                    index = (int)((address._toRow-address._fromRow) * (valueInt / 100D)) - 1;
                 }
                 else
                 {
-                    index = valueInt-1;
+                    index = valueInt - 1;
                 }
                 if (index < 0) index = 0;
                 FilterValue = index < items.Count ? items[index] : items[items.Count - 1];

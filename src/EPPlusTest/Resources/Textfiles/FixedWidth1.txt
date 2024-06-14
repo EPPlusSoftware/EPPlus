@@ -1,0 +1,17 @@
+Continent                     Country                       State                                             
+Europe                        Sweden                        Stockholm                     154,00              
+Asia                          Vietnam                       Ho Chi Minh                   88,00               
+Europe                        Sweden                        Västerås                      33,00               
+Asia                          Japan                         Tokyo                         534,00              
+Europe                        Germany                       Frankfurt                     109,00              
+Asia                          Vietnam                       Hanoi                         322,00              
+Asia                          Japan                         Osaka                         88,00               
+North America                 Canada                        Vancover                      99,00               
+Asia                          China                         Peking                        205,00              
+North America                 Canada                        Toronto                       138,00              
+Europe                        France                        Lyon                          185,00              
+North America                 USA                           Boston                        155,00              
+Europe                        France                        Paris                         127,00              
+North America                 USA                           New York                      330,00              
+Europe                        Germany                       Berlin                        210,00              
+North America                 USA                           San Fransisco                  411,00              

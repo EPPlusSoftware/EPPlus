@@ -15,9 +15,17 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
 {
-    public class BesselJImpl : BesselBase
+    /// <summary>
+    /// Bessel J
+    /// </summary>
+    internal class BesselJImpl : BesselBase
     {
-
+        /// <summary>
+        /// Bessel J
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="N"></param>
+        /// <returns></returns>
         public FinanceCalcResult<double> BesselJ(double x, int N)
         {
             if (N < 0)

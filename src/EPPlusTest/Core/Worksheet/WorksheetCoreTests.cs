@@ -168,5 +168,58 @@ namespace EPPlusTest.Core.Worksheet
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void ValidateFirstLastCellTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["B4:H10"].Style.Numberformat.Format = "0";
+                Assert.IsNull(ws.FirstValueCell);
+                Assert.IsNull(ws.LastValueCell);
+
+                ws.Cells["B6:C7"].Value = 1;
+
+                Assert.AreEqual("B6",ws.FirstValueCell.Address);
+                Assert.AreEqual("C7", ws.LastValueCell.Address);
+
+                Assert.AreEqual("B6:C7", ws.DimensionByValue.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateDimensionValueLargerRowTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["B4:H10"].Style.Numberformat.Format = "0";
+                Assert.IsNull(ws.FirstValueCell);
+                Assert.IsNull(ws.LastValueCell);
+
+                ws.Cells["D7"].Value = 1;
+                ws.Cells["C6"].Value = 1;
+                ws.Cells["G6"].Value = 1;
+                ws.Cells["D5"].Value = 1;
+
+                Assert.AreEqual("D5", ws.FirstValueCell.Address);
+                Assert.AreEqual("D7", ws.LastValueCell.Address);
+
+                Assert.AreEqual("C5:G7", ws.DimensionByValue.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateDimensionValueTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A4:H10"].Style.Numberformat.Format = "0";
+                ws.Cells["B6:C7"].Value = 1;
+
+
+                Assert.AreEqual("B6:C7", ws.DimensionByValue.Address);
+            }
+        }
+
     }
 }

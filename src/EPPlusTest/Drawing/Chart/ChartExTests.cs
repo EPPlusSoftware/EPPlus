@@ -284,7 +284,7 @@ namespace EPPlusTest.Drawing.Chart
             chart3.Legend.Position   = eLegendPosition.TopRight;
             chart3.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BoxWhiskerChartStyle6); //BoxWhiskerChartStyle3);
             
-            var ws=package.Workbook.Worksheets.Add(worksheet1.Name, worksheet1);
+            var ws=package.Workbook.Worksheets.Add("Test_BoxWhiskers_New", worksheet1);
             var chart = ws.Drawings[0].As.Chart.BoxWhiskerChart;
             Assert.IsTrue(string.IsNullOrEmpty(chart.Series[0].XSeries));
         }

@@ -72,7 +72,13 @@ namespace OfficeOpenXml.FormulaParsing
             _formula = formula;
             _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
         }
-        public override string ToString()
+		internal void SetFormula(IList<Token> tokens, RpnOptimizedDependencyChain depChain)
+		{
+			_tokens = FormulaExecutor.CreateRPNTokens(tokens);
+			_expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
+		}
+
+		public override string ToString()
         {
             if (_ws == null)
             {

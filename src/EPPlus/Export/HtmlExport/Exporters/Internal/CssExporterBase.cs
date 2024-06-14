@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
@@ -23,8 +24,13 @@ using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
+using System.Data;
+using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -209,7 +215,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             if (cellAddress != null)
             {
                 var items = GetCFItemsAtAddress(cellAddress);
-
+                
                 foreach (var cf in items)
                 {
                     switch(cf.Value.Type)
@@ -218,6 +224,23 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.ThreeColorScale:
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
+                            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId);
+                            var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
+
+                            if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
+                            {
+                                cssTranslator.AddDatabar((ExcelConditionalFormattingDataBar)cf.Value, OrderDefaultDxf + cf.Value.Priority, cfId);
+                                _addedToCssDxf.Add(cfId);
+                            }
+                            break;
+                        case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                            AddIconSetToCollection((ExcelConditionalFormattingThreeIconSet)cf.Value.As.ThreeIconSet, cf.Value, cssTranslator);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FourIconSet:
+                            AddIconSetToCollection((ExcelConditionalFormattingFourIconSet)cf.Value.As.FourIconSet, cf.Value, cssTranslator);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FiveIconSet:
+                            AddIconSetToCollection((ExcelConditionalFormattingFiveIconSet)cf.Value.As.FiveIconSet, cf.Value, cssTranslator);
                             break;
                         default:
                             if (cf.Value.Style.HasValue)
@@ -233,6 +256,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             break;
                     }
                 }
+            }
+        }
+
+        internal void AddIconSetToCollection<T>(ExcelConditionalFormattingIconSetBase<T> iconSet, ExcelConditionalFormattingRule rule, CssRangeRuleCollection cssTranslator) 
+            where T : struct, Enum
+        {
+            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{rule.Uid}", out int cfId);
+            var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
+
+            if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
+            {
+                cssTranslator.AddIconSetCF(iconSet, OrderDefaultDxf + rule.Priority, cfId);
+                _addedToCssDxf.Add(cfId);
             }
         }
 

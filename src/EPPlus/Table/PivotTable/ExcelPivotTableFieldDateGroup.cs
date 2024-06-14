@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Table.PivotTable
             base(ns, topNode)
         {
         }
-        const string groupByPath = "d:fieldGroup/d:rangePr/@groupBy";
+        const string groupByPath = "d:rangePr/@groupBy";
         /// <summary>
         /// How to group the date field
         /// </summary>
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeBool("@autoStart", false);
+                return GetXmlNodeBool("d:rangePr/@autoStart", false);
             }
         }
         /// <summary>
@@ -65,8 +65,38 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeBool("@autoStart", false);
+                return GetXmlNodeBool("d:rangePr/@autoStart", false);
             }
         }
-    }
+        /// <summary>
+        /// Start date for the grouping
+        /// </summary>
+        public DateTime? StartDate 
+        {
+            get
+            {
+                return GetXmlNodeDateTime("d:rangePr/@startDate");
+            }
+        }
+        /// <summary>
+        /// End date for the grouping
+        /// </summary>
+		public DateTime? EndDate
+		{
+			get
+			{
+				return GetXmlNodeDateTime("d:rangePr/@endDate");
+			}
+		}
+		/// <summary>
+		/// Intervall if for day grouping
+		/// </summary>
+		public int? GroupInterval
+		{
+			get
+			{
+				return GetXmlNodeIntNull("d:rangePr/@groupInterval");
+			}
+		}
+	}
 }

@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing
                 Image = new ExcelImage(this);
 
 				var type = PictureStore.GetPictureTypeByContentType(ContentType);
-				if (    type==null)
+				if (type==null)
                 {
 					type = ImageReader.GetPictureType(ms, false);
 				}
@@ -215,6 +215,11 @@ namespace OfficeOpenXml.Drawing
             SetPixelHeight(height);
             _width = GetPixelWidth();
             _height = GetPixelHeight();
+        }
+
+        internal void SetNewId(int newId)
+        {
+            SetXmlNodeInt("xdr:pic/xdr:nvPicPr/xdr:cNvPr/@id", newId, null, false);
         }
 
         private string PicStartXml(ePictureType type)

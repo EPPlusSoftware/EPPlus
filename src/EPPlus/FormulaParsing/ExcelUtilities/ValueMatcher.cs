@@ -19,10 +19,22 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
+    /// <summary>
+    /// Compares and matches values
+    /// </summary>
     public class ValueMatcher
     {
+        /// <summary>
+        /// Value to represent incompatible operands
+        /// </summary>
         public const int IncompatibleOperands = -2;
 
+        /// <summary>
+        /// Compares objects of different types using appropriate CompareTo methods
+        /// </summary>
+        /// <param name="searchedValue">original value</param>
+        /// <param name="candidate">potential match</param>
+        /// <returns></returns>
         public virtual int IsMatch(object searchedValue, object candidate)
         {
             if (searchedValue != null && candidate == null) return -1;
@@ -85,12 +97,22 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             return v;
         }
-
+        /// <summary>
+        /// Compares strings
+        /// </summary>
+        /// <param name="searchedValue"></param>
+        /// <param name="candidate"></param>
+        /// <returns></returns>
         protected virtual int CompareStringToString(string searchedValue, string candidate)
         {
             return candidate.CompareTo(searchedValue);
         }
-
+        /// <summary>
+        /// Compares string to object candidate
+        /// </summary>
+        /// <param name="searchedValue"></param>
+        /// <param name="candidate"></param>
+        /// <returns></returns>
         protected virtual int CompareStringToObject(string searchedValue, object candidate)
         {
             if (double.TryParse(searchedValue, out double dsv))
@@ -113,7 +135,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             return IncompatibleOperands;
         }
-
+        /// <summary>
+        /// Compares object to string candidate.
+        /// </summary>
+        /// <param name="searchedValue"></param>
+        /// <param name="candidate"></param>
+        /// <returns></returns>
         protected virtual int CompareObjectToString(object searchedValue, string candidate)
         {
             if (double.TryParse(candidate, out double d2))

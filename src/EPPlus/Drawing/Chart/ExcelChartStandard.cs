@@ -1213,6 +1213,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         ExcelChartAxisStandard[] _axisStandard = null;
+        /// <summary>
+        /// Axis array
+        /// </summary>
         public new ExcelChartAxisStandard[] Axis
         {
             get

@@ -16,6 +16,7 @@ using System.Text;
 using OfficeOpenXml.Style;
 using System.Data;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Table;
 namespace OfficeOpenXml
 {
     /// <summary>
@@ -190,5 +191,5 @@ namespace OfficeOpenXml
 				}
             }
 		}
-	}
+    }
 }

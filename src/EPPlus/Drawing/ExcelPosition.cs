@@ -104,6 +104,9 @@ namespace OfficeOpenXml.Drawing
                 _setWidthCallback?.Invoke();
             }
         }
+        /// <summary>
+        /// Load xml data
+        /// </summary>
         public void Load()
         {            
             _column = GetXmlNodeInt(colPath);
@@ -111,6 +114,9 @@ namespace OfficeOpenXml.Drawing
             _row = GetXmlNodeInt(rowPath);
             _rowOff = GetXmlNodeInt(rowOffPath);
         }
+        /// <summary>
+        /// Update xml data
+        /// </summary>
         public void UpdateXml()
         {
             SetXmlNodeString(colPath, _column.ToString());

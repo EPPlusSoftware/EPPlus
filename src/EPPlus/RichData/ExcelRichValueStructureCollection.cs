@@ -52,6 +52,11 @@ namespace OfficeOpenXml.RichData
                 if(xr.IsElementWithName("s"))
                 {
                     StructureItems.Add(ReadItem(xr));
+                    var structureFlag = GetStructFlag(StructureItems[StructureItems.Count - 1]);
+                    if(structureFlag.HasValue)
+                    {
+                        _structures.Add(structureFlag.Value, StructureItems.Count - 1);
+                    }
                 }
                 else if (xr.IsElementWithName("extLst"))
                 {
@@ -59,6 +64,26 @@ namespace OfficeOpenXml.RichData
                 }
             }
 
+        }
+
+        private RichDataStructureFlags? GetStructFlag(ExcelRichValueStructure rvStruct)
+        {
+            if (rvStruct.Keys.Any(x=>x.Name.Equals("errorType")) && rvStruct.Keys.Any(x => x.Name.Equals("subType")))
+            {
+                if (rvStruct.Keys.Any(x => x.Name.Equals("colOffset")) || rvStruct.Keys.Any(x => x.Name.Equals("rwOffset")))
+                {
+                    return RichDataStructureFlags.ErrorSpill;
+                }
+                else
+                {
+                    return RichDataStructureFlags.ErrorWithSubType;
+                }
+            }
+            else if(rvStruct.Keys.Any(x => x.Name.Equals("propagated")))
+            {
+                return RichDataStructureFlags.ErrorPropagated;
+            }
+            return null;
         }
 
         private ExcelRichValueStructure ReadItem(XmlReader xr)

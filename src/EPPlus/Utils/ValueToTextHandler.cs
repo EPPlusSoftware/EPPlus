@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Utils
-{
+{    
     internal static class ValueToTextHandler
     {
         internal static string GetFormattedText(object Value, ExcelWorkbook wb, int styleId, bool forWidthCalc, CultureInfo cultureInfo=null)
@@ -178,7 +178,7 @@ namespace OfficeOpenXml.Utils
         {
             var s = FormatNumberExcel(d, format, cultureInfo);
             var ns = cultureInfo?.NumberFormat?.NegativeSign ?? "-";
-            if (string.IsNullOrEmpty(s) == false)
+            if (string.IsNullOrEmpty(s) == false && d < 0)
             {
                 return CheckAndRemoveNegativeSign(format, s, ns);
             }

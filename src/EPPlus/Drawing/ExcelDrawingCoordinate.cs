@@ -34,6 +34,9 @@ namespace OfficeOpenXml.Drawing
             _x = GetXmlNodeInt(xPath);
             _y = GetXmlNodeInt(yPath);
         }
+        /// <summary>
+        /// Set xmlNodeStrings for xPath and yPath
+        /// </summary>
         public void UpdateXml()
         {
             SetXmlNodeString(xPath, _x.ToString());

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
-    public class t
+    public class VLookupTests : TestBase
     {
-        [TestMethod, Ignore]
+        [TestMethod]
         public void VlookupShouldHandleWholeColumn()
         {
             using(var package = new ExcelPackage())
@@ -38,9 +38,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 sheet.Cells["E8"].Value = "h";
                 sheet.Cells["E9"].Value = "i";
 
-                sheet.Cells["C10"].Formula = "VLOOKUP(3,D:E;2;FALSE)";
+                sheet.Cells["C10"].Formula = "VLOOKUP(3,D:E,2,FALSE)";
                 sheet.Calculate();
-                Assert.AreEqual("e", sheet.Cells["C10"].Value);
+                Assert.AreEqual("d", sheet.Cells["C10"].Value);
             }
         }
     }

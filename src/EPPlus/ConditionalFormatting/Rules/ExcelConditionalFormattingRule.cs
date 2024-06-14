@@ -237,7 +237,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             _ws = ws;
 
             Address = address;
-            if (Address == null)
+
+            if (Address == null && !PivotTable)
             {
                 _isExtLst = true;
             }

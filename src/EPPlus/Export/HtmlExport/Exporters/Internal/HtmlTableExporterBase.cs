@@ -153,11 +153,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 {
                     tblData.AddAttribute("role", "cell");
                 }
-                GetClassData(tblData, true, image, cell, Settings, _exporterContext);
+                GetClassData(tblData, true, image, cell, Settings, _exporterContext, out HTMLElement contentElement);
 
-                AddImage(tblData, Settings, image, cell.Value);
+                AddImage(contentElement, Settings, image, cell.Value);
 
-                tblData.Content = GetCellText(cell, Settings);
+                contentElement.Content = GetCellText(cell, Settings);
 
                 row.AddChildElement(tblData);
             }

@@ -17,34 +17,112 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
-    public enum Operators
+    /// <summary>
+    /// Operator enum
+    /// </summary>
+    internal enum Operators
     {
+        /// <summary>
+        /// Undefined
+        /// </summary>
         Undefined,
+        /// <summary>
+        /// Concat
+        /// </summary>
         Concat,
+        /// <summary>
+        /// Plus
+        /// </summary>
         Plus,
+        /// <summary>
+        /// Minus
+        /// </summary>
         Minus,
+        /// <summary>
+        /// Multiply
+        /// </summary>
         Multiply,
+        /// <summary>
+        /// Divide
+        /// </summary>
         Divide,
+        /// <summary>
+        /// Modulus
+        /// </summary>
         Modulus,
+        /// <summary>
+        /// Percent
+        /// </summary>
         Percent,
+        /// <summary>
+        /// Equals
+        /// </summary>
         Equals,
+        /// <summary>
+        /// Greater than
+        /// </summary>
         GreaterThan,
+        /// <summary>
+        /// Greater than or equal
+        /// </summary>
         GreaterThanOrEqual,
+        /// <summary>
+        /// Less than
+        /// </summary>
         LessThan,
+        /// <summary>
+        /// Less than or equal
+        /// </summary>
         LessThanOrEqual,
+        /// <summary>
+        /// Not equal to
+        /// </summary>
         NotEqualTo,
+        /// <summary>
+        /// Integer division
+        /// </summary>
         IntegerDivision,
+        /// <summary>
+        /// Exponentiation
+        /// </summary>
         Exponentiation,
+        /// <summary>
+        /// Colon
+        /// </summary>
         Colon,
+        /// <summary>
+        /// Intersect
+        /// </summary>
         Intersect
     }
+    /// <summary>
+    /// Limited operators
+    /// </summary>
     public enum LimitedOperators
     {
+        /// <summary>
+        /// Equals
+        /// </summary>
         Equals = Operators.Equals,
+        /// <summary>
+        /// Greater than
+        /// </summary>
         GreaterThan = Operators.GreaterThan,
+        /// <summary>
+        /// Greater than or equal
+        /// </summary>
         GreaterThanOrEqual = Operators.GreaterThanOrEqual,
+        /// <summary>
+        /// Less than
+        /// </summary>
         LessThan = Operators.LessThan,
+        /// <summary>
+        /// Less than or equal
+        /// </summary>
         LessThanOrEqual = Operators.LessThanOrEqual,
+        /// <summary>
+        /// Not equal to
+        /// </summary>
         NotEqualTo = Operators.NotEqualTo,
     }
 }

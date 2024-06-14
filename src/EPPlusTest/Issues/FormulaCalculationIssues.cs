@@ -86,13 +86,35 @@ namespace EPPlusTest.Issues
 			}
 		}
 		[TestMethod]
+		public void ImplicitIntersection_ColumnReference()
+		{
+			using (var pck = new ExcelPackage())
+			{
+				var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+				sheet1.Cells["E2"].Value = 12;
+				sheet1.Cells["E3"].Value = 23;
+				sheet1.Cells["E4"].Value = 34;
+				sheet1.Cells["E5"].Value = 45;
+
+				sheet1.Cells["C3"].Formula = "E:E";
+				sheet1.Cells["C4"].Formula = "E1:E5";
+
+				sheet1.Cells["C3:C4"].UseImplicitItersection = true;
+
+				pck.Workbook.Calculate();
+
+				Assert.AreEqual(23D, sheet1.Cells["C3"].GetValue<double>());
+				Assert.AreEqual(34D, sheet1.Cells["C4"].GetValue<double>());
+			}
+		}
+		[TestMethod]
 		public void i1234()
 		{
 			using (var p = OpenTemplatePackage("i1234.xlsx"))
 			{
 				SaveAndCleanup(p);
 			}
-		}
+		}		
 
 		[TestMethod]
 		public void SubtractWorksheetReference()
@@ -190,5 +212,40 @@ namespace EPPlusTest.Issues
 				Assert.AreEqual(42354.210446, (double)summary.Cells["M22"].Value, 0.000001);
 			}
         }
-	}
+        [TestMethod]
+        public void s681()
+		{
+			using (var p1 = OpenTemplatePackage("s681-bad.xlsx"))
+			{
+				ExcelWorkbook workbook = p1.Workbook;
+				SaveAndCleanup(p1);
+				//SaveWorkbook("s681Good.xlsx",p1);
+            }
+
+    //        using (var p2 = OpenPackage("s681Good.xlsx"))
+    //        {
+    //            ExcelWorkbook workbook = p2.Workbook;
+				//SaveWorkbook("s681Bad.xlsx", p2);
+
+    //        }
+        }
+		[TestMethod]
+		public void s684()
+		{
+            using (var p1 = OpenTemplatePackage("s684.xlsx"))
+            {
+				p1.Compatibility.IsWorksheets1Based = true;
+                ExcelWorkbook workbook = p1.Workbook;
+                workbook.Calculate();
+				Assert.AreEqual(7d, workbook.Worksheets["Sheet1"].Cells[1, 1].Value);
+                
+				workbook.Worksheets.First().Cells[2, 1].Value = 4;
+                workbook.Calculate();
+                
+				Assert.AreEqual(10d, workbook.Worksheets["Sheet1"].Cells[1,1].Value);
+
+                SaveAndCleanup(p1);
+            }
+        }
+    }
 }

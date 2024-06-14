@@ -20,13 +20,26 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class BoolArgumentParser : ArgumentParser
+    /// <summary>
+    /// Boolean argument parser
+    /// </summary>
+    internal class BoolArgumentParser : ArgumentParser
     {
+        /// <summary>
+        /// Parse object to bool
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override object Parse(object obj)
         {
             return ConvertUtil.GetValueBool(obj);
         }
-
+        /// <summary>
+        /// Parse object to bool with rounding method
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="roundingMethod"></param>
+        /// <returns></returns>
         public override object Parse(object obj, RoundingMethod roundingMethod)
         {
             return Parse(obj);

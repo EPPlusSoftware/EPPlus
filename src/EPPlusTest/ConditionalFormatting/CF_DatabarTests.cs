@@ -387,5 +387,72 @@ namespace EPPlusTest.ConditionalFormatting
                 //*Assert.AreEqual(Color.FromArgb(255, Color.DarkBlue), bar.NegativeFillColor.Color);*/
             }
         }
+
+        [TestMethod]
+        public void CF_DatabarPercentage()
+        {
+            using (var pck = OpenPackage("DataBarPercentage.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("percentageDatabars");
+
+                ws.Cells["A1:A30"].Formula = "ROW()-10";
+
+                var db = ws.Cells["A1:A30"].ConditionalFormatting.AddDatabar(Color.CornflowerBlue);
+
+                ws.Calculate();
+
+                var dbCast = (ExcelConditionalFormattingDataBar)db;
+
+                Assert.AreEqual(0d, dbCast.GetPercentageAtCell(ws.Cells["A10"]));
+                Assert.AreEqual(50d, dbCast.GetPercentageAtCell(ws.Cells["A20"]));
+                Assert.AreEqual(100d, dbCast.GetPercentageAtCell(ws.Cells["A30"]));
+
+                //Negative range should be 100% at -9 and -1 should be 100/9
+                Assert.AreEqual(100d, dbCast.GetPercentageAtCell(ws.Cells["A1"]));
+                Assert.AreEqual(100d/9, dbCast.GetPercentageAtCell(ws.Cells["A9"]));
+                Assert.AreEqual((100d / 9) * 2, dbCast.GetPercentageAtCell(ws.Cells["A8"]));
+            }
+        }
+
+        [TestMethod]
+        public void CF_DatabarThemeColor()
+        {
+            using (var pck = OpenPackage("DatabarThemeColor.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("dataBarSheet");
+
+                var range = sheet.Cells["A1:A30"];
+
+                range.Formula = "ROW()-12";
+                range.Calculate();
+
+                var cf = range.ConditionalFormatting.AddDatabar(Color.AliceBlue);
+
+                cf.FillColor.Theme = eThemeSchemeColor.Accent6;
+                cf.BorderColor.Theme = eThemeSchemeColor.Background2;
+                cf.AxisColor.Theme = eThemeSchemeColor.Accent2;
+                cf.NegativeBorderColor.Theme = eThemeSchemeColor.Accent4;
+                cf.NegativeFillColor.Theme = eThemeSchemeColor.Hyperlink;
+
+                SaveAndCleanup(pck);
+            }
+
+            using (var pck = OpenPackage("DatabarThemeColor.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
+
+                var cfs = ws.Cells["A1"].ConditionalFormatting.GetConditionalFormattings();
+
+                var cf = cfs[0].As.DataBar;
+
+                Assert.AreEqual(eThemeSchemeColor.Accent6, cf.FillColor.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Background2, cf.BorderColor.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent2, cf.AxisColor.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent4, cf.NegativeBorderColor.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Hyperlink, cf.NegativeFillColor.Theme);
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }

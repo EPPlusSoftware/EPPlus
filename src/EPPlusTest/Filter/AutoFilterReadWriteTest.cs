@@ -151,6 +151,7 @@ namespace EPPlusTest.Filter
             LoadTestdata(ws);
             ws.AutoFilterAddress = ws.Cells["A1:D100"];
             var col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
+            col.Top = false;
             col.Value = 12;
             ws.AutoFilter.ApplyFilter();
 
@@ -171,6 +172,7 @@ namespace EPPlusTest.Filter
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
             col.Percent = true;
+            col.Top = false;
             ws.AutoFilter.ApplyFilter();
 
             /*** Top 10 ***/
@@ -218,6 +220,7 @@ namespace EPPlusTest.Filter
             SetDateValues(ws);
             ws.AutoFilterAddress = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
+            col.Top = false;
             col.Value = 12;
             ws.AutoFilter.ApplyFilter();
 
@@ -238,6 +241,7 @@ namespace EPPlusTest.Filter
             ws.AutoFilterAddress = ws.Cells["A1:D500"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
+            col.Top = false;
             col.Percent = true;
             ws.AutoFilter.ApplyFilter();
 
@@ -288,6 +292,7 @@ namespace EPPlusTest.Filter
             ws.AutoFilterAddress = ws.Cells["A1:D733"];
             var col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
+            col.Top = false;
             ws.AutoFilter.ApplyFilter();
 
             /*** Top 10 ***/
@@ -297,7 +302,6 @@ namespace EPPlusTest.Filter
             ws.AutoFilterAddress = ws.Cells["A1:D733"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
-            col.Top = true;
             ws.AutoFilter.ApplyFilter();
 
             /*** Bottom 12 Percent ***/
@@ -308,6 +312,7 @@ namespace EPPlusTest.Filter
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
             col.Percent = true;
+            col.Top = false;
             ws.AutoFilter.ApplyFilter();
 
             /*** Top 10 ***/
@@ -317,7 +322,6 @@ namespace EPPlusTest.Filter
             ws.AutoFilterAddress = ws.Cells["A1:D733"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
-            col.Top = true;
             col.Percent = true;
             ws.AutoFilter.ApplyFilter();
 

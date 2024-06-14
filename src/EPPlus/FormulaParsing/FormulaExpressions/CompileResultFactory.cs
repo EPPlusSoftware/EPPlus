@@ -30,6 +30,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 obj = ((INameInfo)obj).Value;
             }
             var dt =  GetDataType(ref obj);
+            if(dt == DataType.ExcelRange)
+            {
+                var r = obj as IRangeInfo;
+                return r.IsInMemoryRange ? new CompileResult(r, dt) : new AddressCompileResult(r, dt, r.Address);
+            }
             return new CompileResult(obj, dt);
         }
         public static CompileResult CreateDynamicArray(object obj, FormulaRangeAddress address=null)

@@ -172,11 +172,11 @@ namespace OfficeOpenXml.Packaging
         {
             if (string.IsNullOrEmpty(relToCopy.Target))
             {
-                return CreateRelationship(relToCopy.Target, relToCopy.TargetMode, relToCopy.RelationshipType);
+                return CreateRelationship(relToCopy.TargetUri, relToCopy.TargetMode, relToCopy.RelationshipType);
             }
             else
             {
-                return CreateRelationship(relToCopy.TargetUri, relToCopy.TargetMode, relToCopy.RelationshipType);
+                return CreateRelationship(relToCopy.Target, relToCopy.TargetMode, relToCopy.RelationshipType);
             }
         }
 	}

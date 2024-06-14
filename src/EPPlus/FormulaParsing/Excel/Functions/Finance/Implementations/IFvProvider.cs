@@ -14,8 +14,20 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
+    /// <summary>
+    /// IFvProvider
+    /// </summary>
     public interface IFvProvider
     {
+        /// <summary>
+        /// GetFv
+        /// </summary>
+        /// <param name="Rate"></param>
+        /// <param name="NPer"></param>
+        /// <param name="Pmt"></param>
+        /// <param name="PV"></param>
+        /// <param name="Due"></param>
+        /// <returns></returns>
         double GetFv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod);
     }
 }

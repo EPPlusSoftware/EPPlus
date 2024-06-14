@@ -18,8 +18,17 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class ArgumentParserFactory
+    /// <summary>
+    /// Parser factory for 
+    /// </summary>
+    internal class ArgumentParserFactory
     {
+        /// <summary>
+        /// Create argument parser for datatypes <see cref="DataType.Integer"></see>, <see cref="DataType.Boolean"></see> and <see cref="DataType.Decimal"></see>
+        /// </summary>
+        /// <param name="dataType"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public virtual ArgumentParser CreateArgumentParser(DataType dataType)
         {
             switch (dataType)

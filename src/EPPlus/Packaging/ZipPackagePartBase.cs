@@ -123,6 +123,7 @@ namespace OfficeOpenXml.Packaging
                 {
                     rel.SourceUri = new Uri(source, UriKind.Relative);
                 }
+
                 if (rel.Id.StartsWith("rid", StringComparison.OrdinalIgnoreCase))
                 {
                     int id;

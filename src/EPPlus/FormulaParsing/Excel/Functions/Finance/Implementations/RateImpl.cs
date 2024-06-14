@@ -16,11 +16,25 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
+    /// <summary>
+    /// Rate implementation
+    /// </summary>
     public static class RateImpl
     {
         private const double cnL_IT_STEP = 0.00001;
         private const double cnL_IT_EPSILON = 0.0000001;
 
+        /// <summary>
+        /// Rate
+        /// </summary>
+        /// <param name="NPer"></param>
+        /// <param name="Pmt"></param>
+        /// <param name="PV"></param>
+        /// <param name="FV"></param>
+        /// <param name="Due"></param>
+        /// <param name="Guess"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static FinanceCalcResult<double> Rate(double NPer, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod, double Guess = 0.1)
         {
             double dTemp;
@@ -73,7 +87,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             return new FinanceCalcResult<double>(eErrorType.Num);
         }
-
+        /// <summary>
+        /// LEvalRate
+        /// </summary>
+        /// <param name="Rate"></param>
+        /// <param name="NPer"></param>
+        /// <param name="Pmt"></param>
+        /// <param name="PV"></param>
+        /// <param name="dFv"></param>
+        /// <param name="Due"></param>
+        /// <returns></returns>
         public static double LEvalRate(double Rate, double NPer, double Pmt, double PV, double dFv, PmtDue Due)
         {
             double dTemp1;

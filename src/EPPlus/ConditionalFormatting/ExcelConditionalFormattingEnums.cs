@@ -873,7 +873,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         GreenCheckSymbol = 0x62,
 
-        //3Symbols2
+        //3Symbols
         //--------
 
         /// <summary>

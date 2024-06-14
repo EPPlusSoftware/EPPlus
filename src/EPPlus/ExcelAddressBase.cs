@@ -44,6 +44,13 @@ namespace OfficeOpenXml
         internal ExcelAddressBase()
         {
         }
+        internal ExcelAddressBase(FormulaRangeAddress adr) : this(adr.WorksheetName,adr.FromRow, adr.FromCol, adr.ToRow, adr.ToCol)
+        {
+            _fromRowFixed = (adr.FixedFlag & FixedFlag.FromRowFixed) > 0;
+            _fromColFixed = (adr.FixedFlag & FixedFlag.FromColFixed) > 0;
+            _toRowFixed = (adr.FixedFlag & FixedFlag.ToRowFixed) > 0;
+            _toColFixed = (adr.FixedFlag & FixedFlag.ToColFixed) > 0;
+        }
         /// <summary>
         /// Creates an Address object
         /// </summary>
@@ -454,6 +461,9 @@ namespace OfficeOpenXml
                 return this;
             }
         }
+        /// <summary>
+        /// Method for actions that must be taken before address is changed
+        /// </summary>
         internal protected virtual void BeforeChangeAddress()
         {
         }
@@ -681,6 +691,9 @@ namespace OfficeOpenXml
                 return _address;
             }
         }
+        /// <summary>
+        /// The $absolute$ address
+        /// </summary>
         public string AddressAbsolute
         {
             get
