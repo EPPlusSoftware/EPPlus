@@ -53,5 +53,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 Tokens = tokens
             };
         }
+
+        internal Dictionary<int, int> LambdaRefs { get; set; }
+
+        internal bool HasLambdaRefs
+        {
+            get
+            {
+                if (LambdaRefs == null) return false;
+                return LambdaRefs.Count > 0;
+            }
+        }
     }
 }

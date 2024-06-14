@@ -34,6 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             Add("<>", Operator.NotEqualsTo);
             Add("&", Operator.Concat);
             Add(":", Operator.Colon);
+            Add(Operator.AssignIndicator, Operator.Assign);
             Add(Operator.IntersectIndicator, Operator.Intersect);
         }
 

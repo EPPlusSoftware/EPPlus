@@ -36,7 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         IntegerDivision,
         Exponentiation,
         Colon,
-        Intersect
+        Intersect,
+        Assign
     }
     public enum LimitedOperators
     {

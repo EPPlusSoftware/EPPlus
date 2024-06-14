@@ -132,16 +132,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             return result;
         }
 
-        private class LambdaRef
-        {
-            public int LambdaStartIx { get; set; }
-
-            public int LambdaArgIx { get; set; }
-        }
-
         private static void ProcessLambda(RpnTokens rpnTokens)
         {
-            var lambdaRefs = new Stack<LambdaRef>();
+            var lambdaRefs = new Dictionary<int, int>();
             Stack<int> lStack = new Stack<int>();
             for(var i = 0; i < rpnTokens.Count; i++)
             {
@@ -154,10 +147,29 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else
                     {
-                        lambdaRefs.Push(new LambdaRef { LambdaStartIx = lStack.Pop(), LambdaArgIx = i + 1 });
+                        lambdaRefs[lStack.Pop()] = i + 1;
                     }
                 }
             }
+            rpnTokens.LambdaRefs = lambdaRefs;
+
+            // TODO: create a new list and loop through the existing tokens
+            // move tokens from the Lambda invoke parenthesis to after the corresponding
+            // variable and use the new Assign operator... /MA
+            var TokenList = new List<Token>();
+        }
+
+        private static void MoveToken(ref List<Token> tokens, int fromPos, int toPos) 
+        {
+            var token = tokens[fromPos];
+            tokens.Insert(toPos, token);
+            tokens.RemoveAt(fromPos);
+
+        }
+
+        private static void InsertAssignOperator(ref List<Token> tokens, int pos)
+        {
+            tokens.Insert(pos, new Token(Operator.AssignIndicator, TokenType.Operator));
         }
     }
 }

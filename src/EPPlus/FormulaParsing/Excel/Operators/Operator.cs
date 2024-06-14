@@ -41,7 +41,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         internal const int PrecedenceAddSubtract = 12;
         internal const int PrecedenceConcat = 15;
         internal const int PrecedenceComparison = 25;
+        internal const int PrecedenceAssign = 50;
         internal const string IntersectIndicator = "isc";
+        internal const string AssignIndicator = "asg";
 
         private Operator() { }
 
@@ -488,31 +490,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
         }
 
-        //private static IOperator _percent;
-        //public static IOperator Percent
-        //{
-        //    get
-        //    {
-        //        if (_percent == null)
-        //        {
-        //            _percent = new Operator(Operators.Percent, PrecedencePercent, (l, r, ctx) =>
-        //                {
-        //                    l = l ?? CompileResult.ZeroInt;
-        //                    r = r ?? CompileResult.ZeroInt;
-        //                    if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
-        //                    {
-        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Integer);
-        //                    }
-        //                    else if (CanDoNumericOperation(l, r))
-        //                    {
-        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
-        //                    }
-        //                    return new CompileResult(eErrorType.Value);
-        //                });
-        //        }
-        //        return _percent;
-        //    }
-        //}
+        private static IOperator _assign;
+        public static IOperator Assign
+        {
+            get
+            {
+                return _assign ??
+                    (_assign =
+                        new Operator(Operators.Assign, PrecedenceAssign, (l, r, cts) =>
+                        {
+                            if(l.DataType != DataType.Variable)
+                            {
+                                return CompileResult.GetErrorResult(eErrorType.Value);
+                            }
+                            var variable = l.Result as VariableExpression;
+                            variable.SetValue(variable.Name, r);
+                            return new CompileResult(variable, DataType.Variable);
+                        }));
+            }
+        }
 
         private static object GetObjFromOther(CompileResult obj, CompileResult other)
         {

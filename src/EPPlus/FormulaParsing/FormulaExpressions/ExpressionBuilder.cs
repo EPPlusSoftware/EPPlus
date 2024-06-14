@@ -57,6 +57,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         continue;
                     }
                 }
+                if(rpnTokens.HasLambdaRefs && rpnTokens.LambdaRefs.ContainsKey(tokenIx))
+                {
+                    var tknIx = rpnTokens.LambdaRefs[tokenIx] + 1;
+                    var list = new List<Token>();
+                    var tkn = rpnTokens[tknIx];
+                    while(tkn.TokenType != TokenType.LambdaInvokeArgsEnd)
+                    {
+                        list.Add(tkn);
+                        tkn = rpnTokens[++tknIx];
+                    }
+                }
                 var i = tokenIx;
                 switch (t.TokenType)
                 {
