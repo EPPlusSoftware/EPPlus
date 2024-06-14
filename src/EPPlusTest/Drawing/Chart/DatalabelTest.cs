@@ -22,6 +22,8 @@ namespace EPPlusTest.Drawing.Chart
             var range = new ExcelRange(dSheet, "A1:G10");
             var table = dSheet.Tables.Add(range, "DataTable");
             table.ShowHeader = true;
+            table.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells);
+
             dSheet.Cells["A2:G10"].Formula = "ROW() + COLUMN()";
             dSheet.Cells["D2:D10"].Value = 0.1;
             dSheet.Cells["E2:E10"].Value = 1;
