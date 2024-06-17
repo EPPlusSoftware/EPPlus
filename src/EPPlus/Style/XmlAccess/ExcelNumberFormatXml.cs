@@ -17,6 +17,7 @@ using System.Xml;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils;
+using System.Threading;
 
 namespace OfficeOpenXml.Style.XmlAccess
 {
@@ -109,7 +110,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
             set
             {
-                _numFmtId = ExcelNumberFormat.GetFromBuildIdFromFormat(value);
+                _numFmtId = ExcelNumberFormat.GetIdByFormat(value);
                 _format = value;
             }
         }
@@ -117,43 +118,80 @@ namespace OfficeOpenXml.Style.XmlAccess
         {            
             if (NumFmtId < 0)
             {
-                NumFmtId = ExcelNumberFormat.GetFromBuildIdFromFormat(Format);                
+                NumFmtId = ExcelNumberFormat.GetIdByEnglishFormat(Format);                
             }
             return NumFmtId.ToString();
         }
 
-        internal static void AddBuildIn(XmlNamespaceManager NameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> NumberFormats)
+        internal static void AddBuiltIn(
+            XmlNamespaceManager nameSpaceManager,
+            ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
         {
-            NumberFormats.Add("General",new ExcelNumberFormatXml(NameSpaceManager,true){NumFmtId=0,Format="General"});
-            NumberFormats.Add("0", new ExcelNumberFormatXml(NameSpaceManager,true) { NumFmtId = 1, Format = "0" });
-            NumberFormats.Add("0.00", new ExcelNumberFormatXml(NameSpaceManager,true) { NumFmtId = 2, Format = "0.00" });
-            NumberFormats.Add("#,##0", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 3, Format = "#,##0" });
-            NumberFormats.Add("#,##0.00", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 4, Format = "#,##0.00" });
-            NumberFormats.Add("0%", new ExcelNumberFormatXml(NameSpaceManager,true) { NumFmtId = 9, Format = "0%" });
-            NumberFormats.Add("0.00%", new ExcelNumberFormatXml(NameSpaceManager,true) { NumFmtId = 10, Format = "0.00%" });
-            NumberFormats.Add("0.00E+00", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 11, Format = "0.00E+00" });
-            NumberFormats.Add("# ?/?", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 12, Format = "# ?/?" });
-            NumberFormats.Add("# ??/??", new ExcelNumberFormatXml(NameSpaceManager,true) { NumFmtId = 13, Format = "# ??/??" });
-            NumberFormats.Add("mm-dd-yy", new ExcelNumberFormatXml(NameSpaceManager,true) { NumFmtId = 14, Format = "mm-dd-yy" });
-            NumberFormats.Add("d-mmm-yy", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 15, Format = "d-mmm-yy" });
-            NumberFormats.Add("d-mmm", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 16, Format = "d-mmm" });
-            NumberFormats.Add("mmm-yy", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 17, Format = "mmm-yy" });
-            NumberFormats.Add("h:mm AM/PM", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 18, Format = "h:mm AM/PM" });
-            NumberFormats.Add("h:mm:ss AM/PM", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 19, Format = "h:mm:ss AM/PM" });
-            NumberFormats.Add("h:mm", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 20, Format = "h:mm" });
-            NumberFormats.Add("h:mm:ss", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 21, Format = "h:mm:ss" });
-            NumberFormats.Add("m/d/yy h:mm", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 22, Format = "m/d/yy h:mm" });
-            NumberFormats.Add("#,##0 ;(#,##0)", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 37, Format = "#,##0 ;(#,##0)" });
-            NumberFormats.Add("#,##0 ;[Red](#,##0)", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 38, Format = "#,##0 ;[Red](#,##0)" });
-            NumberFormats.Add("#,##0.00;(#,##0.00)", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 39, Format = "#,##0.00;(#,##0.00)" });
-            NumberFormats.Add("#,##0.00;[Red](#,##0.00)", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 40, Format = "#,##0.00;[Red](#,##0.00)" });
-            NumberFormats.Add("mm:ss", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 45, Format = "mm:ss" });
-            NumberFormats.Add("[h]:mm:ss", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 46, Format = "[h]:mm:ss" });
-            NumberFormats.Add("mmss.0", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 47, Format = "mmss.0" });
-            NumberFormats.Add("##0.0", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 48, Format = "##0.0" });
-            NumberFormats.Add("@", new ExcelNumberFormatXml(NameSpaceManager, true) { NumFmtId = 49, Format = "@" });
+            AddDefinableFormats(nameSpaceManager, numberFormats);
 
-            NumberFormats.NextId = 164; //Start for custom formats.
+            if (Thread.CurrentThread.CurrentCulture.Name.Equals("de-DE"))
+            {
+                AddNonDefinableGermanFormats(nameSpaceManager, numberFormats);
+            }
+            else
+            {
+                AddDefaultFormats(nameSpaceManager, numberFormats);
+            }
+        }
+
+        private static void AddDefinableFormats(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
+        {
+            numberFormats.Add("General", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 0, Format = "General" });
+            numberFormats.Add("0", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 1, Format = "0" });
+            numberFormats.Add("0.00", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 2, Format = "0.00" });
+            numberFormats.Add("#,##0", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 3, Format = "#,##0" });
+            numberFormats.Add("#,##0.00", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 4, Format = "#,##0.00" });
+            numberFormats.Add("0%", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 9, Format = "0%" });
+            numberFormats.Add("0.00%", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 10, Format = "0.00%" });
+            numberFormats.Add("0.00E+00", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 11, Format = "0.00E+00" });
+            numberFormats.Add("# ?/?", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 12, Format = "# ?/?" });
+            numberFormats.Add("# ??/??", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 13, Format = "# ??/??" });
+            numberFormats.Add("h:mm AM/PM", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 18, Format = "h:mm AM/PM" });
+            numberFormats.Add("h:mm:ss AM/PM", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 19, Format = "h:mm:ss AM/PM" });
+            numberFormats.Add("mm:ss", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 45, Format = "mm:ss" });
+            numberFormats.Add("[h]:mm:ss", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 46, Format = "[h]:mm:ss" });
+            numberFormats.Add("@", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 49, Format = "@" });
+
+            numberFormats.NextId = 164; // Start for custom formats.
+        }
+
+        private static void AddNonDefinableGermanFormats(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
+        {
+            numberFormats.Add("dd.mm.yyyy", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 14, Format = "dd.mm.yyyy" });
+            numberFormats.Add("dd. mm yy", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 15, Format = "dd. mm yy" });
+            numberFormats.Add("dd. mmm", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 16, Format = "dd. mmm" });
+            numberFormats.Add("mmm yy", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 17, Format = "mmm yy" });
+            numberFormats.Add("hh:mm", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 20, Format = "hh:mm" });
+            numberFormats.Add("hh:mm:ss", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 21, Format = "hh:mm:ss" });
+            numberFormats.Add("dd.mm.yyyy hh:mm", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 22, Format = "dd.mm.yyyy hh:mm" });
+            numberFormats.Add("#,##0 _€;-#,##0 _€", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 37, Format = "#,##0 _€;-#,##0 _€" });
+            numberFormats.Add("#,##0 _€;[Red]-#,##0 _€", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 38, Format = "#,##0 _€;[Red]-#,##0 _€" });
+            numberFormats.Add("#,##0.00 _€;-#,##0.00 _€", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 39, Format = "#,##0.00 _€;-#,##0.00 _€" });
+            numberFormats.Add("#,##0.00 _€;[Red]-#,##0.00 _€", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 40, Format = "#,##0.00 _€;[Red]-#,##0.00 _€" });
+            numberFormats.Add("mm:ss.0", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 47, Format = "mm:ss.0" });
+            numberFormats.Add("##0.0E+0", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 48, Format = "##0.0E+0" });
+        }
+
+        private static void AddDefaultFormats(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats)
+        {
+            numberFormats.Add("mm-dd-yy", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 14, Format = "mm-dd-yy" });
+            numberFormats.Add("d-mmm-yy", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 15, Format = "d-mmm-yy" });
+            numberFormats.Add("d-mmm", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 16, Format = "d-mmm" });
+            numberFormats.Add("mmm-yy", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 17, Format = "mmm-yy" });
+            numberFormats.Add("h:mm", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 20, Format = "h:mm" });
+            numberFormats.Add("h:mm:ss", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 21, Format = "h:mm:ss" });
+            numberFormats.Add("m/d/yy h:mm", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 22, Format = "m/d/yy h:mm" });
+            numberFormats.Add("#,##0 ;(#,##0)", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 37, Format = "#,##0 ;(#,##0)" });
+            numberFormats.Add("#,##0 ;[Red](#,##0)", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 38, Format = "#,##0 ;[Red](#,##0)" });
+            numberFormats.Add("#,##0.00;(#,##0.00)", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 39, Format = "#,##0.00;(#,##0.00)" });
+            numberFormats.Add("#,##0.00;[Red](#,##0.00)", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 40, Format = "#,##0.00;[Red](#,##0.00)" });
+            numberFormats.Add("mmss.0", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 47, Format = "mmss.0" });
+            numberFormats.Add("##0.0", new ExcelNumberFormatXml(nameSpaceManager, true) { NumFmtId = 48, Format = "##0.0" });
         }
 
         internal override XmlNode CreateXmlNode(XmlNode topNode)
