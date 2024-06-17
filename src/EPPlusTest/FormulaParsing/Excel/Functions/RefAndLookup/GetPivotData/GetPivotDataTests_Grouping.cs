@@ -2,13 +2,6 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Table.PivotTable;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
-using OfficeOpenXml.Table.PivotTable.Calculation;
-using FakeItEasy;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
 	[TestClass]
@@ -156,6 +149,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 		[TestMethod]
 		public void GetPivotData_Grouping_YearMonthDay()
 		{
+			SwitchToCulture();
 			var ws = _package.Workbook.Worksheets.Add("DateGroup_YearMonthDay");
 			var pt = ws.PivotTables.Add(ws.Cells["A1"], _dateWs1.Cells["K1:O11"], "PivotTable3");
 			var rf = pt.RowFields.Add(pt.Fields[4]);
@@ -180,6 +174,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			Assert.AreEqual(1D, (double)ws.Cells["G9"].Value);
 			Assert.AreEqual(ErrorValues.RefError, ws.Cells["G10"].Value);
 			Assert.AreEqual(2881D, (double)ws.Cells["G11"].Value);
+			SwitchBackToCurrentCulture();
 		}
 		[TestMethod]
 		public void GetPivotData_Grouping_Hour()

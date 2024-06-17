@@ -101,10 +101,13 @@ namespace OfficeOpenXml.Style
             if (_path!="" && TopNode==_rootNode)
             {
                 _initXml?.Invoke();
-                CreateNode(_path);
-                TopNode = _rootNode.SelectSingleNode(_path, NameSpaceManager);
-                CreateNode("../../../a:bodyPr") ;
-                CreateNode("../../../a:lstStyle");
+                if (TopNode == _rootNode && string.IsNullOrEmpty(_path)==false)
+                {
+                    CreateNode(_path);
+                    TopNode = _rootNode.SelectSingleNode(_path, NameSpaceManager);
+                    CreateNode("../../../a:bodyPr");
+                    CreateNode("../../../a:lstStyle");
+                }
             }
             else if (TopNode.ParentNode?.ParentNode?.ParentNode?.LocalName == "rich")
             {
