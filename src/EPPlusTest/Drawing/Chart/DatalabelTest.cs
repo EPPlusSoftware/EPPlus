@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using System;
+using System.Drawing;
 
 namespace EPPlusTest.Drawing.Chart
 {
@@ -292,6 +293,35 @@ namespace EPPlusTest.Drawing.Chart
             label.Position = eLabelPosition.Center;
 
             label.Layout.ManualLayout.Left = -30;
+        }
+
+        [TestMethod]
+        public void TwoLabelsOnSameSeries()
+        {
+            using (var pck = OpenPackage("ColumnChartStuffEasy.xlsx", true))
+            {
+                var cSheet = pck.Workbook.Worksheets.Add("ColumnChartSheet");
+
+                var range = cSheet.Cells["A1:C3"];
+                var table = cSheet.Tables.Add(range, "DataTable");
+                table.ShowHeader = false;
+
+                range.Formula = "ROW() + COLUMN()";
+
+                cSheet.Calculate();
+
+                var sChart = cSheet.Drawings.AddBarChart("simpleChart", eBarChartType.ColumnStacked);
+
+                sChart.Series.Add(cSheet.Cells["A1:A3"]);
+                sChart.Series.Add(cSheet.Cells["B1:B3"]);
+                sChart.Series.Add(cSheet.Cells["C1:C3"]);
+
+                sChart.Series[2].DataLabel.DataLabels.Add(0);
+                sChart.Series[2].DataLabel.DataLabels.Add(2);
+                sChart.Series[2].DataLabel.DataLabels.Add(1);
+
+                SaveAndCleanup(pck);
+            }
         }
     }
 }
