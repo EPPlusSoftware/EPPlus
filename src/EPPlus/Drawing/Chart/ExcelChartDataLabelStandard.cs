@@ -161,11 +161,22 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
+                if(TopNode.LocalName == "dLbl")
+                {
+                    return GetXmlNodeBool(showLeaderLinesPath, TopNode.ParentNode);
+                }
                 return GetXmlNodeBool(showLeaderLinesPath);
             }
             set
             {
-                SetXmlNodeString(showLeaderLinesPath, value ? "1" : "0");
+                if (TopNode.LocalName == "dLbl")
+                {
+                    SetXmlNodeString(TopNode.ParentNode, showBubbleSizePath, value ? "1" : "0");
+                }
+                else
+                {
+                    SetXmlNodeString(showLeaderLinesPath, value ? "1" : "0");
+                }
             }
         }
         const string showBubbleSizePath = "c:showBubbleSize/@val";

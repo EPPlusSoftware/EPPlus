@@ -989,6 +989,20 @@ namespace OfficeOpenXml
         {
             return GetXmlNodeBool(path, false);
         }
+        /// <summary>
+        /// Get xmlNodeBool from parent node
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="parentNode"></param>
+        /// <returns></returns>
+        internal bool GetXmlNodeBool(string path, XmlNode parentNode)
+        {
+            var tempNode = TopNode;
+            TopNode = parentNode;
+            var retVal = GetXmlNodeBool(path, TopNode);
+            TopNode = tempNode;
+            return retVal;
+        }
         internal bool GetXmlNodeBool(string path, bool blankValue)
         {
             string value = GetXmlNodeString(path);
