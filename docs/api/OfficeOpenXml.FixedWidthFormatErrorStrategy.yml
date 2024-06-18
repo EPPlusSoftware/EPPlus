@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  commentId: T:OfficeOpenXml.FixedWidthFormatErrorStrategy
+  id: FixedWidthFormatErrorStrategy
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.FixedWidthFormatErrorStrategy.ThrowError
+  - OfficeOpenXml.FixedWidthFormatErrorStrategy.Truncate
+  langs:
+  - csharp
+  - vb
+  name: FixedWidthFormatErrorStrategy
+  nameWithType: FixedWidthFormatErrorStrategy
+  fullName: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FixedWidthFormatErrorStrategy
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHow to handle missmatch with data and column format specifications.\n"
+  example: []
+  syntax:
+    content: public enum FixedWidthFormatErrorStrategy
+    content.vb: Public Enum FixedWidthFormatErrorStrategy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FixedWidthFormatErrorStrategy.Truncate
+  commentId: F:OfficeOpenXml.FixedWidthFormatErrorStrategy.Truncate
+  id: Truncate
+  parent: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  langs:
+  - csharp
+  - vb
+  name: Truncate
+  nameWithType: FixedWidthFormatErrorStrategy.Truncate
+  fullName: OfficeOpenXml.FixedWidthFormatErrorStrategy.Truncate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Truncate
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf data is larger than format specification, write anyway. Might lead to data loss.\n"
+  example: []
+  syntax:
+    content: Truncate = 0
+    return:
+      type: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FixedWidthFormatErrorStrategy.ThrowError
+  commentId: F:OfficeOpenXml.FixedWidthFormatErrorStrategy.ThrowError
+  id: ThrowError
+  parent: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  langs:
+  - csharp
+  - vb
+  name: ThrowError
+  nameWithType: FixedWidthFormatErrorStrategy.ThrowError
+  fullName: OfficeOpenXml.FixedWidthFormatErrorStrategy.ThrowError
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThrowError
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf data is larger than format specification, throw error\n"
+  example: []
+  syntax:
+    content: ThrowError = 1
+    return:
+      type: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  commentId: T:OfficeOpenXml.FixedWidthFormatErrorStrategy
+  parent: OfficeOpenXml
+  name: FixedWidthFormatErrorStrategy
+  nameWithType: FixedWidthFormatErrorStrategy
+  fullName: OfficeOpenXml.FixedWidthFormatErrorStrategy

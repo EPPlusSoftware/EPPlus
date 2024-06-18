@@ -57,6 +57,9 @@ items:
   - OfficeOpenXml.Drawing.ExcelShapeBase.TextAnchoringControl
   - OfficeOpenXml.Drawing.ExcelShapeBase.TextAlignment
   - OfficeOpenXml.Drawing.ExcelShapeBase.Indent
+  - OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+  - OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+  - OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
   - OfficeOpenXml.Drawing.ExcelShapeBase.TextVertical
   - OfficeOpenXml.Drawing.ExcelShapeBase.TextBody
   - OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PIXEL
@@ -90,6 +93,7 @@ items:
   - OfficeOpenXml.Drawing.ExcelDrawing.ParentGroup
   - OfficeOpenXml.Drawing.ExcelDrawing.Dispose
   - OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  - OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -344,6 +348,24 @@ references:
   name: Indent
   nameWithType: ExcelShapeBase.Indent
   fullName: OfficeOpenXml.Drawing.ExcelShapeBase.Indent
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+  commentId: P:OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+  parent: OfficeOpenXml.Drawing.ExcelShapeBase
+  name: Rotation
+  nameWithType: ExcelShapeBase.Rotation
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+  commentId: P:OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+  parent: OfficeOpenXml.Drawing.ExcelShapeBase
+  name: HorizontalFlip
+  nameWithType: ExcelShapeBase.HorizontalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
+  commentId: P:OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
+  parent: OfficeOpenXml.Drawing.ExcelShapeBase
+  name: VerticalFlip
+  nameWithType: ExcelShapeBase.VerticalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
 - uid: OfficeOpenXml.Drawing.ExcelShapeBase.TextVertical
   commentId: P:OfficeOpenXml.Drawing.ExcelShapeBase.TextVertical
   parent: OfficeOpenXml.Drawing.ExcelShapeBase
@@ -1036,6 +1058,107 @@ references:
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: Copy(ExcelWorksheet, Int32, Int32, Int32, Int32)
+  nameWithType: ExcelDrawing.Copy(ExcelWorksheet, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet, System.Int32, System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: Copy
+    nameWithType: ExcelDrawing.Copy
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: Copy
+    nameWithType: ExcelDrawing.Copy
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )

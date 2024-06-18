@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.PaddingAlignmentType
+  commentId: T:OfficeOpenXml.PaddingAlignmentType
+  id: PaddingAlignmentType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.PaddingAlignmentType.Auto
+  - OfficeOpenXml.PaddingAlignmentType.Left
+  - OfficeOpenXml.PaddingAlignmentType.Right
+  langs:
+  - csharp
+  - vb
+  name: PaddingAlignmentType
+  nameWithType: PaddingAlignmentType
+  fullName: OfficeOpenXml.PaddingAlignmentType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaddingAlignmentType
+    path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPadding types, can be left, right or auto.\n"
+  example: []
+  syntax:
+    content: public enum PaddingAlignmentType
+    content.vb: Public Enum PaddingAlignmentType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.PaddingAlignmentType.Auto
+  commentId: F:OfficeOpenXml.PaddingAlignmentType.Auto
+  id: Auto
+  parent: OfficeOpenXml.PaddingAlignmentType
+  langs:
+  - csharp
+  - vb
+  name: Auto
+  nameWithType: PaddingAlignmentType.Auto
+  fullName: OfficeOpenXml.PaddingAlignmentType.Auto
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Auto
+    path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDetects the padding type automatically. Text will be left and numbers will be right.\n"
+  example: []
+  syntax:
+    content: Auto = 0
+    return:
+      type: OfficeOpenXml.PaddingAlignmentType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.PaddingAlignmentType.Left
+  commentId: F:OfficeOpenXml.PaddingAlignmentType.Left
+  id: Left
+  parent: OfficeOpenXml.PaddingAlignmentType
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: PaddingAlignmentType.Left
+  fullName: OfficeOpenXml.PaddingAlignmentType.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdd padding to the left.\n"
+  example: []
+  syntax:
+    content: Left = 1
+    return:
+      type: OfficeOpenXml.PaddingAlignmentType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.PaddingAlignmentType.Right
+  commentId: F:OfficeOpenXml.PaddingAlignmentType.Right
+  id: Right
+  parent: OfficeOpenXml.PaddingAlignmentType
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: PaddingAlignmentType.Right
+  fullName: OfficeOpenXml.PaddingAlignmentType.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormatFixedWidth.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdd padding to the right.\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.PaddingAlignmentType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.PaddingAlignmentType
+  commentId: T:OfficeOpenXml.PaddingAlignmentType
+  parent: OfficeOpenXml
+  name: PaddingAlignmentType
+  nameWithType: PaddingAlignmentType
+  fullName: OfficeOpenXml.PaddingAlignmentType

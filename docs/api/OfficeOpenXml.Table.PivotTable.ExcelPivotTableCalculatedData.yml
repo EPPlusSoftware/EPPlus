@@ -1,0 +1,564 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  id: ExcelPivotTableCalculatedData
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.Int32)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableCalculatedData
+  nameWithType: ExcelPivotTableCalculatedData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableCalculatedData
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRepresents a selection of a row or column field to retreive the calculated value from a pivot table.\n"
+  example: []
+  syntax:
+    content: public class ExcelPivotTableCalculatedData
+    content.vb: Public Class ExcelPivotTableCalculatedData
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object)
+  id: SelectField(System.String,System.Object)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  langs:
+  - csharp
+  - vb
+  name: SelectField(String, Object)
+  nameWithType: ExcelPivotTableCalculatedData.SelectField(String, Object)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectField
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSpecifies which value to use for a field.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableCalculatedData SelectField(string fieldName, object value)
+    parameters:
+    - id: fieldName
+      type: System.String
+      description: The name of the field
+    - id: value
+      type: System.Object
+      description: The value
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+      description: A new <xref href="OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData" data-throw-if-not-resolved="false"></xref> to select other row or column field values or fetch the calulated value in a fluent way.
+    content.vb: Public Function SelectField(fieldName As String, value As Object) As ExcelPivotTableCalculatedData
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField*
+  seealso:
+  - linkId: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+    commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  id: SelectField(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  langs:
+  - csharp
+  - vb
+  name: SelectField(String, Object, eSubTotalFunctions)
+  nameWithType: ExcelPivotTableCalculatedData.SelectField(String, Object, eSubTotalFunctions)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String, System.Object, OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectField
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSpecifies which value to use for a field.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableCalculatedData SelectField(string fieldName, object value, eSubTotalFunctions subtotalFunction)
+    parameters:
+    - id: fieldName
+      type: System.String
+      description: The name of the field
+    - id: value
+      type: System.Object
+      description: The value
+    - id: subtotalFunction
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+      description: ''
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+      description: ''
+    content.vb: Public Function SelectField(fieldName As String, value As Object, subtotalFunction As eSubTotalFunctions) As ExcelPivotTableCalculatedData
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+  id: GetValue(System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  langs:
+  - csharp
+  - vb
+  name: GetValue(String)
+  nameWithType: ExcelPivotTableCalculatedData.GetValue(String)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGet the value for the current field selection.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String%2cSystem.Object)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String%2cSystem.Object%2cOfficeOpenXml.Table.PivotTable.eSubTotalFunctions)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public object GetValue(string dataFieldName)
+    parameters:
+    - id: dataFieldName
+      type: System.String
+      description: ''
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Function GetValue(dataFieldName As String) As Object
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.Int32)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.Int32)
+  id: GetValue(System.Int32)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  langs:
+  - csharp
+  - vb
+  name: GetValue(Int32)
+  nameWithType: ExcelPivotTableCalculatedData.GetValue(Int32)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGet the value for the current field selection.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String%2cSystem.Object)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String%2cSystem.Object%2cOfficeOpenXml.Table.PivotTable.eSubTotalFunctions)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public object GetValue(int dataFieldIndex = 0)
+    parameters:
+    - id: dataFieldIndex
+      type: System.Int32
+      description: The index for the date field in the <xref href="OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields" data-throw-if-not-resolved="false"></xref> collection
+    return:
+      type: System.Object
+      description: 'The value from the pivot table. If data field does not exist of the selected fields does not match any part of the pivot table a #REF! error is retuned.'
+    content.vb: Public Function GetValue(dataFieldIndex As Integer = 0) As Object
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableCalculatedData
+  nameWithType: ExcelPivotTableCalculatedData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue(System.String)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField
+  name: SelectField
+  nameWithType: ExcelPivotTableCalculatedData.SelectField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eSubTotalFunctions
+  nameWithType: eSubTotalFunctions
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.SelectField(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue
+  name: GetValue
+  nameWithType: ExcelPivotTableCalculatedData.GetValue
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData.GetValue
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+  isExternal: true
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

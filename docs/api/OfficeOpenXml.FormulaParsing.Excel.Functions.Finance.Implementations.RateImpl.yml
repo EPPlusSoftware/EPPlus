@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RateImpl
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
-    startLine: 18
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nRate implementation\n"
+  example: []
   syntax:
     content: public static class RateImpl
     content.vb: Public Module RateImpl
@@ -63,29 +65,41 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rate
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
-    startLine: 23
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nRate\n"
+  example: []
   syntax:
     content: public static FinanceCalcResult<double> Rate(double NPer, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod, double Guess = 0.1)
     parameters:
     - id: NPer
       type: System.Double
+      description: ''
     - id: Pmt
       type: System.Double
+      description: ''
     - id: PV
       type: System.Double
+      description: ''
     - id: FV
       type: System.Double
+      description: ''
     - id: Due
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+      description: ''
     - id: Guess
       type: System.Double
+      description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult{System.Double}
+      description: ''
     content.vb: Public Shared Function Rate(NPer As Double, Pmt As Double, PV As Double, FV As Double = 0, Due As PmtDue = PmtDue.EndOfPeriod, Guess As Double = 0.1) As FinanceCalcResult(Of Double)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
   modifiers.csharp:
   - public
   - static
@@ -110,27 +124,36 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LEvalRate
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
-    startLine: 76
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nLEvalRate\n"
+  example: []
   syntax:
     content: public static double LEvalRate(double Rate, double NPer, double Pmt, double PV, double dFv, PmtDue Due)
     parameters:
     - id: Rate
       type: System.Double
+      description: ''
     - id: NPer
       type: System.Double
+      description: ''
     - id: Pmt
       type: System.Double
+      description: ''
     - id: PV
       type: System.Double
+      description: ''
     - id: dFv
       type: System.Double
+      description: ''
     - id: Due
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Public Shared Function LEvalRate(Rate As Double, NPer As Double, Pmt As Double, PV As Double, dFv As Double, Due As PmtDue) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate*
   modifiers.csharp:
@@ -437,6 +460,9 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate
   name: Rate

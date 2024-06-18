@@ -57,6 +57,8 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineLabel
   - OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
+  - OfficeOpenXml.Drawing.Chart.ExcelLayout
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
   - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColor

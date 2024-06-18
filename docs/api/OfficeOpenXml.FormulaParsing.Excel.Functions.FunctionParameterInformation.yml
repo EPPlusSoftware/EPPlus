@@ -9,6 +9,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreAddress
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreErrorInPreExecute
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IsParameterVariable
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Normal
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsFalse
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsTrue
@@ -281,6 +282,40 @@ items:
   example: []
   syntax:
     content: AdjustParameterAddress = 64
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IsParameterVariable
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IsParameterVariable
+  id: IsParameterVariable
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: IsParameterVariable
+  nameWithType: FunctionParameterInformation.IsParameterVariable
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IsParameterVariable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsParameterVariable
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionParameterInformation.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe parameter is a variable which value is calculated by the next parameter.\n"
+  example: []
+  syntax:
+    content: IsParameterVariable = 128
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
   modifiers.csharp:

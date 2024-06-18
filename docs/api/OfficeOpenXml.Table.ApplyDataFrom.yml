@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.ApplyDataFrom
+  commentId: T:OfficeOpenXml.Table.ApplyDataFrom
+  id: ApplyDataFrom
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames
+  - OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells
+  langs:
+  - csharp
+  - vb
+  name: ApplyDataFrom
+  nameWithType: ApplyDataFrom
+  fullName: OfficeOpenXml.Table.ApplyDataFrom
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ApplyDataFrom.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplyDataFrom
+    path: ../src/EPPlus/Table/enums/ApplyDataFrom.cs
+    startLine: 6
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nOption for which data should overwrite the other in a sync.\n"
+  example: []
+  syntax:
+    content: public enum ApplyDataFrom
+    content.vb: Public Enum ApplyDataFrom
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells
+  commentId: F:OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells
+  id: ColumnNamesToCells
+  parent: OfficeOpenXml.Table.ApplyDataFrom
+  langs:
+  - csharp
+  - vb
+  name: ColumnNamesToCells
+  nameWithType: ApplyDataFrom.ColumnNamesToCells
+  fullName: OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ApplyDataFrom.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnNamesToCells
+    path: ../src/EPPlus/Table/enums/ApplyDataFrom.cs
+    startLine: 11
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nOverwrite cells with column name data\n"
+  example: []
+  syntax:
+    content: ColumnNamesToCells = 0
+    return:
+      type: OfficeOpenXml.Table.ApplyDataFrom
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames
+  commentId: F:OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames
+  id: CellsToColumnNames
+  parent: OfficeOpenXml.Table.ApplyDataFrom
+  langs:
+  - csharp
+  - vb
+  name: CellsToColumnNames
+  nameWithType: ApplyDataFrom.CellsToColumnNames
+  fullName: OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ApplyDataFrom.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellsToColumnNames
+    path: ../src/EPPlus/Table/enums/ApplyDataFrom.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nOverwrite columnNames with cell data\n"
+  example: []
+  syntax:
+    content: CellsToColumnNames = 1
+    return:
+      type: OfficeOpenXml.Table.ApplyDataFrom
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Table.ApplyDataFrom
+  commentId: T:OfficeOpenXml.Table.ApplyDataFrom
+  parent: OfficeOpenXml.Table
+  name: ApplyDataFrom
+  nameWithType: ApplyDataFrom
+  fullName: OfficeOpenXml.Table.ApplyDataFrom

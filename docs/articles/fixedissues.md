@@ -35,18 +35,21 @@
 	* TEXTAFTER
   	* TEXTBEFORE
 	* LET       
-* Added Full-fledged support for Iconsets and Databar conditionalformattings in HTML-exporter, New features include:
-	* Exporting full visuals of Positive and negative databars with borders and axis colors, position and bar direction
-	* Custom-made embeded .svgs similar to each icon excel supports.
-	* Custom iconsets displaying appropriately and in order.
+* Added Full-fledged support for icon sets and databar conditional formattings in HTML-exporter, New features include:
+	* Exporting full visuals of positive and negative databars with borders and axis colors, position and bar direction
+	* Custom-made embedded .svgs similar to each icon excel supports.
+	* Custom icon sets displaying appropriately and in order.
 	* Icons moving with text when aligned top, middle or bottom as in excel.
-	* Theme colors for colorscales now work correctly in the HTML exporter
+	* Theme colors for color scales now works correctly in the HTML exporter
 
 ### Minor Features and fixed issues
 * Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
 * Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
-* Added ManualLayout property for data labels on charts. Labels can now be positioned and their textbox resized directly. Accessed via e.g `Chart.Series[0].DataLabel.DataLabels[0].Layout.ManualLayout`
-* Conditional Formatting Color Scales now support theme color correctly.
+* Added ManualLayout property for data labels on charts. Labels can now be positioned, and their textbox resized directly. It is accessed via e.g `Chart.Series[0].DataLabel.DataLabels[0].Layout.ManualLayout`
+* Conditional formatting color scales now support theme color correctly.
+* Multiple data labels can now be added to the same series.
+* Formula calculation sometimes incorrectly returns #VALUE! if `IsWorksheets1Based = true`
+* Line breaks were not handled correctly on saving the workbook if multiple CR where used in combination with CRLF or LF.
 
 ## Version 7.1.3
 ### Fixed issues 
@@ -65,6 +68,7 @@
 	* ShowHeaders = True property on tables no longer causes crash in rare cases. It also no longer updates column names.
 	* Table.SyncColumnNames method added to ensures column names and cell-values in header are equal. Applying this method should cover any potential issues caused by above fix not updating column names.
 	* Adding a table column to a table no longer creates a column name that can conflict with existing names.
+
 ## Version 7.1.2
 ### Fixed issues 
 * Defined Names with `"` symbols no longer get extraneous `"` added when saving in EPPlus.

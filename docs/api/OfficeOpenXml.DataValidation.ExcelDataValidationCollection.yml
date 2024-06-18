@@ -748,7 +748,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAll
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 521
+    startLine: 525
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -788,7 +788,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 534
+    startLine: 539
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -821,7 +821,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-    startLine: 542
+    startLine: 547
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

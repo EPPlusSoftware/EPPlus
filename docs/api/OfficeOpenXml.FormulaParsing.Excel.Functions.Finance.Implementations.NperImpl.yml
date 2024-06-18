@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NperImpl
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/NperImpl.cs
-    startLine: 18
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nNPer Implementation\n"
+  example: []
   syntax:
     content: public static class NperImpl
     content.vb: Public Module NperImpl
@@ -62,25 +64,33 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NPer
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/NperImpl.cs
-    startLine: 20
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nNPer\n"
+  example: []
   syntax:
     content: public static FinanceCalcResult<double> NPer(double Rate, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
     parameters:
     - id: Rate
       type: System.Double
+      description: ''
     - id: Pmt
       type: System.Double
+      description: ''
     - id: PV
       type: System.Double
+      description: ''
     - id: FV
       type: System.Double
+      description: ''
     - id: Due
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+      description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult{System.Double}
+      description: ''
     content.vb: Public Shared Function NPer(Rate As Double, Pmt As Double, PV As Double, FV As Double = 0, Due As PmtDue = PmtDue.EndOfPeriod) As FinanceCalcResult(Of Double)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.NperImpl.NPer*
   modifiers.csharp:

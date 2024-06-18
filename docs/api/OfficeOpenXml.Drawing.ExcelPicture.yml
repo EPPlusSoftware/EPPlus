@@ -10,10 +10,13 @@ items:
   - OfficeOpenXml.Drawing.ExcelPicture.DrawingType
   - OfficeOpenXml.Drawing.ExcelPicture.Effect
   - OfficeOpenXml.Drawing.ExcelPicture.Fill
+  - OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip
   - OfficeOpenXml.Drawing.ExcelPicture.Image
   - OfficeOpenXml.Drawing.ExcelPicture.LockAspectRatio
   - OfficeOpenXml.Drawing.ExcelPicture.PreferRelativeResize
+  - OfficeOpenXml.Drawing.ExcelPicture.Rotation
   - OfficeOpenXml.Drawing.ExcelPicture.SetSize(System.Int32)
+  - OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip
   langs:
   - csharp
   - vb
@@ -76,6 +79,7 @@ items:
   - OfficeOpenXml.Drawing.ExcelDrawing.UnGroup(System.Boolean)
   - OfficeOpenXml.Drawing.ExcelDrawing.ParentGroup
   - OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  - OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -109,7 +113,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 110
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -149,7 +153,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Image
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 239
+    startLine: 247
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -186,7 +190,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 253
+    startLine: 261
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -225,7 +229,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 283
+    startLine: 291
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -262,7 +266,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 298
+    startLine: 306
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -299,7 +303,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 313
+    startLine: 321
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -336,7 +340,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreferRelativeResize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 328
+    startLine: 336
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -373,7 +377,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockAspectRatio
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 343
+    startLine: 351
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -410,7 +414,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 371
+    startLine: 379
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -427,6 +431,117 @@ items:
   modifiers.vb:
   - Public
   - Overrides
+- uid: OfficeOpenXml.Drawing.ExcelPicture.Rotation
+  commentId: P:OfficeOpenXml.Drawing.ExcelPicture.Rotation
+  id: Rotation
+  parent: OfficeOpenXml.Drawing.ExcelPicture
+  langs:
+  - csharp
+  - vb
+  name: Rotation
+  nameWithType: ExcelPicture.Rotation
+  fullName: OfficeOpenXml.Drawing.ExcelPicture.Rotation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelPicture.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rotation
+    path: ../src/EPPlus/Drawing/ExcelPicture.cs
+    startLine: 424
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRotation angle in degrees. Positive angles are clockwise. Negative angles are counter-clockwise.\nNote that EPPlus will not size the image depending on the rotation, so some angles will reqire the <xref href=\"OfficeOpenXml.Drawing.ExcelDrawing.From\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"OfficeOpenXml.Drawing.ExcelDrawing.To\" data-throw-if-not-resolved=\"false\"></xref> coordinates to be set accordingly.\n"
+  example: []
+  syntax:
+    content: public double Rotation { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Rotation As Double
+  overload: OfficeOpenXml.Drawing.ExcelPicture.Rotation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip
+  commentId: P:OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip
+  id: HorizontalFlip
+  parent: OfficeOpenXml.Drawing.ExcelPicture
+  langs:
+  - csharp
+  - vb
+  name: HorizontalFlip
+  nameWithType: ExcelPicture.HorizontalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelPicture.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalFlip
+    path: ../src/EPPlus/Drawing/ExcelPicture.cs
+    startLine: 439
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf true, flips the picture horizontal about the center of its bounding box.\n"
+  example: []
+  syntax:
+    content: public bool HorizontalFlip { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property HorizontalFlip As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip
+  commentId: P:OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip
+  id: VerticalFlip
+  parent: OfficeOpenXml.Drawing.ExcelPicture
+  langs:
+  - csharp
+  - vb
+  name: VerticalFlip
+  nameWithType: ExcelPicture.VerticalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelPicture.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalFlip
+    path: ../src/EPPlus/Drawing/ExcelPicture.cs
+    startLine: 454
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf true, flips the picture vertical about the center of its bounding box.\n"
+  example: []
+  syntax:
+    content: public bool VerticalFlip { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property VerticalFlip As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.Drawing
   commentId: N:OfficeOpenXml.Drawing
@@ -1075,6 +1190,107 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: Copy(ExcelWorksheet, Int32, Int32, Int32, Int32)
+  nameWithType: ExcelDrawing.Copy(ExcelWorksheet, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet, System.Int32, System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: Copy
+    nameWithType: ExcelDrawing.Copy
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: Copy
+    nameWithType: ExcelDrawing.Copy
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -1532,3 +1748,25 @@ references:
   name: Dispose
   nameWithType: ExcelPicture.Dispose
   fullName: OfficeOpenXml.Drawing.ExcelPicture.Dispose
+- uid: OfficeOpenXml.Drawing.ExcelPicture.Rotation*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelPicture.Rotation
+  name: Rotation
+  nameWithType: ExcelPicture.Rotation
+  fullName: OfficeOpenXml.Drawing.ExcelPicture.Rotation
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip
+  name: HorizontalFlip
+  nameWithType: ExcelPicture.HorizontalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelPicture.HorizontalFlip
+- uid: OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip
+  name: VerticalFlip
+  nameWithType: ExcelPicture.VerticalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelPicture.VerticalFlip

@@ -25,10 +25,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ICouponProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nICouponProvider\n"
+  example: []
   syntax:
     content: public interface ICouponProvider
     content.vb: Public Interface ICouponProvider
@@ -56,23 +58,30 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupdaybs
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-    startLine: 18
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGetCoupdaybs\n"
+  example: []
   syntax:
     content: double GetCoupdaybs(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
     parameters:
     - id: settlement
       type: System.DateTime
+      description: ''
     - id: maturity
       type: System.DateTime
+      description: ''
     - id: frequency
       type: System.Int32
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetCoupdaybs(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs*
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
@@ -93,23 +102,30 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupdays
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-    startLine: 20
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nCoupDays\n"
+  example: []
   syntax:
     content: double GetCoupdays(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
     parameters:
     - id: settlement
       type: System.DateTime
+      description: ''
     - id: maturity
       type: System.DateTime
+      description: ''
     - id: frequency
       type: System.Int32
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetCoupdays(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays*
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
@@ -130,23 +146,30 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupdaysnc
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-    startLine: 22
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nCoupdaysnc\n"
+  example: []
   syntax:
     content: double GetCoupdaysnc(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
     parameters:
     - id: settlement
       type: System.DateTime
+      description: ''
     - id: maturity
       type: System.DateTime
+      description: ''
     - id: frequency
       type: System.Int32
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetCoupdaysnc(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc*
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
@@ -167,23 +190,30 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupsncd
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-    startLine: 24
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGetCoupsncd\n"
+  example: []
   syntax:
     content: DateTime GetCoupsncd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
     parameters:
     - id: settlement
       type: System.DateTime
+      description: ''
     - id: maturity
       type: System.DateTime
+      description: ''
     - id: frequency
       type: System.Int32
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.DateTime
+      description: ''
     content.vb: Function GetCoupsncd(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Date
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd*
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
@@ -204,23 +234,30 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupnum
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-    startLine: 26
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGetCoupnum\n"
+  example: []
   syntax:
     content: double GetCoupnum(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
     parameters:
     - id: settlement
       type: System.DateTime
+      description: ''
     - id: maturity
       type: System.DateTime
+      description: ''
     - id: frequency
       type: System.Int32
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetCoupnum(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum*
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
@@ -241,23 +278,30 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCouppcd
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-    startLine: 28
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGetCouppcd\n"
+  example: []
   syntax:
     content: DateTime GetCouppcd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
     parameters:
     - id: settlement
       type: System.DateTime
+      description: ''
     - id: maturity
       type: System.DateTime
+      description: ''
     - id: frequency
       type: System.Int32
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.DateTime
+      description: ''
     content.vb: Function GetCouppcd(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Date
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd*
 references:

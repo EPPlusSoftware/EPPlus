@@ -9,6 +9,7 @@ items:
   - OfficeOpenXml.JsonExportSettings.CellsElementName
   - OfficeOpenXml.JsonExportSettings.ColumnsElementName
   - OfficeOpenXml.JsonExportSettings.Culture
+  - OfficeOpenXml.JsonExportSettings.DataIsTransposed
   - OfficeOpenXml.JsonExportSettings.Encoding
   - OfficeOpenXml.JsonExportSettings.Minify
   - OfficeOpenXml.JsonExportSettings.RootElementName
@@ -29,7 +30,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JsonExportSettings
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -77,7 +78,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minify
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 31
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -114,7 +115,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RootElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -153,7 +154,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDataTypesOn
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 39
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -192,7 +193,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnsElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 44
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -229,7 +230,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowsElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 48
+    startLine: 49
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -266,7 +267,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellsElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 52
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -303,7 +304,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteHyperlinks
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 56
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -340,7 +341,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteComments
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -377,7 +378,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encoding
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 64
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -414,7 +415,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Culture
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 68
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -427,6 +428,43 @@ items:
       type: System.Globalization.CultureInfo
     content.vb: Public Property Culture As CultureInfo
   overload: OfficeOpenXml.JsonExportSettings.Culture*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  commentId: P:OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  id: DataIsTransposed
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: DataIsTransposed
+  nameWithType: JsonExportSettings.DataIsTransposed
+  fullName: OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataIsTransposed
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet if data in worksheet is transposed.\n"
+  example: []
+  syntax:
+    content: public bool DataIsTransposed { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DataIsTransposed As Boolean
+  overload: OfficeOpenXml.JsonExportSettings.DataIsTransposed*
   modifiers.csharp:
   - public
   - get
@@ -827,3 +865,8 @@ references:
   name: System.Globalization
   nameWithType: System.Globalization
   fullName: System.Globalization
+- uid: OfficeOpenXml.JsonExportSettings.DataIsTransposed*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  name: DataIsTransposed
+  nameWithType: JsonExportSettings.DataIsTransposed
+  fullName: OfficeOpenXml.JsonExportSettings.DataIsTransposed

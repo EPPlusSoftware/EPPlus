@@ -8,12 +8,14 @@ items:
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeComments
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeDataValidations
+  - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeDrawings
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeFormulas
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeHyperLinks
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeMergedCells
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeStyles
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeThreadedComments
   - OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeValues
+  - OfficeOpenXml.ExcelRangeCopyOptionFlags.Transpose
   langs:
   - csharp
   - vb
@@ -351,6 +353,74 @@ items:
   example: []
   syntax:
     content: ExcludeConditionalFormatting = 256
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelRangeCopyOptionFlags.Transpose
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOptionFlags.Transpose
+  id: Transpose
+  parent: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  langs:
+  - csharp
+  - vb
+  name: Transpose
+  nameWithType: ExcelRangeCopyOptionFlags.Transpose
+  fullName: OfficeOpenXml.ExcelRangeCopyOptionFlags.Transpose
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Transpose
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTranspose the copied data\n"
+  example: []
+  syntax:
+    content: Transpose = 512
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeDrawings
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeDrawings
+  id: ExcludeDrawings
+  parent: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  langs:
+  - csharp
+  - vb
+  name: ExcludeDrawings
+  nameWithType: ExcelRangeCopyOptionFlags.ExcludeDrawings
+  fullName: OfficeOpenXml.ExcelRangeCopyOptionFlags.ExcludeDrawings
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcludeDrawings
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nExclude drawings from being copied\n"
+  example: []
+  syntax:
+    content: ExcludeDrawings = 1024
     return:
       type: OfficeOpenXml.ExcelRangeCopyOptionFlags
   modifiers.csharp:

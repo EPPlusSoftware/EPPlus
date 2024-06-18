@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml
   children:
   - OfficeOpenXml.ToCollectionRangeOptions.#ctor
+  - OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed
   - OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
   - OfficeOpenXml.ToCollectionRangeOptions.Default
   - OfficeOpenXml.ToCollectionRangeOptions.HeaderRow
@@ -198,6 +199,43 @@ items:
   - Public
   - Shared
   - ReadOnly
+- uid: OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed
+  commentId: P:OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed
+  id: DataIsTransposed
+  parent: OfficeOpenXml.ToCollectionRangeOptions
+  langs:
+  - csharp
+  - vb
+  name: DataIsTransposed
+  nameWithType: ToCollectionRangeOptions.DataIsTransposed
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataIsTransposed
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the data is transposed or not\n"
+  example: []
+  syntax:
+    content: public bool DataIsTransposed { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DataIsTransposed As Boolean
+  overload: OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.ExcelRangeBase.ToCollection``1
   commentId: M:OfficeOpenXml.ExcelRangeBase.ToCollection``1
@@ -705,3 +743,15 @@ references:
   name: Default
   nameWithType: ToCollectionRangeOptions.Default
   fullName: OfficeOpenXml.ToCollectionRangeOptions.Default
+- uid: OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed*
+  commentId: Overload:OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed
+  name: DataIsTransposed
+  nameWithType: ToCollectionRangeOptions.DataIsTransposed
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.DataIsTransposed
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

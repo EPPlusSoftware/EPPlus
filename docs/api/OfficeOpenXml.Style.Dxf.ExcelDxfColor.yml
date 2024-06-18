@@ -14,6 +14,7 @@ items:
   - OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor)
   - OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor(OfficeOpenXml.Style.ExcelIndexedColor)
   - OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor(System.Drawing.Color)
+  - OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.Style.Dxf.ExcelDxfColor.Theme
   - OfficeOpenXml.Style.Dxf.ExcelDxfColor.Tint
   langs:
@@ -77,7 +78,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 33
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -114,7 +115,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 49
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -151,7 +152,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 65
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -188,7 +189,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 81
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -225,7 +226,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 97
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -262,7 +263,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 126
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -298,7 +299,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 140
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -334,7 +335,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 153
+    startLine: 152
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -370,7 +371,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAuto
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 163
+    startLine: 162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -380,6 +381,51 @@ items:
     content: public void SetAuto()
     content.vb: Public Sub SetAuto
   overload: OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetAuto*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
+  id: SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  langs:
+  - csharp
+  - vb
+  name: SetColor(Int32, Int32, Int32, Int32)
+  nameWithType: ExcelDxfColor.SetColor(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor(System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColor
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
+    startLine: 176
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nSet the color of the object\n"
+  example: []
+  syntax:
+    content: public void SetColor(int alpha, int red, int green, int blue)
+    parameters:
+    - id: alpha
+      type: System.Int32
+      description: Alpha component value
+    - id: red
+      type: System.Int32
+      description: Red component value
+    - id: green
+      type: System.Int32
+      description: Green component value
+    - id: blue
+      type: System.Int32
+      description: Blue component value
+    content.vb: Public Sub SetColor(alpha As Integer, red As Integer, green As Integer, blue As Integer)
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetColor*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -402,7 +448,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 192
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -442,7 +488,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-    startLine: 206
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -1157,6 +1203,13 @@ references:
   name: SetAuto
   nameWithType: ExcelDxfColor.SetAuto
   fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor.SetAuto
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
 - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
   commentId: P:OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
   parent: OfficeOpenXml.Style.Dxf.DxfStyleBase

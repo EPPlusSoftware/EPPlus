@@ -26,14 +26,17 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FinanceCalcResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 19
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nFinance Calculation Result\n"
+  example: []
   syntax:
     content: public class FinanceCalcResult<T>
     typeParameters:
     - id: T
+      description: ''
     content.vb: Public Class FinanceCalcResult(Of T)
   inheritance:
   - System.Object
@@ -72,15 +75,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 21
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nConstructor result\n"
+  example: []
   syntax:
     content: public FinanceCalcResult(T result)
     parameters:
     - id: result
       type: '{T}'
+      description: ''
     content.vb: Public Sub New(result As T)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
   nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult(T)
@@ -107,17 +113,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 41
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nConstructor result and datatype\n"
+  example: []
   syntax:
     content: public FinanceCalcResult(T result, DataType dataType)
     parameters:
     - id: result
       type: '{T}'
+      description: ''
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: ''
     content.vb: Public Sub New(result As T, dataType As DataType)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
   nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult(T, DataType)
@@ -144,15 +154,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 47
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nError constructor\n"
+  example: []
   syntax:
     content: public FinanceCalcResult(eErrorType error)
     parameters:
     - id: error
       type: OfficeOpenXml.eErrorType
+      description: ''
     content.vb: Public Sub New(error As eErrorType)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
   nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult(eErrorType)
@@ -179,10 +192,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Result
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 53
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nResult\n"
+  example: []
   syntax:
     content: public T Result { get; }
     parameters: []
@@ -216,10 +231,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 55
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nDataType\n"
+  example: []
   syntax:
     content: public DataType DataType { get; }
     parameters: []
@@ -253,10 +270,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasError
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 57
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nHas error\n"
+  example: []
   syntax:
     content: public bool HasError { get; }
     parameters: []
@@ -290,10 +309,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorType
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-    startLine: 62
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nError type\n"
+  example: []
   syntax:
     content: public eErrorType ExcelErrorType { get; }
     parameters: []

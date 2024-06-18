@@ -144,7 +144,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nA flag indicating if the items are hidden\n"
+  summary: "\nA flag indicating if the item is hidden\n"
   example: []
   syntax:
     content: public bool Hidden { get; set; }
@@ -181,7 +181,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nA flag indicating if the items expanded or collapsed.\n"
+  summary: "\nA flag indicating if the items is expanded or collapsed.\n"
   example: []
   syntax:
     content: public bool ShowDetails { get; set; }

@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders
   - OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose
   langs:
   - csharp
   - vb
@@ -114,6 +115,43 @@ items:
       type: System.Nullable{OfficeOpenXml.Table.TableStyles}
     content.vb: Public Property TableStyle As TableStyles?
   overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose
+  commentId: P:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose
+  id: Transpose
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  langs:
+  - csharp
+  - vb
+  name: Transpose
+  nameWithType: LoadFromDataTableParams.Transpose
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Transpose
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nTranspose the loaded data\n"
+  example: []
+  syntax:
+    content: public bool Transpose { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Transpose As Boolean
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose*
   modifiers.csharp:
   - public
   - get
@@ -605,3 +643,8 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose
+  name: Transpose
+  nameWithType: LoadFromDataTableParams.Transpose
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.Transpose

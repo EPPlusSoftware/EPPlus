@@ -1,0 +1,963 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  id: ExcelManualLayout
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode
+  langs:
+  - csharp
+  - vb
+  name: ExcelManualLayout
+  nameWithType: ExcelManualLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelManualLayout
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nManual layout for specifing positions of elements manually.\nFor easiest use it is recommended to not change the modes of width or height.\nLeft and Top are used to determine x and y position\nWidth and Height to define the width and height of the element.\nBy default all elements originate from their default\nUse eLayoutMode.Edge to set origin to the edge of the chart for the relevant element.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelManualLayout : XmlHelper'
+    content.vb: >-
+      Public Class ExcelManualLayout
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode
+  id: LeftMode
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: LeftMode
+  nameWithType: ExcelManualLayout.LeftMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftMode
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine mode for Left (x) attribute\nEdge for origin point left chart edge, Factor for origin point DataLabel position\n"
+  example: []
+  syntax:
+    content: public eLayoutMode LeftMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+    content.vb: Public Property LeftMode As eLayoutMode
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode
+  id: TopMode
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: TopMode
+  nameWithType: ExcelManualLayout.TopMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopMode
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine mode for Top (y) attribute\nEdge for origin point top chart edge, Factor for origin point DataLabel position\n"
+  example: []
+  syntax:
+    content: public eLayoutMode TopMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+    content.vb: Public Property TopMode As eLayoutMode
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode
+  id: WidthMode
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: WidthMode
+  nameWithType: ExcelManualLayout.WidthMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WidthMode
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine mode for Width (Right) attribute\nUsing edge is not recommended.\nEdge for Width to be considered the Right of the chart element.\nNote: In this case Width will be used for determining Both the element width and its right.\n"
+  example: []
+  syntax:
+    content: public eLayoutMode WidthMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+    content.vb: Public Property WidthMode As eLayoutMode
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode
+  id: HeightMode
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: HeightMode
+  nameWithType: ExcelManualLayout.HeightMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeightMode
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine mode for Height (Bottom) attribute\nUsing edge is not recommended.\nEdge for Height to be considered the bottom of the chart element.\nNote: In this case Height will be used for determining Both the element width and its bottom.\n"
+  example: []
+  syntax:
+    content: public eLayoutMode HeightMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+    content.vb: Public Property HeightMode As eLayoutMode
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode
+  id: LegacyWidthMode
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: LegacyWidthMode
+  nameWithType: ExcelManualLayout.LegacyWidthMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyWidthMode
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine mode for Width (Right) attribute\nUsing edge is not recommended.\nEdge for Width to be considered the Right of the chart element.\nNote: In this case Width will be used for determining Both the element width and its right.<p></p>\nLegacy variable. if WidthMode property is set this will be overridden.\n"
+  example: []
+  syntax:
+    content: public eLayoutMode LegacyWidthMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+    content.vb: Public Property LegacyWidthMode As eLayoutMode
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode
+  id: LegacyHeightMode
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: LegacyHeightMode
+  nameWithType: ExcelManualLayout.LegacyHeightMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyHeightMode
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine mode for Height (Bottom) attribute\nUsing edge is not recommended.\nEdge for Height to be considered the bottom of the chart element.<p></p>\nLegacy variable. if HeightMode property is set this will be overridden.\n"
+  example: []
+  syntax:
+    content: public eLayoutMode LegacyHeightMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+    content.vb: Public Property LegacyHeightMode As eLayoutMode
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: ExcelManualLayout.Left
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLeft offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.\nIn Edge mode negative values are not allowed.\n"
+  example: []
+  syntax:
+    content: public double? Left { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Left As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: ExcelManualLayout.Top
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nTop offset between 100 to -100% of the chart height. In Excel exceeding these values counts as setting the property to 0.\nIn Edge mode negative values are not allowed.\n"
+  example: []
+  syntax:
+    content: public double? Top { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Top As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width
+  id: Width
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: ExcelManualLayout.Width
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Width
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nWidth offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.\n"
+  example: []
+  syntax:
+    content: public double? Width { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Width As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height
+  id: Height
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: ExcelManualLayout.Height
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Height
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 188
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nHeight offset between 100 to -100% of the chart height. In Excel exceeding these values counts as setting the property to 0.\n"
+  example: []
+  syntax:
+    content: public double? Height { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Height As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth
+  id: LegacyWidth
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: LegacyWidth
+  nameWithType: ExcelManualLayout.LegacyWidth
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyWidth
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 207
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nRight offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.\nLegacy variable. if Height property is set this will be overridden.\n"
+  example: []
+  syntax:
+    content: public double? LegacyWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LegacyWidth As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight
+  id: LegacyHeight
+  parent: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  langs:
+  - csharp
+  - vb
+  name: LegacyHeight
+  nameWithType: ExcelManualLayout.LegacyHeight
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyHeight
+    path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBottom offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.\nLegacy variable. if Height property is set this will be overridden.\n"
+  example: []
+  syntax:
+    content: public double? LegacyHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LegacyHeight As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode
+  name: LeftMode
+  nameWithType: ExcelManualLayout.LeftMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LeftMode
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLayoutMode
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLayoutMode
+  nameWithType: eLayoutMode
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutMode
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode
+  name: TopMode
+  nameWithType: ExcelManualLayout.TopMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.TopMode
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode
+  name: WidthMode
+  nameWithType: ExcelManualLayout.WidthMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.WidthMode
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode
+  name: HeightMode
+  nameWithType: ExcelManualLayout.HeightMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.HeightMode
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode
+  name: LegacyWidthMode
+  nameWithType: ExcelManualLayout.LegacyWidthMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidthMode
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode
+  name: LegacyHeightMode
+  nameWithType: ExcelManualLayout.LegacyHeightMode
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeightMode
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left
+  name: Left
+  nameWithType: ExcelManualLayout.Left
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Left
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top
+  name: Top
+  nameWithType: ExcelManualLayout.Top
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Top
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width
+  name: Width
+  nameWithType: ExcelManualLayout.Width
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Width
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height
+  name: Height
+  nameWithType: ExcelManualLayout.Height
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.Height
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth
+  name: LegacyWidth
+  nameWithType: ExcelManualLayout.LegacyWidth
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyWidth
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight
+  name: LegacyHeight
+  nameWithType: ExcelManualLayout.LegacyHeight
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout.LegacyHeight

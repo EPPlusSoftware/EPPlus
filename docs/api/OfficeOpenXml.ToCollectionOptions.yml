@@ -21,7 +21,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionOptions
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-    startLine: 65
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -69,7 +69,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCustomHeaders
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-    startLine: 76
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -108,7 +108,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConversionFailureStrategy
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-    startLine: 83
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

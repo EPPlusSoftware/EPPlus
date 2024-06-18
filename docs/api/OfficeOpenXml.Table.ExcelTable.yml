@@ -38,6 +38,7 @@ items:
   - OfficeOpenXml.Table.ExcelTable.Sort(System.Action{OfficeOpenXml.Sorting.TableSortOptions})
   - OfficeOpenXml.Table.ExcelTable.SortState
   - OfficeOpenXml.Table.ExcelTable.StyleName
+  - OfficeOpenXml.Table.ExcelTable.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom,System.Boolean)
   - OfficeOpenXml.Table.ExcelTable.TableBorderStyle
   - OfficeOpenXml.Table.ExcelTable.TableStyle
   - OfficeOpenXml.Table.ExcelTable.TableUri
@@ -73,7 +74,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 38
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -126,7 +127,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableXml
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 140
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -163,7 +164,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableUri
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 148
+    startLine: 163
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -200,7 +201,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 175
+    startLine: 190
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -237,7 +238,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkSheet
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 216
+    startLine: 231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -274,7 +275,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 226
+    startLine: 241
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -311,7 +312,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 245
+    startLine: 260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -348,7 +349,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 270
+    startLine: 285
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -386,7 +387,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 278
+    startLine: 293
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -421,7 +422,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 289
+    startLine: 304
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -463,7 +464,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 300
+    startLine: 315
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -501,7 +502,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 310
+    startLine: 325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -542,7 +543,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 322
+    startLine: 337
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -584,7 +585,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 333
+    startLine: 348
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -626,7 +627,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 344
+    startLine: 359
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -671,7 +672,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 355
+    startLine: 370
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -716,7 +717,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 365
+    startLine: 380
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -756,7 +757,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 376
+    startLine: 391
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -802,7 +803,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 395
+    startLine: 410
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -840,7 +841,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 403
+    startLine: 418
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -875,7 +876,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 413
+    startLine: 428
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -917,7 +918,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 423
+    startLine: 438
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -953,7 +954,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 433
+    startLine: 448
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -995,7 +996,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 462
+    startLine: 477
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1036,7 +1037,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 472
+    startLine: 487
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1080,7 +1081,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 487
+    startLine: 502
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1121,7 +1122,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 504
+    startLine: 519
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1166,7 +1167,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 519
+    startLine: 534
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1211,7 +1212,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 549
+    startLine: 564
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1256,7 +1257,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 565
+    startLine: 580
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1304,7 +1305,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 583
+    startLine: 598
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1352,7 +1353,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 606
+    startLine: 621
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1389,7 +1390,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 621
+    startLine: 636
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1406,6 +1407,45 @@ items:
   - public
   - get
   - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom,System.Boolean)
+  id: SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom,System.Boolean)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SyncColumnNames(ApplyDataFrom, Boolean)
+  nameWithType: ExcelTable.SyncColumnNames(ApplyDataFrom, Boolean)
+  fullName: OfficeOpenXml.Table.ExcelTable.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SyncColumnNames
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 663
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\n<p>Update column names with cell values or cell values with column names</p>\n<p><xref href=\"OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells\" data-throw-if-not-resolved=\"false\"></xref> overwrites the top row cell values with the column names.</p>\n<p><xref href=\"OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames\" data-throw-if-not-resolved=\"false\"></xref> overwrites the column names with the top row cell values. \nIf the cell is empty it instead overwrites the cell value with the column name unless <code data-dev-comment-type=\"paramref\" class=\"paramref\">syncEmptyCells</code> is set to false.</p>\n"
+  example: []
+  syntax:
+    content: public void SyncColumnNames(ApplyDataFrom dataOrigin, bool syncEmptyCells = true)
+    parameters:
+    - id: dataOrigin
+      type: OfficeOpenXml.Table.ApplyDataFrom
+      description: Target data to be overwritten
+    - id: syncEmptyCells
+      type: System.Boolean
+      description: Set to false to not fill empty cell with column name
+    content.vb: Public Sub SyncColumnNames(dataOrigin As ApplyDataFrom, syncEmptyCells As Boolean = True)
+  overload: OfficeOpenXml.Table.ExcelTable.SyncColumnNames*
+  modifiers.csharp:
+  - public
   modifiers.vb:
   - Public
 - uid: OfficeOpenXml.Table.ExcelTable.ShowHeader
@@ -1426,7 +1466,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeader
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 642
+    startLine: 717
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1463,7 +1503,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFilter
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 705
+    startLine: 768
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1500,7 +1540,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFilter
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 750
+    startLine: 813
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1537,7 +1577,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowTotal
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 781
+    startLine: 844
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1574,7 +1614,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 825
+    startLine: 888
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1611,7 +1651,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFirstColumn
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 872
+    startLine: 935
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1648,7 +1688,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLastColumn
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 887
+    startLine: 950
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1685,7 +1725,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowRowStripes
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 902
+    startLine: 965
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1722,7 +1762,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowColumnStripes
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 917
+    startLine: 980
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1759,7 +1799,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowCellStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 933
+    startLine: 996
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1796,7 +1836,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 957
+    startLine: 1020
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1833,7 +1873,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRowCellStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 984
+    startLine: 1047
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1870,7 +1910,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1011
+    startLine: 1074
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1914,7 +1954,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1020
+    startLine: 1083
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1955,7 +1995,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRow
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1029
+    startLine: 1092
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1994,7 +2034,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertRow
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1040
+    startLine: 1103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2039,7 +2079,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteRow
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1137
+    startLine: 1200
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2081,7 +2121,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRowBorderStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1255
+    startLine: 1318
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2118,7 +2158,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableBorderStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1270
+    startLine: 1333
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2155,7 +2195,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortState
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1282
+    startLine: 1345
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2192,7 +2232,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1333
+    startLine: 1396
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2229,7 +2269,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1347
+    startLine: 1410
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -3712,11 +3752,23 @@ references:
   name: TableStyles
   nameWithType: TableStyles
   fullName: OfficeOpenXml.Table.TableStyles
-- uid: OfficeOpenXml.Table.ExcelTable.ShowHeader*
-  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowHeader
-  name: ShowHeader
-  nameWithType: ExcelTable.ShowHeader
-  fullName: OfficeOpenXml.Table.ExcelTable.ShowHeader
+- uid: OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells
+  commentId: F:OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells
+  isExternal: true
+- uid: OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames
+  commentId: F:OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames
+  isExternal: true
+- uid: OfficeOpenXml.Table.ExcelTable.SyncColumnNames*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.SyncColumnNames
+  name: SyncColumnNames
+  nameWithType: ExcelTable.SyncColumnNames
+  fullName: OfficeOpenXml.Table.ExcelTable.SyncColumnNames
+- uid: OfficeOpenXml.Table.ApplyDataFrom
+  commentId: T:OfficeOpenXml.Table.ApplyDataFrom
+  parent: OfficeOpenXml.Table
+  name: ApplyDataFrom
+  nameWithType: ApplyDataFrom
+  fullName: OfficeOpenXml.Table.ApplyDataFrom
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
@@ -3724,6 +3776,11 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: OfficeOpenXml.Table.ExcelTable.ShowHeader*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowHeader
+  name: ShowHeader
+  nameWithType: ExcelTable.ShowHeader
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowHeader
 - uid: OfficeOpenXml.Table.ExcelTable.AutoFilter*
   commentId: Overload:OfficeOpenXml.Table.ExcelTable.AutoFilter
   name: AutoFilter

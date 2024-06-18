@@ -24,7 +24,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArrayCompileResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 408
+    startLine: 479
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -90,19 +90,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 410
+    startLine: 487
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nConstructor\n"
+  example: []
   syntax:
     content: public DynamicArrayCompileResult(object result, DataType dataType, FormulaRangeAddress address)
     parameters:
     - id: result
       type: System.Object
+      description: ''
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: ''
     - id: address
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: ''
     content.vb: Public Sub New(result As Object, dataType As DataType, address As FormulaRangeAddress)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor*
   modifiers.csharp:
@@ -127,17 +132,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 414
+    startLine: 496
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nConstructor\n"
+  example: []
   syntax:
     content: public DynamicArrayCompileResult(object result, DataType dataType)
     parameters:
     - id: result
       type: System.Object
+      description: ''
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: ''
     content.vb: Public Sub New(result As Object, dataType As DataType)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor*
   modifiers.csharp:
@@ -162,15 +171,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 418
+    startLine: 504
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nConstructor\n"
+  example: []
   syntax:
     content: public DynamicArrayCompileResult(eErrorType error)
     parameters:
     - id: error
       type: OfficeOpenXml.eErrorType
+      description: ''
     content.vb: Public Sub New(error As eErrorType)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor*
   modifiers.csharp:
@@ -195,15 +207,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 422
+    startLine: 512
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nConstructor\n"
+  example: []
   syntax:
     content: public DynamicArrayCompileResult(ExcelErrorValue errorValue)
     parameters:
     - id: errorValue
       type: OfficeOpenXml.ExcelErrorValue
+      description: ''
     content.vb: Public Sub New(errorValue As ExcelErrorValue)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor*
   modifiers.csharp:
@@ -228,7 +243,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 429
+    startLine: 519
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

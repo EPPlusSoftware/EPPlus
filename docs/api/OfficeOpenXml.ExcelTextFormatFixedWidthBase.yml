@@ -1,0 +1,1255 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  commentId: T:OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  id: ExcelTextFormatFixedWidthBase
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes(OfficeOpenXml.eDataTypes[])
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths(System.Int32[])
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType(OfficeOpenXml.PaddingAlignmentType[])
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions(System.Int32,System.Int32[])
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames(System.String[])
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns(System.Boolean[])
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextFormatFixedWidthBase
+  nameWithType: ExcelTextFormatFixedWidthBase
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTextFormatFixedWidthBase
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDescribes how to import a fixed width text file.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTextFormatFixedWidthBase : ExcelTextFileFormat'
+    content.vb: >-
+      Public Class ExcelTextFormatFixedWidthBase
+          Inherits ExcelTextFileFormat
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.ExcelTextFileFormat
+  derivedClasses:
+  - OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - OfficeOpenXml.ExcelTextFormatFixedWidth
+  inheritedMembers:
+  - OfficeOpenXml.ExcelTextFileFormat.EOL
+  - OfficeOpenXml.ExcelTextFileFormat.Culture
+  - OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  - OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  - OfficeOpenXml.ExcelTextFileFormat.Encoding
+  - OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  - OfficeOpenXml.ExcelTextFileFormat.Transpose
+  - OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  - OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns
+  commentId: P:OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns
+  id: Columns
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: Columns
+  nameWithType: ExcelTextFormatFixedWidthBase.Columns
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Columns
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe collection of column formats.\n"
+  example: []
+  syntax:
+    content: public EPPlusReadOnlyList<ExcelTextFormatColumn> Columns { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExcelTextFormatColumn}
+    content.vb: Public Property Columns As EPPlusReadOnlyList(Of ExcelTextFormatColumn)
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+  commentId: P:OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+  id: FormatErrorStrategy
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: FormatErrorStrategy
+  nameWithType: ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormatErrorStrategy
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe strategy to use when writing fixed width text files.\n"
+  example: []
+  syntax:
+    content: public FixedWidthFormatErrorStrategy FormatErrorStrategy { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FixedWidthFormatErrorStrategy
+    content.vb: Public Property FormatErrorStrategy As FixedWidthFormatErrorStrategy
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter
+  commentId: P:OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter
+  id: PaddingCharacter
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: PaddingCharacter
+  nameWithType: ExcelTextFormatFixedWidthBase.PaddingCharacter
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaddingCharacter
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPadding character for Text Can be set to null to skip trimming padding characters when reading\n"
+  example: []
+  syntax:
+    content: public char PaddingCharacter { get; set; }
+    parameters: []
+    return:
+      type: System.Char
+    content.vb: Public Property PaddingCharacter As Char
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+  commentId: P:OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+  id: PaddingCharacterNumeric
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: PaddingCharacterNumeric
+  nameWithType: ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaddingCharacterNumeric
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPadding character for numbers.\n"
+  example: []
+  syntax:
+    content: public char? PaddingCharacterNumeric { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Char}
+    content.vb: Public Property PaddingCharacterNumeric As Char?
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength
+  commentId: P:OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength
+  id: LineLength
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: LineLength
+  nameWithType: ExcelTextFormatFixedWidthBase.LineLength
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineLength
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe length of the line to read. If set to widths, LineLength is sum of all columnLengths. If set to positions, LineLength is set to the value of the last index of columnLengths\n"
+  example: []
+  syntax:
+    content: public int LineLength { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property LineLength As Integer
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats
+  commentId: M:OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats
+  id: ClearColumnFormats
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: ClearColumnFormats()
+  nameWithType: ExcelTextFormatFixedWidthBase.ClearColumnFormats()
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClearColumnFormats
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nClear the collection of column formats.\n"
+  example: []
+  syntax:
+    content: public void ClearColumnFormats()
+    content.vb: Public Sub ClearColumnFormats
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths(System.Int32[])
+  commentId: M:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths(System.Int32[])
+  id: SetColumnLengths(System.Int32[])
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: SetColumnLengths(Int32[])
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnLengths(Int32[])
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths(System.Int32[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumnLengths
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the column length properties of fixed width text. For reading to end of line, set last index to 0 or a negative number.\n"
+  example: []
+  syntax:
+    content: public void SetColumnLengths(params int[] lengths)
+    parameters:
+    - id: lengths
+      type: System.Int32[]
+      description: ''
+    content.vb: Public Sub SetColumnLengths(ParamArray lengths As Integer())
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths*
+  nameWithType.vb: ExcelTextFormatFixedWidthBase.SetColumnLengths(Int32())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths(System.Int32())
+  name.vb: SetColumnLengths(Int32())
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions(System.Int32,System.Int32[])
+  commentId: M:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions(System.Int32,System.Int32[])
+  id: SetColumnPositions(System.Int32,System.Int32[])
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: SetColumnPositions(Int32, Int32[])
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnPositions(Int32, Int32[])
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions(System.Int32, System.Int32[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumnPositions
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the column start positions of fixed width text.\n"
+  example: []
+  syntax:
+    content: public void SetColumnPositions(int lineLength, params int[] positions)
+    parameters:
+    - id: lineLength
+      type: System.Int32
+      description: The Length of a line. Set to 0 or negative to read until end of line.
+    - id: positions
+      type: System.Int32[]
+      description: The positions where each column starts. This array requires atleast one element.
+    content.vb: Public Sub SetColumnPositions(lineLength As Integer, ParamArray positions As Integer())
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions*
+  nameWithType.vb: ExcelTextFormatFixedWidthBase.SetColumnPositions(Int32, Int32())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions(System.Int32, System.Int32())
+  name.vb: SetColumnPositions(Int32, Int32())
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes(OfficeOpenXml.eDataTypes[])
+  commentId: M:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes(OfficeOpenXml.eDataTypes[])
+  id: SetColumnDataTypes(OfficeOpenXml.eDataTypes[])
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: SetColumnDataTypes(eDataTypes[])
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnDataTypes(eDataTypes[])
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes(OfficeOpenXml.eDataTypes[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumnDataTypes
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 181
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the data types for each column.\n"
+  example: []
+  syntax:
+    content: public void SetColumnDataTypes(params eDataTypes[] dataTypes)
+    parameters:
+    - id: dataTypes
+      type: OfficeOpenXml.eDataTypes[]
+      description: ''
+    content.vb: Public Sub SetColumnDataTypes(ParamArray dataTypes As eDataTypes())
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes*
+  nameWithType.vb: ExcelTextFormatFixedWidthBase.SetColumnDataTypes(eDataTypes())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes(OfficeOpenXml.eDataTypes())
+  name.vb: SetColumnDataTypes(eDataTypes())
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType(OfficeOpenXml.PaddingAlignmentType[])
+  commentId: M:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType(OfficeOpenXml.PaddingAlignmentType[])
+  id: SetColumnPaddingAlignmentType(OfficeOpenXml.PaddingAlignmentType[])
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: SetColumnPaddingAlignmentType(PaddingAlignmentType[])
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType(PaddingAlignmentType[])
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType(OfficeOpenXml.PaddingAlignmentType[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumnPaddingAlignmentType
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 207
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the padding type for each column. \n"
+  example: []
+  syntax:
+    content: public void SetColumnPaddingAlignmentType(params PaddingAlignmentType[] paddingTypes)
+    parameters:
+    - id: paddingTypes
+      type: OfficeOpenXml.PaddingAlignmentType[]
+      description: ''
+    content.vb: Public Sub SetColumnPaddingAlignmentType(ParamArray paddingTypes As PaddingAlignmentType())
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType*
+  nameWithType.vb: ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType(PaddingAlignmentType())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType(OfficeOpenXml.PaddingAlignmentType())
+  name.vb: SetColumnPaddingAlignmentType(PaddingAlignmentType())
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns(System.Boolean[])
+  commentId: M:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns(System.Boolean[])
+  id: SetUseColumns(System.Boolean[])
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: SetUseColumns(Boolean[])
+  nameWithType: ExcelTextFormatFixedWidthBase.SetUseColumns(Boolean[])
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns(System.Boolean[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetUseColumns
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 233
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet flag for each column to be used. \n"
+  example: []
+  syntax:
+    content: public void SetUseColumns(params bool[] UseColumns)
+    parameters:
+    - id: UseColumns
+      type: System.Boolean[]
+      description: ''
+    content.vb: Public Sub SetUseColumns(ParamArray UseColumns As Boolean())
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns*
+  nameWithType.vb: ExcelTextFormatFixedWidthBase.SetUseColumns(Boolean())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns(System.Boolean())
+  name.vb: SetUseColumns(Boolean())
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames(System.String[])
+  commentId: M:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames(System.String[])
+  id: SetColumnsNames(System.String[])
+  parent: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  langs:
+  - csharp
+  - vb
+  name: SetColumnsNames(String[])
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnsNames(String[])
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames(System.String[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumnsNames
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
+    startLine: 259
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet flag for each column to be used. \n"
+  example: []
+  syntax:
+    content: public void SetColumnsNames(params string[] Names)
+    parameters:
+    - id: Names
+      type: System.String[]
+      description: ''
+    content.vb: Public Sub SetColumnsNames(ParamArray Names As String())
+  overload: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames*
+  nameWithType.vb: ExcelTextFormatFixedWidthBase.SetColumnsNames(String())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames(System.String())
+  name.vb: SetColumnsNames(String())
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.ExcelTextFileFormat
+  commentId: T:OfficeOpenXml.ExcelTextFileFormat
+  parent: OfficeOpenXml
+  name: ExcelTextFileFormat
+  nameWithType: ExcelTextFileFormat
+  fullName: OfficeOpenXml.ExcelTextFileFormat
+- uid: OfficeOpenXml.ExcelTextFileFormat.EOL
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.EOL
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: EOL
+  nameWithType: ExcelTextFileFormat.EOL
+  fullName: OfficeOpenXml.ExcelTextFileFormat.EOL
+- uid: OfficeOpenXml.ExcelTextFileFormat.Culture
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Culture
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: Culture
+  nameWithType: ExcelTextFileFormat.Culture
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Culture
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: SkipLinesBeginning
+  nameWithType: ExcelTextFileFormat.SkipLinesBeginning
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: SkipLinesEnd
+  nameWithType: ExcelTextFileFormat.SkipLinesEnd
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+- uid: OfficeOpenXml.ExcelTextFileFormat.Encoding
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Encoding
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: Encoding
+  nameWithType: ExcelTextFileFormat.Encoding
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Encoding
+- uid: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: ShouldUseRow
+  nameWithType: ExcelTextFileFormat.ShouldUseRow
+  fullName: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+- uid: OfficeOpenXml.ExcelTextFileFormat.Transpose
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Transpose
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: Transpose
+  nameWithType: ExcelTextFileFormat.Transpose
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Transpose
+- uid: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: TableStyle
+  nameWithType: ExcelTextFileFormat.TableStyle
+  fullName: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+- uid: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: FirstRowIsHeader
+  nameWithType: ExcelTextFileFormat.FirstRowIsHeader
+  fullName: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns
+  name: Columns
+  nameWithType: ExcelTextFormatFixedWidthBase.Columns
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.Columns
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExcelTextFormatColumn}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExcelTextFormatColumn}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<ExcelTextFormatColumn>
+  nameWithType: EPPlusReadOnlyList<ExcelTextFormatColumn>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExcelTextFormatColumn>
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelTextFormatColumn)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExcelTextFormatColumn)
+  name.vb: EPPlusReadOnlyList(Of ExcelTextFormatColumn)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelTextFormatColumn
+    name: ExcelTextFormatColumn
+    nameWithType: ExcelTextFormatColumn
+    fullName: OfficeOpenXml.ExcelTextFormatColumn
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelTextFormatColumn
+    name: ExcelTextFormatColumn
+    nameWithType: ExcelTextFormatColumn
+    fullName: OfficeOpenXml.ExcelTextFormatColumn
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+  name: FormatErrorStrategy
+  nameWithType: ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.FormatErrorStrategy
+- uid: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  commentId: T:OfficeOpenXml.FixedWidthFormatErrorStrategy
+  parent: OfficeOpenXml
+  name: FixedWidthFormatErrorStrategy
+  nameWithType: FixedWidthFormatErrorStrategy
+  fullName: OfficeOpenXml.FixedWidthFormatErrorStrategy
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter
+  name: PaddingCharacter
+  nameWithType: ExcelTextFormatFixedWidthBase.PaddingCharacter
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacter
+- uid: System.Char
+  commentId: T:System.Char
+  parent: System
+  isExternal: true
+  name: Char
+  nameWithType: Char
+  fullName: System.Char
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+  name: PaddingCharacterNumeric
+  nameWithType: ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.PaddingCharacterNumeric
+- uid: System.Nullable{System.Char}
+  commentId: T:System.Nullable{System.Char}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Char>
+  nameWithType: Nullable<Char>
+  fullName: System.Nullable<System.Char>
+  nameWithType.vb: Nullable(Of Char)
+  fullName.vb: System.Nullable(Of System.Char)
+  name.vb: Nullable(Of Char)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength
+  name: LineLength
+  nameWithType: ExcelTextFormatFixedWidthBase.LineLength
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.LineLength
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats
+  name: ClearColumnFormats
+  nameWithType: ExcelTextFormatFixedWidthBase.ClearColumnFormats
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.ClearColumnFormats
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths
+  name: SetColumnLengths
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnLengths
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnLengths
+- uid: System.Int32[]
+  isExternal: true
+  name: Int32[]
+  nameWithType: Int32[]
+  fullName: System.Int32[]
+  nameWithType.vb: Int32()
+  fullName.vb: System.Int32()
+  name.vb: Int32()
+  spec.csharp:
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions
+  name: SetColumnPositions
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnPositions
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPositions
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes
+  name: SetColumnDataTypes
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnDataTypes
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnDataTypes
+- uid: OfficeOpenXml.eDataTypes[]
+  isExternal: true
+  name: eDataTypes[]
+  nameWithType: eDataTypes[]
+  fullName: OfficeOpenXml.eDataTypes[]
+  nameWithType.vb: eDataTypes()
+  fullName.vb: OfficeOpenXml.eDataTypes()
+  name.vb: eDataTypes()
+  spec.csharp:
+  - uid: OfficeOpenXml.eDataTypes
+    name: eDataTypes
+    nameWithType: eDataTypes
+    fullName: OfficeOpenXml.eDataTypes
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.eDataTypes
+    name: eDataTypes
+    nameWithType: eDataTypes
+    fullName: OfficeOpenXml.eDataTypes
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType
+  name: SetColumnPaddingAlignmentType
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnPaddingAlignmentType
+- uid: OfficeOpenXml.PaddingAlignmentType[]
+  isExternal: true
+  name: PaddingAlignmentType[]
+  nameWithType: PaddingAlignmentType[]
+  fullName: OfficeOpenXml.PaddingAlignmentType[]
+  nameWithType.vb: PaddingAlignmentType()
+  fullName.vb: OfficeOpenXml.PaddingAlignmentType()
+  name.vb: PaddingAlignmentType()
+  spec.csharp:
+  - uid: OfficeOpenXml.PaddingAlignmentType
+    name: PaddingAlignmentType
+    nameWithType: PaddingAlignmentType
+    fullName: OfficeOpenXml.PaddingAlignmentType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.PaddingAlignmentType
+    name: PaddingAlignmentType
+    nameWithType: PaddingAlignmentType
+    fullName: OfficeOpenXml.PaddingAlignmentType
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns
+  name: SetUseColumns
+  nameWithType: ExcelTextFormatFixedWidthBase.SetUseColumns
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetUseColumns
+- uid: System.Boolean[]
+  isExternal: true
+  name: Boolean[]
+  nameWithType: Boolean[]
+  fullName: System.Boolean[]
+  nameWithType.vb: Boolean()
+  fullName.vb: System.Boolean()
+  name.vb: Boolean()
+  spec.csharp:
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames
+  name: SetColumnsNames
+  nameWithType: ExcelTextFormatFixedWidthBase.SetColumnsNames
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase.SetColumnsNames
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()

@@ -109,7 +109,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 129
+    startLine: 128
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -156,7 +156,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 139
+    startLine: 138
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -197,7 +197,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseAt
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 149
+    startLine: 148
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -238,7 +238,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseAt
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 163
+    startLine: 162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -285,7 +285,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 190
+    startLine: 189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -322,7 +322,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 198
+    startLine: 197
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing

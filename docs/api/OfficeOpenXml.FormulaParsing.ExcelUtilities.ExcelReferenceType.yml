@@ -7,7 +7,7 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowAndColumn
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowRelativeColumn
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsoluteColumn
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAndColumn
   langs:
   - csharp
@@ -23,10 +23,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelReferenceType
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nReference types for if an adress/cell is absolute or relative and in what way\n"
+  example: []
   syntax:
     content: public enum ExcelReferenceType
     content.vb: Public Enum ExcelReferenceType
@@ -54,10 +56,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AbsoluteRowAndColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-    startLine: 21
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nBoth Row and column are absolute\n"
+  example: []
   syntax:
     content: AbsoluteRowAndColumn = 1
     return:
@@ -86,10 +90,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AbsoluteRowRelativeColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-    startLine: 22
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nAbsolute row and relative column\n"
+  example: []
   syntax:
     content: AbsoluteRowRelativeColumn = 2
     return:
@@ -100,30 +106,32 @@ items:
   modifiers.vb:
   - Public
   - Const
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
-  commentId: F:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
-  id: RelativeRowAbsolutColumn
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsoluteColumn
+  commentId: F:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsoluteColumn
+  id: RelativeRowAbsoluteColumn
   parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
   langs:
   - csharp
   - vb
-  name: RelativeRowAbsolutColumn
-  nameWithType: ExcelReferenceType.RelativeRowAbsolutColumn
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
+  name: RelativeRowAbsoluteColumn
+  nameWithType: ExcelReferenceType.RelativeRowAbsoluteColumn
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsoluteColumn
   type: Field
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: RelativeRowAbsolutColumn
+    id: RelativeRowAbsoluteColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-    startLine: 23
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nRealtive row absolute column\n"
+  example: []
   syntax:
-    content: RelativeRowAbsolutColumn = 3
+    content: RelativeRowAbsoluteColumn = 3
     return:
       type: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
   modifiers.csharp:
@@ -150,10 +158,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RelativeRowAndColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-    startLine: 24
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nRelative row and relative column\n"
+  example: []
   syntax:
     content: RelativeRowAndColumn = 4
     return:

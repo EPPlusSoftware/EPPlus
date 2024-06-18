@@ -23,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -126,19 +126,28 @@ items:
   - OfficeOpenXml.ExcelRangeBase.FillList``1(System.Collections.Generic.IEnumerable{{T}})
   - OfficeOpenXml.ExcelRangeBase.FillList``1(System.Collections.Generic.IEnumerable{{T}},System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillListParams})
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,OfficeOpenXml.Table.TableStyles)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams})
   - OfficeOpenXml.ExcelRangeBase.LoadFromArrays(System.Collections.Generic.IEnumerable{System.Object[]})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}})
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams})
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormat)
@@ -146,6 +155,8 @@ items:
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo)
   - OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat)
   - OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat,OfficeOpenXml.Table.TableStyles,System.Boolean)
@@ -166,10 +177,16 @@ items:
   - OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
   - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
   - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.ToTextAsync
   - OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormat)
   - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
   - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.ToJson
   - OfficeOpenXml.ExcelRangeBase.ToJson(System.Action{OfficeOpenXml.JsonRangeExportSettings})
   - OfficeOpenXml.ExcelRangeBase.SaveToJson(System.IO.Stream)
@@ -261,7 +278,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 46
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -305,7 +322,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 106
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -352,7 +369,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 135
+    startLine: 136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -405,7 +422,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFormula
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 175
+    startLine: 176
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3030,6 +3047,107 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromDataReader(IDataReader, Boolean, String, Boolean, TableStyles)
+  nameWithType: ExcelRangeBase.LoadFromDataReader(IDataReader, Boolean, String, Boolean, TableStyles)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader, System.Boolean, System.String, System.Boolean, OfficeOpenXml.Table.TableStyles)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
+    name: LoadFromDataReader
+    nameWithType: ExcelRangeBase.LoadFromDataReader
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.IDataReader
+    name: IDataReader
+    nameWithType: IDataReader
+    fullName: System.Data.IDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
+    name: LoadFromDataReader
+    nameWithType: ExcelRangeBase.LoadFromDataReader
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.IDataReader
+    name: IDataReader
+    nameWithType: IDataReader
+    fullName: System.Data.IDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean)
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean)
   parent: OfficeOpenXml.ExcelRangeBase
@@ -3073,6 +3191,77 @@ references:
     name: IDataReader
     nameWithType: IDataReader
     fullName: System.Data.IDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromDataReader(IDataReader, Boolean, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataReader(IDataReader, Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader, System.Boolean, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
+    name: LoadFromDataReader
+    nameWithType: ExcelRangeBase.LoadFromDataReader
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.IDataReader
+    name: IDataReader
+    nameWithType: IDataReader
+    fullName: System.Data.IDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
+    name: LoadFromDataReader
+    nameWithType: ExcelRangeBase.LoadFromDataReader
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.IDataReader
+    name: IDataReader
+    nameWithType: IDataReader
+    fullName: System.Data.IDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -3211,6 +3400,148 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable<CancellationToken>)
+  nameWithType: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable<CancellationToken>)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.String, System.Boolean, OfficeOpenXml.Table.TableStyles, System.Nullable<System.Threading.CancellationToken>)
+  nameWithType.vb: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable(Of CancellationToken))
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.String, System.Boolean, OfficeOpenXml.Table.TableStyles, System.Nullable(Of System.Threading.CancellationToken))
+  name.vb: LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable(Of CancellationToken))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+    name: LoadFromDataReaderAsync
+    nameWithType: ExcelRangeBase.LoadFromDataReaderAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.Common.DbDataReader
+    name: DbDataReader
+    nameWithType: DbDataReader
+    fullName: System.Data.Common.DbDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+    name: LoadFromDataReaderAsync
+    nameWithType: ExcelRangeBase.LoadFromDataReaderAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.Common.DbDataReader
+    name: DbDataReader
+    nameWithType: DbDataReader
+    fullName: System.Data.Common.DbDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean)
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean)
   parent: OfficeOpenXml.ExcelRangeBase
@@ -3254,6 +3585,77 @@ references:
     name: DbDataReader
     nameWithType: DbDataReader
     fullName: System.Data.Common.DbDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromDataReaderAsync(DbDataReader, Boolean, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
+    name: LoadFromDataReaderAsync
+    nameWithType: ExcelRangeBase.LoadFromDataReaderAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.Common.DbDataReader
+    name: DbDataReader
+    nameWithType: DbDataReader
+    fullName: System.Data.Common.DbDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
+    name: LoadFromDataReaderAsync
+    nameWithType: ExcelRangeBase.LoadFromDataReaderAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.Common.DbDataReader
+    name: DbDataReader
+    nameWithType: DbDataReader
+    fullName: System.Data.Common.DbDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -3333,6 +3735,93 @@ references:
     name: CancellationToken
     nameWithType: CancellationToken
     fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromDataReaderAsync(DbDataReader, Boolean, CancellationToken, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, CancellationToken, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.Threading.CancellationToken, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
+    name: LoadFromDataReaderAsync
+    nameWithType: ExcelRangeBase.LoadFromDataReaderAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.Common.DbDataReader
+    name: DbDataReader
+    nameWithType: DbDataReader
+    fullName: System.Data.Common.DbDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
+    name: LoadFromDataReaderAsync
+    nameWithType: ExcelRangeBase.LoadFromDataReaderAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.Common.DbDataReader
+    name: DbDataReader
+    nameWithType: DbDataReader
+    fullName: System.Data.Common.DbDataReader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )
@@ -3428,6 +3917,116 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromDataTable(DataTable, Boolean, Nullable<TableStyles>, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataTable(DataTable, Boolean, Nullable<TableStyles>, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean)
+  nameWithType.vb: ExcelRangeBase.LoadFromDataTable(DataTable, Boolean, Nullable(Of TableStyles), Boolean)
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable, System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean)
+  name.vb: LoadFromDataTable(DataTable, Boolean, Nullable(Of TableStyles), Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+    name: LoadFromDataTable
+    nameWithType: ExcelRangeBase.LoadFromDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.DataTable
+    name: DataTable
+    nameWithType: DataTable
+    fullName: System.Data.DataTable
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+    name: LoadFromDataTable
+    nameWithType: ExcelRangeBase.LoadFromDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.DataTable
+    name: DataTable
+    nameWithType: DataTable
+    fullName: System.Data.DataTable
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -3648,6 +4247,76 @@ references:
     name: LoadFromArrays
     nameWithType: ExcelRangeBase.LoadFromArrays
     fullName: OfficeOpenXml.ExcelRangeBase.LoadFromArrays
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromArraysTransposed(IEnumerable<Object[]>)
+  nameWithType: ExcelRangeBase.LoadFromArraysTransposed(IEnumerable<Object[]>)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable<System.Object[]>)
+  nameWithType.vb: ExcelRangeBase.LoadFromArraysTransposed(IEnumerable(Of Object()))
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable(Of System.Object()))
+  name.vb: LoadFromArraysTransposed(IEnumerable(Of Object()))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
+    name: LoadFromArraysTransposed
+    nameWithType: ExcelRangeBase.LoadFromArraysTransposed
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
+    name: LoadFromArraysTransposed
+    nameWithType: ExcelRangeBase.LoadFromArraysTransposed
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed
   - name: (
     nameWithType: (
     fullName: (
@@ -3921,6 +4590,134 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  definition: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  name: LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>(System.Collections.Generic.IEnumerable<T>, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean)
+  nameWithType.vb: ExcelRangeBase.LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean)
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean)
+  name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+    name: LoadFromCollection<T>
+    nameWithType: ExcelRangeBase.LoadFromCollection<T>
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+    name: LoadFromCollection(Of T)
+    nameWithType: ExcelRangeBase.LoadFromCollection(Of T)
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   parent: OfficeOpenXml.ExcelRangeBase
@@ -4049,6 +4846,172 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.BindingFlags
+    name: BindingFlags
+    nameWithType: BindingFlags
+    fullName: System.Reflection.BindingFlags
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.MemberInfo
+    name: MemberInfo
+    nameWithType: MemberInfo
+    fullName: System.Reflection.MemberInfo
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{{T}},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  parent: OfficeOpenXml.ExcelRangeBase
+  definition: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  name: LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean, BindingFlags, MemberInfo[])
+  nameWithType: ExcelRangeBase.LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean, BindingFlags, MemberInfo[])
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>(System.Collections.Generic.IEnumerable<T>, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean, System.Reflection.BindingFlags, System.Reflection.MemberInfo[])
+  nameWithType.vb: ExcelRangeBase.LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean, BindingFlags, MemberInfo())
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean, System.Reflection.BindingFlags, System.Reflection.MemberInfo())
+  name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean, BindingFlags, MemberInfo())
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+    name: LoadFromCollection<T>
+    nameWithType: ExcelRangeBase.LoadFromCollection<T>
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.BindingFlags
+    name: BindingFlags
+    nameWithType: BindingFlags
+    fullName: System.Reflection.BindingFlags
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.MemberInfo
+    name: MemberInfo
+    nameWithType: MemberInfo
+    fullName: System.Reflection.MemberInfo
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+    name: LoadFromCollection(Of T)
+    nameWithType: ExcelRangeBase.LoadFromCollection(Of T)
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -4564,6 +5527,112 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromText(String, ExcelTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.LoadFromText(String, ExcelTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String, OfficeOpenXml.ExcelTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+    name: LoadFromText
+    nameWithType: ExcelRangeBase.LoadFromText
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelTextFormatFixedWidth
+    name: ExcelTextFormatFixedWidth
+    nameWithType: ExcelTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+    name: LoadFromText
+    nameWithType: ExcelRangeBase.LoadFromText
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelTextFormatFixedWidth
+    name: ExcelTextFormatFixedWidth
+    nameWithType: ExcelTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromText(FileInfo, ExcelTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.LoadFromText(FileInfo, ExcelTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo, OfficeOpenXml.ExcelTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
+    name: LoadFromText
+    nameWithType: ExcelRangeBase.LoadFromText
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelTextFormatFixedWidth
+    name: ExcelTextFormatFixedWidth
+    nameWithType: ExcelTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
+    name: LoadFromText
+    nameWithType: ExcelRangeBase.LoadFromText
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelTextFormatFixedWidth
+    name: ExcelTextFormatFixedWidth
+    nameWithType: ExcelTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelTextFormatFixedWidth
   - name: )
     nameWithType: )
     fullName: )
@@ -6154,6 +7223,148 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToText(ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.ToText(ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: ToText
+    nameWithType: ExcelRangeBase.ToText
+    fullName: OfficeOpenXml.ExcelRangeBase.ToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: ToText
+    nameWithType: ExcelRangeBase.ToText
+    fullName: OfficeOpenXml.ExcelRangeBase.ToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: SaveToText(FileInfo, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToText(FileInfo, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: SaveToText(Stream, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToText(Stream, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync
   commentId: M:OfficeOpenXml.ExcelRangeBase.ToTextAsync
   parent: OfficeOpenXml.ExcelRangeBase
@@ -6321,6 +7532,148 @@ references:
     name: ExcelOutputTextFormat
     nameWithType: ExcelOutputTextFormat
     fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToTextAsync(ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.ToTextAsync(ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: ToTextAsync
+    nameWithType: ExcelRangeBase.ToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: ToTextAsync
+    nameWithType: ExcelRangeBase.ToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: SaveToTextAsync(FileInfo, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToTextAsync(FileInfo, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToTextAsync
+    nameWithType: ExcelRangeBase.SaveToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToTextAsync
+    nameWithType: ExcelRangeBase.SaveToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: SaveToTextAsync(Stream, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToTextAsync(Stream, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToTextAsync
+    nameWithType: ExcelRangeBase.SaveToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+    name: SaveToTextAsync
+    nameWithType: ExcelRangeBase.SaveToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
+    nameWithType: ExcelOutputTextFormatFixedWidth
+    fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
   - name: )
     nameWithType: )
     fullName: )
@@ -9769,6 +11122,133 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  isExternal: true
+  name: LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>(System.Collections.Generic.IEnumerable<T>, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean)
+  nameWithType.vb: ExcelRangeBase.LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean)
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean)
+  name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+    name: LoadFromCollection<T>
+    nameWithType: ExcelRangeBase.LoadFromCollection<T>
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+    name: LoadFromCollection(Of T)
+    nameWithType: ExcelRangeBase.LoadFromCollection(Of T)
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   isExternal: true
@@ -9896,6 +11376,171 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.BindingFlags
+    name: BindingFlags
+    nameWithType: BindingFlags
+    fullName: System.Reflection.BindingFlags
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.MemberInfo
+    name: MemberInfo
+    nameWithType: MemberInfo
+    fullName: System.Reflection.MemberInfo
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  isExternal: true
+  name: LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean, BindingFlags, MemberInfo[])
+  nameWithType: ExcelRangeBase.LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean, BindingFlags, MemberInfo[])
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>(System.Collections.Generic.IEnumerable<T>, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean, System.Reflection.BindingFlags, System.Reflection.MemberInfo[])
+  nameWithType.vb: ExcelRangeBase.LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean, BindingFlags, MemberInfo())
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean, System.Reflection.BindingFlags, System.Reflection.MemberInfo())
+  name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean, BindingFlags, MemberInfo())
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+    name: LoadFromCollection<T>
+    nameWithType: ExcelRangeBase.LoadFromCollection<T>
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.BindingFlags
+    name: BindingFlags
+    nameWithType: BindingFlags
+    fullName: System.Reflection.BindingFlags
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Reflection.MemberInfo
+    name: MemberInfo
+    nameWithType: MemberInfo
+    fullName: System.Reflection.MemberInfo
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+    name: LoadFromCollection(Of T)
+    nameWithType: ExcelRangeBase.LoadFromCollection(Of T)
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
   - name: ', '
     nameWithType: ', '
     fullName: ', '

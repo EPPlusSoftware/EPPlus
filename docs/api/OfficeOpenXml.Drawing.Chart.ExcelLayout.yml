@@ -1,38 +1,39 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelCell
-  id: ExcelCell
-  parent: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelLayout
+  id: ExcelLayout
+  parent: OfficeOpenXml.Drawing.Chart
   children:
-  - OfficeOpenXml.FormulaParsing.ExcelCell.#ctor(System.Object,System.String,System.Int32,System.Int32)
-  - OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex
-  - OfficeOpenXml.FormulaParsing.ExcelCell.Formula
-  - OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex
-  - OfficeOpenXml.FormulaParsing.ExcelCell.Value
+  - OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout
   langs:
   - csharp
   - vb
-  name: ExcelCell
-  nameWithType: ExcelCell
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell
+  name: ExcelLayout
+  nameWithType: ExcelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLayout
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelCell.cs
+      path: src/EPPlus/Drawing/Chart/ExcelLayout.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ExcelCell
-    path: ../src/EPPlus/FormulaParsing/ExcelCell.cs
-    startLine: 19
+    id: ExcelLayout
+    path: ../src/EPPlus/Drawing/Chart/ExcelLayout.cs
+    startLine: 11
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLayout settings\n"
+  example: []
   syntax:
-    content: public class ExcelCell
-    content.vb: Public Class ExcelCell
+    content: 'public class ExcelLayout : XmlHelper'
+    content.vb: >-
+      Public Class ExcelLayout
+          Inherits XmlHelper
   inheritance:
   - System.Object
+  - OfficeOpenXml.XmlHelper
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -47,179 +48,37 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.#ctor(System.Object,System.String,System.Int32,System.Int32)
-  commentId: M:OfficeOpenXml.FormulaParsing.ExcelCell.#ctor(System.Object,System.String,System.Int32,System.Int32)
-  id: '#ctor(System.Object,System.String,System.Int32,System.Int32)'
-  parent: OfficeOpenXml.FormulaParsing.ExcelCell
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout
+  id: ManualLayout
+  parent: OfficeOpenXml.Drawing.Chart.ExcelLayout
   langs:
   - csharp
   - vb
-  name: ExcelCell(Object, String, Int32, Int32)
-  nameWithType: ExcelCell.ExcelCell(Object, String, Int32, Int32)
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.ExcelCell(System.Object, System.String, System.Int32, System.Int32)
-  type: Constructor
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ExcelCell.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: .ctor
-    path: ../src/EPPlus/FormulaParsing/ExcelCell.cs
-    startLine: 21
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  syntax:
-    content: public ExcelCell(object val, string formula, int colIndex, int rowIndex)
-    parameters:
-    - id: val
-      type: System.Object
-    - id: formula
-      type: System.String
-    - id: colIndex
-      type: System.Int32
-    - id: rowIndex
-      type: System.Int32
-    content.vb: Public Sub New(val As Object, formula As String, colIndex As Integer, rowIndex As Integer)
-  overload: OfficeOpenXml.FormulaParsing.ExcelCell.#ctor*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex
-  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex
-  id: ColIndex
-  parent: OfficeOpenXml.FormulaParsing.ExcelCell
-  langs:
-  - csharp
-  - vb
-  name: ColIndex
-  nameWithType: ExcelCell.ColIndex
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex
+  name: ManualLayout
+  nameWithType: ExcelLayout.ManualLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout
   type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelCell.cs
+      path: src/EPPlus/Drawing/Chart/ExcelLayout.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ColIndex
-    path: ../src/EPPlus/FormulaParsing/ExcelCell.cs
-    startLine: 29
+    id: ManualLayout
+    path: ../src/EPPlus/Drawing/Chart/ExcelLayout.cs
+    startLine: 18
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nManual layout settings for precise control of element position\n"
+  example: []
   syntax:
-    content: public int ColIndex { get; }
+    content: public ExcelManualLayout ManualLayout { get; }
     parameters: []
     return:
-      type: System.Int32
-    content.vb: Public ReadOnly Property ColIndex As Integer
-  overload: OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex
-  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex
-  id: RowIndex
-  parent: OfficeOpenXml.FormulaParsing.ExcelCell
-  langs:
-  - csharp
-  - vb
-  name: RowIndex
-  nameWithType: ExcelCell.RowIndex
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ExcelCell.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: RowIndex
-    path: ../src/EPPlus/FormulaParsing/ExcelCell.cs
-    startLine: 31
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  syntax:
-    content: public int RowIndex { get; }
-    parameters: []
-    return:
-      type: System.Int32
-    content.vb: Public ReadOnly Property RowIndex As Integer
-  overload: OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.Value
-  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCell.Value
-  id: Value
-  parent: OfficeOpenXml.FormulaParsing.ExcelCell
-  langs:
-  - csharp
-  - vb
-  name: Value
-  nameWithType: ExcelCell.Value
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.Value
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ExcelCell.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Value
-    path: ../src/EPPlus/FormulaParsing/ExcelCell.cs
-    startLine: 33
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  syntax:
-    content: public object Value { get; }
-    parameters: []
-    return:
-      type: System.Object
-    content.vb: Public ReadOnly Property Value As Object
-  overload: OfficeOpenXml.FormulaParsing.ExcelCell.Value*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.Formula
-  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCell.Formula
-  id: Formula
-  parent: OfficeOpenXml.FormulaParsing.ExcelCell
-  langs:
-  - csharp
-  - vb
-  name: Formula
-  nameWithType: ExcelCell.Formula
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.Formula
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ExcelCell.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Formula
-    path: ../src/EPPlus/FormulaParsing/ExcelCell.cs
-    startLine: 35
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  syntax:
-    content: public string Formula { get; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: Public ReadOnly Property Formula As String
-  overload: OfficeOpenXml.FormulaParsing.ExcelCell.Formula*
+      type: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+    content.vb: Public ReadOnly Property ManualLayout As ExcelManualLayout
+  overload: OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout*
   modifiers.csharp:
   - public
   - get
@@ -227,11 +86,11 @@ items:
   - Public
   - ReadOnly
 references:
-- uid: OfficeOpenXml.FormulaParsing
-  commentId: N:OfficeOpenXml.FormulaParsing
-  name: OfficeOpenXml.FormulaParsing
-  nameWithType: OfficeOpenXml.FormulaParsing
-  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -239,6 +98,12 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -524,42 +389,19 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.#ctor*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCell.#ctor
-  name: ExcelCell
-  nameWithType: ExcelCell.ExcelCell
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.ExcelCell
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex
-  name: ColIndex
-  nameWithType: ExcelCell.ColIndex
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.ColIndex
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex
-  name: RowIndex
-  nameWithType: ExcelCell.RowIndex
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.RowIndex
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.Value*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCell.Value
-  name: Value
-  nameWithType: ExcelCell.Value
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.Value
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell.Formula*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCell.Formula
-  name: Formula
-  nameWithType: ExcelCell.Formula
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell.Formula
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout
+  name: ManualLayout
+  nameWithType: ExcelLayout.ManualLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLayout.ManualLayout
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelManualLayout
+  nameWithType: ExcelManualLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout

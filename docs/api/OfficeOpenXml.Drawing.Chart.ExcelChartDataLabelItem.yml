@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.Drawing.Chart
   children:
   - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Index
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout
   langs:
   - csharp
   - vb
@@ -70,6 +71,43 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout
+  id: Layout
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem
+  langs:
+  - csharp
+  - vb
+  name: Layout
+  nameWithType: ExcelChartDataLabelItem.Layout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelItem.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Layout
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelItem.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine position for manual elements\n"
+  example: []
+  syntax:
+    content: public ExcelLayout Layout { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelLayout
+    content.vb: Public ReadOnly Property Layout As ExcelLayout
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Index
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Index
   id: Index
@@ -88,7 +126,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelItem.cs
-    startLine: 37
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -611,6 +649,17 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout
+  name: Layout
+  nameWithType: ExcelChartDataLabelItem.Layout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Layout
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelLayout
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelLayout
+  nameWithType: ExcelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLayout
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Index*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem.Index
   name: Index

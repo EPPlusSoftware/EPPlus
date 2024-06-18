@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLayoutMode
+  id: eLayoutMode
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eLayoutMode.Edge
+  - OfficeOpenXml.Drawing.Chart.eLayoutMode.Factor
+  langs:
+  - csharp
+  - vb
+  name: eLayoutMode
+  nameWithType: eLayoutMode
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLayoutMode.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLayoutMode
+    path: ../src/EPPlus/Drawing/Chart/enums/eLayoutMode.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nIn which way to store the position of a chart element\n"
+  example: []
+  syntax:
+    content: public enum eLayoutMode
+    content.vb: Public Enum eLayoutMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutMode.Factor
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLayoutMode.Factor
+  id: Factor
+  parent: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  langs:
+  - csharp
+  - vb
+  name: Factor
+  nameWithType: eLayoutMode.Factor
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutMode.Factor
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLayoutMode.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Factor
+    path: ../src/EPPlus/Drawing/Chart/enums/eLayoutMode.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStore as an offset from labels default position.\n"
+  example: []
+  syntax:
+    content: Factor = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutMode.Edge
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLayoutMode.Edge
+  id: Edge
+  parent: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  langs:
+  - csharp
+  - vb
+  name: Edge
+  nameWithType: eLayoutMode.Edge
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutMode.Edge
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLayoutMode.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Edge
+    path: ../src/EPPlus/Drawing/Chart/enums/eLayoutMode.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStore as an offset from the relevant Edge of the element\n"
+  example: []
+  syntax:
+    content: Edge = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLayoutMode
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLayoutMode
+  nameWithType: eLayoutMode
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutMode

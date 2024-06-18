@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IAddressInfo
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 92
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nAddress info\n"
+  example: []
   syntax:
     content: public interface IAddressInfo
     content.vb: Public Interface IAddressInfo
@@ -51,7 +53,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 97
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
