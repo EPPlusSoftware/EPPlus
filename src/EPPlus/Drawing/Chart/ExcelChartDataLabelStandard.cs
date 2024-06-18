@@ -27,13 +27,10 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, "c")
         {
-            AddSchemaNodeOrder([""], LabelNodeHolder.DataLabels.NodeOrder);
-            var order = SchemaNodeOrder;
-
             if (nodeName == "dLbl" || nodeName == "")
             {
-                AddSchemaNodeOrder([""], LabelNodeHolder.DataLabel.NodeOrder);
-                
+                SchemaNodeOrder = LabelNodeHolder.DataLabel.NodeOrder;
+
                 TopNode = node;
                 
                 var extPath = "c:extLst/c:ext";
@@ -57,6 +54,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else
             {
+                SchemaNodeOrder = schemaNodeOrder;
+
                 var fullNodeName = "c:" + nodeName;
                 var topNode = GetNode(fullNodeName);
                 if (topNode == null)
@@ -65,6 +64,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     topNode.InnerXml = "<c:showLegendKey val=\"0\" /><c:showVal val=\"0\" /><c:showCatName val=\"0\" /><c:showSerName val=\"0\" /><c:showPercent val=\"0\" /><c:showBubbleSize val=\"0\" /> <c:separator>\r\n</c:separator><c:showLeaderLines val=\"0\" />";
                 }
                 TopNode = topNode;
+                SchemaNodeOrder = LabelNodeHolder.DataLabels.NodeOrder;
             }
         }
 
@@ -161,11 +161,22 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
+                if(TopNode.LocalName == "dLbl")
+                {
+                    return GetXmlNodeBool(showLeaderLinesPath, TopNode.ParentNode);
+                }
                 return GetXmlNodeBool(showLeaderLinesPath);
             }
             set
             {
-                SetXmlNodeString(showLeaderLinesPath, value ? "1" : "0");
+                if (TopNode.LocalName == "dLbl")
+                {
+                    SetXmlNodeString(TopNode.ParentNode, showBubbleSizePath, value ? "1" : "0");
+                }
+                else
+                {
+                    SetXmlNodeString(showLeaderLinesPath, value ? "1" : "0");
+                }
             }
         }
         const string showBubbleSizePath = "c:showBubbleSize/@val";

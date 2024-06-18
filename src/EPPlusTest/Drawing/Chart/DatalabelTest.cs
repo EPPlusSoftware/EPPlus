@@ -296,9 +296,9 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
-        public void TwoLabelsOnSameSeries()
+        public void DataLabelsMultipleOneSeries()
         {
-            using (var pck = OpenPackage("ColumnChartStuffEasy.xlsx", true))
+            using (var pck = OpenPackage("DataLabelsMultipleOneSeries.xlsx", true))
             {
                 var cSheet = pck.Workbook.Worksheets.Add("ColumnChartSheet");
 
