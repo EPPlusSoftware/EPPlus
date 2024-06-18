@@ -65,13 +65,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             var width = xRangeList[0].Count();
             var height = xRangeList.Count();
+
+            //Gaussian elimination to get rank and which columns to be dropped due to collinearity
             var dropCols = MatrixHelper.GaussRank(xRangeList, constVar);
-            //if (constVar && dropCols.Contains(width - 1)) dropCols.Remove(width - 1); 
             var xRangeListCopy = xRangeList;
+
+            //columns are dropped based of off dropCols
             if (dropCols.Count() > 0) xRangeList = MatrixHelper.RemoveColumns(xRangeList, dropCols);
 
 
-            //Add check if all values in a column are the same, that variable is "redundant in that case!
+            
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
 
             double[] betaCoefficients = new double[multipleRegressionSlopes.Count() + dropCols.Count()];
@@ -344,7 +347,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 object fStatistic = 0d;
                 if (df != 0)
                 {
-                    fStatistic = (constVar) ? (ssreg / (width - 1)) / (ssresid / df) : (ssreg / width) / (ssresid / df);
+                    fStatistic = (constVar) ? (ssreg / (width - 1 - dropCols.Count())) / (ssresid / df) : (ssreg / width) / (ssresid / df); // - dropCols.Count() for case when constVar = False?
                 }
                 else
                 {
@@ -352,12 +355,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
 
                 //Calculating standard errors of all coefficients below
-                var residualMS = (df != 0d) ? ssresid / (height - width) : 0d; //Mean squared of the sum of residual
-                var xT = MatrixHelper.TransposeMatrix(xRangeListCopy, height, width);
-                var xTdotX = MatrixHelper.Multiply(xT, xRangeListCopy);
-                //var inverseMat = GetInverse(xTdotX, out bool mIs);
+                var residualMS = (df != 0d) ? ssresid / (height - width + dropCols.Count()) : 0d; //Mean squared of the sum of residual
+                var xT = MatrixHelper.TransposeMatrix(xRangeList, height, width - dropCols.Count());
+                var xTdotX = MatrixHelper.Multiply(xT, xRangeList);
                 var inverseMat = MatrixHelper.Inverse(xTdotX);
-                var mIs = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false; //Have not tested this threshold
+                var mIs = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false;
 
                 if (mIs)
                 {
@@ -370,7 +372,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     }
                 }
 
-                //Need to fix how to calculate the standard errors for data sets with collinearity
+                //Standard errors are derived from the inverse matrix of sum of squares and cross product (SSCP matrix) multiplied with residualMS
+                //The standard errors are the squared root of the main diagonal of this matrix.
+
                 var standardErrorMat = MatrixHelper.MatrixMultDouble(inverseMat, residualMS);
                 var diagonal = MatrixHelper.MatrixDiagonal(standardErrorMat);
                 double[] standardErrorList = new double[diagonal.Count()];
@@ -378,22 +382,61 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 {
                     standardErrorList[i] = Math.Sqrt(diagonal[i]);
                 }
-                //var standardErrorList = diagonal.Select(x => Math.Sqrt(x)).ToList(); //Standard errors are derived from the inverse matrix of sum of squares and cross product (SSCP matrix) multiplied with residualMS
-                                                                                     //The standard errors are the squared root of the main diagonal of this matrix.
 
-                if (constVar)
+                //Adjust the standard errors of collinear columns to zero
+                double[] standardErrorArray = new double[standardErrorList.Count() + dropCols.Count()];
+                var standardIndex = 1;
+                if (dropCols.Count() > 0)
                 {
-                    resultRangeStats.SetValue(1, xRangeList[0].Count() - 1, standardErrorList[standardErrorList.Count() - 1]);
+                    standardErrorArray[0] = standardErrorList[0];
+                    for (var i = 1; i < standardErrorArray.Count(); i++)
+                    {
+                        if (dropCols.Contains(standardErrorArray.Count() - i - 1))
+                        {
+                            standardErrorArray[i] = 0d;
+                        }
+                        else
+                        {
+                            standardErrorArray[i] = standardErrorList[standardIndex];
+                            standardIndex++;
+                        }
+                    }
+                }
+
+                //Can be improved. Using different arrays depending on if columns have been dropped or not
+                if (dropCols.Count() > 0)
+                {
+                    if (constVar)
+                    {
+                        resultRangeStats.SetValue(1, xRangeList[0].Count() - 1, standardErrorArray[standardErrorArray.Count() - 1]);
+                    }
+                    else
+                    {
+                        resultRangeStats.SetValue(1, xRangeList[0].Count(), ExcelErrorValue.Create(eErrorType.NA));
+                    }
+
+                    int pos3 = 0;
+                    for (var i = (constVar) ? standardErrorArray.Count() - 1 : standardErrorArray.Count() - 1; i >= 0; i--)
+                    {
+                        resultRangeStats.SetValue(1, pos3++, standardErrorArray[i]);
+                    }
                 }
                 else
                 {
-                    resultRangeStats.SetValue(1, xRangeList[0].Count(), ExcelErrorValue.Create(eErrorType.NA));
-                }
+                    if (constVar)
+                    {
+                        resultRangeStats.SetValue(1, xRangeList[0].Count() - 1, standardErrorList[standardErrorList.Count() - 1]);
+                    }
+                    else
+                    {
+                        resultRangeStats.SetValue(1, xRangeList[0].Count(), ExcelErrorValue.Create(eErrorType.NA));
+                    }
 
-                int pos3 = 0;
-                for (var i = (constVar) ? standardErrorList.Count() - 1 : standardErrorList.Count() - 1; i >= 0; i--)
-                {
-                    resultRangeStats.SetValue(1, pos3++, standardErrorList[i]);
+                    int pos3 = 0;
+                    for (var i = (constVar) ? standardErrorList.Count() - 1 : standardErrorList.Count() - 1; i >= 0; i--)
+                    {
+                        resultRangeStats.SetValue(1, pos3++, standardErrorList[i]);
+                    }
                 }
 
                 if (constVar)
@@ -446,6 +489,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             //new code
             matrixIsSingular = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false; //Have not tested this threshold
 
+            //Need to change this, for the case where columns are dropped and constVal = false
             if (!constVar)
             {
                 double[][] extendedB = new double[b.Count() + 1][];

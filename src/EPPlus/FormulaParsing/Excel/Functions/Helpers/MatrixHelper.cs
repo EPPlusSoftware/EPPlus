@@ -17,13 +17,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             List<List<double>> resultMatrix = new List<List<double>>();
 
-            for (var i = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
             {
                 List<double> matrixRow = new List<double>();
-                for (var j = 0; j < width; j++)
+                for (int j = 0; j < width; j++)
                 {
                     var dotSum = 0d;
-                    for (var k = 0; k < height; k++)
+                    for (int k = 0; k < height; k++)
                     {
                         dotSum += matrix[i][k] * matrix[j][k];
                     }
@@ -40,9 +40,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             //This function takes a jagged matrix as input, and returns its transpose.
             double[][] transposedMat = CreateMatrix(cols, rows);
 
-            for (var r = 0; r < rows; r++)
+            for (int r = 0; r < rows; r++)
             {
-                for (var c = 0; c < cols; c++)
+                for (int c = 0; c < cols; c++)
                 {
                     transposedMat[c][r] = matrix[r][c];
                 }
@@ -59,9 +59,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             //Multiplies all elements in a matrix with a single number.
             double[][] resultMat = CreateMatrix(matrix.Count(), matrix[0].Count());
-            for (var row = 0; row < matrix.Count(); row++)
+            for (int row = 0; row < matrix.Count(); row++)
             {
-                for (var col = 0; col < matrix[0].Count(); col++)
+                for (int col = 0; col < matrix[0].Count(); col++)
                 {
                     resultMat[row][col] = matrix[row][col] * multiplier;
                 }
@@ -72,9 +72,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             //Returns the diagonal of a matrix.
             double[] resultArray = new double[matrix.Count()];
-            for (var row = 0; row < matrix[0].Count(); row++)
+            for (int row = 0; row < matrix[0].Count(); row++)
             {
-                for (var col = 0; col < matrix.Count(); col++)
+                for (int col = 0; col < matrix.Count(); col++)
                 {
                     if (row == col) resultArray[row] = matrix[row][col];
                 }
@@ -87,14 +87,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             if (!evenDimensions)
             {
                 List<List<double>> resultMatrix = new List<List<double>>();
-                for (var i = 0; i < matrix1.Count; i++)
+                for (int i = 0; i < matrix1.Count; i++)
                 {
                     List<double> matrixRow = new List<double>();
-                    for (var j = 0; j < matrix2[0].Count; j++)
+                    for (int j = 0; j < matrix2[0].Count; j++)
                     {
                         var prodSum = 0d;
 
-                        for (var k = 0; k < matrix1.Count; k++)
+                        for (int k = 0; k < matrix1.Count; k++)
                         {
                             prodSum += matrix1[i][k] * matrix2[k][j];
                         }
@@ -115,11 +115,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             //Returns the result matrix of a matrix multiplied with an array.
             List<List<double>> resultMatrix = new List<List<double>>();
-            for (var i = 0; i < matrix.Count; i++)
+            for (int i = 0; i < matrix.Count; i++)
             {
                 List<double> matrixRow = new List<double>();
                 var prodSum = 0d;
-                for (var j = 0; j < array.Count; j++)
+                for (int j = 0; j < array.Count; j++)
                 {
                     prodSum += matrix[i][j] * array[j];
                 }
@@ -375,6 +375,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
         internal static int argMaxAbsolute(double[][] mat)
         {
+            //This function finds the index of the largest absolute value in the input matrix
+
             double maxAbsValue = double.MinValue;
             int maxIndex = -1;
             int flatIndex = 0;
@@ -398,15 +400,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
         internal static double GetM2Norm(double[][] rr)
         {
-            var m = rr.Count();
-            var n = rr[0].Count();
+
+            //Calculates the 2-norm (euclidean, L2 norm) of the matrix.
+
+            int m = rr.Count();
+            int n = rr[0].Count();
 
             var m1norm = 0d;
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
-                //sum the absolute values of all values in row i, that value dd
+                //Sum of the max absolute values of all values in column i
                 var dd = 0d;
-                for (var r = 0; r < rr.Count(); r++)
+                for (int r = 0; r < rr.Count(); r++)
                 {
                     dd += Math.Abs(rr[r][i]);
                     m1norm = Math.Max(m1norm, dd);
@@ -414,10 +419,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
 
             var m8norm = 0d;
-            for (var i = 0; i < m; i++)
+            for (int i = 0; i < m; i++)
             {
+                //Sum of the max absolute values of all values in row i
                 var dd = 0d;
-                for (var c = 0; c < rr[0].Count(); c++)
+                for (int c = 0; c < rr[0].Count(); c++)
                 {
                     dd += Math.Abs(rr[i][c]);
                     m8norm = Math.Max(m8norm, dd);
@@ -431,40 +437,41 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             var xTdotX = MatrixHelper.Multiply(MatrixHelper.TransposeMatrix(xRange, xRange.Count(), xRange[0].Count()), xRange);
             List<double> drop = new List<double>();
-            var m = xTdotX.Length;
-            var n = xTdotX[0].Length;
+            int m = xTdotX.Length;
+            int n = xTdotX[0].Length;
             var m2norm = GetM2Norm(xRange);
             var eps = 2.220446049250313E-16;
             var xeps = 1000 * eps;
-            var ixr = 0;
-            var ixc = 0;
+            int ixr;
+            int ixc;
 
             double[] colOrder = new double[n];
-            var count = 0;
-            for (var i = 0; i < n; i++)
+            int count = 0;
+            for (int i = 0; i < n; i++)
             {
                 colOrder[i] = count;
                 count += 1;
             }
 
-            for (var ix0 = 0; ix0 < n; ix0++)
+            for (int ix0 = 0; ix0 < n; ix0++)
             {
                 if (ix0 == 0 && constVal)
                 {
+                    //If column with 1's has been added, this column is addressed first.
                     ixr = 0;
                     ixc = 0;
                 }
                 else
                 {
-                    //dd is not calculated correctly
-                    //need to revise how this is calculated
+                    //Complete pivoting is performed if const = false
+                    //Pivote element becomes the index with the largest absolute value in each sub matrix
                     double[][] subMatrix = new double[m - ix0][];
-                    var rowCount = 0;
-                    for (var i = ix0; i < m; i++)
+                    int rowCount = 0;
+                    for (int i = ix0; i < m; i++)
                     {
-                        subMatrix[rowCount] = new double[n - ix0]; //is n - ix0 correct?
-                        var colCount = 0;
-                        for (var j = ix0; j < n; j++)
+                        subMatrix[rowCount] = new double[n - ix0];
+                        int colCount = 0;
+                        for (int j = ix0; j < n; j++)
                         {
                             subMatrix[rowCount][colCount] = xTdotX[i][j];
                             colCount += 1;
@@ -479,10 +486,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     ixc += ix0;
 
                     List<double> ddArray = new List<double>();
-                    for (var i = 0; i < xTdotX[ixr].Count(); i++)
+                    for (int i = 0; i < xTdotX[ixr].Count(); i++)
                     {
                         var tmp = Math.Abs(Math.Abs(xTdotX[ixr][i]) - Math.Abs(xTdotX[ixr][ixc]));
-                        if (tmp < 1000 * eps) ddArray.Add(i); //not sure about add(i), was add(tmp) before
+                        if (tmp < 1000 * xeps) ddArray.Add(i);
                     }
                     ixc = (int)ddArray[0];
                     if (ddArray.Count() > 1)
@@ -491,17 +498,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     }
                 }
 
-                if (xTdotX[ixr][ixc] > eps)
+                if (Math.Abs(xTdotX[ixr][ixc]) > eps)
                 {
                     //row swap
-                    for (var i = 0; i < xTdotX[ixr].Count(); ++i)
+                    for (int i = 0; i < xTdotX[ixr].Count(); ++i)
                     {
                         var tmp = xTdotX[ix0][i];
                         xTdotX[ix0][i] = xTdotX[ixr][i];
                         xTdotX[ixr][i] = tmp;
-                    }
+                    }  
                     //column swap
-                    for (var i = 0; i < xTdotX.Count(); i++)
+                    for (int i = 0; i < xTdotX.Count(); i++)
                     {
                         var tmp = xTdotX[i][ix0];
                         xTdotX[i][ix0] = xTdotX[i][ixc];
@@ -512,11 +519,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     colOrder[ix0] = colOrder[ixc];
                     colOrder[ixc] = tmp1;
 
-                    for (var ix2 = ix0 + 1; ix2 < m; ix2++)
+                    //Elimination
+                    for (int ix2 = ix0 + 1; ix2 < m; ix2++)
                     {
                         var dd = xTdotX[ix2][ix0] / xTdotX[ix0][ix0];
 
-                        for (var j = 0; j < xTdotX[ix2].Count(); j++)
+                        for (int j = 0; j < xTdotX[ix2].Count(); j++)
                         {
                             xTdotX[ix2][j] -= xTdotX[ix0][j] * dd;
                         }
@@ -524,7 +532,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                   
                 }
             }
-            for (var i = 0; i < n; i++)
+
+            //Deciding on collinear columns:
+            for (int i = 0; i < n; i++)
             {
                 var v1 = xTdotX[i][i];
                 var v2 = m2norm;
@@ -535,11 +545,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     drop.Add(colOrder[i]);
                 }
             }
+
+            //Contains column index on what variables should be dropped due to collinearity
             return drop;
         }
 
         internal static double[][] RemoveColumns(double[][] xRangeList, List<double> dropCols)
         {
+            //Removes column indexes in dropCols from the matrix xRangeList
             int height = xRangeList.Length;
             if (height == 0) return xRangeList;
 

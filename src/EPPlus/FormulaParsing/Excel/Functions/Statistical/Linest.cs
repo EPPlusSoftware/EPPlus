@@ -239,12 +239,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 if (multipleXranges)
                 {
                     var resultRangeX = LinestHelper.CalculateMultipleXRanges(knownYs, xRanges, constVar, stats);
-                    return CreateResult(resultRangeX, DataType.ExcelRange);
+                    return CreateDynamicArrayResult(resultRangeX, DataType.ExcelRange);
                 }
                 else
                 {
                     var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats);
-                    return CreateResult(resultRange, DataType.ExcelRange);
+                    return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
                 }
             }
             else
@@ -272,7 +272,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
 
                 var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats); //change here so that multiple x is possible
-                return CreateResult(resultRange, DataType.ExcelRange);
+                return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
             }
 
         }
