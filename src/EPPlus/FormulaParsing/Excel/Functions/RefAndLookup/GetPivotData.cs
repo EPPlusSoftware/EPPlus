@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "7",
+        EPPlusVersion = "7.2",
         Description = "Returns the value of a pivot table data field.",
         SupportsArrays = false)]
     internal class GetPivotData : ExcelFunction
