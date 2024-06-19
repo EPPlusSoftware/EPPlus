@@ -74,7 +74,11 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             get
             {
+#if NET6_0_OR_GREATER
+                return Type == typeof(DateTime) || Type == typeof(DateOnly);
+#else
                 return Type == typeof(DateTime);
+#endif
             }
         }
 
@@ -85,7 +89,11 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             get
             {
+#if NET6_0_OR_GREATER
+                return Type == typeof(TimeSpan) || Type == typeof(TimeOnly);
+#else
                 return Type == typeof(TimeSpan);
+#endif
             }
         }
     }

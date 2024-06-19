@@ -13,6 +13,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -57,8 +58,7 @@ namespace OfficeOpenXml.Utils
             {
                 format = f.NetFormat;
             }
-
-
+            var vr = new ValueWrapper(v);
             if (v is decimal || TypeCompat.IsPrimitive(v))
             {
                 if(v is bool)
@@ -116,8 +116,9 @@ namespace OfficeOpenXml.Utils
                     }
                 }
             }
-            else if (v is DateTime dt)
+            else if (vr.IsDateTime)
             {
+                var dt = vr.ToDateTime();
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
                     return GetDateText(dt, format, f, overrideCultureInfo ?? nf.Culture);
@@ -135,8 +136,9 @@ namespace OfficeOpenXml.Utils
                     }
                 }
             }
-            else if (v is TimeSpan ts)
+            else if (vr.IsTimeSpan)
             {
+                var ts = vr.ToTimeSpan();
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
                     return GetDateText(new DateTime(ts.Ticks), format,f, overrideCultureInfo);
