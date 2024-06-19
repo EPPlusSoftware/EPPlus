@@ -28,16 +28,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
        Category = ExcelFunctionCategory.Statistical,
        EPPlusVersion = "7.0",
-       Description = "The LINEST function calculates a regressional line that fits your data. It also calculates additional statistics." +
-                     "It can handle several x-variables and perform multiple regression analysis.")]
-    internal class Linest : ExcelFunction
+       Description = "The LOGEST function calculates an exponential curve that best fits the provided data. It can also provide multiple curves if there are multiple " +
+                     "x-variables.")]
+    internal class Logest : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-
-            //X can have more than one vector corresponding to each y-value
             if (!arguments[0].IsExcelRange) return CompileResult.GetErrorResult(eErrorType.Value);
             var constVar = true;
             var stats = false;
@@ -71,6 +69,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 //Converting the result of rangeflattener to double[]
                 double[] knownXs = new double[knownXsList.Count];
                 double[] knownYs = new double[knownYsList.Count];
+
+                //y values cant be zero or negative since we have to take the logarithm of the y-values to find a solution.
+                for (var i = 0; i < knownYsList.Count(); i++)
+                {
+                    if (knownYsList[i] <= 0) return CreateResult(eErrorType.Num);
+                }
 
                 for (var i = 0; i < knownXsList.Count; i++)
                 {
@@ -142,12 +146,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
                 if (multipleXranges)
                 {
-                    var resultRangeX = LinestHelper.CalculateMultipleXRanges(knownYs, xRanges, constVar, stats, false);
+                    var resultRangeX = LinestHelper.CalculateMultipleXRanges(knownYs, xRanges, constVar, stats, true);
                     return CreateDynamicArrayResult(resultRangeX, DataType.ExcelRange);
                 }
                 else
                 {
-                    var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats, false);
+                    var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats, true);
                     return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
                 }
             }
@@ -175,11 +179,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 if (arguments.Count() > 2) constVar = ArgToBool(arguments, 2);
                 if (arguments.Count() > 3) stats = ArgToBool(arguments, 3);
 
-                var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats, false); //change here so that multiple x is possible
+                var resultRange = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats, true);
                 return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
             }
-
         }
+
         private List<double> GetDefaultKnownXs(int count)
         {
             //If no x-values are provided as input, LINEST aranges default values in ascending order
