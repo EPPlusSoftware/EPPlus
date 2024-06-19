@@ -28,7 +28,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartDataLabelStandard
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 20
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -89,11 +89,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 48
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nPosition of the labels\n"
+  summary: "\nPosition of the labels\nNote: Only Center, InEnd and InBase are allowed for dataLabels on stacked columns \n"
   example: []
   syntax:
     content: public override eLabelPosition Position { get; set; }
@@ -129,7 +129,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 72
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -169,7 +169,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowCategory
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 87
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -209,7 +209,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowSeriesName
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 102
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -249,7 +249,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowPercent
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 117
+    startLine: 144
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -289,7 +289,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLeaderLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 132
+    startLine: 159
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -329,7 +329,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowBubbleSize
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 147
+    startLine: 185
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -369,7 +369,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLegendKey
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 162
+    startLine: 200
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -409,7 +409,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Separator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-    startLine: 177
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

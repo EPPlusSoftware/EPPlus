@@ -24,10 +24,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingColorScaleValue
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n\n"
+  example: []
   syntax:
     content: public class ExcelConditionalFormattingColorScaleValue
     content.vb: Public Class ExcelConditionalFormattingColorScaleValue
@@ -65,7 +67,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 52
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -102,7 +104,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorSettings
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 60
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -139,7 +141,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 90
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -176,7 +178,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 108
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -213,7 +215,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingColorScaleValue.cs
-    startLine: 135
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting

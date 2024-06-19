@@ -56,5 +56,13 @@ namespace OfficeOpenXml
         /// Exclude conditional formatting from being copied. 
         /// </summary>
         ExcludeConditionalFormatting = 0x100,
+        /// <summary>
+        /// Transpose the copied data
+        /// </summary>
+        Transpose = 0x200,
+        /// <summary>
+        /// Exclude drawings from being copied
+        /// </summary>
+        ExcludeDrawings = 0x400,
     }
 }

@@ -251,5 +251,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }));
-    }
+		/// <summary>
+		/// If the function is allowed in a pivot table calculated field
+		/// </summary>
+		public override bool IsAllowedInCalculatedPivotTableField => false;
+	}
 }

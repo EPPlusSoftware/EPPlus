@@ -64,10 +64,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 11
+    startLine: 14
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nText\n"
+  example: []
   syntax:
     content: Text = 0
     return:
@@ -96,10 +98,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Information
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 12
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nInformation\n"
+  example: []
   syntax:
     content: Information = 1
     return:
@@ -128,10 +132,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LookupAndReference
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 13
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nLookupAndReference\n"
+  example: []
   syntax:
     content: LookupAndReference = 2
     return:
@@ -160,10 +166,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Statistical
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 14
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nStatistical\n"
+  example: []
   syntax:
     content: Statistical = 3
     return:
@@ -192,10 +200,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Financial
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 15
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nFinancial\n"
+  example: []
   syntax:
     content: Financial = 4
     return:
@@ -224,10 +234,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cube
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 16
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nCube\n"
+  example: []
   syntax:
     content: Cube = 5
     return:
@@ -256,10 +268,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logical
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 17
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nLogical\n"
+  example: []
   syntax:
     content: Logical = 6
     return:
@@ -288,10 +302,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateAndTime
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 18
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nDateAndTime\n"
+  example: []
   syntax:
     content: DateAndTime = 7
     return:
@@ -320,10 +336,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathAndTrig
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 19
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nManthAndTrig\n"
+  example: []
   syntax:
     content: MathAndTrig = 8
     return:
@@ -352,10 +370,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Database
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 20
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nDatabase\n"
+  example: []
   syntax:
     content: Database = 9
     return:
@@ -384,10 +404,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Engineering
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 21
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nEngineering\n"
+  example: []
   syntax:
     content: Engineering = 10
     return:
@@ -416,10 +438,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Web
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-    startLine: 22
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nWeb\n"
+  example: []
   syntax:
     content: Web = 11
     return:

@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ISourceCodeTokenizer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nSource code tokenizer\n"
+  example: []
   syntax:
     content: public interface ISourceCodeTokenizer
     content.vb: Public Interface ISourceCodeTokenizer
@@ -52,19 +54,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
-    startLine: 21
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nTokenize\n"
+  example: []
   syntax:
     content: IList<Token> Tokenize(string input, string worksheet)
     parameters:
     - id: input
       type: System.String
+      description: ''
     - id: worksheet
       type: System.String
+      description: ''
     return:
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+      description: ''
     content.vb: Function Tokenize(input As String, worksheet As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize*
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String)
@@ -85,17 +92,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
-    startLine: 22
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nTokenize\n"
+  example: []
   syntax:
     content: IList<Token> Tokenize(string input)
     parameters:
     - id: input
       type: System.String
+      description: ''
     return:
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+      description: ''
     content.vb: Function Tokenize(input As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize*
 references:

@@ -21,6 +21,7 @@ namespace OfficeOpenXml
         String,
         Constant,
         Enumerable,
+        Variable,
         //ExcelRange,
         Group,
         ValueError,

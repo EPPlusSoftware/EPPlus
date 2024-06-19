@@ -17,6 +17,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList
   langs:
   - csharp
   - vb
@@ -31,7 +32,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionArgument
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -74,7 +75,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 36
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -110,7 +111,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 46
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -149,7 +150,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHiddenCell
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 54
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -186,7 +187,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 69
+    startLine: 70
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -223,7 +224,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 73
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -260,7 +261,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 77
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -297,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExcelRange
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 81
+    startLine: 82
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -334,7 +335,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExcelRangeOrSingleCell
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 88
+    startLine: 89
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -371,7 +372,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueIsExcelError
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 96
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -408,7 +409,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueAsExcelErrorValue
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 104
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -445,7 +446,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueAsRangeInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 113
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -482,7 +483,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueFirst
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
-    startLine: 135
+    startLine: 136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -495,6 +496,43 @@ items:
       type: System.Object
     content.vb: Public ReadOnly Property ValueFirst As Object
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList
+  id: ValueToList
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ValueToList
+  nameWithType: FunctionArgument.ValueToList
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueToList
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 167
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIf the value is a <xref href=\"OfficeOpenXml.FormulaParsing.IRangeInfo\" data-throw-if-not-resolved=\"false\"></xref> the value will return the value of the first cell, otherwise the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value\" data-throw-if-not-resolved=\"false\"></xref> will be returned.\n\n"
+  example: []
+  syntax:
+    content: public List<object> ValueToList { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.Object}
+    content.vb: Public ReadOnly Property ValueToList As List(Of Object)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList*
   modifiers.csharp:
   - public
   - get
@@ -993,3 +1031,97 @@ references:
   name: ValueFirst
   nameWithType: FunctionArgument.ValueFirst
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList
+  name: ValueToList
+  nameWithType: FunctionArgument.ValueToList
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueToList
+- uid: System.Collections.Generic.List{System.Object}
+  commentId: T:System.Collections.Generic.List{System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Object>
+  nameWithType: List<Object>
+  fullName: System.Collections.Generic.List<System.Object>
+  nameWithType.vb: List(Of Object)
+  fullName.vb: System.Collections.Generic.List(Of System.Object)
+  name.vb: List(Of Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic

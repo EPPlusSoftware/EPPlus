@@ -12,16 +12,27 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class DoubleEnumerableArgConverter : CollectionFlattener<ExcelDoubleCellValue>
+    /// <summary>
+    /// Enumerable to double
+    /// </summary>
+    internal class DoubleEnumerableArgConverter : CollectionFlattener<ExcelDoubleCellValue>
     {
+        /// <summary>
+        /// Convert args to enumerable
+        /// </summary>
+        /// <param name="ignoreHidden"></param>
+        /// <param name="ignoreErrors"></param>
+        /// <param name="ignoreSubtotalAggregate"></param>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <param name="ignoreNonNumeric"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
         public virtual IEnumerable<ExcelDoubleCellValue> ConvertArgs(bool ignoreHidden, bool ignoreErrors, bool ignoreSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric = false)
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>
@@ -49,7 +60,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     }
                 });
         }
-
+        /// <summary>
+        /// Convert args including range info, doubles, ints, bools and strings
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="ignoreHidden"></param>
+        /// <returns></returns>
         public virtual IEnumerable<ExcelDoubleCellValue> ConvertArgsIncludingOtherTypes(IEnumerable<FunctionArgument> arguments, bool ignoreHidden)
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>

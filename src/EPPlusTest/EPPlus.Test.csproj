@@ -1,50 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
-      $(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SSDTPath Condition="'$(SSDTPath)' == ''">
-      $(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130</SSDTPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFrameworks>net481;net8.0</TargetFrameworks>
-    <RootNamespace>EPPlusTest</RootNamespace>
-    <AssemblyName>EPPlusTest</AssemblyName>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>EPPlusTest.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>5.0.0.0</AssemblyVersion>
-    <FileVersion>5.0.0.0</FileVersion>
-    <Version>5.0.0.0</Version>
-    <Description>Package Description</Description>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants);TRACE;RELEASE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
+			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB
+		</SSDTUnitTestPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<SSDTPath Condition="'$(SSDTPath)' == ''">
+			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130
+		</SSDTPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net481;net8.0</TargetFrameworks>
+		<RootNamespace>EPPlusTest</RootNamespace>
+		<AssemblyName>EPPlusTest</AssemblyName>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>EPPlusTest.snk</AssemblyOriginatorKeyFile>
+		<AssemblyVersion>5.0.0.0</AssemblyVersion>
+		<FileVersion>5.0.0.0</FileVersion>
+		<Version>5.0.0.0</Version>
+		<Description>Package Description</Description>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>$(DefineConstants);TRACE;RELEASE</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FakeItEasy" />
-    <PackageReference Include="Microsoft.CSharp" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+	<ItemGroup>
+		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FakeItEasy" />
+		<PackageReference Include="Microsoft.CSharp" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" />
-    <PackageReference Include="MSTest.TestAdapter" />
-    <PackageReference Include="MSTest.TestFramework" />
-    <PackageReference Include="Newtonsoft.Json" />
-  </ItemGroup>
+		<PackageReference Include="MSTest.TestAdapter" />
+		<PackageReference Include="MSTest.TestFramework" />
+		<PackageReference Include="Newtonsoft.Json" />
+	</ItemGroup>
 
   <ItemGroup>
     <Compile Remove="FormulaParsing\ExpressionGraph\EnumerableExpressionTests.cs" />
@@ -120,6 +121,15 @@
     <None Update="Resources\TestTheme.thmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Textfiles\FixedWidth1.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Textfiles\FixedWidth2.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\Textfiles\FixedWidth_FileList.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
     <None Update="Resources\tree-solid.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -162,6 +172,9 @@
     <None Update="Workbooks\MultiColorConditionalFormatting.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\PivotTableCalculation.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
     <None Update="Workbooks\SignedWorkbook1.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

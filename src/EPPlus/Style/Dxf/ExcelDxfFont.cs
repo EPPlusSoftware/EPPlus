@@ -176,10 +176,6 @@ namespace OfficeOpenXml.Style.Dxf
                     + "|" + GetAsString(Name) + "|" + GetAsString(Size) + "|" + GetAsString(Family) + "|" + GetVAlign() + "|" + GetAsString(Outline) + "|" + GetAsString(Shadow) + "|" + GetAsString(Condense) + "|" + GetAsString(Extend) + "|" + GetAsString(Scheme);
             }
         }
-        internal static string GetEmptyId()
-        {
-            return $"|||{ExcelDxfColor.GetEmptyId()}||||||||||";            
-        }
         private string GetVAlign()
         {
             return VerticalAlign==ExcelVerticalAlignmentFont.None ? "" : GetAsString(VerticalAlign);

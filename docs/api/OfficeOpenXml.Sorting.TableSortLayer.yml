@@ -23,10 +23,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableSortLayer
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sorting
+  summary: "\nTable sort layer\n"
+  example: []
   syntax:
     content: 'public class TableSortLayer : SortLayerBase'
     content.vb: >-
@@ -71,7 +73,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
-    startLine: 34
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sorting
@@ -110,7 +112,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
-    startLine: 46
+    startLine: 49
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sorting
@@ -152,7 +154,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNamed
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
-    startLine: 57
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sorting
@@ -191,7 +193,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNamed
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
-    startLine: 70
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sorting

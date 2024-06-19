@@ -22,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDataTypeOn
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 8
+    startLine: 9
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -55,7 +55,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoDataTypes
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 13
+    startLine: 14
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -89,7 +89,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OnColumn
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -123,7 +123,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OnCell
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 21
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

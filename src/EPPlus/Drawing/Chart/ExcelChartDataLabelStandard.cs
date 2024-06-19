@@ -11,7 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Xml;
+using OfficeOpenXml.Drawing.Chart.DataLabling;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -19,18 +21,41 @@ namespace OfficeOpenXml.Drawing.Chart
     /// Settings for a charts data lables
     /// </summary>
     public class ExcelChartDataLabelStandard : ExcelChartDataLabel
-    {        
+    {
+        Guid _guidId;
+
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, "c")
         {
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "idx", "spPr", "txPr", "dLbl", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator", "showLeaderLines" }, new int[] { 0, schemaNodeOrder.Length });
-            AddSchemaNodeOrder(SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
-            if(nodeName=="dLbl")
+            if (nodeName == "dLbl" || nodeName == "")
             {
+                SchemaNodeOrder = LabelNodeHolder.DataLabel.NodeOrder;
+
                 TopNode = node;
+                
+                var extPath = "c:extLst/c:ext";
+
+                NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
+                NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
+
+                XmlElement el = (XmlElement)CreateNode($"{extPath}");
+                el.SetAttribute("xmlns:c15", ExcelPackage.schemaChart2012);
+                SetXmlNodeString($"{extPath}/@uri","{CE6537A1-D6FC-4f65-9D91-7224C49458BB}");
+
+                XmlElement element = (XmlElement)CreateNode($"{extPath}", false, true);
+                element.SetAttribute("xmlns:c16", ExcelPackage.schemaChart2014);
+                SetXmlNodeString($"{extPath}[2]/@uri", "{C3380CC4-5D6E-409C-BE32-E72D297353CC}");
+
+                _guidId = Guid.NewGuid();
+
+                var extNode2 = GetNode($"{extPath}[2]");
+                var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueID");
+                uniqueIdNode.SetAttribute("val", $"{{{_guidId}}}");
             }
             else
             {
+                SchemaNodeOrder = schemaNodeOrder;
+
                 var fullNodeName = "c:" + nodeName;
                 var topNode = GetNode(fullNodeName);
                 if (topNode == null)
@@ -39,12 +64,14 @@ namespace OfficeOpenXml.Drawing.Chart
                     topNode.InnerXml = "<c:showLegendKey val=\"0\" /><c:showVal val=\"0\" /><c:showCatName val=\"0\" /><c:showSerName val=\"0\" /><c:showPercent val=\"0\" /><c:showBubbleSize val=\"0\" /> <c:separator>\r\n</c:separator><c:showLeaderLines val=\"0\" />";
                 }
                 TopNode = topNode;
+                SchemaNodeOrder = LabelNodeHolder.DataLabels.NodeOrder;
             }
         }
 
         const string positionPath = "c:dLblPos/@val";
         /// <summary>
         /// Position of the labels
+        /// Note: Only Center, InEnd and InBase are allowed for dataLabels on stacked columns 
         /// </summary>
         public override eLabelPosition Position
         {
@@ -56,14 +83,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (ForbiddDataLabelPosition(_chart))
                 {
-                    throw (new InvalidOperationException("Can't set data label position on a 3D-chart"));
+                    throw new InvalidOperationException("Can't set data label position on a 3D-chart");
                 }
                 SetXmlNodeString(positionPath, GetPosText(value));
             }
         }
         internal static bool ForbiddDataLabelPosition(ExcelChart _chart)
         {
-            return (_chart.IsType3D() && !_chart.IsTypePie() && _chart.ChartType != eChartType.Line3D)
+            return _chart.IsType3D() && !_chart.IsTypePie() && _chart.ChartType != eChartType.Line3D
                                || _chart.IsTypeDoughnut();
         }
         const string showValPath = "c:showVal/@val";
@@ -134,11 +161,22 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
+                if(TopNode.LocalName == "dLbl")
+                {
+                    return GetXmlNodeBool(showLeaderLinesPath, TopNode.ParentNode);
+                }
                 return GetXmlNodeBool(showLeaderLinesPath);
             }
             set
             {
-                SetXmlNodeString(showLeaderLinesPath, value ? "1" : "0");
+                if (TopNode.LocalName == "dLbl")
+                {
+                    SetXmlNodeString(TopNode.ParentNode, showBubbleSizePath, value ? "1" : "0");
+                }
+                else
+                {
+                    SetXmlNodeString(showLeaderLinesPath, value ? "1" : "0");
+                }
             }
         }
         const string showBubbleSizePath = "c:showBubbleSize/@val";

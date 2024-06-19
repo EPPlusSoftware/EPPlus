@@ -17,13 +17,15 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using static OfficeOpenXml.Style.ExcelNumberFormat;
 
 namespace OfficeOpenXml.Style
 {
-    /// <summary>
-    /// The numberformat of the cell
-    /// </summary>
-    public sealed class ExcelNumberFormat : StyleBase
+	/// <summary>
+	/// The numberformat of the cell
+	/// </summary>
+	public sealed partial class ExcelNumberFormat : StyleBase
     {
         internal ExcelNumberFormat(ExcelStyles styles, OfficeOpenXml.XmlHelper.ChangedEventHandler ChangedEvent, int PositionID, string Address, int index) :
             base(styles, ChangedEvent, PositionID, Address)
@@ -123,13 +125,13 @@ namespace OfficeOpenXml.Style
                     return 21;
                 case "dd.mm.yyyy hh:mm":
                     return 22;
-                case "#,##0 _€;-#,##0 _€":
+                case "#,##0 _ï¿½;-#,##0 _ï¿½":
                     return 37;
-                case "#,##0 _€;[Red]-#,##0 _€":
+                case "#,##0 _ï¿½;[Red]-#,##0 _ï¿½":
                     return 38;
-                case "#,##0.00 _€;-#,##0.00 _€":
+                case "#,##0.00 _ï¿½;-#,##0.00 _ï¿½":
                     return 39;
-                case "#,##0.00 _€;[Red]-#,##0.00 _€":
+                case "#,##0.00 _ï¿½;[Red]-#,##0.00 _ï¿½":
                     return 40;
                 case "mm:ss":
                     return 45;
@@ -319,13 +321,13 @@ namespace OfficeOpenXml.Style
                 case 22:
                     return "dd.mm.yyyy hh:mm";
                 case 37:
-                    return "#,##0 _€;-#,##0 _€";
+                    return "#,##0 _ï¿½;-#,##0 _ï¿½";
                 case 38:
-                    return "#,##0 _€;[Red]-#,##0 _€";
+                    return "#,##0 _ï¿½;[Red]-#,##0 _ï¿½";
                 case 39:
-                    return "#,##0.00 _€;-#,##0.00 _€";
+                    return "#,##0.00 _ï¿½;-#,##0.00 _ï¿½";
                 case 40:
-                    return "#,##0.00 _€;[Red]-#,##0.00 _€";
+                    return "#,##0.00 _ï¿½;[Red]-#,##0.00 _ï¿½";
                 case 45:
                     return "mm:ss";
                 case 46:
@@ -342,4 +344,94 @@ namespace OfficeOpenXml.Style
         }
 
     }
+    
+        internal NumberFormatType _numberformatType= NumberFormatType.Unset;
+        //TODO: Implement convert to DateTime if dateformat.
+		internal bool IsDateFormat
+        {
+            get
+            {
+                if(_numberformatType==NumberFormatType.Unset)
+                {
+                    _numberformatType = GetNumberFormatType(Format);
+				}
+                return _numberformatType == NumberFormatType.Date;
+            }
+        }
+        //TODO: Use to determin number of decimals in the number format.
+        internal bool IsNumberFormat
+		{
+            get
+            {
+				if (_numberformatType == NumberFormatType.Unset)
+				{
+					_numberformatType = GetNumberFormatType(Format);
+				}
+				return _numberformatType == NumberFormatType.Numeric;
+            }
+		}
+        internal static NumberFormatType GetNumberFormatType(string format)
+        {
+            if(string.IsNullOrEmpty(format)) return NumberFormatType.General;
+            bool isInString = false;
+            bool isInBracket = false;
+            bool IsEscaped = false;
+            bool isDate=false, isNumber=false, isText = false;
+            foreach(var c in format.ToLower())
+            {
+                if (IsEscaped)
+                {
+                    IsEscaped = false;
+                    continue;
+				}
+                else if((isInString && c!='\"') || isInBracket && c != ']')
+                {
+                    continue;
+                }
+                switch(c)
+                {
+                    case '\\':
+                        IsEscaped = true;
+                        break;
+                    case '\"':
+                        isInBracket=!isInString; 
+                        break;
+                    case '[':
+                        isInBracket = true;
+						break; ;
+                    case ']':
+						isInBracket = false;
+                        break;
+                    case 'y':
+					case 'm':
+					case 'd':
+					case 'h':
+					case 's':
+                        isDate=true;
+                        break;
+                    case '#':
+                    case '0':
+						isNumber = true;
+                        break;
+                    case '@':
+                        isText=true;
+                        break;
+				}
+			}
+            if(isNumber)
+            {
+                return NumberFormatType.Numeric;
+            }
+            else if (isDate)
+            {
+                return NumberFormatType.Date;
+            }
+            else if(isInString)
+            {
+                return NumberFormatType.String;
+            }
+            return NumberFormatType.General;
+        }
+
+	}
 }

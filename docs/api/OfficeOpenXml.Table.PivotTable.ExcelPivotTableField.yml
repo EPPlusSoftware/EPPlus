@@ -54,7 +54,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 33
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -100,7 +100,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 59
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -137,7 +137,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 75
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -174,7 +174,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compact
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 97
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -211,7 +211,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Outline
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 111
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -248,7 +248,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SubtotalTop
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 125
+    startLine: 128
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -285,7 +285,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MultipleItemSelectionAllowed
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 139
+    startLine: 142
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -322,7 +322,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowAll
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 158
+    startLine: 161
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -359,7 +359,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDropDowns
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 172
+    startLine: 175
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -396,7 +396,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInFieldList
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 186
+    startLine: 189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -433,7 +433,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowAsCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 200
+    startLine: 203
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -470,7 +470,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMemberPropertyInCell
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 214
+    startLine: 217
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -507,7 +507,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMemberPropertyToolTip
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 228
+    startLine: 231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -544,7 +544,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 243
+    startLine: 246
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -581,7 +581,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAutoSort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 268
+    startLine: 271
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -620,7 +620,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAutoSort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 292
+    startLine: 295
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -652,7 +652,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoSort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 306
+    startLine: 309
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -689,7 +689,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeNewItemsInFilter
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 314
+    startLine: 317
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -726,7 +726,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SubTotalFunctions
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 328
+    startLine: 332
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -763,7 +763,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Axis
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 404
+    startLine: 354
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -800,7 +800,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRowField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 447
+    startLine: 397
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -837,7 +837,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsColumnField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 490
+    startLine: 440
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -874,7 +874,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsDataField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 530
+    startLine: 480
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -911,7 +911,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsPageField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 544
+    startLine: 494
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -948,7 +948,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFieldSettings
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 585
+    startLine: 531
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -985,7 +985,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Grouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 606
+    startLine: 552
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1022,7 +1022,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 616
+    startLine: 562
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1059,7 +1059,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Items
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 645
+    startLine: 591
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1096,25 +1096,25 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cache
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 684
+    startLine: 687
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
   summary: "\nA reference to the cache for the pivot table field.\n"
   example: []
   syntax:
-    content: public ExcelPivotTableCacheField Cache { get; }
+    content: public ExcelPivotTableCacheField Cache { get; set; }
     parameters: []
     return:
       type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
-    content.vb: Public ReadOnly Property Cache As ExcelPivotTableCacheField
+    content.vb: Public Property Cache As ExcelPivotTableCacheField
   overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Cache*
   modifiers.csharp:
   - public
   - get
+  - set
   modifiers.vb:
   - Public
-  - ReadOnly
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.AddNumericGrouping(System.Double,System.Double,System.Double)
   commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.AddNumericGrouping(System.Double,System.Double,System.Double)
   id: AddNumericGrouping(System.Double,System.Double,System.Double)
@@ -1133,7 +1133,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNumericGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 697
+    startLine: 708
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1175,7 +1175,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSlicer
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 708
+    startLine: 719
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1210,7 +1210,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 719
+    startLine: 730
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1247,7 +1247,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 748
+    startLine: 759
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1283,7 +1283,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 758
+    startLine: 769
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1325,7 +1325,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 768
+    startLine: 779
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1367,7 +1367,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Filters
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 995
+    startLine: 1178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

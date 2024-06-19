@@ -23,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFilterBaseCollection
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilterBaseCollection.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -76,7 +76,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilterBaseCollection.cs
-    startLine: 60
+    startLine: 70
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -114,7 +114,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilterBaseCollection.cs
-    startLine: 69
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -149,7 +149,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilterBaseCollection.cs
-    startLine: 94
+    startLine: 104
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -186,7 +186,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilterBaseCollection.cs
-    startLine: 106
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter

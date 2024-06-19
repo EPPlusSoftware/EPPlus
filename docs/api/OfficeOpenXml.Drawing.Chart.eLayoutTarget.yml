@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  id: eLayoutTarget
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eLayoutTarget.Inner
+  - OfficeOpenXml.Drawing.Chart.eLayoutTarget.Outer
+  langs:
+  - csharp
+  - vb
+  name: eLayoutTarget
+  nameWithType: eLayoutTarget
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLayoutTarget.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLayoutTarget
+    path: ../src/EPPlus/Drawing/Chart/enums/eLayoutTarget.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDefine layout of plot area\n"
+  example: []
+  syntax:
+    content: public enum eLayoutTarget
+    content.vb: Public Enum eLayoutTarget
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutTarget.Inner
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLayoutTarget.Inner
+  id: Inner
+  parent: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  langs:
+  - csharp
+  - vb
+  name: Inner
+  nameWithType: eLayoutTarget.Inner
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutTarget.Inner
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLayoutTarget.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Inner
+    path: ../src/EPPlus/Drawing/Chart/enums/eLayoutTarget.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nSpecifies that the plot area size shall determine the\nsize of the plot area, not including the tick marks and\naxis labels.\n"
+  example: []
+  syntax:
+    content: Inner = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutTarget.Outer
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLayoutTarget.Outer
+  id: Outer
+  parent: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  langs:
+  - csharp
+  - vb
+  name: Outer
+  nameWithType: eLayoutTarget.Outer
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutTarget.Outer
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLayoutTarget.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Outer
+    path: ../src/EPPlus/Drawing/Chart/enums/eLayoutTarget.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nSpecifies that the plot area size shall determine the\nsize of the plot area, the tick marks, and the axis\nlabels.\n"
+  example: []
+  syntax:
+    content: Outer = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLayoutTarget
+  nameWithType: eLayoutTarget
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutTarget

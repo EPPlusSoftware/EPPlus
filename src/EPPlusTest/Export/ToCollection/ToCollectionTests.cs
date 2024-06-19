@@ -280,6 +280,48 @@ namespace EPPlusTest.Export.ToCollection
             }
         }
 
+        [TestMethod]
+        public void ToCollection_Transposed()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["C1"].Value = 2;
+                sheet.Cells["D1"].Value = 3;
+                sheet.Cells["E1"].Value = 4;
+                sheet.Cells["F1"].Value = 5;
+                sheet.Cells["G1"].Value = 6;
+                sheet.Cells["A2"].Value = "Name";
+                sheet.Cells["B2"].Value = "Scott";
+                sheet.Cells["C2"].Value = "Mats";
+                sheet.Cells["D2"].Value = "Jimmy";
+                sheet.Cells["E2"].Value = "Cameron";
+                sheet.Cells["F2"].Value = "Luther";
+                sheet.Cells["G2"].Value = "Josh";
+
+                var list = sheet.Cells["A1:G2"].ToCollectionWithMappings((ToCollectionRow row) =>
+                {
+                    var dto = new TestDto();
+                    dto.Id = row.GetValue<int>("Id");
+                    dto.Name = row.GetText("Name");
+                    return dto;
+                }, x => {
+                            x.DataIsTransposed = true;
+                            x.HeaderRow = 0;
+                        }
+                );
+
+                Assert.AreEqual(6, list.Count);
+                Assert.AreEqual(sheet.Cells["B1"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Value, list[0].Name);
+                Assert.AreEqual(sheet.Cells["G1"].Value, list[5].Id);
+                Assert.AreEqual(sheet.Cells["G2"].Value, list[5].Name);
+            }
+        }
+
+
 #endif
         #endregion
         #region Table
@@ -472,6 +514,7 @@ namespace EPPlusTest.Export.ToCollection
 
             }
         }
+
         #endregion
         private ExcelWorksheet LoadTestData(ExcelPackage p, string wsName, bool addTable = false)
         {

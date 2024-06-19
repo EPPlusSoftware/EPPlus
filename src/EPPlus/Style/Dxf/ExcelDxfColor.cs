@@ -20,7 +20,6 @@ namespace OfficeOpenXml.Style.Dxf
     /// A color in a differential formatting record
     /// </summary>
     public class ExcelDxfColor : DxfStyleBase
-
     {
         eStyleClass _styleClass;
         internal ExcelDxfColor(ExcelStyles styles, eStyleClass styleClass, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
@@ -238,7 +237,7 @@ namespace OfficeOpenXml.Style.Dxf
             throw new NotImplementedException();
         }
 
-        internal Color GetColorAsColor()
+        internal Color GetColorAsColor(bool whiteAsDefault = false)
         {
             if (Index != null)
             {
@@ -258,6 +257,10 @@ namespace OfficeOpenXml.Style.Dxf
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
                 return Utils.ColorConverter.GetThemeColor(themeColor);
             }
+            else if(whiteAsDefault)
+            {
+                return System.Drawing.Color.White;
+            }
 
             return System.Drawing.Color.Empty;
         }
@@ -265,7 +268,6 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// Return the RGB value as a string for the color object that uses the Indexed or Tint property
         /// </summary>
-        /// <param name="theColor">The color object</param>
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
         internal string LookupColor()
         {

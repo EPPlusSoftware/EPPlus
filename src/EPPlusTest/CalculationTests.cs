@@ -313,7 +313,6 @@ namespace EPPlusTest
             Assert.AreEqual(31, ws.Cells["A8"].Value);
 
             SwitchBackToCurrentCulture();
-
         }
         public void TestAllWorkbooks()
         {

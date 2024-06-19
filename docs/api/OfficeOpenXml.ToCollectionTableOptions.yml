@@ -20,7 +20,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionTableOptions
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-    startLine: 89
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -68,7 +68,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-    startLine: 94
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

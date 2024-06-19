@@ -56,20 +56,29 @@ items:
   - OfficeOpenXml.ExcelRangeBase.IsRichText
   - OfficeOpenXml.ExcelRangeBase.IsTable
   - OfficeOpenXml.ExcelRangeBase.LoadFromArrays(System.Collections.Generic.IEnumerable{System.Object[]})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0})
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams})
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   - OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,OfficeOpenXml.Table.TableStyles)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams})
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles})
+  - OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.LoadFromDictionaries(System.Collections.Generic.IEnumerable{System.Collections.Generic.IDictionary{System.String,System.Object}})
   - OfficeOpenXml.ExcelRangeBase.LoadFromDictionaries(System.Collections.Generic.IEnumerable{System.Collections.Generic.IDictionary{System.String,System.Object}},System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams})
   - OfficeOpenXml.ExcelRangeBase.LoadFromDictionaries(System.Collections.Generic.IEnumerable{System.Collections.Generic.IDictionary{System.String,System.Object}},System.Boolean)
@@ -80,9 +89,11 @@ items:
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormat)
   - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormat,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  - OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo)
   - OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat)
   - OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormat,OfficeOpenXml.Table.TableStyles,System.Boolean)
@@ -97,9 +108,13 @@ items:
   - OfficeOpenXml.ExcelRangeBase.SaveToJsonAsync(System.IO.Stream)
   - OfficeOpenXml.ExcelRangeBase.SaveToJsonAsync(System.IO.Stream,System.Action{OfficeOpenXml.JsonRangeExportSettings})
   - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.SetCellValue(System.Int32,System.Int32,System.Object)
   - OfficeOpenXml.ExcelRangeBase.SetErrorValue(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.ExcelRangeBase.SetHyperlink(OfficeOpenXml.ExcelHyperLink)
@@ -134,8 +149,10 @@ items:
   - OfficeOpenXml.ExcelRangeBase.ToJson(System.Action{OfficeOpenXml.JsonRangeExportSettings})
   - OfficeOpenXml.ExcelRangeBase.ToText
   - OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.ToTextAsync
   - OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
   - OfficeOpenXml.ExcelRangeBase.UseImplicitItersection
   - OfficeOpenXml.ExcelRangeBase.Value
   - OfficeOpenXml.ExcelRangeBase.Worksheet
@@ -153,7 +170,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeBase
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 36
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1064,7 +1081,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTable
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1299
+    startLine: 1305
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1101,7 +1118,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetTable
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1311
+    startLine: 1317
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1135,7 +1152,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Insert
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1324
+    startLine: 1330
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1171,7 +1188,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1343
+    startLine: 1349
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1207,7 +1224,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsArrayFormula
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1362
+    startLine: 1368
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1244,7 +1261,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _rtc
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1373
+    startLine: 1379
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1277,7 +1294,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1378
+    startLine: 1384
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1314,7 +1331,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1394
+    startLine: 1400
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1351,7 +1368,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedComment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1413
+    startLine: 1419
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1388,7 +1405,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1432
+    startLine: 1438
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1425,7 +1442,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAddress
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1442
+    startLine: 1448
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1462,7 +1479,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAddressAbsolute
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1464
+    startLine: 1470
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1499,7 +1516,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1707
+    startLine: 1713
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1531,7 +1548,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1756
+    startLine: 1762
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1563,7 +1580,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionalFormatting
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1842
+    startLine: 1848
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1600,7 +1617,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataValidation
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1854
+    startLine: 1860
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1637,7 +1654,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1887
+    startLine: 1893
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1686,7 +1703,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1899
+    startLine: 1905
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1728,7 +1745,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1916
+    startLine: 1922
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1776,7 +1793,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddComment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1939
+    startLine: 1945
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1818,7 +1835,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThreadedComment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1953
+    startLine: 1959
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1853,7 +1870,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1967
+    startLine: 1973
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1889,7 +1906,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1978
+    startLine: 1984
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1931,7 +1948,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1988
+    startLine: 1994
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1973,7 +1990,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyStyles
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2003
+    startLine: 2009
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2009,7 +2026,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2011
+    startLine: 2017
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2041,7 +2058,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateArrayFormula
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2019
+    startLine: 2025
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2077,7 +2094,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaRange
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2034
+    startLine: 2040
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2115,7 +2132,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2197
+    startLine: 2203
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2149,7 +2166,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2209
+    startLine: 2215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2187,7 +2204,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2215
+    startLine: 2221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2219,7 +2236,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2224
+    startLine: 2230
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2259,7 +2276,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2239
+    startLine: 2245
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2298,7 +2315,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2258
+    startLine: 2264
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2335,7 +2352,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2291
+    startLine: 2297
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2369,7 +2386,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2301
+    startLine: 2307
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2401,7 +2418,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2310
+    startLine: 2316
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2438,7 +2455,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2321
+    startLine: 2327
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2486,7 +2503,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2405
+    startLine: 2411
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2526,7 +2543,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2426
+    startLine: 2432
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2563,7 +2580,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireColumn
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2461
+    startLine: 2467
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2600,7 +2617,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireRow
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2477
+    startLine: 2483
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2637,7 +2654,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2493
+    startLine: 2499
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2678,7 +2695,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2502
+    startLine: 2508
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2722,7 +2739,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2512
+    startLine: 2518
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2769,7 +2786,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2547
+    startLine: 2553
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2811,7 +2828,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseImplicitItersection
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2581
+    startLine: 2587
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3161,7 +3178,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3191,6 +3208,57 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
+  id: LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDataReader(IDataReader, Boolean, String, Boolean, TableStyles)
+  nameWithType: ExcelRangeBase.LoadFromDataReader(IDataReader, Boolean, String, Boolean, TableStyles)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader, System.Boolean, System.String, System.Boolean, OfficeOpenXml.Table.TableStyles)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDataReader
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the data from the datareader starting from the top left cell of the range\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromDataReader(IDataReader Reader, bool PrintHeaders, string TableName, bool Transpose, TableStyles TableStyle = TableStyles.None)
+    parameters:
+    - id: Reader
+      type: System.Data.IDataReader
+      description: The datareader to loadfrom
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the column caption property (if set) or the columnname property if not, on first row
+    - id: TableName
+      type: System.String
+      description: The name of the table
+    - id: Transpose
+      type: System.Boolean
+      description: Transpose the data
+    - id: TableStyle
+      type: OfficeOpenXml.Table.TableStyles
+      description: The table style to apply to the data
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The filled range
+    content.vb: Public Function LoadFromDataReader(Reader As IDataReader, PrintHeaders As Boolean, TableName As String, Transpose As Boolean, TableStyle As TableStyles = TableStyles.None) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean)
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean)
   id: LoadFromDataReader(System.Data.IDataReader,System.Boolean)
@@ -3209,7 +3277,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 65
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3233,6 +3301,51 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
+  id: LoadFromDataReader(System.Data.IDataReader,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDataReader(IDataReader, Boolean, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataReader(IDataReader, Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader(System.Data.IDataReader, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDataReader
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the data from the datareader starting from the top left cell of the range\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromDataReader(IDataReader Reader, bool PrintHeaders, bool Transpose)
+    parameters:
+    - id: Reader
+      type: System.Data.IDataReader
+      description: The datareader to load from
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the caption property (if set) or the columnname property if not, on first row
+    - id: Transpose
+      type: System.Boolean
+      description: Must be true to transpose data
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The filled range
+    content.vb: Public Function LoadFromDataReader(Reader As IDataReader, PrintHeaders As Boolean, Transpose As Boolean) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromDataReader*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
   id: LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
@@ -3251,7 +3364,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 105
+    startLine: 169
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3288,6 +3401,64 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.String, OfficeOpenXml.Table.TableStyles, System.Nullable(Of System.Threading.CancellationToken))
   name.vb: LoadFromDataReaderAsync(DbDataReader, Boolean, String, TableStyles, Nullable(Of CancellationToken))
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+  id: LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.String,System.Boolean,OfficeOpenXml.Table.TableStyles,System.Nullable{System.Threading.CancellationToken})
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable<CancellationToken>)
+  nameWithType: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable<CancellationToken>)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.String, System.Boolean, OfficeOpenXml.Table.TableStyles, System.Nullable<System.Threading.CancellationToken>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDataReaderAsync
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 195
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the data from the datareader starting from the top left cell of the range\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders, string TableName, bool Transpose, TableStyles TableStyle = TableStyles.None, CancellationToken? cancellationToken = null)
+    parameters:
+    - id: Reader
+      type: System.Data.Common.DbDataReader
+      description: The datareader to loadfrom
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the column caption property (if set) or the columnname property if not, on first row
+    - id: TableName
+      type: System.String
+      description: The name of the table
+    - id: Transpose
+      type: System.Boolean
+      description: ''
+    - id: TableStyle
+      type: OfficeOpenXml.Table.TableStyles
+      description: The table style to apply to the data
+    - id: cancellationToken
+      type: System.Nullable{System.Threading.CancellationToken}
+      description: The cancellation token to use
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.ExcelRangeBase}
+      description: The filled range
+    content.vb: Public Function LoadFromDataReaderAsync(Reader As DbDataReader, PrintHeaders As Boolean, TableName As String, Transpose As Boolean, TableStyle As TableStyles = TableStyles.None, cancellationToken As CancellationToken? = Nothing) As Task(Of ExcelRangeBase)
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync*
+  nameWithType.vb: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable(Of CancellationToken))
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.String, System.Boolean, OfficeOpenXml.Table.TableStyles, System.Nullable(Of System.Threading.CancellationToken))
+  name.vb: LoadFromDataReaderAsync(DbDataReader, Boolean, String, Boolean, TableStyles, Nullable(Of CancellationToken))
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean)
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean)
   id: LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean)
@@ -3306,7 +3477,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 127
+    startLine: 217
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3331,6 +3502,52 @@ items:
   - async
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
+  id: LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDataReaderAsync(DbDataReader, Boolean, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDataReaderAsync
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 228
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the data from the datareader starting from the top left cell of the range\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders, bool Transpose)
+    parameters:
+    - id: Reader
+      type: System.Data.Common.DbDataReader
+      description: The datareader to load from
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the caption property (if set) or the columnname property if not, on first row
+    - id: Transpose
+      type: System.Boolean
+      description: If the data should be transposed on read or not
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.ExcelRangeBase}
+      description: The filled range
+    content.vb: Public Function LoadFromDataReaderAsync(Reader As DbDataReader, PrintHeaders As Boolean, Transpose As Boolean) As Task(Of ExcelRangeBase)
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken)
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken)
   id: LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken)
@@ -3349,7 +3566,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 138
+    startLine: 239
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3377,6 +3594,55 @@ items:
   - async
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
+  id: LoadFromDataReaderAsync(System.Data.Common.DbDataReader,System.Boolean,System.Threading.CancellationToken,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDataReaderAsync(DbDataReader, Boolean, CancellationToken, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataReaderAsync(DbDataReader, Boolean, CancellationToken, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync(System.Data.Common.DbDataReader, System.Boolean, System.Threading.CancellationToken, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDataReaderAsync
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the data from the datareader starting from the top left cell of the range\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelRangeBase> LoadFromDataReaderAsync(DbDataReader Reader, bool PrintHeaders, CancellationToken cancellationToken, bool Transpose)
+    parameters:
+    - id: Reader
+      type: System.Data.Common.DbDataReader
+      description: The datareader to load from
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the caption property (if set) or the columnname property if not, on first row
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token to use
+    - id: Transpose
+      type: System.Boolean
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.ExcelRangeBase}
+      description: The filled range
+    content.vb: Public Function LoadFromDataReaderAsync(Reader As DbDataReader, PrintHeaders As Boolean, cancellationToken As CancellationToken, Transpose As Boolean) As Task(Of ExcelRangeBase)
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromDataReaderAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles})
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles})
   id: LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles})
@@ -3395,7 +3661,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 183
+    startLine: 331
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3425,6 +3691,57 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable, System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles))
   name.vb: LoadFromDataTable(DataTable, Boolean, Nullable(Of TableStyles))
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  id: LoadFromDataTable(System.Data.DataTable,System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDataTable(DataTable, Boolean, Nullable<TableStyles>, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromDataTable(DataTable, Boolean, Nullable<TableStyles>, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDataTable
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 349
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the data from the datatable starting from the top left cell of the range\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders, TableStyles? TableStyle, bool Transpose)
+    parameters:
+    - id: Table
+      type: System.Data.DataTable
+      description: The datatable to load
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the column caption property (if set) or the columnname property if not, on first row
+    - id: TableStyle
+      type: System.Nullable{OfficeOpenXml.Table.TableStyles}
+      description: The table style to apply to the data
+    - id: Transpose
+      type: System.Boolean
+      description: Transpose the loaded data
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The filled range
+    content.vb: Public Function LoadFromDataTable(Table As DataTable, PrintHeaders As Boolean, TableStyle As TableStyles?, Transpose As Boolean) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable*
+  nameWithType.vb: ExcelRangeBase.LoadFromDataTable(DataTable, Boolean, Nullable(Of TableStyles), Boolean)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable, System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean)
+  name.vb: LoadFromDataTable(DataTable, Boolean, Nullable(Of TableStyles), Boolean)
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean)
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Boolean)
   id: LoadFromDataTable(System.Data.DataTable,System.Boolean)
@@ -3443,7 +3760,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 199
+    startLine: 366
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3485,7 +3802,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 209
+    startLine: 376
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3524,7 +3841,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 229
+    startLine: 396
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3570,7 +3887,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromArrays
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 242
+    startLine: 409
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3593,6 +3910,48 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromArrays(System.Collections.Generic.IEnumerable(Of System.Object()))
   name.vb: LoadFromArrays(IEnumerable(Of Object()))
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
+  id: LoadFromArraysTransposed(System.Collections.Generic.IEnumerable{System.Object[]})
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromArraysTransposed(IEnumerable<Object[]>)
+  nameWithType: ExcelRangeBase.LoadFromArraysTransposed(IEnumerable<Object[]>)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable<System.Object[]>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromArraysTransposed
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 431
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads data from the collection of arrays of objects into the range transposed, starting from\nthe top-left cell.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromArraysTransposed(IEnumerable<object[]> Data)
+    parameters:
+    - id: Data
+      type: System.Collections.Generic.IEnumerable{System.Object[]}
+      description: ''
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: ''
+    content.vb: Public Function LoadFromArraysTransposed(Data As IEnumerable(Of Object())) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed*
+  nameWithType.vb: ExcelRangeBase.LoadFromArraysTransposed(IEnumerable(Of Object()))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed(System.Collections.Generic.IEnumerable(Of System.Object()))
+  name.vb: LoadFromArraysTransposed(IEnumerable(Of Object()))
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0})
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0})
   id: LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0})
@@ -3611,7 +3970,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 266
+    startLine: 455
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3656,7 +4015,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 293
+    startLine: 482
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3704,7 +4063,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 306
+    startLine: 495
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3737,6 +4096,60 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles))
   name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles))
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  id: LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean)
+  nameWithType: ExcelRangeBase.LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>(System.Collections.Generic.IEnumerable<T>, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromCollection
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 509
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad a collection of T into the worksheet starting from the top left row of the range.\nDefault option will load all public instance properties of T\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, bool Transpose)
+    parameters:
+    - id: Collection
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to load
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the property names on the first row. If the property is decorated with a <xref href="System.ComponentModel.DisplayNameAttribute" data-throw-if-not-resolved="false"></xref> or a <xref href="System.ComponentModel.DescriptionAttribute" data-throw-if-not-resolved="false"></xref> that attribute will be used instead of the reflected member name.
+    - id: TableStyle
+      type: System.Nullable{OfficeOpenXml.Table.TableStyles}
+      description: Will create a table with this style. If set to TableStyles.None no table will be created
+    - id: Transpose
+      type: System.Boolean
+      description: Will load data transposed
+    typeParameters:
+    - id: T
+      description: The datatype in the collection
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The filled range
+    content.vb: Public Function LoadFromCollection(Of T)(Collection As IEnumerable(Of T), PrintHeaders As Boolean, TableStyle As TableStyles?, Transpose As Boolean) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromCollection*
+  nameWithType.vb: ExcelRangeBase.LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean)
+  name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean)
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
   id: LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
@@ -3755,7 +4168,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 320
+    startLine: 523
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3794,6 +4207,66 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Reflection.BindingFlags, System.Reflection.MemberInfo())
   name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), BindingFlags, MemberInfo())
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  id: LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.Nullable{OfficeOpenXml.Table.TableStyles},System.Boolean,System.Reflection.BindingFlags,System.Reflection.MemberInfo[])
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean, BindingFlags, MemberInfo[])
+  nameWithType: ExcelRangeBase.LoadFromCollection<T>(IEnumerable<T>, Boolean, Nullable<TableStyles>, Boolean, BindingFlags, MemberInfo[])
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromCollection<T>(System.Collections.Generic.IEnumerable<T>, System.Boolean, System.Nullable<OfficeOpenXml.Table.TableStyles>, System.Boolean, System.Reflection.BindingFlags, System.Reflection.MemberInfo[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromCollection
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 557
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad a collection into the worksheet starting from the top left row of the range.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, bool Transpose, BindingFlags memberFlags, MemberInfo[] Members)
+    parameters:
+    - id: Collection
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to load
+    - id: PrintHeaders
+      type: System.Boolean
+      description: Print the property names on the first row. Any underscore in the property name will be converted to a space. If the property is decorated with a <xref href="System.ComponentModel.DisplayNameAttribute" data-throw-if-not-resolved="false"></xref> or a <xref href="System.ComponentModel.DescriptionAttribute" data-throw-if-not-resolved="false"></xref> that attribute will be used instead of the reflected member name.
+    - id: TableStyle
+      type: System.Nullable{OfficeOpenXml.Table.TableStyles}
+      description: Will create a table with this style. If set to TableStyles.None no table will be created
+    - id: Transpose
+      type: System.Boolean
+      description: Will insert data transposed
+    - id: memberFlags
+      type: System.Reflection.BindingFlags
+      description: Property flags to use
+    - id: Members
+      type: System.Reflection.MemberInfo[]
+      description: The properties to output. Must be of type T
+    typeParameters:
+    - id: T
+      description: The datatype in the collection
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The filled range
+    content.vb: Public Function LoadFromCollection(Of T)(Collection As IEnumerable(Of T), PrintHeaders As Boolean, TableStyle As TableStyles?, Transpose As Boolean, memberFlags As BindingFlags, Members As MemberInfo()) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromCollection*
+  nameWithType.vb: ExcelRangeBase.LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean, BindingFlags, MemberInfo())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromCollection(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Boolean, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean, System.Reflection.BindingFlags, System.Reflection.MemberInfo())
+  name.vb: LoadFromCollection(Of T)(IEnumerable(Of T), Boolean, Nullable(Of TableStyles), Boolean, BindingFlags, MemberInfo())
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams})
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams})
   id: LoadFromCollection``1(System.Collections.Generic.IEnumerable{``0},System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams})
@@ -3812,7 +4285,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 360
+    startLine: 609
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3861,7 +4334,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 381
+    startLine: 644
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3900,7 +4373,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 391
+    startLine: 654
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3942,7 +4415,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 415
+    startLine: 674
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -3993,7 +4466,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 432
+    startLine: 702
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4032,7 +4505,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 442
+    startLine: 712
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4074,7 +4547,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 459
+    startLine: 729
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4107,6 +4580,90 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo, OfficeOpenXml.ExcelTextFormat, System.Nullable(Of OfficeOpenXml.Table.TableStyles), System.Boolean)
   name.vb: LoadFromText(FileInfo, ExcelTextFormat, Nullable(Of TableStyles), Boolean)
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  id: LoadFromText(System.String,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromText(String, ExcelTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.LoadFromText(String, ExcelTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.String, OfficeOpenXml.ExcelTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromText
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 745
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads a fixed width text file into range starting from the top left cell.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromText(string Text, ExcelTextFormatFixedWidth Format)
+    parameters:
+    - id: Text
+      type: System.String
+      description: The Text file
+    - id: Format
+      type: OfficeOpenXml.ExcelTextFormatFixedWidth
+      description: Information how to load the text
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: ''
+    content.vb: Public Function LoadFromText(Text As String, Format As ExcelTextFormatFixedWidth) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  id: LoadFromText(System.IO.FileInfo,OfficeOpenXml.ExcelTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: LoadFromText(FileInfo, ExcelTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.LoadFromText(FileInfo, ExcelTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromText(System.IO.FileInfo, OfficeOpenXml.ExcelTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Load.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromText
+    path: ../src/EPPlus/ExcelRangeBase_Load.cs
+    startLine: 770
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads a fixed width text file into range starting from the top left cell.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormatFixedWidth Format)
+    parameters:
+    - id: TextFile
+      type: System.IO.FileInfo
+      description: The Textfile
+    - id: Format
+      type: OfficeOpenXml.ExcelTextFormatFixedWidth
+      description: Information how to load the text
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: ''
+    content.vb: Public Function LoadFromText(TextFile As FileInfo, Format As ExcelTextFormatFixedWidth) As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeBase.LoadFromText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo)
   commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync(System.IO.FileInfo)
   id: LoadFromTextAsync(System.IO.FileInfo)
@@ -4125,7 +4682,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 475
+    startLine: 787
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4165,7 +4722,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 492
+    startLine: 804
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4208,7 +4765,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 511
+    startLine: 823
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4257,7 +4814,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 554
+    startLine: 866
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4300,7 +4857,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 588
+    startLine: 900
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4346,7 +4903,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 623
+    startLine: 935
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4395,7 +4952,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 659
+    startLine: 971
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4447,7 +5004,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 705
+    startLine: 1017
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4499,7 +5056,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 734
+    startLine: 1046
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4544,7 +5101,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
-    startLine: 756
+    startLine: 1068
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4589,7 +5146,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 44
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4624,7 +5181,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 54
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4666,7 +5223,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 66
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4705,7 +5262,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 78
+    startLine: 72
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4750,7 +5307,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 90
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4789,7 +5346,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 101
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4831,7 +5388,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 112
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4866,7 +5423,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 122
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4905,7 +5462,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 138
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4944,7 +5501,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 152
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -4960,6 +5517,123 @@ items:
       type: OfficeOpenXml.ExcelOutputTextFormat
       description: Information how to create the csv text
     content.vb: Public Sub SaveToText(stream As Stream, Format As ExcelOutputTextFormat)
+  overload: OfficeOpenXml.ExcelRangeBase.SaveToText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  id: ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: ToText(ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.ToText(ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Save.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToText
+    path: ../src/EPPlus/ExcelRangeBase_Save.cs
+    startLine: 219
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConverts a range to text in Fixed Width format.\nInvariant culture is used by default.\n"
+  example: []
+  syntax:
+    content: public string ToText(ExcelOutputTextFormatFixedWidth Format)
+    parameters:
+    - id: Format
+      type: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+      description: Information how to create the Fixed Width text
+    return:
+      type: System.String
+      description: A string containing the text
+    content.vb: Public Function ToText(Format As ExcelOutputTextFormatFixedWidth) As String
+  overload: OfficeOpenXml.ExcelRangeBase.ToText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  id: SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: SaveToText(FileInfo, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToText(FileInfo, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Save.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToText
+    path: ../src/EPPlus/ExcelRangeBase_Save.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConverts a range to text in fixed widths format.\nInvariant culture is used by default.\n"
+  example: []
+  syntax:
+    content: public void SaveToText(FileInfo file, ExcelOutputTextFormatFixedWidth Format)
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The file to write to
+    - id: Format
+      type: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+      description: Information how to create the fixed width text
+    content.vb: Public Sub SaveToText(file As FileInfo, Format As ExcelOutputTextFormatFixedWidth)
+  overload: OfficeOpenXml.ExcelRangeBase.SaveToText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  id: SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: SaveToText(Stream, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToText(Stream, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Save.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToText
+    path: ../src/EPPlus/ExcelRangeBase_Save.cs
+    startLine: 251
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConverts a range to text in Fixed Width format.\nInvariant culture is used by default.\n"
+  example: []
+  syntax:
+    content: public void SaveToText(Stream stream, ExcelOutputTextFormatFixedWidth Format)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The strem to write to
+    - id: Format
+      type: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+      description: Information how to create the fixed width text
+    content.vb: Public Sub SaveToText(stream As Stream, Format As ExcelOutputTextFormatFixedWidth)
   overload: OfficeOpenXml.ExcelRangeBase.SaveToText*
   modifiers.csharp:
   - public
@@ -4983,7 +5657,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 205
+    startLine: 399
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5019,7 +5693,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 215
+    startLine: 410
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5059,7 +5733,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 231
+    startLine: 426
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5101,7 +5775,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 245
+    startLine: 440
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5119,6 +5793,130 @@ items:
     return:
       type: System.Threading.Tasks.Task
     content.vb: Public Function SaveToTextAsync(stream As Stream, Format As ExcelOutputTextFormat) As Task
+  overload: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  id: ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: ToTextAsync(ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.ToTextAsync(ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Save.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToTextAsync
+    path: ../src/EPPlus/ExcelRangeBase_Save.cs
+    startLine: 511
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConverts a range to text in Fixed Width format.\nInvariant culture is used by default.\n"
+  example: []
+  syntax:
+    content: public async Task<string> ToTextAsync(ExcelOutputTextFormatFixedWidth Format)
+    parameters:
+    - id: Format
+      type: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+      description: Information how to create the Fixed Width text
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A string containing the text
+    content.vb: Public Function ToTextAsync(Format As ExcelOutputTextFormatFixedWidth) As Task(Of String)
+  overload: OfficeOpenXml.ExcelRangeBase.ToTextAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  id: SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: SaveToTextAsync(FileInfo, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToTextAsync(FileInfo, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Save.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToTextAsync
+    path: ../src/EPPlus/ExcelRangeBase_Save.cs
+    startLine: 528
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConverts a range to text in fixed widths format.\nInvariant culture is used by default.\n"
+  example: []
+  syntax:
+    content: public async Task SaveToTextAsync(FileInfo file, ExcelOutputTextFormatFixedWidth Format)
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The file to write to
+    - id: Format
+      type: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+      description: Information how to create the fixed width text
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveToTextAsync(file As FileInfo, Format As ExcelOutputTextFormatFixedWidth) As Task
+  overload: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  id: SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  parent: OfficeOpenXml.ExcelRangeBase
+  langs:
+  - csharp
+  - vb
+  name: SaveToTextAsync(Stream, ExcelOutputTextFormatFixedWidth)
+  nameWithType: ExcelRangeBase.SaveToTextAsync(Stream, ExcelOutputTextFormatFixedWidth)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.Stream, OfficeOpenXml.ExcelOutputTextFormatFixedWidth)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeBase_Save.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToTextAsync
+    path: ../src/EPPlus/ExcelRangeBase_Save.cs
+    startLine: 543
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConverts a range to text in Fixed Width format.\nInvariant culture is used by default.\n"
+  example: []
+  syntax:
+    content: public async Task SaveToTextAsync(Stream stream, ExcelOutputTextFormatFixedWidth Format)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The strem to write to
+    - id: Format
+      type: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+      description: Information how to create the fixed width text
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveToTextAsync(stream As Stream, Format As ExcelOutputTextFormatFixedWidth) As Task
   overload: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync*
   modifiers.csharp:
   - public
@@ -5143,7 +5941,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 306
+    startLine: 690
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5178,7 +5976,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 320
+    startLine: 704
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5220,7 +6018,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 335
+    startLine: 719
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5256,7 +6054,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 345
+    startLine: 729
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5298,7 +6096,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 360
+    startLine: 744
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5338,7 +6136,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 371
+    startLine: 755
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5384,7 +6182,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 531
+    startLine: 997
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5429,7 +6227,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 544
+    startLine: 1010
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5477,7 +6275,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 560
+    startLine: 1026
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5525,7 +6323,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 573
+    startLine: 1039
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5566,7 +6364,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 586
+    startLine: 1052
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -5611,7 +6409,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
-    startLine: 601
+    startLine: 1067
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -10377,6 +11175,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed*
+  commentId: Overload:OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed
+  name: LoadFromArraysTransposed
+  nameWithType: ExcelRangeBase.LoadFromArraysTransposed
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromArraysTransposed
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromCollection*
   commentId: Overload:OfficeOpenXml.ExcelRangeBase.LoadFromCollection
   name: LoadFromCollection
@@ -10493,6 +11296,12 @@ references:
   name: System.IO
   nameWithType: System.IO
   fullName: System.IO
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidth
+  commentId: T:OfficeOpenXml.ExcelTextFormatFixedWidth
+  parent: OfficeOpenXml
+  name: ExcelTextFormatFixedWidth
+  nameWithType: ExcelTextFormatFixedWidth
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidth
 - uid: OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync*
   commentId: Overload:OfficeOpenXml.ExcelRangeBase.LoadFromTextAsync
   name: LoadFromTextAsync
@@ -10793,6 +11602,12 @@ references:
   name: Stream
   nameWithType: Stream
   fullName: System.IO.Stream
+- uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  commentId: T:OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  parent: OfficeOpenXml
+  name: ExcelOutputTextFormatFixedWidth
+  nameWithType: ExcelOutputTextFormatFixedWidth
+  fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
 - uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync*
   commentId: Overload:OfficeOpenXml.ExcelRangeBase.ToTextAsync
   name: ToTextAsync

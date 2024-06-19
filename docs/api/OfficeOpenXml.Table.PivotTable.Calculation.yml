@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.Calculation
+  commentId: N:OfficeOpenXml.Table.PivotTable.Calculation
+  id: OfficeOpenXml.Table.PivotTable.Calculation
+  children:
+  - OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Table.PivotTable.Calculation
+  nameWithType: OfficeOpenXml.Table.PivotTable.Calculation
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  commentId: T:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  name: PivotDataFieldItemSelection
+  nameWithType: PivotDataFieldItemSelection
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection

@@ -21,6 +21,8 @@ items:
   - OfficeOpenXml.Drawing.Chart.eDoughnutChartType
   - OfficeOpenXml.Drawing.Chart.eGrouping
   - OfficeOpenXml.Drawing.Chart.eLabelPosition
+  - OfficeOpenXml.Drawing.Chart.eLayoutMode
+  - OfficeOpenXml.Drawing.Chart.eLayoutTarget
   - OfficeOpenXml.Drawing.Chart.eLegendPosition
   - OfficeOpenXml.Drawing.Chart.eLineChartType
   - OfficeOpenXml.Drawing.Chart.eMarkerStyle
@@ -80,8 +82,10 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
   - OfficeOpenXml.Drawing.Chart.ExcelDrawingTextSettings
   - OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
+  - OfficeOpenXml.Drawing.Chart.ExcelLayout
   - OfficeOpenXml.Drawing.Chart.ExcelLineChart
   - OfficeOpenXml.Drawing.Chart.ExcelLineChartSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelManualLayout
   - OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
   - OfficeOpenXml.Drawing.Chart.ExcelPieChart
   - OfficeOpenXml.Drawing.Chart.ExcelPieChartSerie
@@ -207,6 +211,18 @@ references:
   name: eLabelPosition
   nameWithType: eLabelPosition
   fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutMode
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLayoutMode
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLayoutMode
+  nameWithType: eLayoutMode
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutMode
+- uid: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLayoutTarget
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLayoutTarget
+  nameWithType: eLayoutTarget
+  fullName: OfficeOpenXml.Drawing.Chart.eLayoutTarget
 - uid: OfficeOpenXml.Drawing.Chart.eLegendPosition
   commentId: T:OfficeOpenXml.Drawing.Chart.eLegendPosition
   parent: OfficeOpenXml.Drawing.Chart
@@ -593,6 +609,12 @@ references:
   name: ExcelHistogramChartSeries
   nameWithType: ExcelHistogramChartSeries
   fullName: OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelLayout
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelLayout
+  nameWithType: ExcelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLayout
 - uid: OfficeOpenXml.Drawing.Chart.ExcelStandardChartWithLines
   commentId: T:OfficeOpenXml.Drawing.Chart.ExcelStandardChartWithLines
   parent: OfficeOpenXml.Drawing.Chart
@@ -610,6 +632,12 @@ references:
   name: ExcelLineChartSerie
   nameWithType: ExcelLineChartSerie
   fullName: OfficeOpenXml.Drawing.Chart.ExcelLineChartSerie
+- uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelManualLayout
+  nameWithType: ExcelManualLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
 - uid: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
   commentId: T:OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
   parent: OfficeOpenXml.Drawing.Chart

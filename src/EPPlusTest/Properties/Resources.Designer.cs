@@ -362,5 +362,29 @@ namespace EPPlusTest.Properties {
                 return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\LineChart3.crtx"));
             }
         }
+        internal static string GetTextFileContent(string fileName, System.Text.Encoding encoding)
+        {
+            string path = AppContext.BaseDirectory;
+            while (!Directory.Exists(path + "\\Resources"))
+            {
+                path = new DirectoryInfo(path + "\\..").FullName;
+            }
+            fileName = path + $"\\Resources\\TextFiles\\{fileName}";
+            if (File.Exists(fileName))
+            {
+                return File.ReadAllText(fileName, encoding);
+            }
+            return string.Empty;
+            }
+        internal static FileInfo GetTextFileInfo(string fileName)
+        {
+            string path = AppContext.BaseDirectory;
+            while (!Directory.Exists(path + "\\Resources"))
+            {
+                path = new DirectoryInfo(path + "\\..").FullName;
+            }
+            fileName = path + $"\\Resources\\TextFiles\\{fileName}";
+            return new FileInfo(fileName);
+        }
     }
 }

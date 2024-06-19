@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 sum += val;
             }
-            return sum.Get() / values.Count();
+            return sum.Get() / values.Count;
         }
 
         public static double AverageKahan(this IList<double?> values)

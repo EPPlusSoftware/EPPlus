@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose
   - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks
   langs:
   - csharp
@@ -195,6 +196,43 @@ items:
       type: System.Boolean
     content.vb: Public Property UseBuiltInStylesForHyperlinks As Boolean
   overload: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.UseBuiltInStylesForHyperlinks*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose
+  id: Transpose
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  langs:
+  - csharp
+  - vb
+  name: Transpose
+  nameWithType: LoadFunctionFunctionParamsBase.Transpose
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Transpose
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nSet if data should be transposed\n"
+  example: []
+  syntax:
+    content: public bool Transpose { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Transpose As Boolean
+  overload: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose*
   modifiers.csharp:
   - public
   - get
@@ -632,3 +670,8 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose
+  name: Transpose
+  nameWithType: LoadFunctionFunctionParamsBase.Transpose
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.Transpose

@@ -3045,7 +3045,9 @@ namespace EPPlusTest
         [TestMethod]
         public void CheckEnvironment()
         {
+#pragma warning disable CA1416 // Validate platform compatibility
             System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+#pragma warning restore CA1416 // Validate platform compatibility
         }
         [TestMethod]
         public void Issue592()
@@ -3339,7 +3341,6 @@ namespace EPPlusTest
             {
                 SaveAndCleanup(p);
             }
-
         }
         [TestMethod]
         public void I676()
@@ -3931,7 +3932,7 @@ namespace EPPlusTest
                     foreach (var richText in cell.RichText)
                     {
                         Debug.Write($"RichText {richText.Text} Font: [{richText.FontName}], Size: [{richText.Size}]");
-                        if (richText.Bold != null) Console.Write(", Bold");
+                        if (richText.Bold) Console.Write(", Bold");
                         Debug.WriteLine("");
                     }
                 }
@@ -5581,8 +5582,6 @@ namespace EPPlusTest
         public void s539()
         {
             //Outputs
-            bool success = true;
-            string exc = "";
             var pc = Thread.CurrentThread.CurrentCulture;
 
             try
@@ -5605,8 +5604,8 @@ namespace EPPlusTest
             }
             catch (Exception e)
             {
+                string exc = "";
                 exc = "Failed. " + e.ToString();
-                success = false;
             }
             finally
             {
@@ -5677,7 +5676,7 @@ namespace EPPlusTest
                 pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition.SourceRange = ws.Cells["M6:S16"];
                 var definition = pivotTableWorksheet.PivotTables["PivotTable1"].CacheDefinition;
 
-                Assert.AreEqual(definition.PivotTable.Fields[0].CacheField._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
+                Assert.AreEqual(definition.PivotTable.Fields[0].Cache._cache.Ref, definition._cacheReference.Fields[0]._cache.Ref);
 
                 SaveAndCleanup(package);
             }
@@ -6004,6 +6003,25 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s553()
+        {
+            using (var p = OpenTemplatePackage("ExportTest2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var json = ws.Cells["C2"].ToJson();
+            }
+        }
+        [TestMethod]
+        public void i1214()
+        {
+            using (var p = OpenTemplatePackage("i1214.xlsx"))
+            {
+                p.Workbook.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
         public void I1211()
         {
             using (var p = OpenTemplatePackage("i1211.xlsx"))
@@ -6140,7 +6158,7 @@ namespace EPPlusTest
         [TestMethod]
         public void s608()
         {
-            using(var package = OpenTemplatePackage("s608.xlsx"))
+            using (var package = OpenTemplatePackage("s608.xlsx"))
             {
                 Debug.Assert(package.Workbook.Worksheets.Count == 2);
                 package.Workbook.Worksheets.Delete("Sheet1");
@@ -6184,7 +6202,7 @@ namespace EPPlusTest
             {
                 var sheet = package.Workbook.Worksheets[0];
                 var groupDrawing = ((ExcelGroupShape)sheet.Drawings["img_d2_bt"]);
-                var childLine1 = groupDrawing.Drawings.FirstOrDefault(x=> x.Name=="D2_Line1_BT");
+                var childLine1 = groupDrawing.Drawings.FirstOrDefault(x => x.Name == "D2_Line1_BT");
                 var childLine2 = groupDrawing.Drawings["D2_Line2_BT"];
                 var childLine3 = groupDrawing.Drawings["D2_Line3_BT"];
 

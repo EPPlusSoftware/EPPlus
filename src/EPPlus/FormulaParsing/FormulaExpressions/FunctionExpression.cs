@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
         internal ExcelFunction _function;
         internal int _startPos, _endPos;
-        internal IList<int> _arguments;
+        protected IList<int> _arguments;
         internal int _argPos=0;
         internal ExpressionCondition _latestConditionValue = ExpressionCondition.None;
         internal CompileResult _cachedResult;
@@ -54,6 +54,34 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         }
         internal override ExpressionType ExpressionType => ExpressionType.Function;
+
+        internal virtual bool HandlesVariables => false;
+
+        internal virtual bool IsVariableArg(int arg, bool isLastArgument)
+        {
+            return false;
+        }
+
+        internal virtual bool IsVariable(string name)
+        {
+            return false;
+        }
+
+        internal virtual void AddArgument(int arg)
+        {
+            _arguments.Add(arg);
+        }
+
+        internal int NumberOfArguments
+        {
+            get { return _arguments.Count; }
+        }
+
+        internal int GetArgument(int arg)
+        {
+            return _arguments[arg];
+        }
+
         public override Expression Negate()
         {
             if (_negate == 0)
@@ -66,7 +94,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return this;
         }
-        IList<CompileResult> _args=null;
+        protected IList<CompileResult> _args=null;
         internal Queue<FormulaRangeAddress> _dependencyAddresses = null;
         internal bool SetArguments(IList<CompileResult> argsResults)
         {

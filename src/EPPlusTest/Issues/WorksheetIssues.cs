@@ -2,14 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OfficeOpenXml;
-using System.IO;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System.Runtime.InteropServices.ComTypes;
 using OfficeOpenXml.FormulaParsing;
-namespace EPPlusTest
+using System.Globalization;
+using System.Threading;
+namespace EPPlusTest.Issues
 {
 	[TestClass]
 	public class WorksheetIssues : TestBase
@@ -33,7 +30,6 @@ namespace EPPlusTest
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-
 				//var namedStyle = package.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
 				//namedStyle.Style.Font.Name = "Arial";
 				//namedStyle.Style.Font.Size = 7;
@@ -48,9 +44,6 @@ namespace EPPlusTest
 				worksheet.Cells.Style.Font.Name = "Arial";
 				worksheet.Cells.Style.Font.Size = 7;
 
-
-
-
 				// Set page size to A4
 				worksheet.PrinterSettings.PaperSize = ePaperSize.A4;
 
@@ -64,9 +57,9 @@ namespace EPPlusTest
 
 
 
-				string longText = ""; // Our long string
-				int maxLineLength = 140; // Maximum length of each line, adjust as needed
-										 //var lines = SplitStringIntoLines(longText, maxLineLength);
+				//string longText = ""; // Our long string
+				//int maxLineLength = 140; // Maximum length of each line, adjust as needed
+				//						 //var lines = SplitStringIntoLines(longText, maxLineLength);
 
 
 				// Now 'lines' contains our text split into lines.
@@ -158,7 +151,7 @@ namespace EPPlusTest
 				package.Save();
 			}
 		}
-		[TestMethod]
+        [TestMethod]
 		public void s616()
 		{
 			using (var package = OpenTemplatePackage("s616.xlsx"))
@@ -368,5 +361,25 @@ namespace EPPlusTest
                 SwitchBackToCurrentCulture();
             }
         }
+        [TestMethod]
+        public void ShareFormulaIDNotFoundError()
+        {
+            using (var p = OpenTemplatePackage("i1474.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+                ws.DeleteRow(35, 2);
+
+                try
+                {
+                    p.SaveAs("share_formula_error_test.xlsx");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                    //Assert.Fail("Expected no exception, but got: " + ex.Message);
+                }
+            }
+        }
     }
 }
+

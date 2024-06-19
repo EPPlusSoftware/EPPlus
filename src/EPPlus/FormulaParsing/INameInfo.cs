@@ -18,17 +18,54 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing
 {
+    /// <summary>
+    /// NameInfo
+    /// </summary>
     public interface INameInfo
     {
-        ulong Id { get;  }
+        /// <summary>
+        /// Id
+        /// </summary>
+        ulong Id { get; }
+        /// <summary>
+        /// wsIx
+        /// </summary>
         int wsIx { get; }
+        /// <summary>
+        /// Name
+        /// </summary>
         string Name { get; }
-        string Formula { get;  }
+        /// <summary>
+        /// Formula
+        /// </summary>
+        string Formula { get; }
+        /// <summary>
+        /// Value
+        /// </summary>
         object Value { get; }
+        /// <summary>
+        /// IsRelative
+        /// </summary>
         bool IsRelative { get; }
+        /// <summary>
+        /// Get relative formula
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         string GetRelativeFormula(int row, int col);
+        /// <summary>
+        /// Get relative range
+        /// </summary>
+        /// <param name="ri"></param>
+        /// <param name="currentCell"></param>
+        /// <returns></returns>
         IRangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell);
+        /// <summary>
+        /// Get value
+        /// </summary>
+        /// <param name="currentCell"></param>
+        /// <returns></returns>
         object GetValue(FormulaCellAddress currentCell);
-
     }
 }

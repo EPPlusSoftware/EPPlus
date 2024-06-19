@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace OfficeOpenXml.RichData
 {
@@ -94,6 +95,27 @@ namespace OfficeOpenXml.RichData
                         break;
                 }
             }
+        }
+        Dictionary<string, string> _keyValues = null;
+        internal bool HasValue(string[] keys, string[] values)
+        {
+            if(_keyValues==null)
+            {
+                _keyValues = new Dictionary<string, string>();
+                for(int i=0;i < Structure.Keys.Count;i++)
+                {
+                    _keyValues.Add(Structure.Keys[i].Name, Values[i]);
+                }
+            }
+            
+            for(int i=0;i<keys.Length;i++)
+            {
+                if (_keyValues.TryGetValue(keys[i], out string s)==false || s != values[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

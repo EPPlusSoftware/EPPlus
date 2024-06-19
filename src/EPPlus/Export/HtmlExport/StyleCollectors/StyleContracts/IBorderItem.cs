@@ -21,6 +21,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
     {
         internal ExcelBorderStyle Style { get; }
 
+#nullable enable
         internal IStyleColor? Color { get; }
+#nullable disable
     }
 }

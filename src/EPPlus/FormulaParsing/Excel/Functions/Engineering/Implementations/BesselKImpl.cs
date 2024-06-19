@@ -8,13 +8,13 @@
   05/20/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
 {
-    public class BesselKImpl : BesselBase
+    /// <summary>
+    /// Bessel K
+    /// </summary>
+    internal class BesselKImpl : BesselBase
     {
         static FinanceCalcResult<double> Besselk0(double fNum)
         {
@@ -73,7 +73,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementatio
 
             return new FinanceCalcResult<double>(fRet);
         }
-
+        /// <summary>
+        /// Bessel K
+        /// </summary>
+        /// <param name="fNum"></param>
+        /// <param name="nOrder"></param>
+        /// <returns></returns>
         public FinanceCalcResult<double> BesselK(double fNum, int nOrder)
         {
             switch (nOrder)

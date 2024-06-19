@@ -26,7 +26,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 26
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -72,7 +72,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 42
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -109,7 +109,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 56
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -146,7 +146,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 70
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -183,7 +183,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 383
+    startLine: 654
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -220,7 +220,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EvalOrder
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 399
+    startLine: 670
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -257,11 +257,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value1
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 457
+    startLine: 734
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
-  summary: "\nThe value 1 to compare the filter to\n"
+  summary: "\nThe valueOrIndex 1 to compare the filter to\n"
   example: []
   syntax:
     content: public object Value1 { get; set; }
@@ -294,11 +294,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value2
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-    startLine: 466
+    startLine: 743
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
-  summary: "\nThe value 2 to compare the filter to\n"
+  summary: "\nThe valueOrIndex 2 to compare the filter to\n"
   example: []
   syntax:
     content: public object Value2 { get; set; }

@@ -20,31 +20,54 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
+    /// <summary>
+    /// Function compiler
+    /// </summary>
     public abstract class FunctionCompiler
     {
+        /// <summary>
+        /// Function
+        /// </summary>
         protected ExcelFunction Function
         {
             get;
             private set;
         }
-
+        /// <summary>
+        /// Function compiler
+        /// </summary>
+        /// <param name="function">The function</param>
         public FunctionCompiler(ExcelFunction function)
         {
             Require.That(function).Named("function").IsNotNull();
             Function = function;
         }
-
+        /// <summary>
+        /// Build function arguments
+        /// </summary>
+        /// <param name="compileResult"></param>
+        /// <param name="dataType"></param>
+        /// <param name="args"></param>
         protected void BuildFunctionArguments(CompileResult compileResult, DataType dataType, List<FunctionArgument> args)
         {
             var funcArg = new FunctionArgument(compileResult);
             args.Add(funcArg);
         }
-
+        /// <summary>
+        /// Build Function Arguments
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="args"></param>
         protected void BuildFunctionArguments(CompileResult result, List<FunctionArgument> args)
         {
             BuildFunctionArguments(result, result.DataType, args);
         }
-
+        /// <summary>
+        /// Compile
+        /// </summary>
+        /// <param name="children"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public abstract CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context);
 
     }

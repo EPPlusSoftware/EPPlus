@@ -25,10 +25,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LimitedOperators
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-    startLine: 40
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nLimited operators\n"
+  example: []
   syntax:
     content: public enum LimitedOperators
     content.vb: Public Enum LimitedOperators
@@ -56,10 +58,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-    startLine: 42
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nEquals\n"
+  example: []
   syntax:
     content: Equals = 8
     return:
@@ -88,10 +92,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-    startLine: 43
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nGreater than\n"
+  example: []
   syntax:
     content: GreaterThan = 9
     return:
@@ -120,10 +126,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-    startLine: 44
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nGreater than or equal\n"
+  example: []
   syntax:
     content: GreaterThanOrEqual = 10
     return:
@@ -152,10 +160,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-    startLine: 45
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nLess than\n"
+  example: []
   syntax:
     content: LessThan = 11
     return:
@@ -184,10 +194,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-    startLine: 46
+    startLine: 121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nLess than or equal\n"
+  example: []
   syntax:
     content: LessThanOrEqual = 12
     return:
@@ -216,10 +228,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotEqualTo
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-    startLine: 47
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nNot equal to\n"
+  example: []
   syntax:
     content: NotEqualTo = 13
     return:

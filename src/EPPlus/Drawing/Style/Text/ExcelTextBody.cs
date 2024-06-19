@@ -155,7 +155,7 @@ namespace OfficeOpenXml.Drawing
             set
             {
 				_initXml?.Invoke();
-				SetXmlNodeAngel($"{_path}/@rot", value, "Rotation", -100000, 100000);
+				SetXmlNodeAngle($"{_path}/@rot", value, "Rotation", -100000, 100000);
             }
         }
         /// <summary>

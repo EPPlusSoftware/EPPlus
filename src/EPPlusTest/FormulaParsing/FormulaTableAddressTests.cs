@@ -47,6 +47,5 @@ namespace EPPlusTest.FormulaParsing
 			ws.Calculate();
 			Assert.AreEqual("Table1[[#This Row],[NumValue]]+1", ws.Cells["E5"].Formula);
 		}
-
 	}
 }

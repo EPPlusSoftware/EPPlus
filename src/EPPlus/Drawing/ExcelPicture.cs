@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing
                 Image = new ExcelImage(this);
 
 				var type = PictureStore.GetPictureTypeByContentType(ContentType);
-				if (    type==null)
+				if (type==null)
                 {
 					type = ImageReader.GetPictureType(ms, false);
 				}
@@ -215,6 +215,11 @@ namespace OfficeOpenXml.Drawing
             SetPixelHeight(height);
             _width = GetPixelWidth();
             _height = GetPixelHeight();
+        }
+
+        internal void SetNewId(int newId)
+        {
+            SetXmlNodeInt("xdr:pic/xdr:nvPicPr/xdr:cNvPr/@id", newId, null, false);
         }
 
         private string PicStartXml(ePictureType type)
@@ -425,7 +430,7 @@ namespace OfficeOpenXml.Drawing
 			}
 			set
 			{
-				SetXmlNodeAngel(_rotationPath, value, "Rotation", -100000, 100000);
+				SetXmlNodeAngle(_rotationPath, value, "Rotation", -100000, 100000);
 			}
 		}
 		string _horizontalFlipPath = "{0}xdr:spPr/a:xfrm/@flipH";

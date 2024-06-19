@@ -17,18 +17,31 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
-    public class ExcelDatabaseCriteriaField
+    /// <summary>
+    /// Field for database criteria
+    /// </summary>
+    internal class ExcelDatabaseCriteriaField
     {
+        /// <summary>
+        /// Constructor with field name
+        /// </summary>
+        /// <param name="fieldName"></param>
         public ExcelDatabaseCriteriaField(string fieldName)
         {
             FieldName = fieldName;
         }
-
+        /// <summary>
+        /// Constructor with field index
+        /// </summary>
+        /// <param name="fieldIndex"></param>
         public ExcelDatabaseCriteriaField(int fieldIndex)
         {
             FieldIndex = fieldIndex;
         }
-
+        /// <summary>
+        /// return name or object toString
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (!string.IsNullOrEmpty(FieldName))
@@ -37,9 +50,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
             }
             return base.ToString();
         }
-
+        /// <summary>
+        /// Name of field
+        /// </summary>
         public string FieldName { get; private set; }
-
+        /// <summary>
+        /// Index of field
+        /// </summary>
         public int? FieldIndex { get; private set; }
     }
 }

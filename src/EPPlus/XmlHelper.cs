@@ -20,7 +20,7 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
-using System.Drawing;
+using System.Threading;
 using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml
@@ -888,7 +888,7 @@ namespace OfficeOpenXml
                 DeleteNode(path);
             }
         }
-        internal void SetXmlNodeAngel(string path, double? value, string parameter = null, int minValue = 0, int maxValue = 360)
+        internal void SetXmlNodeAngle(string path, double? value, string parameter = null, int minValue = 0, int maxValue = 360)
         {
             if (value.HasValue)
             {
@@ -988,6 +988,20 @@ namespace OfficeOpenXml
         internal bool GetXmlNodeBool(string path)
         {
             return GetXmlNodeBool(path, false);
+        }
+        /// <summary>
+        /// Get xmlNodeBool from parent node
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="parentNode"></param>
+        /// <returns></returns>
+        internal bool GetXmlNodeBool(string path, XmlNode parentNode)
+        {
+            var tempNode = TopNode;
+            TopNode = parentNode;
+            var retVal = GetXmlNodeBool(path, TopNode);
+            TopNode = tempNode;
+            return retVal;
         }
         internal bool GetXmlNodeBool(string path, bool blankValue)
         {
@@ -1149,8 +1163,27 @@ namespace OfficeOpenXml
                 }
             }
         }
+		internal DateTime? GetXmlNodeDateTime(string path)
+		{
+			string s = GetXmlNodeString(path);
+			if (s == "")
+			{
+				return default;
+			}
+			else
+			{
+				if (DateTime.TryParse(s,CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dt))
+				{
+                    return dt;
+				}
+				else
+				{
+					return default;
+				}
+			}
+		}
 
-        internal string GetXmlNodeString(XmlNode node, string path)
+		internal string GetXmlNodeString(XmlNode node, string path)
         {
             if (node == null)
             {

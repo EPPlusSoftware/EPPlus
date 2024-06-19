@@ -23,7 +23,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationList
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -92,7 +92,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 62
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -134,7 +134,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 67
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -176,7 +176,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HideDropDown
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 78
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -216,7 +216,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
-    startLine: 83
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

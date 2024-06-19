@@ -121,7 +121,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetDateGroupField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-    startLine: 54
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -160,7 +160,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNumericGroupField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-    startLine: 69
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -195,7 +195,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCalculatedField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-    startLine: 124
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

@@ -26,7 +26,7 @@ namespace OfficeOpenXml.RichData
                     new List<ExcelRichValueStructureKey>()
                     {
                         new ExcelRichValueStructureKey("errorType", "i"),
-                        new ExcelRichValueStructureKey("subType", "b")
+                        new ExcelRichValueStructureKey("subType", "i")
                     },
                     new List<ExcelRichValueStructureKey>()
                     {

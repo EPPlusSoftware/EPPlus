@@ -18,6 +18,10 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -25,34 +29,11 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// IconSet base class
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class ExcelConditionalFormattingIconSetBase<T> : 
-        ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingIconSetBase<T> :
+        CachingCFAdvanced,
         IExcelConditionalFormattingThreeIconSet<T>
         where T : struct, Enum
     {
-        private new string _uid = null;
-
-        internal override string Uid { 
-            get 
-            {
-                if(_uid == null)
-                {
-                    return NewId();
-                }
-
-                return _uid;
-            } 
-            set
-            {
-                _uid = value;
-            }
-        }
-
-        internal static string NewId()
-        {
-            return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
-        }
-
         internal ExcelConditionalFormattingIconSetBase(
           eExcelConditionalFormattingRuleType type,
           ExcelAddress address,
@@ -95,6 +76,11 @@ namespace OfficeOpenXml.ConditionalFormatting
             icon.Value = value;
 
             return icon;
+        }
+
+        internal ExcelConditionalFormattingIconSetBase<T> GetIconSetType()
+        {
+            return this;
         }
 
         internal ExcelConditionalFormattingIconSetBase(
@@ -305,6 +291,117 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get;
             set;
+        }
+
+        internal int GetIconNum(ExcelAddress address)
+        {
+            return CalculateCorrectIcon(address, GetIconArray(true));
+        }
+
+        internal string GetIconName(ExcelAddress address)
+        {
+            int id = CalculateCorrectIcon(address, GetIconArray(true));
+            var icons = IconDict.GetIconsAsCustomIcons(GetIconSetString(), GetIconArray());
+
+            if(id == -1)
+            {
+                return "";
+            }
+
+            return Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icons[id]);
+        }
+
+        internal virtual ExcelConditionalFormattingIconDataBarValue[] GetIconArray(bool reversed = false)
+        {
+            return reversed ? [Icon3, Icon2, Icon1] : [Icon1, Icon2, Icon3];
+        }
+
+        internal List<ExcelConditionalFormattingIconDataBarValue> GetCustomIconList(bool reversed = false)
+        {
+            var list = GetIconArray(reversed);
+            var customIconList = new List<ExcelConditionalFormattingIconDataBarValue>();
+            foreach (var icon in list)
+            {
+                if(icon.CustomIcon != null)
+                {
+                    customIconList.Add(icon);
+                }
+            }
+            return customIconList;
+        }
+
+        protected int CalculateCorrectIcon(ExcelAddress address, ExcelConditionalFormattingIconDataBarValue[] icons)
+        {
+            //Icon1.Type 
+            var range = _ws.Cells[address.Address];
+            var cellValue = range.Value;
+            if(cellValue.IsNumeric() && cellValue != null)
+            {
+                if (cellValueCache.Count == 0)
+                {
+                    UpdateCellValueCache(false, true);
+                }
+
+                double percentile = -1d;
+                double percent = -1d;
+
+                double cellValueAsDouble = Convert.ToDouble(cellValue);
+
+                for (int i = 0; i < icons.Length -1; i++)
+                {
+                    var checkingValue = cellValueAsDouble;
+
+                    if(icons[i].Type == eExcelConditionalFormattingValueObjectType.Percent)
+                    {
+                        if(percent == -1d)
+                        {
+                            double numerator = cellValueAsDouble - _lowest;
+                            double denominator = _highest - _lowest;
+                            percent = numerator / denominator;
+
+                            percent = percent * 100d;
+                        }
+                        checkingValue = percent;
+                    }else if (icons[i].Type == eExcelConditionalFormattingValueObjectType.Percentile)
+                    {
+                        if(percentile == -1)
+                        {
+                            double numValuesLessThan = cellValueCache.Where(n => Convert.ToDouble(n) < cellValueAsDouble).Count();
+
+                            percentile = (numValuesLessThan / (cellValueCache.Count() - 1d)) * 100d;
+                        }
+                        checkingValue = percentile;
+                    }
+                    else if(icons[i].Type == eExcelConditionalFormattingValueObjectType.Formula)
+                    {
+                        var formulaResult = _ws.Workbook.FormulaParserManager.Parse(icons[i].Formula, address.FullAddress, false);
+                        if(formulaResult.IsNumeric())
+                        {
+                            icons[i]._formulaCalculatedValue = Convert.ToDouble(formulaResult);
+                        }
+                        else
+                        {
+                            throw new Exception($"The icon formula {icons[i].Formula} must return a numeric value. Error found on cell {address.Address} in Iconset with uid:{Uid} icon index: {i}.");
+                        }
+                    }
+
+                    if (icons[i].ShouldApplyIcon(checkingValue))
+                    {
+                        if(Reverse)
+                        {
+                            return i;
+                        }
+                        return icons.Length - i - 1;
+                    }
+                }
+
+                if (Reverse)
+                {
+                    return icons.Length - 1;
+                }
+                return 0;
+            }
+            return -1;
         }
 
         internal string GetIconSetString()

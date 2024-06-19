@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PmtDue
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
-    startLine: 18
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nPmtDue\n"
+  example: []
   syntax:
     content: public enum PmtDue
     content.vb: Public Enum PmtDue
@@ -52,10 +54,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndOfPeriod
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
-    startLine: 20
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nEnd of period\n"
+  example: []
   syntax:
     content: EndOfPeriod = 0
     return:
@@ -84,10 +88,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BeginningOfPeriod
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
-    startLine: 21
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nBeginning of period\n"
+  example: []
   syntax:
     content: BeginningOfPeriod = 1
     return:

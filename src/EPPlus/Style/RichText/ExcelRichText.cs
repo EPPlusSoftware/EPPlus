@@ -529,7 +529,9 @@ namespace OfficeOpenXml.Style
             }
             sb.Append("/>");
         }
-
+        /// <summary>
+        /// Has default value
+        /// </summary>
         public bool HasDefaultValue
         {
             get

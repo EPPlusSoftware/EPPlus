@@ -12,6 +12,8 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption
@@ -28,9 +30,12 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String,System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection})
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters
@@ -80,7 +85,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTable
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 41
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -126,7 +131,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotNullValue
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 46
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -161,7 +166,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Styles
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 236
+    startLine: 257
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -198,7 +203,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableXml
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 244
+    startLine: 265
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -235,7 +240,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableUri
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 248
+    startLine: 269
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -272,7 +277,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 263
+    startLine: 284
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -309,7 +314,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinition
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 289
+    startLine: 310
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -322,6 +327,198 @@ items:
       type: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
     content.vb: Public ReadOnly Property CacheDefinition As ExcelPivotCacheDefinition
   overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
+  id: IsCalculated
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: IsCalculated
+  nameWithType: ExcelPivotTable.IsCalculated
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsCalculated
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 315
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  syntax:
+    content: public bool IsCalculated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCalculated As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  id: Calculate(System.Boolean)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Calculate(Boolean)
+  nameWithType: ExcelPivotTable.Calculate(Boolean)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 331
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCalculates the pivot table \n"
+  example: []
+  syntax:
+    content: public void Calculate(bool refreshCache = false)
+    parameters:
+    - id: refreshCache
+      type: System.Boolean
+      description: ''
+    content.vb: Public Sub Calculate(refreshCache As Boolean = False)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String)
+  id: GetPivotData(System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: GetPivotData(String)
+  nameWithType: ExcelPivotTable.GetPivotData(String)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetPivotData
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 350
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nReturns the calculated grand total for the pivot table. This function works similar to the GetPivotData function used in formulas.\nIf the pivot table is created in EPPlus without refreshing the cache, the cache will be created.\nPlease note the any source data containing formulas must be calculated before the pivot table is calculated.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.Refresh\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public object GetPivotData(string dataFieldName)
+    parameters:
+    - id: dataFieldName
+      type: System.String
+      description: 'The name of the data field. If a data field with the name does exist in the table, a #REF! error is returned-'
+    return:
+      type: System.Object
+      description: The calculated value
+    content.vb: Public Function GetPivotData(dataFieldName As String) As Object
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String,System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection})
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String,System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection})
+  id: GetPivotData(System.String,System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection})
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: GetPivotData(String, IList<PivotDataFieldItemSelection>)
+  nameWithType: ExcelPivotTable.GetPivotData(String, IList<PivotDataFieldItemSelection>)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String, System.Collections.Generic.IList<OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetPivotData
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 367
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nReturns a calculated value for a row or column field. This function works similar to the GetPivotData function.\nIf a row or column field is omitted, the subtotal for that field is retrieved.\nIf the pivot table is not calculated a calculation will be performed without refreshing the pivot cache.\nIf the pivot table is created in EPPlus without refreshing the cache, the cache will be created.\nPlease note the any source data containing formulas must be calculated before the pivot table is calculated.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.Refresh\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public object GetPivotData(string dataFieldName, IList<PivotDataFieldItemSelection> fieldItemSelection)
+    parameters:
+    - id: dataFieldName
+      type: System.String
+      description: 'The name of the data field. If a data field with the name does exist in the table, a #REF! error is returned-'
+    - id: fieldItemSelection
+      type: System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection}
+      description: 'A list of criterias to determin which value to retrieve. If the fieldItemSelection does not exist in the pivot tabvle a #REF! error is returned.'
+    return:
+      type: System.Object
+      description: The calculated value
+    content.vb: Public Function GetPivotData(dataFieldName As String, fieldItemSelection As IList(Of PivotDataFieldItemSelection)) As Object
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData*
+  nameWithType.vb: ExcelPivotTable.GetPivotData(String, IList(Of PivotDataFieldItemSelection))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String, System.Collections.Generic.IList(Of OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection))
+  name.vb: GetPivotData(String, IList(Of PivotDataFieldItemSelection))
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData
+  id: CalculatedData
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: CalculatedData
+  nameWithType: ExcelPivotTable.CalculatedData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CalculatedData
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 585
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAccess to the calculated data when the pivot table has been calculated.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String%2cSystem.Collections.Generic.IList%7bOfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection%7d)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableCalculatedData CalculatedData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+    content.vb: Public ReadOnly Property CalculatedData As ExcelPivotTableCalculatedData
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData*
   modifiers.csharp:
   - public
   - get
@@ -346,7 +543,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkSheet
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 303
+    startLine: 758
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -383,7 +580,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 311
+    startLine: 766
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -420,7 +617,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataOnRows
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 319
+    startLine: 774
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -457,7 +654,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValuesFieldPosition
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 336
+    startLine: 791
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -494,7 +691,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyNumberFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 344
+    startLine: 799
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -531,7 +728,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyBorderFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 358
+    startLine: 813
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -568,7 +765,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFontFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 372
+    startLine: 827
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -605,7 +802,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyPatternFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 386
+    startLine: 841
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -642,7 +839,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyWidthHeightFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 400
+    startLine: 855
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -679,7 +876,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMemberPropertyTips
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 414
+    startLine: 869
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -716,7 +913,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowCalcMember
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 428
+    startLine: 883
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -753,7 +950,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EnableDrill
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 442
+    startLine: 897
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -790,7 +987,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDrill
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 456
+    startLine: 911
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -827,7 +1024,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDataTips
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 470
+    startLine: 925
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -864,7 +1061,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldPrintTitles
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 484
+    startLine: 939
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -901,7 +1098,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ItemPrintTitles
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 498
+    startLine: 953
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -938,7 +1135,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnGrandTotals
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 512
+    startLine: 967
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -975,7 +1172,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowGrandTotals
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 526
+    startLine: 981
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1012,7 +1209,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintDrill
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 540
+    startLine: 995
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1049,7 +1246,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowError
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 554
+    startLine: 1009
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1086,7 +1283,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 568
+    startLine: 1023
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1123,7 +1320,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 583
+    startLine: 1038
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1160,7 +1357,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeaders
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 597
+    startLine: 1052
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1197,7 +1394,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageWrap
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 611
+    startLine: 1066
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1234,7 +1431,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseAutoFormatting
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 629
+    startLine: 1084
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1271,7 +1468,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GridDropZones
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 643
+    startLine: 1098
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1308,7 +1505,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indent
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 657
+    startLine: 1112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1345,7 +1542,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 671
+    startLine: 1126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1382,7 +1579,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Outline
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 685
+    startLine: 1140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1419,7 +1616,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MultipleFieldFilters
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 699
+    startLine: 1154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1456,7 +1653,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compact
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 713
+    startLine: 1168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1493,7 +1690,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCompact
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 728
+    startLine: 1183
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1529,7 +1726,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompactData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 739
+    startLine: 1194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1566,7 +1763,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrandTotalCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 753
+    startLine: 1208
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1603,7 +1800,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowHeaderCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 767
+    startLine: 1222
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1640,7 +1837,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnHeaderCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 781
+    startLine: 1236
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1677,7 +1874,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MissingCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 795
+    startLine: 1250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1714,7 +1911,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Filters
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 810
+    startLine: 1265
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1751,7 +1948,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstHeaderRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 825
+    startLine: 1280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1788,7 +1985,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstDataRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 840
+    startLine: 1295
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1825,7 +2022,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstDataCol
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 855
+    startLine: 1310
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1862,7 +2059,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 870
+    startLine: 1325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1899,7 +2096,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 885
+    startLine: 1340
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1936,7 +2133,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 900
+    startLine: 1355
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1973,7 +2170,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 915
+    startLine: 1370
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2010,7 +2207,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 930
+    startLine: 1385
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2047,7 +2244,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 945
+    startLine: 1400
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2084,7 +2281,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowColumnHeaders
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 998
+    startLine: 1453
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2121,7 +2318,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowColumnStripes
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1013
+    startLine: 1468
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2158,7 +2355,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLastColumn
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1028
+    startLine: 1483
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2195,7 +2392,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowRowHeaders
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1043
+    startLine: 1498
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2232,7 +2429,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowRowStripes
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1058
+    startLine: 1513
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2269,7 +2466,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1073
+    startLine: 1528
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2318,7 +2515,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableStyle
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1093
+    startLine: 1548
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2355,7 +2552,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValuesRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1114
+    startLine: 1569
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2753,6 +2950,138 @@ references:
   name: ExcelPivotCacheDefinition
   nameWithType: ExcelPivotCacheDefinition
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
+  name: IsCalculated
+  nameWithType: ExcelPivotTable.IsCalculated
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate
+  name: Calculate
+  nameWithType: ExcelPivotTable.Calculate
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.IsCalculated
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.Refresh
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.Refresh
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData
+  name: GetPivotData
+  nameWithType: ExcelPivotTable.GetPivotData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData
+- uid: System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection}
+  commentId: T:System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  name: IList<PivotDataFieldItemSelection>
+  nameWithType: IList<PivotDataFieldItemSelection>
+  fullName: System.Collections.Generic.IList<OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection>
+  nameWithType.vb: IList(Of PivotDataFieldItemSelection)
+  fullName.vb: System.Collections.Generic.IList(Of OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection)
+  name.vb: IList(Of PivotDataFieldItemSelection)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+    name: PivotDataFieldItemSelection
+    nameWithType: PivotDataFieldItemSelection
+    fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+    name: PivotDataFieldItemSelection
+    nameWithType: PivotDataFieldItemSelection
+    fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String,System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection})
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GetPivotData(System.String,System.Collections.Generic.IList{OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection})
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData
+  name: CalculatedData
+  nameWithType: ExcelPivotTable.CalculatedData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CalculatedData
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableCalculatedData
+  nameWithType: ExcelPivotTableCalculatedData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet
   name: WorkSheet
@@ -2780,13 +3109,6 @@ references:
   name: DataOnRows
   nameWithType: ExcelPivotTable.DataOnRows
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
   commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
   isExternal: true

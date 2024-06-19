@@ -15,6 +15,7 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.String
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Time
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Unknown
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Variable
   langs:
   - csharp
   - vb
@@ -376,6 +377,40 @@ items:
   example: []
   syntax:
     content: Unknown = 13
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Variable
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Variable
+  id: Variable
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Variable
+  nameWithType: DataType.Variable
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Variable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Variable
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nVariable data type\n"
+  example: []
+  syntax:
+    content: Variable = 14
     return:
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
   modifiers.csharp:

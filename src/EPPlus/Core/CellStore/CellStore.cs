@@ -1210,6 +1210,53 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
+        internal bool NextCellByColumn(ref int row, ref int col, int minRow, int maxRow, int maxColPos)
+        {
+            var c = GetColumnPosition(col);
+            maxColPos = Math.Min(maxColPos, ColumnCount-1);            
+            while(c>=0 && c < maxColPos)
+            {
+                var r=_columnIndex[c].GetNextRow(row);
+                if (r == row)
+                {
+                    col = _columnIndex[c].Index;
+                    return true;
+                }
+                else if(r > -1 && r <=maxRow)
+                {
+                    row = r;
+                    col = _columnIndex[c].Index;
+                    return true;
+                }
+                c++;
+                row = minRow;
+            }
+            return false;
+        }
+        internal bool PrevCellByColumn(ref int row, ref int col, int minRow, int maxRow, int maxColPos)
+        {
+            var c = GetColumnPosition(col);
+            maxColPos = Math.Min(maxColPos, ColumnCount-1);
+            while (c >= 0)
+            {
+                var r = _columnIndex[c].GetPrevRow(row);
+                if (r == row)
+                {
+                    col = _columnIndex[c].Index;
+                    return true;
+                }
+                else if (r >- 1 && r >= minRow)
+                {
+                    row = r;
+                    col = _columnIndex[c].Index;
+                    return true;
+                }
+
+                c--;
+                row = maxRow;
+            }
+            return false;
+        }
         internal bool GetNextCell(ref int row, ref int colPos, int startColPos, int endRow, int endColPos)
         {
             if (ColumnCount == 0)
@@ -1367,7 +1414,7 @@ namespace OfficeOpenXml.Core.CellStore
                         return false;
                     }
                     row--;
-                    col = maxColPos;
+                    col = _columnIndex[maxColPos].Index+1;
                     return PrevCell(ref row, ref col, minRow, minColPos, maxRow, maxColPos);
                 }
                 else

@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LookupValueMatcher
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/LookupValueMatcher.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nCompares values for lookup\n"
+  example: []
   syntax:
     content: 'public class LookupValueMatcher : ValueMatcher'
     content.vb: >-
@@ -68,19 +70,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareObjectToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/LookupValueMatcher.cs
-    startLine: 21
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nCompares object to string. Incomplete.\n"
+  example: []
   syntax:
     content: protected override int CompareObjectToString(object o1, string o2)
     parameters:
     - id: o1
       type: System.Object
+      description: object 1
     - id: o2
       type: System.String
+      description: object 2
     return:
       type: System.Int32
+      description: ''
     content.vb: Protected Overrides Function CompareObjectToString(o1 As Object, o2 As String) As Integer
   overridden: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString(System.Object,System.String)
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.LookupValueMatcher.CompareObjectToString*

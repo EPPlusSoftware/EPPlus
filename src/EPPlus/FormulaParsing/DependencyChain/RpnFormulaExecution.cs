@@ -96,7 +96,14 @@ namespace OfficeOpenXml.FormulaParsing
 
             return ExecuteChain(depChain, null, formula, options, true);
         }
-        private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRangeBase range, ExcelCalculationOption options, bool writeToCell)
+		internal static object ExecutePivotFieldFormula(RpnOptimizedDependencyChain depChain, IList<Token> tokens, ExcelCalculationOption options)
+		{
+            var formula = new RpnFormula(null, 0, 0);
+            formula.SetFormula(tokens, depChain);
+			return AddChainForFormula(depChain, formula, options, false);
+		}
+
+		private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRangeBase range, ExcelCalculationOption options, bool writeToCell)
         {
             var ws = range.Worksheet;
             RpnFormula f = null;
@@ -286,6 +293,7 @@ namespace OfficeOpenXml.FormulaParsing
                 SetCurrentCell(depChain, f);
                 f.SetFormula(s, depChain);
             }
+            f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
             var id = ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, f._row, f._column);
             depChain.processedCells.Add(id);
 
@@ -784,21 +792,28 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Decimal:
                     case TokenType.StringContent:
                     case TokenType.Array:
+                    case TokenType.ParameterVariableDeclaration:
+                    case TokenType.ParameterVariable:
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
                     case TokenType.Negator:                        
                         s.Push(s.Pop().Negate());
                         break;
                     case TokenType.CellAddress:
-                    case TokenType.ExcelAddress:                    
-                        var e = f._expressions[f._tokenIndex];
+                    case TokenType.ExcelAddress:
+						var e = f._expressions[f._tokenIndex];
                         s.Push(e);
                         if(returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek())==false))
                         {
                            return e.GetAddress();
                         }
                         break;
-                    case TokenType.NameValue:
+					case TokenType.FullColumnAddress:
+					case TokenType.FullRowAddress:
+						var frce = f._expressions[f._tokenIndex];
+						s.Push(frce);
+                        break;
+					case TokenType.NameValue:
                         var ne = (NamedValueExpression)f._expressions[f._tokenIndex];
                         s.Push(ne);
                         if (ne._name != null)
@@ -821,6 +836,18 @@ namespace OfficeOpenXml.FormulaParsing
                         if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
+                            if(fexp.HandlesVariables && f._expressionStack.Count > 1 && !(f._expressionStack.Peek() is VariableExpression varExp && varExp.IsDeclaration))
+                            {
+                                var exp1 = f._expressionStack.Pop();
+                                var exp2 = f._expressionStack.Pop();
+                                f._expressionStack.Push(exp2);
+                                f._expressionStack.Push(exp1);
+                                if(exp2 is VariableExpression vfe && vfe.IsDeclaration)
+                                {
+                                    ((VariableFunctionExpression)fexp).AddVariableValue(vfe.Name, exp1.Compile());
+                                }
+                            }
+                            
                             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
                             {
                                 //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
@@ -920,9 +947,20 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.NAError:
                         s.Push(ErrorExpression.NaError);
                         break;
+                    case TokenType.NameError:
+                        s.Push(ErrorExpression.NameError);
+                        break;
                 }
                 f._tokenIndex++;
-            }
+                if(f._tokenIndex==f._tokens.Count)
+                {
+					if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress)
+					{
+						var cr = s.Peek().Compile();
+						return cr.Address;
+					}
+				}
+			}
             return null;
         }
 
@@ -997,10 +1035,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static int GetNextTokenPosFromCondition(RpnFormula f, FunctionExpression fexp)
         {
-            if(fexp._argPos < fexp._arguments.Count)
+            if(fexp._argPos < fexp.NumberOfArguments)
             {
                 var fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
-                while(fexp._argPos < fexp._arguments.Count && (
+                while(fexp._argPos < fexp.NumberOfArguments && (
                     (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsTrue) && (fexp._latestConditionValue == ExpressionCondition.False || fexp._latestConditionValue == ExpressionCondition.Error)) ||
                     (EnumUtil.HasFlag(fe, FunctionParameterInformation.UseIfConditionIsFalse) && (fexp._latestConditionValue == ExpressionCondition.True || fexp._latestConditionValue == ExpressionCondition.Error))
                     ))
@@ -1015,9 +1053,9 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     fe = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos);
                 }
-                if(fexp._argPos < fexp._arguments.Count)
+                if(fexp._argPos < fexp.NumberOfArguments)
                 {
-                    return fexp._arguments[fexp._argPos];
+                    return fexp.GetArgument(fexp._argPos);
                 }
                 else
                 {
@@ -1066,7 +1104,7 @@ namespace OfficeOpenXml.FormulaParsing
                 else
                 {
                     //Remove all function arguments from the stack
-                    for (int i = 0; i < funcExp._arguments.Count; i++)
+                    for (int i = 0; i < funcExp.NumberOfArguments; i++)
                     {
                         var si = f._expressionStack.Pop();
                     }
@@ -1145,7 +1183,7 @@ namespace OfficeOpenXml.FormulaParsing
                 f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
-            for(int i=0;i<func._arguments.Count;i++)
+            for(int i=0;i<func.NumberOfArguments && s.Count > 0;i++)
             {
                 var si = s.Pop();
                 if(si.ExpressionType!=ExpressionType.Empty)

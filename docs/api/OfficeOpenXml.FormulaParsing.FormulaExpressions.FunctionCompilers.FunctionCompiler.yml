@@ -24,10 +24,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionCompiler
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 22
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  summary: "\nFunction compiler\n"
+  example: []
   syntax:
     content: public abstract class FunctionCompiler
     content.vb: Public MustInherit Class FunctionCompiler
@@ -67,10 +69,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Function
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 24
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  summary: "\nFunction\n"
+  example: []
   syntax:
     content: protected ExcelFunction Function { get; }
     parameters: []
@@ -102,15 +106,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 30
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  summary: "\nFunction compiler\n"
+  example: []
   syntax:
     content: public FunctionCompiler(ExcelFunction function)
     parameters:
     - id: function
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+      description: The function
     content.vb: Public Sub New(function As ExcelFunction)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.#ctor*
   modifiers.csharp:
@@ -135,19 +142,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildFunctionArguments
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 36
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  summary: "\nBuild function arguments\n"
+  example: []
   syntax:
     content: protected void BuildFunctionArguments(CompileResult compileResult, DataType dataType, List<FunctionArgument> args)
     parameters:
     - id: compileResult
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+      description: ''
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: ''
     - id: args
       type: System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+      description: ''
     content.vb: Protected Sub BuildFunctionArguments(compileResult As CompileResult, dataType As DataType, args As List(Of FunctionArgument))
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.BuildFunctionArguments*
   nameWithType.vb: FunctionCompiler.BuildFunctionArguments(CompileResult, DataType, List(Of FunctionArgument))
@@ -175,17 +187,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildFunctionArguments
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 42
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  summary: "\nBuild Function Arguments\n"
+  example: []
   syntax:
     content: protected void BuildFunctionArguments(CompileResult result, List<FunctionArgument> args)
     parameters:
     - id: result
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+      description: ''
     - id: args
       type: System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+      description: ''
     content.vb: Protected Sub BuildFunctionArguments(result As CompileResult, args As List(Of FunctionArgument))
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.BuildFunctionArguments*
   nameWithType.vb: FunctionCompiler.BuildFunctionArguments(CompileResult, List(Of FunctionArgument))
@@ -213,19 +229,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compile
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-    startLine: 47
+    startLine: 70
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  summary: "\nCompile\n"
+  example: []
   syntax:
     content: public abstract CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
     parameters:
     - id: children
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult}
+      description: ''
     - id: context
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+      description: ''
     content.vb: Public MustOverride Function Compile(children As IEnumerable(Of CompileResult), context As ParsingContext) As CompileResult
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler.Compile*
   nameWithType.vb: FunctionCompiler.Compile(IEnumerable(Of CompileResult), ParsingContext)

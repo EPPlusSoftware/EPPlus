@@ -14,8 +14,14 @@ using System;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Function parameters info
+    /// </summary>
     public class ExcelFunctionParametersInfo
     {
+        /// <summary>
+        /// Default
+        /// </summary>
         public static ExcelFunctionParametersInfo Default 
         { 
             get
@@ -28,10 +34,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
 
         }
+        /// <summary>
+        /// Constructor getParameter
+        /// </summary>
+        /// <param name="getParameter"></param>
         public ExcelFunctionParametersInfo(Func<int, FunctionParameterInformation> getParameter)
         {
             _getParameter = getParameter;
         }
+        /// <summary>
+        /// Has normal arguments
+        /// </summary>
         public bool HasNormalArguments
         {
             get 
@@ -39,6 +52,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return _getParameter == null;
             }
         }
+        /// <summary>
+        /// Get information about the parameter at the position at <paramref name="argumentIndex"/>
+        /// </summary>
+        /// <param name="argumentIndex">The position of the parameter</param>
+        /// <returns>The parameter informations</returns>
         public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {
             if(_getParameter== null)

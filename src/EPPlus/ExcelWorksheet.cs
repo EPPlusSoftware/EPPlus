@@ -51,6 +51,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 
 namespace OfficeOpenXml
 {
@@ -2656,7 +2657,8 @@ namespace OfficeOpenXml
                             }
                             else if (col.Name != n)
                             {
-                                col.Name = n;
+                                col.Name = tbl.UpdateAndReturnValidName(tbl.Columns.GetIndexOfColName(col.Name), n, col.Name, tbl.Columns.GetColNamesList());
+                                n = col.Name.ToLowerInvariant();
                                 SetValueInner(tbl.Address._fromRow, colNum, ConvertUtil.ExcelDecodeString(col.Name));
                                 if (tbl.WorkSheet.IsRichText(tbl.Address._fromRow, colNum))
                                 {
@@ -2866,14 +2868,12 @@ namespace OfficeOpenXml
             }
             return "";
         }
-
-
         /// <summary>
-        /// Dimension address for the worksheet. 
+        /// Dimension address for the worksheet for cells with a value or a style set. 
         /// Top left cell to Bottom right.
-        /// If the worksheet has no cells, null is returned
+        /// If the worksheet has no cells, null is returned        
         /// </summary>
-        public ExcelAddressBase Dimension
+        public ExcelRangeBase Dimension
         {
             get
             {
@@ -2881,9 +2881,7 @@ namespace OfficeOpenXml
                 int fromRow, fromCol, toRow, toCol;
                 if (_values.GetDimension(out fromRow, out fromCol, out toRow, out toCol))
                 {
-                    var addr = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
-                    addr._ws = Name;
-                    return addr;
+                    return Cells[fromRow, fromCol, toRow, toCol];
                 }
                 else
                 {
@@ -2891,7 +2889,121 @@ namespace OfficeOpenXml
                 }
             }
         }
-        ExcelSheetProtection _protection=null;
+        /// <summary>
+        /// Dimension address for the worksheet for cells with a value different than null. 
+        /// Top left cell to Bottom right.
+        /// If the worksheet has no cells, null is returned        
+        /// </summary>
+        public ExcelRangeBase DimensionByValue
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                if (_values.GetDimension(out int fr, out int fc, out int tr, out int tc))
+                {
+                    var fvc = FirstValueCell;
+                    var lvc = LastValueCell;
+
+                    var fromRow = fvc._fromRow;
+                    var toRow = lvc._toRow;
+                    int fromCol,toCol;
+
+                    if(fvc._fromCol==fc)
+                    {
+                        fromCol = fvc._fromCol;
+                    }
+                    else
+                    {
+                        int r=fromRow, c=fc;
+                        while(_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount-1))
+                        {
+                            if(_values.GetValue(r, c)._value != null)
+                            {
+                                break;
+                            }
+                            r++;
+                        }
+                        //fromRow = r;
+                        fromCol = c;
+                    }
+
+                    if (fvc._toCol == tc)
+                    {
+                        toCol = fvc._toCol;
+                    }
+                    else
+                    {
+                        int r = toRow, c = tc;
+                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
+                        {
+                            if (_values.GetValue(r, c)._value != null)
+                            {
+                                break;
+                            }
+                            r--;
+                        }
+                        //toRow = r;
+                        toCol = c;
+                    }
+
+                    return Cells[Math.Min(fromRow, toRow), Math.Min(fromCol, toCol) , Math.Max(fromRow, toRow), Math.Max(fromCol, toCol)];
+                }
+                return null;
+            }
+        }
+        /// <summary>
+        /// The first cell with a value in the worksheet that differs from null. 
+        /// Normally this is the top-left cell, unless the worksheet is set to RightToLeft mode. 
+        /// <seealso cref="ExcelWorksheetView.RightToLeft"/>
+        /// </summary>
+        public ExcelRangeBase FirstValueCell
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                var fromRow = Dimension._fromRow;
+                var fromCol = Dimension._fromCol;
+                if (_values.GetValue(fromRow, fromCol)._value == null)
+                {
+                    while (_values.NextCell(ref fromRow, ref fromCol))
+                    {
+                        if (_values.GetValue(fromRow, fromCol)._value != null)
+                        {
+                            return Cells[fromRow, fromCol];
+                        }
+                    }
+                    return null;
+                }
+                return Cells[fromRow, fromCol];
+            }
+        }
+        /// <summary>
+        /// The last cell with a value in the worksheet that differs from null. 
+        /// Normally this is the bottom-right cell, unless the worksheet is set to RightToLeft mode. 
+        /// <seealso cref="ExcelWorksheetView.RightToLeft"/>
+        /// </summary>
+        public ExcelRangeBase LastValueCell
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                var toRow = Dimension._toRow;
+                var toCol = Dimension._toCol;
+                if (_values.GetValue(toRow, toCol)._value == null)
+                {
+                    while (_values.PrevCell(ref toRow, ref toCol))
+                    {
+                        if (_values.GetValue(toRow, toCol)._value != null)
+                        {
+                            return Cells[toRow, toCol];
+                        }
+                    }
+                    return null;
+                }
+                return Cells[toRow, toCol];
+            }
+        }
+        ExcelSheetProtection _protection =null;
         /// <summary>
         /// Access to sheet protection properties
         /// </summary>

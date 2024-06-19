@@ -46,22 +46,22 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// A time
         /// </summary>
         Time = 5,
+        /////// <summary>
+        /////// A range or a collection
+        /////// </summary>
+        ////Enumerable = 6,
         ///// <summary>
-        ///// A range or a collection
+        ///// A lookup array
         ///// </summary>
-        //Enumerable = 6,
-        /// <summary>
-        /// A lookup array
-        /// </summary>
-        //LookupArray = 7,
-        ///// <summary>
-        ///// A range reference
-        ///// </summary>
-        //ExcelAddress = 8,
-        ///// <summary>
-        ///// Single cell address, e.g A1
-        ///// </summary>
-        //ExcelCellAddress = 9,
+        ////LookupArray = 7,
+        /////// <summary>
+        /////// A range reference
+        /////// </summary>
+        ////ExcelAddress = 8,
+        /////// <summary>
+        /////// Single cell address, e.g A1
+        /////// </summary>
+        ////ExcelCellAddress = 9,
         /// <summary>
         /// An address range, e.g A1:B2
         /// </summary>
@@ -78,5 +78,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// An unknown data type
         /// </summary>
         Unknown = 13,
+        /// <summary>
+        /// Variable data type
+        /// </summary>
+        Variable = 14
     }
 }

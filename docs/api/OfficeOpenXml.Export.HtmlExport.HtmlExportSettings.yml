@@ -8,13 +8,16 @@ items:
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
@@ -590,6 +593,117 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName
+  id: ConditionalFormattingClassName
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: ConditionalFormattingClassName
+  nameWithType: HtmlExportSettings.ConditionalFormattingClassName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConditionalFormattingClassName
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nThe name of the classes used for cell styles. \nThe name will be prefixed with the <xref href=\"OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName\" data-throw-if-not-resolved=\"false\"></xref> and suffixed with the conditional formatting style index.\n"
+  example: []
+  syntax:
+    content: public string ConditionalFormattingClassName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ConditionalFormattingClassName As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix
+  id: DatabarPrefix
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: DatabarPrefix
+  nameWithType: HtmlExportSettings.DatabarPrefix
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DatabarPrefix
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nThe name of the classes used for cell styles. \nThe name will be prefixed with the <xref href=\"OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public string DatabarPrefix { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DatabarPrefix As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix
+  id: IconPrefix
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: IconPrefix
+  nameWithType: HtmlExportSettings.IconPrefix
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IconPrefix
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nThe name of the classes used to store icon images. \nThe name will be prefixed with the <xref href=\"OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix\" data-throw-if-not-resolved=\"false\"></xref> and suffixed with the icon name.\n"
+  example: []
+  syntax:
+    content: public string IconPrefix { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property IconPrefix As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
   commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
   id: Pictures
@@ -608,7 +722,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pictures
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-    startLine: 116
+    startLine: 134
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -645,7 +759,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeCssClassNames
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-    startLine: 124
+    startLine: 142
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -682,7 +796,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HyperlinkTarget
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-    startLine: 130
+    startLine: 148
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -719,7 +833,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-    startLine: 136
+    startLine: 154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -756,7 +870,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderDataAttributes
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-    startLine: 144
+    startLine: 162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -793,7 +907,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderDataTypes
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-    startLine: 148
+    startLine: 166
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -830,7 +944,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderConditionalFormattings
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-    startLine: 152
+    startLine: 170
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -1396,6 +1510,27 @@ references:
   name: DxfStyleClassName
   nameWithType: HtmlExportSettings.DxfStyleClassName
   fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  name: DxfStyleClassName
+  nameWithType: HtmlExportSettings.DxfStyleClassName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DxfStyleClassName
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName
+  name: ConditionalFormattingClassName
+  nameWithType: HtmlExportSettings.ConditionalFormattingClassName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix
+  name: DatabarPrefix
+  nameWithType: HtmlExportSettings.DatabarPrefix
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix
+  name: IconPrefix
+  nameWithType: HtmlExportSettings.IconPrefix
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IconPrefix
 - uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures*
   commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
   name: Pictures

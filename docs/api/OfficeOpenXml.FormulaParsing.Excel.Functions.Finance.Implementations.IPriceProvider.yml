@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IPriceProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nIPriceProvider\n"
+  example: []
   syntax:
     content: public interface IPriceProvider
     content.vb: Public Interface IPriceProvider
@@ -51,29 +53,39 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPrice
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
-    startLine: 18
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGetPrice\n"
+  example: []
   syntax:
     content: double GetPrice(DateTime settlement, DateTime maturity, double rate, double yield, double redemption, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
     parameters:
     - id: settlement
       type: System.DateTime
+      description: ''
     - id: maturity
       type: System.DateTime
+      description: ''
     - id: rate
       type: System.Double
+      description: ''
     - id: yield
       type: System.Double
+      description: ''
     - id: redemption
       type: System.Double
+      description: ''
     - id: frequency
       type: System.Int32
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetPrice(settlement As Date, maturity As Date, rate As Double, yield As Double, redemption As Double, frequency As Integer, basis As DayCountBasis = DayCountBasis.US_30_360) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice*
 references:

@@ -20,8 +20,21 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class ObjectEnumerableArgConverter : CollectionFlattener<object>
+    /// <summary>
+    /// Object Enumerable arg converter
+    /// </summary>
+    internal class ObjectEnumerableArgConverter : CollectionFlattener<object>
     {
+        /// <summary>
+        /// Convert args to enumerable
+        /// </summary>
+        /// <param name="ignoreHidden"></param>
+        /// <param name="ignoreErrors"></param>
+        /// <param name="ignoreNestedSubtotalAggregate"></param>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
         public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, bool ignoreErrors, bool ignoreNestedSubtotalAggregate, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>
@@ -47,6 +60,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 });
         }
 
+        /// <summary>
+        /// Convert args to enumerable
+        /// </summary>
+        /// <param name="ignoreHidden"></param>
+        /// <param name="ignoreErrors"></param>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
         public virtual IEnumerable<object> ConvertArgs(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>

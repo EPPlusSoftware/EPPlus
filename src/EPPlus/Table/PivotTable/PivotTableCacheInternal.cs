@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Constants;
+﻿using EPPlusTest.Table.PivotTable;
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
@@ -87,6 +88,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString(_sourceRIdPath, value);
             }
         }
+
         internal ExcelRangeBase SourceRange 
         { 
             get
@@ -112,6 +114,7 @@ namespace OfficeOpenXml.Table.PivotTable
                                     return sourceRange;
                                 }
                             }
+
                             foreach (var w in _wb.Worksheets)
                             {
                                 sourceRange = GetRangeByName(w, name);
@@ -185,6 +188,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         }
+        internal PivotTableCacheRecords Records { get; private set; }
         internal Packaging.ZipPackageRelationship RecordRelationship
         {
             get;
@@ -224,6 +228,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index++));
             }
+            Records = new PivotTableCacheRecords(this);
         }
 
         internal void RefreshFields()
@@ -262,7 +267,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         field=_fields[ix];
                         field.SharedItems.Clear();
-
+                        if(field._cacheLookup!=null) field._cacheLookup.Clear();
                         if (cacheUpdated == false && string.IsNullOrEmpty(name)==false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
                     }
 
@@ -284,35 +289,10 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             if (cacheUpdated) UpdateRowColumnPageFields(tableFields);
-
-            RefreshPivotTableItems();
-        }
-
-        //private void SyncFields(List<ExcelPivotTableCacheField> fields)
-        //{
             
-        //}
-
-        //private void SyncFields()
-        //{
-        //    var r = SourceRange;
-        //    foreach(var pt in _pivotTables)
-        //    {       
-        //        var newList = new List<ExcelPivotTableField>();
-        //        foreach (var f in pt.Fields)
-        //        {                    
-        //            if (pt.CacheDefinition._cacheReference.Fields.Any(x=>x.Name.Equals(f.Name))
-        //            {
-        //                f.TopNode.RemoveChild(f.TopNode);                            
-        //            }
-        //            else
-        //            {
-        //                newList.Add(f);
-        //            }
-        //        }
-        //        pt.Fields._list = newList;
-        //    }
-        //}
+            RefreshPivotTableItems();
+            Records.CreateRecords();
+        }
 
         private void RemoveDeletedFields(ExcelRangeBase r)
         {
@@ -747,7 +727,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTableCacheField AddDateGroupField(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime startDate, DateTime endDate, int interval)
         {
             ExcelPivotTableCacheField cacheField = CreateField(groupBy.ToString(), field.Index, false);
-            cacheField.SetDateGroup(field, groupBy, startDate, endDate, interval);
+            cacheField.SetDateGroup(field, groupBy, startDate, endDate, interval, false);
 
             Fields.Add(cacheField);
             return cacheField;
@@ -829,5 +809,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 return null;
             }
         }
-    }
+
+		internal int GetMaxRow()
+		{
+            var range = SourceRange;
+
+			var dimensionToRow = range.Worksheet?.Dimension?._toRow + 1 ?? range._fromRow + 1; //We add 1 to dimension to row so we get one row with null values.
+			var toRow = range._toRow < dimensionToRow ? range._toRow : dimensionToRow;
+			return toRow;
+		}
+	}
 }

@@ -56,24 +56,24 @@ Misspelled property `ColumGrandTotals` has been removed. Please use `ColumnGrand
 Pivot tables will always have the flag to be refreshed on load set.
 Pivot table filter classes moved to correct namespace --> OfficeOpenXml.Table.PivotTable
 
-### Breaking Change From EPPlus 5.6
+### Breaking changes from EPPlus 5.6
 Inserting rows in tables will by default copy any style from the row before. 
 The ExcelRange.Cells indexer will not permit accessing other worksheets using the string address overload (for example sheet1.Cells["sheet2.A1"]).
 
-### Breaking Change From EPPlus 5.8
+### Breaking changes from EPPlus 5.8
 LoadFromCollection changes the data type of parameter 'TableStyle' from TableStyles to TableStyles?. 
 The default value, if omitted, changes from TableStyles.None to null. TableStyles.None, if supplied will create a table with style None.
 
-### Breaking Change From EPPlus 6.0
+### Breaking changes from EPPlus 6.0
 Targeting framework for .NET4.0 has been removed. 
 Targeting framework for .NET 4.5 has been upgraded to .NET 4.52.
 All references to System.Drawing.Common has been removed. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information.
 Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
 
-### Breaking Change From EPPlus 6.2
+### Breaking changes from EPPlus 6.2
 Updating data validations via the XML DOM will not work as read and write is performed on load/save. ExcelDataValidation.IsStale is deprecated and will always return false.
 
-### Breaking Change From EPPlus 7.0
+### Breaking changes from EPPlus 7.0
 The formula parser has changed significantly in EPPlus 7, requiring all custom functions that are inherited from the `ExcelFunction` class to be reviewed. 
 The `ExcelFunction` class has changed, now exposes new properties used to handle array results and condition behaviour. 
 * The `Execute` method has changed signature changing the `IEnumarable` in the first parameter to `IList`. New signature is: Execute(IList, ParsingContext).
@@ -115,7 +115,7 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 #### ExcelHyperlink
 * Renamed misspelled properties `ColSpann` and `RowSpann` to `ColSpan` and `RowSpan` on the `ExcelHyperLink` class.
 
-### Breaking Change From EPPlus 7.1
+### Breaking changes from EPPlus 7.1
 *Misspelled property `MemorySettings.MemoryManger` was renamed `MemoryManager`
 #### Defined Names
 * EPPlus will now encode string values and in defined name .
@@ -126,3 +126,11 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 #### Rich Text
 * The `ExcelRichText._collection` has been set to internal.
 * Public static methods in the class `XmlHelper` used to getting richtext properties has been changed to internal.
+* Table Column Names
+	* ShowHeaders = True property on tables no longer causes crash in rare cases. It also no longer updates column names.
+	* Table.SyncColumnNames method added to ensures column names and cell-values in header are equal. Applying this method should cover any potential issues caused by above fix not updating column names.
+	* Adding a table column to a table no longer creates a column name that can conflict with existing names.
+
+### Breaking changes from EPPlus 7.2
+* Changed class ExcelTextFormatBase to abstract
+* OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType RelativeRowAbsolutColumn corrected to RelativeRowAbsoluteColumn

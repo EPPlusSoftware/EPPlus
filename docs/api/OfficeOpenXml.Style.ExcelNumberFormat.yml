@@ -22,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNumberFormat
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 23
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -70,7 +70,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumFmtID
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 33
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -107,7 +107,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 43
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -144,7 +144,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildIn
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 72
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

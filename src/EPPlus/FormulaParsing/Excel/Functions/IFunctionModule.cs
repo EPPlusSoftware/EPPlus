@@ -18,6 +18,9 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Function module
+    /// </summary>
     public interface IFunctionModule
     {
         /// <summary>

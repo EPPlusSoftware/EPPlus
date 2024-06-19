@@ -37,6 +37,7 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Attributes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 
@@ -170,6 +171,31 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldNotIncludeHeadersWhenPrintHeadersIsOmittedTransposed()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3},
+                new Aclass(){ Id = "456", Name = "Item 2", Number = 6}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, c =>
+                {
+                    c.Transpose = true;
+                });
+
+                Assert.AreEqual("123", sheet.Cells["C1"].Value);
+                Assert.AreEqual(6, sheet.Cells["D3"].Value);
+                Assert.AreEqual(3, sheet.Dimension._fromCol);
+                Assert.AreEqual(4, sheet.Dimension._toCol);
+                Assert.AreEqual(1, sheet.Dimension._fromRow);
+                Assert.AreEqual(3, sheet.Dimension._toRow);
+            }
+        }
+
+        [TestMethod]
         public void ShouldIncludeHeaders()
         {
             var items = new List<Aclass>()
@@ -182,6 +208,34 @@ namespace EPPlusTest.LoadFunctions
                 var sheet = pck.Workbook.Worksheets.Add("sheet");
                 sheet.Cells["C1"].LoadFromCollection(items, true);
                 Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldIncludeHeadersTransposed()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3},
+                new Aclass(){ Id = "456", Name = "Item 2", Number = 6}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.Transpose = true;
+                });
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+                Assert.AreEqual("123", sheet.Cells["D1"].Value);
+                Assert.AreEqual("456", sheet.Cells["E1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["C2"].Value);
+                Assert.AreEqual("Item 1", sheet.Cells["D2"].Value);
+                Assert.AreEqual("Item 2", sheet.Cells["E2"].Value);
+                Assert.AreEqual("Number", sheet.Cells["C3"].Value);
+                Assert.AreEqual(3, sheet.Cells["D3"].Value);
+                Assert.AreEqual(6, sheet.Cells["E3"].Value);
             }
         }
 
@@ -257,6 +311,34 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("Name", sheet.Cells["D1"].Value);
                 Assert.IsNull(sheet.Cells["E1"].Value);
                 Assert.AreEqual("123", sheet.Cells["C2"].Value);
+                Assert.AreEqual("Item 1", sheet.Cells["D2"].Value);
+                Assert.IsNull(sheet.Cells["E2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldFilterMembersTransposed()
+        {
+            var items = new List<BaseClass>()
+            {
+                new Implementation(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                var t = typeof(Implementation);
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, true, LoadFromCollectionParams.DefaultBindingFlags,
+                    new MemberInfo[]
+                    {
+                        t.GetProperty("Id"),
+                        t.GetProperty("Name")
+                    });
+
+                Assert.AreEqual(1, sheet.Dimension._toCol - sheet.Dimension._fromCol);
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Name", sheet.Cells["C2"].Value);
+                Assert.IsNull(sheet.Cells["C3"].Value);
+                Assert.AreEqual("123", sheet.Cells["D1"].Value);
                 Assert.AreEqual("Item 1", sheet.Cells["D2"].Value);
                 Assert.IsNull(sheet.Cells["E2"].Value);
             }
@@ -453,6 +535,38 @@ namespace EPPlusTest.LoadFunctions
             }
         }
         [TestMethod]
+        public void ShouldLoadExpandoObjectsTransposed()
+        {
+            dynamic o1 = new ExpandoObject();
+            o1.Id = 1;
+            o1.Name = "TestName 1";
+            dynamic o2 = new ExpandoObject();
+            o2.Id = 2;
+            o2.Name = "TestName 2";
+            dynamic o3 = new ExpandoObject();
+            o3.Id = 3;
+            o3.Name = "TestName 3";
+            var items = new List<ExpandoObject>()
+            {
+                o1,
+                o2,
+                o3,
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.Transpose = true;
+                });
+                Assert.AreEqual("A1:D2", r.Address);
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["C2"].Value);
+            }
+        }
+        [TestMethod]
         public void ShouldSetHyperlinkForURIs()
         {
             var items = new List<UrlClass>()
@@ -468,7 +582,7 @@ namespace EPPlusTest.LoadFunctions
                 var ns = package.Workbook.Styles.CreateNamedStyle("Hyperlink");
                 ns.BuildInId = 8;
                 ns.Style.Font.UnderLine = true;
-                ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+                ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0xFF,0x05 ,0x63, 0xC1));
 
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
                 sheet.Cells["E2:E5"].StyleName = "Hyperlink";
@@ -487,6 +601,31 @@ namespace EPPlusTest.LoadFunctions
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void TransposeHyperlinks()
+        {
+            var items = new List<UrlClass>()
+            {
+                new UrlClass{Id="1", Name="Person 1", EMailAddress="person1@somewhe.re"},
+                new UrlClass{Id="2", Name="Person 2", EMailAddress="person2@somewhe.re"},
+                new UrlClass{Id="2", Name="Person with Url", EMailAddress="person2@somewhe.re", Url=new Uri("https://epplussoftware.com")},
+            };
+
+            using (var package = OpenPackage("LoadFromURIsTranspose.xlsx", true))
+            {
+                
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
+
+                sheet.Tables[0].SyncColumnNames(ApplyDataFrom.ColumnNamesToCells);
+                Assert.AreEqual("Column4", sheet.Cells["D1"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         public void LoadListOfEnumWithDescription()
         {
@@ -504,6 +643,26 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("The color Red", sheet.Cells["A1"].Value);
                 Assert.AreEqual("Green", sheet.Cells["A2"].Value);
                 Assert.AreEqual("The color Blue", sheet.Cells["A3"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void LoadListOfEnumWithDescriptionTransposed()
+        {
+            var items = new List<AnEnum>()
+            {
+                AnEnum.Red,
+                AnEnum.Green,
+                AnEnum.Blue
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("EnumList");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
+                Assert.AreEqual("The color Red", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Green", sheet.Cells["B1"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["C1"].Value);
                 SaveAndCleanup(package);
             }
         }
@@ -558,6 +717,36 @@ namespace EPPlusTest.LoadFunctions
             }
         }
         [TestMethod]
+        public void LoadListOfClassWithEnumWithDescriptionTransposed()
+        {
+            var items = new List<EnumClass>()
+            {
+                new EnumClass(){Id=1, Enum=AnEnum.Red, NullableEnum = AnEnum.Blue},
+                new EnumClass(){Id=2, Enum=AnEnum.Blue, NullableEnum = null},
+                new EnumClass(){Id=3, Enum=AnEnum.Green, NullableEnum = AnEnum.Red},
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Enum", sheet.Cells["A2"].Value);
+                Assert.AreEqual("Nullable Enum", sheet.Cells["A3"].Value);
+                Assert.AreEqual(1, sheet.Cells["B1"].Value);
+                Assert.AreEqual("The color Red", sheet.Cells["B2"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["B3"].Value);
+                Assert.AreEqual(2, sheet.Cells["C1"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["C2"].Value);
+                Assert.IsNull(sheet.Cells["C3"].Value);
+                Assert.AreEqual(3, sheet.Cells["D1"].Value);
+                Assert.AreEqual("Green", sheet.Cells["D2"].Value);
+                Assert.AreEqual("The color Red", sheet.Cells["D3"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
         public void LoadWithAttributesTest()
         {
             var l = new List<Company>();
@@ -567,6 +756,20 @@ namespace EPPlusTest.LoadFunctions
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].LoadFromCollection(l, x => x.UseBuiltInStylesForHyperlinks = true);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void LoadWithAttributesTestTransposed()
+        {
+            var l = new List<Company>();
+            l.Add(new Company(1, "EPPlus Software AB", new Uri("https://epplussoftware.com")));
+
+            using (var package = OpenPackage("LoadFromCollectionAttr.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].LoadFromCollection(l, x => { x.UseBuiltInStylesForHyperlinks = true; x.Transpose = true; });
 
                 SaveAndCleanup(package);
             }

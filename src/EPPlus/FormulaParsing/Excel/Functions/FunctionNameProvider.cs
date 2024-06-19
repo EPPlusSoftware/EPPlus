@@ -18,18 +18,27 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Function name provider
+    /// </summary>
     public class FunctionNameProvider : IFunctionNameProvider
     {
         private FunctionNameProvider()
         {
 
         }
-
+        /// <summary>
+        /// Empty
+        /// </summary>
         public static FunctionNameProvider Empty
         {
             get { return new FunctionNameProvider(); }
         }
-
+        /// <summary>
+        /// Is function name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public virtual bool IsFunctionName(string name)
         {
             return false;

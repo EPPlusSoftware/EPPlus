@@ -11,6 +11,7 @@
   03/14/2024         EPPlus Software AB           Epplus 7.1
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
@@ -25,6 +26,10 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Data.SqlTypes;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 {
@@ -190,6 +195,216 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
 
             _ruleCollection.CssRules.Add(styleClass);
         }
+
+        internal void AddSharedIconsetRule()
+        {
+            if(_context.SharedIconSetRuleAdded == false)
+            {
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.IconPrefix}-shared::before", "content", "\"\"");
+
+                var beforeRule = _ruleCollection.Last();
+                //Set to 1.22 em because our standard-height for columns is 20px
+                beforeRule.AddDeclaration("min-width", $"1.22em");
+                beforeRule.AddDeclaration("min-height", $"1.22em");
+                beforeRule.AddDeclaration("float", $"left");
+                beforeRule.AddDeclaration("background-repeat", $"no-repeat");
+
+                //Ensure cells don't overflow
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.IconPrefix}-shared", "min-width", "2.24em");
+
+                _context.SharedIconSetRuleAdded = true;
+            }
+        }
+
+        internal void AddSharedDatabarRule(ExcelConditionalFormattingDataBar dataBar)
+        {
+            if(_context.SharedDatabarRulesAdded == false)
+            {
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DatabarPrefix}-shared", "position", "relative");
+                var sharedRule = _ruleCollection.Last();
+                sharedRule.AddDeclaration("position", "relative");
+                sharedRule.AddDeclaration("overflow", "hidden");
+                sharedRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{DatabarSvg.GetConvertedAxisStripes()})");
+                sharedRule.AddDeclaration("background-size", "5px 10px");
+                sharedRule.AddDeclaration("background-repeat", "repeat-y");
+                sharedRule.AddDeclaration("background-position", "-30px 0%");
+
+                _ruleCollection.AddRule($".{_settings.StyleClassPrefix}{_settings.DatabarPrefix}-shared::after", "content", "\"\"");
+                var sharedRuleAfter = _ruleCollection.Last();
+                sharedRuleAfter.AddDeclaration("position", "absolute");
+                sharedRuleAfter.AddDeclaration("width", "100%");
+                sharedRuleAfter.AddDeclaration("height", "calc(100% - 3px)");
+                sharedRuleAfter.AddDeclaration("z-index", "-1");
+                sharedRuleAfter.AddDeclaration("top", "0%");
+                sharedRuleAfter.AddDeclaration("bottom", "0%");
+                sharedRuleAfter.AddDeclaration("background-repeat", "no-repeat");
+                sharedRuleAfter.AddDeclaration("background-size", "100% 100%");
+
+                _context.SharedDatabarRulesAdded = true;
+            }
+        }
+
+        internal void AddDatabar(ExcelConditionalFormattingDataBar dataBar, int cssOrder, int id)
+        {
+            if (_context.SharedDatabarRulesAdded == false)
+            {
+                AddSharedDatabarRule(dataBar);
+            }
+
+            //TODO: Should cache and only create one of them if identical
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}{id}-";
+            var positiveDatabarRule = new CssRule(ruleName + "pos::after", cssOrder);
+            var negativeDatabarRule = new CssRule(ruleName + "neg::after", cssOrder);
+
+            var positiveDatabarSVG = DatabarSvg.GetConvertedDatabarString(dataBar.FillColor.GetColorAsColor(), dataBar.Gradient, dataBar.BorderColor.GetColorAsColor(true));
+            var negativeDatabarSVG = DatabarSvg.GetConvertedDatabarString(dataBar.NegativeFillColor.GetColorAsColor(), dataBar.Gradient, dataBar.NegativeBorderColor.GetColorAsColor());
+
+            positiveDatabarRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{positiveDatabarSVG})");
+            negativeDatabarRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{negativeDatabarSVG})");
+
+            _ruleCollection.AddRule($"{ruleName + "pos"}, {ruleName + "neg"}", "z-index", $"0");
+            var sharedContentRule = _ruleCollection.Last();
+
+            if (dataBar.AxisPosition != eExcelDatabarAxisPosition.None)
+            {
+                double AxisPositionPercent;
+                if (dataBar.AxisPosition == eExcelDatabarAxisPosition.Automatic)
+                {
+                    var absLowest = Math.Abs(dataBar.lowest);
+                    var absHighest = Math.Abs(dataBar.highest);
+
+                    double denominator = dataBar.highest - dataBar.lowest;
+
+                    var percent = Math.Abs(dataBar.lowest / denominator);
+                    AxisPositionPercent = percent * 100;
+                }
+                else
+                {
+                    //is middle
+                    AxisPositionPercent = 50;
+                }
+
+                if (dataBar.Direction == eDatabarDirection.RightToLeft)
+                {
+                    //Note: switches right/left and positive/negative
+                    AxisPositionPercent = 100 - AxisPositionPercent;
+                    var temp = positiveDatabarRule;
+                    positiveDatabarRule = negativeDatabarRule;
+                    negativeDatabarRule = temp;
+                }
+
+                AxisPositionPercent = Math.Round(AxisPositionPercent, 3);
+                string xPositionInPercentString = (AxisPositionPercent).ToString(CultureInfo.InvariantCulture);
+
+                if(dataBar.lowest < 0 && dataBar.highest > 0 | dataBar.AxisPosition == eExcelDatabarAxisPosition.Middle)
+                {
+                    sharedContentRule.AddDeclaration("background-position", $"{xPositionInPercentString}% 0%");
+                }
+
+                if (dataBar.AxisColor != null)
+                {
+                    var axisColorSvg = DatabarSvg.GetConvertedAxisStripesWithColor(dataBar.AxisColor.GetColorAsColor(true));
+                    sharedContentRule.AddDeclaration("background-image", $"url(data:image/svg+xml;base64,{axisColorSvg})");
+                }
+
+                //Left of axis Negative, Right of axis Positive
+                double negativeWidthPercent = AxisPositionPercent;
+                double positiveWidthPercent = Math.Round(100d - AxisPositionPercent, 3);
+
+                string negativeWidth = negativeWidthPercent.ToString(CultureInfo.InvariantCulture);
+                string positiveWidth = positiveWidthPercent.ToString(CultureInfo.InvariantCulture);
+
+                string rightOffset = positiveWidth;
+                string leftOffset = negativeWidth;
+
+                //Corrections for bar not to cover axis
+                if (negativeWidthPercent > 50)
+                {
+                    negativeDatabarRule.AddDeclaration("background-position", $"2px");
+                }
+                else if(positiveWidthPercent < 50)
+                {
+                    positiveDatabarRule.AddDeclaration("background-position", $"2px");
+                }
+                else
+                {
+                    negativeDatabarRule.AddDeclaration("background-position", $"1px");
+                    positiveDatabarRule.AddDeclaration("background-position", $"1px");
+                }
+
+                positiveDatabarRule.AddDeclaration("width", $"{positiveWidth}%");
+                positiveDatabarRule.AddDeclaration("left", $"{leftOffset}%");
+
+                negativeDatabarRule.AddDeclaration("width", $"{negativeWidth}%");
+                negativeDatabarRule.AddDeclaration("right", $"{rightOffset}%");
+                negativeDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
+            }
+            else
+            {
+                positiveDatabarRule.AddDeclaration("left", $"0%");
+                negativeDatabarRule.AddDeclaration("left", $"0%");
+
+                if (dataBar.Direction == eDatabarDirection.RightToLeft)
+                {
+                    positiveDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
+                    negativeDatabarRule.AddDeclaration("transform", $"scale(-1, 1)");
+                }
+            }
+
+            _ruleCollection.CssRules.Add(positiveDatabarRule);
+            _ruleCollection.CssRules.Add(negativeDatabarRule);
+
+            var addresses = dataBar.Address.GetAllAddresses();
+
+            var cells = dataBar._ws.Cells[dataBar.Address.Address];
+
+            foreach (var cell in cells)
+            {
+                var className = $".{_settings.StyleClassPrefix}{cell.Address}-{_settings.DatabarPrefix}::after";
+                double percentage = dataBar.GetPercentageAtCell(cell);
+                var databarRule = new CssRule(className, cssOrder);
+                databarRule.AddDeclaration("background-size", $"{Math.Round(percentage, 3).ToString(CultureInfo.InvariantCulture)}% 100%");
+                _ruleCollection.CssRules.Add(databarRule);
+            }
+        }
+
+        internal void AddIconSetCF<T>(ExcelConditionalFormattingIconSetBase<T> set, int cssOrder, int id)
+            where T : struct, Enum
+        {
+            if (_context.SharedIconSetRuleAdded == false)
+            {
+                AddSharedIconsetRule();
+            }
+
+            var ruleName = $".{_settings.StyleClassPrefix}{_settings.DxfStyleClassName}{id}";
+            var contentRule = new CssRule(ruleName, cssOrder);
+            if(!set.ShowValue)
+            {
+                contentRule.AddDeclaration("color", "transparent");
+            }
+            else
+            {
+                contentRule.AddDeclaration("visibility", "visible");
+            }
+
+            var icons = IconDict.GetIconsAsCustomIcons(set.GetIconSetString(), set.GetIconArray());
+
+            for(int i = 0; i < icons.Length; i++)
+            {
+                if (_context.AddedIcons.Contains(icons[i]) == false)
+                {
+                    _context.AddedIcons.Add(icons[i]);
+                    var svg = CF_Icons.GetIconSvg(icons[i]);
+
+                    var iconRule = new CssRule($".{_settings.StyleClassPrefix}{_settings.IconPrefix}-{Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icons[i])}::before", cssOrder);
+                    iconRule.AddDeclaration("background-image", $" url(data:image/svg+xml;base64,{svg})");
+                    _ruleCollection.CssRules.Add(iconRule);
+                }
+            }
+            _ruleCollection.CssRules.Add(contentRule);
+        }
+
+
 
         internal void AddPictureToCss(HtmlImage p)
         {

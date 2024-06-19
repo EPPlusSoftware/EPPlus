@@ -41,10 +41,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 48
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nCompile result\n"
+  example: []
   syntax:
     content: 'public class CompileResult : CompileResultBase'
     content.vb: >-
@@ -87,7 +89,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 80
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -126,7 +128,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZeroDecimal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 88
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -165,7 +167,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZeroInt
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 96
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -204,7 +206,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "False"
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 103
+    startLine: 115
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -243,7 +245,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "True"
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 107
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -282,7 +284,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 115
+    startLine: 127
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -321,7 +323,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetErrorResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 180
+    startLine: 185
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -362,15 +364,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 203
+    startLine: 212
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nCompile result with error type\n"
+  example: []
   syntax:
     content: public CompileResult(eErrorType errorType)
     parameters:
     - id: errorType
       type: OfficeOpenXml.eErrorType
+      description: ''
     content.vb: Public Sub New(errorType As eErrorType)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
   modifiers.csharp:
@@ -395,15 +400,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 209
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nCompile result with error value\n"
+  example: []
   syntax:
     content: public CompileResult(ExcelErrorValue errorValue)
     parameters:
     - id: errorValue
       type: OfficeOpenXml.ExcelErrorValue
+      description: ''
     content.vb: Public Sub New(errorValue As ExcelErrorValue)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
   modifiers.csharp:
@@ -428,10 +436,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Result
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 216
+    startLine: 230
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nRESULT\n"
+  example: []
   syntax:
     content: public object Result { get; }
     parameters: []
@@ -463,10 +473,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultValue
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 222
+    startLine: 238
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nResult Value\n"
+  example: []
   syntax:
     content: public object ResultValue { get; }
     parameters: []
@@ -498,10 +510,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultNumeric
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 245
+    startLine: 263
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nResult numeric\n"
+  example: []
   syntax:
     content: public double ResultNumeric { get; }
     parameters: []
@@ -533,10 +547,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 291
+    startLine: 311
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nData type\n"
+  example: []
   syntax:
     content: public DataType DataType { get; }
     parameters: []
@@ -568,10 +584,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumeric
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 297
+    startLine: 319
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nIs the result numeric\n"
+  example: []
   syntax:
     content: public bool IsNumeric { get; }
     parameters: []
@@ -603,10 +621,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumericString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 305
+    startLine: 330
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nIs result numeric string\n"
+  example: []
   syntax:
     content: public bool IsNumericString { get; }
     parameters: []
@@ -638,10 +658,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsPercentageString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 318
+    startLine: 345
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nIs percentage string\n"
+  example: []
   syntax:
     content: public bool IsPercentageString { get; }
     parameters: []
@@ -673,10 +695,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsDateString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 332
+    startLine: 361
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nIs date string\n"
+  example: []
   syntax:
     content: public bool IsDateString { get; }
     parameters: []
@@ -708,10 +732,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResultOfSubtotal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 345
+    startLine: 376
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nIs result of subtotal\n"
+  example: []
   syntax:
     content: public bool IsResultOfSubtotal { get; set; }
     parameters: []
@@ -743,10 +769,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHiddenCell
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 347
+    startLine: 381
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nIs hidden cell\n"
+  example: []
   syntax:
     content: public bool IsHiddenCell { get; set; }
     parameters: []
@@ -778,10 +806,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResultOfResolvedExcelRange
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 351
+    startLine: 388
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nIs result of resolved excelRange\n"
+  example: []
   syntax:
     content: public bool IsResultOfResolvedExcelRange { get; }
     parameters: []
@@ -813,10 +843,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 355
+    startLine: 395
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nRange address\n"
+  example: []
   syntax:
     content: public virtual FormulaRangeAddress Address { get; }
     parameters: []
@@ -850,10 +882,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 362
+    startLine: 405
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nResult type\n"
+  example: []
   syntax:
     content: public override CompileResultType ResultType { get; }
     parameters: []

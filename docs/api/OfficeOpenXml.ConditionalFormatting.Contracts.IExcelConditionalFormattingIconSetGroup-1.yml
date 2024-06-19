@@ -221,7 +221,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting.Contracts
-  summary: "\nIconSet (3, 4 ou 5 IconSet)\n"
+  summary: "\nIconSet (3, 4 or 5 IconSet)\n"
   example: []
   syntax:
     content: T IconSet { get; set; }

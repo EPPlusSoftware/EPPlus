@@ -156,7 +156,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
-  summary: "\nText orientation in degrees. Values range from 0 to 180 or 255. \nSetting the rotation to 255 will align text vertically.\n"
+  summary: "\nString orientation in degrees. Values range from 0 to 180 or 255. \nSetting the rotation to 255 will align text vertically.\n"
   example: []
   syntax:
     content: public int? TextRotation { get; set; }
