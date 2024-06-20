@@ -20,13 +20,25 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    /// <summary>
+    /// Returns error function
+    /// </summary>
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Engineering,
         EPPlusVersion = "5.2",
         Description = "Returns the error function integrated between two supplied limits")]
     public class Erf : ExcelFunction
     {
+        /// <summary>
+        /// Min arguments
+        /// </summary>
         public override int ArgumentMinLength => 1;
+        /// <summary>
+        /// Execute Erf
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var lowerLimit = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
@@ -40,8 +52,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var retVal = !upperLimit.HasValue ? ErfHelper.Erf(lowerLimit) : ErfHelper.Erf(lowerLimit, upperLimit.Value); 
             return CreateResult(retVal, DataType.Decimal);
         }
-
-        
-
     }
 }

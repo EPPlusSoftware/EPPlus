@@ -90,6 +90,9 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         FormulaRangeAddress Dimension { get; }
     }
+    /// <summary>
+    /// Address info
+    /// </summary>
     public interface IAddressInfo
     {
         /// <summary>

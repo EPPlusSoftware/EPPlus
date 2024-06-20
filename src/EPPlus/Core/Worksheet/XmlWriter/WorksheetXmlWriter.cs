@@ -606,7 +606,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         {
             var richData = _package.Workbook.RichData;
             var metadata = _package.Workbook.Metadata;
-            switch(error.Type)
+            var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
+            if(md.vm >= 0 && IsMdSameError(metadata, md, error, cse.Row, cse.Column))
+            {
+                return;
+            }
+            switch (error.Type)
             {
                 case eErrorType.Spill:
                     var spillError = (ExcelRichDataErrorValue)error;
@@ -632,9 +637,42 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             mdItem.Records.Add(new ExcelMetadataRecord(metadata.RichDataTypeIndex, fmdRichDataCollection.Types.Count - 1));
             metadata.ValueMetadata.Add(mdItem);
 
-            var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
             md.vm = metadata.ValueMetadata.Count;
             _ws._metadataStore.SetValue(cse.Row, cse.Column, md);
+        }
+
+        private bool IsMdSameError(ExcelMetadata metadata, MetaDataReference md, ExcelErrorValue error, int row, int column)
+        {
+            if (md.vm==0 || md.vm>=metadata.ValueMetadata.Count) return false;
+            var vm = metadata.ValueMetadata[md.vm-1];
+            if (vm.Records.Count > 0 && vm.Records[0].ValueTypeIndex >=0)
+            {
+                var richData = _package.Workbook.RichData;
+                if (richData.Values.Items.Count > vm.Records[0].ValueTypeIndex)
+                {
+                    var rd = richData.Values.Items[vm.Records[0].ValueTypeIndex];
+                    if (rd.Structure.Type.Equals("_error"))
+                    {
+                        switch (error.Type)
+                        {
+                            case eErrorType.Calc:
+                                if (rd.Values[0] == "13")
+                                {
+                                    return true;
+                                }
+                                break;
+                            case eErrorType.Spill:
+                                var rdError = (ExcelRichDataErrorValue)error; 
+                                if (rd.HasValue(["errorType", "colOffset", "rwOffset"], ["8", rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture), rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture)]))
+                                {
+                                    return true;
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -1113,13 +1151,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     if (cf.IsExtLst)
                     {
-                        if(addressDict.ContainsKey(cf.Address.Address))
+                        var key = cf.Address?.Address ?? "";
+                        if (addressDict.ContainsKey(key))
                         {
-                            addressDict[cf.Address.Address].Add(cf);
+                            addressDict[key].Add(cf);
                         }
                         else
                         {
-                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                            addressDict.Add(key, new List<ExcelConditionalFormattingRule>() { cf });
                         }
                     }
                 }
@@ -1327,8 +1366,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
 
                             cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
+                            cache.Append($"<{prefix}iconSet ");
 
-                            cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\"");
+                            if (isCustom == false)
+                            {
+                                cache.Append($"iconSet=\"{iconSetString}\"");
+                            }
 
                             if (showValue == false)
                             {
@@ -1362,7 +1405,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 }
 
                                 cache.Append(">");
-                                cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                                if (icon.Formula != null)
+                                {
+                                    cache.Append($"<xm:f>{icon.Formula.EncodeXMLAttribute()}</xm:f>");
+                                }
+                                else if (icon.Value != double.NaN)
+                                {
+                                    cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                                }
                                 cache.Append($"</{prefix}cfvo>");
                             }
 
@@ -1493,7 +1543,15 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                         if (i == ruleList.Value.Count - 1)
                         {
-                            cache.Append($"<xm:sqref>{format.Address.AddressSpaceSeparated}</xm:sqref>");
+                            if(format.Address == null)
+                            {
+                                cache.Append($"<xm:sqref></xm:sqref>");
+
+                            }
+                            else
+                            {
+                                cache.Append($"<xm:sqref>{format.Address.AddressSpaceSeparated}</xm:sqref>");
+                            }
                             cache.Append($"</{prefix}conditionalFormatting>");
                         }
                     }

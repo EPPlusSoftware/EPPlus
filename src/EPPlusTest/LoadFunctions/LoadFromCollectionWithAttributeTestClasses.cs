@@ -138,4 +138,21 @@ namespace EPPlusTest.LoadFunctions
         [EpplusTableColumn(Header = "Name", Order = 4)]
         public string Name { get; set; }
     }
+#nullable enable
+    public class NestedNullable
+    {
+        public int? NullableValue { get; set; }
+    }
+
+    public class ColumnsWithoutAttributes
+    {
+        public int? NullableInt { get; set; }
+        public int NonNull { get; set; }
+        public DateTime? NullableDateTime { get; set; }
+        [EpplusNestedTableColumn]
+        public NestedNullable? NestedNullableNullable { get; set; }
+        public string? ExplicitlyNullableString { get; set; }
+        public int? IntThatIsNull = null;
+    }
+#nullable disable
 }

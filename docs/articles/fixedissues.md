@@ -1,15 +1,79 @@
-
 # Features / Fixed issues - EPPlus 7
 ## Version 7.2
-### Minor Features and fixed issues
-* Added all icons and iconset features to html export. Including custom iconsets.
-* Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
+### Features
+* Added support for calculating pivot tables - See https://github.com/EPPlusSoftware/EPPlus/wiki/Calculating-Pivot-tables
+	* Supports calculation of data fields on column and row fields. 
+		* Page field filtering
+		* Filters
+                * Slicers
+	        * Show data as on data fields 
+                * Calculated fields.
+	* Access calculated pivot table data via the ExcelPivotTable.CalculatedData property of the ExcelPivotTable.GetPivotData function
+	* GetPivotData function.
+* Added support for copying drawings.
+ 	* Many types of drawings:
+	   	* Shapes
+	   	* Charts
+	   	* Pictures
+	   	* Controls
+	   	* Slicers
+	   	* Group Shapes
+    	* Copy individual drawings.
+	* Copying a range will include drawings.
+  		* Set flag to ignore drawings.
+* Added support for importing and exporting Fixed Width text files.
+* Transpose
+  	* Transpose ranges in import and export functions.
+        * Transpose i range Copy.
+* New functions supported in formula calculations.
+	* GETPIVOTDATA
+	* MMULT
+  	* MINVERSE
+  	* MDETERM
+  	* MUNIT
+  	* TEXTSPLIT
+	* TEXTAFTER
+  	* TEXTBEFORE
+	* LET       
+* Added Full-fledged support for Iconsets and Databar conditionalformattings in HTML-exporter, New features include:
+	* Exporting full visuals of Positive and negative databars with borders and axis colors, position and bar direction
+	* Custom-made embeded .svgs similar to each icon excel supports.
+	* Custom iconsets displaying appropriately and in order.
+	* Icons moving with text when aligned top, middle or bottom as in excel.
+	* Theme colors for colorscales now work correctly in the HTML exporter
 
+### Minor Features and fixed issues
+* Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
+* Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
+* Added ManualLayout property for data labels on charts. Labels can now be positioned and their textbox resized directly. Accessed via e.g `Chart.Series[0].DataLabel.DataLabels[0].Layout.ManualLayout`
+* Conditional Formatting Color Scales now support theme color correctly.
+
+## Version 7.1.3
+### Fixed issues 
+* Dxf styles on tables got corrupt if a style contained an alignment and border element.
+* When calculating formulas, you could get a CirculareReferenceException, if a formula referenced a non-existing worksheet.
+* Conditional formatting’s with the pivot flag set was incorrectly handled if they had no worksheet address set.
+* Clearing data validations on cells, could cause an exception when trying to add new data validations to these cells.
+* Conditional formatting icon sets now handles all operators and types appropriately ...
+* ExcelRange.Text returned an invalid formatting on formats with "?" in some cases.
+* Name indexer on group drawings did not work.
+* Data validation lists did not handle the `showDropDown` attribute.
+* Loading a workbook with rich text elements with no style element could hang.
+* The rich text `Text` property was not decode for restricted characters.
+
+* Table Column Names
+	* ShowHeaders = True property on tables no longer causes crash in rare cases. It also no longer updates column names.
+	* Table.SyncColumnNames method added to ensures column names and cell-values in header are equal. Applying this method should cover any potential issues caused by above fix not updating column names.
+	* Adding a table column to a table no longer creates a column name that can conflict with existing names.
 ## Version 7.1.2
 ### Fixed issues 
-* Defined Names with `"` symbols no longer get extraneous `"` added when saving in epplus.
-* Reading in RichText data on in-line strings now works as expected.
-* Negations of Defined Names and Ranges in shared formulas sometimes recieved the wrong sign in the calculation as the negation flag was not cleared.
+* Defined Names with `"` symbols no longer get extraneous `"` added when saving in EPPlus.
+* Reading RichText data on in-line strings now works as expected.
+* Negations of Defined Names and Ranges in shared formulas sometimes received the wrong sign in the calculation as the negation flag was not cleared.
+* 'ExcelRangeBase.ToCollection()' auto-mapping sometimes threw an exception as the wrong property type was used.
+* Using 'ExcelRangeBse.LoadFromCollection' with Nullable property members in a collection now returns columns as expected.
+* DataValidationList no longer fails to read in rare cases. 
+* Data validations that are cleared deleted or removed now clears the Range Dictonary correctly
 
 ## Version 7.1.1
 ### Minor Features and fixed issues

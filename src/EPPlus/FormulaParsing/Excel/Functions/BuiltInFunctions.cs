@@ -10,10 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
@@ -29,6 +25,9 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Built-in functions Epplus provides. As opposed to custom functions made by the user.
+    /// </summary>
     public class BuiltInFunctions : FunctionsModule
     {
         /// <summary>
@@ -311,6 +310,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["false"] = new False();
             Functions["switch"] = new Switch();
             Functions["xor"] = new Xor();
+            Functions["let"] = new LetFunction();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["hlookup"] = new HLookup();
@@ -343,6 +343,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["chooserows"] = new ChooseRows();
             Functions["vstack"] = new Vstack();
             Functions["hstack"] = new Hstack();
+            Functions["getpivotdata"] = new GetPivotData();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

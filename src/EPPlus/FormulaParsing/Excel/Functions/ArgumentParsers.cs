@@ -16,24 +16,37 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class ArgumentParsers
+    /// <summary>
+    /// Argument parsers
+    /// </summary>
+    internal class ArgumentParsers
     {
         private static object _syncRoot = new object();
         private readonly Dictionary<DataType, ArgumentParser> _parsers = new Dictionary<DataType, ArgumentParser>();
         private readonly ArgumentParserFactory _parserFactory;
 
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public ArgumentParsers()
             : this(new ArgumentParserFactory())
         {
 
         }
-
+        /// <summary>
+        /// Factory constructor.
+        /// </summary>
+        /// <param name="factory">Factory cannot be null</param>
         public ArgumentParsers(ArgumentParserFactory factory)
         {
             Require.That(factory).Named("argumentParserfactory").IsNotNull();
             _parserFactory = factory;
         }
-
+        /// <summary>
+        /// Get parser of type
+        /// </summary>
+        /// <param name="dataType"></param>
+        /// <returns></returns>
         public ArgumentParser GetParser(DataType dataType)
         {
             if (!_parsers.ContainsKey(dataType))

@@ -525,5 +525,33 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(pck);
             }
         }
+
+        [TestMethod]
+        public void CanReadIconsetFormulas()
+        {
+            using(var package = OpenTemplatePackage("s665.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.GetByName("Answer Sheet");
+                var iconFormula = sheet.ConditionalFormatting[0].As.ThreeIconSet.Icon2.Formula;
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void CanReadIconsetFormulasWhenTypeNum()
+        {
+            using (var package = OpenTemplatePackage("s670.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.GetByName("Sheet");
+                var icon = sheet.ConditionalFormatting[0].As.ThreeIconSet.Icon2;
+                var iconFormula = icon.Formula;
+
+                Assert.AreEqual("$N$9", iconFormula);
+                Assert.AreEqual(eExcelConditionalFormattingValueObjectType.Num, icon.Type);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

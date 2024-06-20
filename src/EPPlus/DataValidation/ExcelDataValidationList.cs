@@ -13,6 +13,7 @@
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Utils;
 using System;
 using System.Xml;
 
@@ -101,7 +102,14 @@ namespace OfficeOpenXml.DataValidation
             }
             else
             {
-                HideDropDown = bool.Parse(xr.GetAttribute("showDropDown"));
+                if (ConvertUtil.TryParseBooleanString(xr.GetAttribute("showDropDown"), out bool boolResult))
+                {
+                    HideDropDown = boolResult;
+                }
+                else
+                {
+                    HideDropDown = false;
+                }
             }
         }
 

@@ -601,6 +601,31 @@ namespace EPPlusTest.LoadFunctions
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void TransposeHyperlinks()
+        {
+            var items = new List<UrlClass>()
+            {
+                new UrlClass{Id="1", Name="Person 1", EMailAddress="person1@somewhe.re"},
+                new UrlClass{Id="2", Name="Person 2", EMailAddress="person2@somewhe.re"},
+                new UrlClass{Id="2", Name="Person with Url", EMailAddress="person2@somewhe.re", Url=new Uri("https://epplussoftware.com")},
+            };
+
+            using (var package = OpenPackage("LoadFromURIsTranspose.xlsx", true))
+            {
+                
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
+
+                sheet.Tables[0].SyncColumnNames(ApplyDataFrom.ColumnNamesToCells);
+                Assert.AreEqual("Column4", sheet.Cells["D1"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         public void LoadListOfEnumWithDescription()
         {

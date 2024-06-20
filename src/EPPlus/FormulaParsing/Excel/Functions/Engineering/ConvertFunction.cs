@@ -12,19 +12,29 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    /// <summary>
+    /// Convert function
+    /// </summary>
     [FunctionMetadata(
             Category = ExcelFunctionCategory.Engineering,
             EPPlusVersion = "5.1",
             Description = "Converts a number from one measurement system to another")]
     public class ConvertFunction : ExcelFunction
     {
+        /// <summary>
+        /// Minimum arguments
+        /// </summary>
         public override int ArgumentMinLength => 3;
+        /// <summary>
+        /// Execute convert function
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);

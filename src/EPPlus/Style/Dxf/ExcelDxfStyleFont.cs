@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Style.Dxf
                 return GetId() + ExcelDxfNumberFormat.GetEmptyId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId();
             }
         }
-		internal virtual string GetId()
+		internal override string GetId()
 		{
 			return base.GetId() + Font.Id;
 		}

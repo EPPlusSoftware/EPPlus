@@ -137,7 +137,7 @@ namespace EPPlusTest.Table.PivotTable
         [TestMethod]
         public void CreatePivotTableAddressSource()
         {
-            var ws=_pck.Workbook.Worksheets.Add("PivotSourceAddress");
+            var ws = _pck.Workbook.Worksheets.Add("PivotSourceAddress");
             LoadTestdata(ws);
 
             var pivotTable1 = ws.PivotTables.Add(ws.Cells["G1"], ws.Cells["A1:D100"], "PivotTable1");
@@ -153,7 +153,7 @@ namespace EPPlusTest.Table.PivotTable
             var ws = _pck.Workbook.Worksheets.Add("PivotSourceTable");
             LoadTestdata(ws);
             var table = ws.Tables.Add(ws.Cells["A1:D100"], "table1");
-            var pivotTable1 = ws.PivotTables.Add(ws.Cells["G1"], table , "PivotTable1");
+            var pivotTable1 = ws.PivotTables.Add(ws.Cells["G1"], table, "PivotTable1");
 
             pivotTable1.RowFields.Add(pivotTable1.Fields[0]);
             pivotTable1.RowFields.Add(pivotTable1.Fields[2]);
@@ -350,7 +350,7 @@ namespace EPPlusTest.Table.PivotTable
             wsData.Cells["B1"].Value = "Column2";
             var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["A1:B2"], "Pivottable11");
             pt.ColumnFields.Add(pt.Fields[1]);
-            var rf=pt.RowFields.Add(pt.Fields[0]);
+            var rf = pt.RowFields.Add(pt.Fields[0]);
             rf.SubTotalFunctions = eSubTotalFunctions.None;
             pt.DataOnRows = true;
         }
@@ -425,7 +425,7 @@ namespace EPPlusTest.Table.PivotTable
             var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:O11"], "Pivottable12");
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[0]);
-            var df=pt.DataFields.Add(pt.Fields[3]);
+            var df = pt.DataFields.Add(pt.Fields[3]);
             pt.DataOnRows = true;
             pt.ColumnHeaderCaption = "Column Caption";
             pt.RowHeaderCaption = "Row Caption";
@@ -493,7 +493,7 @@ namespace EPPlusTest.Table.PivotTable
         [ExpectedException(typeof(ArgumentException))]
         public void ShouldThrowExceptionOnAddingCalculatedFieldToColumns()
         {
-            using(var p=new ExcelPackage())
+            using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("RowArgExcep");
                 LoadTestdata(ws);
@@ -549,7 +549,7 @@ namespace EPPlusTest.Table.PivotTable
             var wsData = _pck.Workbook.Worksheets["Data"];
             var ws = _pck.Workbook.Worksheets.Add("StyleTests");
 
-            var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:N11"], "Pivottable8");            
+            var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:N11"], "Pivottable8");
             pt.PivotTableStyle = PivotTableStyles.None;
             Assert.AreEqual(PivotTableStyles.None, pt.PivotTableStyle);
             Assert.AreEqual(TableStyles.None, pt.TableStyle);
@@ -563,7 +563,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
             Assert.AreEqual("PivotStyleDark28", pt.StyleName);
 
-            pt.TableStyle= TableStyles.Light15;
+            pt.TableStyle = TableStyles.Light15;
             Assert.AreEqual(PivotTableStyles.Light15, pt.PivotTableStyle);
             Assert.AreEqual(TableStyles.Light15, pt.TableStyle);
             Assert.AreEqual("PivotStyleLight15", pt.StyleName);
@@ -673,26 +673,26 @@ namespace EPPlusTest.Table.PivotTable
 
                 p.Save();
 
-                AssertShartedItemsAttributes(pf1.Cache.TopNode.FirstChild, 4, true, true,false, false, false);
+                AssertShartedItemsAttributes(pf1.Cache.TopNode.FirstChild, 4, true, true, false, false, false);
                 AssertShartedItemsAttributes(pf2.Cache.TopNode.FirstChild, 3, true, false, false, false, false);
                 AssertShartedItemsAttributes(pf3.Cache.TopNode.FirstChild, 3, true, false, false, false, false);
                 AssertShartedItemsAttributes(pf4.Cache.TopNode.FirstChild, 4, true, true, true, false, false);
                 AssertShartedItemsAttributes(pf5.Cache.TopNode.FirstChild, 3, true, false, true, false, false);
                 AssertShartedItemsAttributes(pf6.Cache.TopNode.FirstChild, 3, true, false, true, false, false);
-                AssertShartedItemsAttributes(pf7.Cache.TopNode.FirstChild, 1, false, false,true, false, false);
+                AssertShartedItemsAttributes(pf7.Cache.TopNode.FirstChild, 1, false, false, true, false, false);
 
                 AssertShartedItemsAttributes(pf8.Cache.TopNode.FirstChild, 4, true, true, true, false, true);
                 AssertShartedItemsAttributes(pf9.Cache.TopNode.FirstChild, 3, true, false, true, false, true);
             }
         }
 
-        private void AssertShartedItemsAttributes(XmlNode node, int count,bool numberValues, bool intValues, bool containsBlanks, bool semiMixedValues, bool mixedValues)
+        private void AssertShartedItemsAttributes(XmlNode node, int count, bool numberValues, bool intValues, bool containsBlanks, bool semiMixedValues, bool mixedValues)
         {
-            if(node.Attributes.Count!=count)
+            if (node.Attributes.Count != count)
             {
                 Assert.Fail("Wrong attrib Count");
             }
-            AssertContains(node, "containsNumber",numberValues);
+            AssertContains(node, "containsNumber", numberValues);
             AssertContains(node, "containsInteger", intValues);
             AssertContains(node, "containsBlank", containsBlanks);
             AssertContains(node, "containsSemiMixedTypes", semiMixedValues);
@@ -724,7 +724,7 @@ namespace EPPlusTest.Table.PivotTable
         {
             using (var p = new ExcelPackage())
             {
-                var ws=p.Workbook.Worksheets.Add("data");
+                var ws = p.Workbook.Worksheets.Add("data");
                 LoadTestdata(ws);
 
                 var pivotTable1 = ws.PivotTables.Add(ws.Cells["G1"], ws.Cells["A1:D100"], "PivotTable1");
@@ -733,12 +733,357 @@ namespace EPPlusTest.Table.PivotTable
                 pivotTable1.DataFields.Add(pivotTable1.Fields[1]);
                 pivotTable1.DataFields.Add(pivotTable1.Fields[3]);
 
-                using(var p2 = new ExcelPackage())
+                using (var p2 = new ExcelPackage())
                 {
                     var wsNew = p2.Workbook.Worksheets.Add("PivotCopy", ws);
                     SaveWorkbook("copiedPivot.xlsx", p2);
                 }
                 SaveWorkbook("Pivot.xlsx", p);
+            }
+        }
+
+        [TestMethod]
+        public void PivotTableCalculation()
+        {
+            using (var p = OpenTemplatePackage("PivotTestPackage.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var pivotWs = p.Workbook.Worksheets[1];
+
+                var ogPT = pivotWs.PivotTables[0];
+
+                var pt = pivotWs.PivotTables.Add(pivotWs.Cells["F2"], ws.Cells["A1:E15"], "PivotTableNew");
+                pt.RowFields.Add(pt.Fields["Category"]);
+                pt.RowFields.Add(pt.Fields["Product"]);
+
+                pt.DataFields.Add(pt.Fields["Year"]);
+                pt.DataFields.Add(pt.Fields["Sales"]);
+
+                pt.DataOnRows = false;
+
+                pivotWs.Cells["B28"].Formula = "GETPIVOTDATA(\"Sales\",$B$2)";
+                pivotWs.Cells["B29"].Formula = "GETPIVOTDATA(\"Sales\",$B$2,\"Category\",\"Clothing\")";
+                pivotWs.Cells["B30"].Formula = "GETPIVOTDATA(\"Sales\",$B$2,\"Category\",\"Clothing\",\"Product\",\"Shirts\")";
+
+                pt.Calculate(true);
+                ogPT.Calculate(true);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void GetPivotDataStressTest()
+        {
+            using (var p = OpenTemplatePackage("MonsterTable.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.GetByName("MonsterPT");
+                var dataWs = p.Workbook.Worksheets.GetByName("MonsterData");
+
+                dataWs.Cells["A12"].Value = "Wolf";
+                dataWs.Cells["B12"].Value = "Beast";
+                dataWs.Cells["K12"].Value = 10;
+
+                var table = ws.PivotTables[0];
+
+                var dataField = table.DataFields["Sum of Hit Points"];
+                dataField.Function = DataFieldFunctions.Average;
+                dataField.ShowDataAs.SetPercentOfColumn();
+
+                ws.Cells["F40"].Formula = "GETPIVOTDATA(CONCAT(\"\",$B$3,\"\"),$A$3,\"Name\",\"Abominable Yeti\",\"Type\",\"Monstrosity\",\"Source\",\"Monster Manual\",\"Size\",\"Large\")";
+                ws.Cells["F41"].Formula = "GETPIVOTDATA(\"Sum of Hit Points\",$A$3,\"Type\",\"Monstrosity\",\"Source\",\"Monster Manual\")";
+                ws.Cells["F42"].Formula = "GETPIVOTDATA(\"Sum of Speed\",$A$3,\"Name\",\"Winter Wolf\",\"Type\",\"Monstrosity\",\"Source\",\"Monster Manual\",\"Size\",\"Large\")";
+                ws.Cells["F43"].Formula = "GETPIVOTDATA(\"Sum of Speed\",$A$3,\"Type\",\"Ooze\",\"Source\",\"Monster Manual\",\"Size\",\"Large\")";
+
+                //table.Calculate(true);
+                ws.Calculate();
+
+                Assert.AreEqual(ws.Cells["E40"].Value, ws.Cells["F40"].Value);
+                Assert.AreEqual(ws.Cells["E41"].Value, ws.Cells["F41"].Value);
+                Assert.AreEqual(ws.Cells["E42"].Value, ws.Cells["F42"].Value);
+                Assert.AreEqual(ws.Cells["E43"].Value, ws.Cells["F43"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        void SetShowDataAs(eShowDataAs showAs, ExcelPivotTableDataField dt, ExcelPivotTableField compareField, ePrevNextPivotItem item)
+        {
+            switch (showAs)
+            {
+                case eShowDataAs.Difference:
+                    dt.ShowDataAs.SetDifference(compareField, ePrevNextPivotItem.Previous);
+                    break;
+                case eShowDataAs.Index:
+                    dt.ShowDataAs.SetIndex();
+                    break;
+                case eShowDataAs.Normal:
+                    dt.ShowDataAs.SetNormal();
+                    break;
+                case eShowDataAs.Percent:
+                    dt.ShowDataAs.SetPercent(compareField, ePrevNextPivotItem.Next);
+                    break;
+                case eShowDataAs.PercentDifference:
+                    dt.ShowDataAs.SetPercentageDifference(compareField, ePrevNextPivotItem.Next);
+                    break;
+                case eShowDataAs.PercentOfColumn:
+                    dt.ShowDataAs.SetPercentOfColumn();
+                    break;
+                case eShowDataAs.PercentOfRow:
+                    dt.ShowDataAs.SetPercentOfRow();
+                    break;
+                case eShowDataAs.PercentOfTotal:
+                    dt.ShowDataAs.SetPercentOfTotal();
+                    break;
+                case eShowDataAs.RunningTotal:
+                    dt.ShowDataAs.SetPercentOfRunningTotal(compareField);
+                    break;
+                case eShowDataAs.PercentOfParentRow:
+                    dt.ShowDataAs.SetPercentParentRow();
+                    break;
+                case eShowDataAs.PercentOfParentColumn:
+                    dt.ShowDataAs.SetPercentParentColumn();
+                    break;
+                case eShowDataAs.PercentOfParent:
+                    dt.ShowDataAs.SetPercentParent(compareField);
+                    break;
+                case eShowDataAs.RankAscending:
+                    dt.ShowDataAs.SetRankAscending(compareField);
+                    break;
+                case eShowDataAs.RankDescending:
+                    dt.ShowDataAs.SetRankDescending(compareField);
+                    break;
+                case eShowDataAs.PercentOfRunningTotal:
+                    dt.ShowDataAs.SetPercentOfRunningTotal(compareField);
+                    break;
+            }
+        }
+
+        [TestMethod]
+        public void RunningTotalMissingColumnRowFieldsShouldNotThrow()
+        {
+            using (var p = OpenPackage("DivZeroShowValuesAs.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:B5"), "TestTable");
+                table.ShowHeader = true;
+
+                sheet.Cells["A1"].Value = "Space";
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 10;
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["A5"].Value = 27;
+
+                sheet.Cells["B1"].Value = "Time";
+                sheet.Cells["B2"].Value = 120;
+                sheet.Cells["B4"].Value = 90;
+                sheet.Cells["B3"].Value = 150;
+                sheet.Cells["B5"].Value = 3500;
+
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "Pivot1");
+
+                var dt = pt.DataFields.Add(pt.Fields["Time"]);
+                var field2 = pt.Fields["Space"];
+
+                dt.ShowDataAs.SetRunningTotal(field2);
+                dt.Function = DataFieldFunctions.StdDev;
+
+                pt.Calculate(true);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void RunningTotalPercentMissingColumnRowFieldsShouldNotThrow()
+        {
+            using (var p = OpenPackage("DivZeroShowValuesAs.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:B5"), "TestTable");
+                table.ShowHeader = true;
+
+                sheet.Cells["A1"].Value = "Space";
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 10;
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["A5"].Value = 27;
+
+                sheet.Cells["B1"].Value = "Time";
+                sheet.Cells["B2"].Value = 120;
+                sheet.Cells["B4"].Value = 90;
+                sheet.Cells["B3"].Value = 150;
+                sheet.Cells["B5"].Value = 3500;
+
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "Pivot1");
+
+                var dt = pt.DataFields.Add(pt.Fields["Time"]);
+                var field2 = pt.Fields["Space"];
+
+                dt.ShowDataAs.SetPercentOfRunningTotal(field2);
+                dt.Function = DataFieldFunctions.StdDev;
+
+                pt.Calculate(true);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void RunningTotalDivisonByZeroStdDev()
+        {
+            using (var p = OpenPackage("DivZeroShowValuesAsOther.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:D5"), "TestTable");
+                table.ShowHeader = true;
+                sheet.Cells["A1"].Value = "Names";
+                sheet.Cells["A2"].Value = "Michael Phelps";
+                sheet.Cells["A3"].Value = "Kristin Otto";
+                sheet.Cells["A4"].Value = "Aleksandr Popov";
+                sheet.Cells["A5"].Value = "Mark Spitz";
+
+                sheet.Cells["B1"].Value = "Swim Length(m)";
+                sheet.Cells["B2"].Value = 200;
+                sheet.Cells["B3"].Value = 300;
+                sheet.Cells["B4"].Value = 100;
+                sheet.Cells["B5"].Value = 500;
+
+                sheet.Cells["C1"].Value = "Time(s)";
+                sheet.Cells["C2"].Value = 120;
+                sheet.Cells["C3"].Value = 150;
+                sheet.Cells["C4"].Value = 90;
+                sheet.Cells["C5"].Value = 3500;
+
+                sheet.Cells["D1"].Value = "Age(yrs)";
+                sheet.Cells["D2"].Formula = "2024-1985";
+                sheet.Cells["D3"].Formula = "2024-1966";
+                sheet.Cells["D4"].Formula = "2024-1971";
+                sheet.Cells["D5"].Formula = "2024-1950";
+
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "SwimmerPivotTable");
+
+                pt.RowFields.Add(pt.Fields["Names"]);
+                var age = pt.RowFields.Add(pt.Fields["Age(yrs)"]);
+
+                var length = pt.DataFields.Add(pt.Fields["Swim Length(m)"]);
+                var dt = pt.DataFields.Add(pt.Fields["Time(s)"]);
+
+                pt.DataOnRows = false;
+
+                sheet.Calculate();
+                ptWs.Calculate();
+
+                //Setting running total and then setting normal causes the issue
+                //As basefield becomes 0
+                dt.ShowDataAs.SetPercentOfRunningTotal(age);
+                dt.ShowDataAs.SetNormal();
+
+                dt.Function = DataFieldFunctions.StdDev;
+
+                pt.Calculate(true);
+                ptWs.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void TestAllDatafieldsWithAllShowDataOptions()
+        {
+            using (var p = OpenPackage("SwimmersPivotData.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("DataSheet");
+
+                var table = sheet.Tables.Add(new ExcelAddress("A1:D5"), "TestTable");
+                table.ShowHeader = true;
+                sheet.Cells["A1"].Value = "Names";
+                sheet.Cells["A2"].Value = "Michael Phelps";
+                sheet.Cells["A3"].Value = "Kristin Otto";
+                sheet.Cells["A4"].Value = "Aleksandr Popov";
+                sheet.Cells["A5"].Value = "Mark Spitz";
+
+                sheet.Cells["B1"].Value = "Swim Length(m)";
+                sheet.Cells["B2"].Value = 200;
+                sheet.Cells["B3"].Value = 300;
+                sheet.Cells["B4"].Value = 100;
+                sheet.Cells["B5"].Value = 500;
+
+                sheet.Cells["C1"].Value = "Time(s)";
+                sheet.Cells["C2"].Value = 120;
+                sheet.Cells["C3"].Value = 150;
+                sheet.Cells["C4"].Value = 90;
+                sheet.Cells["C5"].Value = 3500;
+
+                sheet.Cells["D1"].Value = "Age(yrs)";
+                sheet.Cells["D2"].Formula = "2024-1985";
+                sheet.Cells["D3"].Formula = "2024-1966";
+                sheet.Cells["D4"].Formula = "2024-1971";
+                sheet.Cells["D5"].Formula = "2024-1950";
+
+                var ptWs = p.Workbook.Worksheets.Add("PTSheet");
+
+                var pt = ptWs.PivotTables.Add(ptWs.Cells["A1"], table, "SwimmerPivotTable");
+
+                pt.RowFields.Add(pt.Fields["Names"]);
+                var age = pt.RowFields.Add(pt.Fields["Age(yrs)"]);
+
+                var length = pt.DataFields.Add(pt.Fields["Swim Length(m)"]);
+                var dt = pt.DataFields.Add(pt.Fields["Time(s)"]);
+
+                pt.DataOnRows = false;
+
+                var functionValues = Enum.GetValues(typeof(DataFieldFunctions));
+                var showAsValues = Enum.GetValues(typeof(eShowDataAs));
+
+                for (int h = 0; h < showAsValues.Length; h++)
+                {
+                    var dataOption = (eShowDataAs)showAsValues.GetValue(h);
+
+                    if (Enum.IsDefined(typeof(eShowDataAs), h) == false)
+                    {
+                        throw new InvalidCastException($"eShowDataAs has no value that matches {h}");
+                    }
+
+                    SetShowDataAs(dataOption, dt, age, ePrevNextPivotItem.Previous);
+
+                    for (int i = 0; i < functionValues.Length; i++)
+                    {
+                        var tmpFunction = (DataFieldFunctions)functionValues.GetValue(i);
+
+                        if (Enum.IsDefined(typeof(DataFieldFunctions), i) == false)
+                        {
+                            throw new InvalidCastException($"DataFieldFunctions has no value that matches {i}");
+                        }
+
+                        dt.Function = tmpFunction;
+
+                        pt.Calculate(true);
+                        ptWs.Calculate();
+
+                        var addresses = pt.CalculatedItems[1].Index;
+                        var values = pt.CalculatedItems[1].Values;
+
+                        var range = pt.Address;
+
+                        var num = 5 + 1 * (i + 1);
+                        for (int j = 0; j < values.Count; j++)
+                        {
+                            ptWs.Cells[(j + 1) + 10 * h, num].Value = values[j];
+                        }
+                    }
+                }
+                SaveAndCleanup(p);
             }
         }
     }

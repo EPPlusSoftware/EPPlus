@@ -104,6 +104,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 Assert.AreEqual("0.841470984807897i", result);
 
             }
+            Thread.CurrentThread.CurrentCulture = ci;
         }
     }
 }

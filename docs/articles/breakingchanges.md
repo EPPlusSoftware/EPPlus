@@ -126,3 +126,8 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 #### Rich Text
 * The `ExcelRichText._collection` has been set to internal.
 * Public static methods in the class `XmlHelper` used to getting richtext properties has been changed to internal.
+
+
+### Breaking Change From EPPlus 7.2
+* Changed class ExcelTextFormatBase to abstract
+* OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType RelativeRowAbsolutColumn corrected to RelativeRowAbsoluteColumn

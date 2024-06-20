@@ -88,6 +88,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 Assert.AreEqual(ErrorValues.NumError, result);
 
             }
+            Thread.CurrentThread.CurrentCulture = ci;
         }
 
         [TestMethod]
@@ -106,6 +107,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 Assert.AreEqual("1.1752011936438i", result);
 
             }
+            Thread.CurrentThread.CurrentCulture = ci;
         }
     }
 }

@@ -10,20 +10,32 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
-    public interface IOperator
+    /// <summary>
+    /// Operator interface
+    /// </summary>
+    internal interface IOperator
     {
+        /// <summary>
+        /// Operator
+        /// </summary>
         Operators Operator { get; }
 
+        /// <summary>
+        /// Apply
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
         CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx);
 
+        /// <summary>
+        /// Precedence
+        /// </summary>
         int Precedence { get; }
     }
 }

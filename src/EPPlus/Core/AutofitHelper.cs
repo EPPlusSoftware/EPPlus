@@ -75,12 +75,12 @@ namespace OfficeOpenXml.Core
 
             //Get any autofilter to widen these columns
             var afAddr = new List<ExcelAddressBase>();
-            if (ws.AutoFilterAddress != null)
+            if (ws.AutoFilter.Address != null)
             {
-                afAddr.Add(new ExcelAddressBase(    ws.AutoFilterAddress._fromRow,
-                                                    ws.AutoFilterAddress._fromCol,
-                                                    ws.AutoFilterAddress._fromRow,
-                                                    ws.AutoFilterAddress._toCol));
+                afAddr.Add(new ExcelAddressBase(    ws.AutoFilter.Address._fromRow,
+                                                    ws.AutoFilter.Address._fromCol,
+                                                    ws.AutoFilter.Address._fromRow,
+                                                    ws.AutoFilter.Address._toCol));
                 afAddr[afAddr.Count - 1]._ws = _range.WorkSheetName;
             }
             foreach (var tbl in ws.Tables)

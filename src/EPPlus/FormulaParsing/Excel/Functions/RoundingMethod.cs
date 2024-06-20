@@ -13,6 +13,9 @@
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    /// <summary>
+    /// Rounding method
+    /// </summary>
     public enum RoundingMethod
     {
         /// <summary>

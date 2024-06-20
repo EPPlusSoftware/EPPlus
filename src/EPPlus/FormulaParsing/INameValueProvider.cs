@@ -10,21 +10,36 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace OfficeOpenXml.FormulaParsing
 {
+    /// <summary>
+    /// Name value provider
+    /// </summary>
     public interface INameValueProvider
     {
+        /// <summary>
+        /// Is named value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="worksheet"></param>
+        /// <returns></returns>
         bool IsNamedValue(string key, string worksheet);
-
+        /// <summary>
+        /// Get named value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         object GetNamedValue(string key);
-
+        /// <summary>
+        /// GetNamedValue
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="worksheet"></param>
+        /// <returns></returns>
         object GetNamedValue(string key, string worksheet);
-
+        /// <summary>
+        /// Reload
+        /// </summary>
         void Reload();
     }
 }

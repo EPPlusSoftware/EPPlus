@@ -8,8 +8,19 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
-    public abstract class IfsWithMultipleMatchesBase : ExcelFunction
+    /// <summary>
+    /// Ifs with multiple matches
+    /// </summary>
+    internal abstract class IfsWithMultipleMatchesBase : ExcelFunction
     {
+        /// <summary>
+        /// Get matches
+        /// </summary>
+        /// <param name="functionName"></param>
+        /// <param name="arguments"></param>
+        /// <param name="ctx"></param>
+        /// <param name="errorResult"></param>
+        /// <returns></returns>
         protected IEnumerable<double> GetMatches(string functionName, IList<FunctionArgument> arguments, ParsingContext ctx, out CompileResult errorResult)
         {
             //ValidateArguments(arguments, 3);

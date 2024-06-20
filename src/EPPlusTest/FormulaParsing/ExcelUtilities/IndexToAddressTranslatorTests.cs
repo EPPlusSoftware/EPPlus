@@ -124,7 +124,7 @@ namespace EPPlusTest.ExcelUtilities
         [TestMethod]
         public void ShouldTranslateToRelativeRowAndAbsoluteCol()
         {
-            SetupTranslator(123456, ExcelReferenceType.RelativeRowAbsolutColumn);
+            SetupTranslator(123456, ExcelReferenceType.RelativeRowAbsoluteColumn);
             var result = _indexToAddressTranslator.ToAddress(1, 1);
             Assert.AreEqual("$A1", result);
         }

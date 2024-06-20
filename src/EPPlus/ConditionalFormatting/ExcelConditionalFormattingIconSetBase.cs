@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,7 +146,16 @@ namespace OfficeOpenXml.ConditionalFormatting
             icon.Type = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
             if (icon.Type != eExcelConditionalFormattingValueObjectType.Formula)
             {
-                icon.Value = double.Parse(xr.GetAttribute("val"), CultureInfo.InvariantCulture);
+                var iconValue = xr.GetAttribute("val");
+
+                if(ConvertUtil.TryParseNumericString(iconValue, out double numValue))
+                {
+                    icon.Value = numValue;
+                }
+                else
+                {
+                    icon.Formula = iconValue;
+                }
             }
             else
             {
@@ -286,6 +296,19 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal int GetIconNum(ExcelAddress address)
         {
             return CalculateCorrectIcon(address, GetIconArray(true));
+        }
+
+        internal string GetIconName(ExcelAddress address)
+        {
+            int id = CalculateCorrectIcon(address, GetIconArray(true));
+            var icons = IconDict.GetIconsAsCustomIcons(GetIconSetString(), GetIconArray());
+
+            if(id == -1)
+            {
+                return "";
+            }
+
+            return Enum.GetName(typeof(eExcelconditionalFormattingCustomIcon), icons[id]);
         }
 
         internal virtual ExcelConditionalFormattingIconDataBarValue[] GetIconArray(bool reversed = false)

@@ -60,5 +60,9 @@ namespace OfficeOpenXml
         /// Transpose the copied data
         /// </summary>
         Transpose = 0x200,
+        /// <summary>
+        /// Exclude drawings from being copied
+        /// </summary>
+        ExcludeDrawings = 0x400,
     }
 }

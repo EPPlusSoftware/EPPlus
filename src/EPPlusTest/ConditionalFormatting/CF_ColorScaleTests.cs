@@ -326,24 +326,78 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.IsTrue(cf.ShouldApplyToCell(sheet.Cells["A1"]));
 
                 SaveAndCleanup(p);
+            }
+        }
 
-                //range.Formula = "ROW()";
-                //range.Calculate();
+        [TestMethod]
+        public void CF_TwoColorScaleThemeColorsShouldApplyAndBeRead()
+        {
+            using (var p = OpenPackage("colorScaleTwoThemeColorTest.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("colorScaleSheet");
 
-                //sheet.Cells["A5"].Value = 6;
-                //sheet.Cells["A10"].Value = 3;
-                //sheet.Cells["A11"].Value = "bye";
-                //sheet.Cells["A12"].Value = "bye";
-                //sheet.Cells["A15"].Value = "hi";
+                var range = sheet.Cells["A1:A30"];
 
-                //var cf = (ExcelConditionalFormattingUniqueValues)range.ConditionalFormatting.AddUniqueValues();
+                range.Formula = "ROW()";
+                range.Calculate();
 
-                //Assert.IsFalse(cf.ShouldApplyToCell(sheet.Cells["A11"]));
-                //Assert.IsFalse(cf.ShouldApplyToCell(sheet.Cells["A5"]));
-                //Assert.IsFalse(cf.ShouldApplyToCell(sheet.Cells["A10"]));
+                var cf = (ExcelConditionalFormattingTwoColorScale)range.ConditionalFormatting.AddTwoColorScale();
 
-                //Assert.IsTrue(cf.ShouldApplyToCell(sheet.Cells["A15"]));
-                //Assert.IsTrue(cf.ShouldApplyToCell(sheet.Cells["A1"]));
+                cf.LowValue.ColorSettings.Theme = eThemeSchemeColor.Accent4;
+                cf.HighValue.ColorSettings.Theme = eThemeSchemeColor.Accent6;
+
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("colorScaleTwoThemeColorTest.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+
+                var cfList = sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings();
+
+                var cf = cfList[0].As.TwoColorScale;
+
+                Assert.AreEqual(eThemeSchemeColor.Accent4, cf.LowValue.ColorSettings.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent6, cf.HighValue.ColorSettings.Theme);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CF_ThreeColorScaleThemeColorsShouldApplyAndBeRead()
+        {
+            using (var p = OpenPackage("colorScaleThreeThemeColorTest.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("colorScaleSheet");
+
+                var range = sheet.Cells["A1:A30"];
+
+                range.Formula = "ROW()";
+                range.Calculate();
+
+                var cf = (ExcelConditionalFormattingThreeColorScale)range.ConditionalFormatting.AddThreeColorScale();
+
+                cf.LowValue.ColorSettings.Theme = eThemeSchemeColor.Accent1;
+                cf.MiddleValue.ColorSettings.Theme = eThemeSchemeColor.Text1;
+                cf.HighValue.ColorSettings.Theme = eThemeSchemeColor.Background2;
+
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("colorScaleThreeThemeColorTest.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+
+                var cfList = sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings();
+
+                var cf = cfList[0].As.ThreeColorScale;
+
+                Assert.AreEqual(eThemeSchemeColor.Accent1, cf.LowValue.ColorSettings.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Text1, cf.MiddleValue.ColorSettings.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Background2, cf.HighValue.ColorSettings.Theme);
+
+                SaveAndCleanup(p);
             }
         }
     }

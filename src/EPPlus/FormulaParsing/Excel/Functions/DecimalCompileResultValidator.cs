@@ -19,8 +19,16 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public class DecimalCompileResultValidator : CompileResultValidator
+    /// <summary>
+    /// Validation for decimal function results
+    /// </summary>
+    internal class DecimalCompileResultValidator : CompileResultValidator
     {
+        /// <summary>
+        /// Validate that decimal is not NaN or infinity
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="ExcelErrorValueException"></exception>
         public override void Validate(object obj)
         {
             var num = ConvertUtil.GetValueDouble(obj);

@@ -14,7 +14,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
 {
-    public class BesselYImpl : BesselBase
+    /// <summary>
+    /// Bessel Y Implementation
+    /// </summary>
+    internal class BesselYImpl : BesselBase
     {
         static FinanceCalcResult<double> Bessely0(double fX)
         {
@@ -120,7 +123,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementatio
             return new FinanceCalcResult<double>(-u * 2.0 / f_PI);
         }
 
-
+        /// <summary>
+        /// Bessel Y
+        /// </summary>
+        /// <param name="fNum"></param>
+        /// <param name="nOrder"></param>
+        /// <returns></returns>
         public FinanceCalcResult<double> BesselY(double fNum, int nOrder)
         {
             switch (nOrder)

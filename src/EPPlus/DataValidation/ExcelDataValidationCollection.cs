@@ -422,7 +422,7 @@ namespace OfficeOpenXml.DataValidation
             {
                 throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
             }
-
+            ClearRangeDictionary(item.Address);
             var retVal = _validations.Remove((ExcelDataValidation)item);
             if (retVal) OnValidationCountChanged();
             return retVal;
@@ -443,6 +443,10 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public void Clear()
         {
+            foreach (var validation in _validations)
+            {
+                ClearRangeDictionary(validation.Address);
+            }
             _validations.Clear();
         }
 
@@ -528,6 +532,7 @@ namespace OfficeOpenXml.DataValidation
                 {
                     throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
                 }
+                ClearRangeDictionary(m.Address);
             }
             _validations.RemoveAll(match);
         }
@@ -576,8 +581,8 @@ namespace OfficeOpenXml.DataValidation
             var internalAddress = new ExcelAddressBase (address.Address.Replace(" ", ","));
             foreach (var individualAddress in internalAddress.GetAllAddresses())
             {
-                _validationsRD.DeleteRow(individualAddress._fromRow, individualAddress.Rows, 
-                                         individualAddress._fromCol, individualAddress._toCol, false);
+                _validationsRD.ClearRows(individualAddress._fromRow, individualAddress.Rows,
+                                         individualAddress._fromCol, individualAddress._toCol);
             }
         }
         

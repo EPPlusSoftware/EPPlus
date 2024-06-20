@@ -317,7 +317,6 @@ namespace EPPlusTest.Filter
             Assert.AreEqual(false, ws.Row(startRow).Hidden);
             Assert.AreEqual(false, ws.Row(endRow).Hidden);
             Assert.AreEqual(true, ws.Row(endRow + 1).Hidden);
-
         }
         [TestMethod]
         public void M2()

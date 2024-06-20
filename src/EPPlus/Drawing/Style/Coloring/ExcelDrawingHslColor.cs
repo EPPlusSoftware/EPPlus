@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             }
             set
             {
-                SetXmlNodeAngel("@hue", value, "Hue");
+                SetXmlNodeAngle("@hue", value, "Hue");
             }
         }
         /// <summary>
