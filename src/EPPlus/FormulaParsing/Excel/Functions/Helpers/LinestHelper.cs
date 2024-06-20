@@ -75,6 +75,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
 
+            //If LOGEST, we transform the linear results according to the formula LOGEST = EXP(LINEST(LN(y), x))
             if (logest)
             {
                 for (var i = 0; i < multipleRegressionSlopes.Length; i++)
@@ -95,7 +96,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 {
                     for (var i = 0; i < dropCols.Count(); i++)
                     {
-                        betaCoefficients[betaCoefficients.Count() - 1 - (int)dropCols[i]] = 0d;
+                        //If logest we represent collinear columns with 1 instead of 0
+                        betaCoefficients[betaCoefficients.Count() - 1 - (int)dropCols[i]] = (logest) ? 1d : 0d;
                     }
 
                     var count = multipleRegressionSlopes.Count() - 1;
@@ -110,7 +112,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
                 else
                 {
-                    betaCoefficients[betaCoefficients.Count() - 1] = 0d;
+                    betaCoefficients[betaCoefficients.Count() - 1] = (logest) ? 1d : 0d;
 
                     var count = 0;
                     for (var i = 0; i < betaCoefficients.Count() - 1; i++)
@@ -138,7 +140,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
                 else
                 {
-                    betaCoefficients[betaCoefficients.Count() - 1] = 0d;
+                    betaCoefficients[betaCoefficients.Count() - 1] = (logest) ? 1d :  0d;
 
                     var count = 0;
                     for (var i = 0; i< betaCoefficients.Count() - 1; i++)
@@ -307,6 +309,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 else
                 {
                     resultRangeStats.SetValue(0, betaCoefficients.Count() - 1, 0d);
+                    if (logest) resultRangeStats.SetValue(0, betaCoefficients.Count() - 1, 1d);
                 }
 
                 for(var i = 0; i < betaCoefficients.Count() - 1; i++)
@@ -321,13 +324,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 for (var i = 0; i < height; i++)
                 {
                     var y = 0d;
-                    if (logest) y = 1d;
                     for (var k = 0; k < width; k++)
                     {
                         if (logest)
                         {
-                            //For LOGEST: y = (b * (m1^x1) * (m2^x2) ... *(mn^xn))
-                            y *= (k != betaCoefficients.Count() - 1) ? betaCoefficients[betaCoefficients.Count() - 1] * Math.Pow(betaCoefficients[k], xRangeListCopy[i][width - 1 - k]) : 1d;
+                            //For LOGEST: Log the coefficients to get rid of EXP
+                            y += (k != betaCoefficients.Count() - 1) ? Math.Log(betaCoefficients[k]) * xRangeListCopy[i][width - 1 - k] : Math.Log(betaCoefficients[k]);
                         }
                         else
                         {
@@ -508,11 +510,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
         public static InMemoryRange CalculateResult(double[] knownYs, double[] knownXs, bool constVar, bool stats, bool logest)
         {
+            var knownYsCopy = knownYs.ToList();
             if (logest)
             {
-                for (var i = 0; i < knownXs.Count(); i++)
+                for (var i = 0; i < knownYs.Count(); i++)
                 {
-                    knownXs[i] = Math.Log(knownXs[i]);
+                    knownYs[i] = Math.Log(knownYs[i]);
                 }
             }
 
@@ -552,6 +555,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var m = (denominator != 0) ? nominator / denominator : 0d;
             var b = (constVar) ? averageY - (m * averageX) : 0d;
 
+            //LOGEST can be expressed as EXP(LINEST(LN(y), x))
             if (logest) m = Math.Exp(m);
             if (logest) b = Math.Exp(b);
 
@@ -561,8 +565,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 {
                     var x = knownXs[i];
                     var y = knownYs[i];
-                    var estimatedY = m * x + b; //LINEST formula
-                    if (logest) estimatedY = b * (Math.Pow(m, x)); //LOGEST formula
+                    
+                    //LOGEST uses the same statistics as LINEST, but with logged y-values. We remove the EXP to get correct statistics (correct according to excel)
+                    var estimatedY = (logest) ? Math.Log(m) * x + Math.Log(b) : m * x + b; //LINEST formula
 
                     if (constVar)
                     {

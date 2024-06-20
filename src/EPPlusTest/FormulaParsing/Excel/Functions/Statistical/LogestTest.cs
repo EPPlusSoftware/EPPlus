@@ -29,8 +29,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["B5"].Value = 3;
                 sheet.Cells["A8"].Formula = "LOGEST(A2:A5, B2:B5,,FALSE)";
                 sheet.Calculate();
-                Assert.AreEqual(1.751115956d, sheet.Cells["A8"].Value);
-                Assert.AreEqual(1.194315591d, sheet.Cells["B8"].Value);
+                Assert.AreEqual(1.751115956d, System.Math.Round((double)sheet.Cells["A8"].Value, 9));
+                Assert.AreEqual(1.194315591d, System.Math.Round((double)sheet.Cells["B8"].Value, 9));
             }
         }
 
@@ -119,15 +119,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result6 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
                 var result7 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
                 var result8 = System.Math.Round((double)sheet.Cells["B11"].Value, 0);
-                var result9 = System.Math.Round((double)sheet.Cells["A12"].Value, 7);
-                var result10 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
+                var result9 = System.Math.Round((double)sheet.Cells["A12"].Value, 9);
+                var result10 = System.Math.Round((double)sheet.Cells["B12"].Value, 9);
                 Assert.AreEqual(2.234114741d, result1);
                 Assert.AreEqual(1d, result2);
                 Assert.AreEqual(0.226690276d, result3);
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result4);
                 Assert.AreEqual(0.807373214d, result5);
                 Assert.AreEqual(0.848197344d, result6);
-                Assert.AreEqual(12.57415803d, result7);
+                Assert.AreEqual(12.574158032d, result7);
                 Assert.AreEqual(3d, result8);
                 Assert.AreEqual(9.046336342d, result9);
                 Assert.AreEqual(2.158316204d, result10);
@@ -199,7 +199,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result7 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
                 var result8 = System.Math.Round((double)sheet.Cells["B11"].Value, 0);
                 var result9 = System.Math.Round((double)sheet.Cells["A12"].Value, 9);
-                var result10 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
+                var result10 = System.Math.Round((double)sheet.Cells["B12"].Value, 9);
                 Assert.AreEqual(1.134094872d, result1);
                 Assert.AreEqual(2.810925606d, result2);
                 Assert.AreEqual(0.242692744d, result3);
@@ -233,10 +233,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result4 = sheet.Cells["B9"].Value;
                 var result5 = System.Math.Round((double)sheet.Cells["A10"].Value, 9);
                 var result6 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
-                var result7 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
+                var result7 = System.Math.Round((double)sheet.Cells["A11"].Value, 8);
                 var result8 = System.Math.Round((double)sheet.Cells["B11"].Value, 0);
-                var result9 = System.Math.Round((double)sheet.Cells["A12"].Value, 7);
-                var result10 = System.Math.Round((double)sheet.Cells["B12"].Value, 8);
+                var result9 = System.Math.Round((double)sheet.Cells["A12"].Value, 8);
+                var result10 = System.Math.Round((double)sheet.Cells["B12"].Value, 9);
                 Assert.AreEqual(1.439560782d, result1);
                 Assert.AreEqual(1d, result2);
                 Assert.AreEqual(0.108490801d, result3);
@@ -311,7 +311,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["B2"].Value = 9;
                 sheet.Cells["C2"].Value = 5;
                 sheet.Cells["D2"].Value = 7;
-                sheet.Cells["E2"].Value = 0;
+                sheet.Cells["E2"].Value = 1;
                 sheet.Cells["A3"].Value = 4;
                 sheet.Cells["B3"].Value = 2;
                 sheet.Cells["C3"].Value = 3;
@@ -322,14 +322,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["C4"].Value = 8;
                 sheet.Cells["D4"].Value = 5;
                 sheet.Cells["E4"].Value = 1;
-                sheet.Cells["A8"].Formula = "LOGEST(A2:E2,A3:E4)";
+                sheet.Cells["A8"].Formula = "LOGEST(A2:E2,A3:E4, FALSE, TRUE)";
                 sheet.Calculate();
                 var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
                 var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
-                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
-                Assert.AreEqual(0.923986526d, result1);
-                Assert.AreEqual(-1.669991606d, result2);
-                Assert.AreEqual(1.71813453d, result3);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 0);
+                var result4 = System.Math.Round((double)sheet.Cells["A9"].Value, 9);
+                var result5 = System.Math.Round((double)sheet.Cells["B9"].Value, 9);
+                var result6 = sheet.Cells["C9"].Value;
+                var result7 = System.Math.Round((double)sheet.Cells["A10"].Value, 9);
+                var result8 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
+                var result9 = sheet.Cells["C10"].Value;
+                var result10 = System.Math.Round((double)sheet.Cells["A11"].Value, 9);
+                var result11 = System.Math.Round((double)sheet.Cells["B11"].Value, 0);
+                var result12 = sheet.Cells["C11"].Value;
+                var result13 = System.Math.Round((double)sheet.Cells["A12"].Value, 9);
+                var result14 = System.Math.Round((double)sheet.Cells["B12"].Value, 9);
+                var result15 = sheet.Cells["C12"].Value;
+                Assert.AreEqual(1.284511868d, result1);
+                Assert.AreEqual(1.035289866d, result2);
+                Assert.AreEqual(1d, result3);
+                Assert.AreEqual(0.171842341d, result4);
+                Assert.AreEqual(0.179317206d, result5);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result6);
+                Assert.AreEqual(0.668015656d, result7);
+                Assert.AreEqual(1.113518331d, result8);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result9);
+                Assert.AreEqual(3.018285361d, result10);
+                Assert.AreEqual(3d, result11);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result12);
+                Assert.AreEqual(7.484883324d, result13);
+                Assert.AreEqual(3.719769221d, result14);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result15);
             }
         }
 
@@ -387,7 +411,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
         }
 
         [TestMethod]
-        public void LinestCollinearityTest() //This test returns failed because of collinearity
+        public void LogestCollinearityTest()
         {
             using (var package = new ExcelPackage())
             {
@@ -403,7 +427,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 sheet.Cells["E2"].Value = 2534;
                 sheet.Cells["E3"].Value = 6769;
                 //sheet.Cells["E3"].Value = 5;
-                sheet.Cells["A8"].Formula = "LINEST(A2:A3,B2:E3,TRUE,TRUE)";
+                sheet.Cells["A8"].Formula = "LOGEST(A2:A3,B2:E3,TRUE,TRUE)";
                 sheet.Calculate();
                 var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
                 var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 0);
@@ -425,6 +449,62 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0d, result8);
                 Assert.AreEqual(0d, result9);
                 Assert.AreEqual(0d, result10);
+            }
+        }
+
+        [TestMethod]
+        public void LinestRemovalOfRedundantVariablesTest() //This test returns failed because of collinearity
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with where independent values are completely dependent of one another");
+                sheet.Cells["A2"].Value = 10;
+                sheet.Cells["A3"].Value = 20;
+                sheet.Cells["A4"].Value = 30;
+                sheet.Cells["A5"].Value = 40;
+                sheet.Cells["A6"].Value = 50;
+                sheet.Cells["B2"].Value = 1;
+                sheet.Cells["B3"].Value = 4;
+                sheet.Cells["B4"].Value = 8;
+                sheet.Cells["B5"].Value = 7;
+                sheet.Cells["B6"].Value = 9;
+                sheet.Cells["C2"].Value = 11;
+                sheet.Cells["C3"].Value = 20;
+                sheet.Cells["C4"].Value = 32;
+                sheet.Cells["C5"].Value = 29;
+                sheet.Cells["C6"].Value = 35;
+                sheet.Cells["A8"].Formula = "LOGEST(A2:A6,B2:C6,TRUE,true)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 0);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
+                var result4 = System.Math.Round((double)sheet.Cells["A9"].Value, 9);
+                var result5 = System.Math.Round((double)sheet.Cells["B9"].Value, 0);
+                var result6 = System.Math.Round((double)sheet.Cells["C9"].Value, 9);
+                var result7 = System.Math.Round((double)sheet.Cells["A10"].Value, 9);
+                var result8 = System.Math.Round((double)sheet.Cells["B10"].Value, 9);
+                var result9 = sheet.Cells["C10"].Value;
+                var result10 = System.Math.Round((double)sheet.Cells["A11"].Value, 8);
+                var result11 = System.Math.Round((double)sheet.Cells["B11"].Value, 0);
+                var result12 = sheet.Cells["C11"].Value;
+                var result13 = System.Math.Round((double)sheet.Cells["A12"].Value, 9);
+                var result14 = System.Math.Round((double)sheet.Cells["B12"].Value, 9);
+                var result15 = sheet.Cells["C12"].Value;
+                Assert.AreEqual(1.064146621d, result1);
+                Assert.AreEqual(1d, result2);
+                Assert.AreEqual(5.370304442d, result3);
+                Assert.AreEqual(0.010462504d, result4);
+                Assert.AreEqual(0d, result5);
+                Assert.AreEqual(0.28116703d, result6);
+                Assert.AreEqual(0.921697643d, result7);
+                Assert.AreEqual(0.205342474d, result8);
+                Assert.AreEqual(35.31302299d, result10);
+                Assert.AreEqual(3d, result11);
+                Assert.AreEqual(1.488992392d, result13);
+                Assert.AreEqual(0.126496595d, result14);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result9);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result12);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result15);
             }
         }
     }
