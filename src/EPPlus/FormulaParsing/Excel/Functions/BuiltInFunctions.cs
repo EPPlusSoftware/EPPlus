@@ -277,6 +277,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["trimmean"] = new Trimmean();
             Functions["ztest"] = new Ztest();
             Functions["z.test"] = new ZDotTest();
+
+            Functions["linest"] = new Linest();
+            Functions["logest"] = new Logest();
+
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
