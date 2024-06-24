@@ -28,7 +28,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
-
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using System.ComponentModel.DataAnnotations;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal class LinestHelper
@@ -521,5 +522,127 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return resultRangeNormal;
 
         }
+        internal static InMemoryRange Execute(IRangeInfo rangeX, IRangeInfo rangeY, bool constVar, bool stats, out eErrorType? error)
+        {
+            bool multipleXranges = false;
+            bool columnArray = false;
+            bool rowArray = false;
+            var xColumns = rangeX.Size.NumberOfCols;
+            var yColumns = rangeY.Size.NumberOfCols;
+            var xRows = rangeX.Size.NumberOfRows;
+            var yRows = rangeY.Size.NumberOfRows;
+            error = null;
+
+            if ((xRows != yRows && xColumns == yColumns)
+                || (xColumns != yColumns && xRows == yRows))
+            {
+                multipleXranges = true;
+            }
+            else
+            {
+                if (xRows != yRows || xColumns != yColumns)
+                {
+                    error = eErrorType.Ref;
+                    return null;
+                };
+            }
+
+            RangeFlattener.GetNumericPairLists(rangeX, rangeY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
+
+            //Converting the result of rangeflattener to double[]
+            double[] knownXs = new double[knownXsList.Count];
+            double[] knownYs = new double[knownYsList.Count];
+
+            //y values cant be zero or negative since we have to take the logarithm of the y-values to find a solution.
+            for (var i = 0; i < knownYsList.Count(); i++)
+            {
+                if (knownYsList[i] <= 0)
+                {
+                    error = eErrorType.Num;
+                    return null;
+                };
+            }
+
+            for (var i = 0; i < knownXsList.Count; i++)
+            {
+                knownXs[i] = knownXsList[i];
+            }
+
+            for (var i = 0; i < knownYsList.Count; i++)
+            {
+                knownYs[i] = knownYsList[i];
+            }
+            var r = 0;
+            var c = 0;
+            if (multipleXranges)
+            {
+                if (multipleXranges && xColumns != yColumns)
+                {
+                    columnArray = true;
+
+                    r = xRows;
+                    c = xColumns;
+                }
+                else if (multipleXranges && xRows != yRows)
+                {
+                    rowArray = true;
+                    r = xColumns;
+                    c = xRows;
+                }
+            }
+            else
+            {
+                r = knownXs.Count();
+                c = 1;
+            }
+            if (multipleXranges && constVar)
+            {
+                c += 1; //This is because we need to add a vector of ones to the matrix in order to account for the intercept
+            }
+
+            double[][] xRanges = MatrixHelper.CreateMatrix(r, c);
+
+            if (columnArray)
+            {
+                var counter = 0;
+                var delimiter = (constVar) ? xRanges[0].Count() - 1 : xRanges[0].Count();
+                for (var i = 0; i < xRanges.Count(); i++)
+                {
+                    for (var j = 0; j < delimiter; j++)
+                    {
+                        xRanges[i][j] = knownXs[counter];
+                        counter += 1;
+                    }
+                }
+            }
+
+            else if (rowArray)
+            {
+                //This shifts data thats row-based to column-based.
+                var counter = 0;
+                var delimiter = (constVar) ? xRanges[0].Count() - 1 : xRanges[0].Count();
+                for (var i = 0; i < delimiter; i++)
+                {
+                    for (var j = 0; j < xRanges.Count(); j++)
+                    {
+                        xRanges[j][i] = knownXs[counter];
+                        counter += 1;
+                    }
+                }
+            }
+
+            InMemoryRange result;
+            if (multipleXranges)
+            {
+                result = LinestHelper.CalculateMultipleXRanges(knownYs, xRanges, constVar, stats, true);
+            }
+            else
+            {
+                result = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats, true);
+            }
+            return result;
+        }
+
+
     }
 }
