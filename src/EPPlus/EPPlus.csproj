@@ -536,7 +536,7 @@
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462'" >
+	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="System.Security.Cryptography.Pkcs" />

@@ -10,14 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using comTypes = System.Runtime.InteropServices.ComTypes;
 using System.IO;
-using System.Security;
 
 namespace OfficeOpenXml.Utils.CompundDocument
 {

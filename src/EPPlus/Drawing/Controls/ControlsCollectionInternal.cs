@@ -20,11 +20,11 @@ namespace OfficeOpenXml
 {
     internal class ControlsCollectionInternal : XmlHelper, IEnumerable<ControlInternal>
     {
-        private List<ControlInternal> _list=new List<ControlInternal>();
+        private List<ControlInternal> _list = new List<ControlInternal>();
         internal ControlsCollectionInternal(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
             var nodes = GetNodes("mc:AlternateContent/mc:Choice/d:controls/mc:AlternateContent/mc:Choice/d:control");
-            foreach(XmlNode node in nodes)
+            foreach (XmlNode node in nodes)
             {
                 _list.Add(new ControlInternal(NameSpaceManager, node));
             }

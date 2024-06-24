@@ -11,30 +11,19 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.OLE_Objects;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Packaging.Ionic;
-using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -633,9 +622,14 @@ namespace OfficeOpenXml.Drawing
         {
             var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
             var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
+            var oleObject = drawings.Worksheet.OleObjects.GetOleObjectByShapeId(shapeId);
             if (control != null)
             {
                 return ControlFactory.GetControl(drawings, drawNode, control, parent);
+            }
+            else if( oleObject != null)
+            {
+                return ExcelOleObject.GetOleDrawing(drawings, drawNode, oleObject, parent);
             }
             else
             {
