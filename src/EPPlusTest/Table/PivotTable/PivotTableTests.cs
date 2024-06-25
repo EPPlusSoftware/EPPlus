@@ -1086,5 +1086,14 @@ namespace EPPlusTest.Table.PivotTable
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void s690()
+        {
+            using(ExcelPackage pck = OpenTemplatePackage("s690.xlsm"))
+            {
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }

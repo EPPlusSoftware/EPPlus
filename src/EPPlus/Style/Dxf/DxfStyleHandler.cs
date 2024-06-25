@@ -223,7 +223,10 @@ namespace OfficeOpenXml.Style.Dxf
                     }
                     else
                     {
-                        ((ExcelConditionalFormattingRule)cf).DxfId = ix;
+                        if(((ExcelConditionalFormattingRule)cf).DxfId < 0)
+                        {
+                            ((ExcelConditionalFormattingRule)cf).DxfId = ix;
+                        }
                     }
                 }
             }
