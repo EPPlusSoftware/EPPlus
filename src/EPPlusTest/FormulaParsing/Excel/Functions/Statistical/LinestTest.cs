@@ -652,7 +652,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
         //public void WorkBookTest()
         //{
         //    var wbPath = "C:\\Users\\HannesAlm\\Downloads\\LinestWorkBook2.xlsx";
-        //    using (ExcelPackage package = new ExcelPackage(new FileInfo(wbPath))) 
+        //    using (ExcelPackage package = new ExcelPackage(new FileInfo(wbPath)))
         //    {
         //        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
 
@@ -779,6 +779,34 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0d, result4);
                 Assert.AreEqual(0d, result5);
             }
+        }
+
+        [TestMethod]
+        public void LinestConstCollinearTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Const False and Collinearity test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["B1"].Value = 5;
+                sheet.Cells["B2"].Value = 6;
+                sheet.Cells["B3"].Value = 7;
+                sheet.Cells["B4"].Value = 8;
+                sheet.Cells["C1"].Value = 9;
+                sheet.Cells["C2"].Value = 10;
+                sheet.Cells["C3"].Value = 11;
+                sheet.Cells["C4"].Value = 12;
+                sheet.Cells["D1"].Value = 13;
+                sheet.Cells["D2"].Value = 14;
+                sheet.Cells["D3"].Value = 15;
+                sheet.Cells["D4"].Value = 16;
+                sheet.Cells["D6"].Formula = "LINEST(A1:A4, B1:D4, FALSE, True)";
+                sheet.Calculate();
+            }
+
         }
     }
 }

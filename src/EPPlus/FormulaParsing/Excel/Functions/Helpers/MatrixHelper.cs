@@ -580,5 +580,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             return newXRangeList;
         }
+
+        internal static double[] ListToArray(List<double> list)
+        {
+            double[] arr = new double[list.Count];
+            for (var i = 0; i < list.Count; i++)
+            {
+                arr[i] = list[i];
+            }
+            return arr;
+        }
     }
 }

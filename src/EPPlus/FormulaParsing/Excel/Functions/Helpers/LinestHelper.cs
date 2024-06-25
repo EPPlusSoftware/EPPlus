@@ -29,12 +29,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using System.ComponentModel.DataAnnotations;
+//using System.ComponentModel.DataAnnotations;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal class LinestHelper
     {
-        public static InMemoryRange CalculateMultipleXRanges(double[] knownYs, double[][] xRangeList, bool constVar, bool stats, bool logest)
+        public static InMemoryRange MultipleRegResult(double[] knownYs, double[][] xRangeList, bool constVar, bool stats, bool logest)
         {
 
             //Adding a column of ones to account for the intercept.
@@ -76,108 +76,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
 
             //GetSlope calculates the OLS estimator
-            var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, out bool matrixIsSingular);
+            var multipleRegressionSlopes = GetSlope(xRangeList, knownYs, constVar, stats, logest, out bool matrixIsSingular);
 
             //If LOGEST, we transform the linear results according to the formula LOGEST = EXP(LINEST(LN(y), x))
             if (logest)
             {
                 for (var i = 0; i < multipleRegressionSlopes.Length; i++)
                 {
-                    multipleRegressionSlopes[i][0] = Math.Exp(multipleRegressionSlopes[i][0]);
+                    multipleRegressionSlopes[i] = Math.Exp(multipleRegressionSlopes[i]);
                 }
             }
 
-            //betaCoefficients are constructed in the same way as they are presented in Excel, e.g reversed order (x_n, x_(n-1), ..., x_1)
-            //This results in some messy code below
-            double[] betaCoefficients = new double[multipleRegressionSlopes.Count() + dropCols.Count()];
-            betaCoefficients[betaCoefficients.Count() - 1] = multipleRegressionSlopes[0][0];
-
-            if (dropCols.Count() > 0)
-            {
-                if (constVar)
-                {
-                    for (var i = 0; i < dropCols.Count(); i++)
-                    {
-                        //If logest we represent collinear columns with 1 instead of 0
-                        betaCoefficients[betaCoefficients.Count() - 1 - (int)dropCols[i]] = (logest) ? 1d : 0d;
-                    }
-
-                    var count = multipleRegressionSlopes.Count() - 1;
-                    for (var i = 0; i < betaCoefficients.Count() - 1; i++)
-                    {
-                        if (!dropCols.Contains(betaCoefficients.Count() - 1 - i))
-                        {
-                            betaCoefficients[i] = multipleRegressionSlopes[count][0];
-                            count--;
-                        }
-                    }
-                }
-                else
-                {
-                    //Fix here
-                    betaCoefficients[betaCoefficients.Count() - 1] = (logest) ? 1d : 0d;
-
-                    if (logest)
-                    {
-                        for (var i = 0; i < dropCols.Count(); i++)
-                        {
-                            //If logest we represent collinear columns with 1 instead of 0
-                            betaCoefficients[betaCoefficients.Count() - 2 - (int)dropCols[i]] = 1d;
-                        }
-                    }
-
-                    var count = 0;
-                    for (var i = 0; i < betaCoefficients.Count() - 1; i++)
-                    {
-                        if (!dropCols.Contains(betaCoefficients.Count() - 2 - i))
-                        {
-                            betaCoefficients[i] = multipleRegressionSlopes[multipleRegressionSlopes.Count() - 2 - count][0];
-                            count++;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (constVar)
-                {
-                    betaCoefficients[betaCoefficients.Count() - 1] = multipleRegressionSlopes[0][0];
-
-                    var count = 0;
-                    for (var i = multipleRegressionSlopes.Count() - 1; i > 0; i--)
-                    {
-                        betaCoefficients[count] = multipleRegressionSlopes[i][0];
-                        count++;
-                    }
-                }
-                else
-                {
-                    betaCoefficients[betaCoefficients.Count() - 1] = (logest) ? 1d : 0d;
-
-                    var count = 0;
-                    for (var i = 0; i < betaCoefficients.Count() - 1; i++)
-                    {
-                        betaCoefficients[i] = multipleRegressionSlopes[multipleRegressionSlopes.Count() - 2 - count][0];
-                        count++;
-                    }
-                }
-            }
+            var betaCoefficients = ReverseCoefficientOrder(multipleRegressionSlopes, dropCols, constVar, logest);
 
             if (!stats)
             {
+                //If no stats, we just print out the coefficients and return the range
                 var resultRange = new InMemoryRange(1, (short)(betaCoefficients.Count()));
-                if (constVar)
-                {
-                    resultRange.SetValue(0, betaCoefficients.Count() - 1, betaCoefficients[betaCoefficients.Count() - 1]);
-                }
-                else
-                {
-                    var intercept = (logest) ? 1d : 0d;
-                    resultRange.SetValue(0, betaCoefficients.Count() - 1, intercept);
-                }
-
-                //Linest returns the coefficients in reversed order, so we iterate through the list from the end to get the correct order.
-                for (var i = 0; i < betaCoefficients.Count() - 1; i++)
+                for (var i = 0; i < betaCoefficients.Count(); i++)
                 {
                     resultRange.SetValue(0, i, betaCoefficients[i]);
                 }
@@ -185,54 +101,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             else
             {
+                //Print coefficients
                 var resultRangeStats = new InMemoryRange(5, (short)betaCoefficients.Count());
-                if (constVar)
-                {
-                    resultRangeStats.SetValue(0, betaCoefficients.Count() - 1, betaCoefficients[betaCoefficients.Count() - 1]);
-                }
-                else
-                {
-                    resultRangeStats.SetValue(0, betaCoefficients.Count() - 1, 0d);
-                    if (logest) resultRangeStats.SetValue(0, betaCoefficients.Count() - 1, 1d);
-                }
-
-                for (var i = 0; i < betaCoefficients.Count() - 1; i++)
+                for (var i = 0; i < betaCoefficients.Count(); i++)
                 {
                     resultRangeStats.SetValue(0, i, betaCoefficients[i]);
                 }
 
-                List<double> standardErrorSlopes = new List<double>();
-                List<double> estimatedYs = new List<double>(); //This is calculated for each row as y = m1 * x1 + m2 * x2 + ... + mn * xn + intercept (m = coefficient).
-                List<double> estimatedErrors = new List<double>(); //This is simply the difference between the observed y-value and the predicted y-value.
-
-                for (var i = 0; i < height; i++)
-                {
-                    var y = 0d;
-                    for (var k = 0; k < width; k++)
-                    {
-                        if (logest)
-                        {
-                            //For LOGEST: Log the coefficients to get rid of EXP
-                            y += (k != betaCoefficients.Count() - 1) ? Math.Log(betaCoefficients[k]) * xRangeListCopy[i][width - 1 - k] : Math.Log(betaCoefficients[k]);
-                        }
-                        else
-                        {
-                            //For LINEST: y = m1 * x1 + m2 * x2 ... mn * xn + b
-                            y += (k != betaCoefficients.Count() - 1) ? betaCoefficients[k] * xRangeListCopy[i][width - 1 - k] : betaCoefficients[k];
-                        }
-                    }
-                    estimatedYs.Add(y);
-                }
-
-                for (var i = 0; i < estimatedYs.Count; i++)
-                {
-                    var error = knownYs[i] - estimatedYs[i];
-                    estimatedErrors.Add(error);
-                }
-
-                //DevSq calculates the sum of squares deviation from the sample mean
-                var ssresid = (constVar) ? MatrixHelper.DevSq(estimatedErrors, false) : MatrixHelper.DevSq(estimatedErrors, true);
-                var ssreg = (constVar) ? MatrixHelper.DevSq(estimatedYs, false) : MatrixHelper.DevSq(estimatedYs, true);
+                //Get the sum statistics: Regression sum of squares and residual sum of squares
+                GetSums(betaCoefficients, xRangeListCopy, knownYs, logest, constVar, out double ssreg, out double ssresid);
+                
+                //Get the remaining statistics
                 var rSquared = ssreg / (ssreg + ssresid);
                 var df = Math.Max(height - width + dropCols.Count(), 0d); //Adjust df when columns are dropped --> For every dropped column, +1 to degrees of freedom
                 var standardErrorEstimate = (df != 0d) ? Math.Sqrt(ssresid / df) : 0d;
@@ -246,92 +125,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     fStatistic = ExcelErrorValue.Create(eErrorType.Num);
                 }
 
-                //Calculating standard errors of all coefficients below
-                var residualMS = (df != 0d) ? ssresid / (height - width + dropCols.Count()) : 0d; //Mean squared of the sum of residual
-                var xT = MatrixHelper.TransposeMatrix(xRangeList, height, width - dropCols.Count());
-                var xTdotX = MatrixHelper.Multiply(xT, xRangeList);
-                var inverseMat = MatrixHelper.Inverse(xTdotX);
-                var mIs = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false;
-
-                //This shouldn't be possible anymore since we have a way of handling singular matrix (GaussianRank)
-                if (mIs)
+                //Get the standard errors for the coefficients
+                var standardErrorArray = GetStandardErrors(df, ssresid, height, width, dropCols, xRangeList); 
+                //Print standard errors on the second row in the result range
+                if (constVar)
                 {
-                    for (var i = 0; i < inverseMat.Count(); i++)
-                    {
-                        for (var j = 0; j < inverseMat[0].Count(); j++)
-                        {
-                            inverseMat[i][j] = 0d;
-                        }
-                    }
-                }
-
-                //Standard errors are derived from the inverse matrix of sum of squares and cross product (SSCP matrix) multiplied with residualMS
-                //The standard errors are the squared root of the main diagonal of this matrix.
-
-                var standardErrorMat = MatrixHelper.MatrixMultDouble(inverseMat, residualMS);
-                var diagonal = MatrixHelper.MatrixDiagonal(standardErrorMat);
-                double[] standardErrorList = new double[diagonal.Count()];
-                for (var i = 0; i < standardErrorList.Count(); i++)
-                {
-                    standardErrorList[i] = Math.Sqrt(diagonal[i]);
-                }
-
-                //Adjust the standard errors of collinear columns to zero
-                double[] standardErrorArray = new double[standardErrorList.Count() + dropCols.Count()];
-                var standardIndex = 1;
-                if (dropCols.Count() > 0)
-                {
-                    standardErrorArray[0] = standardErrorList[0];
-                    for (var i = 1; i < standardErrorArray.Count(); i++)
-                    {
-                        if (dropCols.Contains(standardErrorArray.Count() - i - 1))
-                        {
-                            standardErrorArray[i] = 0d;
-                        }
-                        else
-                        {
-                            standardErrorArray[i] = standardErrorList[standardIndex];
-                            standardIndex++;
-                        }
-                    }
-                }
-
-                //Can be improved. Using different arrays depending on if columns have been dropped or not
-                if (dropCols.Count() > 0)
-                {
-                    if (constVar)
-                    {
-                        resultRangeStats.SetValue(1, xRangeList[0].Count() - 1, standardErrorArray[standardErrorArray.Count() - 1]);
-                    }
-                    else
-                    {
-                        resultRangeStats.SetValue(1, xRangeList[0].Count(), ExcelErrorValue.Create(eErrorType.NA));
-                    }
-
-                    int pos3 = 0;
-                    for (var i = (constVar) ? standardErrorArray.Count() - 1 : standardErrorArray.Count() - 1; i >= 0; i--)
-                    {
-                        resultRangeStats.SetValue(1, pos3++, standardErrorArray[i]);
-                    }
+                    resultRangeStats.SetValue(1, xRangeListCopy[0].Count() - 1, standardErrorArray[standardErrorArray.Count() - 1]);
                 }
                 else
                 {
-                    if (constVar)
-                    {
-                        resultRangeStats.SetValue(1, xRangeList[0].Count() - 1, standardErrorList[standardErrorList.Count() - 1]);
-                    }
-                    else
-                    {
-                        resultRangeStats.SetValue(1, xRangeList[0].Count(), ExcelErrorValue.Create(eErrorType.NA));
-                    }
-
-                    int pos3 = 0;
-                    for (var i = (constVar) ? standardErrorList.Count() - 1 : standardErrorList.Count() - 1; i >= 0; i--)
-                    {
-                        resultRangeStats.SetValue(1, pos3++, standardErrorList[i]);
-                    }
+                    resultRangeStats.SetValue(1, xRangeListCopy[0].Count(), ExcelErrorValue.Create(eErrorType.NA));
                 }
 
+                int pos3 = 0;
+                for (var i = standardErrorArray.Count() - 1; i >= 0; i--)
+                {
+                    resultRangeStats.SetValue(1, pos3++, standardErrorArray[i]);
+                }
+
+                //Print #N/A in the result range
                 if (constVar)
                 {
                     for (var col = 2; col < width; col++)
@@ -353,6 +165,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     }
                 }
 
+                //Print out the remaining statistics
                 resultRangeStats.SetValue(2, 0, rSquared);
                 resultRangeStats.SetValue(2, 1, standardErrorEstimate);
                 resultRangeStats.SetValue(3, 0, fStatistic);
@@ -363,7 +176,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
         }
 
-        private static double[][] GetSlope(double[][] xValues, double[] yValues, bool constVar, bool stats, out bool matrixIsSingular)
+        private static double[] GetSlope(double[][] xValues, double[] yValues, bool constVar, bool stats, bool logest, out bool matrixIsSingular)
         {
             var width = xValues[0].Count();
             var height = xValues.Count();
@@ -375,24 +188,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 
             //b = (X'X)^-1 * X' * Y
             var b = MatrixHelper.Multiply(dotProduct, yValuesJagged);
+            double[] bArray = b.Select(innerList => innerList[0]).ToArray();
             matrixIsSingular = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false; //This threshold could be investigated further
 
             if (!constVar)
             {
-                double[][] extendedB = new double[b.Count() + 1][];
-                for (var i = 0; i < b.Count(); i++)
+                double[] extendedB = new double[bArray.Count() + 1];
+                for (var i = 0; i < bArray.Count(); i++)
                 {
-                    extendedB[i] = new double[1];
-                    extendedB[i][0] = b[i][0];
+                    extendedB[i + 1] = bArray[i];
                 }
-                extendedB[extendedB.Count() - 1] = new double[1];
-                extendedB[extendedB.Count() - 1][0] = 0d;
+                //Since we log the linear intercept, we can put the LOGEST intercept since ln(0) = 1
+                extendedB[0] = 0d;
                 return extendedB;
             }
-            return b;
+            return bArray;
         }
 
-        public static InMemoryRange CalculateResult(double[] knownYs, double[] knownXs, bool constVar, bool stats, bool logest)
+        public static InMemoryRange LinearRegResult(double[] knownXs, double[] knownYs, bool constVar, bool stats, bool logest)
         {
             var knownYsCopy = knownYs.ToList();
             if (logest)
@@ -522,7 +335,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return resultRangeNormal;
 
         }
-        internal static InMemoryRange Execute(IRangeInfo rangeX, IRangeInfo rangeY, bool constVar, bool stats, out eErrorType? error)
+        internal static InMemoryRange ExecuteLinest(IRangeInfo rangeX, IRangeInfo rangeY, bool constVar, bool stats, bool logest, out eErrorType? error)
         {
             bool multipleXranges = false;
             bool columnArray = false;
@@ -548,32 +361,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
 
             RangeFlattener.GetNumericPairLists(rangeX, rangeY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
-
-            //Converting the result of rangeflattener to double[]
-            double[] knownXs = new double[knownXsList.Count];
-            double[] knownYs = new double[knownYsList.Count];
-
             //y values cant be zero or negative since we have to take the logarithm of the y-values to find a solution.
-            for (var i = 0; i < knownYsList.Count(); i++)
+            if (logest)
             {
-                if (knownYsList[i] <= 0)
+                for (var i = 0; i < knownYsList.Count(); i++)
                 {
-                    error = eErrorType.Num;
-                    return null;
-                };
+                    if (knownYsList[i] <= 0)
+                    {
+                        error = eErrorType.Num;
+                        return null;
+                    };
+                }
             }
 
-            for (var i = 0; i < knownXsList.Count; i++)
-            {
-                knownXs[i] = knownXsList[i];
-            }
-
-            for (var i = 0; i < knownYsList.Count; i++)
-            {
-                knownYs[i] = knownYsList[i];
-            }
+            var knownXs = MatrixHelper.ListToArray(knownXsList);
+            var knownYs = MatrixHelper.ListToArray(knownYsList);
             var r = 0;
             var c = 0;
+
             if (multipleXranges)
             {
                 if (multipleXranges && xColumns != yColumns)
@@ -634,15 +439,131 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             InMemoryRange result;
             if (multipleXranges)
             {
-                result = LinestHelper.CalculateMultipleXRanges(knownYs, xRanges, constVar, stats, true);
+                result = LinestHelper.MultipleRegResult(knownYs, xRanges, constVar, stats, logest);
             }
             else
             {
-                result = LinestHelper.CalculateResult(knownYs, knownXs, constVar, stats, true);
+                result = LinestHelper.LinearRegResult(knownXs, knownYs, constVar, stats, logest);
             }
             return result;
         }
 
+        internal static double[] GetDefaultKnownXs(int count)
+        {
+            //If no x-values are provided as input, LINEST aranges default values in ascending order
+            double[] result = new double[count];
+            for (int i = 1; i <= count; i++)
+            {
+                result[i - 1] = i;
+            }
+            return result;
+        }
 
+        internal static double[] ReverseCoefficientOrder(double[] coefficients, List<double> dropCols, bool constVar, bool logest)
+        {
+            //This functions puts the coefficients in the same order as excel. The order is reversed (x_n, x_(n - 1), ..., x1)
+            //The final order is represented in the array betaCoefficients
+
+            double[] betaCoefficients = new double[coefficients.Count() + dropCols.Count()];
+            for (var i = 0; i < dropCols.Count(); i++)
+            {
+                //If logest we represent collinear columns with 1 instead of 0
+                betaCoefficients[betaCoefficients.Count() - ((constVar) ? 1 : 2) - (int)dropCols[i]] = (logest) ? 1d : 0d;
+            }
+
+            betaCoefficients[betaCoefficients.Count() - 1] = coefficients[0];
+            var count = coefficients.Count() - 1;
+            for (var i = 0; i < betaCoefficients.Count() - 1; i++)
+            {
+                if (!dropCols.Contains(betaCoefficients.Count() - ((constVar) ? 1 : 2) - i))
+                {
+                    betaCoefficients[i] = coefficients[count];
+                    count--;
+                }
+            }
+            
+            return betaCoefficients;
+        }
+    
+        internal static void GetSums(double[] coefficients, double[][] xRanges, double[] knownYs, bool logest, bool constVar, out double ssreg, out double ssresid)
+        {
+            //This function calculates The regression sum of squares and The residual sum of squares
+            List<double> estimatedYs = new List<double>(); //This is calculated for each row as y = m1 * x1 + m2 * x2 + ... + mn * xn + intercept (m = coefficient).
+            List<double> estimatedErrors = new List<double>(); //This is simply the difference between the observed y-value and the predicted y-value.
+
+            for (var i = 0; i < xRanges.Count(); i++)
+            {
+                var y = 0d;
+                var variables = (constVar) ? coefficients.Count() - 1 : coefficients.Count() - 2;
+                for (var k = 0; k < coefficients.Count(); k++)
+                {
+                    if (logest)
+                    {
+                        //For LOGEST: Log the coefficients to get rid of EXP
+                        y += (k != coefficients.Count() - 1) ? Math.Log(coefficients[k]) * xRanges[i][variables - k] : Math.Log(coefficients[k]);
+                    }
+                    else
+                    {
+                        //For LINEST: y = m1 * x1 + m2 * x2 ... mn * xn + b
+                        y += (k != coefficients.Count() - 1) ? coefficients[k] * xRanges[i][variables - k] : coefficients[k];
+                    }
+                }
+                estimatedYs.Add(y);
+            }
+
+            for (var i = 0; i < estimatedYs.Count; i++)
+            {
+                var error = knownYs[i] - estimatedYs[i];
+                estimatedErrors.Add(error);
+            }
+
+            ssresid = (constVar) ? MatrixHelper.DevSq(estimatedErrors, false) : MatrixHelper.DevSq(estimatedErrors, true); //Regression sum of squares
+            ssreg = (constVar) ? MatrixHelper.DevSq(estimatedYs, false) : MatrixHelper.DevSq(estimatedYs, true); //Residual sum of squares
+
+        }
+        
+        internal static double[] GetStandardErrors(double df, double ssresid, int height, int width, List<double> dropCols, double[][] xRangeList)
+        {
+            //Calculating standard errors of all coefficients below
+            var residualMS = (df != 0d) ? ssresid / (height - width + dropCols.Count()) : 0d; //Mean squared of the sum of residual
+            var xT = MatrixHelper.TransposeMatrix(xRangeList, height, width - dropCols.Count());
+            var xTdotX = MatrixHelper.Multiply(xT, xRangeList);
+            var inverseMat = MatrixHelper.Inverse(xTdotX);
+            var mIs = (MatrixHelper.GetDeterminant(xTdotX) < 1E-8) ? true : false;
+
+            if (mIs) inverseMat = MatrixHelper.CreateMatrix(inverseMat.Count(), inverseMat[0].Count());
+
+            //Standard errors are derived from the inverse matrix of sum of squares and cross product (SSCP matrix) multiplied with residualMS
+            //The standard errors are the squared root of the main diagonal of this matrix.
+            var standardErrorMat = MatrixHelper.MatrixMultDouble(inverseMat, residualMS);
+            var diagonal = MatrixHelper.MatrixDiagonal(standardErrorMat);
+            double[] standardErrorList = new double[diagonal.Count()];
+            for (var i = 0; i < standardErrorList.Count(); i++)
+            {
+                standardErrorList[i] = Math.Sqrt(diagonal[i]);
+            }
+
+            //Adjust the standard errors of collinear columns to zero
+            double[] standardErrorArray = new double[standardErrorList.Count() + dropCols.Count()];
+            var standardIndex = 1;
+            if (dropCols.Count() > 0)
+            {
+                standardErrorArray[0] = standardErrorList[0];
+                for (var i = 1; i < standardErrorArray.Count(); i++)
+                {
+                    if (dropCols.Contains(standardErrorArray.Count() - i - 1))
+                    {
+                        standardErrorArray[i] = 0d;
+                    }
+                    else
+                    {
+                        standardErrorArray[i] = standardErrorList[standardIndex];
+                        standardIndex++;
+                    }
+                }
+                return standardErrorArray;
+            }
+            return standardErrorList;
+        }
     }
 }
