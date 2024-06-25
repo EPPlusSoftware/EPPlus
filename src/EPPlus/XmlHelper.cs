@@ -1315,20 +1315,8 @@ namespace OfficeOpenXml
 #else
             settings.DtdProcessing = DtdProcessing.Prohibit;
 #endif
-            settings.IgnoreWhitespace = false;
             XmlReader reader = XmlReader.Create(stream, settings);
             xmlDoc.Load(reader);
-
-            //var inner = xmlDoc.DocumentElement.OwnerDocument.InnerXml;
-            //var index = inner.IndexOf("><") + 1;
-            //inner = inner.Insert(index, "\r\n");
-            //xmlDoc.DocumentElement.OwnerDocument.InnerXml = inner;
-           //xmlDoc.DocumentElement.InnerXml = string.Concat()
-           //     "&#xA;" + xmlDoc.DocumentElement.InnerXml;
-           //var node = xmlDoc.CreateNode(XmlNodeType.None, "", null);
-           //((XmlElement)node).InnerXml = "&#xA;";
-           //xmlDoc.InsertBefore(node, xmlDoc.FirstChild);
-           //xmlDoc.in = "&#xA;" + xmlDoc.DocumentElement.OuterXml;
         }
         internal static void LoadXmlSafe(XmlDocument xmlDoc, string xml, Encoding encoding)
         {
