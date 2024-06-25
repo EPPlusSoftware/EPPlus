@@ -3125,7 +3125,7 @@ namespace OfficeOpenXml
             { 
                 if (_oleObjects == null)
                 {
-                    _oleObjects = new ExcelOleObjects(_package, this);
+                    _oleObjects = new ExcelOleObjects(this);
                 }
                 return _oleObjects; 
             } 

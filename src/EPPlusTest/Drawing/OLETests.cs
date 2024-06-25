@@ -17,9 +17,10 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void TestReadEmbeddedObjectBin()
         {
-            using var p = OpenTemplatePackage("OLE.xlsx");
+            using var p = OpenTemplatePackage("OLE3.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.OleObjects[0];
+            var oleDraw = ws.OleObjects[0].Drawing;
         }
     }
 }

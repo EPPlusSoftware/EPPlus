@@ -12,16 +12,11 @@ namespace OfficeOpenXml.OLE_Objects
     public class ExcelOleObjects : IEnumerable<ExcelOleObject>, IDisposable
     { 
         internal List<ExcelOleObject> _oleObjects = new List<ExcelOleObject>();
-        internal ExcelPackage _package;
         internal ExcelWorksheet _worksheet;
 
-        public ExcelOleObjects(ExcelPackage package, ExcelWorksheet worksheet)
+        public ExcelOleObjects(ExcelWorksheet worksheet)
         {
-            _package = package;
             _worksheet = worksheet;
-
-            //TODO
-            //FOREACH OLE OBJECT NODE
             XmlNode node = worksheet.WorksheetXml.SelectSingleNode("/d:worksheet/d:oleObjects", worksheet.NameSpaceManager);
             if (node != null && worksheet != null)
             {

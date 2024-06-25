@@ -77,7 +77,7 @@ namespace OfficeOpenXml.Drawing
             {
                 TopNode = node;
                 
-                if(DrawingType==eDrawingType.Control || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
+                if(DrawingType == eDrawingType.Control || DrawingType == eDrawingType.OleObject || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
                 {
                     _id = drawings.Worksheet._nextControlId++;
                 }
