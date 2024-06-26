@@ -11,7 +11,6 @@
   10/21/2020         EPPlus Software AB           EPPlus 5.5 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Style;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls

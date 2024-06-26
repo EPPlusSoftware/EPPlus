@@ -20,7 +20,7 @@ using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.OLE_Objects;
+using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
@@ -622,14 +622,14 @@ namespace OfficeOpenXml.Drawing
         {
             var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
             var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
-            var oleObject = drawings.Worksheet.OleObjects.GetOleObjectByShapeId(shapeId);
+            var oleObject = control == null ? drawings.Worksheet.OleObjects.GetOleObjectByShapeId(shapeId) : null;
             if (control != null)
             {
                 return ControlFactory.GetControl(drawings, drawNode, control, parent);
             }
             else if( oleObject != null)
             {
-                return ExcelOleObject.GetOleDrawing(drawings, drawNode, oleObject, parent);
+                return OleObjectFactory.GetOleObject(drawings, drawNode, oleObject, parent);
             }
             else
             {

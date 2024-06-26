@@ -44,7 +44,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.OLE_Objects;
+using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml
 {
@@ -3118,14 +3118,14 @@ namespace OfficeOpenXml
             }
         }
 
-        internal ExcelOleObjects _oleObjects;
-        public ExcelOleObjects OleObjects
+        internal OleObjectsCollectionInternal _oleObjects = null;
+        internal OleObjectsCollectionInternal OleObjects
         {
             get 
             { 
                 if (_oleObjects == null)
                 {
-                    _oleObjects = new ExcelOleObjects(this);
+                    _oleObjects = new OleObjectsCollectionInternal(NameSpaceManager, TopNode);
                 }
                 return _oleObjects; 
             } 

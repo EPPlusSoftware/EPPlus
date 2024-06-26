@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
@@ -19,8 +20,8 @@ namespace EPPlusTest.Drawing
         {
             using var p = OpenTemplatePackage("OLE3.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var ole = ws.OleObjects[0];
-            var oleDraw = ws.OleObjects[0].Drawing;
+
+            var ole = ws.Drawings[0] as ExcelOleObject;
         }
     }
 }

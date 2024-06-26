@@ -10,12 +10,10 @@
  *************************************************************************************************
   12/01/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
@@ -71,7 +69,7 @@ namespace OfficeOpenXml.Drawing.Controls
             var objectType = controlPropertiesXml.DocumentElement.Attributes["objectType"]?.Value;
             var controlType = GetControlType(objectType);
             
-            XmlNode node;            
+            XmlNode node;
             if(parent==null)
             {
                 node = drawNode.ParentNode;

@@ -11,7 +11,6 @@
   12/01/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Controls;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

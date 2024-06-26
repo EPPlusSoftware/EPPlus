@@ -11,17 +11,10 @@
     11/24/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
-using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Controls
