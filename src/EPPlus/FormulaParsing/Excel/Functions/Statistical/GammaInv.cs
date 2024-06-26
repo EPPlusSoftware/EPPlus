@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
     SupportsArrays = true,
     Category = ExcelFunctionCategory.Statistical,
-    EPPlusVersion = "7.0",
+    EPPlusVersion = "7.2.1",
     Description = "Returns the individual term binomial distribution probability.")]
 
     internal class GammaInv : ExcelFunction
