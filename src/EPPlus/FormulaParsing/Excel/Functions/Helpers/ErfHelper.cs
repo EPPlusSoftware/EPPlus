@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 return x > 0 ? 1 : -1;
             }
-            double ret = GammaHelper.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+            double ret = GammaHelper.RegularizedGammaP(0.5, x * x, 1.0e-15, 10000);
             return x < 0 ? -ret : ret;
         }
 
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 return x > 0 ? 0 : 2;
             }
-            double ret = GammaHelper.regularizedGammaQ(0.5, x * x, 1.0e-15, 10000);
+            double ret = GammaHelper.RegularizedGammaQ(0.5, x * x, 1.0e-15, 10000);
             return x < 0 ? 2 - ret : ret;
         }
 

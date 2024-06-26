@@ -216,6 +216,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gammaln.precise"] = new GammalnPrecise();
             Functions["gammadist"] = new GammaDist();
             Functions["gamma.dist"] = new GammaDotDist();
+            Functions["gammainv"] = new GammaInv();
+            Functions["gamma.inv"] = new GammaDotInv();
             Functions["lognorm.inv"] = new LognormDotInv();
             Functions["negbinom.dist"] = new NegBinomDotDist();
             Functions["negbinomdist"] = new NegBinomDist();

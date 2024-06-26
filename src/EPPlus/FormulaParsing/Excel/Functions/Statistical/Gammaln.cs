@@ -33,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var n = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (n <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
-            var result = GammaHelper.logGamma(n);
+            var result = GammaHelper.LogGamma(n);
             return CreateResult(result, DataType.Decimal);
         }
     }

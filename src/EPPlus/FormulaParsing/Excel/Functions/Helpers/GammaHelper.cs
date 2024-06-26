@@ -165,7 +165,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         .36899182659531622704e-5,
     };
 
-        public static double regularizedGammaP(double a, double x, double epsilon, int maxIterations)
+        public static double RegularizedGammaP(double a, double x, double epsilon, int maxIterations)
         {
             double ret;
             if (double.IsNaN(a) || double.IsNaN(x) || (a <= 0.0) || (x < 0.0))
@@ -180,7 +180,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 // use regularizedGammaQ because it should converge faster in this
                 // case.
-                ret = 1.0 - regularizedGammaQ(a, x, epsilon, maxIterations);
+                ret = 1.0 - RegularizedGammaQ(a, x, epsilon, maxIterations);
             }
             else
             {
@@ -209,14 +209,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
                 else
                 {
-                    ret = System.Math.Exp(-x + (a * System.Math.Log(x)) - logGamma(a)) * sum;
+                    ret = System.Math.Exp(-x + (a * System.Math.Log(x)) - LogGamma(a)) * sum;
                 }
             }
 
             return ret;
         }
 
-        public static double regularizedGammaQ(double a,
+        public static double RegularizedGammaQ(double a,
                                            double x,
                                            double epsilon,
                                            int maxIterations)
@@ -235,7 +235,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 // use regularizedGammaP because it should converge faster in this
                 // case.
-                ret = 1.0 - regularizedGammaP(a, x, epsilon, maxIterations);
+                ret = 1.0 - RegularizedGammaP(a, x, epsilon, maxIterations);
             }
             else
             {
@@ -245,13 +245,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 cf.GetB = (n, _x) => n * (a - n);
 
                 ret = 1.0 / cf.Evaluate(x, epsilon, maxIterations);
-                ret = System.Math.Exp(-x + (a * System.Math.Log(x)) - logGamma(a)) * ret;
+                ret = System.Math.Exp(-x + (a * System.Math.Log(x)) - LogGamma(a)) * ret;
             }
 
             return ret;
         }
 
-        public static double logGamma(double x)
+        public static double LogGamma(double x)
         {
             double ret;
 
@@ -261,11 +261,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             else if (x < 0.5)
             {
-                return logGamma1p(x) - System.Math.Log(x);
+                return LogGamma1p(x) - System.Math.Log(x);
             }
             else if (x <= 2.5)
             {
-                return logGamma1p((x - 0.5) - 0.5);
+                return LogGamma1p((x - 0.5) - 0.5);
             }
             else if (x <= 8.0)
             {
@@ -275,11 +275,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 {
                     prod *= x - i;
                 }
-                return logGamma1p(x - (n + 1)) + System.Math.Log(prod);
+                return LogGamma1p(x - (n + 1)) + System.Math.Log(prod);
             }
             else
             {
-                double sum = lanczos(x);
+                double sum = Lanczos(x);
                 double tmp = x + LANCZOS_G + .5;
                 ret = ((x + .5) * System.Math.Log(tmp)) - tmp +
                     HALF_LOG_2_PI + System.Math.Log(sum / x);
@@ -288,7 +288,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return ret;
         }
 
-        public static double lanczos(double x)
+        public static double Lanczos(double x)
         {
             double sum = 0.0;
             for (int i = LANCZOS.Length - 1; i > 0; --i)
@@ -298,31 +298,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return sum + LANCZOS[0];
         }
 
-        public static double logGamma1p(double x)
+        public static double LogGamma1p(double x)
         {
 
             if (x < -0.5)
             {
-                throw new ArgumentException("logGamma1p: Number too small (< -0.5): " + x);
+                throw new ArgumentException("LogGamma1p: Number too small (< -0.5): " + x);
             }
             if (x > 1.5)
             {
-                throw new ArgumentException("logGamma1p: Number too large (> 1.5): " + x);
+                throw new ArgumentException("LogGamma1p: Number too large (> 1.5): " + x);
             }
 
-            return -log1p(invGamma1pm1(x));
+            return -Log1p(InvGamma1pm1(x));
         }
 
-        public static double invGamma1pm1(double x)
+        public static double InvGamma1pm1(double x)
         {
 
             if (x < -0.5)
             {
-                throw new ArgumentException("invGamma1pm1: Number too small(< -0.5): " + x);
+                throw new ArgumentException("InvGamma1pm1: Number too small(< -0.5): " + x);
             }
             if (x > 1.5)
             {
-                throw new ArgumentException("invGamma1pm1: Number too large (> 1.5): " + x);
+                throw new ArgumentException("InvGamma1pm1: Number too large (> 1.5): " + x);
             }
 
             double ret;
@@ -407,7 +407,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return ret;
         }
 
-        static double log1p(double x) => System.Math.Abs(x) > 1e-4 ? System.Math.Log(1.0 + x) : (-0.5 * x + 1.0) * x;
+        static double Log1p(double x) => System.Math.Abs(x) > 1e-4 ? System.Math.Log(1.0 + x) : (-0.5 * x + 1.0) * x;
 
         /**
      * Returns the value of Γ(x). Based on the <em>NSWC Library of
@@ -418,7 +418,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
      * @return the value of {@code Gamma(x)}.
      */
         
-        public static double gamma(double x)
+        public static double Gamma(double x)
         {
 
             if ((x == System.Math.Round(x)) && (x <= 0.0))
@@ -447,7 +447,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                         t -= 1.0;
                         prod *= t;
                     }
-                    ret = prod / (1.0 + invGamma1pm1(t - 1.0));
+                    ret = prod / (1.0 + InvGamma1pm1(t - 1.0));
                 }
                 else
                 {
@@ -465,7 +465,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                         t += 1.0;
                         prod *= t;
                     }
-                    ret = 1.0 / (prod * (1.0 + invGamma1pm1(t)));
+                    ret = 1.0 / (prod * (1.0 + InvGamma1pm1(t)));
                 }
             }
             else
@@ -473,7 +473,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 double y = absX + LANCZOS_G + 0.5;
                 double gammaAbs = SQRT_TWO_PI / absX *
                                         System.Math.Pow(y, absX + 0.5) *
-                                        System.Math.Exp(-y) * lanczos(absX);
+                                        System.Math.Exp(-y) * Lanczos(absX);
                 if (x > 0.0)
                 {
                     ret = gammaAbs;
@@ -503,7 +503,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         /// <returns></returns>
         internal static double LowerRegularizedIncompleteGamma(double a, double x)
         {
-            var aln = logGamma(a);
+            var aln = LogGamma(a);
             var ap = a;
             var sum = 1 / a;
             var del = sum;
@@ -540,6 +540,65 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
 
             return (1 - h * Math.Exp(-x + a * Math.Log(x) - (aln)));
+        }
+        /// <summary>
+        /// The following function is ported from the jstat library licensed under the MIT license. 
+        /// See https://github.com/jstat/jstat/blob/1.x/src/distribution.js
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        internal static double InverseGamma(double p, double a)
+        {
+            var j = 0;
+            var a1 = a - 1;
+            var EPS = 1e-8;
+            var gln = LogGamma(a);
+            double x=0, err=0, t=0, u=0, pp=0, lna1=0, afac = 0;
+
+            if (p >= 1)
+                return Math.Max(100, a + 100 * Math.Sqrt(a));
+            if (p <= 0)
+                return 0;
+            if (a > 1)
+            {
+                lna1 = Math.Log(a1);
+                afac = Math.Exp(a1 * (lna1 - 1) - gln);
+                pp = (p < 0.5) ? p : 1 - p;
+                t = Math.Sqrt(-2 * Math.Log(pp));
+                x = (2.30753 + t * 0.27061) / (1 + t * (0.99229 + t * 0.04481)) - t;
+                if (p < 0.5)
+                    x = -x;
+                x = Math.Max(1e-3,
+                             a * Math.Pow(1 - 1 / (9 * a) - x / (3 * Math.Sqrt(a)), 3));
+            }
+            else
+            {
+                t = 1 - a * (0.253 + a * 0.12);
+                if (p < t)
+                    x = Math.Pow(p / t, 1 / a);
+                else
+                    x = 1 - Math.Log(1 - (p - t) / (1 - t));
+            }
+
+            for (; j < 12; j++)
+            {
+                if (x <= 0)
+                    return 0;
+                err = LowerRegularizedIncompleteGamma(a, x) - p;
+                if (a > 1)
+                    t = afac * Math.Exp(-(x - a1) + a1 * (Math.Log(x) - lna1));
+                else
+                    t = Math.Exp(-x + a1 * Math.Log(x) - gln);
+                u = err / t;
+                x -= (t = u / (1 - 0.5 * Math.Min(1, u * ((a - 1) / x - 1))));
+                if (x <= 0)
+                    x = 0.5 * (x + t);
+                if (Math.Abs(t) < EPS * x)
+                    break;
+            }
+
+            return x;
         }
     }
 }
