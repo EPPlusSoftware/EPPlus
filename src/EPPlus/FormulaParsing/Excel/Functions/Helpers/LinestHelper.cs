@@ -30,7 +30,7 @@ using System.Text.RegularExpressions;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 //using System.ComponentModel.DataAnnotations;
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers 
 {
     internal class LinestHelper
     {
@@ -361,7 +361,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
 
             RangeFlattener.GetNumericPairLists(rangeX, rangeY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
-            //y values cant be zero or negative since we have to take the logarithm of the y-values to find a solution.
+            //y values cant be zero or negative since we have to take the logarithm of the y-values to find a solution (LOGEST).
             if (logest)
             {
                 for (var i = 0; i < knownYsList.Count(); i++)
