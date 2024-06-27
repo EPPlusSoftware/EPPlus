@@ -431,6 +431,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["vdb"] = new Vdb();
             Functions["received"] = new Received();
             Functions["pricemat"] = new Pricemat();
+            Functions["yielddisc"] = new YieldDisc();
             
             //Engineering
             Functions["bitand"] = new BitAnd();
