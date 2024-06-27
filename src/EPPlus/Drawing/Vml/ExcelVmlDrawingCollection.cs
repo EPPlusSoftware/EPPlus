@@ -23,6 +23,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Constants;
 using System.IO;
+using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -72,6 +73,10 @@ namespace OfficeOpenXml.Drawing.Vml
                     case "EditBox":
                     case "Dialog":
                         vmlDrawing = new ExcelVmlDrawingControl(_ws, node, NameSpaceManager);
+                        _drawings.Add(vmlDrawing);
+                        break;
+                    case "Pict":
+                        vmlDrawing = new ExcelVmlDrawingPicture(node, NameSpaceManager, ws);
                         _drawings.Add(vmlDrawing);
                         break;
                     default:    //Comments
@@ -189,6 +194,33 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = vml;
             return node;
         }
+
+        internal ExcelVmlDrawingPicture AddPicture(ExcelOleObject oleObject, string name)
+        {
+            XmlNode node = AddOleObjectDrawing(oleObject, name);
+            var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
+
+
+            return draw;
+        }
+
+        private XmlNode AddOleObjectDrawing(ExcelOleObject oleObject, string name)
+        {
+            CreateVmlPart(false); //Create the vml part to be able to create related parts (like blip fill images).
+            var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
+            VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
+
+            shapeElement.SetAttribute("spid", ExcelPackage.schemaMicrosoftOffice, "_x0000_s" + ctrl.Id);
+            shapeElement.SetAttribute("id", name);
+            //shapeElement.SetAttribute("id", $"{ctrl.ControlTypeString}_x{ctrl.Id}_1");
+            shapeElement.SetAttribute("type", "#_x0000_t201");
+            shapeElement.SetAttribute("style", "position:absolute;z-index:1;");
+            shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
+            SetShapeAttributes(ctrl, shapeElement);
+
+            throw new NotImplementedException();
+        }
+
         internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl, string name)
         {
             XmlNode node = AddControlDrawing(ctrl, name);

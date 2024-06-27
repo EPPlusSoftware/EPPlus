@@ -6,10 +6,13 @@ using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Utils;
 using System.IO;
+using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
-    internal class ExcelOleObject : ExcelDrawing
+    public class ExcelOleObject : ExcelDrawing
     {
         internal ExcelVmlDrawingBase _vml;
         internal XmlHelper _vmlProp;
@@ -18,7 +21,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelExternalOleLink _externalLink;
         internal ExcelWorksheet _worksheet;
         public bool isExternalLink = false;
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, OleObjectInternal oleObject, ExcelGroupShape parent = null) : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, OleObjectInternal oleObject, ExcelGroupShape parent = null)
+            : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _oleObject = oleObject;
             _worksheet = drawings.Worksheet;
@@ -36,6 +40,42 @@ namespace OfficeOpenXml.Drawing.OleObject
                 isExternalLink = true;
                 LoadExternalLink();
             }
+        }
+
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filepath, string mediapath = null, ExcelGroupShape parent = null)
+            : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
+        {
+            _worksheet = drawings.Worksheet;
+
+            //Create drawings xml
+            XmlElement spElement = CreateShapeNode();
+            spElement.InnerXml = CreateOleObjectDrawingNode();
+            CreateClientData();
+
+            //Create vml
+            _vml = drawings.Worksheet.VmlDrawings.AddPicture(this, _drawings.GetUniqueDrawingName("Object 1"));
+            _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
+
+            //Create worksheet xml
+
+            //Create ExternalLink
+            //       OR
+            //Create Embedded Document
+            //.bin
+            //.doc
+            //osv
+
+            //Create Media
+            //?
+        }
+
+        private string CreateOleObjectDrawingNode()
+        {
+            StringBuilder xml = new StringBuilder();
+            xml.Append($"<xdr:nvSpPr><xdr:cNvPr hidden=\"1\" name=\"\" id=\"{_id}\"><a:extLst><a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\"><a14:compatExt spid=\"_x0000_s{_id}\"/></a:ext><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{00000000-0008-0000-0000-000001040000}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
+            xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>");
+            xml.Append($"<a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill><a:ln w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
+            return xml.ToString();
         }
 
         internal void LoadDocument()
@@ -102,12 +142,37 @@ namespace OfficeOpenXml.Drawing.OleObject
     }
 }
 
-//Ett Ole Objekt består av xml i worksheet och drawings med relationer till en embedding, printerSettings och Media
-//Embeddings har en CompoundDocument som innehåller filen samt en ole och CompObj filer. Word dokument ligger som .doc istället för som ett CompoundDocument
-//Microsoft_Word_Document, Microsoft_Word_Document1
-//printerSettings stödjer vi ej, men finns som en .bin fil.
-//Worksheet har 2 st relations id i sin nod. Den yttre har relation till embeddings objektet och den innre till dess Media.
-//Drawings har en xml nod som har relation till dess Media
-//Det finns även en VML i drawings
-//Media består av en bild på formatet .emf Både om man använder en ikon eller en bild av dokumentet.
-//Om filen länkas så skapas en externalLinks. Sökvägen till filen finns i _rels.
+/*
+ * OLE objekt 
+ * Worksheet:
+ *  relId -> drawing
+ *  relId -> legacyDrawing
+ *  oleobject/relId -> embedding
+ *  oleobject/link  -> externalLink
+ *  oleobject/objectPr/relId -> media
+ *
+ * Drawing:
+ *  sp/cNvPr/id -> vml
+ *
+ * VML:
+ *  Samma id från Drawing
+ *  relId -> media
+ *
+ * Embeddings:
+ *  bin fil -> compound document
+ *      har 3 filer, CONTENT (själva dokumentet, video, exe eller whatever), ole, CompObj
+ *  doc filer och liknande ligger löst
+ *      Microsoft_Word_Document, Microsoft_Word_Document1
+ *
+ * ExternalLinks:
+ *  relId -> File Path
+ *  Verkar som att siffran i filnamnet är länkad med siffran i worksheet/oleobject/link
+ *  Har relation från workbook.xml
+ *
+ * Media:
+ *  bild på .emf format
+ *
+ * PrinterSettings:
+ *  bin file
+ *  not supported
+ */
