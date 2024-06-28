@@ -9,11 +9,11 @@ using System.Xml.Xsl;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
-    internal class MatrixHelper
+    internal static class MatrixHelper
     {
 
         //Contains various functions for matrix operations.
-        public static List<List<double>> TransposedMult(List<List<double>> matrix, double width, double height)
+        internal static List<List<double>> TransposedMult(List<List<double>> matrix, double width, double height)
         {
             //This function returns the result of a transposed matrix multiplied by itself.
 

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
+    //Helper classes are static
     internal class SEHelper
     {
         public static double GetStandardError(double[] xValues, double[] yValues, bool pushToZero)
@@ -42,6 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return result;
         }
 
+        //Fill out names, remove from matrixhelper
         public static double DevSq(double[] array, bool meanIsZero)
         {
             //Returns the sum of squares of deviations from a set of datapoints.

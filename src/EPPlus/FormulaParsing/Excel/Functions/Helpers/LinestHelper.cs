@@ -10,27 +10,13 @@
 *************************************************************************************************
  05/07/2023         EPPlus Software AB         Implemented function
 *************************************************************************************************/
-using OfficeOpenXml.DataValidation.Events;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing.Text;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.RegularExpressions;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-//using System.ComponentModel.DataAnnotations;
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers 
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal class LinestHelper
     {
@@ -338,8 +324,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         internal static InMemoryRange ExecuteLinest(IRangeInfo rangeX, IRangeInfo rangeY, bool constVar, bool stats, bool logest, out eErrorType? error)
         {
             bool multipleXranges = false;
-            bool columnArray = false;
-            bool rowArray = false;
             var xColumns = rangeX.Size.NumberOfCols;
             var yColumns = rangeY.Size.NumberOfCols;
             var xRows = rangeX.Size.NumberOfRows;
@@ -360,6 +344,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 };
             }
 
+            //Create GetNumericPairArray
             RangeFlattener.GetNumericPairLists(rangeX, rangeY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
             //y values cant be zero or negative since we have to take the logarithm of the y-values to find a solution (LOGEST).
             if (logest)
@@ -373,68 +358,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     };
                 }
             }
-
-            var knownXs = MatrixHelper.ListToArray(knownXsList);
             var knownYs = MatrixHelper.ListToArray(knownYsList);
-            var r = 0;
-            var c = 0;
-
-            if (multipleXranges)
-            {
-                if (multipleXranges && xColumns != yColumns)
-                {
-                    columnArray = true;
-
-                    r = xRows;
-                    c = xColumns;
-                }
-                else if (multipleXranges && xRows != yRows)
-                {
-                    rowArray = true;
-                    r = xColumns;
-                    c = xRows;
-                }
-            }
-            else
-            {
-                r = knownXs.Count();
-                c = 1;
-            }
-            if (multipleXranges && constVar)
-            {
-                c += 1; //This is because we need to add a vector of ones to the matrix in order to account for the intercept
-            }
-
-            double[][] xRanges = MatrixHelper.CreateMatrix(r, c);
-
-            if (columnArray)
-            {
-                var counter = 0;
-                var delimiter = (constVar) ? xRanges[0].Count() - 1 : xRanges[0].Count();
-                for (var i = 0; i < xRanges.Count(); i++)
-                {
-                    for (var j = 0; j < delimiter; j++)
-                    {
-                        xRanges[i][j] = knownXs[counter];
-                        counter += 1;
-                    }
-                }
-            }
-
-            else if (rowArray)
-            {
-                //This shifts data thats row-based to column-based.
-                var counter = 0;
-                var delimiter = (constVar) ? xRanges[0].Count() - 1 : xRanges[0].Count();
-                for (var i = 0; i < delimiter; i++)
-                {
-                    for (var j = 0; j < xRanges.Count(); j++)
-                    {
-                        xRanges[j][i] = knownXs[counter];
-                        counter += 1;
-                    }
-                }
-            }
+            var knownXs = MatrixHelper.ListToArray(knownXsList);
+            var xRanges = RangeToJaggedDouble(rangeX, rangeY, constVar, multipleXranges);
 
             InMemoryRange result;
             if (multipleXranges)
@@ -565,5 +491,80 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             return standardErrorList;
         }
+
+        internal static double[][] RangeToJaggedDouble(IRangeInfo rangeX, IRangeInfo rangeY, bool constVar, bool multipleXranges)
+        {
+            bool columnArray = false;
+            bool rowArray = false;
+            var xColumns = rangeX.Size.NumberOfCols;
+            var yColumns = rangeY.Size.NumberOfCols;
+            var xRows = rangeX.Size.NumberOfRows;
+            var yRows = rangeY.Size.NumberOfRows;
+            RangeFlattener.GetNumericPairLists(rangeX, rangeY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
+            //y values cant be zero or negative since we have to take the logarithm of the y-values to find a solution (LOGEST).
+
+            var knownXs = MatrixHelper.ListToArray(knownXsList);
+            var r = 0;
+            var c = 0;
+
+            if (multipleXranges)
+            {
+                if (multipleXranges && xColumns != yColumns)
+                {
+                    columnArray = true;
+
+                    r = xRows;
+                    c = xColumns;
+                }
+                else if (multipleXranges && xRows != yRows)
+                {
+                    rowArray = true;
+                    r = xColumns;
+                    c = xRows;
+                }
+            }
+            else
+            {
+                r = knownXs.Count();
+                c = 1;
+            }
+            if (multipleXranges && constVar)
+            {
+                c += 1; //This is because we need to add a vector of ones to the matrix in order to account for the intercept
+            }
+
+            double[][] xRanges = MatrixHelper.CreateMatrix(r, c);
+
+            if (columnArray)
+            {
+                var counter = 0;
+                var delimiter = (constVar) ? xRanges[0].Count() - 1 : xRanges[0].Count();
+                for (var i = 0; i < xRanges.Count(); i++)
+                {
+                    for (var j = 0; j < delimiter; j++)
+                    {
+                        xRanges[i][j] = knownXs[counter];
+                        counter += 1;
+                    }
+                }
+            }
+
+            else if (rowArray)
+            {
+                //This shifts data thats row-based to column-based.
+                var counter = 0;
+                var delimiter = (constVar) ? xRanges[0].Count() - 1 : xRanges[0].Count();
+                for (var i = 0; i < delimiter; i++)
+                {
+                    for (var j = 0; j < xRanges.Count(); j++)
+                    {
+                        xRanges[j][i] = knownXs[counter];
+                        counter += 1;
+                    }
+                }
+            }
+            return xRanges;
+        }
+        
     }
 }
