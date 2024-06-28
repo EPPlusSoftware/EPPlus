@@ -18,9 +18,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             return new ExcelOleObject(drawings, node, oleObject, parent);
         }
 
-        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string filepath)
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string filepath, bool link, string mediaFilePath = "")
         {
-            return new ExcelOleObject(drawings, drawNode, filepath);
+            return new ExcelOleObject(drawings, drawNode, filepath, link, mediaFilePath);
         }
     }
 }

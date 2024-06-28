@@ -45,6 +45,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Drawing.OleObject;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml
 {
@@ -3743,6 +3744,16 @@ namespace OfficeOpenXml
             ctrlContainerNode.SetAttribute("Requires", "x14");
 
             return ctrlContainerNode;
+        }
+
+        internal XmlNode CreateOleContainerNode()
+        {
+            var node = GetNode("d:oleObjects");
+            if (node == null)
+            {
+                node  = CreateNode("d:oleObjects");
+            }
+            return node;
         }
 
         internal void NormalStyleChange()

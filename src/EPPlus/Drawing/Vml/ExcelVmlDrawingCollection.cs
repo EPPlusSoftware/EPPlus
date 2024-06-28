@@ -24,6 +24,8 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Constants;
 using System.IO;
 using OfficeOpenXml.Drawing.OleObject;
+using System.Data.SqlTypes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -199,8 +201,6 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             XmlNode node = AddOleObjectDrawing(oleObject, name);
             var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
-
-
             return draw;
         }
 
@@ -210,15 +210,29 @@ namespace OfficeOpenXml.Drawing.Vml
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
 
-            shapeElement.SetAttribute("spid", ExcelPackage.schemaMicrosoftOffice, "_x0000_s" + ctrl.Id);
-            shapeElement.SetAttribute("id", name);
-            //shapeElement.SetAttribute("id", $"{ctrl.ControlTypeString}_x{ctrl.Id}_1");
-            shapeElement.SetAttribute("type", "#_x0000_t201");
-            shapeElement.SetAttribute("style", "position:absolute;z-index:1;");
+            shapeElement.SetAttribute("id", ExcelPackage.schemaMicrosoftOffice, "_x0000_s" + oleObject.Id);
+            shapeElement.SetAttribute("type", "#_x0000_t75");
+            shapeElement.SetAttribute("style", "position:absolute;z-index:1;"); //finnes mer saker som sätts här..
+            shapeElement.SetAttribute("filled", "t");
+            shapeElement.SetAttribute("fillcolor", "window [65]");
+            shapeElement.SetAttribute("stroked", "t");
+            shapeElement.SetAttribute("strokecolor", "windowText [64]");
             shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
-            SetShapeAttributes(ctrl, shapeElement);
 
-            throw new NotImplementedException();
+            string vml = "<v:fill color2=\"window [65]\" />";
+            vml += "<v:imagedata o:relid=\"{}\" o:title=\"\" />"; //fix relid to media
+            vml += "<x:ClientData ObjectType=\"Pict\">";
+            vml += "<x:MoveWithCells />";
+            vml += "<x:SizeWithCells />";
+            vml += string.Format("<x:Anchor>{0}, 15, {1}, 2, {2}, 31, {3}, 1</x:Anchor>"); //fix this
+            vml += "<x:AutoFill>False</x:AutoFill>";
+            vml += "<x:CF>Pict</x:CF>";
+            vml += "<x:DDE />";
+            vml += "<x:Camera />";
+            vml += "</x:ClientData>";
+
+            shapeElement.InnerXml = vml;
+            return shapeElement;
         }
 
         internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl, string name)

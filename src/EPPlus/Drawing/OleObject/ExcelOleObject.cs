@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Xml.Linq;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -42,10 +43,30 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filepath, string mediapath = null, ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filepath, bool link, string mediaFilePath = "", ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _worksheet = drawings.Worksheet;
+
+
+            //Create this first and check if successful creation before creating xml for other parts
+            //Create ExternalLink
+            //       OR
+            //Create Embedded Document
+            //.bin
+            //.doc
+            //osv
+            string relId = "";
+            if (link)
+            {
+                isExternalLink = true;
+                //create ExternalLink
+            }
+            else
+            {
+                isExternalLink= false;
+                //create embedded object
+            }
 
             //Create drawings xml
             XmlElement spElement = CreateShapeNode();
@@ -57,13 +78,29 @@ namespace OfficeOpenXml.Drawing.OleObject
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
             //Create worksheet xml
+            //Create collection container node
+            var wsNode = _worksheet.CreateOleContainerNode();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\">");
+            sb.Append("<mc:Choice Requires=\"x14\">");
 
-            //Create ExternalLink
-            //       OR
-            //Create Embedded Document
-            //.bin
-            //.doc
-            //osv
+            //Create object node
+            sb.Append("<oleObject progId=\"Acrobat.Document.DC\" shapeId=\"1026\" r:id=\"rId4\">"); //sätt shapeId och relId till embedded object/ sätt link för ExternalLink
+            sb.Append("<objectPr defaultSize=\"0\" autoPict=\"0\" r:id=\"rId5\">"); //sätt relId till media
+            sb.Append("<anchor moveWithCells=\"1\">");
+            sb.Append("<from><xdr:col>1</xdr:col><xdr:colOff>28575</xdr:colOff><xdr:row>1</xdr:row><xdr:rowOff>19050</xdr:rowOff></from>"); //sätt rätt värden
+            sb.Append("<to><xdr:col>12</xdr:col><xdr:colOff>171450</xdr:colOff><xdr:row>47</xdr:row><xdr:rowOff>114300</xdr:rowOff></to>"); //sätt rätt värden
+            sb.Append("</anchor></objectPr></oleObject>");
+
+            sb.Append("</mc:Choice>");
+            //fallback
+            sb.Append("<mc:Fallback><oleObject progId=\"Acrobat.Document.DC\" shapeId=\"1026\" r:id=\"rId4\" />"); //fix ids
+
+            sb.Append("</mc:Fallback></mc:AlternateContent>");
+
+            wsNode.InnerXml = sb.ToString();
+            var oleObjectNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
+            _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectNode);
 
             //Create Media
             //?

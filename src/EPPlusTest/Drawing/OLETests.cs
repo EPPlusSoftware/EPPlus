@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.Style;
 using System.IO;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -17,7 +18,7 @@ namespace EPPlusTest.Drawing
             var ws = p.Workbook.Worksheets[0];
 
             var ole = ws.Drawings[0] as ExcelOleObject;
-            ws.Drawings.AddOleObject("myFile",false);
+            ws.Drawings.AddOleObject("myFile", false);
         }
     }
 }
