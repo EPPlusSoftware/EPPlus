@@ -137,5 +137,30 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(3733.161974d, result4);
             }
         }
+
+        [TestMethod]
+        public void TrendTestUnevenSizes()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test where datapoints are equal but size is not");
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 9;
+                sheet.Cells["A4"].Value = 0;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["A6"].Value = 1;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 7;
+                sheet.Cells["C2"].Value = 2;
+                sheet.Cells["C3"].Value = 3;
+                sheet.Cells["D2"].Value = 2;
+                sheet.Cells["D3"].Value = 3;
+                sheet.Cells["A8"].Formula = "TREND(A2:A6,B2:D3,,TRUE)";
+                sheet.Calculate();
+                var result1 = sheet.Cells["A8"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Ref), result1);
+
+            }
+        }
     }
 }

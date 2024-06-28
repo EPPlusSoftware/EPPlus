@@ -9,7 +9,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
     {
         internal static InMemoryRange GetTrendValuesMultiple(double[][] xRanges, double[] coefficients, bool constVar, bool columnArray)
         {
-            var resultRange = (constVar) ? new InMemoryRange((short)xRanges.Count(), 1) : new InMemoryRange(1, (short)xRanges.Count());
+            var resultRange = (columnArray) ? new InMemoryRange((short)xRanges.Count(), 1) : new InMemoryRange(1, (short)xRanges.Count());
             //If const, we remove the column of ones.
             List<double> removeColumn = [xRanges[0].Count() - 1];
             if (constVar) xRanges = MatrixHelper.RemoveColumns(xRanges, removeColumn);
