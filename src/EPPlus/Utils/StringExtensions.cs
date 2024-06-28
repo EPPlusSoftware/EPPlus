@@ -22,5 +22,23 @@
 
             return string.Empty;
         }
+        internal static bool ContainsOnlyCharacter(this string s, char theCharacter, bool ignoreCase=true)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+            if (ignoreCase)
+            {
+                s = s.ToLower();
+                theCharacter = char.ToLower(theCharacter);
+            }
+
+            foreach(var c in s)
+            {
+                if(c != theCharacter)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

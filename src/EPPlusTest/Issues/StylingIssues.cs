@@ -72,12 +72,6 @@ namespace EPPlusTest
         public void IssueMissingDecimalsTextFormular()
         {
             //Issue: TEXT-formular deletes decimals in german format
-#if Core
-            var dir = AppContext.BaseDirectory;
-            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
-#else
-            var dir = AppDomain.CurrentDomain.BaseDirectory;
-#endif
             using var p = OpenTemplatePackage("Textformat.xlsx");
 
             SwitchToCulture("de-DE");
@@ -113,6 +107,102 @@ namespace EPPlusTest
 			//Assert.AreEqual("-,--€", p.Workbook.Worksheets[0].Cells["A20"].Value);
 
 			SwitchBackToCurrentCulture();
+        }
+        [TestMethod]
+        public void Issue1493()
+        {
+            ExcelPackageSettings.CultureSpecificBuildInNumberFormats.Add("de-DE",
+                new Dictionary<int, string>()
+                {
+                   {14, "dd.mm.yyyy"}, {15,"dd. mmm yy"}, {16,"dd. mmm"}, {17,"mmm yy"}, {18, "hh:mm AM/PM" }, {22, "dd.mm.yyyy hh:mm"},{39, "#,##0.00;-#,##0.00"}, {47, "mm:ss,f"}
+                });
+
+            using var p = OpenTemplatePackage("i1493.xlsx");
+            
+            SwitchToCulture("de-DE");
+            p.Workbook.NumberFormatToTextHandler = TextHandler;
+            p.Workbook.Calculate();
+            var ws = p.Workbook.Worksheets[0];
+
+            Assert.AreEqual("123456789,1", ws.Cells["A2"].Text); // actual "123456789,123456"
+            Assert.AreEqual("123456789", ws.Cells["A3"].Text);
+            Assert.AreEqual("123456789,12", ws.Cells["A4"].Text);
+            Assert.AreEqual("123.456.789", ws.Cells["A5"].Text);
+            Assert.AreEqual("123.456.789,12", ws.Cells["A6"].Text);
+            Assert.AreEqual("123.456.789,12", ws.Cells["A9"].Text);
+            Assert.AreEqual("123.456.789,12", ws.Cells["A10"].Text);
+            Assert.AreEqual("123.456.789 €", ws.Cells["A11"].Text);
+            Assert.AreEqual("123.456.789 €", ws.Cells["A12"].Text);
+            Assert.AreEqual("123.456.789,12 €", ws.Cells["A13"].Text);
+            Assert.AreEqual("123.456.789,12 €", ws.Cells["A14"].Text);
+            Assert.AreEqual("12345678912%", ws.Cells["A15"].Text);
+            Assert.AreEqual("12345678912,35%", ws.Cells["A16"].Text);
+            Assert.AreEqual("1,23E+08", ws.Cells["A17"].Text);
+            Assert.AreEqual("123,5E+6", ws.Cells["A18"].Text); // actual "123456789,1"
+            Assert.AreEqual("123456789 1/8", ws.Cells["A19"].Text);
+            Assert.AreEqual("123456789 10/81", ws.Cells["A20"].Text);
+            Assert.AreEqual("29.03.2018", ws.Cells["A21"].Text);
+
+#if (NET6_0_OR_GREATER)
+            Assert.AreEqual("29. März 18", ws.Cells["A22"].Text); // actual "29-März-18"
+            Assert.AreEqual("29. März", ws.Cells["A23"].Text); // actual "29-März"
+            Assert.AreEqual("Mär 18", ws.Cells["A24"].Text); // actual "Mär-18"
+
+            Assert.AreEqual("Mär 2019", ws.Cells["A38"].Text); // actual "Mär 2019"
+#else
+            Assert.AreEqual("29. Mrz 18", ws.Cells["A22"].Text); // actual "29-März-18"
+            Assert.AreEqual("29. Mrz", ws.Cells["A23"].Text); // actual "29-März"
+            Assert.AreEqual("Mrz 18", ws.Cells["A24"].Text); // actual "Mär-18"
+
+            Assert.AreEqual("Mrz 2019", ws.Cells["A38"].Text); // actual "Mär 2019"
+            Assert.AreEqual("Samstag, 30. März 2019", ws.Cells["A39"].Text);
+#endif            
+            Assert.AreEqual("10:45 AM", ws.Cells["A25"].Text); // actual "10:45"
+            Assert.AreEqual("10:45:00 AM", ws.Cells["A26"].Text); // actual "10:45:00" 
+            Assert.AreEqual("10:45", ws.Cells["A27"].Text);
+            Assert.AreEqual("10:45:00", ws.Cells["A28"].Text);
+            Assert.AreEqual("29.03.2019 10:45", ws.Cells["A29"].Text); // actual "3.29.19 10:45"
+            Assert.AreEqual("44:59", ws.Cells["A30"].Text); // actual "03:59"
+            Assert.AreEqual("44:59,9", ws.Cells["A31"].Text); // actual "0359.0"
+            Assert.AreEqual("43555,48958", ws.Cells["A32"].Text); // actual "43555,4895832755"
+            Assert.AreEqual("1045332:44:59", ws.Cells["A33"].Text); // actual "12:03:59"
+            Assert.AreEqual("123.456.789 ", ws.Cells["A35"].Text); // actual "123.456.789"
+            Assert.AreEqual("Samstag, 30. März 2019", ws.Cells["A39"].Text);
+
+            Assert.AreEqual("-123.456.789,12", ws.Cells["B9"].Text); // actual "(123.456.789,12)"
+            Assert.AreEqual("-123.456.789 €", ws.Cells["B10"].Text); // actual "-123.456.789 €"
+            Assert.AreEqual("-1,23E+08", ws.Cells["B17"].Text);
+            Assert.AreEqual("-123,5E+6", ws.Cells["B18"].Text); //actual "-123456789,1"
+            Assert.AreEqual("-123456789 1/8", ws.Cells["B19"].Text);   //actual: "--123456789 1/" 
+            Assert.AreEqual("-123456789 10/81", ws.Cells["B20"].Text); //actual: "--123456789  1/"  
+
+            Assert.AreEqual("0", ws.Cells["C2"].Text);
+            Assert.AreEqual("0", ws.Cells["C3"].Text);
+            Assert.AreEqual("0,00", ws.Cells["C4"].Text);
+            Assert.AreEqual("0,00", ws.Cells["C9"].Text);
+            Assert.AreEqual("0,00 €", ws.Cells["C11"].Text);
+            Assert.AreEqual("0,00 €", ws.Cells["C13"].Text);
+            Assert.AreEqual("0,00 €", ws.Cells["C14"].Text);
+            Assert.AreEqual("0%", ws.Cells["C15"].Text);
+            Assert.AreEqual("0,00%", ws.Cells["C16"].Text);
+            Assert.AreEqual("0,00E+00", ws.Cells["C17"].Text);
+            Assert.AreEqual("000,0E+0", ws.Cells["C18"].Text); // actual "0,0"
+
+            Assert.AreEqual("- €", ws.Cells["C34"].Text);
+            Assert.AreEqual("- ", ws.Cells["C35"].Text);
+            Assert.AreEqual("- €", ws.Cells["C36"].Text);
+            Assert.AreEqual("- ", ws.Cells["C37"].Text);
+            
+            SwitchBackToCurrentCulture();
+        }
+        public string TextHandler(NumberFormatToTextNumberFormatToText options)
+        {
+            switch(options.NumberFormat.NumFmtId)
+            {
+                case 15:
+                    break;
+            }
+            return options.Text;
         }
     }
 }

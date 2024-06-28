@@ -600,5 +600,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
+	  <Folder Include="Settings\" />
 	</ItemGroup>
 </Project>
