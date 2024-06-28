@@ -195,7 +195,7 @@ namespace EPPlusTest
             
             SwitchBackToCurrentCulture();
         }
-        public string TextHandler(NumberFormatToTextNumberFormatToText options)
+        public string TextHandler(NumberFormatToTextArgs options)
         {
             switch(options.NumberFormat.NumFmtId)
             {

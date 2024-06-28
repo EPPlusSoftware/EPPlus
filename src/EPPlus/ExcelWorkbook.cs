@@ -1970,6 +1970,6 @@ namespace OfficeOpenXml
 			}
 		}
 
-        public Func<NumberFormatToTextNumberFormatToText, string> NumberFormatToTextHandler { get; internal set; }
+        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; internal set; }
     } // end Workbook
 }

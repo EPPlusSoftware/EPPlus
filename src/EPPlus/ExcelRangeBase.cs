@@ -822,7 +822,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    return _workbook.NumberFormatToTextHandler(new NumberFormatToTextNumberFormatToText(_worksheet, _fromRow, _fromCol, value, StyleID));
+                    return _workbook.NumberFormatToTextHandler(new NumberFormatToTextArgs(_worksheet, _fromRow, _fromCol, value, StyleID));
                 }
             }
         }

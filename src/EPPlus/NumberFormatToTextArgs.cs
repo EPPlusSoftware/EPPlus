@@ -20,10 +20,10 @@ namespace OfficeOpenXml
     /// <summary>
     /// Numberformat settings used in the <see cref=""/>
     /// </summary>
-    public class NumberFormatToTextNumberFormatToText
+    public class NumberFormatToTextArgs
     {
         internal int _styleId;
-        internal NumberFormatToTextNumberFormatToText(ExcelWorksheet ws, int row, int column, object value, int styleId)
+        internal NumberFormatToTextArgs(ExcelWorksheet ws, int row, int column, object value, int styleId)
         {
             Worksheet = ws;
             Row = row;
