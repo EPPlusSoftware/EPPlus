@@ -94,6 +94,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+        internal object SelectedValue
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// The index of the OLAP hierarchy to which this page field belongs
         /// </summary>
