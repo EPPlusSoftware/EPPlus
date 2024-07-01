@@ -360,7 +360,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             var knownYs = MatrixHelper.ListToArray(knownYsList);
             var knownXs = MatrixHelper.ListToArray(knownXsList);
-            var xRanges = RangeToJaggedDouble(rangeX, rangeY, constVar, multipleXranges);
+            var xRanges = GetRangeAsJaggedDouble(rangeX, rangeY, constVar, multipleXranges);
 
             InMemoryRange result;
             if (multipleXranges)
@@ -414,8 +414,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         internal static void GetSums(double[] coefficients, double[][] xRanges, double[] knownYs, bool logest, bool constVar, out double ssreg, out double ssresid)
         {
             //This function calculates The regression sum of squares and The residual sum of squares
-            List<double> estimatedYs = new List<double>(); //This is calculated for each row as y = m1 * x1 + m2 * x2 + ... + mn * xn + intercept (m = coefficient).
-            List<double> estimatedErrors = new List<double>(); //This is simply the difference between the observed y-value and the predicted y-value.
+            //List<double> estimatedYs = new List<double>(); //This is calculated for each row as y = m1 * x1 + m2 * x2 + ... + mn * xn + intercept (m = coefficient).
+            //List<double> estimatedErrors = new List<double>(); //This is simply the difference between the observed y-value and the predicted y-value.
+            double[] estimatedYs = new double[xRanges.Length];
+            double[] estimatedErrors = new double[xRanges.Length];
 
             for (var i = 0; i < xRanges.Count(); i++)
             {
@@ -434,17 +436,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                         y += (k != coefficients.Count() - 1) ? coefficients[k] * xRanges[i][variables - k] : coefficients[k];
                     }
                 }
-                estimatedYs.Add(y);
+                estimatedYs[i] = y;
             }
 
-            for (var i = 0; i < estimatedYs.Count; i++)
+            for (var i = 0; i < estimatedYs.Count(); i++)
             {
                 var error = knownYs[i] - estimatedYs[i];
-                estimatedErrors.Add(error);
+                estimatedErrors[i] = error;
             }
 
-            ssresid = (constVar) ? MatrixHelper.DevSq(estimatedErrors, false) : MatrixHelper.DevSq(estimatedErrors, true); //Regression sum of squares
-            ssreg = (constVar) ? MatrixHelper.DevSq(estimatedYs, false) : MatrixHelper.DevSq(estimatedYs, true); //Residual sum of squares
+            ssresid = (constVar) ? SEHelper.DevSq(estimatedErrors, false) : SEHelper.DevSq(estimatedErrors, true); //Regression sum of squares
+            ssreg = (constVar) ? SEHelper.DevSq(estimatedYs, false) : SEHelper.DevSq(estimatedYs, true); //Residual sum of squares
 
         }
         
@@ -492,7 +494,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return standardErrorList;
         }
 
-        internal static double[][] RangeToJaggedDouble(IRangeInfo rangeX, IRangeInfo rangeY, bool constVar, bool multipleXranges)
+        internal static double[][] GetRangeAsJaggedDouble(IRangeInfo rangeX, IRangeInfo rangeY, bool constVar, bool multipleXranges)
         {
             bool columnArray = false;
             bool rowArray = false;

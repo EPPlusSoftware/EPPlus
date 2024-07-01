@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "7.0",
     Description = "Returns the y-values along a linear trend that fits the inputted data. If new_x's is given, it returns the y-values" +
-                  "along those x-values.")]
+                  "along those x-values. Trend can also find the trend values for a model with multiple predictor variables.")]
     internal class Trend : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
@@ -37,13 +37,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             bool constVar = true; //default value
             bool columnArray = false;
             bool multipleXranges = false;
-            bool newXs = false;
             IRangeInfo argY = arguments[0].ValueAsRangeInfo;
             IRangeInfo argNewX;
             IRangeInfo argX;
+            IRangeInfo linestResult;
             if (argY.Size.NumberOfCols == 1) columnArray = true;
 
-            if (arguments[1].IsExcelRange)
+            if (arguments.Count() > 1 && arguments[1].IsExcelRange)
             {
                 argX = arguments[1].ValueAsRangeInfo;
             }
@@ -54,13 +54,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 var knownYs = MatrixHelper.ListToArray(yVals);
                 var xVals = LinestHelper.GetDefaultKnownXs(knownYs.Count());
                 if (arguments.Count() > 3) constVar = ArgToBool(arguments, 3);
-                var linestDefaultResult = LinestHelper.LinearRegResult(xVals, knownYs, constVar, false, false);
-                double[] coefficients3 = new double[linestDefaultResult.Size.NumberOfCols];
-                for (var i = 0; i < coefficients3.Length; i++)
+                linestResult = LinestHelper.LinearRegResult(xVals, knownYs, constVar, false, false);
+                double[] defaultCoefficients = new double[linestResult.Size.NumberOfCols];
+                for (var i = 0; i < defaultCoefficients.Length; i++)
                 {
-                    coefficients3[i] = (double)linestDefaultResult.GetValue(0, i);
+                    defaultCoefficients[i] = (double)linestResult.GetValue(0, i);
                 }
-                return CreateDynamicArrayResult(TrendHelper.GetTrendValuesSingle(xVals, coefficients3, columnArray), DataType.ExcelRange);
+                return CreateDynamicArrayResult(TrendHelper.GetTrendValuesSingle(xVals, defaultCoefficients, columnArray), DataType.ExcelRange);
             }
 
             if (arguments.Count > 3) constVar = ArgToBool(arguments, 3);
@@ -70,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             || (argX.Size.NumberOfCols != argY.Size.NumberOfCols && argX.Size.NumberOfRows == argY.Size.NumberOfRows)) multipleXranges = true;
             if (multipleXranges && argX.Size.NumberOfCols != argY.Size.NumberOfCols) columnArray = true;
 
-            var linestResult = LinestHelper.ExecuteLinest(argX, argY, constVar, false, false, out eErrorType? error);
+            linestResult = LinestHelper.ExecuteLinest(argX, argY, constVar, false, false, out eErrorType? error);
             if (error != null) return CreateResult(error.Value);
             double[] coefficients = new double[linestResult.Size.NumberOfCols];
             for (var i = 0; i < coefficients.Length; i++)
@@ -81,13 +81,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             if (arguments[2].IsExcelRange)
             {
                 argNewX = arguments[2].ValueAsRangeInfo;
-                newXs = true;
                 if (multipleXranges)
                 {
-                    if (columnArray && argNewX.Size.NumberOfCols != argX.Size.NumberOfCols) CompileResult.GetErrorResult(eErrorType.Ref);
-                    if (!columnArray && argNewX.Size.NumberOfRows != argX.Size.NumberOfRows) CompileResult.GetErrorResult(eErrorType.Ref);
+                    //knownXs and NewXs must have the same amount of variables, but doesnt have to have the same amount of observations/samples
+                    if (columnArray && argNewX.Size.NumberOfCols != argX.Size.NumberOfCols) return CompileResult.GetErrorResult(eErrorType.Ref);
+                    if (!columnArray && argNewX.Size.NumberOfRows != argX.Size.NumberOfRows) return CompileResult.GetErrorResult(eErrorType.Ref);
 
-                    var xRanges = LinestHelper.RangeToJaggedDouble(argNewX, argY, constVar, multipleXranges);
+                    var xRanges = LinestHelper.GetRangeAsJaggedDouble(argNewX, argY, constVar, multipleXranges);
                     return CreateDynamicArrayResult(TrendHelper.GetTrendValuesMultiple(xRanges, coefficients, constVar, columnArray), DataType.ExcelRange);
                 }
                 else
@@ -101,7 +101,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             
             if (multipleXranges)
             {
-                var xRanges = LinestHelper.RangeToJaggedDouble(argX, argY, constVar, multipleXranges);
+                var xRanges = LinestHelper.GetRangeAsJaggedDouble(argX, argY, constVar, multipleXranges);
                 return CreateDynamicArrayResult(TrendHelper.GetTrendValuesMultiple(xRanges, coefficients, constVar, columnArray), DataType.ExcelRange);
             }
 

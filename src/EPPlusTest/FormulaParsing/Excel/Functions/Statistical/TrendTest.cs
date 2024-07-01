@@ -162,5 +162,206 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
 
             }
         }
+
+        [TestMethod]
+        public void TrendTestUnevenKnownXandNewX()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test where input ranges knownX and Uneven X have different amount of columns");
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 9;
+                sheet.Cells["A4"].Value = 423;
+                sheet.Cells["A5"].Value = 7;
+                sheet.Cells["B2"].Value = -1;
+                sheet.Cells["B3"].Value = 1.23;
+                sheet.Cells["B4"].Value = 33;
+                sheet.Cells["B5"].Value = 3;
+                sheet.Cells["C2"].Value = 5;
+                sheet.Cells["C3"].Value = 2;
+                sheet.Cells["C4"].Value = 6;
+                sheet.Cells["C5"].Value = 7;
+                sheet.Cells["D2"].Value = 1;
+                sheet.Cells["D3"].Value = 6;
+                sheet.Cells["D4"].Value = 3;
+                sheet.Cells["D5"].Value = 78;
+                sheet.Cells["E2"].Value = 5;
+                sheet.Cells["E3"].Value = 7;
+                sheet.Cells["E4"].Value = 34;
+                sheet.Cells["E5"].Value = 2;
+
+                sheet.Cells["A8"].Formula = "TREND(A2:A5, B2:C5, D2:D5)";
+                sheet.Calculate();
+                var result1 = sheet.Cells["A8"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Ref), result1);
+
+            }
+        }
+
+        [TestMethod]
+        public void TrendTestFewerNewX()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with fewer new X observations");
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 9;
+                sheet.Cells["A4"].Value = 423;
+                sheet.Cells["A5"].Value = 7;
+                sheet.Cells["B2"].Value = -1;
+                sheet.Cells["B3"].Value = 1.23;
+                sheet.Cells["B4"].Value = 33;
+                sheet.Cells["B5"].Value = 3;
+                sheet.Cells["C2"].Value = 5;
+                sheet.Cells["C3"].Value = 2;
+                sheet.Cells["C4"].Value = 6;
+                sheet.Cells["C5"].Value = 7;
+                sheet.Cells["D2"].Value = 1;
+                sheet.Cells["D3"].Value = 6;
+                sheet.Cells["D4"].Value = 3;
+                sheet.Cells["D5"].Value = 78;
+                sheet.Cells["E2"].Value = 5;
+                sheet.Cells["E3"].Value = 7;
+                sheet.Cells["E4"].Value = 34;
+                sheet.Cells["E5"].Value = 2;
+
+                sheet.Cells["A8"].Formula = "TREND(A2:A5, B2:C5, D2:E3)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
+                var result2 = System.Math.Round((double)sheet.Cells["A9"].Value, 8);
+                Assert.AreEqual(4.217695212d, result1);
+                Assert.AreEqual(62.20772199d, result2);
+
+            }
+        }
+        [TestMethod]
+        public void TrendTestMultipleRows()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with multiple rows");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["B1"].Value = -1;
+                sheet.Cells["C1"].Value = 5;
+                sheet.Cells["D1"].Value = 1;
+                sheet.Cells["A2"].Value = 9;
+                sheet.Cells["B2"].Value = 1.23;
+                sheet.Cells["C2"].Value = 2;
+                sheet.Cells["D2"].Value = 6;
+                sheet.Cells["A3"].Value = 423;
+                sheet.Cells["B3"].Value = 33;
+                sheet.Cells["C3"].Value = 6;
+                sheet.Cells["D3"].Value = 3;
+                sheet.Cells["A4"].Value = 7;
+                sheet.Cells["B4"].Value = 3;
+                sheet.Cells["C4"].Value = 7;
+                sheet.Cells["D4"].Value = 78;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["B5"].Value = 4;
+                sheet.Cells["C5"].Value = 7;
+                sheet.Cells["D5"].Value = 3;
+
+                sheet.Cells["A8"].Formula = "TREND(A1:D1, A2:D3, A4:D5, TRUE)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
+                var result4 = System.Math.Round((double)sheet.Cells["D8"].Value, 9);
+                Assert.AreEqual(1.820558632d, result1);
+                Assert.AreEqual(1.744683966d, result2);
+                Assert.AreEqual(1.80605155d, result3);
+                Assert.AreEqual(3.033747918d, result4);
+
+            }
+        }
+
+        [TestMethod]
+        public void TrendTestCollinearRows()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with collinearity in original data-set");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["B1"].Value = 2;
+                sheet.Cells["C1"].Value = 3;
+                sheet.Cells["D1"].Value = 4;
+                sheet.Cells["A2"].Value = 9;
+                sheet.Cells["B2"].Value = 1.23;
+                sheet.Cells["C2"].Value = 2;
+                sheet.Cells["D2"].Value = 6;
+                sheet.Cells["A3"].Value = 5;
+                sheet.Cells["B3"].Value = 6;
+                sheet.Cells["C3"].Value = 7;
+                sheet.Cells["D3"].Value = 8;
+                sheet.Cells["A4"].Value = 7;
+                sheet.Cells["B4"].Value = 3;
+                sheet.Cells["C4"].Value = 7;
+                sheet.Cells["D4"].Value = 78;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["B5"].Value = 4;
+                sheet.Cells["C5"].Value = 7;
+                sheet.Cells["D5"].Value = 3;
+
+                sheet.Cells["A8"].Formula = "TREND(A1:D1, A2:D3, A4:D5, TRUE)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 9);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 9);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 9);
+                var result4 = System.Math.Round((double)sheet.Cells["D8"].Value, 9);
+                Assert.AreEqual(-3d, result1);
+                Assert.AreEqual(0d, result2);
+                Assert.AreEqual(3d, result3);
+                Assert.AreEqual(-1d, result4);
+
+
+            }
+        }
+
+
+        [TestMethod]
+        public void TrendTestDefaultX()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with x-values omitted");
+                sheet.Cells["A1"].Value = 232;
+                sheet.Cells["B1"].Value = 3;
+                sheet.Cells["C1"].Value = 21.121;
+                sheet.Cells["D1"].Value = 332;
+                sheet.Cells["A8"].Formula = "TREND(A1:D1)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 8);
+                var result2 = System.Math.Round((double)sheet.Cells["B8"].Value, 7);
+                var result3 = System.Math.Round((double)sheet.Cells["C8"].Value, 7);
+                var result4 = System.Math.Round((double)sheet.Cells["D8"].Value, 7);
+                Assert.AreEqual(99.3121d, result1);
+                Assert.AreEqual(131.1242d, result2);
+                Assert.AreEqual(162.9363d, result3);
+                Assert.AreEqual(194.7484d, result4);
+            }
+        }
+
+        [TestMethod]
+        public void TrendTestDefaultXCols()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test with x-values omitted, column-based");
+                sheet.Cells["A1"].Value = 232;
+                sheet.Cells["A2"].Value = 3;
+                sheet.Cells["A3"].Value = 21.121;
+                sheet.Cells["A4"].Value = 332;
+                sheet.Cells["A8"].Formula = "TREND(A1:A4)";
+                sheet.Calculate();
+                var result1 = System.Math.Round((double)sheet.Cells["A8"].Value, 8);
+                var result2 = System.Math.Round((double)sheet.Cells["A9"].Value, 7);
+                var result3 = System.Math.Round((double)sheet.Cells["A10"].Value, 7);
+                var result4 = System.Math.Round((double)sheet.Cells["A11"].Value, 7);
+                Assert.AreEqual(99.3121d, result1);
+                Assert.AreEqual(131.1242d, result2);
+                Assert.AreEqual(162.9363d, result3);
+                Assert.AreEqual(194.7484d, result4);
+            }
+        }
     }
 }

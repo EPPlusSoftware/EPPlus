@@ -13,29 +13,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
     {
 
         //Contains various functions for matrix operations.
-        internal static List<List<double>> TransposedMult(List<List<double>> matrix, double width, double height)
-        {
-            //This function returns the result of a transposed matrix multiplied by itself.
-
-            List<List<double>> resultMatrix = new List<List<double>>();
-
-            for (int i = 0; i < width; i++)
-            {
-                List<double> matrixRow = new List<double>();
-                for (int j = 0; j < width; j++)
-                {
-                    var dotSum = 0d;
-                    for (int k = 0; k < height; k++)
-                    {
-                        dotSum += matrix[i][k] * matrix[j][k];
-                    }
-                    matrixRow.Add(dotSum);
-                }
-                resultMatrix.Add(matrixRow);
-            }
-
-            return resultMatrix;
-        }
 
         internal static double[][] TransposeMatrix(double[][] matrix, int rows, int cols)
         {
@@ -51,13 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             return transposedMat;
         }
-        public static double DevSq(List<double> array, bool meanIsZero)
-        {
-            //Returns the sum of squares of deviations from a set of datapoints.
-            var mean = (!meanIsZero) ? array.Select(x => (double)x).Average() : 0d;
-            return array.Aggregate(0d, (val, x) => val += Math.Pow(x - mean, 2));
-        }
-        public static double[][] MatrixMultDouble(double[][] matrix, double multiplier)
+
+        internal static double[][] MatrixMultDouble(double[][] matrix, double multiplier)
         {
             //Multiplies all elements in a matrix with a single number.
             double[][] resultMat = CreateMatrix(matrix.Count(), matrix[0].Count());
@@ -70,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
             return resultMat;
         }
-        public static double[] MatrixDiagonal(double[][] matrix)
+        internal static double[] MatrixDiagonal(double[][] matrix)
         {
             //Returns the diagonal of a matrix.
             double[] resultArray = new double[matrix.Count()];
@@ -82,72 +54,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
             }
             return resultArray;
-        }
-        public static List<List<double>> MatrixMult(List<List<double>> matrix1, List<List<double>> matrix2, bool evenDimensions)
-        {
-            //Calculates the result of multiplying two matrixes
-            if (!evenDimensions)
-            {
-                List<List<double>> resultMatrix = new List<List<double>>();
-                for (int i = 0; i < matrix1.Count; i++)
-                {
-                    List<double> matrixRow = new List<double>();
-                    for (int j = 0; j < matrix2[0].Count; j++)
-                    {
-                        var prodSum = 0d;
-
-                        for (int k = 0; k < matrix1.Count; k++)
-                        {
-                            prodSum += matrix1[i][k] * matrix2[k][j];
-                        }
-                        matrixRow.Add(prodSum);
-                    }
-                    resultMatrix.Add(matrixRow);
-                }
-                return resultMatrix;
-            }
-            else
-            {
-                List<List<double>> resultMatrix = new List<List<double>>();
-                return resultMatrix;
-            }
-
-        }
-        public static List<List<double>> MatrixMultArray(List<List<double>> matrix, List<double> array)
-        {
-            //Returns the result matrix of a matrix multiplied with an array.
-            List<List<double>> resultMatrix = new List<List<double>>();
-            for (int i = 0; i < matrix.Count; i++)
-            {
-                List<double> matrixRow = new List<double>();
-                var prodSum = 0d;
-                for (int j = 0; j < array.Count; j++)
-                {
-                    prodSum += matrix[i][j] * array[j];
-                }
-                matrixRow.Add(prodSum);
-                resultMatrix.Add(matrixRow);
-            }
-            return resultMatrix;
-        }
-        public static List<List<double>> GetMatrixMinor(List<List<double>> matrix, double i, double j)
-        {
-            //Returns the minor for a given matrix and entries i:th row and j:th col
-            List<List<double>> resultMatrix = new List<List<double>>();
-            for (int row = 0; row < matrix.Count; row++)
-            {
-                if (row == i) continue;
-
-                List<double> matrixRow = new List<double>();
-                for (int col = 0; col < matrix[row].Count; col++)
-                {
-                    if (col == j) continue;
-
-                    matrixRow.Add(matrix[row][col]);
-                }
-                resultMatrix.Add(matrixRow);
-            }
-            return resultMatrix;
         }
 
         internal static double[][] CreateMatrix(int rows, int cols)
@@ -375,7 +281,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return elements;
         }
 
-        internal static int argMaxAbsolute(double[][] mat)
+        internal static int ArgMaxIndex(double[][] mat)
         {
             //This function finds the index of the largest absolute value in the input matrix
 
@@ -483,7 +389,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                         }
                         rowCount += 1;
                     }
-                    int dd = argMaxAbsolute(subMatrix);
+                    int dd = ArgMaxIndex(subMatrix);
 
                     ixr = dd / (n - ix0);
                     ixc = dd % (n - ix0);

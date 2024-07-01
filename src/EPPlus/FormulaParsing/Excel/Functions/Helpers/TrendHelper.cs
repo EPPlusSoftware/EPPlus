@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 }
                 else
                 {
-                    resultRange.SetValue(0, i, trendVal + coefficients.Length - 1);
+                    resultRange.SetValue(0, i, trendVal + coefficients[coefficients.Length - 1]);
                 }
             }
             return resultRange;
