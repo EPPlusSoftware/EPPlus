@@ -216,7 +216,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["gammaln.precise"] = new GammalnPrecise();
             Functions["gammadist"] = new GammaDist();
             Functions["gamma.dist"] = new GammaDotDist();
+            Functions["gammainv"] = new GammaInv();
+            Functions["gamma.inv"] = new GammaDotInv();
             Functions["lognorm.inv"] = new LognormDotInv();
+            Functions["loginv"] = new LogInv();
             Functions["negbinom.dist"] = new NegBinomDotDist();
             Functions["negbinomdist"] = new NegBinomDist();
             Functions["norminv"] = new NormInv();
@@ -432,6 +435,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["vdb"] = new Vdb();
             Functions["received"] = new Received();
             Functions["pricemat"] = new Pricemat();
+            Functions["yielddisc"] = new YieldDisc();
             
             //Engineering
             Functions["bitand"] = new BitAnd();

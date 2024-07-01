@@ -63,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             }
             else
             {
-                result = (1/(Math.Pow(beta, alpha)* GammaHelper.gamma(alpha))) * Math.Pow(z, alpha - 1) * Math.Pow(Math.E,-z/beta);
+                result = (1/(Math.Pow(beta, alpha)* GammaHelper.Gamma(alpha))) * Math.Pow(z, alpha - 1) * Math.Pow(Math.E,-z/beta);
             }
             
             return CreateResult(result, DataType.Decimal);

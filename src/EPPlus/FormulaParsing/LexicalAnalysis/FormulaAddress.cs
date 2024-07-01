@@ -906,6 +906,32 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return ri;
             }
         }
+
+        internal FormulaRangeAddress GetIntersectingRowOrColumns(FormulaRangeAddress address)
+        {
+            if (address == null || WorksheetIx != address.WorksheetIx) return null;
+
+            var fromRow = FromRow > address.FromRow ? FromRow : address.FromRow;
+            var toRow = ToRow < address.ToRow ? ToRow : address.ToRow;
+            var fromCol = FromCol > address.FromCol ? FromCol : address.FromCol;
+            var toCol = ToCol < address.ToCol ? ToCol : address.ToCol;
+
+            if (fromCol > toCol)
+            {
+                return new FormulaRangeAddress(_context, WorksheetIx, fromRow, 0, toRow, 0); // return intersect on columns. Rows does not intersect so return 0 for the row 
+            }
+            else if (fromRow > toRow)
+            {
+                return new FormulaRangeAddress(_context, WorksheetIx, 0, fromCol, 0, toCol); // return intersect on rows. Columns does not intersect so return 0 for the row 
+            }
+            else if (fromCol > toCol && fromRow > toRow)
+            {
+                return null;
+            }
+
+            return new FormulaRangeAddress(_context, WorksheetIx, fromRow, fromCol, toRow, toCol);
+        }
+
         /// <summary>
         /// Address
         /// </summary>

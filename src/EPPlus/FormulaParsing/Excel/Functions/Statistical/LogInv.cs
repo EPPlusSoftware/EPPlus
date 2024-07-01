@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/25/2020         EPPlus Software AB       Implemented function
+ 28/06/2024         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
@@ -21,20 +21,13 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-            Category = ExcelFunctionCategory.Statistical,
-            EPPlusVersion = "5.5",
-            Description = "Calculates the natural logarithm of the gamma function for a supplied value")]
-    internal class Gammaln : ExcelFunction
+        SupportsArrays = true,
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "7.2.1",
+        Description = "Returns the inverse of the lognormal cumulative distribution function of x, where ln(x) is normally distributed with parameters mean and standard_dev. If p = LOGNORMDIST(x,...) then LOGINV(p,...) = x.\r\n\r\nUse the lognormal distribution to analyze logarithmically transformed data.")]
+
+
+    internal class LogInv : LognormDotInv
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 1;
-        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            var n = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
-            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            if (n <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
-            var result = GammaHelper.LogGamma(n);
-            return CreateResult(result, DataType.Decimal);
-        }
     }
 }
