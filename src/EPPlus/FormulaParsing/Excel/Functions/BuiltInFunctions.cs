@@ -254,6 +254,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["chisq.inv.rt"] = new ChisqInvRt();
             Functions["chiinv"] = new ChiInv();
             Functions["chisq.test"] = new ChisqTest();
+            Functions["chitest"] = new ChiTest();   
             Functions["expondist"] = new Expondist();
             Functions["expon.dist"] = new ExponDotDist();
             Functions["steyx"] = new Steyx();
