@@ -542,7 +542,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     else
                                         v = string.Empty;
                                 }
-                                if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
+                                if (ConvertUtil.IsNumericOrDateDatatype(v))
                                 {
                                     cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
                                     cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");

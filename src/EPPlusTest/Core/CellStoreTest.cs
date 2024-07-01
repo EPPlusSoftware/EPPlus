@@ -28,6 +28,7 @@
  *******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -83,6 +84,62 @@ namespace EPPlusTest.Core
             Assert.AreEqual("Value 9999", cellStore.GetValue(9999, 2));
             Assert.AreEqual(99999, cellStore.GetValue(99999, 1));
             Assert.AreEqual("Value 99999", cellStore.GetValue(99999, 2));
+        }
+        [TestMethod]
+        public void VerifyMultithreadingInCellStore()
+        {
+            var cellStore = new CellStore<object>();
+            var noOfThreads = 5;
+            var td = DateTime.Now;
+            var threads = new List<Thread>();
+            for (int i = 0;i < noOfThreads; i++)
+            {
+                var ts = new ParameterizedThreadStart(GenerateThreadValue);
+                var thread = new Thread(ts);
+                threads.Add(thread);
+                Debug.WriteLine($"{thread.ManagedThreadId} starting...,i={i}, noOfThreads={noOfThreads}");
+                thread.Start(new List<object> { cellStore, i, noOfThreads});
+            }
+
+            while(threads.Count > 0)
+            {
+                if(threads[0].IsAlive == true)
+                {
+                    Thread.Sleep(100);
+                }
+                else
+                {
+                    threads.RemoveAt(0);
+                }
+            }
+            Debug.WriteLine($"Elapsed seconds {(DateTime.Now - td).TotalSeconds}");
+        }
+        internal void GenerateThreadValue(object paramseters)
+        {
+            var l = (List<object>)paramseters;
+            var cellStore = (CellStore<object>)l[0];
+            var index = (int)l[1];
+            var count = (int)l[2];
+            var noOfRows = 50000;
+            for (int r=1;r < noOfRows; r+=count)
+            {
+                var row = r + index;
+                for (int c = 100;c>=0;c--)
+                {
+                    var text1 = $"Cell C{c}R{row}";
+                    cellStore.SetValue(row, c, text1);
+                    //cellStore.SetValue(row, 2, $"Cell C2R{row}");
+                }
+            }
+
+            for (int r = 1; r < noOfRows; r += count)
+            {
+                var row = r + index;
+                for (int c = 0; c >= 100; c++)
+                {
+                    Assert.AreEqual($"Cell C{c}R{row}", cellStore.GetValue(row, c));
+                }
+            }
         }
         [TestMethod]
         public void ForParallelDelete()
