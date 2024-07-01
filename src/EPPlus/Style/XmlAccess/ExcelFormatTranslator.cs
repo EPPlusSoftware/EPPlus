@@ -389,14 +389,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 }
             }
 
-            //Add qoutes
             if (DataType == eFormatType.DateTime) SetDecimal(lstDec, sb); //Remove?
-
-
-            //if (format == "")
-            //    format = sb.ToString();
-            //else
-            //    text = sb.ToString();
 
             // AM/PM format
             f.SetFormat(sb.ToString(), containsAmPm, forColWidth);
@@ -455,18 +448,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 }
             }
 
-            int maxDigits = fmt[1].Length;
-            //string sign;
-            //if (d < 0D)
-            //{
-            //    sign = "-"; 
-            //    d=Math.Abs(d);
-            //}
-            //else
-            //{
-            //    sign = "";
-            //}
-            
+            int maxDigits = fmt[1].Length;           
             int intPart = (int)d;
             int intPartAbs = Math.Abs(intPart);
             if (fixedDenominator == 0)
