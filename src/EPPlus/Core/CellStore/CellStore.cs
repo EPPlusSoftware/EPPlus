@@ -98,21 +98,15 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal int GetColumnPosition(int column)
         {
-            //lock (_syncRoot)
-            //{
                 return ArrayUtil.OptimizedBinarySearch(_columnIndex, column, ColumnCount);
-            //}
         }
         internal ColumnIndex<T> GetColumnIndex(int column)
         {
-            //lock (_syncRoot)
-            //{
-                var pos = ArrayUtil.OptimizedBinarySearch(_columnIndex, column, ColumnCount);
-                if (pos >= 0 && pos <= ColumnCount)
-                {
-                    return _columnIndex[pos];
-                }
-            //}
+            var pos = ArrayUtil.OptimizedBinarySearch(_columnIndex, column, ColumnCount);
+            if (pos >= 0 && pos <= ColumnCount)
+            {
+                return _columnIndex[pos];
+            }
             return null;
         }
         internal CellStore<T> Clone()

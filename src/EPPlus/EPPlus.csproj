@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>7.2.0.0</AssemblyVersion>
-		<FileVersion>7.2.0.0</FileVersion>
-		<Version>7.2.0</Version>
+		<AssemblyVersion>7.2.1.0</AssemblyVersion>
+		<FileVersion>7.2.1.0</FileVersion>
+		<Version>7.2.1</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 7.2.0
+			EPPlus 7.2.1
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,10 +26,13 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+			## Version 7.2.1
+			* Bug fixes see https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+
 			## Version 7.2.0
 			* Pivot table calculation
-				* Fetch calculated data via the GetPivotData method or the CalculatedData property on the ExcelPivotData.
-				* Support for the GetPivotData function.
+			* Fetch calculated data via the GetPivotData method or the CalculatedData property on the ExcelPivotData.
+			* Support for the GetPivotData function.
 			* Import/Export of fixed width text files.
 			* Html export now supports all conditional formattings (Added support for Icon sets and Data bars in 7.2).
 			* Copy of drawings.
@@ -145,8 +148,8 @@
 			* Bug fixes.
 
 			## Version 6.1.2
-			* Bug fixes.		
-			
+			* Bug fixes.
+
 			## Version 6.1.1
 			* Added Target framework .NET 7.
 			* Add support for linking a cell to a chart title text
