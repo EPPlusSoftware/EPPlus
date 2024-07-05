@@ -64,6 +64,15 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(1, tokens.Count());
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Integer));
         }
+        [TestMethod]
+        public void ShouldSetNegatorOnFirstTokenIfFirstCharIsMinusAndReferencingWorksheet()
+        {
+            var input = "-'worksheet2'!E4";
+            var tokens = _tokenizer.Tokenize(input);
+
+            Assert.AreEqual(4, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
+        }
 
         [TestMethod]
         public void ShouldChangePlusToMinusIfNegatorIsPresent()
