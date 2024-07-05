@@ -6225,29 +6225,5 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-
-        [TestMethod]
-        public void s698()
-        {
-            using (ExcelPackage package = OpenTemplatePackage("s698.xlsx"))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets["20240704"];
-
-                var form = worksheet.Cells["E4"].Formula;
-
-                try
-                {
-                    worksheet.Cells["D3:D9"].Insert(eShiftTypeInsert.Right);
-                    //worksheet.InsertRow(15, 1);
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("error");
-                }
-
-                SaveAndCleanup(package);
-            }
-        }
     }
 }
