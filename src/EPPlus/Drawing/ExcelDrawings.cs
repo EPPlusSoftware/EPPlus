@@ -1225,8 +1225,11 @@ namespace OfficeOpenXml.Drawing
             if (themePart != null)
             {
                 chart.StyleManager.LoadThemeOverrideXml(themePart);
+                //chart.StyleManager.LoadTemplateStyles();
             }
+
             chart.StyleManager.LoadStyleXml(styleXml, chartStyle, colorsXml);
+
 
             //if (!string.IsNullOrEmpty(_seriesTemplateXml))
             //{

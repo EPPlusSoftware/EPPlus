@@ -18,6 +18,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System.Linq;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -422,9 +423,16 @@ namespace OfficeOpenXml.Drawing.Chart
             _list.Add((T)serie);
             if (_chart._isChartEx == false)
             {
+                //if (_chart.StyleManager.StylePart != null && _chart.StyleManager.ThemeOverridePart == null)
                 if (_chart.StyleManager.StylePart != null)
                 {
-                    _chart.StyleManager.ApplySeries();
+                    if (_list.Count == 1 && _chart.ApplyThemeOverrideOnFirstSeries == false)
+                    {
+                    }
+                    else
+                    {
+                        _chart.StyleManager.ApplySeries();
+                    }
                 }
 
                 if (_chart._legend != null && _chart._legend._entries!=null)

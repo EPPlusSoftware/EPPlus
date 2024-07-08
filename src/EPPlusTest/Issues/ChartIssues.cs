@@ -315,7 +315,6 @@ namespace EPPlusTest.Issues
 				{
 					var pieChart = worksheet.Drawings.AddChartFromTemplate(template, "pieChart").As.Chart.PieChart;
 
-					var overridethem = pieChart.StyleManager.ThemeOverride;
 					pieChart.Title.Text = "Pie Chart Example";
 					pieChart.SetPosition(1, 0, 3, 0);
 					pieChart.SetSize(600, 400);
@@ -325,11 +324,16 @@ namespace EPPlusTest.Issues
 
 					//pieChart.Series[0].Series = "sheet1!$B$2:$B$6";
 
-                    //pieChart.Series[0].Series = "$B$2:$B$6";
-                    //pieChart.Series[0].XSeries = "$A$2:$A$6";
-                    //// Define the data series for the pie chart
+					//pieChart.Series[0].Series = "$B$2:$B$6";
+					//pieChart.Series[0].XSeries = "$A$2:$A$6";
+					//// Define the data series for the pie chart
 					///
+
+					pieChart.ApplyThemeOverrideOnFirstSeries = true;
                     var series = pieChart.Series.Add(worksheet.Cells["B2:B6"], worksheet.Cells["A2:A6"]);
+
+					//series.xs
+					//series.
 
                     // Apply some styling to the chart
                     pieChart.DataLabel.ShowCategory = true;
