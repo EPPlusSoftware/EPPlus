@@ -645,6 +645,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (!string.IsNullOrEmpty(chart._drawings._seriesTemplateXml))
             {
                 ser.InnerXml = chart._drawings._seriesTemplateXml;
+                return ser;
             }
 
             int idx = FindIndex(chart._topChart??chart);
