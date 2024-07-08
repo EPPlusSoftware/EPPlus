@@ -27,7 +27,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableCacheField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 31
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -73,7 +73,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 64
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -110,7 +110,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 68
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -147,7 +147,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SharedItems
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 82
+    startLine: 98
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -184,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupItems
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 90
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -221,7 +221,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 99
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -258,7 +258,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Grouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 103
+    startLine: 128
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -295,7 +295,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 107
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -332,7 +332,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 195
+    startLine: 266
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

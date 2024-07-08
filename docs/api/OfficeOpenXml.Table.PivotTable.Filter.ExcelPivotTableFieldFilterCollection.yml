@@ -271,7 +271,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddValueFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-    startLine: 133
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -326,7 +326,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop10Filter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-    startLine: 167
+    startLine: 166
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter
@@ -374,7 +374,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop10Filter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-    startLine: 185
+    startLine: 184
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable.Filter

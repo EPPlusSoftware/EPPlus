@@ -446,17 +446,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCalculationChain
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
-    startLine: 150
+    startLine: 154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet calculation chain\n"
+  example: []
   syntax:
     content: public IEnumerable<IFormulaCellInfo> GetCalculationChain(ExcelRangeBase range)
     parameters:
     - id: range
       type: OfficeOpenXml.ExcelRangeBase
+      description: ''
     return:
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.IFormulaCellInfo}
+      description: ''
     content.vb: Public Function GetCalculationChain(range As ExcelRangeBase) As IEnumerable(Of IFormulaCellInfo)
   overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain*
   modifiers.csharp:
@@ -481,19 +485,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCalculationChain
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
-    startLine: 155
+    startLine: 165
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet Calculation chain\n"
+  example: []
   syntax:
     content: public IEnumerable<IFormulaCellInfo> GetCalculationChain(ExcelRangeBase range, ExcelCalculationOption options)
     parameters:
     - id: range
       type: OfficeOpenXml.ExcelRangeBase
+      description: ''
     - id: options
       type: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+      description: ''
     return:
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.IFormulaCellInfo}
+      description: ''
     content.vb: Public Function GetCalculationChain(range As ExcelRangeBase, options As ExcelCalculationOption) As IEnumerable(Of IFormulaCellInfo)
   overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain*
   modifiers.csharp:

@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Drawing.Chart
             XmlElement pointNode;
             if (idx < _list.Count)
             {
-                pointNode = TopNode.OwnerDocument.CreateElement("c", "dLbl", ExcelPackage.schemaMain);
+                pointNode = TopNode.OwnerDocument.CreateElement("c", "dLbl", @"http://schemas.openxmlformats.org/drawingml/2006/chart");
                 TopNode.InsertBefore(pointNode, _list[idx].TopNode);
             }
             else

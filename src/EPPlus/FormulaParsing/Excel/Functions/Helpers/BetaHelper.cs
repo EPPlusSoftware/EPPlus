@@ -72,7 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                     x = 1 - System.Math.Pow(b * w * (1 - p), 1 / b);
             }
             //afac = -jStat.gammaln(a) - jStat.gammaln(b) + jStat.gammaln(a + b);
-            afac = -GammaHelper.logGamma(a) - GammaHelper.logGamma(b) + GammaHelper.logGamma(a + b);
+            afac = -GammaHelper.LogGamma(a) - GammaHelper.LogGamma(b) + GammaHelper.LogGamma(a + b);
             for (; j < 10; j++)
             {
                 if (x == 0 || x == 1)
@@ -102,8 +102,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
         {
             // Factors in front of the continued fraction.
             var bt = (x == 0 || x == 1) ? 0 :
-              System.Math.Exp(GammaHelper.logGamma(a + b) - GammaHelper.logGamma(a) -
-                       GammaHelper.logGamma(b) + a * System.Math.Log(x) + b *
+              System.Math.Exp(GammaHelper.LogGamma(a + b) - GammaHelper.LogGamma(a) -
+                       GammaHelper.LogGamma(b) + a * System.Math.Log(x) + b *
                        System.Math.Log(1 - x));
             if (x < 0 || x > 1)
                 return 0d; // previously return false
@@ -122,12 +122,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             // make sure x + y doesn't exceed the upper limit of usable values
             return (x + y > 170)
                 ? System.Math.Exp(Betaln(x, y))
-                : GammaHelper.gamma(x) * GammaHelper.gamma(y) / GammaHelper.gamma(x + y);
+                : GammaHelper.Gamma(x) * GammaHelper.Gamma(y) / GammaHelper.Gamma(x + y);
         }
 
         internal static double Betaln(double x, double y)
         {
-            return GammaHelper.logGamma(x) + GammaHelper.logGamma(y) - GammaHelper.logGamma(x + y);
+            return GammaHelper.LogGamma(x) + GammaHelper.LogGamma(y) - GammaHelper.LogGamma(x + y);
         }
 
         internal static double BetaCdf(double x, double a, double b)

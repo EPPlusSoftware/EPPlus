@@ -219,10 +219,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
-    startLine: 106
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
+  summary: "\nLoad xml data\n"
+  example: []
   syntax:
     content: public void Load()
     content.vb: Public Sub Load
@@ -249,10 +251,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
-    startLine: 113
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
+  summary: "\nUpdate xml data\n"
+  example: []
   syntax:
     content: public void UpdateXml()
     content.vb: Public Sub UpdateXml

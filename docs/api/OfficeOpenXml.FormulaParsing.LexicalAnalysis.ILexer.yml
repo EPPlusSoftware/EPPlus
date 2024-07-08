@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ILexer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nInterface lexer\n"
+  example: []
   syntax:
     content: public interface ILexer
     content.vb: Public Interface ILexer
@@ -52,17 +54,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
-    startLine: 21
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nTokenize\n"
+  example: []
   syntax:
     content: IList<Token> Tokenize(string input)
     parameters:
     - id: input
       type: System.String
+      description: ''
     return:
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+      description: ''
     content.vb: Function Tokenize(input As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer.Tokenize*
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer.Tokenize(System.String,System.String)
@@ -83,19 +89,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
-    startLine: 22
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nTokenize\n"
+  example: []
   syntax:
     content: IList<Token> Tokenize(string input, string worksheet)
     parameters:
     - id: input
       type: System.String
+      description: ''
     - id: worksheet
       type: System.String
+      description: ''
     return:
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+      description: ''
     content.vb: Function Tokenize(input As String, worksheet As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer.Tokenize*
 references:

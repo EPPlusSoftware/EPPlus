@@ -39,6 +39,7 @@ items:
   inheritedMembers:
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeSharedClasses
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeNormalFont
+  - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IndentValue
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IndentUnit
@@ -191,6 +192,12 @@ references:
   name: IncludeNormalFont
   nameWithType: CssExportSettings.IncludeNormalFont
   fullName: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeNormalFont
+- uid: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
+  commentId: P:OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
+  parent: OfficeOpenXml.Export.HtmlExport.CssExportSettings
+  name: IncludeCssReset
+  nameWithType: CssExportSettings.IncludeCssReset
+  fullName: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
 - uid: OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements
   commentId: P:OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements
   parent: OfficeOpenXml.Export.HtmlExport.CssExportSettings

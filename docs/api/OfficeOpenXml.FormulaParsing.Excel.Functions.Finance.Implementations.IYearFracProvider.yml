@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IYearFracProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nIYearFracProvider\n"
+  example: []
   syntax:
     content: public interface IYearFracProvider
     content.vb: Public Interface IYearFracProvider
@@ -51,21 +53,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetYearFrac
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
-    startLine: 18
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGetYearFrac\n"
+  example: []
   syntax:
     content: double GetYearFrac(DateTime date1, DateTime date2, DayCountBasis basis)
     parameters:
     - id: date1
       type: System.DateTime
+      description: ''
     - id: date2
       type: System.DateTime
+      description: ''
     - id: basis
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetYearFrac(date1 As Date, date2 As Date, basis As DayCountBasis) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac*
 references:

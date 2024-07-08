@@ -69,17 +69,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-    startLine: 48
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nParse address into a new addressinfo\n"
+  example: []
   syntax:
     content: public static ExcelAddressInfo Parse(string address)
     parameters:
     - id: address
       type: System.String
+      description: Adress to parse
     return:
       type: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+      description: ''
     content.vb: Public Shared Function Parse(address As String) As ExcelAddressInfo
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse*
   modifiers.csharp:
@@ -106,7 +110,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-    startLine: 57
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -143,7 +147,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetIsSpecified
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-    startLine: 62
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -180,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMultipleCells
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-    startLine: 73
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -217,7 +221,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartCell
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-    startLine: 84
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -254,7 +258,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndCell
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-    startLine: 89
+    startLine: 93
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -291,7 +295,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressOnSheet
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-    startLine: 94
+    startLine: 98
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities

@@ -4,6 +4,7 @@ items:
   commentId: N:OfficeOpenXml.Table
   id: OfficeOpenXml.Table
   children:
+  - OfficeOpenXml.Table.ApplyDataFrom
   - OfficeOpenXml.Table.ExcelTable
   - OfficeOpenXml.Table.ExcelTableCollection
   - OfficeOpenXml.Table.ExcelTableColumn
@@ -22,6 +23,12 @@ items:
   assemblies:
   - EPPlus
 references:
+- uid: OfficeOpenXml.Table.ApplyDataFrom
+  commentId: T:OfficeOpenXml.Table.ApplyDataFrom
+  parent: OfficeOpenXml.Table
+  name: ApplyDataFrom
+  nameWithType: ApplyDataFrom
+  fullName: OfficeOpenXml.Table.ApplyDataFrom
 - uid: OfficeOpenXml.Table.PivotTableStyles
   commentId: T:OfficeOpenXml.Table.PivotTableStyles
   parent: OfficeOpenXml.Table

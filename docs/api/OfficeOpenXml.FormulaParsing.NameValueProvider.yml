@@ -229,19 +229,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNamedValue
     path: ../src/EPPlus/FormulaParsing/NameValueProvider.cs
-    startLine: 66
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet named value\n"
+  example: []
   syntax:
     content: public object GetNamedValue(string key, string worksheet)
     parameters:
     - id: key
       type: System.String
+      description: ''
     - id: worksheet
       type: System.String
+      description: ''
     return:
       type: System.Object
+      description: ''
     content.vb: Public Function GetNamedValue(key As String, worksheet As String) As Object
   overload: OfficeOpenXml.FormulaParsing.NameValueProvider.GetNamedValue*
   implements:

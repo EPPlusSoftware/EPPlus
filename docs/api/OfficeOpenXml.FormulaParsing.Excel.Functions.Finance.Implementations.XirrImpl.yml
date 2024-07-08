@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XirrImpl
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/XirrImpl.cs
-    startLine: 19
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nXirr implementation\n"
+  example: []
   syntax:
     content: public static class XirrImpl
     content.vb: Public Module XirrImpl
@@ -62,21 +64,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetXirr
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/XirrImpl.cs
-    startLine: 22
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGet Xirr\n"
+  example: []
   syntax:
     content: public static FinanceCalcResult<double> GetXirr(IEnumerable<double> aValues, IEnumerable<DateTime> aDates, double rGuessRate = 0.1)
     parameters:
     - id: aValues
       type: System.Collections.Generic.IEnumerable{System.Double}
+      description: ''
     - id: aDates
       type: System.Collections.Generic.IEnumerable{System.DateTime}
+      description: ''
     - id: rGuessRate
       type: System.Double
+      description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult{System.Double}
+      description: ''
     content.vb: Public Shared Function GetXirr(aValues As IEnumerable(Of Double), aDates As IEnumerable(Of Date), rGuessRate As Double = 0.1) As FinanceCalcResult(Of Double)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.XirrImpl.GetXirr*
   nameWithType.vb: XirrImpl.GetXirr(IEnumerable(Of Double), IEnumerable(Of DateTime), Double)

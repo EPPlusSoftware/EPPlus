@@ -248,7 +248,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
-    startLine: 205
+    startLine: 210
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -284,7 +284,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContainsKey
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
-    startLine: 226
+    startLine: 231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -323,7 +323,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
-    startLine: 233
+    startLine: 238
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -360,7 +360,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
-    startLine: 248
+    startLine: 253
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -405,7 +405,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
-    startLine: 260
+    startLine: 265
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -449,7 +449,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
-    startLine: 274
+    startLine: 279
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -487,7 +487,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
-    startLine: 284
+    startLine: 289
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

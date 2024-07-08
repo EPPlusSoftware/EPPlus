@@ -5,9 +5,10 @@ items:
   id: SourceCodeTokenizer
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   children:
-  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean,System.Boolean)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.R1C1
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize(System.String)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize(System.String,System.String)
@@ -25,10 +26,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceCodeTokenizer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 12
+    startLine: 16
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nSource code tokenizer\n"
+  example: []
   syntax:
     content: 'public class SourceCodeTokenizer : ISourceCodeTokenizer'
     content.vb: >-
@@ -70,7 +73,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 64
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -109,7 +112,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: R1C1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 72
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -148,7 +151,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default_KeepWhiteSpaces
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 80
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -169,16 +172,55 @@ items:
   - Public
   - Shared
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)
-  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)
-  id: '#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)'
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula
+  id: PivotFormula
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer
   langs:
   - csharp
   - vb
-  name: SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean, Boolean)
-  nameWithType: SourceCodeTokenizer.SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean, Boolean)
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.SourceCodeTokenizer(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider, OfficeOpenXml.FormulaParsing.INameValueProvider, System.Boolean, System.Boolean)
+  name: PivotFormula
+  nameWithType: SourceCodeTokenizer.PivotFormula
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotFormula
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\n"
+  example: []
+  syntax:
+    content: public static ISourceCodeTokenizer PivotFormula { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+    content.vb: Public Shared ReadOnly Property PivotFormula As ISourceCodeTokenizer
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean,System.Boolean)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean,System.Boolean)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer
+  langs:
+  - csharp
+  - vb
+  name: SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean, Boolean, Boolean)
+  nameWithType: SourceCodeTokenizer.SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean, Boolean, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.SourceCodeTokenizer(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider, OfficeOpenXml.FormulaParsing.INameValueProvider, System.Boolean, System.Boolean, System.Boolean)
   type: Constructor
   source:
     remote:
@@ -187,14 +229,13 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 92
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  summary: "\nConstructor\n"
   example: []
   syntax:
-    content: public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
+    content: public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false, bool pivotFormula = false)
     parameters:
     - id: functionRepository
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
@@ -208,7 +249,10 @@ items:
     - id: keepWhitespace
       type: System.Boolean
       description: If true whitspaces in formulas will be preserved
-    content.vb: Public Sub New(functionRepository As IFunctionNameProvider, nameValueProvider As INameValueProvider, r1c1 As Boolean = False, keepWhitespace As Boolean = False)
+    - id: pivotFormula
+      type: System.Boolean
+      description: If the formula is from a calculated column in a pivot table.
+    content.vb: Public Sub New(functionRepository As IFunctionNameProvider, nameValueProvider As INameValueProvider, r1c1 As Boolean = False, keepWhitespace As Boolean = False, pivotFormula As Boolean = False)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor*
   modifiers.csharp:
   - public
@@ -232,7 +276,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 103
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -273,21 +317,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 134
+    startLine: 142
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  summary: "\nSplit the input string into tokens used by the formula parser\n"
+  summary: "\nSplits a formula in tokens used in when calculating for example a worksheet cell, defined name or a pivot table field formula.\n"
   example: []
   syntax:
     content: public IList<Token> Tokenize(string input, string worksheet)
     parameters:
     - id: input
       type: System.String
-      description: ''
+      description: The formula to tokenize
     - id: worksheet
       type: System.String
-      description: ''
+      description: The worksheet name.
     return:
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
       description: ''
@@ -296,6 +340,7 @@ items:
   exceptions:
   - type: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
     commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
+    description: Thrown if the formula is not valid.
   implements:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
   modifiers.csharp:
@@ -621,6 +666,11 @@ references:
   name: Default_KeepWhiteSpaces
   nameWithType: SourceCodeTokenizer.Default_KeepWhiteSpaces
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default_KeepWhiteSpaces
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula
+  name: PivotFormula
+  nameWithType: SourceCodeTokenizer.PivotFormula
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.PivotFormula
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor*
   commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor
   name: SourceCodeTokenizer

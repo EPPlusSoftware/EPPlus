@@ -653,11 +653,7 @@ references:
     fullName: )
 - uid: System.IComparable
   commentId: T:System.IComparable
-  parent: System
   isExternal: true
-  name: IComparable
-  nameWithType: IComparable
-  fullName: System.IComparable
 - uid: System.ArgumentOutOfRangeException
   commentId: T:System.ArgumentOutOfRangeException
   isExternal: true

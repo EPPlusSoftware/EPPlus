@@ -44,7 +44,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeRow
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 91
+    startLine: 93
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -97,7 +97,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartRow
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 104
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -134,7 +134,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndRow
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 114
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -171,7 +171,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 124
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -208,7 +208,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 138
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -245,7 +245,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 153
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -282,7 +282,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 167
+    startLine: 169
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -319,7 +319,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 181
+    startLine: 184
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -356,7 +356,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomHeight
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 199
+    startLine: 202
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -393,7 +393,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 214
+    startLine: 217
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -430,7 +430,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 230
+    startLine: 233
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -467,7 +467,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 241
+    startLine: 244
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -504,7 +504,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 265
+    startLine: 268
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -541,7 +541,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 282
+    startLine: 285
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -578,7 +578,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 292
+    startLine: 295
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -618,7 +618,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 303
+    startLine: 306
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -657,7 +657,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 344
+    startLine: 347
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -694,7 +694,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 352
+    startLine: 355
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -728,7 +728,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 365
+    startLine: 368
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -765,7 +765,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 379
+    startLine: 382
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -799,7 +799,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 388
+    startLine: 391
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -833,7 +833,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 395
+    startLine: 398
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -865,7 +865,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ungroup
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 403
+    startLine: 406
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -897,7 +897,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollapseChildren
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 411
+    startLine: 414
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -932,7 +932,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExpandChildren
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 433
+    startLine: 436
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -967,7 +967,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetVisibleOutlineLevel
     path: ../src/EPPlus/ExcelRangeRow.cs
-    startLine: 456
+    startLine: 459
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

@@ -49,6 +49,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
@@ -92,6 +93,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsVolatile
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ParametersInfo
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NamespacePrefix
   - System.Object.Equals(System.Object)
@@ -127,10 +129,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 27
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nHidden values handling function\n"
+  example: []
   syntax:
     content: public HiddenValuesHandlingFunction()
     content.vb: Public Sub New
@@ -157,7 +161,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreHiddenValues
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 35
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -194,7 +198,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreErrors
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 44
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -231,7 +235,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreNestedSubtotalsAndAggregates
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 52
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -268,21 +272,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 54
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nArgs to double enumerable\n"
+  example: []
   syntax:
     content: protected override IList<double> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, out ExcelErrorValue error)
     parameters:
     - id: arguments
       type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+      description: ''
     - id: context
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     - id: error
       type: OfficeOpenXml.ExcelErrorValue
+      description: ''
     return:
       type: System.Collections.Generic.IList{System.Double}
+      description: ''
     content.vb: Protected Overrides Function ArgsToDoubleEnumerable(arguments As IEnumerable(Of FunctionArgument), context As ParsingContext, ByRef error As ExcelErrorValue) As IList(Of Double)
   overridden: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,OfficeOpenXml.ExcelErrorValue@)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction.ArgsToDoubleEnumerable*
@@ -313,7 +323,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 69
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -370,19 +380,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShouldIgnore
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 92
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nShould Ignore\n"
+  example: []
   syntax:
     content: protected bool ShouldIgnore(ICellInfo c, ParsingContext context)
     parameters:
     - id: c
       type: OfficeOpenXml.FormulaParsing.ICellInfo
+      description: ''
     - id: context
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     return:
       type: System.Boolean
+      description: ''
     content.vb: Protected Function ShouldIgnore(c As ICellInfo, context As ParsingContext) As Boolean
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction.ShouldIgnore*
   modifiers.csharp:
@@ -407,19 +422,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShouldIgnore
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-    startLine: 104
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nShould ignore with argument\n"
+  example: []
   syntax:
     content: protected bool ShouldIgnore(FunctionArgument arg, ParsingContext context)
     parameters:
     - id: arg
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+      description: ''
     - id: context
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     return:
       type: System.Boolean
+      description: ''
     content.vb: Protected Function ShouldIgnore(arg As FunctionArgument, context As ParsingContext) As Boolean
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction.ShouldIgnore*
   modifiers.csharp:
@@ -695,6 +715,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: HandlesVariables
+  nameWithType: ExcelFunction.HandlesVariables
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
@@ -3559,6 +3585,12 @@ references:
   name: ReturnsReference
   nameWithType: ExcelFunction.ReturnsReference
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: IsAllowedInCalculatedPivotTableField
+  nameWithType: ExcelFunction.IsAllowedInCalculatedPivotTableField
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ParametersInfo
   commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ParametersInfo
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction

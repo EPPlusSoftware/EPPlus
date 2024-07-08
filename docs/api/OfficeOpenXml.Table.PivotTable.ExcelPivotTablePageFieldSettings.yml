@@ -5,7 +5,9 @@ items:
   id: ExcelPivotTablePageFieldSettings
   parent: OfficeOpenXml.Table.PivotTable
   children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Name
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem
   langs:
   - csharp
   - vb
@@ -48,6 +50,43 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption
+  id: Caption
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings
+  langs:
+  - csharp
+  - vb
+  name: Caption
+  nameWithType: ExcelPivotTablePageFieldSettings.Caption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTablePageFieldSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Caption
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTablePageFieldSettings.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe display name of the hierarchy.\n"
+  example: []
+  syntax:
+    content: public int Caption { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Caption As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Name
   commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Name
   id: Name
@@ -66,7 +105,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTablePageFieldSettings.cs
-    startLine: 48
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -85,6 +124,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem
+  id: SelectedItem
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings
+  langs:
+  - csharp
+  - vb
+  name: SelectedItem
+  nameWithType: ExcelPivotTablePageFieldSettings.SelectedItem
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTablePageFieldSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedItem
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTablePageFieldSettings.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe selected item. \nSee also <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection.SelectSingleItem(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public int SelectedItem { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property SelectedItem As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.Table.PivotTable
   commentId: N:OfficeOpenXml.Table.PivotTable
@@ -394,6 +470,18 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption
+  name: Caption
+  nameWithType: ExcelPivotTablePageFieldSettings.Caption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Caption
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Name*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.Name
   name: Name
@@ -406,3 +494,11 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection.SelectSingleItem(System.Int32)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection.SelectSingleItem(System.Int32)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem
+  name: SelectedItem
+  nameWithType: ExcelPivotTablePageFieldSettings.SelectedItem
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings.SelectedItem

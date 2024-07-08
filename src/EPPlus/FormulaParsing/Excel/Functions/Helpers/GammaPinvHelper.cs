@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             var j = 0;
             var a1 = a - 1;
             var EPS = 1e-8;
-            var gln = GammaHelper.logGamma(a);
+            var gln = GammaHelper.LogGamma(a);
             double x;
             double err;
             double t;
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 if (x <= 0)
                     return 0;
-                err = GammaHelper.regularizedGammaP(a, x, 1.0e-15, 10000) - p;
+                err = GammaHelper.RegularizedGammaP(a, x, 1.0e-15, 10000) - p;
                 //err = jStat.lowRegGamma(a, x) - p;
                 if (a > 1)
                     t = afac * System.Math.Exp(-(x - a1) + a1 * (System.Math.Log(x) - lna1));

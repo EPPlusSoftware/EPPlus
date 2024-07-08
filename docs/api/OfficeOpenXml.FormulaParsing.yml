@@ -6,7 +6,6 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.ExcelAddressCache
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption
-  - OfficeOpenXml.FormulaParsing.ExcelCell
   - OfficeOpenXml.FormulaParsing.FormulaCellInfo
   - OfficeOpenXml.FormulaParsing.FormulaParser
   - OfficeOpenXml.FormulaParsing.FormulaParserManager
@@ -55,11 +54,6 @@ references:
   name: ExcelCalculationOption
   nameWithType: ExcelCalculationOption
   fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
-- uid: OfficeOpenXml.FormulaParsing.ExcelCell
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelCell
-  name: ExcelCell
-  nameWithType: ExcelCell
-  fullName: OfficeOpenXml.FormulaParsing.ExcelCell
 - uid: OfficeOpenXml.FormulaParsing.FormulaParser
   commentId: T:OfficeOpenXml.FormulaParsing.FormulaParser
   parent: OfficeOpenXml.FormulaParsing

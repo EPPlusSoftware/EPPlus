@@ -582,7 +582,7 @@ namespace EPPlusTest.LoadFunctions
                 var ns = package.Workbook.Styles.CreateNamedStyle("Hyperlink");
                 ns.BuildInId = 8;
                 ns.Style.Font.UnderLine = true;
-                ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+                ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0xFF,0x05 ,0x63, 0xC1));
 
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
                 sheet.Cells["E2:E5"].StyleName = "Hyperlink";

@@ -797,17 +797,17 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nFreeze the columns/rows to left and above the cell\n"
+  summary: "\nFreeze the columns and rows starting from <xref href=\"OfficeOpenXml.ExcelWorksheetView.TopLeftCell\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public void FreezePanes(int Row, int Column)
     parameters:
     - id: Row
       type: System.Int32
-      description: ''
+      description: Rows from the <xref href="OfficeOpenXml.ExcelWorksheetView.TopLeftCell" data-throw-if-not-resolved="false"></xref>. Starts from 1
     - id: Column
       type: System.Int32
-      description: ''
+      description: Columns from the <xref href="OfficeOpenXml.ExcelWorksheetView.TopLeftCell" data-throw-if-not-resolved="false"></xref>. Starts from 1
     content.vb: Public Sub FreezePanes(Row As Integer, Column As Integer)
   overload: OfficeOpenXml.ExcelWorksheetView.FreezePanes*
   modifiers.csharp:
@@ -1396,6 +1396,9 @@ references:
   name: BottomRightPane
   nameWithType: ExcelWorksheetView.BottomRightPane
   fullName: OfficeOpenXml.ExcelWorksheetView.BottomRightPane
+- uid: OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+  isExternal: true
 - uid: OfficeOpenXml.ExcelWorksheetView.FreezePanes*
   commentId: Overload:OfficeOpenXml.ExcelWorksheetView.FreezePanes
   name: FreezePanes

@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IParsingLifetimeEventHandler
     path: ../src/EPPlus/FormulaParsing/IParsingLifetimeEventHandler.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParsing lifetime event handler\n"
+  example: []
   syntax:
     content: public interface IParsingLifetimeEventHandler
     content.vb: Public Interface IParsingLifetimeEventHandler
@@ -51,10 +53,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingCompleted
     path: ../src/EPPlus/FormulaParsing/IParsingLifetimeEventHandler.cs
-    startLine: 21
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParsing completed\n"
+  example: []
   syntax:
     content: void ParsingCompleted()
     content.vb: Sub ParsingCompleted

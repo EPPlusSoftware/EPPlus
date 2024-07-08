@@ -1,0 +1,579 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  commentId: T:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  id: PivotDataFieldItemSelection
+  parent: OfficeOpenXml.Table.PivotTable.Calculation
+  children:
+  - OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor(System.String,System.Object)
+  - OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  - OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName
+  - OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction
+  - OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value
+  langs:
+  - csharp
+  - vb
+  name: PivotDataFieldItemSelection
+  nameWithType: PivotDataFieldItemSelection
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotDataFieldItemSelection
+    path: ../src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Calculation
+  summary: "\nAn Item selection for a row or colummn field used as argument to the GetPivotData method to filter.\n"
+  example: []
+  syntax:
+    content: public class PivotDataFieldItemSelection
+    content.vb: Public Class PivotDataFieldItemSelection
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor(System.String,System.Object)
+  commentId: M:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor(System.String,System.Object)
+  id: '#ctor(System.String,System.Object)'
+  parent: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  langs:
+  - csharp
+  - vb
+  name: PivotDataFieldItemSelection(String, Object)
+  nameWithType: PivotDataFieldItemSelection.PivotDataFieldItemSelection(String, Object)
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.PivotDataFieldItemSelection(System.String, System.Object)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Calculation
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public PivotDataFieldItemSelection(string fieldName, object value)
+    parameters:
+    - id: fieldName
+      type: System.String
+      description: The row/column field to filter
+    - id: value
+      type: System.Object
+      description: The value to filter on
+    content.vb: Public Sub New(fieldName As String, value As Object)
+  overload: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  commentId: M:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  id: '#ctor(System.String,System.Object,OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)'
+  parent: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  langs:
+  - csharp
+  - vb
+  name: PivotDataFieldItemSelection(String, Object, eSubTotalFunctions)
+  nameWithType: PivotDataFieldItemSelection.PivotDataFieldItemSelection(String, Object, eSubTotalFunctions)
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.PivotDataFieldItemSelection(System.String, System.Object, OfficeOpenXml.Table.PivotTable.eSubTotalFunctions)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Calculation
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public PivotDataFieldItemSelection(string fieldName, object value, eSubTotalFunctions subtotalFunction)
+    parameters:
+    - id: fieldName
+      type: System.String
+      description: The row/column field to filter
+    - id: value
+      type: System.Object
+      description: The value to filter on
+    - id: subtotalFunction
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+      description: If a row/column field has one or multiple Subtotal Functions specified, you can access them here.
+    content.vb: Public Sub New(fieldName As String, value As Object, subtotalFunction As eSubTotalFunctions)
+  overload: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName
+  commentId: P:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName
+  id: FieldName
+  parent: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  langs:
+  - csharp
+  - vb
+  name: FieldName
+  nameWithType: PivotDataFieldItemSelection.FieldName
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FieldName
+    path: ../src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Calculation
+  summary: "\nThe row or column field.\n"
+  example: []
+  syntax:
+    content: public string FieldName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property FieldName As String
+  overload: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value
+  commentId: P:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value
+  id: Value
+  parent: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: PivotDataFieldItemSelection.Value
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Calculation
+  summary: "\nThe value to filter on.\n"
+  example: []
+  syntax:
+    content: public object Value { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public Property Value As Object
+  overload: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction
+  commentId: P:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction
+  id: SubtotalFunction
+  parent: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+  langs:
+  - csharp
+  - vb
+  name: SubtotalFunction
+  nameWithType: PivotDataFieldItemSelection.SubtotalFunction
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SubtotalFunction
+    path: ../src/EPPlus/Table/PivotTable/Calculation/PivotDataFieldItemSelection.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Calculation
+  summary: "\nIf a row/column field has a subtotal subtotalFunction other that &quot;Default&quot; or &quot;None&quot;, it can be specified in the criteria.\n"
+  example: []
+  syntax:
+    content: public eSubTotalFunctions SubtotalFunction { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+    content.vb: Public Property SubtotalFunction As eSubTotalFunctions
+  overload: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable.Calculation
+  commentId: N:OfficeOpenXml.Table.PivotTable.Calculation
+  name: OfficeOpenXml.Table.PivotTable.Calculation
+  nameWithType: OfficeOpenXml.Table.PivotTable.Calculation
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.#ctor
+  name: PivotDataFieldItemSelection
+  nameWithType: PivotDataFieldItemSelection.PivotDataFieldItemSelection
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.PivotDataFieldItemSelection
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eSubTotalFunctions
+  nameWithType: eSubTotalFunctions
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName
+  name: FieldName
+  nameWithType: PivotDataFieldItemSelection.FieldName
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.FieldName
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value
+  name: Value
+  nameWithType: PivotDataFieldItemSelection.Value
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.Value
+- uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction
+  name: SubtotalFunction
+  nameWithType: PivotDataFieldItemSelection.SubtotalFunction
+  fullName: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection.SubtotalFunction

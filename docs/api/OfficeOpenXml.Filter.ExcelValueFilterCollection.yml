@@ -160,7 +160,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
-  summary: "\n<p>Add a filter value that will be matched agains the ExcelRange.Text property</p>\nIf value is &quot;&quot; or null sets Blank=True instead of adding.\n"
+  summary: "\n<p>Add a filter value that will be matched agains the ExcelRange.String property</p>\nIf value is &quot;&quot; or null sets Blank=True instead of adding.\n"
   example: []
   syntax:
     content: public ExcelFilterValueItem Add(ExcelFilterValueItem item)

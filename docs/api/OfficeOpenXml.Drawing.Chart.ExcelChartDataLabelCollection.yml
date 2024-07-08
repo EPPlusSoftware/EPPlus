@@ -113,7 +113,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 107
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -157,7 +157,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 117
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -194,7 +194,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 128
+    startLine: 127
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -232,7 +232,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 133
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

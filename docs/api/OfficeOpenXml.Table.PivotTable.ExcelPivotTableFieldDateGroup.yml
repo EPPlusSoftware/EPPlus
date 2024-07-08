@@ -7,7 +7,10 @@ items:
   children:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate
   langs:
   - csharp
   - vb
@@ -158,6 +161,117 @@ items:
       type: System.Boolean
     content.vb: Public ReadOnly Property AutoEnd As Boolean
   overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate
+  id: StartDate
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  langs:
+  - csharp
+  - vb
+  name: StartDate
+  nameWithType: ExcelPivotTableFieldDateGroup.StartDate
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StartDate
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nStart date for the grouping\n"
+  example: []
+  syntax:
+    content: public DateTime? StartDate { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.DateTime}
+    content.vb: Public ReadOnly Property StartDate As Date?
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate
+  id: EndDate
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  langs:
+  - csharp
+  - vb
+  name: EndDate
+  nameWithType: ExcelPivotTableFieldDateGroup.EndDate
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndDate
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nEnd date for the grouping\n"
+  example: []
+  syntax:
+    content: public DateTime? EndDate { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.DateTime}
+    content.vb: Public ReadOnly Property EndDate As Date?
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval
+  id: GroupInterval
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  langs:
+  - csharp
+  - vb
+  name: GroupInterval
+  nameWithType: ExcelPivotTableFieldDateGroup.GroupInterval
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GroupInterval
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIntervall if for day grouping\n"
+  example: []
+  syntax:
+    content: public int? GroupInterval { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public ReadOnly Property GroupInterval As Integer?
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval*
   modifiers.csharp:
   - public
   - get
@@ -519,3 +633,145 @@ references:
   name: AutoEnd
   nameWithType: ExcelPivotTableFieldDateGroup.AutoEnd
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate
+  name: StartDate
+  nameWithType: ExcelPivotTableFieldDateGroup.StartDate
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.StartDate
+- uid: System.Nullable{System.DateTime}
+  commentId: T:System.Nullable{System.DateTime}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<DateTime>
+  nameWithType: Nullable<DateTime>
+  fullName: System.Nullable<System.DateTime>
+  nameWithType.vb: Nullable(Of DateTime)
+  fullName.vb: System.Nullable(Of System.DateTime)
+  name.vb: Nullable(Of DateTime)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate
+  name: EndDate
+  nameWithType: ExcelPivotTableFieldDateGroup.EndDate
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.EndDate
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval
+  name: GroupInterval
+  nameWithType: ExcelPivotTableFieldDateGroup.GroupInterval
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupInterval
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )

@@ -72,7 +72,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternType
     path: ../src/EPPlus/Style/ExcelFill.cs
-    startLine: 36
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -109,7 +109,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternColor
     path: ../src/EPPlus/Style/ExcelFill.cs
-    startLine: 59
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -146,7 +146,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackgroundColor
     path: ../src/EPPlus/Style/ExcelFill.cs
-    startLine: 75
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -183,7 +183,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gradient
     path: ../src/EPPlus/Style/ExcelFill.cs
-    startLine: 92
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -220,7 +220,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetBackground
     path: ../src/EPPlus/Style/ExcelFill.cs
-    startLine: 124
+    startLine: 130
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -259,7 +259,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetBackground
     path: ../src/EPPlus/Style/ExcelFill.cs
-    startLine: 134
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -298,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetBackground
     path: ../src/EPPlus/Style/ExcelFill.cs
-    startLine: 144
+    startLine: 150
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

@@ -27,7 +27,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
-  summary: "\nText layout flow.\n"
+  summary: "\nString layout flow.\n"
   example: []
   syntax:
     content: public enum eLayoutFlow

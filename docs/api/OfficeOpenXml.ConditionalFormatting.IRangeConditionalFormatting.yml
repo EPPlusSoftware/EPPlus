@@ -1509,11 +1509,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetConditionalFormattings
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
-    startLine: 301
+    startLine: 299
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
-  summary: "\nGet dict of all CFs and their addresses in range\n"
+  summary: "\nGet a list of all conditional formatting rules that exist on cells in the range\n"
   example: []
   syntax:
     content: List<ExcelConditionalFormattingRule> GetConditionalFormattings()

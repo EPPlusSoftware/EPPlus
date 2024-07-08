@@ -145,7 +145,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Interval
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

@@ -27,10 +27,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaTableAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 869
+    startLine: 916
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nFormula table address\n"
+  example: []
   syntax:
     content: 'public class FormulaTableAddress : FormulaRangeAddress, IAddressInfo, IComparable<FormulaRangeAddress>'
     content.vb: >-
@@ -88,15 +90,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 871
+    startLine: 922
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nFormula table address constructor\n"
+  example: []
   syntax:
     content: public FormulaTableAddress(ParsingContext ctx)
     parameters:
     - id: ctx
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     content.vb: Public Sub New(ctx As ParsingContext)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor*
   modifiers.csharp:
@@ -121,17 +126,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 875
+    startLine: 931
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nConstructor\n"
+  example: []
   syntax:
     content: public FormulaTableAddress(ParsingContext ctx, string tableAddress)
     parameters:
     - id: ctx
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     - id: tableAddress
       type: System.String
+      description: ''
     content.vb: Public Sub New(ctx As ParsingContext, tableAddress As String)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor*
   modifiers.csharp:
@@ -156,10 +165,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableName
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 909
+    startLine: 968
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nNames\n"
+  example: []
   syntax:
     content: public string TableName
     return:
@@ -187,10 +198,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnName1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 909
+    startLine: 968
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nNames\n"
+  example: []
   syntax:
     content: public string ColumnName1
     return:
@@ -218,10 +231,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnName2
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 909
+    startLine: 968
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nNames\n"
+  example: []
   syntax:
     content: public string ColumnName2
     return:
@@ -249,10 +264,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TablePart1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 909
+    startLine: 968
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nNames\n"
+  example: []
   syntax:
     content: public string TablePart1
     return:
@@ -280,10 +297,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TablePart2
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 909
+    startLine: 968
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nNames\n"
+  example: []
   syntax:
     content: public string TablePart2
     return:
@@ -311,7 +330,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clone
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 1061
+    startLine: 1120
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis

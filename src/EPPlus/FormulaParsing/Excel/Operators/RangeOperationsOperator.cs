@@ -277,8 +277,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
             if(left.DataType == DataType.ExcelRange && right.DataType == DataType.ExcelRange)
             {
-                InMemoryRange resultRange = ApplyRanges(left, right, op, context);
-                return new CompileResult(resultRange, DataType.ExcelRange);
+                var interSectAddress = left.Address?.GetIntersectingRowOrColumns(right.Address);
+                InMemoryRange resultRange = ApplyRanges(left, right, op, context, interSectAddress);
+                return new AddressCompileResult(resultRange, DataType.ExcelRange, interSectAddress);
             }
             return CompileResult.Empty;
         }
@@ -329,12 +330,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return resultRange;
         }
 
-        private static InMemoryRange ApplyRanges(CompileResult left, CompileResult right, Operators op, ParsingContext context)
+        private static InMemoryRange ApplyRanges(CompileResult left, CompileResult right, Operators op, ParsingContext context, FormulaRangeAddress intersectAddress)
         {
             var lr = left.Result as IRangeInfo;
             var rr = right.Result as IRangeInfo;
 
-            var resultRange = CreateRange(lr, rr, null);
+            var resultRange = CreateRange(lr, rr, intersectAddress);
             var shouldUseSingleCol = ShouldUseSingleCol(lr.Size, rr.Size);
             var shouldUseSingleRow = ShouldUseSingleRow(lr.Size, rr.Size);
             var shouldUseSingleCell = ShouldUseSingleCell(lr.Size, rr.Size);

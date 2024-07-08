@@ -19,10 +19,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusDataTypeConvertionException
     path: ../src/EPPlus/Export/ToCollection/Exceptions/EPPlusDataTypeConvertionException.cs
-    startLine: 4
+    startLine: 7
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.ToCollection.Exceptions
+  summary: "\nData convertion exception\n"
+  example: []
   syntax:
     content: 'public class EPPlusDataTypeConvertionException : Exception, ISerializable'
     content.vb: >-

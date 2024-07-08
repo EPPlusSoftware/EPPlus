@@ -1969,5 +1969,7 @@ namespace OfficeOpenXml
 				return _richData;
 			}
 		}
-	} // end Workbook
+
+        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; internal set; }
+    } // end Workbook
 }

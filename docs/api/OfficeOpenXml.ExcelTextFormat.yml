@@ -6,7 +6,6 @@ items:
   parent: OfficeOpenXml
   children:
   - OfficeOpenXml.ExcelTextFormat.#ctor
-  - OfficeOpenXml.ExcelTextFormat.DataTypes
   langs:
   - csharp
   - vb
@@ -16,12 +15,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextFormat
-    path: ../src/EPPlus/ExcelTextFormat.cs
-    startLine: 93
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -34,15 +33,21 @@ items:
           Inherits ExcelTextFormatBase
   inheritance:
   - System.Object
+  - OfficeOpenXml.ExcelTextFileFormat
   - OfficeOpenXml.ExcelTextFormatBase
   inheritedMembers:
   - OfficeOpenXml.ExcelTextFormatBase.Delimiter
   - OfficeOpenXml.ExcelTextFormatBase.TextQualifier
-  - OfficeOpenXml.ExcelTextFormatBase.EOL
-  - OfficeOpenXml.ExcelTextFormatBase.Culture
-  - OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
-  - OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
-  - OfficeOpenXml.ExcelTextFormatBase.Encoding
+  - OfficeOpenXml.ExcelTextFormatBase.DataTypes
+  - OfficeOpenXml.ExcelTextFileFormat.EOL
+  - OfficeOpenXml.ExcelTextFileFormat.Culture
+  - OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  - OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  - OfficeOpenXml.ExcelTextFileFormat.Encoding
+  - OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  - OfficeOpenXml.ExcelTextFileFormat.Transpose
+  - OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  - OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -69,12 +74,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/ExcelTextFormat.cs
-    startLine: 111
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -86,43 +91,6 @@ items:
   overload: OfficeOpenXml.ExcelTextFormat.#ctor*
   modifiers.csharp:
   - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.ExcelTextFormat.DataTypes
-  commentId: P:OfficeOpenXml.ExcelTextFormat.DataTypes
-  id: DataTypes
-  parent: OfficeOpenXml.ExcelTextFormat
-  langs:
-  - csharp
-  - vb
-  name: DataTypes
-  nameWithType: ExcelTextFormat.DataTypes
-  fullName: OfficeOpenXml.ExcelTextFormat.DataTypes
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/ExcelTextFormat.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: DataTypes
-    path: ../src/EPPlus/ExcelTextFormat.cs
-    startLine: 118
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml
-  summary: "\nDatatypes list for each column (if column is not present Unknown is assumed)\n"
-  example: []
-  syntax:
-    content: public eDataTypes[] DataTypes { get; set; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.eDataTypes[]
-    content.vb: Public Property DataTypes As eDataTypes()
-  overload: OfficeOpenXml.ExcelTextFormat.DataTypes*
-  modifiers.csharp:
-  - public
-  - get
-  - set
   modifiers.vb:
   - Public
 references:
@@ -138,6 +106,12 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: OfficeOpenXml.ExcelTextFileFormat
+  commentId: T:OfficeOpenXml.ExcelTextFileFormat
+  parent: OfficeOpenXml
+  name: ExcelTextFileFormat
+  nameWithType: ExcelTextFileFormat
+  fullName: OfficeOpenXml.ExcelTextFileFormat
 - uid: OfficeOpenXml.ExcelTextFormatBase
   commentId: T:OfficeOpenXml.ExcelTextFormatBase
   parent: OfficeOpenXml
@@ -156,36 +130,66 @@ references:
   name: TextQualifier
   nameWithType: ExcelTextFormatBase.TextQualifier
   fullName: OfficeOpenXml.ExcelTextFormatBase.TextQualifier
-- uid: OfficeOpenXml.ExcelTextFormatBase.EOL
-  commentId: P:OfficeOpenXml.ExcelTextFormatBase.EOL
+- uid: OfficeOpenXml.ExcelTextFormatBase.DataTypes
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.DataTypes
   parent: OfficeOpenXml.ExcelTextFormatBase
+  name: DataTypes
+  nameWithType: ExcelTextFormatBase.DataTypes
+  fullName: OfficeOpenXml.ExcelTextFormatBase.DataTypes
+- uid: OfficeOpenXml.ExcelTextFileFormat.EOL
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.EOL
+  parent: OfficeOpenXml.ExcelTextFileFormat
   name: EOL
-  nameWithType: ExcelTextFormatBase.EOL
-  fullName: OfficeOpenXml.ExcelTextFormatBase.EOL
-- uid: OfficeOpenXml.ExcelTextFormatBase.Culture
-  commentId: P:OfficeOpenXml.ExcelTextFormatBase.Culture
-  parent: OfficeOpenXml.ExcelTextFormatBase
+  nameWithType: ExcelTextFileFormat.EOL
+  fullName: OfficeOpenXml.ExcelTextFileFormat.EOL
+- uid: OfficeOpenXml.ExcelTextFileFormat.Culture
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Culture
+  parent: OfficeOpenXml.ExcelTextFileFormat
   name: Culture
-  nameWithType: ExcelTextFormatBase.Culture
-  fullName: OfficeOpenXml.ExcelTextFormatBase.Culture
-- uid: OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
-  commentId: P:OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
-  parent: OfficeOpenXml.ExcelTextFormatBase
+  nameWithType: ExcelTextFileFormat.Culture
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Culture
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  parent: OfficeOpenXml.ExcelTextFileFormat
   name: SkipLinesBeginning
-  nameWithType: ExcelTextFormatBase.SkipLinesBeginning
-  fullName: OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
-- uid: OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
-  commentId: P:OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
-  parent: OfficeOpenXml.ExcelTextFormatBase
+  nameWithType: ExcelTextFileFormat.SkipLinesBeginning
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  parent: OfficeOpenXml.ExcelTextFileFormat
   name: SkipLinesEnd
-  nameWithType: ExcelTextFormatBase.SkipLinesEnd
-  fullName: OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
-- uid: OfficeOpenXml.ExcelTextFormatBase.Encoding
-  commentId: P:OfficeOpenXml.ExcelTextFormatBase.Encoding
-  parent: OfficeOpenXml.ExcelTextFormatBase
+  nameWithType: ExcelTextFileFormat.SkipLinesEnd
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+- uid: OfficeOpenXml.ExcelTextFileFormat.Encoding
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Encoding
+  parent: OfficeOpenXml.ExcelTextFileFormat
   name: Encoding
-  nameWithType: ExcelTextFormatBase.Encoding
-  fullName: OfficeOpenXml.ExcelTextFormatBase.Encoding
+  nameWithType: ExcelTextFileFormat.Encoding
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Encoding
+- uid: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: ShouldUseRow
+  nameWithType: ExcelTextFileFormat.ShouldUseRow
+  fullName: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+- uid: OfficeOpenXml.ExcelTextFileFormat.Transpose
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Transpose
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: Transpose
+  nameWithType: ExcelTextFileFormat.Transpose
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Transpose
+- uid: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: TableStyle
+  nameWithType: ExcelTextFileFormat.TableStyle
+  fullName: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+- uid: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: FirstRowIsHeader
+  nameWithType: ExcelTextFileFormat.FirstRowIsHeader
+  fullName: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -476,32 +480,3 @@ references:
   name: ExcelTextFormat
   nameWithType: ExcelTextFormat.ExcelTextFormat
   fullName: OfficeOpenXml.ExcelTextFormat.ExcelTextFormat
-- uid: OfficeOpenXml.ExcelTextFormat.DataTypes*
-  commentId: Overload:OfficeOpenXml.ExcelTextFormat.DataTypes
-  name: DataTypes
-  nameWithType: ExcelTextFormat.DataTypes
-  fullName: OfficeOpenXml.ExcelTextFormat.DataTypes
-- uid: OfficeOpenXml.eDataTypes[]
-  isExternal: true
-  name: eDataTypes[]
-  nameWithType: eDataTypes[]
-  fullName: OfficeOpenXml.eDataTypes[]
-  nameWithType.vb: eDataTypes()
-  fullName.vb: OfficeOpenXml.eDataTypes()
-  name.vb: eDataTypes()
-  spec.csharp:
-  - uid: OfficeOpenXml.eDataTypes
-    name: eDataTypes
-    nameWithType: eDataTypes
-    fullName: OfficeOpenXml.eDataTypes
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  spec.vb:
-  - uid: OfficeOpenXml.eDataTypes
-    name: eDataTypes
-    nameWithType: eDataTypes
-    fullName: OfficeOpenXml.eDataTypes
-  - name: ()
-    nameWithType: ()
-    fullName: ()
