@@ -36,6 +36,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var result = arguments.Count();
+            foreach (var arg in arguments)
+            {
+                if (arg.IsExcelRangeOrSingleCell)
+                {
+                    if(arg.IsExcelRange && arg.ValueAsRangeInfo.IsInMemoryRange)
+                    {
+                        return CompileResult.GetErrorResult(eErrorType.Value);
+                    }
+                }
+                else
+                {
+                    return CompileResult.GetErrorResult(eErrorType.Value);
+                }
+            }
             return CreateResult(result,DataType.Integer);
         }
     }

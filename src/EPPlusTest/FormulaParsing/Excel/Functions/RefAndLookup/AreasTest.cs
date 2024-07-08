@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
-    public class AreasTest
+    public class AreasTest:TestBase
     {
         [TestMethod]
         public void AreashouldreturnCorrectResult()
@@ -33,11 +33,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
 
-                sheet.Cells["B2"].Formula = "AREAS(A2:A3,A4:A5)";
+                sheet.Cells["B2"].Formula = "AREAS((A2:A3,A4:A5))";
                 sheet.Calculate();
 
                 var result = sheet.Cells["B2"].Value;
                 Assert.AreEqual(2, result);
+                SaveWorkbook("areas.xlsx",package);
             }
         }
         [TestMethod]
@@ -82,6 +83,52 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
                 var result = sheet.Cells["B2"].Value;
                 Assert.AreEqual(10, result);
+            }
+        }
+
+        [TestMethod]
+        public void AreasShouldReturnValueErrorIfInMemoryRange1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A2"].Formula = "=AREAS(B2:D4 + 1)";
+                sheet.Calculate();
+
+                var result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), result);
+            }
+        }
+
+        [TestMethod]
+        public void AreasShouldReturnValueErrorIfInMemoryRange2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A2"].Formula = "=AREAS((B2:D4,G1 + 1))";
+                sheet.Calculate();
+
+                var result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), result);
+            }
+        }
+
+        [TestMethod]
+        public void AreasShouldHandleNames()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                package.Workbook.Names.Add("Kalle", sheet.Cells["B1:B2"]);
+
+                sheet.Cells["A2"].Formula = "=AREAS(Kalle)";
+                sheet.Calculate();
+
+                var result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(1, result);
             }
         }
     }
