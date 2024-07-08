@@ -32,5 +32,28 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s692_2()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("s692.xlsx"))
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets["data"];
+
+                ws.Cells[2, 1, ws.Dimension.Rows, ws.Dimension.Columns].Clear();
+                ws.SetValue(2, 4, "OECD Sustainable consumption behaviour");
+                ws.SetValue(2, 9, 1);
+                ws.SetValue(2, 10, 2024);
+                ws.SetValue(2, 11, 4);
+                foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
+                {
+                    foreach (var table in worksheet.PivotTables)
+                    {
+                        table.Calculate(refreshCache: true);
+                    }
+                }
+
+                SaveWorkbook("s692-2.xlsx",p);
+            }
+        }
     }
 }
